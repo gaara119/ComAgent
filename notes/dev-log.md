@@ -62,3 +62,62 @@ Streamlit 页面通过 HTTP 调统一 API，同页展示 SQL/表格与文档答�
 标准答案字符串命中 8/14，仅为表面诊断，不能当作 RAG 答案准确率。rag-06/08/12/15/18 的差异主要涉及表述、标点或连字符，仍需人工判断完整性。rag-19 尤其需要核对：官方答案强调 SST-2 和 EmoC，实际回答泛列 SST-2、TREC、AGNews、EmoC 四个评测数据集。官方原证据第6物理页写有 particularly on the SST-2 and EmoC datasets；当前实际 E2 片段在前面的逗号处结束，另引用第7页全数据集表，体现片段上下文完整性和问题口径仍有改进空间。保留原始问题、答案、报告和全部14题分母，未把它改成成功的语义判定。
 
 实际回答语义及每项断言支持均待人工复核，human_review.md 逐题保留标准答案、实际回答和证据。20题 gold 人工接受0，14条实际答案人工审核0；正式 RAG 答案准确率和 groundedness 未发布。A 的 gold 人工审核与正式21题开发评测继续按原流程处理。
+
+## D1 全项技术验收、独立修正版与最终实跑（2026-10-10）
+
+**本轮本机技术验收 PASS。** 以上 91／141 项测试、1381 个片段、SQL 19/21 和首轮 RAG 14 题均为历史快照，保留原报告与版本。本轮独立生成新 gold 版本、重建 v2 索引并保存新实跑记录，不用最新数字覆盖旧记录。最终验收证据集中在 `eval/reports/d1-acceptance/`。
+
+### A 标注与真实数据库复核
+
+原 30 条 gold 通过运行时 SQLGlot 和实际只读执行器再次核对，30/30 与保存结果逐字一致；原内容哈希保持不变。11 表、64 列、13 外键，表名／列名／可空性／行数与目录一致；只读 ACL、零行 UPDATE 拒绝、Top10 艺术家及地区口径交接全部通过。真实排序口径为 en_US.utf8。
+
+独立 AI 语义审核给出 27 项 accepted、2 项 needs_clarification、1 项 error；这里 accepted 仅为 AI 结论。`sql-11` 要求两位小数但原 AVG(total) 返回多位小数；`sql-22`／`sql-24` 的“名字”需明确字段。创建 `eval/datasets/nl2sql_chinook_d1_acceptance.jsonl`，仅修三个开发题：ROUND(AVG(total), 2) 实算结果 5.65，以及明确只投影 first_name；其余 27 项及 9 道保留题不变，split／family 均保留，全部仍 needs_human_review。
+
+可复现脚本为 `python -m eval.revise_d1_gold` 和 `python -m eval.a_acceptance_audit`。修订前后差异及父题集哈希保存于修正版 manifest；新人工审核表导出至 `eval/datasets/review_d1_acceptance/gold_review.md` 和 CSV，原审核表未覆盖。
+
+### B v2 索引与实际回答复核
+
+六域六份 PDF 保持 261 物理页／255 文字页，固定 SHA256 未改；20 条官方文本 QA 和原问题／答案保持不变。v2 chunker 采用完整句子／表格行边界优先，最大 600 字符／目标重叠 80／不跨页；全文重新实际编码为 **1527 × 1024** 有限 L2 归一化向量。1402/1527 片段保留可靠文字块联合 bbox；226 个不完整句子边界标志如实保存，不声称全部文本切分均完整。实际混合方式仍为 bm25+bge-m3_dense_rrf，先隔离 doc_id。
+
+新运行引用较完整上下文，rag-19 的特别限定 SST-2 与 EmoC 等事实支持问题已在新记录中修复并独立审核。`b-review-final.json` 的 AI 复核为语义正确 14/14、断言支持完整 14/14、联合通过 14/14；该复核直接使用已保存回答和源 PDF，不额外调用模型、不改 gold、不代替人工签字。原首轮 AI 分析与实际回答保留。
+
+### 两组开发集真实实跑
+
+| 本轮开发集 | 实际预测与结果 | 平均 HTTP 耗时 | 开始版本／工作区 | 模型调用与 total_tokens |
+|---|---|---:|---|---:|
+| SQL 独立修正版 | 21/21，exploratory_ex=100% | 3405.886 ms | 379bfdf，干净 | 21 次／88996 |
+| RAG | 14/14 成功；文档约束、原页原文、金标页检索／引用、编号机械检查均 14/14 | 3184.143 ms | 596214c，干净 | 14 次／18755 |
+
+两次实跑共 **35 benchmark 请求、35 次模型调用、107751 total_tokens**（prompt 105290、completion 2461）。用量只从这两次已保存的 trace 计算，排除历史草稿、模型探测、UI 和额外 live，见 `model-usage.json`。RAG corpus 与 20 题覆盖六域，14 dev 仍实际覆盖五域。SQL 9 + RAG 6 保留题均未运行模型预测。
+
+gold 人工接受为 0，因此 SQL 的 100% 为修正版草稿探索，RAG 的 14/14 机械与 AI 复核不等于人工核验的正式答案准确率或 groundedness。正式成绩需团队确认 gold，并另外人工审查实际答案。
+
+### 57 项工程验收及额外真实边界题
+
+实际执行 `python scripts/accept_d1.py --live`，记录 **57/57 PASS，0 FAIL**，输出 `engineering.json`。其中全量 pytest 为 **149 passed、0 skipped，5.71 秒**，pip check 无损坏依赖。当前扫描 154 候选文件与 Git 历史 207 blob 的真实凭据匹配均为 0，.env 被忽略。
+
+API、数据库、Streamlit、六份 PDF 源文件 SHA256／magic、每份首末物理页实际 PNG、0／越界拒绝、非法消息 422、未知文档 404 均通过。auto／hybrid／AW／SQL 带文档／多文档五种范围均 UNSUPPORTED 且没有 LLM 步骤或 token。索引 v2 的所有来源、清单及向量哈希、形状、有限值／归一化／物理页范围检查通过；BGE 三句真实 CPU/int8 编码的中英同义 cosine 0.824720，高于无关句 0.328946。SQL 校验器拒绝写语句、多语句、未知列；executor 的只读 on、NULL／0／空表和 SQLSTATE 57014 超时均真实验证。
+
+额外 live 共 4 请求、5 个实际 LLM 步骤、14088 total_tokens，独立保存完整 request／response／SQL／steps／usage，不加入上表的开发集指标：
+
+| 独立 live 用例 | 实际状态／结果 | 耗时 |
+|---|---|---:|
+| 1990 年前 invoice 列表 | EMPTY_RESULT，空表 [] | 3447 ms |
+| 1990 年前 invoice COUNT | SUCCEEDED，0 | 3364 ms |
+| 1990 年前 invoice SUM | SUCCEEDED，NULL | 3403 ms |
+| MacBook 手册所列 2035 年营业利润 | EMPTY_RESULT，证据 []，明确无财务信息 | 5745 ms |
+
+工程验收运行时版本为 `596214c`；UTC 12:49:56 至 12:50:36，开始时存在新报告，working_tree_dirty=true 如实记录。两组 benchmark 的开始工作区均为干净，二者不同。四份工程命令日志均先脱敏再写文件，不包含 key／DSN。
+
+### 私有同步与剩余团队验收
+
+经用户明确授权，私有仓库 `gaara119/china-electronics-cup-task8-comagent` 已创建并首次推送；首推版本 **a967f4d**，API private=true、ls-remote 与本地提交一致均已验证。此为首次推送证据，最终报告手册及后续文档的上传由最终交付记录说明，不提前声明未发生的上传。
+
+今天本机工程、数据、真实开发集和额外边界验证已完成。团队 gold 人工接受目前为 0，人工答案签字及正式成绩、校内截止时间与提交入口的外部确认仍待完成；这些不由 AI 冒签。D2 的值链接与题库扩充、其他文档格式／OCR，D3–D5 的 AW／澄清／多轮／跨源继续按原方案，不列为今天的工程遗漏。
+
+
+### 本轮页面证据与收尾
+
+Edge Chromium完成SQL巴西客户5、中文MacBook iMovie、引用E1/物理p3原页与真实trace展示；最终三图逐张视觉检查通过，记录eval/reports/d1-acceptance/ui-smoke.json。两次完成截图共已观察6个LLM步骤，单独记录，最初被中止的捕获实际调用数未知；这些都不计入35条开发集。捕获脚本增加作用域重渲染等待、任意终态观测及异常证据保存，修复内部滚动截图视口；问答运行代码没有因截图重试改变。详细见ui-capture-audit.json。
+
+生成Markdown和10页PDF操作手册，包含真实工程/模型/AI复核结果、32项D1清单、启动与新机准备、人工接受及正式评测步骤、外部待确认和D2后续。PDF按最终渲染逐页检查；终检与私有远端main一致性由最终交付校验保存于.runtime/github-publish.json。

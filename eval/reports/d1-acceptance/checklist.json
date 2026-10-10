@@ -17,35 +17,6 @@
     ],
     "d1_guide_system_copy": "E:/中国电子杯-赛题八/system/notes/D1执行指导书.md"
   },
-  "snapshot": {
-    "git_commit": "5c522a48c48e11378c4b4283cc26b90c7bb4d66a",
-    "live_health": {
-      "status": "ok",
-      "stage": "D1",
-      "database_ready": true,
-      "llm_configured": true,
-      "model": "deepseek-flash",
-      "catalog_exists": true,
-      "statement_timeout_ms": 5000,
-      "max_rows": 200
-    },
-    "document_count": 6,
-    "ready_document_count": 6,
-    "ui_health_http": 200,
-    "runtime_contract_sha256": "d5129906f73c5a60d465996f1d6ca60ec6deffb3bb47df8d4d7221912b22de8e",
-    "d1_status_counts": {
-      "EXTERNAL_PENDING": 1,
-      "PARTIAL": 1,
-      "PASS": 20,
-      "IN_PROGRESS": 1,
-      "IMPLEMENTED_WITH_RECORDED_ADJUSTMENT": 1,
-      "PASS_FOR_MACHINE_PREPARATION": 2,
-      "REVIEW_PENDING": 2,
-      "PASS_AS_DRAFT": 2,
-      "PASS_FOR_D1": 1,
-      "PASS_WITH_FINAL_SCAN_PENDING": 1
-    }
-  },
   "requirements": [
     {
       "id": "S01",
@@ -102,12 +73,11 @@
         "section": "§4.2 D1上午；§9"
       },
       "evidence": [
-        "本地Git与提交历史已存在",
-        "私有仓库已创建并验证private=true：https://github.com/gaara119/china-electronics-cup-task8-comagent",
-        "notes/github-repository.json；root正在完成最终上传与远程提交验证"
+        "eval/reports/d1-acceptance/github-upload.json：首次push a967f4d6cf3191de1a170a82cfdc21237cd65208，private=true，API/ls-remote/local commit一致",
+        "私有仓库 https://github.com/gaara119/china-electronics-cup-task8-comagent"
       ],
-      "status": "IN_PROGRESS",
-      "gap": "私有仓库创建已通过；最终push及远程commit匹配由主任务完成后更新，尚不判上传通过。"
+      "status": "PASS",
+      "gap": "首次代码与新开发报告上传已验；最终手册/截图等新增产物由主任务再次push并记录。B账号权限未提供，不能声称B已可克隆。"
     },
     {
       "id": "S05",
@@ -137,7 +107,7 @@
         "qa_agent/schemas.py；notes/B接口交接.md；A/B均使用共享API与模型"
       ],
       "status": "IMPLEMENTED_WITH_RECORDED_ADJUSTMENT",
-      "gap": "当前工程统一物理页page从1起；计划原示意为0起，已同步修订根指导书与system内副本。官方OHR原始evidence_page_no仍0起，仅转换一次+1。接口已实现并联调；双方人员正式共识签字记录尚无，不能自动代表两人签字。"
+      "gap": "当前工程统一物理页page从1起；计划原示意为0起，根指导书及system副本已同步修订。官方OHR原始evidence_page_no仍0起，仅转换一次+1。共享契约已实现并联调，后续字段修改由A/B同步。原方案没有要求书面签字，不新增审批事项。"
     },
     {
       "id": "A01",
@@ -239,10 +209,12 @@
         "section": "§4.2 D1 A第五项"
       },
       "evidence": [
-        "eval/datasets/nl2sql_chinook.jsonl：30题；21dev/9holdout；data/db实际结果；review/gold_review.md"
+        "原30题gold逐条执行，30/30结果一致，原题集磁盘内容保持",
+        "独立修正版nl2sql_chinook_d1_acceptance.jsonl，仅改变sql-11/22/24开发题；保留9题内容相同",
+        "eval/reports/d1-acceptance/a-review.json"
       ],
       "status": "PASS_FOR_MACHINE_PREPARATION",
-      "gap": "30条结果已独立核验；人工业务审核属于A08，不能将机器准备通过当成人工接受。"
+      "gap": "修正版已修正平均总额保留两位小数（ROUND(AVG(total),2)实际5.65）以及名字含义不清；人工业务接受仍0/30，不把AI审计写成人工认可。"
     },
     {
       "id": "A08",
@@ -254,10 +226,11 @@
         "section": "指导书§3.6；§6.1"
       },
       "evidence": [
-        "eval/datasets/review/gold_review.md；gold_review仍needs_human_review；d1-readiness；历史d1-dev-draft"
+        "a-review.json原题AI复核27语义吻合、1标准结果精度不符、2口径待明；另建修正版并执行3条修订gold",
+        "eval/datasets/review_d1_acceptance/gold_review.md；新21开发真实草稿21/21"
       ],
       "status": "REVIEW_PENDING",
-      "gap": "sql-22/sql-24“名字”first_name/姓名口径待决定；A逐题接受后新跑正式21题，历史19/21保留。"
+      "gap": "sql-11改ROUND(AVG(total),2)，真实结果5.65；sql-22/sql-24题意已明确first_name。工程语义口径已处理；剩余是团队实际人工接受及随后正式评测，不再描述为实现未决定口径。"
     },
     {
       "id": "A09",
@@ -269,10 +242,11 @@
         "section": "§4.2 D1 A第五项；§4.1 D1当天验收"
       },
       "evidence": [
-        "eval/run_eval.py、metrics.py；eval/reports/d1-dev-draft/report.json：19/21 exploratory_ex=90.48%，3216.94ms，holdout预测0"
+        "新修正版sql-dev/report.json：21/21，exploratory_ex=100.00%，平均3405.89ms；holdout预测0",
+        "原d1-dev-draft/report.json：19/21保留"
       ],
       "status": "PASS_AS_DRAFT",
-      "gap": "正式EX尚未发布；当前分数以待人工确认gold计算，不能冒称正式成绩。"
+      "gap": "这是另建修正版的草稿；改变3条开发题，不能把与旧19/21的差值称同题集模型提分。正式EX仍待人工接受。"
     },
     {
       "id": "A10",
@@ -329,10 +303,11 @@
         "section": "§4.2 D1 B第二项；§3.6.6"
       },
       "evidence": [
-        "qa_agent/rag/parsers.py、chunker.py；notes/rag-corpus-check.json：1381片段，max600，1273有真实块bbox，不跨页"
+        "新版真实句界/表格行切片，1527片段、max600字符、1402有可靠块bbox、目标重叠80、不跨物理页",
+        "rag-dev/report.json的index_metadata v2；b-review-final.json；engineering.json dense_index_v2_all_sources"
       ],
       "status": "PASS",
-      "gap": "空白/图片页保留编号；本次不宣称OCR及逐字高亮已实现。"
+      "gap": "226片段有不完整句界（start38/end202，交集14）；长句或物理页末不宣称完整，保留显式标记。未实现OCR/逐字高亮不冒称完成。"
     },
     {
       "id": "B03",
@@ -344,10 +319,11 @@
         "section": "§4.2 D1 B第二项；§3.3"
       },
       "evidence": [
-        "qa_agent/rag/index.py、embeddings.py；notes/embedding-check.json、rag-index-check.json；实际1381×1024 CPU/QInt8向量"
+        "engineering.json实际shape1527×1024、all_finite=true、norm约1；真实模型及新向量SHA",
+        "rag-dev/report.json：index_version2、bm25+bge-m3_dense_rrf、CPU/QInt8"
       ],
       "status": "PASS",
-      "gap": "不是只有下载配置；有实际CPU编码、模型与向量哈希。"
+      "gap": "旧1381向量记录作为历史保留；当前使用真实重建后的1527向量。"
     },
     {
       "id": "B04",
@@ -359,10 +335,11 @@
         "section": "§4.2 D1 B第二项；§3.6.6"
       },
       "evidence": [
-        "qa_agent/rag/retriever.py；真实开发report retrieval_methods=bm25+bge-m3_dense_rrf"
+        "qa_agent/rag/retriever.py；rag-dev/report.json真实retrieval_methods bm25+bge-m3_dense_rrf",
+        "BM25/dense先限定doc_id，用户配置Top-K5"
       ],
       "status": "PASS",
-      "gap": "Top-K采用用户配置5；计划设计Top8已记录调整，不能同时声明实际Top8。"
+      "gap": "Top-K按实际配置5；计划原Top8调整已记录。运行时不读gold或gold页码。"
     },
     {
       "id": "B05",
@@ -374,10 +351,11 @@
         "section": "§4.2 D1 B第二项；指导书§4.4"
       },
       "evidence": [
-        "qa_agent/rag/{answer,service}.py；实际14条响应；共享llm/trace，引用指定文档、编号存在"
+        "通用句界/表格行切片及不完整边界标记已改进；未修改回答prompt，新14条是在实际新证据上的真实模型响应",
+        "b-review-final.json独立AI审阅：正确14/14、事实支持14/14、joint14/14"
       ],
       "status": "PASS",
-      "gap": "编号及原文真实性检查不等于完整语义/数值支持；D2深化核验。"
+      "gap": "rag-16断词证据与rag-19 particularly限定在新实际引用中恢复；这不是硬编码题目答案，仍需团队人工签字。"
     },
     {
       "id": "B06",
@@ -419,10 +397,11 @@
         "section": "指导书§4.2、§4.6；§6.1"
       },
       "evidence": [
-        "rag_review/rag_gold_review.md；rag-d1-dev-draft/human_review.md；当前gold接受0、答案语义审核0"
+        "20道官方QA原问题/答案/页码/原文来源机器核验与AI核对",
+        "b-review-final.json对新14条实际回答AI正确与支持均14/14；human_signature不存在、gold人工接受0"
       ],
       "status": "REVIEW_PENDING",
-      "gap": "机器定位原文不能代替人工题意/忠实度；rag-19需核对particularly限定及回答范围。"
+      "gap": "原rag-16/19缺口已通用修复并在新回答上独立复核通过。剩余是团队人工gold接受和实际回答认可，AI复核不代替签字。"
     },
     {
       "id": "B09",
@@ -434,10 +413,11 @@
         "section": "指导书§4.6；§4.1 D1验收"
       },
       "evidence": [
-        "eval/reports/rag-d1-dev-draft：14/14调用与引用机械条件、平均3114.79ms；语义审核待完成"
+        "新rag-dev/report.json：14条实跑、0请求失败、引用机械条件14/14，平均3184.14ms",
+        "b-review-final.json AI joint14/14；旧草稿原响应及原AI审计保留"
       ],
       "status": "PASS_AS_DRAFT",
-      "gap": "14/14不是RAG准确率；8/14字符串命中也是诊断，不发布语义成绩。"
+      "gap": "AI语义审阅明确非正式分数；团队人工gold0/20，正式忠实度未发布。Dev五域，全集六域，未预测finance保留题。"
     },
     {
       "id": "I01",
@@ -464,10 +444,12 @@
         "section": "§4.2 D1晚上；§4.1 D1当天验收"
       },
       "evidence": [
-        "notes/ui-smoke.json：SQL/答案渲染、doc/证据、引用点击、原页均true，page_errors=[]"
+        "本轮eval/reports/d1-acceptance/ui-smoke.json：SQL与中文MacBook文档均SUCCEEDED",
+        "SQL/答案、doc/证据、引用点击、原页PNG四项检查全true，page_errors=[]",
+        "本轮SQL trace=34bcd24b-5168-40e3-b353-de77d64d1b3b；doc trace=46298574-ba2f-40ea-b1f8-42bd0bf806e7"
       ],
       "status": "PASS",
-      "gap": "此项已有实际浏览器证据；今天主任务将再按验收步骤检查。"
+      "gap": "本轮浏览器观察LLM步骤共3；UI演示不计入35条开发集用量或分母。历史notes/ui-smoke.json保留。"
     },
     {
       "id": "I03",
@@ -479,10 +461,12 @@
         "section": "§4.2 D1晚上"
       },
       "evidence": [
-        "notes/screenshots/D1-sql.png、D1-rag.png、D1-rag-trace.png"
+        "eval\\reports\\d1-acceptance\\screenshots\\D1-sql.png",
+        "eval\\reports\\d1-acceptance\\screenshots\\D1-rag.png",
+        "eval\\reports\\d1-acceptance\\screenshots\\D1-rag-trace.png"
       ],
       "status": "PASS",
-      "gap": ""
+      "gap": "本轮真实Edge Chromium截取三图并逐张view_image视觉核验通过；SQL1440×1080、文档1440×1800、trace1440×1080。与旧notes/screenshots历史图区分，完整截图与ui-smoke.json保留。"
     },
     {
       "id": "I04",
@@ -509,10 +493,11 @@
         "section": "指导书§2.3、§6.1；§3.7"
       },
       "evidence": [
-        "requirements.txt；README.md；scripts/start_demo.ps1/.sh；本机API/UI/database健康"
+        "requirements.txt、README、start_demo.ps1/.sh、修订指南及新机交接",
+        "本轮149项回归通过/0skip；57项工程检查全部通过"
       ],
       "status": "PASS_FOR_D1",
-      "gap": "脚本启动API/UI，依赖/容器/模型/索引按README先准备；从零一键打包验收计划D5/D8。"
+      "gap": "快速脚本启动API/UI；新机依赖/容器/模型/索引按README准备，B远机从零复现按D8执行。"
     },
     {
       "id": "I06",
@@ -524,10 +509,11 @@
         "section": "指导书§2.3、§4.2；§3.4.2"
       },
       "evidence": [
-        ".gitignore忽略.env/.venv/PDF缓存/模型/索引；scripts/check_secrets.py；RAG运行库来自原PDF，不读gold"
+        "engineering.json credentials_current与credentials_git_history均PASS；.env忽略且未tracked",
+        "secret-scan.json：候选文件及Git历史真实凭据匹配均0"
       ],
-      "status": "PASS_WITH_FINAL_SCAN_PENDING",
-      "gap": "已有扫描0；主任务最终提交前再次扫描，本专项只读核对不替代最新扫描。"
+      "status": "PASS",
+      "gap": "生成前artifact扫描175候选文件及207历史blob，实际凭据匹配均0，.env忽略且未tracked；最终上传前另行复检记录，不把扫描自动等同于未来上传完成。"
     },
     {
       "id": "F01",
@@ -635,11 +621,250 @@
       "gap": "提供协作交接说明；远机实际复现由D8按计划执行。"
     }
   ],
-  "conclusion": "D1 core engineering and real draft baselines exist; human review/formal metrics and external team confirmations remain separately pending; remote sync is being completed by root. Future D2-D9 items are excluded from D1 failure count.",
+  "conclusion": "D1 engineering57/57, regression149 passed, independent revised SQL21/21 and RAG14 mechanical plus AI review14/14 exist. Historical datasets/reports retained. Human gold acceptance and external notices remain pending; first private upload verified; final browser UI and all three screenshot visual checks passed. Pre-generation artifact scan recorded; final artifact push verification is recorded separately.",
   "remote_repository": {
     "url": "https://github.com/gaara119/china-electronics-cup-task8-comagent",
     "private_verified": true,
-    "push_verified": false,
-    "verification_record": "notes/github-repository.json"
+    "push_verified": true,
+    "verification_record": "eval/reports/d1-acceptance/github-upload.json",
+    "first_verified_commit": "a967f4d6cf3191de1a170a82cfdc21237cd65208"
+  },
+  "original_snapshot": {
+    "git_commit": "5c522a48c48e11378c4b4283cc26b90c7bb4d66a",
+    "live_health": {
+      "status": "ok",
+      "stage": "D1",
+      "database_ready": true,
+      "llm_configured": true,
+      "model": "deepseek-flash",
+      "catalog_exists": true,
+      "statement_timeout_ms": 5000,
+      "max_rows": 200
+    },
+    "document_count": 6,
+    "ready_document_count": 6,
+    "ui_health_http": 200,
+    "runtime_contract_sha256": "d5129906f73c5a60d465996f1d6ca60ec6deffb3bb47df8d4d7221912b22de8e",
+    "d1_status_counts": {
+      "EXTERNAL_PENDING": 1,
+      "PARTIAL": 1,
+      "PASS": 20,
+      "IN_PROGRESS": 1,
+      "IMPLEMENTED_WITH_RECORDED_ADJUSTMENT": 1,
+      "PASS_FOR_MACHINE_PREPARATION": 2,
+      "REVIEW_PENDING": 2,
+      "PASS_AS_DRAFT": 2,
+      "PASS_FOR_D1": 1,
+      "PASS_WITH_FINAL_SCAN_PENDING": 1
+    }
+  },
+  "final_check_updated_at_utc": "2026-10-10T13:04:49.142063+00:00",
+  "final_snapshot": {
+    "source": "Actual completed engineering/dev/AI/browser records; final artifact scan and increment push recorded separately at delivery",
+    "engineering": {
+      "passed": 57,
+      "denominator": 57,
+      "failed": 0
+    },
+    "pytest": {
+      "passed": 149,
+      "skipped": 0,
+      "returncode": 0
+    },
+    "github_first_upload": {
+      "verified_at_utc": "2026-10-10T12:51:15.517894+00:00",
+      "private": true,
+      "repository": "https://github.com/gaara119/china-electronics-cup-task8-comagent",
+      "branch": "main",
+      "commit": "a967f4d6cf3191de1a170a82cfdc21237cd65208",
+      "api_remote_local_heads_match": true,
+      "git_worktree_clean": false,
+      "scope": "Verified first upload of code and saved dev evaluation records; final artifact push is checked again at delivery"
+    },
+    "sql_revision": {
+      "dataset": "eval/datasets/nl2sql_chinook_d1_acceptance.jsonl",
+      "correct": 21,
+      "denominator": 21,
+      "exploratory_ex": 1.0,
+      "mean_latency_ms": 3405.8861904761907
+    },
+    "rag_current": {
+      "predictions": 14,
+      "mean_latency_ms": 3184.1428571428573,
+      "ai_review": {
+        "semantic_correctness": {
+          "correct": 14,
+          "incomplete": 0
+        },
+        "claim_support": {
+          "complete": 14,
+          "incomplete": 0
+        },
+        "joint_pass": 14,
+        "denominator": 14
+      },
+      "human_signature": false
+    },
+    "dense_index": {
+      "index_version": 2,
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "chunk_count": 1527,
+      "shape": [
+        1527,
+        1024
+      ],
+      "all_finite": true,
+      "norm_min": 0.9999998807907104,
+      "norm_max": 1.0000001192092896,
+      "vectors_sha256": "009024fa8886a35d104964d7224634f5ec3141a5f2d7f09647c62c65f54a925b",
+      "all_source_hashes_verified": true,
+      "manifest_hash_verified": true,
+      "document_page_counts": {
+        "ohr-finance-amd-2022": 121,
+        "ohr-law-affiliate": 8,
+        "ohr-textbook-geology": 20,
+        "ohr-manual-macbook-air": 76,
+        "ohr-news-executive-insight": 20,
+        "ohr-academic-label-words": 16
+      },
+      "chunking": {
+        "max_chars": 600,
+        "overlap": 80,
+        "cross_page": false,
+        "boundary_policy": "complete_sentence_or_table_line",
+        "incomplete_chunk_count": 226
+      },
+      "parsing": {
+        "text": "pdfplumber text layer",
+        "layout": "PyMuPDF.get_text(dict)",
+        "bbox_scope": "union_of_text_blocks",
+        "coordinate_system": "PDF points; top-left origin"
+      }
+    },
+    "human_gold_accepted": {
+      "SQL": 0,
+      "RAG": 0
+    },
+    "runtime_contract_sha256": "60b2816559f347dd60734f80563ae75fb453ab3903b528ed2d6075316b190445",
+    "holdout_model_predictions": 0,
+    "ui_final_rerun": {
+      "started_at_utc": "2026-10-10T12:59:39.042598+00:00",
+      "ui_url": "http://127.0.0.1:8501",
+      "browser": "Edge Chromium",
+      "status": "PASSED",
+      "stage": "capture_trace",
+      "sql_status": "SUCCEEDED",
+      "doc_status": "SUCCEEDED",
+      "page_errors": [],
+      "screenshots": [
+        "eval\\reports\\d1-acceptance\\screenshots\\D1-sql.png",
+        "eval\\reports\\d1-acceptance\\screenshots\\D1-rag.png",
+        "eval\\reports\\d1-acceptance\\screenshots\\D1-rag-trace.png"
+      ],
+      "baseline_inclusion": false,
+      "model_attempt_accounting": "actual rendered llm trace steps",
+      "checks": {
+        "sql_answer_and_query_rendered": true,
+        "doc_answer_and_evidence_rendered": true,
+        "citation_button_clicked": true,
+        "original_pdf_page_rendered": true
+      },
+      "sql_trace": {
+        "trace_id": "34bcd24b-5168-40e3-b353-de77d64d1b3b",
+        "trace_caption": "请求编号：34bcd24b-5168-40e3-b353-de77d64d1b3b",
+        "observed_llm_steps": 1
+      },
+      "selected_document": "ohr-manual-macbook-air",
+      "doc_trace": {
+        "trace_id": "46298574-ba2f-40ea-b1f8-42bd0bf806e7",
+        "trace_caption": "请求编号：46298574-ba2f-40ea-b1f8-42bd0bf806e7",
+        "observed_llm_steps": 2
+      },
+      "observed_model_attempts": 3,
+      "screenshot_capture": {
+        "document_viewport": {
+          "width": 1440,
+          "height": 1800
+        },
+        "document_main_scroll": 0,
+        "trace_view": "expanded trace with request id and first steps visible"
+      },
+      "finished_at_utc": "2026-10-10T13:00:00.635228+00:00",
+      "visual_qa": {
+        "completed": true,
+        "method": "view_image each of the three actual screenshots",
+        "sql_visible_result": 5,
+        "document_visible_answer": "iMovie 可以让你在几分钟内创建并分享影片。 [E1]",
+        "document_visible_evidence_page": 3,
+        "trace_visible": "request id, server latency, route and rag_channel; complete trace available in interactive UI"
+      },
+      "screenshot_artifacts": [
+        {
+          "path": "eval\\reports\\d1-acceptance\\screenshots\\D1-sql.png",
+          "dimensions": [
+            1440,
+            1080
+          ],
+          "sha256": "140be1fa7a59a7749a4226fc0c286a06e43b4c2789faeba235dcecef2c857269"
+        },
+        {
+          "path": "eval\\reports\\d1-acceptance\\screenshots\\D1-rag.png",
+          "dimensions": [
+            1440,
+            1800
+          ],
+          "sha256": "9072f9159d4f817f44848de8dc85d27c64bf36329a8205c4889d4396358de325"
+        },
+        {
+          "path": "eval\\reports\\d1-acceptance\\screenshots\\D1-rag-trace.png",
+          "dimensions": [
+            1440,
+            1080
+          ],
+          "sha256": "49e23ceb6f279bd58714c1cb5a8dc8ab989ec97156d2e21e7c1e436bd023872a"
+        }
+      ],
+      "retry_accounting": {
+        "archived_first_completed_attempt": "eval/reports/d1-acceptance/ui-smoke-attempt1.json",
+        "first_completed_attempt_llm_steps": 3,
+        "final_completed_attempt_llm_steps": 3,
+        "total_known_completed_ui_attempt_llm_steps": 6,
+        "earlier_aborted_capture_model_attempts": "unknown; original root attempt did not save response or trace",
+        "excluded_from_35_question_baseline": true
+      },
+      "diagnosis": {
+        "original_failed_wait": "SUCCEEDED-only label wait; original final envelope was not saved, so its status cannot be reconstructed",
+        "original_runtime_failure_reproduced": false,
+        "capture_protections_added": [
+          "Wait for any terminal answer status and record non-success immediately",
+          "Confirm selected document caption from server rerender before submission",
+          "Hide old SQL result before submitting document question",
+          "Persist stage progress and failure DOM/PNG without credentials",
+          "Use larger viewport and zero internal main scroll for document overview"
+        ],
+        "runtime_changed_for_capture": false
+      }
+    },
+    "d1_status_counts": {
+      "EXTERNAL_PENDING": 1,
+      "PARTIAL": 1,
+      "PASS": 22,
+      "IMPLEMENTED_WITH_RECORDED_ADJUSTMENT": 1,
+      "PASS_FOR_MACHINE_PREPARATION": 2,
+      "REVIEW_PENDING": 2,
+      "PASS_AS_DRAFT": 2,
+      "PASS_FOR_D1": 1
+    },
+    "artifact_scan_before_generation": {
+      "candidate_files_scanned": 175,
+      "env_ignored": true,
+      "env_tracked": false,
+      "candidate_credential_hits": [],
+      "history_enabled": true,
+      "history_blobs_scanned": 207,
+      "history_credential_hits": [],
+      "oversized_files": [],
+      "scope": "Exact matches of configured API keys, database passwords and URLs; no credential values recorded"
+    }
   }
 }

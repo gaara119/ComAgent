@@ -1,6 +1,25 @@
 # A 的 D1 实现与验收状态
 
-本文保留 2026-10-10 的 A 阶段实现和首次草稿实跑记录。代码、数据库、模型真实接入、自然语言 API 和 21 题开发集草稿已落地，正式开发集成绩等待 A 的人工标注确认。同日 B 的文档问答与页面已整合，当前正在进行 D1 全项验收；新增检查与最终版本以 `eval/reports/d1-acceptance/` 为准。
+## 2026-10-10 本轮最终技术验收状态
+
+**本机技术验收 PASS；工程 57/57，其中全量 pytest 149 passed／0 skipped，5.71 秒。** A 的原 30 gold 重新实际执行为 30/30 逐字一致；独立 AI 语义审核发现 `sql-11` 的两位小数问题和 `sql-22`／`sql-24` 的名字歧义。已另建修正版，只改变这三道开发题：SQL 使用 `ROUND(AVG(total), 2)` 实算 `5.65`，两道题明确只返回 `first_name`。原题集、原人工状态和原 19/21 报告均保留。
+
+修正版通过真实 API 实跑 **21/21，平均 3405.886 ms**，开始版本 `379bfdf` 且工作区干净。此项仍为待人工接受 gold 上的草稿探索，正式 EX 尚未发布。B 的本轮 14 题机械检查全部 14/14，平均 3184.143 ms，开始版本 `596214c` 且工作区干净；独立 AI 的语义、断言支持与联合复核均为 14/14，仍非人工签字。
+
+两组 benchmark 共 35 请求／35 次模型调用／107751 total_tokens，不含 UI、历史草稿和额外 live。额外四道真实边界问答使用 5 个 LLM 步骤，均验证通过；SQL 空表、COUNT 0、SUM NULL 分别返回正确表达，无法回答的文档问题没有捏造证据。SQL 9 + RAG 6 保留题预测均为 0。
+
+共同资料为六域六 PDF、261 物理页／255 文字页；RAG 开发题实际覆盖五域。当前 v2 dense 索引为 1527 × 1024，有限归一化，1402 个可靠 bbox，226 个不完整边界标志保留。私有仓库首推 `a967f4d` 已核验私有状态及本地／远端提交一致；最终报告手册上传以最后交付记录为准。
+
+- [A 原 30 题独立 AI 验收](E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/a-review.md)
+- [修正版 30 题人工审核表](E:/中国电子杯-赛题八/system/eval/datasets/review_d1_acceptance/gold_review.md)、[修订前后差异与来源](E:/中国电子杯-赛题八/system/eval/datasets/nl2sql_chinook_d1_acceptance.manifest.json)
+- [修正版 21 题草稿实跑](E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/sql-dev/report.md)
+- [共同工程验收](E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/engineering.json)、[本轮实际用量](E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/model-usage.json)
+
+剩余团队工作：人工逐题接受 gold（目前 0）、正式成绩和校内截止时间／提交入口的外部确认。AI 审核与工程 PASS 不替代上述确认；使用修正版审核和评测时需明确传入其 `--dataset`，避免误操作原题集。
+
+## A 首次实现与草稿记录（历史快照）
+
+以下保留原 A 阶段的 91 项测试、19/21 和 3.217 秒及当时状态，不作为本轮修正版实跑数字。新增验收与当前版本以本文上节及 `eval/reports/d1-acceptance/` 为准。
 
 | 指导书任务 | 实际产物与核验 | 状态 |
 |---|---|---|

@@ -1,10 +1,12 @@
 * text=auto eol=lf
+*.pdf binary
+*.png binary
 *.ps1 text eol=crlf
 data/db/*.sql -text
 data/db/LICENSE.md -text
 eval/datasets/nl2sql_chinook.jsonl -text
 eval/datasets/nl2sql_chinook_d1_acceptance.jsonl -text
-eval/reports/**/responses.jsonl -text
+eval/reports/**/responses.jsonl -text whitespace=blank-at-eol,cr-at-eol
 data/docs/manifest.csv -text whitespace=blank-at-eol,cr-at-eol
 eval/datasets/rag_ohr.jsonl -text whitespace=blank-at-eol,cr-at-eol
 # These review files preserve terminal spaces in literal source PDF quotations.

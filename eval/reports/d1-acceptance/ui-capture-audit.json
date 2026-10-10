@@ -1,0 +1,33 @@
+{
+  "scope": "Browser demonstrations only; excluded from the 35 development benchmark predictions and token totals",
+  "initial_interrupted_capture": {
+    "result": "interrupted_while_waiting_for_rendered_document_success",
+    "actual_document_envelope_status": "unknown_not_saved",
+    "actual_llm_attempts": null,
+    "note": "HTTP 200 alone does not establish SUCCEEDED; no inferred EMPTY_RESULT or FAILED status"
+  },
+  "completed_capture_attempts": [
+    {
+      "record": "eval/reports/d1-acceptance/ui-smoke-attempt1.json",
+      "actual_llm_trace_steps": 3,
+      "data_checks": "PASSED",
+      "visual_quality": "Document screenshots missed the upper content because of internal scrolling; originals archived"
+    },
+    {
+      "record": "eval/reports/d1-acceptance/ui-smoke.json",
+      "actual_llm_trace_steps": 3,
+      "data_checks": "PASSED",
+      "visual_quality": "All three final screenshots inspected; question, answer, actual citation, original PDF and trace readable"
+    }
+  ],
+  "known_completed_capture_llm_steps": 6,
+  "overall_ui_llm_attempt_count": "unknown_due_to_initial_interrupted_attempt",
+  "capture_script_changes": [
+    "Observe all terminal states and preserve actual failures",
+    "Wait for Streamlit server rerender after document selection",
+    "Confirm previous SQL display is hidden before the document request",
+    "Adjust viewport and internal scroll for visible evidence capture"
+  ],
+  "qa_runtime_modified_for_ui_retest": false,
+  "human_signature": null
+}

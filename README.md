@@ -2,7 +2,23 @@
 
 A 的 Chinook 单表问数和 B 的单文档问答已接入同一个 FastAPI，Streamlit 页面显式选择数据库或一份 PDF。答案、SQL、结果表、引用原文、PDF 对应页和处理步骤均来自实际请求。
 
-本机 D1B 工程与草稿基线已经实跑：全文混合索引 1381 个片段；统一工程测试 141 项通过；RAG 开发集实际预测14题、接口与引用机械检查均14/14、平均3.115秒，答案语义审核待人工。完成记录见 `notes/B-D1完成记录.md`，原始报告见 `eval/reports/rag-d1-dev-draft/report.md`。已有 A 的19/21草稿报告保留，A/B所有gold均未自动签署人工接受。
+**2026-10-10 本轮 D1 本机技术验收：PASS。** 工程逐项检查 **57/57**；其中完整 pytest **149 passed、0 skipped，5.71 秒**，依赖与当前／Git 历史凭据检查通过。额外四道真实边界问答均通过，空表、COUNT 0、SUM NULL 以及无法回答的文档问题均保持正确状态。
+
+| 本轮实际记录 | 结果与口径 |
+|---|---|
+| SQL 开发集 | 独立修正版 **21/21，草稿探索值 100%**；平均 3405.886 ms；开始版本 `379bfdf`，工作区干净 |
+| RAG 开发集 | 实际 14 题，调用与引用机械检查均 **14/14**；平均 3184.143 ms；开始版本 `596214c`，工作区干净 |
+| RAG 独立 AI 复核 | 答案语义正确 14/14、断言支持完整 14/14、联合通过 14/14；审核类型为 AI，仍非人工签字 |
+| 当前索引 | v2、**1527 × 1024** 真实有限归一化向量；1402/1527 片段有可靠 bbox；226 个句子边界不完整标志如实保留 |
+| 资料与分割 | 六域六份 PDF，261 物理页／255 文字页；RAG 14 dev 覆盖五域；SQL 9 + RAG 6 保留题均未预测 |
+| 本轮开发集用量 | 35 个 benchmark 请求／35 次模型调用，107751 total_tokens；不含额外 live、UI、探测与历史草稿 |
+| 额外 live 验证 | 4 个真实请求、5 个模型步骤；独立记录，不并入 35 题开发集分母 |
+
+完整证据见 [D1 验收清单](E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/checklist.md)、[工程报告](E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/engineering.json)、[SQL 修正版实跑](E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/sql-dev/report.md)、[RAG 实跑](E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/rag-dev/report.md) 和 [RAG 独立 AI 复核](E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/b-review-final.md)。原 A 的 19/21 与 B 的 1381 片段／141 测试／首轮 14 题报告均保留为历史，不以新结果覆盖。
+
+私有仓库已首次推送至 [项目 GitHub](https://github.com/gaara119/china-electronics-cup-task8-comagent)，首推版本 `a967f4d`；已核验私有状态以及本地与远端提交一致。此记录仅指已完成的首次推送，后续报告手册的上传由最终交付记录说明。
+
+**团队 gold 人工接受仍为 0，校内截止时间与提交入口尚未外部确认。** 本轮通过的是本机技术验收和待人工审核 gold 上的开发探索，正式 EX／人工答案质量成绩不自动发布。
 
 D1 范围为显式 `sql`／`doc`。多表 NL2SQL、AdventureWorks、多文档比较、自动来源判断、跨来源和多轮状态合并按后续计划推进。工程验证、模型接入和题库评测分别以 `notes`、`data` 与 `eval/reports` 中的实际记录为准。
 
@@ -13,7 +29,7 @@ D1 范围为显式 `sql`／`doc`。多表 NL2SQL、AdventureWorks、多文档比
 | A 数据库 | 官方 Chinook 1.4.5，PostgreSQL 只读角色、中文结构目录、单表 SQL 生成／校验／执行 |
 | B 文档 | 固定 OHR-Bench 六份 PDF，涵盖 finance、law、textbook、manual、news、academic 六域 |
 | PDF 文字 | 261 个物理页，255 页可抽取原生文字；6 个空白／图片页保留页码，不生成虚构文字 |
-| 检索 | 先限定 `doc_id` 再 BM25 排名；实际生成 dense 索引后融合 BGE-M3 排名 |
+| 检索 | 两路均先限定 `doc_id`；当前实际 v2 BGE-M3／BM25 RRF 混合索引为 1527 × 1024 |
 | 模型 | 共享 DeepSeek JSON 调用；中文问题查询英文 PDF 时记录真实英文检索翻译调用 |
 | 页面 | SQL／指定文档、实际答案、SQL／表格、引用原文、原页 PNG、PDF 打开／下载、实际步骤／耗时 |
 | SQL gold | 30 题，固定 21 dev／9 holdout，业务含义等待人工审核 |
@@ -173,36 +189,51 @@ CPU 首次编码会耗时，等待完成后重启 API。源 PDF、清单、模�
 
 ## 5. 工程验证
 
+本轮完整工程验收已保存为 `eval/reports/d1-acceptance/engineering.json`。默认验收脚本不发模型请求，`--live` 才增加三道 SQL 边界题和一道无法回答的文档题；已有报告拒绝覆盖。为新的验收选择独立时间戳输出：
+
+```powershell
+$d1AcceptanceStamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssfffZ')
+.\.venv\Scripts\python.exe scripts/accept_d1.py --output "eval/reports/d1-acceptance/engineering-$d1AcceptanceStamp.json"
+
+# 需要实际模型边界问答时另运行，输出名称与默认检查分开。
+.\.venv\Scripts\python.exe scripts/accept_d1.py --live --output "eval/reports/d1-acceptance/engineering-live-$d1AcceptanceStamp.json"
+```
+
+脚本包括全量 pytest、依赖、凭据、服务、六份源 PDF／首末物理页／越界拒绝、来源边界、索引完整性、BGE 三句实际编码和真实 SQL 只读／超时／NULL 语义。测试输出先脱敏再保存，不写出 key 或 DSN。单独检查命令仍可使用：
+
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q --tb=short
 .\.venv\Scripts\python.exe -m pip check
-.\.venv\Scripts\python.exe scripts/check_secrets.py
+.\.venv\Scripts\python.exe scripts/check_secrets.py --history
 ```
 
 覆盖 SQL 权限与边界、结果保真、共享协议、文档隔离、索引完整性、引用和页面。数据库不可连接时有些集成检查明确跳过，跳过不代表实际链路已验证。测试中的替代模型用于工程边界，不计自然语言答案准确率。
 
 ## 6. A 的 gold 审核和 SQL 开发集
 
-30 题固定 **21 dev／9 holdout**。导出并查看 `eval/datasets/review/gold_review.md` 或 CSV：
+原 30 题和 [原审核表](E:/中国电子杯-赛题八/system/eval/datasets/review/gold_review.md) 保持不变。本轮独立 AI 审核发现 `sql-11` 未满足两位小数要求，以及 `sql-22`／`sql-24` 的“名字”字段歧义；已另建 [独立修正版](E:/中国电子杯-赛题八/system/eval/datasets/nl2sql_chinook_d1_acceptance.jsonl)，分别使用真实 `ROUND(AVG(total), 2)` 结果 `5.65` 和明确的 `first_name` 题意。只改这三道开发题，分割仍为 **21 dev／9 holdout**，保留题内容不变。
+
+本轮修正版真实实跑 21/21，仍是 gold 待人工接受时的探索值；来源与前后差异见 [修订 manifest](E:/中国电子杯-赛题八/system/eval/datasets/nl2sql_chinook_d1_acceptance.manifest.json)，原 19/21 草稿不覆盖。查看 [修正版 30 题审核表](E:/中国电子杯-赛题八/system/eval/datasets/review_d1_acceptance/gold_review.md)，需要重新导出时明确指定新题集：
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/review_gold.py
+$d1SqlDataset = 'eval/datasets/nl2sql_chinook_d1_acceptance.jsonl'
+.\.venv\Scripts\python.exe scripts/review_gold.py --dataset $d1SqlDataset --output eval/datasets/review_d1_acceptance
 ```
 
-核对题意、SQL、实际结果、字段、单位、日期、排序及 NULL／零／空表。`sql-22`、`sql-24` 的“名字”需明确只指 `first_name` 还是完整姓名，确认后同步源题库和审核表，旧草稿报告保留。只对真实核对通过的题记录接受，例如：
+核对题意、SQL、实际结果、字段、单位、日期、排序及 NULL／零／空表。AI 复核不代替人工接受；只对本人真正核对通过的 ID 记录接受，例如：
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/review_gold.py --accept sql-01,sql-02 --reviewer A
+.\.venv\Scripts\python.exe scripts/review_gold.py --dataset $d1SqlDataset --output eval/datasets/review_d1_acceptance --accept sql-01,sql-02 --reviewer A
 ```
 
 通过真实 API 运行开发集：
 
 ```powershell
 # 未人工接受 gold：草稿探索，仅预测 21 dev。
-.\.venv\Scripts\python.exe -m eval.run_eval --draft-gold
+.\.venv\Scripts\python.exe -m eval.run_eval --dataset $d1SqlDataset --draft-gold
 
 # 全部开发题已有效人工接受：正式 EX。
-.\.venv\Scripts\python.exe -m eval.run_eval
+.\.venv\Scripts\python.exe -m eval.run_eval --dataset $d1SqlDataset
 ```
 
 报告记录正确数／21、EX、失败、耗时和版本，失败保留在分母；草稿标为 `exploratory_ex`。缺 key、API／数据库不就绪或缺人工审核时为 `READINESS_ONLY`，预测 0、不填 EX。历史草稿在 `eval/reports/d1-dev-draft/`，新运行默认创建独立目录。
