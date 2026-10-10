@@ -22,6 +22,11 @@ def _integer(name: str, default: int, minimum: int = 1, maximum: int = 1000000) 
     return value
 
 
+def _project_path(name: str, default: str) -> Path:
+    value = Path(os.getenv(name, default))
+    return value if value.is_absolute() else PROJECT_ROOT / value
+
+
 @dataclass(frozen=True)
 class Settings:
     db_url: str = field(repr=False)
@@ -39,6 +44,16 @@ class Settings:
     api_host: str = "127.0.0.1"
     api_port: int = 8000
     rag_handler: str = "qa_agent.rag.service:run_doc_qa"
+    aw_db_url: str = field(default="", repr=False)
+    rag_manifest_path: Path = PROJECT_ROOT / "data/docs/manifest.csv"
+    rag_index_path: Path = PROJECT_ROOT / "data/processed/rag/ohr"
+    bge_model_path: Path = PROJECT_ROOT / "data/models/bge-m3"
+    rag_top_k: int = 5
+    rag_embedding_max_length: int = 512
+    rag_embedding_batch_size: int = 2
+    rag_embedding_device: str = "cpu"
+    rag_embedding_quantization: str = "int8"
+    rag_answer_mode: str = "llm"
 
     @property
     def llm_configured(self) -> bool:
@@ -60,7 +75,7 @@ def get_settings() -> Settings:
     configured_path = Path(os.getenv("CATALOG_PATH", "data/catalog/chinook.yaml"))
     catalog_path = configured_path if configured_path.is_absolute() else PROJECT_ROOT / configured_path
     return Settings(
-        db_url=os.getenv("DB_URL", ""),
+        db_url=os.getenv("CHINOOK_DB_URL", "").strip() or os.getenv("DB_URL", ""),
         llm_api_key=os.getenv("LLM_API_KEY", os.getenv("DEEPSEEK_API_KEY", "")),
         llm_base_url=os.getenv("LLM_BASE_URL", "https://api.deepseek.com").rstrip("/"),
         llm_model=os.getenv("LLM_MODEL", "deepseek-flash"),
@@ -69,12 +84,24 @@ def get_settings() -> Settings:
         llm_max_tokens=_integer("LLM_MAX_TOKENS", 2048, maximum=16384),
         llm_thinking=os.getenv("LLM_THINKING", "false").lower() in {"true", "1", "yes"},
         catalog_path=catalog_path,
-        statement_timeout_ms=_integer("STATEMENT_TIMEOUT_MS", 5000, maximum=60000),
+        statement_timeout_ms=_integer(
+            "SQL_STATEMENT_TIMEOUT_MS" if os.getenv("SQL_STATEMENT_TIMEOUT_MS", "").strip()
+            else "STATEMENT_TIMEOUT_MS", 5000, maximum=60000),
         max_rows=_integer("MAX_RESULT_ROWS", 200, maximum=5000),
         sql_repair_attempts=_integer("SQL_REPAIR_ATTEMPTS", 2, minimum=0, maximum=2),
         api_host=os.getenv("API_HOST", "127.0.0.1"),
         api_port=_integer("API_PORT", 8000, maximum=65535),
         rag_handler=os.getenv("RAG_HANDLER", "qa_agent.rag.service:run_doc_qa"),
+        aw_db_url=os.getenv("AW_DB_URL", ""),
+        rag_manifest_path=_project_path("RAG_MANIFEST_PATH", "data/docs/manifest.csv"),
+        rag_index_path=_project_path("RAG_INDEX_PATH", "data/processed/rag/ohr"),
+        bge_model_path=_project_path("BGE_MODEL_PATH", "data/models/bge-m3"),
+        rag_top_k=_integer("RAG_TOP_K", 5, maximum=100),
+        rag_embedding_max_length=_integer("RAG_EMBEDDING_MAX_LENGTH", 512, maximum=8192),
+        rag_embedding_batch_size=_integer("RAG_EMBEDDING_BATCH_SIZE", 2, maximum=256),
+        rag_embedding_device=os.getenv("RAG_EMBEDDING_DEVICE", "cpu"),
+        rag_embedding_quantization=os.getenv("RAG_EMBEDDING_QUANTIZATION", "int8"),
+        rag_answer_mode=os.getenv("RAG_ANSWER_MODE", "llm"),
     )
 
 
@@ -82,7 +109,7 @@ def sanitize_error(value: object, settings: Settings | None = None) -> str:
     """Remove credential-bearing strings before errors reach traces or clients."""
     message = str(value)
     if settings:
-        for secret in (settings.llm_api_key, settings.db_url,
+        for secret in (settings.llm_api_key, settings.db_url, settings.aw_db_url,
                        os.getenv("POSTGRES_PASSWORD", ""), os.getenv("DB_READER_PASSWORD", "")):
             if secret:
                 message = message.replace(secret, "[redacted]")

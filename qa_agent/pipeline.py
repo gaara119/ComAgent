@@ -79,7 +79,7 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
         with trace.step("config_check") as step:
             step.output_summary = settings.public()
             if not settings.db_url:
-                raise ValueError("请先在本地 .env 配置 DB_URL。")
+                raise ValueError("请先在本地 .env 配置 CHINOOK_DB_URL（兼容 DB_URL）。")
             if not settings.llm_configured and isinstance(llm, JsonLLM):
                 raise MissingCredentialError()
         with trace.step("catalog", {"db_id": "chinook"}) as step:

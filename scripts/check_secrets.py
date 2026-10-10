@@ -11,7 +11,8 @@ def main() -> int:
     root = Path(__file__).resolve().parents[1]
     values = dotenv_values(root / ".env")
     secrets = [value.encode("utf-8") for name, value in values.items()
-               if value and (name.endswith("PASSWORD") or name.endswith("API_KEY") or name == "DB_URL")]
+               if value and (name.endswith("PASSWORD") or name.endswith("API_KEY")
+                             or name == "DB_URL" or name.endswith("_DB_URL"))]
     ignored = subprocess.run(["git", "check-ignore", "-q", ".env"], cwd=root).returncode == 0
     candidates = subprocess.check_output(
         ["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"], cwd=root
