@@ -1,0 +1,62 @@
+{
+  "scope": "These two saved development runs only; excludes previous drafts, probes, UI demos and boundary tests",
+  "sql": {
+    "questions": 21,
+    "llm_attempts": 21,
+    "llm_calls_with_usage": 21,
+    "token_totals": {
+      "prompt_tokens": 87469,
+      "completion_tokens": 1527,
+      "total_tokens": 88996,
+      "prompt_cache_hit_tokens": 76160,
+      "prompt_cache_miss_tokens": 11309
+    },
+    "mean_latency_ms": 3405.88619047619,
+    "median_latency_ms": 3265.89,
+    "p95_nearest_rank_ms": 4353.25,
+    "min_latency_ms": 2941.1,
+    "max_latency_ms": 4871.58,
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "responses_sha256": "a7e61165600aaaa3f191aede8eb0d70287c4d86b8492cf64ea244983d982a892",
+    "report": "eval/reports/d1-acceptance/sql-dev"
+  },
+  "rag": {
+    "questions": 14,
+    "llm_attempts": 14,
+    "llm_calls_with_usage": 14,
+    "token_totals": {
+      "prompt_tokens": 17821,
+      "completion_tokens": 934,
+      "total_tokens": 18755,
+      "prompt_cache_hit_tokens": 4096,
+      "prompt_cache_miss_tokens": 13725
+    },
+    "mean_latency_ms": 3184.1428571428573,
+    "median_latency_ms": 2990.5,
+    "p95_nearest_rank_ms": 4782,
+    "min_latency_ms": 2687,
+    "max_latency_ms": 4782,
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "responses_sha256": "4900d9de36c932480c0380c47242b99dfdb38defff33f98c7c5241fa44fe9156",
+    "report": "eval/reports/d1-acceptance/rag-dev"
+  },
+  "combined": {
+    "questions": 35,
+    "holdout_predictions": 0,
+    "llm_attempts": 35,
+    "llm_calls_with_usage": 35,
+    "token_totals": {
+      "prompt_tokens": 105290,
+      "completion_tokens": 2461,
+      "total_tokens": 107751,
+      "prompt_cache_hit_tokens": 80256,
+      "prompt_cache_miss_tokens": 25034
+    }
+  },
+  "calculated_from_saved_traces_only": true,
+  "additional_model_requests": 0
+}
