@@ -3,3 +3,8 @@
 data/db/*.sql -text
 data/db/LICENSE.md -text
 eval/datasets/nl2sql_chinook.jsonl -text
+data/docs/manifest.csv -text whitespace=blank-at-eol,cr-at-eol
+eval/datasets/rag_ohr.jsonl -text whitespace=blank-at-eol,cr-at-eol
+# These review files preserve terminal spaces in literal source PDF quotations.
+eval/datasets/rag_review/*.md whitespace=-blank-at-eol
+eval/reports/*/human_review.md whitespace=-blank-at-eol
