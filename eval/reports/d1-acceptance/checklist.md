@@ -11,7 +11,7 @@
 | S01 | 团队 | 确认学校初赛截止日期及具体时刻、提交入口、额外材料/PPT | §9；指导书§2.1 | 外部信息待确认 | 用户明确目前暂无通知；notes/dev-log.md明确仍需学校核实。暂无学校通知，不把计划D9倒排日期当成已确认截止日期；团队获得通知后补记，未经授权不联系他人。 |
 | S02 | A/B | 确认本机与B电脑开发环境/Docker可用 | §9；指导书§2.2 | 部分已确认 | 本机实际Python3.12.10、Docker29.8.2、Compose5.5.1；chinook-pg healthy。本机通过；没有B电脑的实际检查记录。D8另一台电脑从零复现是后续任务，今天不能冒称已完成。 |
 | S03 | A/B | 确定A/B职责 | §9；指导书§2.3 | 通过 | 用户明确自己负责A、另交付B骨架；notes/B接口交接.md记录模块责任 |
-| S04 | A | 初始化Git及建立私有远程协作 | §4.2 D1上午；§9 | 通过 | eval/reports/d1-acceptance/github-upload.json：首次push a967f4d6cf3191de1a170a82cfdc21237cd65208，private=true，API/ls-remote/local commit一致；私有仓库 https://github.com/gaara119/china-electronics-cup-task8-comagent。首次代码与新开发报告上传已验；最终手册/截图等新增产物由主任务再次push并记录。B账号权限未提供，不能声称B已可克隆。 |
+| S04 | A | 初始化Git及建立私有远程协作 | §4.2 D1上午；§9 | 通过 | eval/reports/d1-acceptance/github-upload.json：首次push a967f4d6cf3191de1a170a82cfdc21237cd65208，private=true，API/ls-remote/local commit一致；私有仓库 https://github.com/gaara119/china-electronics-cup-task8-comagent。首次代码与新开发报告上传已验；最终手册/截图等新增产物由主任务再次push并记录。用户于2026-10-10确认已添加B用户，权限按用户确认记为已添加，见notes/github-repository.json的b_collaborator_access；B远机实际克隆及环境准备尚未实测。 |
 | S05 | A/B | 按代码目录建立仓库骨架 | §3.7；§4.2 D1上午 | 通过 | README.md、qa_agent/{sql,rag}、api、ui、scripts、data、eval、notes均存在。后续nlu/clarify/fusion/AW/scale模块按D2-D4实现；不是D1欠项。 |
 | S06 | A/B | 确定共享schemas及输入/响应/步骤/证据协议 | §3.5；§4.2 D1上午 | 已实现，有明确调整 | qa_agent/schemas.py；notes/B接口交接.md；A/B均使用共享API与模型。当前工程统一物理页page从1起；计划原示意为0起，已同步修订根指导书与system内副本。官方OHR原始evidence_page_no仍0起，仅转换一次+1。共享契约已实现并联调，后续字段修改由A/B同步；原方案没有要求书面签字，不新增审批事项。 |
 | A01 | A | 起Chinook PostgreSQL并核对实际表名、年份范围 | §4.2 D1 A第一项 | 通过 | docker-compose.yml；data/db/source_manifest.json；data/db/db_check.json；11表64列13外键；2021-2025 |
@@ -61,7 +61,7 @@
 - SQL修正版21/21是待人工gold上的开发探索；原版19/21保持原目录。
 - RAG14/14机械条件与新AI审阅14/14分别记录；AI审阅不是团队人工签字。
 - 标注语义问题已经独立修正或通用改进；剩余人工接受应写成审核步骤，不再写成未处理的实现问题。
-- 学校截止时刻、提交入口、额外PPT暂无通知；B电脑尚未实际接入，私有仓库账号权限需实际配置；协议已共同使用，后续改动由两人同步。
+- 学校截止时刻、提交入口、额外PPT暂无通知；用户于2026-10-10确认已添加B用户进入私有仓库，权限事项已按用户确认完成；B电脑实际克隆及环境准备尚未实测。协议已共同使用，后续改动由两人同步。
 - 15道保留题模型预测维持0；全部gold可进行一次性来源核验。
 
 ## 来源及证据入口

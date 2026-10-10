@@ -365,7 +365,7 @@ def build_markdown(data: dict[str, Any]) -> str:
         "## 8. 私有仓库与另一台电脑准备", "",
         f"私有仓库：[gaara119/china-electronics-cup-task8-comagent]({repo['html_url']})。private 实测字段={value_text(repo.get('private'))}，上传记录={value_text(repo.get('upload_status'))}。最终分支/远程 commit 以 {local_link('notes/github-repository.json')} 为准。",
         "",
-        "B 必须有 GitHub 账号并获得仓库所有者添加的权限；尚未提供 B 的账号时，不能宣称 B 已能克隆私有仓库。账号权限由所有者添加。通过正常 Git 认证，不把 token 放进 clone URL。",
+        "B 的私有仓库权限已添加，依据用户在 2026-10-10 的确认。另一台电脑的登录、克隆及环境准备尚未实际验证。通过正常 Git 认证，不把 token 放进 clone URL。",
         "",
         "当前 Git 忽略本地 PDF缓存/模型/索引/.env/.venv；仓库提供源码、清单、固定来源与准备脚本。克隆不等于已取得可用向量；新电脑自己下载六 PDF 和约587MB的固定模型，独立创建数据库和环境。命令适用于目标目录尚不存在的另一台 Windows电脑：", "",
         code_block(NEW_PC), "",
@@ -382,7 +382,7 @@ def build_markdown(data: dict[str, Any]) -> str:
         "默认评测创建新目录，保留旧报告；不能覆盖已使用目录。没有实际人工接受时，只能显式 --draft-gold 进行开发探索。D1 不预测 SQL9道及RAG6道保留题；冻结后才按要求评测，不把保留题和扰动变体用于调试。",
         "",
         "## 10. 外部待确认与 D2 任务", "",
-        "学校截止日期及具体时刻、提交平台和额外PPT目前暂无正式通知，保持外部待确认。计划按D9倒排不是学校确定时刻。共享协议已统一实现并联调，后续改动由两人同步；B私有仓库访问权和另一台电脑实际准备分别按真实情况记录。", "",
+        "学校截止日期及具体时刻、提交平台和额外PPT目前暂无正式通知，保持外部待确认。计划按D9倒排不是学校确定时刻。共享协议已统一实现并联调，后续改动由两人同步；B私有仓库权限已添加（用户确认），另一台电脑实际准备仍待验证。", "",
         "D2 的重点：A做值索引/别名/链接级联/改写，扩到50SQL和30鲁棒题；B完善片段上下文和数值/事实支持检查，补DOCX/HTML/MD/OCR，知识库至少十份不同格式，编口径手册并扩到30RAG。新指标继续使用真实请求及固定分母；本次观察到的问题进入开发集错误分析。", "",
         md_table(["阶段", "后续要求"], [[r["phase"], r["requirement"]] for r in data["checklist"]["requirements"] if r["phase"] != "D1"]), "",
         "## 11. 证据索引与生成复现", "",
@@ -568,7 +568,7 @@ def build_pdf(data: dict[str, Any], output: Path) -> None:
     # 8 - second computer and private repository.
     section("07  私有协作与新电脑准备")
     para("私有仓库：gaara119/china-electronics-cup-task8-comagent。private字段=" + value_text(repo.get("private")) + "；上传状态=" + value_text(repo.get("upload_status")), small)
-    para("B需有GitHub账号并由仓库所有者添加访问权；未取得账号和实际认证，不宣称B已能克隆。源码及清单通过Git同步，本地.env/.venv/PDF缓存/模型/索引按忽略规则独立准备。")
+    para("B的私有仓库权限已添加，依据用户在2026-10-10的确认；另一台电脑的登录、克隆及环境准备尚未实际验证。源码及清单通过Git同步，本地.env/.venv/PDF缓存/模型/索引按忽略规则独立准备。")
     code(NEW_PC)
     para(".env在新机编辑：模型key、管理员及只读数据库口令、匹配的CHINOOK_DB_URL；保留CPU/int8/TopK5。模型约587MB，索引必须实际CPU编码。不要复制对方.venv或覆盖现有.env。", small)
     para("127.0.0.1指当前电脑；另一台电脑尚未实际复现。准备流程不是远机通过记录，D8真正从零操作后留版本、截图及检查证据。", small)
@@ -584,7 +584,7 @@ def build_pdf(data: dict[str, Any], output: Path) -> None:
     page()
     # 10 - remaining outside confirmations and evidence index.
     section("09  外部事项、D2计划与证据索引")
-    para("学校截止时刻、提交平台和额外PPT目前暂无正式通知，保持外部待确认；计划D9倒排不是学校已确认期限。共享协议已统一使用，后续改动两人同步；B私有仓库权限和远机准备状态按实际记录。")
+    para("学校截止时刻、提交平台和额外PPT目前暂无正式通知，保持外部待确认；计划D9倒排不是学校已确认期限。共享协议已统一使用，后续改动两人同步；B私有仓库权限已添加（用户确认），远机准备仍待实际验证。")
     table(["后续阶段", "范围"], [[r["phase"], r["requirement"]] for r in data["checklist"]["requirements"] if r["phase"] != "D1"], [70, content_width - 70])
     para("证据全部保存在system；查数字看JSON，查单题看原始responses/predictions，查引用回原PDF。报告生成不会调用模型或接受gold。", small)
     index = [
