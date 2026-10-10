@@ -90,7 +90,8 @@
         "section": "§3.7；§4.2 D1上午"
       },
       "evidence": [
-        "README.md、qa_agent/{sql,rag}、api、ui、scripts、data、eval、notes均存在"
+        "README.md、qa_agent/{sql,rag}、api、ui、scripts、data、eval、notes均存在",
+        "notes/D1目录对照.md；requested-shared-evidence.json：19个计划目录均存在，45文件按D1和未来阶段区分；本轮补齐5个未来目录README"
       ],
       "status": "PASS",
       "gap": "后续nlu/clarify/fusion/AW/scale模块按D2-D4实现；不是D1欠项。"
@@ -105,10 +106,11 @@
         "section": "§3.5；§4.2 D1上午"
       },
       "evidence": [
-        "qa_agent/schemas.py；notes/B接口交接.md；A/B均使用共享API与模型"
+        "qa_agent/schemas.py；notes/B接口交接.md；A/B均使用共享API与模型",
+        "用户于2026-10-10明确“双方已核对并同意当前协议”，确认包含1起物理页调整；notes/共享协议确认.md绑定LF SHA256 60b2816559f347dd60734f80563ae75fb453ab3903b528ed2d6075316b190445"
       ],
-      "status": "IMPLEMENTED_WITH_RECORDED_ADJUSTMENT",
-      "gap": "当前工程统一物理页page从1起；计划原示意为0起，根指导书及system副本已同步修订。官方OHR原始evidence_page_no仍0起，仅转换一次+1。共享契约已实现并联调，后续字段修改由A/B同步。原方案没有要求书面签字，不新增审批事项。"
+      "status": "PASS_USER_CONFIRMED",
+      "gap": "当前协议共同同意已完成，记录依据用户确认；之后任何实质协议修改须A/B对具体版本均明确同意。未伪造历史共同手写或独立签名。"
     },
     {
       "id": "A01",
@@ -120,7 +122,7 @@
         "section": "§4.2 D1 A第一项"
       },
       "evidence": [
-        "docker-compose.yml；data/db/source_manifest.json；data/db/db_check.json；11表64列13外键；2021-2025"
+        "docker-compose.yml；data/db/source_manifest.json；data/db/db_check.json；11表64列11外键；2021-2025"
       ],
       "status": "PASS",
       "gap": ""
@@ -165,7 +167,8 @@
         "section": "§4.2 D1 A第三项"
       },
       "evidence": [
-        "qa_agent/llm.py、trace.py；开发报告usage_summary.json及逐题真实steps"
+        "qa_agent/llm.py、trace.py；开发报告usage_summary.json及逐题真实steps",
+        "本轮实际新增@traced并接入execute_sql；pipeline传同请求trace并去除重复sql_exec；requested-a-evidence.json，新增8项trace测试通过"
       ],
       "status": "PASS",
       "gap": ""
@@ -289,10 +292,11 @@
         "section": "§4.2 D1 B第一项；§3.4.2"
       },
       "evidence": [
-        "scripts/prepare_rag_data.py；data/docs/manifest.csv/source_manifest.json；六域均英文，261物理页255文字页"
+        "scripts/prepare_rag_data.py；data/docs/manifest.csv/source_manifest.json；六域均英文，261物理页255文字页",
+        "requested-mirror-pdfs.json：本轮hf-mirror真实下载6份PDF，全部SHA/CRC一致；requested-download-route.json：镜像qas_v2独立地址404，官方固定GitHub QA校验通过"
       ],
-      "status": "PASS",
-      "gap": "实际定向HTTP Range取得固定官方文件，未整包下载；可重现来源而非要求唯一镜像。"
+      "status": "PASS_WITH_SOURCE_ADJUSTMENT",
+      "gap": "下载方式调整：PDF已补hf-mirror实证；QA使用官方GitHub固定版本，因为镜像独立qas_v2不存在。原下载和原索引来源记录保留。"
     },
     {
       "id": "B02",
@@ -368,7 +372,8 @@
         "section": "§4.2 D1 B第三项；指导书§4.5"
       },
       "evidence": [
-        "ui/app.py；api/main.py、api/documents.py；notes/ui-smoke.json；实际页面8501健康200"
+        "ui/app.py；api/main.py、api/documents.py；notes/ui-smoke.json；实际页面8501健康200",
+        "本轮补齐固定3折叠面板：SQL与结果/引用来源/处理步骤与耗时，SQL和doc及空态均由AppTest检查；requested-ui-tests.txt"
       ],
       "status": "PASS",
       "gap": ""
@@ -447,7 +452,8 @@
       "evidence": [
         "本轮eval/reports/d1-acceptance/ui-smoke.json：SQL与中文MacBook文档均SUCCEEDED",
         "SQL/答案、doc/证据、引用点击、原页PNG四项检查全true，page_errors=[]",
-        "本轮SQL trace=34bcd24b-5168-40e3-b353-de77d64d1b3b；doc trace=46298574-ba2f-40ea-b1f8-42bd0bf806e7"
+        "本轮SQL trace=34bcd24b-5168-40e3-b353-de77d64d1b3b；doc trace=46298574-ba2f-40ea-b1f8-42bd0bf806e7",
+        "requested-ui-smoke.json：本轮修复后实际两题均SUCCEEDED，8/8浏览器检查通过，3固定面板，page_errors=[]；notes/screenshots/D1-验收-*.png及D1-evidence.json存原字节SHA和trace"
       ],
       "status": "PASS",
       "gap": "本轮浏览器观察LLM步骤共3；UI演示不计入35条开发集用量或分母。历史notes/ui-smoke.json保留。"
@@ -464,7 +470,8 @@
       "evidence": [
         "eval\\reports\\d1-acceptance\\screenshots\\D1-sql.png",
         "eval\\reports\\d1-acceptance\\screenshots\\D1-rag.png",
-        "eval\\reports\\d1-acceptance\\screenshots\\D1-rag-trace.png"
+        "eval\\reports\\d1-acceptance\\screenshots\\D1-rag-trace.png",
+        "requested-ui-smoke.json：本轮修复后实际两题均SUCCEEDED，8/8浏览器检查通过，3固定面板，page_errors=[]；notes/screenshots/D1-验收-*.png及D1-evidence.json存原字节SHA和trace"
       ],
       "status": "PASS",
       "gap": "本轮真实Edge Chromium截取三图并逐张view_image视觉核验通过；SQL1440×1080、文档1440×1800、trace1440×1080。与旧notes/screenshots历史图区分，完整截图与ui-smoke.json保留。"
@@ -479,7 +486,8 @@
         "section": "§4.2 D1晚上；§9"
       },
       "evidence": [
-        "notes/dev-log.md：A/B实现、真实版本/分母/耗时/不一致、人工状态及D2问题"
+        "notes/dev-log.md：A/B实现、真实版本/分母/耗时/不一致、人工状态及D2问题",
+        "notes/dev-log.md追加本次14项复查：159pytest/53工程/@traced/3面板/6mirrorPDF/用户协议确认/11外键更正及新两题UI记录"
       ],
       "status": "PASS",
       "gap": "主任务补充本次验收日志；不覆盖旧草稿数字。"
@@ -866,6 +874,28 @@
       "history_credential_hits": [],
       "oversized_files": [],
       "scope": "Exact matches of configured API keys, database passwords and URLs; no credential values recorded"
+    }
+  },
+  "requested_checklist_followup": {
+    "date_local": "2026-10-10",
+    "engineering_report": "eval/reports/d1-acceptance/requested-engineering.json",
+    "passed": 53,
+    "total": 53,
+    "pytest_passed": 159,
+    "pytest_skipped": 0,
+    "foreign_key_count_correction": {
+      "previous_prose": 13,
+      "actual_database_and_original_json": 11
+    },
+    "shared_schema_agreement": "AGREED_USER_CONFIRMED",
+    "original_benchmarks_preserved": true,
+    "ui": {
+      "status": "PASSED",
+      "checks_passed": 8,
+      "total_checks": 8,
+      "new_question_count": 2,
+      "observed_llm_steps": 3,
+      "baseline_inclusion": false
     }
   }
 }

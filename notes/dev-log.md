@@ -10,7 +10,7 @@
 
 数据库采用官方 Chinook 1.4.5，来源及 SHA256 记录在 `data/db/source_manifest.json`。PostgreSQL 16.15 通过 Compose 运行，仅绑定本机 `127.0.0.1:55432`，独立命名卷持久化。应用连接使用 qa_reader；已在 READ WRITE 事务中以零行 UPDATE 验证权限拒绝，数据修改数为 0。初始化重复运行后行数保持一致。
 
-实际数据：11 张表、64 列、13 条外键；customer 59、track 3503、invoice 412、invoice_line 2240。发票日期为 2021-01-01 至 2025-12-22，不采用旧版本示例年份。艺术家销售额 Top10 已导出给 B，第一名为 Iron Maiden，金额 138.60；原数据未声明币种。客户所在国与账单国家在当前 412 张发票中的差异为 0，仍是不同业务字段。
+实际数据：11 张表、64 列、11 条外键；customer 59、track 3503、invoice 412、invoice_line 2240。发票日期为 2021-01-01 至 2025-12-22，不采用旧版本示例年份。艺术家销售额 Top10 已导出给 B，第一名为 Iron Maiden，金额 138.60；原数据未声明币种。客户所在国与账单国家在当前 412 张发票中的差异为 0，仍是不同业务字段。
 
 ## 已执行的验证
 
@@ -69,7 +69,7 @@ Streamlit 页面通过 HTTP 调统一 API，同页展示 SQL/表格与文档答�
 
 ### A 标注与真实数据库复核
 
-原 30 条 gold 通过运行时 SQLGlot 和实际只读执行器再次核对，30/30 与保存结果逐字一致；原内容哈希保持不变。11 表、64 列、13 外键，表名／列名／可空性／行数与目录一致；只读 ACL、零行 UPDATE 拒绝、Top10 艺术家及地区口径交接全部通过。真实排序口径为 en_US.utf8。
+原 30 条 gold 通过运行时 SQLGlot 和实际只读执行器再次核对，30/30 与保存结果逐字一致；原内容哈希保持不变。11 表、64 列、11 外键，表名／列名／可空性／行数与目录一致；只读 ACL、零行 UPDATE 拒绝、Top10 艺术家及地区口径交接全部通过。真实排序口径为 en_US.utf8。
 
 独立 AI 语义审核给出 27 项 accepted、2 项 needs_clarification、1 项 error；这里 accepted 仅为 AI 结论。`sql-11` 要求两位小数但原 AVG(total) 返回多位小数；`sql-22`／`sql-24` 的“名字”需明确字段。创建 `eval/datasets/nl2sql_chinook_d1_acceptance.jsonl`，仅修三个开发题：ROUND(AVG(total), 2) 实算结果 5.65，以及明确只投影 first_name；其余 27 项及 9 道保留题不变，split／family 均保留，全部仍 needs_human_review。
 
@@ -121,3 +121,18 @@ API、数据库、Streamlit、六份 PDF 源文件 SHA256／magic、每份首末
 Edge Chromium完成SQL巴西客户5、中文MacBook iMovie、引用E1/物理p3原页与真实trace展示；最终三图逐张视觉检查通过，记录eval/reports/d1-acceptance/ui-smoke.json。两次完成截图共已观察6个LLM步骤，单独记录，最初被中止的捕获实际调用数未知；这些都不计入35条开发集。捕获脚本增加作用域重渲染等待、任意终态观测及异常证据保存，修复内部滚动截图视口；问答运行代码没有因截图重试改变。详细见ui-capture-audit.json。
 
 生成Markdown和10页PDF操作手册，包含真实工程/模型/AI复核结果、32项D1清单、启动与新机准备、人工接受及正式评测步骤、外部待确认和D2后续。PDF按最终渲染逐页检查；终检与私有远端main一致性由最终交付校验保存于.runtime/github-publish.json。
+
+
+## 用户原清单十四项补齐与复查（2026-10-10）
+
+用户明确双方已核对并同意当前共享协议，绑定SHA256 `60b2816559f347dd60734f80563ae75fb453ab3903b528ed2d6075316b190445`，包括1起PDF物理页。之后实质修改须双方同意具体版本；本轮未修改schemas.py。
+
+补齐5个未来模块目录说明，审计19目录/45计划文件；D2-D4功能仍按阶段未实现。补真实@traced并接入sql_exec，除去重复计时，摘要白名单不包含DSN。补三个固定UI面板：SQL与结果/引用来源/处理步骤与耗时。
+
+真实全量pytest为159 passed、0 skipped、6.22秒；最新工程53/53 PASS。原57项工程包含4条额外live题，本轮未再跑它们。11表64列实际外键11，先前文本13为文案错误已更正，原始a-review.json一直记录11。
+
+本轮hf-mirror ZIP范围下载六份PDF，全部CRC及SHA256与原件一致，原PDF/索引不改。镜像独立qas_v2.json返回404，QA保留固定官方GitHub源8498条。六域各一份英文，20条原始text QA逐项来源审计通过。
+
+新浏览器仅2个实际问题、3个LLM步骤，8/8检查通过、page_errors=[]。SQL巴西客户5；文档iMovie [E1]/物理p3。Trace分别为`38218d9f-e092-4663-9e45-7d0e70f1fbca`及`6dc49334-d3b1-4f6a-9718-982f42a38d62`。新图存notes/screenshots/D1-验收-*.png，旧图保留。
+
+本轮不重新预测原35道开发题，不预测9SQL/6RAG保留题，不自动写人工gold接受。原21/21修正版与RAG14/14机械/AI结论保留既有版本来源，正式成绩继续待实际人工审核。完整证据：eval/reports/d1-acceptance/requested-d1-evidence.md/json。

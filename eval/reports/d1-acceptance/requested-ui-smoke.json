@@ -1,0 +1,141 @@
+{
+  "started_at_utc": "2026-10-10T13:45:02.993509+00:00",
+  "ui_url": "http://127.0.0.1:8501",
+  "browser": "Edge Chromium",
+  "status": "PASSED",
+  "stage": "capture_trace",
+  "sql_status": "SUCCEEDED",
+  "doc_status": "SUCCEEDED",
+  "page_errors": [],
+  "screenshots": [
+    "notes\\screenshots\\checklist-acceptance\\D1-sql.png",
+    "notes\\screenshots\\checklist-acceptance\\D1-rag.png",
+    "notes\\screenshots\\checklist-acceptance\\D1-rag-trace.png"
+  ],
+  "baseline_inclusion": false,
+  "model_attempt_accounting": "2 actual UI question submissions; SQL1 and document translation+answer2 observed rendered LLM steps; excluded from existing 35-case benchmark",
+  "checks": {
+    "sql_answer_and_query_rendered": true,
+    "doc_answer_and_evidence_rendered": true,
+    "citation_button_clicked": true,
+    "original_pdf_page_rendered": true,
+    "sql_three_panels": true,
+    "doc_three_panels": true,
+    "idle_three_panels": true,
+    "scope_switch_three_panels": true
+  },
+  "idle_panels": {
+    "count": 3,
+    "labels": [
+      "SQL 与结果",
+      "引用来源",
+      "处理步骤与耗时"
+    ],
+    "checked_in_actual_browser": true
+  },
+  "sql_panels": {
+    "count": 3,
+    "labels": [
+      "SQL 与结果",
+      "引用来源",
+      "处理步骤与耗时"
+    ],
+    "checked_in_actual_browser": true
+  },
+  "sql_trace": {
+    "trace_id": "38218d9f-e092-4663-9e45-7d0e70f1fbca",
+    "trace_caption": "请求编号：38218d9f-e092-4663-9e45-7d0e70f1fbca",
+    "observed_llm_steps": 1
+  },
+  "scope_switch_panels": {
+    "count": 3,
+    "labels": [
+      "SQL 与结果",
+      "引用来源",
+      "处理步骤与耗时"
+    ],
+    "checked_in_actual_browser": true
+  },
+  "selected_document": "ohr-manual-macbook-air",
+  "doc_trace": {
+    "trace_id": "6dc49334-d3b1-4f6a-9718-982f42a38d62",
+    "trace_caption": "请求编号：6dc49334-d3b1-4f6a-9718-982f42a38d62",
+    "observed_llm_steps": 2
+  },
+  "doc_panels": {
+    "count": 3,
+    "labels": [
+      "SQL 与结果",
+      "引用来源",
+      "处理步骤与耗时"
+    ],
+    "checked_in_actual_browser": true
+  },
+  "observed_model_attempts": 3,
+  "screenshot_capture": {
+    "document_viewport": {
+      "width": 1440,
+      "height": 1800
+    },
+    "document_main_scroll": 0,
+    "trace_view": "expanded trace with request id and first steps visible"
+  },
+  "finished_at_utc": "2026-10-10T13:45:28.014231+00:00",
+  "screenshot_artifacts": [
+    {
+      "path": "E:/中国电子杯-赛题八/system/notes/screenshots/checklist-acceptance/D1-sql.png",
+      "copy_path": "E:/中国电子杯-赛题八/system/notes/screenshots/D1-验收-sql.png",
+      "sha256": "2a9148ddf0a14ac7ce60485636a3ef82cd89c030074ccda58e92df016527a56e",
+      "copy_bytes_match": true,
+      "dimensions": [
+        1440,
+        1080
+      ],
+      "purpose": "Actual corrected three-panel D1 UI evidence; exact byte copy in user-required notes/screenshots/D1-*.png location"
+    },
+    {
+      "path": "E:/中国电子杯-赛题八/system/notes/screenshots/checklist-acceptance/D1-rag.png",
+      "copy_path": "E:/中国电子杯-赛题八/system/notes/screenshots/D1-验收-rag.png",
+      "sha256": "d14bf5ac42fe7ceb46f16ac968c86d6abab4cedfe369b4be1d8669923050ddc4",
+      "copy_bytes_match": true,
+      "dimensions": [
+        1440,
+        1800
+      ],
+      "purpose": "Actual corrected three-panel D1 UI evidence; exact byte copy in user-required notes/screenshots/D1-*.png location"
+    },
+    {
+      "path": "E:/中国电子杯-赛题八/system/notes/screenshots/checklist-acceptance/D1-rag-trace.png",
+      "copy_path": "E:/中国电子杯-赛题八/system/notes/screenshots/D1-验收-rag-trace.png",
+      "sha256": "c77512bb1e3548ca2b01d4512d8a120c5a7058e8cbd48d184a64eacacea48827",
+      "copy_bytes_match": true,
+      "dimensions": [
+        1440,
+        1080
+      ],
+      "purpose": "Actual corrected three-panel D1 UI evidence; exact byte copy in user-required notes/screenshots/D1-*.png location"
+    }
+  ],
+  "visual_qa": {
+    "completed": true,
+    "method": "Each of the three new PNG files inspected with view_image",
+    "sql_visible_result": 5,
+    "sql_visible_panels": "SQL与结果 expanded shows chinook and actual query/count=5; 引用来源 header visible near viewport bottom; actual third panel separately asserted in browser DOM",
+    "document_visible_answer": "iMovie 可以让你在几分钟内创建并分享影片。 [E1]",
+    "document_visible_evidence_page": 3,
+    "document_visible_panels": [
+      "SQL 与结果",
+      "引用来源",
+      "处理步骤与耗时"
+    ],
+    "trace_visible": "Actual request id 6dc49334-d3b1-4f6a-9718-982f42a38d62, latency10019ms, route/rag_channel/doc_scope steps visible"
+  },
+  "holdout_prediction_count": 0,
+  "engineering_context": {
+    "api_pid": 6932,
+    "checklist_engineering_report": "eval/reports/d1-acceptance/requested-engineering.json",
+    "checklist_engineering_tests": 53,
+    "pytest_passed": 159,
+    "pytest_skipped": 0
+  }
+}

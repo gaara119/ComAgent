@@ -132,7 +132,61 @@ def render_evidence(result: AnswerEnvelope, base_url: str, documents: list[dict]
                 st.image(preview, caption=f"原 PDF 第 {selected.page} 页", width="stretch")
 
 
-def render_result(result: AnswerEnvelope, base_url: str, documents: list[dict]) -> None:
+def render_panels(
+    result: AnswerEnvelope | None,
+    base_url: str,
+    documents: list[dict],
+    *,
+    db_id: str | None = None,
+) -> None:
+    """Keep the plan's three evidence panels visible in either source scope."""
+    with st.expander("SQL 与结果", expanded=bool(result and result.sql)):
+        if db_id:
+            st.caption(f"数据库：{safe_text(db_id)}")
+        if result and result.sql:
+            st.caption("执行的 SQL")
+            st.code(result.sql, language="sql")
+        elif result is None:
+            st.caption("提交问题后在这里查看 SQL 和查询结果。" if db_id else "当前来源为文档，尚未提交问题。")
+        else:
+            st.caption("本次响应未提供 SQL。" if db_id else "本次文档查询未执行数据库 SQL。")
+        if result and result.table:
+            st.dataframe(result.table, width="stretch", hide_index=True)
+        elif result and result.table == []:
+            st.caption("结果表为空。")
+        if result and result.metadata.get("truncated"):
+            st.info("结果超过显示上限，仅展示本次返回的部分记录。")
+    with st.expander("引用来源", expanded=bool(result and result.evidences)):
+        if result and result.evidences:
+            render_evidence(result, base_url, documents)
+        elif result is None:
+            st.caption("提交文档问题后在这里查看原文、页码和原 PDF。")
+        else:
+            st.caption("本次查询没有文档引用。")
+    with st.expander("处理步骤与耗时"):
+        if result is None:
+            st.caption("提交问题后在这里查看实际处理步骤和耗时。")
+            return
+        st.caption(f"请求编号：{result.trace_id}")
+        if "latency_ms" in result.metadata:
+            st.caption(f"服务端总耗时：{result.metadata['latency_ms']} 毫秒")
+        if not result.steps:
+            st.caption("本次响应未提供处理步骤。")
+        for index, step in enumerate(result.steps, start=1):
+            st.markdown(f"**{index}. {step.name}** · {step.status} · {step.latency_ms} 毫秒")
+            if step.input_summary or step.output_summary:
+                # Render summaries as text rather than allowing arbitrary HTML.
+                import json
+                st.code(safe_text(json.dumps({"输入": step.input_summary, "输出": step.output_summary}, ensure_ascii=False, indent=2)), language="json")
+
+
+def render_result(
+    result: AnswerEnvelope,
+    base_url: str,
+    documents: list[dict],
+    *,
+    db_id: str | None = None,
+) -> None:
     labels = {
         "SUCCEEDED": "回答完成", "EMPTY_RESULT": "查询完成，未找到符合条件的记录",
         "NEEDS_CLARIFICATION": "需要补充信息", "UNSUPPORTED": "当前来源不支持此问题", "FAILED": "本次请求未完成",
@@ -147,26 +201,7 @@ def render_result(result: AnswerEnvelope, base_url: str, documents: list[dict]) 
     st.markdown(linked_answer(result.answer, result, base_url))
     if result.error:
         st.caption(safe_text(result.error.message))
-    if result.sql:
-        with st.expander("执行的 SQL", expanded=True):
-            st.code(result.sql, language="sql")
-    if result.table:
-        st.dataframe(result.table, width="stretch", hide_index=True)
-    elif result.table == []:
-        st.caption("结果表为空。")
-    if result.metadata.get("truncated"):
-        st.info("结果超过显示上限，仅展示本次返回的部分记录。")
-    render_evidence(result, base_url, documents)
-    with st.expander("处理步骤与耗时"):
-        st.caption(f"请求编号：{result.trace_id}")
-        if "latency_ms" in result.metadata:
-            st.caption(f"服务端总耗时：{result.metadata['latency_ms']} 毫秒")
-        for index, step in enumerate(result.steps, start=1):
-            st.markdown(f"**{index}. {step.name}** · {step.status} · {step.latency_ms} 毫秒")
-            if step.input_summary or step.output_summary:
-                # Render summaries as text rather than allowing arbitrary HTML.
-                import json
-                st.code(safe_text(json.dumps({"输入": step.input_summary, "输出": step.output_summary}, ensure_ascii=False, indent=2)), language="json")
+    render_panels(result, base_url, documents, db_id=db_id)
 
 
 def main() -> None:
@@ -243,7 +278,9 @@ def main() -> None:
                     st.session_state.last_answer = result.model_dump()
                     st.session_state.last_answer_context = context
     if st.session_state.get("last_answer_context") == context and st.session_state.get("last_answer"):
-        render_result(AnswerEnvelope.model_validate(st.session_state.last_answer), base_url, documents)
+        render_result(AnswerEnvelope.model_validate(st.session_state.last_answer), base_url, documents, db_id=scope.db_id)
+    else:
+        render_panels(None, base_url, documents, db_id=scope.db_id)
 
 
 if __name__ == "__main__":

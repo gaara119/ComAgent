@@ -40,14 +40,15 @@ def fetch_official_qa() -> None:
 
 
 class RemoteZip:
-    def __init__(self):
+    def __init__(self, zip_url: str = ZIP_URL):
+        self.zip_url = zip_url
         self.client = httpx.Client(follow_redirects=True, timeout=120)
         self.transferred = 0
 
     def read_range(self, start: int, length: int) -> bytes:
         # A distinct query prevents intermediaries from reusing another range.
         response = self.client.get(
-            ZIP_URL + f"?range_start={start}",
+            self.zip_url + f"?range_start={start}",
             headers={"Range": f"bytes={start}-{start + length - 1}"},
         )
         response.raise_for_status()
@@ -103,7 +104,7 @@ class RemoteZip:
         target.write_bytes(data)
         return {"entry": item["name"], "path": target.relative_to(ROOT).as_posix(),
                 "sha256": hashlib.sha256(data).hexdigest(), "size": len(data),
-                "zip_crc32": f"{item['crc32']:08x}", "source_url": ZIP_URL,
+                "zip_crc32": f"{item['crc32']:08x}", "source_url": self.zip_url,
                 "source_revision": REVISION}
 
 

@@ -1,0 +1,192 @@
+{
+  "checked_at_utc": "2026-10-10T13:43:30.882141+00:00",
+  "user_requirement": "notes/screenshots/D1-*.png",
+  "existing_notes_paths_already_satisfy_required_location": true,
+  "historical_images_overwritten": false,
+  "visual_check": "All three original notes PNGs viewed; SQL result 5 and real SQL, doc iMovie [E1], original physical page 3, actual trace are visible across the three images. RAG overview is vertically cropped; trace image shows full original page.",
+  "captures": [
+    {
+      "capture_kind": "original_notes_capture",
+      "capture_record": "E:/中国电子杯-赛题八/system/notes/ui-smoke.json",
+      "sql_trace": "请求编号：ddefcce0-cc88-4f39-a53f-d139174aa756",
+      "doc_trace": "请求编号：14842eb2-77e4-4056-a837-e207bd61bee9",
+      "page_errors": [],
+      "checks": {
+        "sql_answer_and_query_rendered": true,
+        "doc_answer_and_evidence_rendered": true,
+        "citation_button_clicked": true,
+        "original_pdf_page_rendered": true
+      },
+      "screenshots": [
+        {
+          "path": "E:/中国电子杯-赛题八/system/notes/screenshots/D1-sql.png",
+          "sha256": "ed5801981ee5293be4108814e61b713717e14f32662a450878c851b65b4386a7",
+          "size_bytes": 54431,
+          "dimensions": [
+            1440,
+            1080
+          ],
+          "purpose": "D1 real SQL/document/citation/trace UI evidence; preserved original bytes"
+        },
+        {
+          "path": "E:/中国电子杯-赛题八/system/notes/screenshots/D1-rag.png",
+          "sha256": "ed4c2e706261991a0ced709b9ab1e41cdb98d4a5e7499a17f602fb7dfac02f10",
+          "size_bytes": 113484,
+          "dimensions": [
+            1440,
+            1080
+          ],
+          "purpose": "D1 real SQL/document/citation/trace UI evidence; preserved original bytes"
+        },
+        {
+          "path": "E:/中国电子杯-赛题八/system/notes/screenshots/D1-rag-trace.png",
+          "sha256": "c9de5bc6dfb33ede632ecdd7f156b20dbb126f7ed7555f4833a87f37461461df",
+          "size_bytes": 360341,
+          "dimensions": [
+            1440,
+            1080
+          ],
+          "purpose": "D1 real SQL/document/citation/trace UI evidence; preserved original bytes"
+        }
+      ],
+      "runtime_before_three_panel_correction": true
+    },
+    {
+      "capture_kind": "previous_final_acceptance_capture",
+      "capture_record": "E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/ui-smoke.json",
+      "sql_trace": {
+        "trace_id": "34bcd24b-5168-40e3-b353-de77d64d1b3b",
+        "trace_caption": "请求编号：34bcd24b-5168-40e3-b353-de77d64d1b3b",
+        "observed_llm_steps": 1
+      },
+      "doc_trace": {
+        "trace_id": "46298574-ba2f-40ea-b1f8-42bd0bf806e7",
+        "trace_caption": "请求编号：46298574-ba2f-40ea-b1f8-42bd0bf806e7",
+        "observed_llm_steps": 2
+      },
+      "page_errors": [],
+      "checks": {
+        "sql_answer_and_query_rendered": true,
+        "doc_answer_and_evidence_rendered": true,
+        "citation_button_clicked": true,
+        "original_pdf_page_rendered": true
+      },
+      "screenshots": [
+        {
+          "path": "E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/screenshots/D1-sql.png",
+          "sha256": "140be1fa7a59a7749a4226fc0c286a06e43b4c2789faeba235dcecef2c857269",
+          "size_bytes": 54733,
+          "dimensions": [
+            1440,
+            1080
+          ],
+          "purpose": "D1 real SQL/document/citation/trace UI evidence; preserved original bytes"
+        },
+        {
+          "path": "E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/screenshots/D1-rag.png",
+          "sha256": "9072f9159d4f817f44848de8dc85d27c64bf36329a8205c4889d4396358de325",
+          "size_bytes": 406548,
+          "dimensions": [
+            1440,
+            1800
+          ],
+          "purpose": "D1 real SQL/document/citation/trace UI evidence; preserved original bytes"
+        },
+        {
+          "path": "E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/screenshots/D1-rag-trace.png",
+          "sha256": "49e23ceb6f279bd58714c1cb5a8dc8ab989ec97156d2e21e7c1e436bd023872a",
+          "size_bytes": 202042,
+          "dimensions": [
+            1440,
+            1080
+          ],
+          "purpose": "D1 real SQL/document/citation/trace UI evidence; preserved original bytes"
+        }
+      ],
+      "runtime_before_three_panel_correction": true
+    }
+  ],
+  "new_ui_capture": {
+    "capture_kind": "corrected_three_panel_checklist_capture",
+    "capture_record": "E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/requested-ui-smoke.json",
+    "started_at_utc": "2026-10-10T13:45:02.993509+00:00",
+    "finished_at_utc": "2026-10-10T13:45:28.014231+00:00",
+    "status": "PASSED",
+    "sql_trace": {
+      "trace_id": "38218d9f-e092-4663-9e45-7d0e70f1fbca",
+      "trace_caption": "请求编号：38218d9f-e092-4663-9e45-7d0e70f1fbca",
+      "observed_llm_steps": 1
+    },
+    "doc_trace": {
+      "trace_id": "6dc49334-d3b1-4f6a-9718-982f42a38d62",
+      "trace_caption": "请求编号：6dc49334-d3b1-4f6a-9718-982f42a38d62",
+      "observed_llm_steps": 2
+    },
+    "page_errors": [],
+    "checks": {
+      "sql_answer_and_query_rendered": true,
+      "doc_answer_and_evidence_rendered": true,
+      "citation_button_clicked": true,
+      "original_pdf_page_rendered": true,
+      "sql_three_panels": true,
+      "doc_three_panels": true,
+      "idle_three_panels": true,
+      "scope_switch_three_panels": true
+    },
+    "screenshots": [
+      {
+        "path": "E:/中国电子杯-赛题八/system/notes/screenshots/checklist-acceptance/D1-sql.png",
+        "copy_path": "E:/中国电子杯-赛题八/system/notes/screenshots/D1-验收-sql.png",
+        "sha256": "2a9148ddf0a14ac7ce60485636a3ef82cd89c030074ccda58e92df016527a56e",
+        "copy_bytes_match": true,
+        "dimensions": [
+          1440,
+          1080
+        ],
+        "purpose": "Actual corrected three-panel D1 UI evidence; exact byte copy in user-required notes/screenshots/D1-*.png location"
+      },
+      {
+        "path": "E:/中国电子杯-赛题八/system/notes/screenshots/checklist-acceptance/D1-rag.png",
+        "copy_path": "E:/中国电子杯-赛题八/system/notes/screenshots/D1-验收-rag.png",
+        "sha256": "d14bf5ac42fe7ceb46f16ac968c86d6abab4cedfe369b4be1d8669923050ddc4",
+        "copy_bytes_match": true,
+        "dimensions": [
+          1440,
+          1800
+        ],
+        "purpose": "Actual corrected three-panel D1 UI evidence; exact byte copy in user-required notes/screenshots/D1-*.png location"
+      },
+      {
+        "path": "E:/中国电子杯-赛题八/system/notes/screenshots/checklist-acceptance/D1-rag-trace.png",
+        "copy_path": "E:/中国电子杯-赛题八/system/notes/screenshots/D1-验收-rag-trace.png",
+        "sha256": "c77512bb1e3548ca2b01d4512d8a120c5a7058e8cbd48d184a64eacacea48827",
+        "copy_bytes_match": true,
+        "dimensions": [
+          1440,
+          1080
+        ],
+        "purpose": "Actual corrected three-panel D1 UI evidence; exact byte copy in user-required notes/screenshots/D1-*.png location"
+      }
+    ],
+    "runtime_before_three_panel_correction": false,
+    "visual_qa": {
+      "completed": true,
+      "method": "Each of the three new PNG files inspected with view_image",
+      "sql_visible_result": 5,
+      "sql_visible_panels": "SQL与结果 expanded shows chinook and actual query/count=5; 引用来源 header visible near viewport bottom; actual third panel separately asserted in browser DOM",
+      "document_visible_answer": "iMovie 可以让你在几分钟内创建并分享影片。 [E1]",
+      "document_visible_evidence_page": 3,
+      "document_visible_panels": [
+        "SQL 与结果",
+        "引用来源",
+        "处理步骤与耗时"
+      ],
+      "trace_visible": "Actual request id 6dc49334-d3b1-4f6a-9718-982f42a38d62, latency10019ms, route/rag_channel/doc_scope steps visible"
+    },
+    "model_calls": 3,
+    "question_submissions": 2,
+    "baseline_inclusion": false,
+    "holdout_predictions": 0
+  },
+  "updated_at_utc": "2026-10-10T13:46:49.953933+00:00"
+}

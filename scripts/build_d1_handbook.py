@@ -29,6 +29,8 @@ STATES = {
     "IMPLEMENTED_WITH_RECORDED_ADJUSTMENT": "已实现并记录调整",
     "IN_PROGRESS": "正在收口", "PARTIAL": "本机通过，远机待核",
     "REVIEW_PENDING": "人工审核待完成", "EXTERNAL_PENDING": "外部待确认",
+    "PASS_USER_CONFIRMED": "通过，双方已确认",
+    "PASS_WITH_SOURCE_ADJUSTMENT": "通过，来源调整已记录",
     "NOT_D1": "后续排期",
 }
 
@@ -111,14 +113,18 @@ def load_evidence(usage_path: Path) -> dict[str, Any]:
         "a_review": ACCEPTANCE / "a-review.json",
         "revision_manifest": ROOT / "eval/datasets/nl2sql_chinook_d1_acceptance.manifest.json",
         "b_review": ACCEPTANCE / "b-review-final.json",
-        "engineering": ACCEPTANCE / "engineering.json",
-        "ui": ACCEPTANCE / "ui-smoke.json",
-        "secrets": ACCEPTANCE / "secret-scan.json",
+        "engineering": ACCEPTANCE / ("requested-engineering.json" if (ACCEPTANCE / "requested-engineering.json").exists() else "engineering.json"),
+        "ui": ACCEPTANCE / ("requested-ui-smoke.json" if (ACCEPTANCE / "requested-ui-smoke.json").exists() else "ui-smoke.json"),
+        "secrets": ACCEPTANCE / ("requested-secret-scan.json" if (ACCEPTANCE / "requested-secret-scan.json").exists() else "secret-scan.json"),
         "repository": ROOT / "notes/github-repository.json",
         "usage": usage_path,
         "original_sql": ROOT / "eval/reports/d1-dev-draft/report.json",
     }
     data = {name: read_json(path) for name, path in paths.items()}
+    exact_path = ACCEPTANCE / "requested-d1-evidence.json"
+    if exact_path.exists():
+        data["requested_d1"] = read_json(exact_path)
+        paths["requested_d1"] = exact_path
     data["paths"] = paths
     for name, expected in (("sql", 21), ("rag", 14)):
         report = data[name]
@@ -297,6 +303,18 @@ def build_markdown(data: dict[str, Any]) -> str:
         ]), "",
         "完整机器记录：" + local_link("eval/reports/d1-acceptance/checklist.json") + "。",
         "",
+        *([
+            "### 2.1 用户本次原清单的十四项证据", "",
+            "本轮按上午共同2项、A7项、B4项、晚上联调1项重新核对，并补齐@traced、三个固定折叠面板、未来目录说明和镜像PDF下载实证。原标准答案与历史评测保留。",
+            "",
+            md_table(["编号", "分工", "要求", "状态", "实际事实", "证据"], [
+                [row["id"], row["owner"], row["requirement"], row["status"], row["facts"],
+                 "；".join(local_link(item["path"]) for item in row["evidence"])]
+                for row in data["requested_d1"]["rows"]]), "",
+            "当前协议双方同意由用户明确确认并绑定文件SHA256，之后修改必须A/B对具体版本均同意。镜像PDF六份实下载且哈希一致；镜像qas_v2.json独立地址404，保留同一固定官方GitHub QA。历史共同手写没有被当成已验证事实。", "",
+            f"本轮工程 {data['engineering']['passed_count']}/{data['engineering']['check_count']}，pytest {data['test_counts']['passed']} passed、{data['test_counts']['skipped']} skipped；另有两道新页面实问，不纳入原35题开发基准。之前57项工程包含4条live边界题，本轮53项未再调用这些题。", "",
+            local_link("eval/reports/d1-acceptance/requested-d1-evidence.md", "十四项完整证据表") + "；" + local_link("notes/共享协议确认.md") + "；" + local_link("notes/D1目录对照.md") + "。", "",
+        ] if "requested_d1" in data else []),
         "## 3. 真实模型开发集与历史记录", "",
         f"SQL 本次使用独立修正版 `nl2sql_chinook_d1_acceptance.jsonl`，实际预测 {sql['prediction_count']} 道开发题，结果 {sql.get('correct')}/{sql['prediction_count']}，草稿 exploratory_ex={sql.get('exploratory_ex'):.2%}。平均 HTTP 耗时 {sql['average_latency_ms']/1000:.3f} 秒。",
         "",
@@ -382,7 +400,7 @@ def build_markdown(data: dict[str, Any]) -> str:
         "默认评测创建新目录，保留旧报告；不能覆盖已使用目录。没有实际人工接受时，只能显式 --draft-gold 进行开发探索。D1 不预测 SQL9道及RAG6道保留题；冻结后才按要求评测，不把保留题和扰动变体用于调试。",
         "",
         "## 10. 外部待确认与 D2 任务", "",
-        "学校截止日期及具体时刻、提交平台和额外PPT目前暂无正式通知，保持外部待确认。计划按D9倒排不是学校确定时刻。共享协议已统一实现并联调，后续改动由两人同步；B私有仓库权限已添加（用户确认），另一台电脑实际准备仍待验证。", "",
+        "学校截止日期及具体时刻、提交平台和额外PPT目前暂无正式通知，保持外部待确认。计划按D9倒排不是学校确定时刻。当前共享协议已获A/B同意（用户确认），后续修改须双方明确同意具体版本；B私有仓库权限已添加（用户确认），另一台电脑实际准备仍待验证。", "",
         "D2 的重点：A做值索引/别名/链接级联/改写，扩到50SQL和30鲁棒题；B完善片段上下文和数值/事实支持检查，补DOCX/HTML/MD/OCR，知识库至少十份不同格式，编口径手册并扩到30RAG。新指标继续使用真实请求及固定分母；本次观察到的问题进入开发集错误分析。", "",
         md_table(["阶段", "后续要求"], [[r["phase"], r["requirement"]] for r in data["checklist"]["requirements"] if r["phase"] != "D1"]), "",
         "## 11. 证据索引与生成复现", "",
@@ -512,7 +530,18 @@ def build_pdf(data: dict[str, Any], output: Path) -> None:
     section("04  页面演示与记录检查")
     checks = data["ui"].get("checks", {})
     if isinstance(checks, dict):
-        table(["实际浏览器检查", "结果"], [[k, v] for k, v in checks.items()], [380, content_width - 380])
+        if len(checks) == 8:
+            groups = [
+                ("SQL回答/查询显示、文档回答/证据显示", ("sql_answer_and_query_rendered", "doc_answer_and_evidence_rendered")),
+                ("引用点击、原PDF物理页展示", ("citation_button_clicked", "original_pdf_page_rendered")),
+                ("SQL、文档回答各有三个固定面板", ("sql_three_panels", "doc_three_panels")),
+                ("未提问、切换来源各有三个固定面板", ("idle_three_panels", "scope_switch_three_panels")),
+            ]
+            table(["实际浏览器检查（8项分组）", "结果"],
+                  [[label, f"{sum(checks.get(key) is True for key in keys)}/{len(keys)}"] for label, keys in groups],
+                  [380, content_width - 380])
+        else:
+            table(["实际浏览器检查", "结果"], [[k, v] for k, v in checks.items()], [380, content_width - 380])
     para("浏览器异常：" + value_text(data["ui"].get("page_errors", data["ui"].get("errors"))), small)
     photos = screenshot_paths(data)
     chosen = []
@@ -530,7 +559,7 @@ def build_pdf(data: dict[str, Any], output: Path) -> None:
             images.append(img)
         story.append(Table([images], colWidths=[content_width / len(chosen)] * len(chosen)))
         story.append(Spacer(1, 9))
-        para("上图为实际浏览器截图缩略图，完整 PNG 及请求编号见验收 screenshots 与 ui-smoke.json。", small)
+        para("上图为实际浏览器截图缩略图，完整PNG与请求编号见notes/screenshots及最新requested-ui-smoke.json；旧版本截图与记录保留。", small)
     para("本次21SQL＋14RAG为35条开发预测，接口token来自实际用量；该汇总不含旧草稿、探测、页面演示和工程边界调用。未提供账单，不虚构费用。")
     combined = data["usage"].get("combined", {})
     para("本次35条开发请求用量：" + value_text(combined), small)
@@ -584,7 +613,7 @@ def build_pdf(data: dict[str, Any], output: Path) -> None:
     page()
     # 10 - remaining outside confirmations and evidence index.
     section("09  外部事项、D2计划与证据索引")
-    para("学校截止时刻、提交平台和额外PPT目前暂无正式通知，保持外部待确认；计划D9倒排不是学校已确认期限。共享协议已统一使用，后续改动两人同步；B私有仓库权限已添加（用户确认），远机准备仍待实际验证。")
+    para("学校截止时刻、提交平台和额外PPT目前暂无正式通知，保持外部待确认；计划D9倒排不是学校已确认期限。当前协议已获双方同意（用户确认），后续修改须双方同意具体版本；B私有仓库权限已添加（用户确认），远机准备仍待实际验证。")
     table(["后续阶段", "范围"], [[r["phase"], r["requirement"]] for r in data["checklist"]["requirements"] if r["phase"] != "D1"], [70, content_width - 70])
     para("证据全部保存在system；查数字看JSON，查单题看原始responses/predictions，查引用回原PDF。报告生成不会调用模型或接受gold。", small)
     index = [
@@ -601,6 +630,32 @@ def build_pdf(data: dict[str, Any], output: Path) -> None:
     ]
     for line in index:
         para(line, small)
+
+    if "requested_d1" in data:
+        page()
+        section("10  原清单证据：上午共同与A")
+        para("本页逐条对应用户10/10清单。详细源代码行号、数据库原始值和链接见requested-d1-evidence.md/json，保持原始测试与旧评测记录。", small)
+        selected = [r for r in data["requested_d1"]["rows"] if r["owner"] in {"上午共同", "A"}]
+        table(["编号", "要求与状态", "证据入口"], [
+            [r["id"], r["requirement"] + "；" + r["status"],
+             "requested-shared-evidence.json" if r["owner"] == "上午共同" else "requested-a-evidence.json"]
+            for r in selected], [53, 318, content_width - 371])
+        para("数据库实测11表、64列、11外键，invoice 2021-2025，qa_reader默认只读on/5s。旧文本13外键已按真实pg_constraint和原审计JSON更正为11。", small)
+        para("当前schemas文件未修改，双方同意绑定SHA256：" + data["requested_d1"]["current_schema_sha256"] + "。未来变更须双方同意新版本。", small)
+        para("@traced已接入真实sql_exec，避免重复计时且不记录DSN。最新工程53/53，pytest159/0skip；旧57项含4个live边界题，本轮未重跑它们。", small)
+        para("Top艺术家前三：Iron Maiden 138.60、U2 105.93、Metallica 90.09。地区比较412张发票、差异0，决定更换澄清演示；原03设计正文没有冒称已改写。", small)
+        page()
+        section("11  原清单证据：B与晚上联调")
+        selected = [r for r in data["requested_d1"]["rows"] if r["owner"] in {"B", "晚上联调"}]
+        table(["编号", "要求与状态", "证据入口"], [
+            [r["id"], r["requirement"] + "；" + r["status"], "requested-b-evidence.json"]
+            for r in selected], [70, 301, content_width - 371])
+        para("六份PDF本轮经hf-mirror真实下载，CRC/SHA256均与原资料一致，原PDF和索引未变。镜像独立qas_v2.json返回404，QA继续取固定官方GitHub版本；不是更换题库。", small)
+        para("原qas_v2共8498条；20道原始text题逐条来源核验通过，14dev/6holdout。六域各一份全英文PDF，共261物理页、1527×1024混合索引。", small)
+        para("三固定面板：SQL与结果、引用来源、处理步骤与耗时；空态、SQL、切换来源、文档四种实际页面状态均确认3个。最新浏览器8/8检查、无page error。", small)
+        para("新SQL实答巴西客户5；新文档实答iMovie [E1]、物理第3页。两个实际UI问题观察3个LLM步骤，不纳入原35题基准，不预测保留题。", small)
+        para("新三图：notes/screenshots/D1-验收-sql.png、D1-验收-rag.png、D1-验收-rag-trace.png。图像SHA与trace在D1-evidence.json；旧截图原样保留。", small)
+        para("最新工程：eval/reports/d1-acceptance/requested-engineering.json；页面：requested-ui-smoke.json；下载：requested-mirror-pdfs.json及requested-download-route.json；目录：notes/D1目录对照.md；协议：notes/共享协议确认.md。", small)
 
     def footer(canvas, doc):
         canvas.saveState()

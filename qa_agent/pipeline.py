@@ -103,12 +103,9 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                                        "default_limit_added": validated.default_limit_added,
                                        "sql": last_sql}
             try:
-                with trace.step("sql_exec", {"sql": last_sql, "db_id": "chinook"}) as step:
-                    result = execute_sql(last_sql, settings.db_url,
-                                         statement_timeout_ms=settings.statement_timeout_ms,
-                                         max_rows=settings.max_rows)
-                    step.output_summary = {"row_count": result.row_count, "columns": result.columns,
-                                           "truncated": result.truncated}
+                result = execute_sql(last_sql, settings.db_url,
+                                     statement_timeout_ms=settings.statement_timeout_ms,
+                                     max_rows=settings.max_rows, trace=trace)
                 break
             except SQLTimeoutError:
                 raise

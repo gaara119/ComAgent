@@ -10,6 +10,8 @@ from uuid import UUID
 
 import psycopg
 
+from qa_agent.trace import TraceRecorder, traced
+
 
 class SQLExecutionError(RuntimeError):
     def __init__(self, message: str, sqlstate: str | None = None):
@@ -64,11 +66,18 @@ def unique_columns(names: list[str]) -> list[str]:
     return result
 
 
+@traced(
+    "sql_exec",
+    input_summary=lambda arguments: {"sql": arguments.arguments["sql"], "db_id": "chinook"},
+    output_summary=lambda result: {"row_count": result.row_count, "columns": result.columns,
+                                   "truncated": result.truncated},
+)
 def execute_sql(
     sql: str,
     db_url: str,
     statement_timeout_ms: int = 5000,
     max_rows: int = 200,
+    trace: TraceRecorder | None = None,
 ) -> SQLResult:
     """Run a previously validated query; caller must call validate_sql first.
 

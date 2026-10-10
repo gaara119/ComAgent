@@ -13,7 +13,7 @@
 
 | 项目 | 实际证据 | 结论 |
 |---|---|---|
-| Chinook PG 和只读账号 | PostgreSQL 16.15；11 表、64 列、13 外键；SELECT-only ACL 与零行写入拒绝通过 | 通过 |
+| Chinook PG 和只读账号 | PostgreSQL 16.15；11 表、64 列、11 外键；SELECT-only ACL 与零行写入拒绝通过 | 通过 |
 | 表名和年份 | public 中表名为 snake_case；invoice 为 2021-01-01T00:00:00 至 2025-12-22T00:00:00 | 通过 |
 | DeepSeek JSON 接入 | notes/model-check.json 为真实 deepseek-flash 接入、JSON 校验及用量/链路记录；本次不重复请求 | 已有真实证据 |
 | 统一调用与 trace | qa_agent/llm.py、qa_agent/trace.py；TraceRecorder.step 为请求内工具留痕实现 | 已实现，集成回归见总报告 |

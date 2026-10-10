@@ -1,0 +1,1330 @@
+{
+  "checked_at_utc": "2026-10-10T13:51:57.263451+00:00",
+  "date_local": "2026-10-10",
+  "timezone": "America/Chicago",
+  "source_plan": "notes/references/项目方案.md",
+  "source_plan_sha256": "000a978cbb4b153a9d2c145fd1b0449dd67a2e2ab8896029f0af24adcb55e78c",
+  "git": {
+    "inside_work_tree": true,
+    "root": "E:/中国电子杯-赛题八/system",
+    "head_at_check": "b27a60bc283e2c79d187f44655144a401a142629",
+    "initial_commits": [
+      "361f05eede8d23f9b92a308d1690d39a52c33544"
+    ],
+    "origin": "https://github.com/gaara119/china-electronics-cup-task8-comagent.git",
+    "repository_metadata": {
+      "id": 1413175395,
+      "full_name": "gaara119/china-electronics-cup-task8-comagent",
+      "html_url": "https://github.com/gaara119/china-electronics-cup-task8-comagent",
+      "clone_url": "https://github.com/gaara119/china-electronics-cup-task8-comagent.git",
+      "private": true,
+      "created_at": "2026-10-10T12:41:54Z",
+      "upload_status": "main_uploaded_verified",
+      "first_pushed_commit": "a967f4d6cf3191de1a170a82cfdc21237cd65208",
+      "verified_at_utc": "2026-10-10T12:51:15.517894+00:00",
+      "api_remote_local_heads_match": true,
+      "b_collaborator_access": {
+        "status": "ADDED_USER_CONFIRMED",
+        "confirmed_on": "2026-10-10",
+        "confirmation_source": "用户确认已添加B用户进入私有仓库",
+        "remote_clone_verified": false
+      }
+    },
+    "last_upload_receipt": {
+      "verified_at_utc": "2026-10-10T13:32:24.670128+00:00",
+      "private": true,
+      "repository": "https://github.com/gaara119/china-electronics-cup-task8-comagent",
+      "branch": "main",
+      "commit": "b27a60bc283e2c79d187f44655144a401a142629",
+      "api_remote_local_heads_match": true,
+      "git_worktree_clean": true
+    },
+    "receipt_is_prior_publication": true,
+    "private_verified_by_prior_receipt": true,
+    "fresh_remote_probe_performed": false
+  },
+  "schemas": {
+    "path": "qa_agent/schemas.py",
+    "raw_sha256": "60b2816559f347dd60734f80563ae75fb453ab3903b528ed2d6075316b190445",
+    "lf_normalized_sha256": "60b2816559f347dd60734f80563ae75fb453ab3903b528ed2d6075316b190445",
+    "models": {
+      "SourceScope": {
+        "fields": [
+          "route",
+          "db_id",
+          "doc_ids"
+        ],
+        "json_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "route": {
+              "default": "sql",
+              "enum": [
+                "sql",
+                "doc",
+                "auto",
+                "hybrid"
+              ],
+              "title": "Route",
+              "type": "string"
+            },
+            "db_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": "chinook",
+              "title": "Db Id"
+            },
+            "doc_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Doc Ids",
+              "type": "array"
+            }
+          },
+          "title": "SourceScope",
+          "type": "object"
+        }
+      },
+      "ChatRequest": {
+        "fields": [
+          "session_id",
+          "message",
+          "scope"
+        ],
+        "json_schema": {
+          "$defs": {
+            "SourceScope": {
+              "additionalProperties": false,
+              "properties": {
+                "route": {
+                  "default": "sql",
+                  "enum": [
+                    "sql",
+                    "doc",
+                    "auto",
+                    "hybrid"
+                  ],
+                  "title": "Route",
+                  "type": "string"
+                },
+                "db_id": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": "chinook",
+                  "title": "Db Id"
+                },
+                "doc_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Doc Ids",
+                  "type": "array"
+                }
+              },
+              "title": "SourceScope",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "properties": {
+            "session_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "title": "Session Id",
+              "type": "string"
+            },
+            "message": {
+              "maxLength": 4000,
+              "minLength": 1,
+              "title": "Message",
+              "type": "string"
+            },
+            "scope": {
+              "$ref": "#/$defs/SourceScope"
+            }
+          },
+          "required": [
+            "message"
+          ],
+          "title": "ChatRequest",
+          "type": "object"
+        }
+      },
+      "Step": {
+        "fields": [
+          "name",
+          "status",
+          "input_summary",
+          "output_summary",
+          "latency_ms"
+        ],
+        "json_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "status": {
+              "default": "ok",
+              "enum": [
+                "ok",
+                "warn",
+                "error",
+                "skipped"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "input_summary": {
+              "additionalProperties": true,
+              "title": "Input Summary",
+              "type": "object"
+            },
+            "output_summary": {
+              "additionalProperties": true,
+              "title": "Output Summary",
+              "type": "object"
+            },
+            "latency_ms": {
+              "default": 0,
+              "title": "Latency Ms",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "title": "Step",
+          "type": "object"
+        }
+      },
+      "Evidence": {
+        "fields": [
+          "evidence_id",
+          "doc_id",
+          "doc_title",
+          "page",
+          "section_path",
+          "text",
+          "bbox"
+        ],
+        "json_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "evidence_id": {
+              "title": "Evidence Id",
+              "type": "string"
+            },
+            "doc_id": {
+              "title": "Doc Id",
+              "type": "string"
+            },
+            "doc_title": {
+              "title": "Doc Title",
+              "type": "string"
+            },
+            "page": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Page"
+            },
+            "section_path": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Section Path",
+              "type": "array"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "bbox": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "number"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Bbox"
+            }
+          },
+          "required": [
+            "evidence_id",
+            "doc_id",
+            "doc_title",
+            "text"
+          ],
+          "title": "Evidence",
+          "type": "object"
+        }
+      },
+      "IntentContract": {
+        "fields": [
+          "intent_version",
+          "route",
+          "task_type",
+          "metric",
+          "time_scope",
+          "filters",
+          "grouping",
+          "order",
+          "assumptions",
+          "unresolved"
+        ],
+        "json_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "intent_version": {
+              "default": 1,
+              "title": "Intent Version",
+              "type": "integer"
+            },
+            "route": {
+              "enum": [
+                "sql",
+                "doc",
+                "hybrid",
+                "chitchat"
+              ],
+              "title": "Route",
+              "type": "string"
+            },
+            "task_type": {
+              "default": "lookup",
+              "title": "Task Type",
+              "type": "string"
+            },
+            "metric": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Metric"
+            },
+            "time_scope": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Time Scope"
+            },
+            "filters": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "title": "Filters",
+              "type": "array"
+            },
+            "grouping": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Grouping",
+              "type": "array"
+            },
+            "order": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Order"
+            },
+            "assumptions": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Assumptions",
+              "type": "array"
+            },
+            "unresolved": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "title": "Unresolved",
+              "type": "array"
+            }
+          },
+          "required": [
+            "route"
+          ],
+          "title": "IntentContract",
+          "type": "object"
+        }
+      },
+      "ErrorDetail": {
+        "fields": [
+          "code",
+          "message",
+          "retryable"
+        ],
+        "json_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "title": "Code",
+              "type": "string"
+            },
+            "message": {
+              "title": "Message",
+              "type": "string"
+            },
+            "retryable": {
+              "default": false,
+              "title": "Retryable",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "title": "ErrorDetail",
+          "type": "object"
+        }
+      },
+      "AnswerEnvelope": {
+        "fields": [
+          "trace_id",
+          "status",
+          "answer",
+          "rewritten_question",
+          "sql",
+          "table",
+          "evidences",
+          "clarification",
+          "intent",
+          "steps",
+          "error",
+          "metadata"
+        ],
+        "json_schema": {
+          "$defs": {
+            "ErrorDetail": {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "title": "Code",
+                  "type": "string"
+                },
+                "message": {
+                  "title": "Message",
+                  "type": "string"
+                },
+                "retryable": {
+                  "default": false,
+                  "title": "Retryable",
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "code",
+                "message"
+              ],
+              "title": "ErrorDetail",
+              "type": "object"
+            },
+            "Evidence": {
+              "additionalProperties": false,
+              "properties": {
+                "evidence_id": {
+                  "title": "Evidence Id",
+                  "type": "string"
+                },
+                "doc_id": {
+                  "title": "Doc Id",
+                  "type": "string"
+                },
+                "doc_title": {
+                  "title": "Doc Title",
+                  "type": "string"
+                },
+                "page": {
+                  "anyOf": [
+                    {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Page"
+                },
+                "section_path": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Section Path",
+                  "type": "array"
+                },
+                "text": {
+                  "title": "Text",
+                  "type": "string"
+                },
+                "bbox": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "type": "number"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Bbox"
+                }
+              },
+              "required": [
+                "evidence_id",
+                "doc_id",
+                "doc_title",
+                "text"
+              ],
+              "title": "Evidence",
+              "type": "object"
+            },
+            "IntentContract": {
+              "additionalProperties": false,
+              "properties": {
+                "intent_version": {
+                  "default": 1,
+                  "title": "Intent Version",
+                  "type": "integer"
+                },
+                "route": {
+                  "enum": [
+                    "sql",
+                    "doc",
+                    "hybrid",
+                    "chitchat"
+                  ],
+                  "title": "Route",
+                  "type": "string"
+                },
+                "task_type": {
+                  "default": "lookup",
+                  "title": "Task Type",
+                  "type": "string"
+                },
+                "metric": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Metric"
+                },
+                "time_scope": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": true,
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Time Scope"
+                },
+                "filters": {
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "title": "Filters",
+                  "type": "array"
+                },
+                "grouping": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Grouping",
+                  "type": "array"
+                },
+                "order": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": true,
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Order"
+                },
+                "assumptions": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Assumptions",
+                  "type": "array"
+                },
+                "unresolved": {
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "title": "Unresolved",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "route"
+              ],
+              "title": "IntentContract",
+              "type": "object"
+            },
+            "Step": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "status": {
+                  "default": "ok",
+                  "enum": [
+                    "ok",
+                    "warn",
+                    "error",
+                    "skipped"
+                  ],
+                  "title": "Status",
+                  "type": "string"
+                },
+                "input_summary": {
+                  "additionalProperties": true,
+                  "title": "Input Summary",
+                  "type": "object"
+                },
+                "output_summary": {
+                  "additionalProperties": true,
+                  "title": "Output Summary",
+                  "type": "object"
+                },
+                "latency_ms": {
+                  "default": 0,
+                  "title": "Latency Ms",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "title": "Step",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "properties": {
+            "trace_id": {
+              "title": "Trace Id",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "SUCCEEDED",
+                "EMPTY_RESULT",
+                "NEEDS_CLARIFICATION",
+                "UNSUPPORTED",
+                "FAILED"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "answer": {
+              "title": "Answer",
+              "type": "string"
+            },
+            "rewritten_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Rewritten Question"
+            },
+            "sql": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Sql"
+            },
+            "table": {
+              "anyOf": [
+                {
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Table"
+            },
+            "evidences": {
+              "items": {
+                "$ref": "#/$defs/Evidence"
+              },
+              "title": "Evidences",
+              "type": "array"
+            },
+            "clarification": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Clarification"
+            },
+            "intent": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/IntentContract"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "steps": {
+              "items": {
+                "$ref": "#/$defs/Step"
+              },
+              "title": "Steps",
+              "type": "array"
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ErrorDetail"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "metadata": {
+              "additionalProperties": true,
+              "title": "Metadata",
+              "type": "object"
+            }
+          },
+          "required": [
+            "trace_id",
+            "status",
+            "answer"
+          ],
+          "title": "AnswerEnvelope",
+          "type": "object"
+        }
+      },
+      "SQLGeneration": {
+        "fields": [
+          "sql",
+          "tables_used",
+          "explanation"
+        ],
+        "json_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "sql": {
+              "maxLength": 20000,
+              "minLength": 1,
+              "title": "Sql",
+              "type": "string"
+            },
+            "tables_used": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Tables Used",
+              "type": "array"
+            },
+            "explanation": {
+              "default": "",
+              "maxLength": 1000,
+              "title": "Explanation",
+              "type": "string"
+            }
+          },
+          "required": [
+            "sql"
+          ],
+          "title": "SQLGeneration",
+          "type": "object"
+        }
+      }
+    },
+    "agreement": {
+      "status": "AGREED_USER_CONFIRMED",
+      "confirmed_on": "2026-10-10",
+      "timezone": "America/Chicago",
+      "confirmation_source": "用户在本次验收明确确认 A 和 B 已核对并同意当前协议",
+      "confirmation_quote": "双方已核对并同意当前协议",
+      "scope": "当前 schemas.py 全部字段、Evidence.page 从 1 开始且封面计页；同意该项相对计划 0 起示意的调整",
+      "independent_signatures_verified": false,
+      "coauthorship_verified": false,
+      "raw_sha256": "60b2816559f347dd60734f80563ae75fb453ab3903b528ed2d6075316b190445",
+      "lf_normalized_sha256": "60b2816559f347dd60734f80563ae75fb453ab3903b528ed2d6075316b190445"
+    },
+    "schema_edited_by_this_audit": false,
+    "page_contract": {
+      "minimum": 1,
+      "pdf_physical_page": true,
+      "cover_counts": true,
+      "plan_example_minimum": 0,
+      "ohr_zero_based_page_conversion": "convert once while building evaluation records; UI adds nothing"
+    }
+  },
+  "directory_audit": {
+    "directories": [
+      {
+        "path": "scripts",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "data/db",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "data/docs",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "data/catalog",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "qa_agent",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "qa_agent/sql",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "qa_agent/rag",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "api",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "ui",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "eval",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "eval/datasets",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "eval/reports",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "notes",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "notes/screenshots",
+        "exists": true,
+        "stage": "D1",
+        "status": "DIRECTORY_READY",
+        "detail": "已建立并含实际 D1 文件"
+      },
+      {
+        "path": "qa_agent/nlu",
+        "exists": true,
+        "stage": "D2",
+        "status": "DIRECTORY_ONLY_FUTURE",
+        "detail": "仅 README 说明后续工作；没有功能实现"
+      },
+      {
+        "path": "qa_agent/clarify",
+        "exists": true,
+        "stage": "D3",
+        "status": "DIRECTORY_ONLY_FUTURE",
+        "detail": "仅 README 说明后续工作；没有功能实现"
+      },
+      {
+        "path": "qa_agent/fusion",
+        "exists": true,
+        "stage": "D4",
+        "status": "DIRECTORY_ONLY_FUTURE",
+        "detail": "仅 README 说明后续工作；没有功能实现"
+      },
+      {
+        "path": "data/aliases",
+        "exists": true,
+        "stage": "D2",
+        "status": "DIRECTORY_ONLY_FUTURE",
+        "detail": "仅 README 说明后续工作；没有功能实现"
+      },
+      {
+        "path": "data/rules",
+        "exists": true,
+        "stage": "D3",
+        "status": "DIRECTORY_ONLY_FUTURE",
+        "detail": "仅 README 说明后续工作；没有功能实现"
+      }
+    ],
+    "files": [
+      {
+        "path": "README.md",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "环境、资料准备、启动和评测命令"
+      },
+      {
+        "path": "docker-compose.yml",
+        "exists": true,
+        "stage": "D1 / D3",
+        "status": "PARTIAL_D1_COMPLETE",
+        "detail": "D1 已实作 chinook-pg；aw-pg 尚未建立，属于 D3"
+      },
+      {
+        "path": ".env.example",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "无真实 key 的配置模板"
+      },
+      {
+        "path": "requirements.txt",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "当前环境依赖版本已锁定"
+      },
+      {
+        "path": "scripts/start_demo.sh",
+        "exists": true,
+        "stage": "D1 / D5",
+        "status": "PARTIAL_D1_COMPLETE",
+        "detail": "启动已准备环境；D5 冷环境一键准备尚未验收"
+      },
+      {
+        "path": "scripts/build_catalog.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "从真实库构建 Chinook 目录"
+      },
+      {
+        "path": "scripts/build_value_index.py",
+        "exists": false,
+        "stage": "D2",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "值索引、别名、拼音和向量"
+      },
+      {
+        "path": "scripts/ingest_docs.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "真实 PDF 解析、切片、BGE-M3 索引"
+      },
+      {
+        "path": "scripts/scale_data.py",
+        "exists": false,
+        "stage": "D4",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "标注扩容副本，效率实验"
+      },
+      {
+        "path": "data/db/Chinook_PostgreSql.sql",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "官方 Chinook 源脚本"
+      },
+      {
+        "path": "data/db/chinook_schema.sql",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "真实数据库 schema 导出"
+      },
+      {
+        "path": "data/docs/manifest.csv",
+        "exists": true,
+        "stage": "D1 / D2",
+        "status": "PARTIAL_D1_COMPLETE",
+        "detail": "D1 六领域 6 份 PDF；最终 ≥10 份不同格式属于 D2 补齐"
+      },
+      {
+        "path": "data/catalog/chinook.yaml",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际表列、外键、中文说明与示例"
+      },
+      {
+        "path": "data/catalog/aw.yaml",
+        "exists": false,
+        "stage": "D3",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "AdventureWorks 目录"
+      },
+      {
+        "path": "data/aliases/aliases.csv",
+        "exists": false,
+        "stage": "D2",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "别名配置"
+      },
+      {
+        "path": "data/rules/clarify_rules.yaml",
+        "exists": false,
+        "stage": "D3",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "澄清规则配置"
+      },
+      {
+        "path": "qa_agent/config.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "共享 D1 实现"
+      },
+      {
+        "path": "qa_agent/llm.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "共享 D1 实现"
+      },
+      {
+        "path": "qa_agent/trace.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "共享 D1 实现"
+      },
+      {
+        "path": "qa_agent/schemas.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "共享 D1 实现"
+      },
+      {
+        "path": "qa_agent/pipeline.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "共享 D1 实现"
+      },
+      {
+        "path": "qa_agent/nlu/extract.py",
+        "exists": false,
+        "stage": "D2 / D4",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "后续 NLU / 要素链接 / 改写"
+      },
+      {
+        "path": "qa_agent/nlu/linker.py",
+        "exists": false,
+        "stage": "D2 / D4",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "后续 NLU / 要素链接 / 改写"
+      },
+      {
+        "path": "qa_agent/nlu/rewrite.py",
+        "exists": false,
+        "stage": "D2 / D4",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "后续 NLU / 要素链接 / 改写"
+      },
+      {
+        "path": "qa_agent/clarify/rules.py",
+        "exists": false,
+        "stage": "D3 / D4",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "后续澄清规则 / 会话状态"
+      },
+      {
+        "path": "qa_agent/clarify/state.py",
+        "exists": false,
+        "stage": "D3 / D4",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "后续澄清规则 / 会话状态"
+      },
+      {
+        "path": "qa_agent/sql/catalog.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际单表 SQL 链路"
+      },
+      {
+        "path": "qa_agent/sql/generator.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际单表 SQL 链路"
+      },
+      {
+        "path": "qa_agent/sql/validator.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际单表 SQL 链路"
+      },
+      {
+        "path": "qa_agent/sql/executor.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际单表 SQL 链路"
+      },
+      {
+        "path": "qa_agent/sql/schema_linker.py",
+        "exists": false,
+        "stage": "D3 / D4",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "后续精准表定位与外键补全"
+      },
+      {
+        "path": "qa_agent/rag/parsers.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际单文档 RAG 链路"
+      },
+      {
+        "path": "qa_agent/rag/chunker.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际单文档 RAG 链路"
+      },
+      {
+        "path": "qa_agent/rag/index.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际单文档 RAG 链路"
+      },
+      {
+        "path": "qa_agent/rag/retriever.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际单文档 RAG 链路"
+      },
+      {
+        "path": "qa_agent/rag/answer.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际单文档 RAG 链路"
+      },
+      {
+        "path": "qa_agent/fusion/planner.py",
+        "exists": false,
+        "stage": "D4",
+        "status": "NOT_IMPLEMENTED_FUTURE",
+        "detail": "后续两类跨源计划"
+      },
+      {
+        "path": "api/main.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "共享 FastAPI /api/chat 与健康检查"
+      },
+      {
+        "path": "ui/app.py",
+        "exists": true,
+        "stage": "D1 / D5",
+        "status": "PARTIAL_D1_COMPLETE",
+        "detail": "D1 问答、来源和折叠面板已实作；完整评测看板 D5"
+      },
+      {
+        "path": "eval/run_eval.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "通过 API 计算真实 SQL EX"
+      },
+      {
+        "path": "eval/metrics.py",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "执行结果比较指标"
+      },
+      {
+        "path": "notes/dev-log.md",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "开发日志与真实数值"
+      },
+      {
+        "path": "notes/screenshots/D1-sql.png",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "真实界面 SQL 演示"
+      },
+      {
+        "path": "notes/screenshots/D1-rag.png",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "真实界面文档与引用演示"
+      },
+      {
+        "path": "notes/screenshots/D1-rag-trace.png",
+        "exists": true,
+        "stage": "D1",
+        "status": "IMPLEMENTED_D1",
+        "detail": "实际步骤展开图"
+      }
+    ],
+    "all_planned_directories_present": true,
+    "future_implementation_is_not_claimed": true
+  },
+  "shared_requirements": [
+    {
+      "id": "shared-01",
+      "status": "PASS_D1_WITH_FUTURE_SCOPE_EXPLICIT",
+      "requirement": "git init、私有远程仓库、§3.7 目录",
+      "evidence": "valid Git worktree + prior verified private remote receipt + per-path directory audit"
+    },
+    {
+      "id": "shared-02",
+      "status": "AGREED_USER_CONFIRMED",
+      "requirement": "共享 schemas.py 已建立，A/B 同意当前版本；后续改动双方同意",
+      "evidence": "actual fields + raw/LF hashes + exact user confirmation; co-writing history is not asserted"
+    }
+  ]
+}

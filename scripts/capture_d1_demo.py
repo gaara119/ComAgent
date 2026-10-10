@@ -64,6 +64,16 @@ def scroll_main_to_top(page) -> None:
     page.wait_for_function("() => { const main = document.querySelector('[data-testid=\"stMain\"]'); return main && main.scrollTop === 0; }", timeout=10000)
 
 
+def three_panels(page) -> dict:
+    page.wait_for_function("() => document.querySelectorAll('[data-testid=\"stExpander\"]').length === 3", timeout=10000)
+    panels = page.get_by_test_id("stExpander")
+    labels = ["SQL 与结果", "引用来源", "处理步骤与耗时"]
+    for label in labels:
+        if page.get_by_text(label, exact=True).count() != 1:
+            raise RuntimeError(f"Expected one actual expander label: {label}")
+    return {"count": panels.count(), "labels": labels, "checked_in_actual_browser": True}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default="http://127.0.0.1:8501")
@@ -82,7 +92,9 @@ def main() -> None:
               "sql_status": None, "doc_status": None, "page_errors": errors, "screenshots": [],
               "baseline_inclusion": False, "model_attempt_accounting": "actual rendered llm trace steps",
               "checks": {"sql_answer_and_query_rendered": False, "doc_answer_and_evidence_rendered": False,
-                         "citation_button_clicked": False, "original_pdf_page_rendered": False}}
+                         "citation_button_clicked": False, "original_pdf_page_rendered": False,
+                         "sql_three_panels": False, "doc_three_panels": False,
+                         "idle_three_panels": False, "scope_switch_three_panels": False}}
 
     def save() -> None:
         args.record_path.parent.mkdir(parents=True, exist_ok=True)
@@ -112,6 +124,8 @@ def main() -> None:
             page.goto(args.url, wait_until="networkidle")
             question = page.get_by_role("textbox", name="你的问题")
             question.wait_for(timeout=60000)
+            record["idle_panels"] = three_panels(page)
+            record["checks"]["idle_three_panels"] = True
             stage("submit_sql")
             question.fill("来自巴西的客户有多少位？")
             question.press("Tab")
@@ -123,6 +137,8 @@ def main() -> None:
                 raise RuntimeError(f"SQL demonstration returned {sql_status}.")
             page.get_by_text("执行的 SQL", exact=True).wait_for()
             page.get_by_test_id("stDataFrame").wait_for(timeout=30000)
+            record["sql_panels"] = three_panels(page)
+            record["checks"]["sql_three_panels"] = True
             record["checks"]["sql_answer_and_query_rendered"] = True
             shot(page, "D1-sql.png")
             record["sql_trace"] = read_trace(page)
@@ -138,6 +154,8 @@ def main() -> None:
             page.get_by_role("option", name="MacBook Air User Guide", exact=False).click()
             page.get_by_text("PDF · 76 页 · en", exact=True).wait_for(timeout=30000)
             page.get_by_text("执行的 SQL", exact=True).wait_for(state="hidden", timeout=30000)
+            record["scope_switch_panels"] = three_panels(page)
+            record["checks"]["scope_switch_three_panels"] = True
             record["selected_document"] = "ohr-manual-macbook-air"
             stage("submit_document")
             question.fill("哪款应用可以让你在几分钟内创建并分享影片？")
@@ -153,6 +171,8 @@ def main() -> None:
             if doc_status != "SUCCEEDED":
                 raise RuntimeError(f"Document demonstration returned {doc_status}.")
             page.get_by_text("引用依据", exact=True).wait_for(timeout=30000)
+            record["doc_panels"] = three_panels(page)
+            record["checks"]["doc_three_panels"] = True
             record["checks"]["doc_answer_and_evidence_rendered"] = True
             stage("click_citation")
             buttons = page.get_by_role("button").filter(has_text=re.compile(r"MacBook Air User Guide.*第 \d+ 页"))
