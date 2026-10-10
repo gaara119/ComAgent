@@ -1,0 +1,39 @@
+{
+  "dataset": "Chinook",
+  "version": "1.4.5",
+  "prepared_at": "2026-10-10T11:25:29.228817+00:00",
+  "upstream_repository": "https://github.com/lerocha/chinook-database",
+  "source": {
+    "file": "Chinook_PostgreSql.sql",
+    "url": "https://github.com/lerocha/chinook-database/releases/download/v1.4.5/Chinook_PostgreSql.sql",
+    "sha256": "e3fde5c1a5b51a2a91429a702c9ca6e69ba56e6c7f5e112724d70c3d03db695e",
+    "size_bytes": 600200
+  },
+  "license": {
+    "file": "LICENSE.md",
+    "url": "https://raw.githubusercontent.com/lerocha/chinook-database/v1.4.5/LICENSE.md",
+    "sha256": "5064d720db431474b0a0b0cef9d2b5e362b6c6f80602b35c6443b07cbc979f77",
+    "name": "MIT",
+    "copyright": "2008-2024 Luis Rocha"
+  },
+  "import": {
+    "file": "Chinook_PostgreSql.import.sql",
+    "sha256": "54e839296eb458919d5fe5d4aa6920f092b45cec671e34e09cee6c1e0fe9754e",
+    "transformation": "Remove DROP DATABASE, CREATE DATABASE and psql \\c preamble; retain all table/data statements"
+  },
+  "docker": {
+    "project": "comagent-d1",
+    "service": "chinook-pg",
+    "image_tag": "postgres:16.15-alpine3.23",
+    "pinned_image": "postgres:16.15-alpine3.23@sha256:621a761097839bdb50207afd6b87a72f38e2d718dd46c3d744828d8917c4f1e0",
+    "volume": "comagent-d1_chinook-data",
+    "resolved_digest": "postgres@sha256:621a761097839bdb50207afd6b87a72f38e2d718dd46c3d744828d8917c4f1e0"
+  },
+  "primary_references": [
+    "https://github.com/lerocha/chinook-database/releases/download/v1.4.5/Chinook_PostgreSql.sql",
+    "https://hub.docker.com/_/postgres",
+    "https://www.postgresql.org/docs/16/sql-grant.html",
+    "https://www.postgresql.org/docs/16/runtime-config-client.html"
+  ],
+  "initialized_at": "2026-10-10T11:25:37.329612+00:00"
+}

@@ -1,0 +1,84 @@
+{
+  "generated_at": "2026-10-10T11:26:05.641940+00:00",
+  "dataset_version": "Chinook 1.4.5",
+  "scope": "A-to-B source preparation; direct reviewed SQL, not an NL2SQL evaluation",
+  "revenue_definition": "Sum invoice_line.unit_price * invoice_line.quantity over all invoices; database amount unit, no inferred currency",
+  "top_artists": {
+    "sql": "SELECT ar.artist_id, ar.name,\n       SUM(il.unit_price * il.quantity) AS revenue\nFROM public.invoice_line il\nJOIN public.track t ON il.track_id = t.track_id\nJOIN public.album al ON t.album_id = al.album_id\nJOIN public.artist ar ON al.artist_id = ar.artist_id\nGROUP BY ar.artist_id, ar.name\nORDER BY revenue DESC, ar.artist_id ASC\nLIMIT 10;",
+    "rows": [
+      {
+        "artist_id": 90,
+        "name": "Iron Maiden",
+        "revenue": "138.60"
+      },
+      {
+        "artist_id": 150,
+        "name": "U2",
+        "revenue": "105.93"
+      },
+      {
+        "artist_id": 50,
+        "name": "Metallica",
+        "revenue": "90.09"
+      },
+      {
+        "artist_id": 22,
+        "name": "Led Zeppelin",
+        "revenue": "86.13"
+      },
+      {
+        "artist_id": 149,
+        "name": "Lost",
+        "revenue": "81.59"
+      },
+      {
+        "artist_id": 156,
+        "name": "The Office",
+        "revenue": "49.75"
+      },
+      {
+        "artist_id": 113,
+        "name": "Os Paralamas Do Sucesso",
+        "revenue": "44.55"
+      },
+      {
+        "artist_id": 58,
+        "name": "Deep Purple",
+        "revenue": "43.56"
+      },
+      {
+        "artist_id": 82,
+        "name": "Faith No More",
+        "revenue": "41.58"
+      },
+      {
+        "artist_id": 81,
+        "name": "Eric Clapton",
+        "revenue": "39.60"
+      }
+    ]
+  },
+  "country_semantics": {
+    "customer.country": "客户所在地国家",
+    "invoice.billing_country": "发票账单地址国家",
+    "sql": "SELECT\n  COUNT(*) FILTER (WHERE i.billing_country <> c.country) AS non_null_difference_count,\n  COUNT(*) FILTER (WHERE i.billing_country IS DISTINCT FROM c.country) AS null_aware_difference_count,\n  COUNT(*) FILTER (WHERE i.billing_country IS NULL OR c.country IS NULL) AS rows_with_null_country,\n  COUNT(*) AS compared_invoice_count\nFROM public.invoice i\nJOIN public.customer c USING (customer_id);",
+    "result": {
+      "non_null_difference_count": 0,
+      "null_aware_difference_count": 0,
+      "rows_with_null_country": 0,
+      "compared_invoice_count": 412
+    }
+  },
+  "invoice_date_range": {
+    "min_date": "2021-01-01T00:00:00",
+    "max_date": "2025-12-22T00:00:00"
+  },
+  "invoice_years": [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "source_manifest": "data/db/source_manifest.json"
+}

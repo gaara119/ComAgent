@@ -1,0 +1,29 @@
+{
+  "source_sql": "data\\db\\Chinook_PostgreSql.sql",
+  "source_sha256": "e3fde5c1a5b51a2a91429a702c9ca6e69ba56e6c7f5e112724d70c3d03db695e",
+  "dataset_sha256": "14ab118f0d325c8ab796a2802da78385c34619df809d13a2ad70d518943e4cfa",
+  "actual_invoice_date_range": [
+    "2021-01-01T00:00:00",
+    "2025-12-22T00:00:00"
+  ],
+  "split_counts": {
+    "dev": 21,
+    "holdout": 9
+  },
+  "category_counts": {
+    "count": 3,
+    "filter": 5,
+    "aggregate": 4,
+    "group": 4,
+    "top": 4,
+    "date": 3,
+    "like": 2,
+    "null": 3,
+    "no_match": 2
+  },
+  "gold_sql_executed": 30,
+  "model_predictions_executed": 0,
+  "holdout_predictions_executed": 0,
+  "gold_pending_human_review": 30,
+  "notes": "运行所有 gold SQL 是标注核验；保留题未送入模型。日期取自真实导入数据库。"
+}

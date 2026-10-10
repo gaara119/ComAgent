@@ -1,0 +1,82 @@
+{
+  "health": {
+    "status": "ok",
+    "stage": "D1",
+    "database_ready": true,
+    "llm_configured": false,
+    "model": "deepseek-flash",
+    "catalog_exists": true,
+    "statement_timeout_ms": 5000,
+    "max_rows": 200
+  },
+  "checked_at_utc": "2026-10-10T11:35:08.3568056+00:00",
+  "response": {
+    "trace_id": "d201261e-8cb5-4344-a2cf-2a361d9c12d3",
+    "status": "FAILED",
+    "answer": "请在项目本地 .env 配置 LLM_API_KEY，然后重启 API 服务。",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "error",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": false,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "error": "请在项目本地 .env 配置 LLM_API_KEY，然后重启 API 服务。"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": {
+      "code": "missing_llm_key",
+      "message": "请在项目本地 .env 配置 LLM_API_KEY，然后重启 API 服务。",
+      "retryable": false
+    },
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 72
+    }
+  },
+  "request": {
+    "message": "客户有多少位？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    },
+    "session_id": "d1-http-smoke"
+  }
+}
