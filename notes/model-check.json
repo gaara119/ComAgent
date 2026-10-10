@@ -1,9 +1,43 @@
 {
-  "configured": false,
+  "checked_at_utc": "2026-10-10T11:37:18.439535+00:00",
+  "configured": true,
   "model": "deepseek-flash",
-  "success": false,
-  "reason": "missing_llm_key",
-  "action": "在本地 .env 配置 LLM_API_KEY 后重新运行本脚本",
-  "steps": [],
-  "latency_ms": 0
+  "success": true,
+  "available_models": [
+    "deepseek-flash",
+    "deepseek-v4-pro"
+  ],
+  "probe": {
+    "ok": true,
+    "message": "接入成功。"
+  },
+  "steps": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 13,
+          "prompt_tokens": 123,
+          "total_tokens": 136,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 123
+        },
+        "json_valid": true
+      },
+      "latency_ms": 1522
+    }
+  ],
+  "latency_ms": 5009
 }

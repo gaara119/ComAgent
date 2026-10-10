@@ -3,7 +3,7 @@
 状态：READINESS_ONLY
 题集：dev；选中 21 题；实际预测 0 题。
 保留题预测：本次未运行
-模型：deepseek-flash；Git commit：尚未提交。
+模型：deepseek-flash；Git commit：361f05eede8d23f9b92a308d1690d39a52c33544。
 
 未运行模型预测，不计算 EX。
 
@@ -16,9 +16,9 @@
 
 ```json
 {
-  "created_at_utc": "2026-10-10T11:31:36.010937+00:00",
-  "git_commit": null,
-  "working_tree_dirty": true,
+  "created_at_utc": "2026-10-10T11:35:57.828041+00:00",
+  "git_commit": "361f05eede8d23f9b92a308d1690d39a52c33544",
+  "working_tree_dirty": false,
   "frozen_tag": null,
   "dataset": "E:\\中国电子杯-赛题八\\system\\eval\\datasets\\nl2sql_chinook.jsonl",
   "dataset_sha256": "14ab118f0d325c8ab796a2802da78385c34619df809d13a2ad70d518943e4cfa",
