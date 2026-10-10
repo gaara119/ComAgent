@@ -43,7 +43,8 @@ class Evidence(ContractModel):
     evidence_id: str
     doc_id: str
     doc_title: str
-    page: int | None = Field(default=None, ge=0)
+    # PDF physical page, starting at 1; None only for non-paginated evidence.
+    page: int | None = Field(default=None, ge=1)
     section_path: list[str] = Field(default_factory=list)
     text: str
     bbox: list[float] | None = None

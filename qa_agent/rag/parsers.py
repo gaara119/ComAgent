@@ -5,6 +5,8 @@ from pathlib import Path
 import re
 from statistics import median
 
+from qa_agent.rag.chunker import is_heading_candidate
+
 
 class DocumentError(RuntimeError):
     def __init__(self, message: str, code: str = "document_error"):
@@ -47,7 +49,7 @@ def _attach_layout(text: str, layout: dict) -> tuple[list[dict], list[str]]:
         spans = [span for line in block.get("lines", []) for span in line.get("spans", []) if span.get("text", "").strip()]
         record["max_font_size"] = max((float(span.get("size", 0)) for span in spans), default=0)
         # Large actual source text is a candidate, not an invented section name.
-        if (body_size and 3 <= len(block_text) <= 120 and record["char_start"] is not None
+        if (body_size and is_heading_candidate(block_text, require_pattern=False) and record["char_start"] is not None
                 and record["max_font_size"] >= body_size * 1.18 and len(lines) <= 3):
             headings.append(text[record["char_start"]:record["char_end"]])
         blocks.append(record)

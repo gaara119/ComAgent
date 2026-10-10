@@ -1,18 +1,84 @@
-"""Deterministic, page-local chunks with explicit source coordinates."""
+"""Deterministic page-local excerpts that prefer complete source sentences."""
 from __future__ import annotations
 
 import hashlib
 import re
 
+_NUMBER = re.compile(r"(?<!\w)[+-]?(?:[$€£]\s*)?\d+(?:[.,]\d+)*(?:%|x)?(?!\w)")
+_ABBREVIATIONS = {"mr", "mrs", "ms", "dr", "prof", "inc", "corp", "ltd", "no", "st", "vs", "etc", "fig", "eq", "sec", "ft"}
+
+
+def is_table_line(line: str) -> bool:
+    words = line.split()
+    numbers = _NUMBER.findall(line)
+    return len(numbers) >= 2 and len(numbers) / max(1, len(words)) >= 0.20
+
+
+def is_heading_candidate(line: str, *, require_pattern: bool = True) -> bool:
+    line = line.strip()
+    if not 3 <= len(line) <= 120 or is_table_line(line):
+        return False
+    if re.match(r"^(?:[$€£]|(?:19|20)\d{2}(?:\s|$))", line):
+        return False
+    if not require_pattern:
+        return True
+    return bool(re.match(r"^\d+(?:\.\d+)*[.\s]+[A-Za-z\u4e00-\u9fff]", line)
+                or re.match(r"^(?:第[一二三四五六七八九十\d]+[章节]|[一二三四五六七八九十]+、)", line)
+                or (len(line) < 90 and line.isupper() and re.search(r"[A-Z]{3}", line)))
+
 
 def _section(text: str, previous: list[str]) -> list[str]:
     for line in text.splitlines()[:12]:
-        line = line.strip()
-        if 3 <= len(line) <= 120 and (re.match(r"^\d+(?:\.\d+)*[.\s]+\S", line)
-                or re.match(r"^(?:第[一二三四五六七八九十\d]+[章节]|[一二三四五六七八九十]+、)", line)
-                or (len(line) < 90 and line.isupper() and re.search(r"[A-Z]{3}", line))):
-            return [line]
+        if is_heading_candidate(line):
+            return [line.strip()]
     return previous
+
+
+def _skip_space(text: str, position: int) -> int:
+    while position < len(text) and text[position].isspace():
+        position += 1
+    return position
+
+
+def _boundaries(text: str) -> dict[int, str]:
+    """Find sentence, heading and numeric-row ends in the unchanged source."""
+    boundaries = {0: "page_start"}
+    for match in re.finditer(r"[.!?。！？](?:[\"”’')\]]*)(?=\s|$)", text):
+        if text[match.start()] == ".":
+            before = text[:match.start()]
+            word = re.search(r"([A-Za-z]+)$", before)
+            if word and (word.group(1).lower() in _ABBREVIATIONS or len(word.group(1)) == 1):
+                continue
+            if re.fullmatch(r"\d+(?:\.\d+)*", before.rsplit("\n", 1)[-1].strip()):
+                continue
+        boundaries[match.end()] = "sentence"
+    offset = 0
+    for raw_line in text.splitlines(keepends=True):
+        offset += len(raw_line)
+        line = raw_line.strip()
+        if not line:
+            boundaries[offset] = "paragraph"
+        elif is_table_line(line):
+            boundaries[offset] = "table_line"
+        elif is_heading_candidate(line):
+            boundaries[offset] = "heading_line"
+    return boundaries
+
+
+def _cut(text: str, start: int, limit: int, boundaries: dict[int, str]) -> tuple[int, str]:
+    if limit >= len(text):
+        return len(text), "page_end"
+    safe = [position for position in boundaries if start < position <= limit]
+    if safe:
+        end = max(safe)
+        return end, boundaries[end]
+    # A long sentence/row must retain the hard limit; its flags disclose that
+    # the excerpt is incomplete instead of silently claiming a whole sentence.
+    line = text.rfind("\n", start + max(1, (limit-start)//2), limit + 1)
+    if line >= start:
+        return line + 1, "forced_line"
+    word = text.rfind(" ", start + max(1, (limit-start)//2), limit + 1)
+    return (word if word > start else limit), "forced_word"
 
 
 def chunk_pages(pages: list[dict], max_chars: int = 600, overlap: int = 80) -> list[dict]:
@@ -21,46 +87,58 @@ def chunk_pages(pages: list[dict], max_chars: int = 600, overlap: int = 80) -> l
     chunks: list[dict] = []
     sections: dict[str, list[str]] = {}
     for page in pages:
-        text = page["text"].replace("\x00", "").strip()
-        if not text:
+        # No rewriting/dehyphenation: source characters and offsets remain real.
+        text = page["text"]
+        if not text.strip():
             continue
         doc_id = page["doc_id"]
-        actual_font_headings = page.get("heading_candidates", [])
-        sections[doc_id] = ([actual_font_headings[0]] if actual_font_headings
-                            else _section(text, sections.get(doc_id, [])))
-        start = 0
+        headings = [h for h in page.get("heading_candidates", [])
+                    if is_heading_candidate(h, require_pattern=False)]
+        sections[doc_id] = [headings[0]] if headings else _section(text, sections.get(doc_id, []))
+        boundaries = _boundaries(text)
+        starts = {_skip_space(text, pos): kind for pos, kind in boundaries.items()}
+        start = _skip_space(text, 0)
+        start_kind = "page_start"
+        previous_end = start
         while start < len(text):
-            end = min(start + max_chars, len(text))
-            if end < len(text):
-                # Prefer whole lines so financial table headers stay readable.
-                split = text.rfind("\n", start + max_chars // 2, end)
-                if split > start:
-                    end = split + 1
-            chunk_text = text[start:end].strip()
+            end, end_kind = _cut(text, start, min(start + max_chars, len(text)), boundaries)
+            visible_end = end
+            while visible_end > start and text[visible_end-1].isspace():
+                visible_end -= 1
+            chunk_text = text[start:visible_end]
             if chunk_text:
                 content_hash = hashlib.sha256(chunk_text.encode("utf-8")).hexdigest()
-                stable = f"{doc_id}:{page['page']}:{start}:{end}:{content_hash}"
-                source_blocks = [block for block in page.get("blocks", [])
-                                 if block.get("char_start") is not None and block.get("char_end") is not None
-                                 and block["char_start"] < end and block["char_end"] > start]
-                bbox = None
-                if source_blocks:
-                    bbox = [min(block["bbox"][0] for block in source_blocks),
-                            min(block["bbox"][1] for block in source_blocks),
-                            max(block["bbox"][2] for block in source_blocks),
-                            max(block["bbox"][3] for block in source_blocks)]
+                stable = f"{doc_id}:{page['page']}:{start}:{visible_end}:{content_hash}"
+                source_blocks = [b for b in page.get("blocks", [])
+                                 if b.get("char_start") is not None and b.get("char_end") is not None
+                                 and b["char_start"] < visible_end and b["char_end"] > start]
+                bbox = ([min(b["bbox"][0] for b in source_blocks), min(b["bbox"][1] for b in source_blocks),
+                         max(b["bbox"][2] for b in source_blocks), max(b["bbox"][3] for b in source_blocks)]
+                        if source_blocks else None)
+                complete_end = end_kind in {"sentence", "paragraph", "heading_line", "table_line"}
+                if end_kind == "page_end":
+                    complete_end = visible_end in boundaries or bool(re.search(r"[.!?。！？][\"”’')\]]*$", chunk_text))
                 chunks.append({"chunk_id": hashlib.sha256(stable.encode()).hexdigest()[:24],
                                "doc_id": doc_id, "doc_title": page["doc_title"], "page": page["page"],
                                "section_path": list(sections[doc_id]), "text": chunk_text,
                                "bbox": bbox, "bbox_scope": "union_of_text_blocks" if bbox else None,
-                               "source_blocks": [{key: block[key] for key in
-                                                   ("block_id", "bbox", "char_start", "char_end")} for block in source_blocks],
-                               "page_bbox": page.get("bbox"),
-                               "char_start": start, "char_end": end, "content_hash": content_hash})
+                               "source_blocks": [{k: b[k] for k in ("block_id", "bbox", "char_start", "char_end")}
+                                                 for b in source_blocks],
+                               "page_bbox": page.get("bbox"), "char_start": start, "char_end": visible_end,
+                               "content_hash": content_hash, "boundary_start": start_kind, "boundary_end": end_kind,
+                               "incomplete_sentence_start": start_kind.startswith("forced_"),
+                               "incomplete_sentence_end": not complete_end,
+                               "overlap_chars": max(0, previous_end-start)})
             if end >= len(text):
                 break
-            next_start = max(start + 1, end - overlap)
-            # Start on a full line when the overlap includes one.
-            line_break = text.find("\n", next_start, end)
-            start = line_break + 1 if line_break >= 0 else next_start
+            previous_end = end
+            candidates = [pos for pos in starts if start < pos < end
+                          and end-pos <= min(overlap * 2, max_chars//2)
+                          and _cut(text, pos, min(pos+max_chars, len(text)), boundaries)[0] > end]
+            if overlap and candidates:
+                start = min(candidates, key=lambda pos: (abs(pos-(end-overlap)), -pos))
+                start_kind = starts[start]
+            else:
+                start = _skip_space(text, end)
+                start_kind = end_kind
     return chunks

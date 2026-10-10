@@ -78,6 +78,69 @@ def test_empty_pages_keep_original_page_number():
     assert len(chunks) == 1 and chunks[0]["page"] == 2
 
 
+def test_short_sentence_retains_comma_qualification_in_one_excerpt():
+    introduction = "The background describes earlier experiments and their limitations. " * 7
+    statement = "The method improves the measured outcomes, particularly for the small and noisy cohorts."
+    source = introduction + statement + " Further work is required."
+    chunks = chunk_pages([_page("d", 4, source)])
+    assert any(statement in chunk["text"] for chunk in chunks)
+    assert all(len(chunk["text"]) <= 600 for chunk in chunks)
+    assert all(source[c["char_start"]:c["char_end"]] == c["text"] for c in chunks)
+
+
+def test_wrapped_hyphenated_condition_keeps_source_spelling():
+    introduction = "Prior observations explain the survey design and its scope. " * 8
+    statement = "The respondents rated their categor-\nies as outstanding or at least satisfactory."
+    source = introduction + statement + " A different population was also surveyed."
+    chunks = chunk_pages([_page("d", 3, source)])
+    assert any(statement in c["text"] for c in chunks)
+    assert not any("categories" in c["text"] for c in chunks)
+
+
+def test_overlong_sentence_is_disclosed_and_source_content_is_not_lost():
+    source = "A prolonged explanation " + "must retain every original source word " * 30 + "."
+    chunks = chunk_pages([_page("d", 2, source)])
+    assert len(chunks) >= 2 and all(len(c["text"]) <= 600 for c in chunks)
+    assert any(c["incomplete_sentence_end"] for c in chunks)
+    assert any(c["incomplete_sentence_start"] for c in chunks[1:])
+    covered = set()
+    for c in chunks:
+        assert source[c["char_start"]:c["char_end"]] == c["text"]
+        covered.update(range(c["char_start"], c["char_end"]))
+    assert all(i in covered for i, char in enumerate(source) if not char.isspace())
+
+
+def test_complete_sentence_overlap_advances_without_duplicate_chunks():
+    sentences = [f"Sentence {i} describes an independent source observation in a complete statement." for i in range(12)]
+    source = " ".join(sentences)
+    chunks = chunk_pages([_page("d", 1, source)], max_chars=300, overlap=80)
+    assert any(c["overlap_chars"] > 0 for c in chunks[1:])
+    assert all(c["text"].startswith("Sentence ") for c in chunks)
+    assert all(c["text"].endswith(".") and len(c["text"]) <= 300 for c in chunks)
+    assert len({c["chunk_id"] for c in chunks}) == len(chunks)
+    assert all(a["char_end"] < b["char_end"] for a, b in zip(chunks, chunks[1:]))
+
+
+def test_table_numeric_rows_are_whole_and_not_section_titles():
+    rows = ["2024 2023 2022", "ICL (MODEL-X) 100.00 100.00 51.90", "Revenue 1200 1100 1000"]
+    source = "Financial Overview\n" + "\n".join(rows * 10)
+    chunks = chunk_pages([_page("d", 1, source)], max_chars=200, overlap=20)
+    assert all(c["section_path"] == [] for c in chunks)
+    for row in rows:
+        assert any(row in c["text"] for c in chunks)
+    assert all(c["boundary_end"] in {"table_line", "page_end"} for c in chunks)
+
+
+def test_original_offsets_account_for_leading_source_whitespace():
+    source = "  Actual evidence.  \n"
+    page = {**_page("d", 1, source), "blocks": [{"block_id": 1, "bbox": [1, 2, 20, 30],
+            "char_start": 2, "char_end": 18}]}
+    c = chunk_pages([page])[0]
+    assert c["text"] == "Actual evidence."
+    assert source[c["char_start"]:c["char_end"]] == c["text"]
+    assert c["char_start"] == 2 and c["bbox"] == [1, 2, 20, 30]
+
+
 def _layout_block(text, bbox, size=10):
     return {"type": 0, "bbox": bbox, "lines": [{"spans": [{"text": text, "size": size}]}]}
 
@@ -112,6 +175,17 @@ def test_actual_font_heading_is_used_without_invented_section():
     assert headings == ["Financial Overview"]
     page = {**_page("d", 1, text), "blocks": blocks, "heading_candidates": headings}
     assert chunk_pages([page])[0]["section_path"] == ["Financial Overview"]
+
+
+def test_large_font_data_rows_cannot_become_heading_candidates():
+    data_row = "ICL (MODEL-X) 100.00 100.00 51.90"
+    text = data_row + "\nA body paragraph.\nAnother body paragraph."
+    layout = {"blocks": [_layout_block(data_row, [10, 10, 200, 30], 20),
+                         _layout_block("A body paragraph.", [10, 40, 200, 60], 10),
+                         _layout_block("Another body paragraph.", [10, 70, 200, 90], 10)]}
+    blocks, headings = _attach_layout(text, layout)
+    assert headings == []
+    assert chunk_pages([{**_page("d", 1, text), "blocks": blocks, "heading_candidates": headings}])[0]["section_path"] == []
 
 
 def test_chinese_retrieval_uses_real_jieba_words():

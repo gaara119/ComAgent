@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from eval.dataset import DEFAULT_DATASET, ROOT, load_dataset, reviewed, review_hash
 
 
-def export_review(items: list[dict], directory: Path) -> None:
+def export_review(items: list[dict], directory: Path, dataset: Path = DEFAULT_DATASET) -> None:
     directory.mkdir(parents=True, exist_ok=True)
     fields = ["id", "split", "category", "family_id", "question", "gold_sql", "gold_result", "review_status", "human_notes"]
     with (directory / "gold_review.csv").open("w", encoding="utf-8-sig", newline="") as stream:
@@ -25,7 +25,8 @@ def export_review(items: list[dict], directory: Path) -> None:
              "标注结果来自真实数据库；这些题尚未获得人工认可时，只能报告草稿状态。",
              "本文包含保留题 gold，用于一次性审核。保留题不能用于调提示词或日常系统试跑。", "",
              "接受题目后执行，例如：", "", "```powershell",
-             ".\\.venv\\Scripts\\python.exe scripts/review_gold.py --accept sql-01,sql-02 --reviewer A",
+             f'.\\.venv\\Scripts\\python.exe scripts/review_gold.py --dataset "{dataset.as_posix()}" '
+             f'--output "{directory.as_posix()}" --accept sql-01,sql-02 --reviewer A',
              "```", "", "该命令记录人工接受，不替代核对；结果或问题修改后，接受记录自动失效。", ""]
     for item in items:
         status = "已人工接受" if reviewed(item) else "等待人工审核"
@@ -58,7 +59,7 @@ def main() -> int:
                                        "accepted_at_utc": datetime.now(timezone.utc).isoformat(),
                                        "content_sha256": review_hash(item)}
         args.dataset.write_text("".join(json.dumps(item, ensure_ascii=False) + "\n" for item in items), encoding="utf-8")
-    export_review(items, args.output)
+    export_review(items, args.output, args.dataset)
     print(f"审核表：{args.output / 'gold_review.md'}；已人工接受 {sum(reviewed(item) for item in items)}/{len(items)}。")
     return 0
 

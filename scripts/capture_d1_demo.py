@@ -15,9 +15,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default="http://127.0.0.1:8501")
     parser.add_argument("--browser-path", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT / "notes/screenshots")
+    parser.add_argument("--record-path", type=Path, default=ROOT / "notes/ui-smoke.json")
     args = parser.parse_args()
     browser_path = args.browser_path or Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
-    output = ROOT / "notes/screenshots"
+    output = args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
     with sync_playwright() as playwright:
@@ -62,10 +64,12 @@ def main() -> None:
         page.screenshot(path=str(output / "D1-rag-trace.png"), full_page=True)
         record = {"ui_url": args.url, "browser": "chromium", "sql_trace": sql_trace,
                   "doc_trace": doc_trace, "page_errors": errors,
-                  "screenshots": ["notes/screenshots/D1-sql.png", "notes/screenshots/D1-rag.png", "notes/screenshots/D1-rag-trace.png"],
+                  "screenshots": [str((output / name).relative_to(ROOT)) for name in
+                                  ("D1-sql.png", "D1-rag.png", "D1-rag-trace.png")],
                   "checks": {"sql_answer_and_query_rendered": True, "doc_answer_and_evidence_rendered": True,
                              "citation_button_clicked": True, "original_pdf_page_rendered": True}}
-        (ROOT / "notes/ui-smoke.json").write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8")
+        args.record_path.parent.mkdir(parents=True, exist_ok=True)
+        args.record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8")
         browser.close()
     print(json.dumps({"page_errors": errors, "screenshots": record["screenshots"]}, ensure_ascii=False))
     if errors:

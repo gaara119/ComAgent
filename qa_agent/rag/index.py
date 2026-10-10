@@ -10,7 +10,7 @@ from qa_agent.config import get_settings
 from qa_agent.rag.chunker import chunk_pages
 from qa_agent.rag.parsers import DocumentError, load_documents, parse_pdf
 
-INDEX_VERSION = 1
+INDEX_VERSION = 2
 
 
 def _write(path: Path, data: bytes) -> None:
@@ -44,7 +44,9 @@ def build_index(manifest_path=None, index_path=None, *, settings=None) -> dict:
                 "chunks_sha256": hashlib.sha256(data).hexdigest(),
                 "parsing": {"text": "pdfplumber text layer", "layout": "PyMuPDF.get_text(dict)",
                             "bbox_scope": "union_of_text_blocks", "coordinate_system": "PDF points; top-left origin"},
-                "chunking": {"max_chars": 600, "overlap": 80, "cross_page": False},
+                "chunking": {"max_chars": 600, "overlap": 80, "cross_page": False,
+                             "boundary_policy": "complete_sentence_or_table_line",
+                             "incomplete_chunk_count": sum(c["incomplete_sentence_start"] or c["incomplete_sentence_end"] for c in chunks)},
                 "dense_embedding": {"enabled": False}}
     # Dense is used only if the real model and encoder are present. Root owns embeddings.py.
     try:

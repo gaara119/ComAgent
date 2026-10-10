@@ -1,0 +1,1891 @@
+{
+  "title": "D1 A 独立验收与 30 题 AI 语义复核",
+  "checked_at_utc": "2026-10-10T12:42:22.678231+00:00",
+  "reviewer_type": "ai",
+  "reviewer": "Codex / d1_a_acceptance",
+  "human_signature": null,
+  "scope": "真实只读数据库、30 条原 gold SQL 独立执行及逐题语义审核；不是模型预测，不更改原题集或人工接受状态。",
+  "dataset": "E:\\中国电子杯-赛题八\\system\\eval\\datasets\\nl2sql_chinook.jsonl",
+  "dataset_sha256": "14ab118f0d325c8ab796a2802da78385c34619df809d13a2ad70d518943e4cfa",
+  "dataset_unchanged_after_check": true,
+  "source_sql_sha256": "e3fde5c1a5b51a2a91429a702c9ca6e69ba56e6c7f5e112724d70c3d03db695e",
+  "git_commit_at_check": "5c522a48c48e11378c4b4283cc26b90c7bb4d66a",
+  "split_counts": {
+    "dev": 21,
+    "holdout": 9
+  },
+  "category_counts": {
+    "count": 3,
+    "filter": 5,
+    "aggregate": 4,
+    "group": 4,
+    "top": 4,
+    "date": 3,
+    "like": 2,
+    "null": 3,
+    "no_match": 2
+  },
+  "gold_sql_execution_count": 30,
+  "model_prediction_count": 0,
+  "holdout_model_prediction_count": 0,
+  "original_semantic_conclusions": {
+    "accepted": 27,
+    "error": 1,
+    "needs_clarification": 2
+  },
+  "gold_result_exact_match_count": 30,
+  "gold_review_hash_valid_count": 30,
+  "database": {
+    "server_version": "16.15",
+    "reader_defaults": {
+      "default_transaction_read_only": "on",
+      "statement_timeout": "5s",
+      "lock_timeout": "2s"
+    },
+    "database_collation": {
+      "datcollate": "en_US.utf8",
+      "datctype": "en_US.utf8"
+    },
+    "reader_role": {
+      "rolname": "qa_reader",
+      "rolsuper": false,
+      "rolcreatedb": false,
+      "rolcreaterole": false,
+      "rolreplication": false,
+      "rolbypassrls": false
+    },
+    "database_privileges": {
+      "can_create_schema": false,
+      "can_create_temp": false,
+      "can_create_in_public": false
+    },
+    "table_privileges": [
+      {
+        "table_name": "album",
+        "can_select": true,
+        "can_write": false
+      },
+      {
+        "table_name": "artist",
+        "can_select": true,
+        "can_write": false
+      },
+      {
+        "table_name": "customer",
+        "can_select": true,
+        "can_write": false
+      },
+      {
+        "table_name": "employee",
+        "can_select": true,
+        "can_write": false
+      },
+      {
+        "table_name": "genre",
+        "can_select": true,
+        "can_write": false
+      },
+      {
+        "table_name": "invoice",
+        "can_select": true,
+        "can_write": false
+      },
+      {
+        "table_name": "invoice_line",
+        "can_select": true,
+        "can_write": false
+      },
+      {
+        "table_name": "media_type",
+        "can_select": true,
+        "can_write": false
+      },
+      {
+        "table_name": "playlist",
+        "can_select": true,
+        "can_write": false
+      },
+      {
+        "table_name": "playlist_track",
+        "can_select": true,
+        "can_write": false
+      },
+      {
+        "table_name": "track",
+        "can_select": true,
+        "can_write": false
+      }
+    ],
+    "invoice_date_range": {
+      "min_date": "2021-01-01T00:00:00",
+      "max_date": "2025-12-22T00:00:00"
+    },
+    "employee_hire_date_range": {
+      "min_date": "2002-04-01T00:00:00",
+      "max_date": "2004-03-04T00:00:00"
+    },
+    "invoice_years": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "customer_country_null_count": 0,
+    "column_count": 64,
+    "foreign_key_count": 11,
+    "table_row_counts": {
+      "album": 347,
+      "artist": 275,
+      "customer": 59,
+      "employee": 8,
+      "genre": 25,
+      "invoice": 412,
+      "invoice_line": 2240,
+      "media_type": 5,
+      "playlist": 18,
+      "playlist_track": 8715,
+      "track": 3503
+    },
+    "top_artists": [
+      {
+        "artist_id": 90,
+        "name": "Iron Maiden",
+        "revenue": "138.60"
+      },
+      {
+        "artist_id": 150,
+        "name": "U2",
+        "revenue": "105.93"
+      },
+      {
+        "artist_id": 50,
+        "name": "Metallica",
+        "revenue": "90.09"
+      },
+      {
+        "artist_id": 22,
+        "name": "Led Zeppelin",
+        "revenue": "86.13"
+      },
+      {
+        "artist_id": 149,
+        "name": "Lost",
+        "revenue": "81.59"
+      },
+      {
+        "artist_id": 156,
+        "name": "The Office",
+        "revenue": "49.75"
+      },
+      {
+        "artist_id": 113,
+        "name": "Os Paralamas Do Sucesso",
+        "revenue": "44.55"
+      },
+      {
+        "artist_id": 58,
+        "name": "Deep Purple",
+        "revenue": "43.56"
+      },
+      {
+        "artist_id": 82,
+        "name": "Faith No More",
+        "revenue": "41.58"
+      },
+      {
+        "artist_id": 81,
+        "name": "Eric Clapton",
+        "revenue": "39.60"
+      }
+    ],
+    "country_difference": {
+      "non_null_difference_count": 0,
+      "null_aware_difference_count": 0,
+      "rows_with_null_country": 0,
+      "compared_invoice_count": 412
+    },
+    "handoff_top_artists_match": true,
+    "handoff_country_difference_match": true,
+    "zero_row_update_acl_check": {
+      "blocked": true,
+      "sqlstate": "42501",
+      "business_rows_changed": 0,
+      "transaction_mode": "READ WRITE",
+      "query": "UPDATE public.customer SET country=country WHERE FALSE"
+    },
+    "reader_security_passed": true,
+    "catalog_table_names_match": true,
+    "catalog_row_counts_match": true,
+    "catalog_column_names_match": true,
+    "catalog_column_nullability_match": true
+  },
+  "model_connection_existing_evidence": {
+    "file": "notes/model-check.json",
+    "checked_at_utc": "2026-10-10T11:37:18.439535+00:00",
+    "success": true,
+    "model": "deepseek-flash",
+    "available_models": [
+      "deepseek-flash",
+      "deepseek-v4-pro"
+    ],
+    "note": "引用此前真实 JSON 接入检查；本次不发出模型请求。"
+  },
+  "cases": [
+    {
+      "id": "sql-01",
+      "split": "dev",
+      "category": "count",
+      "question": "客户表共有多少位客户？",
+      "gold_sql": "SELECT COUNT(*) AS customer_count FROM customer;",
+      "executed_sql": "SELECT COUNT(*) AS customer_count FROM customer",
+      "tables_used": [
+        "customer"
+      ],
+      "actual_columns": [
+        "customer_count"
+      ],
+      "actual_result": [
+        {
+          "customer_count": 59
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "COUNT(*) 对客户行计数，结果 59；不受可空字段影响，无需 JOIN。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 35
+    },
+    {
+      "id": "sql-02",
+      "split": "dev",
+      "category": "count",
+      "question": "来自巴西的客户有多少位？",
+      "gold_sql": "SELECT COUNT(*) AS customer_count FROM customer WHERE country = 'Brazil';",
+      "executed_sql": "SELECT COUNT(*) AS customer_count FROM customer WHERE country = 'Brazil'",
+      "tables_used": [
+        "customer"
+      ],
+      "actual_columns": [
+        "customer_count"
+      ],
+      "actual_result": [
+        {
+          "customer_count": 5
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "巴西映射为真实 country 标准值 Brazil，COUNT(*) 结果为 5。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 31
+    },
+    {
+      "id": "sql-03",
+      "split": "holdout",
+      "category": "count",
+      "question": "曲目表中时长超过 5 分钟的曲目有多少首？",
+      "gold_sql": "SELECT COUNT(*) AS track_count FROM track WHERE milliseconds > 300000;",
+      "executed_sql": "SELECT COUNT(*) AS track_count FROM track WHERE milliseconds > 300000",
+      "tables_used": [
+        "track"
+      ],
+      "actual_columns": [
+        "track_count"
+      ],
+      "actual_result": [
+        {
+          "track_count": 1069
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "5 分钟等于 300000 毫秒，严格‘超过’使用 >，数量 1069。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 13
+    },
+    {
+      "id": "sql-04",
+      "split": "dev",
+      "category": "filter",
+      "question": "列出来自巴西的客户编号、名字、姓氏和城市，按客户编号升序。",
+      "gold_sql": "SELECT customer_id, first_name, last_name, city FROM customer WHERE country = 'Brazil' ORDER BY customer_id;",
+      "executed_sql": "SELECT customer_id, first_name, last_name, city FROM customer WHERE country = 'Brazil' ORDER BY customer_id LIMIT 200",
+      "tables_used": [
+        "customer"
+      ],
+      "actual_columns": [
+        "customer_id",
+        "first_name",
+        "last_name",
+        "city"
+      ],
+      "actual_result": [
+        {
+          "customer_id": 1,
+          "first_name": "Luís",
+          "last_name": "Gonçalves",
+          "city": "São José dos Campos"
+        },
+        {
+          "customer_id": 10,
+          "first_name": "Eduardo",
+          "last_name": "Martins",
+          "city": "São Paulo"
+        },
+        {
+          "customer_id": 11,
+          "first_name": "Alexandre",
+          "last_name": "Rocha",
+          "city": "São Paulo"
+        },
+        {
+          "customer_id": 12,
+          "first_name": "Roberto",
+          "last_name": "Almeida",
+          "city": "Rio de Janeiro"
+        },
+        {
+          "customer_id": 13,
+          "first_name": "Fernanda",
+          "last_name": "Ramos",
+          "city": "Brasília"
+        }
+      ],
+      "actual_row_count": 5,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "Brazil 筛选、四个指定投影及 customer_id 升序吻合；名字/姓氏分别为 first_name/last_name。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 13
+    },
+    {
+      "id": "sql-05",
+      "split": "dev",
+      "category": "filter",
+      "question": "列出来自美国的客户编号、城市和州，按客户编号升序。",
+      "gold_sql": "SELECT customer_id, city, state FROM customer WHERE country = 'USA' ORDER BY customer_id;",
+      "executed_sql": "SELECT customer_id, city, state FROM customer WHERE country = 'USA' ORDER BY customer_id LIMIT 200",
+      "tables_used": [
+        "customer"
+      ],
+      "actual_columns": [
+        "customer_id",
+        "city",
+        "state"
+      ],
+      "actual_result": [
+        {
+          "customer_id": 16,
+          "city": "Mountain View",
+          "state": "CA"
+        },
+        {
+          "customer_id": 17,
+          "city": "Redmond",
+          "state": "WA"
+        },
+        {
+          "customer_id": 18,
+          "city": "New York",
+          "state": "NY"
+        },
+        {
+          "customer_id": 19,
+          "city": "Cupertino",
+          "state": "CA"
+        },
+        {
+          "customer_id": 20,
+          "city": "Mountain View",
+          "state": "CA"
+        },
+        {
+          "customer_id": 21,
+          "city": "Reno",
+          "state": "NV"
+        },
+        {
+          "customer_id": 22,
+          "city": "Orlando",
+          "state": "FL"
+        },
+        {
+          "customer_id": 23,
+          "city": "Boston",
+          "state": "MA"
+        },
+        {
+          "customer_id": 24,
+          "city": "Chicago",
+          "state": "IL"
+        },
+        {
+          "customer_id": 25,
+          "city": "Madison",
+          "state": "WI"
+        },
+        {
+          "customer_id": 26,
+          "city": "Fort Worth",
+          "state": "TX"
+        },
+        {
+          "customer_id": 27,
+          "city": "Tucson",
+          "state": "AZ"
+        },
+        {
+          "customer_id": 28,
+          "city": "Salt Lake City",
+          "state": "UT"
+        }
+      ],
+      "actual_row_count": 13,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "美国原始标准值为 USA，返回编号、城市、州，按客户编号升序。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 14
+    },
+    {
+      "id": "sql-06",
+      "split": "dev",
+      "category": "filter",
+      "question": "列出单价高于 0.99 的前 10 首曲目的编号、名称和单价，按曲目编号升序。",
+      "gold_sql": "SELECT track_id, name, unit_price FROM track WHERE unit_price > 0.99 ORDER BY track_id LIMIT 10;",
+      "executed_sql": "SELECT track_id, name, unit_price FROM track WHERE unit_price > 0.99 ORDER BY track_id LIMIT 10",
+      "tables_used": [
+        "track"
+      ],
+      "actual_columns": [
+        "track_id",
+        "name",
+        "unit_price"
+      ],
+      "actual_result": [
+        {
+          "track_id": 2819,
+          "name": "Battlestar Galactica: The Story So Far",
+          "unit_price": "1.99"
+        },
+        {
+          "track_id": 2820,
+          "name": "Occupation / Precipice",
+          "unit_price": "1.99"
+        },
+        {
+          "track_id": 2821,
+          "name": "Exodus, Pt. 1",
+          "unit_price": "1.99"
+        },
+        {
+          "track_id": 2822,
+          "name": "Exodus, Pt. 2",
+          "unit_price": "1.99"
+        },
+        {
+          "track_id": 2823,
+          "name": "Collaborators",
+          "unit_price": "1.99"
+        },
+        {
+          "track_id": 2824,
+          "name": "Torn",
+          "unit_price": "1.99"
+        },
+        {
+          "track_id": 2825,
+          "name": "A Measure of Salvation",
+          "unit_price": "1.99"
+        },
+        {
+          "track_id": 2826,
+          "name": "Hero",
+          "unit_price": "1.99"
+        },
+        {
+          "track_id": 2827,
+          "name": "Unfinished Business",
+          "unit_price": "1.99"
+        },
+        {
+          "track_id": 2828,
+          "name": "The Passage",
+          "unit_price": "1.99"
+        }
+      ],
+      "actual_row_count": 10,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "高于 0.99 使用 >，按曲目编号升序 LIMIT 10，并返回单价；未擅自标注币种。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 13
+    },
+    {
+      "id": "sql-07",
+      "split": "dev",
+      "category": "filter",
+      "question": "列出职位为 Sales Support Agent 的员工编号、名字和姓氏，按员工编号升序。",
+      "gold_sql": "SELECT employee_id, first_name, last_name FROM employee WHERE title = 'Sales Support Agent' ORDER BY employee_id;",
+      "executed_sql": "SELECT employee_id, first_name, last_name FROM employee WHERE title = 'Sales Support Agent' ORDER BY employee_id LIMIT 200",
+      "tables_used": [
+        "employee"
+      ],
+      "actual_columns": [
+        "employee_id",
+        "first_name",
+        "last_name"
+      ],
+      "actual_result": [
+        {
+          "employee_id": 3,
+          "first_name": "Jane",
+          "last_name": "Peacock"
+        },
+        {
+          "employee_id": 4,
+          "first_name": "Margaret",
+          "last_name": "Park"
+        },
+        {
+          "employee_id": 5,
+          "first_name": "Steve",
+          "last_name": "Johnson"
+        }
+      ],
+      "actual_row_count": 3,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "精确匹配职位 Sales Support Agent，返回编号、first_name、last_name，按员工编号升序。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 14
+    },
+    {
+      "id": "sql-08",
+      "split": "holdout",
+      "category": "filter",
+      "question": "列出总额不少于 10 的前 10 张发票的编号、日期和总额，按发票编号升序。",
+      "gold_sql": "SELECT invoice_id, invoice_date, total FROM invoice WHERE total >= 10 ORDER BY invoice_id LIMIT 10;",
+      "executed_sql": "SELECT invoice_id, invoice_date, total FROM invoice WHERE total >= 10 ORDER BY invoice_id LIMIT 10",
+      "tables_used": [
+        "invoice"
+      ],
+      "actual_columns": [
+        "invoice_id",
+        "invoice_date",
+        "total"
+      ],
+      "actual_result": [
+        {
+          "invoice_id": 5,
+          "invoice_date": "2021-01-11T00:00:00",
+          "total": "13.86"
+        },
+        {
+          "invoice_id": 12,
+          "invoice_date": "2021-02-11T00:00:00",
+          "total": "13.86"
+        },
+        {
+          "invoice_id": 19,
+          "invoice_date": "2021-03-14T00:00:00",
+          "total": "13.86"
+        },
+        {
+          "invoice_id": 26,
+          "invoice_date": "2021-04-14T00:00:00",
+          "total": "13.86"
+        },
+        {
+          "invoice_id": 33,
+          "invoice_date": "2021-05-15T00:00:00",
+          "total": "13.86"
+        },
+        {
+          "invoice_id": 40,
+          "invoice_date": "2021-06-15T00:00:00",
+          "total": "13.86"
+        },
+        {
+          "invoice_id": 47,
+          "invoice_date": "2021-07-16T00:00:00",
+          "total": "13.86"
+        },
+        {
+          "invoice_id": 54,
+          "invoice_date": "2021-08-16T00:00:00",
+          "total": "13.86"
+        },
+        {
+          "invoice_id": 61,
+          "invoice_date": "2021-09-16T00:00:00",
+          "total": "13.86"
+        },
+        {
+          "invoice_id": 68,
+          "invoice_date": "2021-10-17T00:00:00",
+          "total": "13.86"
+        }
+      ],
+      "actual_row_count": 10,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "不少于 10 使用 >=，编号升序取前 10 张发票，并保留日期和总额。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 14
+    },
+    {
+      "id": "sql-09",
+      "split": "dev",
+      "category": "aggregate",
+      "question": "全部发票的总金额是多少？",
+      "gold_sql": "SELECT SUM(total) AS total_amount FROM invoice;",
+      "executed_sql": "SELECT SUM(total) AS total_amount FROM invoice",
+      "tables_used": [
+        "invoice"
+      ],
+      "actual_columns": [
+        "total_amount"
+      ],
+      "actual_result": [
+        {
+          "total_amount": "2328.60"
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "invoice.total 求和，无明细连接造成重复计数；真实结果 2328.60。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 25
+    },
+    {
+      "id": "sql-10",
+      "split": "dev",
+      "category": "aggregate",
+      "question": "全部曲目的平均时长是多少毫秒？",
+      "gold_sql": "SELECT AVG(milliseconds) AS average_milliseconds FROM track;",
+      "executed_sql": "SELECT AVG(milliseconds) AS average_milliseconds FROM track",
+      "tables_used": [
+        "track"
+      ],
+      "actual_columns": [
+        "average_milliseconds"
+      ],
+      "actual_result": [
+        {
+          "average_milliseconds": "393599.212103910933"
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "AVG(milliseconds) 保持题面要求的毫秒单位，没有转换成秒或分钟。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 13
+    },
+    {
+      "id": "sql-11",
+      "split": "dev",
+      "category": "aggregate",
+      "question": "全部发票的平均总额是多少？请保留两位小数。",
+      "gold_sql": "SELECT AVG(total) AS average_total FROM invoice;",
+      "executed_sql": "SELECT AVG(total) AS average_total FROM invoice",
+      "tables_used": [
+        "invoice"
+      ],
+      "actual_columns": [
+        "average_total"
+      ],
+      "actual_result": [
+        {
+          "average_total": "5.6519417475728155"
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "error",
+      "reviewer_type": "ai",
+      "reason": "题面要求两位小数，但原 SQL 为 AVG(total)，真实标准结果是 5.6519417475728155；金额比较量化可匹配 5.65，但原 SQL/结果展示精度仍不符。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 34
+    },
+    {
+      "id": "sql-12",
+      "split": "holdout",
+      "category": "aggregate",
+      "question": "客户所在国家共有多少种？",
+      "gold_sql": "SELECT COUNT(DISTINCT country) AS country_count FROM customer;",
+      "executed_sql": "SELECT COUNT(DISTINCT country) AS country_count FROM customer",
+      "tables_used": [
+        "customer"
+      ],
+      "actual_columns": [
+        "country_count"
+      ],
+      "actual_result": [
+        {
+          "country_count": 24
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "COUNT(DISTINCT country) 统计国家种类；数据 country 无 NULL，真实结果 24。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 36
+    },
+    {
+      "id": "sql-13",
+      "split": "dev",
+      "category": "group",
+      "question": "按客户所在国家统计客户数，先按客户数降序，并列时按国家名称升序。",
+      "gold_sql": "SELECT country, COUNT(*) AS customer_count FROM customer GROUP BY country ORDER BY customer_count DESC, country ASC;",
+      "executed_sql": "SELECT country, COUNT(*) AS customer_count FROM customer GROUP BY country ORDER BY customer_count DESC, country ASC LIMIT 200",
+      "tables_used": [
+        "customer"
+      ],
+      "actual_columns": [
+        "country",
+        "customer_count"
+      ],
+      "actual_result": [
+        {
+          "country": "USA",
+          "customer_count": 13
+        },
+        {
+          "country": "Canada",
+          "customer_count": 8
+        },
+        {
+          "country": "Brazil",
+          "customer_count": 5
+        },
+        {
+          "country": "France",
+          "customer_count": 5
+        },
+        {
+          "country": "Germany",
+          "customer_count": 4
+        },
+        {
+          "country": "United Kingdom",
+          "customer_count": 3
+        },
+        {
+          "country": "Czech Republic",
+          "customer_count": 2
+        },
+        {
+          "country": "India",
+          "customer_count": 2
+        },
+        {
+          "country": "Portugal",
+          "customer_count": 2
+        },
+        {
+          "country": "Argentina",
+          "customer_count": 1
+        },
+        {
+          "country": "Australia",
+          "customer_count": 1
+        },
+        {
+          "country": "Austria",
+          "customer_count": 1
+        },
+        {
+          "country": "Belgium",
+          "customer_count": 1
+        },
+        {
+          "country": "Chile",
+          "customer_count": 1
+        },
+        {
+          "country": "Denmark",
+          "customer_count": 1
+        },
+        {
+          "country": "Finland",
+          "customer_count": 1
+        },
+        {
+          "country": "Hungary",
+          "customer_count": 1
+        },
+        {
+          "country": "Ireland",
+          "customer_count": 1
+        },
+        {
+          "country": "Italy",
+          "customer_count": 1
+        },
+        {
+          "country": "Netherlands",
+          "customer_count": 1
+        },
+        {
+          "country": "Norway",
+          "customer_count": 1
+        },
+        {
+          "country": "Poland",
+          "customer_count": 1
+        },
+        {
+          "country": "Spain",
+          "customer_count": 1
+        },
+        {
+          "country": "Sweden",
+          "customer_count": 1
+        }
+      ],
+      "actual_row_count": 24,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "country 为客户所在地，分组计数后按人数降序、国家升序，未误用 billing_country。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 15
+    },
+    {
+      "id": "sql-14",
+      "split": "dev",
+      "category": "group",
+      "question": "按流派编号统计曲目数，先按曲目数降序，并列时按流派编号升序。",
+      "gold_sql": "SELECT genre_id, COUNT(*) AS track_count FROM track GROUP BY genre_id ORDER BY track_count DESC, genre_id ASC;",
+      "executed_sql": "SELECT genre_id, COUNT(*) AS track_count FROM track GROUP BY genre_id ORDER BY track_count DESC, genre_id ASC LIMIT 200",
+      "tables_used": [
+        "track"
+      ],
+      "actual_columns": [
+        "genre_id",
+        "track_count"
+      ],
+      "actual_result": [
+        {
+          "genre_id": 1,
+          "track_count": 1297
+        },
+        {
+          "genre_id": 7,
+          "track_count": 579
+        },
+        {
+          "genre_id": 3,
+          "track_count": 374
+        },
+        {
+          "genre_id": 4,
+          "track_count": 332
+        },
+        {
+          "genre_id": 2,
+          "track_count": 130
+        },
+        {
+          "genre_id": 19,
+          "track_count": 93
+        },
+        {
+          "genre_id": 6,
+          "track_count": 81
+        },
+        {
+          "genre_id": 24,
+          "track_count": 74
+        },
+        {
+          "genre_id": 21,
+          "track_count": 64
+        },
+        {
+          "genre_id": 14,
+          "track_count": 61
+        },
+        {
+          "genre_id": 8,
+          "track_count": 58
+        },
+        {
+          "genre_id": 9,
+          "track_count": 48
+        },
+        {
+          "genre_id": 10,
+          "track_count": 43
+        },
+        {
+          "genre_id": 23,
+          "track_count": 40
+        },
+        {
+          "genre_id": 17,
+          "track_count": 35
+        },
+        {
+          "genre_id": 15,
+          "track_count": 30
+        },
+        {
+          "genre_id": 13,
+          "track_count": 28
+        },
+        {
+          "genre_id": 16,
+          "track_count": 28
+        },
+        {
+          "genre_id": 20,
+          "track_count": 26
+        },
+        {
+          "genre_id": 12,
+          "track_count": 24
+        },
+        {
+          "genre_id": 22,
+          "track_count": 17
+        },
+        {
+          "genre_id": 11,
+          "track_count": 15
+        },
+        {
+          "genre_id": 18,
+          "track_count": 13
+        },
+        {
+          "genre_id": 5,
+          "track_count": 12
+        },
+        {
+          "genre_id": 25,
+          "track_count": 1
+        }
+      ],
+      "actual_row_count": 25,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "按 genre_id 统计曲目数量，数量降序、编号升序处理并列；无需查流派名称。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 18
+    },
+    {
+      "id": "sql-15",
+      "split": "dev",
+      "category": "group",
+      "question": "按发票的账单国家统计销售总额，先按销售总额降序，并列时按国家名称升序。",
+      "gold_sql": "SELECT billing_country, SUM(total) AS sales_total FROM invoice GROUP BY billing_country ORDER BY sales_total DESC, billing_country ASC;",
+      "executed_sql": "SELECT billing_country, SUM(total) AS sales_total FROM invoice GROUP BY billing_country ORDER BY sales_total DESC, billing_country ASC LIMIT 200",
+      "tables_used": [
+        "invoice"
+      ],
+      "actual_columns": [
+        "billing_country",
+        "sales_total"
+      ],
+      "actual_result": [
+        {
+          "billing_country": "USA",
+          "sales_total": "523.06"
+        },
+        {
+          "billing_country": "Canada",
+          "sales_total": "303.96"
+        },
+        {
+          "billing_country": "France",
+          "sales_total": "195.10"
+        },
+        {
+          "billing_country": "Brazil",
+          "sales_total": "190.10"
+        },
+        {
+          "billing_country": "Germany",
+          "sales_total": "156.48"
+        },
+        {
+          "billing_country": "United Kingdom",
+          "sales_total": "112.86"
+        },
+        {
+          "billing_country": "Czech Republic",
+          "sales_total": "90.24"
+        },
+        {
+          "billing_country": "Portugal",
+          "sales_total": "77.24"
+        },
+        {
+          "billing_country": "India",
+          "sales_total": "75.26"
+        },
+        {
+          "billing_country": "Chile",
+          "sales_total": "46.62"
+        },
+        {
+          "billing_country": "Hungary",
+          "sales_total": "45.62"
+        },
+        {
+          "billing_country": "Ireland",
+          "sales_total": "45.62"
+        },
+        {
+          "billing_country": "Austria",
+          "sales_total": "42.62"
+        },
+        {
+          "billing_country": "Finland",
+          "sales_total": "41.62"
+        },
+        {
+          "billing_country": "Netherlands",
+          "sales_total": "40.62"
+        },
+        {
+          "billing_country": "Norway",
+          "sales_total": "39.62"
+        },
+        {
+          "billing_country": "Sweden",
+          "sales_total": "38.62"
+        },
+        {
+          "billing_country": "Argentina",
+          "sales_total": "37.62"
+        },
+        {
+          "billing_country": "Australia",
+          "sales_total": "37.62"
+        },
+        {
+          "billing_country": "Belgium",
+          "sales_total": "37.62"
+        },
+        {
+          "billing_country": "Denmark",
+          "sales_total": "37.62"
+        },
+        {
+          "billing_country": "Italy",
+          "sales_total": "37.62"
+        },
+        {
+          "billing_country": "Poland",
+          "sales_total": "37.62"
+        },
+        {
+          "billing_country": "Spain",
+          "sales_total": "37.62"
+        }
+      ],
+      "actual_row_count": 24,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "明确账单国家，使用 billing_country；SUM(total) 按发票统计收入，不擅自标注币种。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 18
+    },
+    {
+      "id": "sql-16",
+      "split": "holdout",
+      "category": "group",
+      "question": "按员工职位统计人数，按职位名称升序。",
+      "gold_sql": "SELECT title, COUNT(*) AS employee_count FROM employee GROUP BY title ORDER BY title ASC;",
+      "executed_sql": "SELECT title, COUNT(*) AS employee_count FROM employee GROUP BY title ORDER BY title ASC LIMIT 200",
+      "tables_used": [
+        "employee"
+      ],
+      "actual_columns": [
+        "title",
+        "employee_count"
+      ],
+      "actual_result": [
+        {
+          "title": "General Manager",
+          "employee_count": 1
+        },
+        {
+          "title": "IT Manager",
+          "employee_count": 1
+        },
+        {
+          "title": "IT Staff",
+          "employee_count": 2
+        },
+        {
+          "title": "Sales Manager",
+          "employee_count": 1
+        },
+        {
+          "title": "Sales Support Agent",
+          "employee_count": 3
+        }
+      ],
+      "actual_row_count": 5,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "按员工职位 title 分组计数、职位名称升序，并非按员工名字分组。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 38
+    },
+    {
+      "id": "sql-17",
+      "split": "dev",
+      "category": "top",
+      "question": "找出时长最长的 5 首曲目，返回编号、名称和毫秒时长；按时长降序，并列按编号升序。",
+      "gold_sql": "SELECT track_id, name, milliseconds FROM track ORDER BY milliseconds DESC, track_id ASC LIMIT 5;",
+      "executed_sql": "SELECT track_id, name, milliseconds FROM track ORDER BY milliseconds DESC, track_id ASC LIMIT 5",
+      "tables_used": [
+        "track"
+      ],
+      "actual_columns": [
+        "track_id",
+        "name",
+        "milliseconds"
+      ],
+      "actual_result": [
+        {
+          "track_id": 2820,
+          "name": "Occupation / Precipice",
+          "milliseconds": 5286953
+        },
+        {
+          "track_id": 3224,
+          "name": "Through a Looking Glass",
+          "milliseconds": 5088838
+        },
+        {
+          "track_id": 3244,
+          "name": "Greetings from Earth, Pt. 1",
+          "milliseconds": 2960293
+        },
+        {
+          "track_id": 3242,
+          "name": "The Man With Nine Lives",
+          "milliseconds": 2956998
+        },
+        {
+          "track_id": 3227,
+          "name": "Battlestar Galactica, Pt. 2",
+          "milliseconds": 2956081
+        }
+      ],
+      "actual_row_count": 5,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "milliseconds 降序、track_id 升序 LIMIT 5，与题意一致；Chinook track 包含视频条目，这里按该表的曲目口径排序。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 15
+    },
+    {
+      "id": "sql-18",
+      "split": "dev",
+      "category": "top",
+      "question": "找出总额最高的 5 张发票，返回编号和总额；按总额降序，并列按编号升序。",
+      "gold_sql": "SELECT invoice_id, total FROM invoice ORDER BY total DESC, invoice_id ASC LIMIT 5;",
+      "executed_sql": "SELECT invoice_id, total FROM invoice ORDER BY total DESC, invoice_id ASC LIMIT 5",
+      "tables_used": [
+        "invoice"
+      ],
+      "actual_columns": [
+        "invoice_id",
+        "total"
+      ],
+      "actual_result": [
+        {
+          "invoice_id": 404,
+          "total": "25.86"
+        },
+        {
+          "invoice_id": 299,
+          "total": "23.86"
+        },
+        {
+          "invoice_id": 96,
+          "total": "21.86"
+        },
+        {
+          "invoice_id": 194,
+          "total": "21.86"
+        },
+        {
+          "invoice_id": 89,
+          "total": "18.86"
+        }
+      ],
+      "actual_row_count": 5,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "invoice.total 降序、invoice_id 升序 LIMIT 5，满足题面与并列次序。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 31
+    },
+    {
+      "id": "sql-19",
+      "split": "dev",
+      "category": "top",
+      "question": "按姓氏降序取前 5 位客户，返回编号、名字和姓氏；姓氏相同时按客户编号升序。",
+      "gold_sql": "SELECT customer_id, first_name, last_name FROM customer ORDER BY last_name DESC, customer_id ASC LIMIT 5;",
+      "executed_sql": "SELECT customer_id, first_name, last_name FROM customer ORDER BY last_name DESC, customer_id ASC LIMIT 5",
+      "tables_used": [
+        "customer"
+      ],
+      "actual_columns": [
+        "customer_id",
+        "first_name",
+        "last_name"
+      ],
+      "actual_result": [
+        {
+          "customer_id": 37,
+          "first_name": "Fynn",
+          "last_name": "Zimmermann"
+        },
+        {
+          "customer_id": 49,
+          "first_name": "Stanisław",
+          "last_name": "Wójcik"
+        },
+        {
+          "customer_id": 5,
+          "first_name": "František",
+          "last_name": "Wichterlová"
+        },
+        {
+          "customer_id": 48,
+          "first_name": "Johannes",
+          "last_name": "Van der Berg"
+        },
+        {
+          "customer_id": 3,
+          "first_name": "François",
+          "last_name": "Tremblay"
+        }
+      ],
+      "actual_row_count": 5,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "last_name 降序、customer_id 升序，投影编号、名字、姓氏；字符排序采用实测 PostgreSQL 数据库排序口径。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 17
+    },
+    {
+      "id": "sql-20",
+      "split": "holdout",
+      "category": "top",
+      "question": "按名称升序取前 5 位艺术家，返回编号和名称；名称相同按艺术家编号升序。",
+      "gold_sql": "SELECT artist_id, name FROM artist ORDER BY name ASC, artist_id ASC LIMIT 5;",
+      "executed_sql": "SELECT artist_id, name FROM artist ORDER BY name ASC, artist_id ASC LIMIT 5",
+      "tables_used": [
+        "artist"
+      ],
+      "actual_columns": [
+        "artist_id",
+        "name"
+      ],
+      "actual_result": [
+        {
+          "artist_id": 43,
+          "name": "A Cor Do Som"
+        },
+        {
+          "artist_id": 1,
+          "name": "AC/DC"
+        },
+        {
+          "artist_id": 230,
+          "name": "Aaron Copland & London Symphony Orchestra"
+        },
+        {
+          "artist_id": 202,
+          "name": "Aaron Goldberg"
+        },
+        {
+          "artist_id": 214,
+          "name": "Academy of St. Martin in the Fields & Sir Neville Marriner"
+        }
+      ],
+      "actual_row_count": 5,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "artist.name 升序、artist_id 升序 LIMIT 5，满足名称及并列编号排序，沿用数据库排序口径。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 21
+    },
+    {
+      "id": "sql-21",
+      "split": "dev",
+      "category": "date",
+      "question": "列出 2021 年的前 10 张发票，返回编号、日期和总额，按发票编号升序。",
+      "gold_sql": "SELECT invoice_id, invoice_date, total FROM invoice WHERE invoice_date >= '2021-01-01' AND invoice_date < '2022-01-01' ORDER BY invoice_id LIMIT 10;",
+      "executed_sql": "SELECT invoice_id, invoice_date, total FROM invoice WHERE invoice_date >= '2021-01-01' AND invoice_date < '2022-01-01' ORDER BY invoice_id LIMIT 10",
+      "tables_used": [
+        "invoice"
+      ],
+      "actual_columns": [
+        "invoice_id",
+        "invoice_date",
+        "total"
+      ],
+      "actual_result": [
+        {
+          "invoice_id": 1,
+          "invoice_date": "2021-01-01T00:00:00",
+          "total": "1.98"
+        },
+        {
+          "invoice_id": 2,
+          "invoice_date": "2021-01-02T00:00:00",
+          "total": "3.96"
+        },
+        {
+          "invoice_id": 3,
+          "invoice_date": "2021-01-03T00:00:00",
+          "total": "5.94"
+        },
+        {
+          "invoice_id": 4,
+          "invoice_date": "2021-01-06T00:00:00",
+          "total": "8.91"
+        },
+        {
+          "invoice_id": 5,
+          "invoice_date": "2021-01-11T00:00:00",
+          "total": "13.86"
+        },
+        {
+          "invoice_id": 6,
+          "invoice_date": "2021-01-19T00:00:00",
+          "total": "0.99"
+        },
+        {
+          "invoice_id": 7,
+          "invoice_date": "2021-02-01T00:00:00",
+          "total": "1.98"
+        },
+        {
+          "invoice_id": 8,
+          "invoice_date": "2021-02-01T00:00:00",
+          "total": "1.98"
+        },
+        {
+          "invoice_id": 9,
+          "invoice_date": "2021-02-02T00:00:00",
+          "total": "3.96"
+        },
+        {
+          "invoice_id": 10,
+          "invoice_date": "2021-02-03T00:00:00",
+          "total": "5.94"
+        }
+      ],
+      "actual_row_count": 10,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "2021 年采用 >= 2021-01-01 且 < 2022-01-01，避免时间分量导致年末漏算；编号升序取 10 张。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 19
+    },
+    {
+      "id": "sql-22",
+      "split": "dev",
+      "category": "date",
+      "question": "列出 2004 年 1 月 1 日之前入职的员工编号、名字和入职日期，按员工编号升序。",
+      "gold_sql": "SELECT employee_id, first_name, hire_date FROM employee WHERE hire_date < '2004-01-01' ORDER BY employee_id;",
+      "executed_sql": "SELECT employee_id, first_name, hire_date FROM employee WHERE hire_date < '2004-01-01' ORDER BY employee_id LIMIT 200",
+      "tables_used": [
+        "employee"
+      ],
+      "actual_columns": [
+        "employee_id",
+        "first_name",
+        "hire_date"
+      ],
+      "actual_result": [
+        {
+          "employee_id": 1,
+          "first_name": "Andrew",
+          "hire_date": "2002-08-14T00:00:00"
+        },
+        {
+          "employee_id": 2,
+          "first_name": "Nancy",
+          "hire_date": "2002-05-01T00:00:00"
+        },
+        {
+          "employee_id": 3,
+          "first_name": "Jane",
+          "hire_date": "2002-04-01T00:00:00"
+        },
+        {
+          "employee_id": 4,
+          "first_name": "Margaret",
+          "hire_date": "2003-05-03T00:00:00"
+        },
+        {
+          "employee_id": 5,
+          "first_name": "Steve",
+          "hire_date": "2003-10-17T00:00:00"
+        },
+        {
+          "employee_id": 6,
+          "first_name": "Michael",
+          "hire_date": "2003-10-17T00:00:00"
+        }
+      ],
+      "actual_row_count": 6,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "needs_clarification",
+      "reviewer_type": "ai",
+      "reason": "hire_date < 2004-01-01、编号排序及结果正确；‘名字’可能被理解为完整姓名，而原 gold 只投影 first_name，需明确字段。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 18
+    },
+    {
+      "id": "sql-23",
+      "split": "holdout",
+      "category": "date",
+      "question": "2025 年一共开了多少张发票？",
+      "gold_sql": "SELECT COUNT(*) AS invoice_count FROM invoice WHERE invoice_date >= '2025-01-01' AND invoice_date < '2026-01-01';",
+      "executed_sql": "SELECT COUNT(*) AS invoice_count FROM invoice WHERE invoice_date >= '2025-01-01' AND invoice_date < '2026-01-01'",
+      "tables_used": [
+        "invoice"
+      ],
+      "actual_columns": [
+        "invoice_count"
+      ],
+      "actual_result": [
+        {
+          "invoice_count": 80
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "2025 年采用 [2025-01-01,2026-01-01) 半开区间，COUNT(*) 实测 80。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 15
+    },
+    {
+      "id": "sql-24",
+      "split": "dev",
+      "category": "like",
+      "question": "列出邮箱以 @gmail.com 结尾的客户编号、名字和邮箱，按客户编号升序。",
+      "gold_sql": "SELECT customer_id, first_name, email FROM customer WHERE email LIKE '%@gmail.com' ORDER BY customer_id;",
+      "executed_sql": "SELECT customer_id, first_name, email FROM customer WHERE email LIKE '%@gmail.com' ORDER BY customer_id LIMIT 200",
+      "tables_used": [
+        "customer"
+      ],
+      "actual_columns": [
+        "customer_id",
+        "first_name",
+        "email"
+      ],
+      "actual_result": [
+        {
+          "customer_id": 3,
+          "first_name": "François",
+          "email": "ftremblay@gmail.com"
+        },
+        {
+          "customer_id": 6,
+          "first_name": "Helena",
+          "email": "hholy@gmail.com"
+        },
+        {
+          "customer_id": 22,
+          "first_name": "Heather",
+          "email": "hleacock@gmail.com"
+        },
+        {
+          "customer_id": 24,
+          "first_name": "Frank",
+          "email": "fralston@gmail.com"
+        },
+        {
+          "customer_id": 28,
+          "first_name": "Julia",
+          "email": "jubarnett@gmail.com"
+        },
+        {
+          "customer_id": 31,
+          "first_name": "Martha",
+          "email": "marthasilk@gmail.com"
+        },
+        {
+          "customer_id": 40,
+          "first_name": "Dominique",
+          "email": "dominiquelefebvre@gmail.com"
+        },
+        {
+          "customer_id": 53,
+          "first_name": "Phil",
+          "email": "phil.hughes@gmail.com"
+        }
+      ],
+      "actual_row_count": 8,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "needs_clarification",
+      "reviewer_type": "ai",
+      "reason": "邮箱结尾使用 LIKE '%@gmail.com'，编号排序正确；‘名字’可能被理解为完整姓名，需明确只返回 first_name。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 15
+    },
+    {
+      "id": "sql-25",
+      "split": "holdout",
+      "category": "like",
+      "question": "查找名称含 love 的前 10 首曲目，不区分英文大小写，返回编号和名称，按曲目编号升序。",
+      "gold_sql": "SELECT track_id, name FROM track WHERE name ILIKE '%love%' ORDER BY track_id LIMIT 10;",
+      "executed_sql": "SELECT track_id, name FROM track WHERE name ILIKE '%love%' ORDER BY track_id LIMIT 10",
+      "tables_used": [
+        "track"
+      ],
+      "actual_columns": [
+        "track_id",
+        "name"
+      ],
+      "actual_result": [
+        {
+          "track_id": 24,
+          "name": "Love In An Elevator"
+        },
+        {
+          "track_id": 56,
+          "name": "Love, Hate, Love"
+        },
+        {
+          "track_id": 195,
+          "name": "Let Me Love You Baby"
+        },
+        {
+          "track_id": 335,
+          "name": "My Love"
+        },
+        {
+          "track_id": 341,
+          "name": "The Girl I Love She Got Long Black Wavy Hair"
+        },
+        {
+          "track_id": 345,
+          "name": "Whole Lotta Love"
+        },
+        {
+          "track_id": 413,
+          "name": "Loverman"
+        },
+        {
+          "track_id": 440,
+          "name": "Love Gun"
+        },
+        {
+          "track_id": 444,
+          "name": "Do You Love Me"
+        },
+        {
+          "track_id": 449,
+          "name": "Calling Dr. Love"
+        }
+      ],
+      "actual_row_count": 10,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "含 love 且不区分大小写使用 ILIKE，按编号升序 LIMIT 10；不是仅匹配独立单词。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 16
+    },
+    {
+      "id": "sql-26",
+      "split": "dev",
+      "category": "null",
+      "question": "有多少位客户没有填写公司名称（company 为 NULL）？",
+      "gold_sql": "SELECT COUNT(*) AS customer_count FROM customer WHERE company IS NULL;",
+      "executed_sql": "SELECT COUNT(*) AS customer_count FROM customer WHERE company IS NULL",
+      "tables_used": [
+        "customer"
+      ],
+      "actual_columns": [
+        "customer_count"
+      ],
+      "actual_result": [
+        {
+          "customer_count": 49
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "题面明确 company 为 NULL，采用 IS NULL，不混同空字符串；真实计数 49。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 21
+    },
+    {
+      "id": "sql-27",
+      "split": "dev",
+      "category": "null",
+      "question": "列出没有作曲者信息（composer 为 NULL）的前 10 首曲目编号和名称，按曲目编号升序。",
+      "gold_sql": "SELECT track_id, name FROM track WHERE composer IS NULL ORDER BY track_id LIMIT 10;",
+      "executed_sql": "SELECT track_id, name FROM track WHERE composer IS NULL ORDER BY track_id LIMIT 10",
+      "tables_used": [
+        "track"
+      ],
+      "actual_columns": [
+        "track_id",
+        "name"
+      ],
+      "actual_result": [
+        {
+          "track_id": 63,
+          "name": "Desafinado"
+        },
+        {
+          "track_id": 64,
+          "name": "Garota De Ipanema"
+        },
+        {
+          "track_id": 65,
+          "name": "Samba De Uma Nota Só (One Note Samba)"
+        },
+        {
+          "track_id": 66,
+          "name": "Por Causa De Você"
+        },
+        {
+          "track_id": 67,
+          "name": "Ligia"
+        },
+        {
+          "track_id": 68,
+          "name": "Fotografia"
+        },
+        {
+          "track_id": 69,
+          "name": "Dindi (Dindi)"
+        },
+        {
+          "track_id": 70,
+          "name": "Se Todos Fossem Iguais A Você (Instrumental)"
+        },
+        {
+          "track_id": 71,
+          "name": "Falando De Amor"
+        },
+        {
+          "track_id": 72,
+          "name": "Angela"
+        }
+      ],
+      "actual_row_count": 10,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "composer 为 NULL 使用 IS NULL，编号升序 LIMIT 10；未将 NULL 与空字符串混同。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 23
+    },
+    {
+      "id": "sql-28",
+      "split": "holdout",
+      "category": "null",
+      "question": "列出没有直属上级（reports_to 为 NULL）的员工编号、名字和姓氏，按员工编号升序。",
+      "gold_sql": "SELECT employee_id, first_name, last_name FROM employee WHERE reports_to IS NULL ORDER BY employee_id;",
+      "executed_sql": "SELECT employee_id, first_name, last_name FROM employee WHERE reports_to IS NULL ORDER BY employee_id LIMIT 200",
+      "tables_used": [
+        "employee"
+      ],
+      "actual_columns": [
+        "employee_id",
+        "first_name",
+        "last_name"
+      ],
+      "actual_result": [
+        {
+          "employee_id": 1,
+          "first_name": "Andrew",
+          "last_name": "Adams"
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "reports_to 为 NULL 表示无直属上级，返回编号、first_name、last_name，编号升序。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 18
+    },
+    {
+      "id": "sql-29",
+      "split": "dev",
+      "category": "no_match",
+      "question": "列出国家字段为 Antarctica 的客户编号、名字和姓氏，按客户编号升序。",
+      "gold_sql": "SELECT customer_id, first_name, last_name FROM customer WHERE country = 'Antarctica' ORDER BY customer_id;",
+      "executed_sql": "SELECT customer_id, first_name, last_name FROM customer WHERE country = 'Antarctica' ORDER BY customer_id LIMIT 200",
+      "tables_used": [
+        "customer"
+      ],
+      "actual_columns": [
+        "customer_id",
+        "first_name",
+        "last_name"
+      ],
+      "actual_result": [],
+      "actual_row_count": 0,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "Antarctica 无匹配，标准结果是零行空表，不能替换为零或一行 NULL。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 17
+    },
+    {
+      "id": "sql-30",
+      "split": "holdout",
+      "category": "no_match",
+      "question": "账单国家字段为 Atlantis 的发票总金额是多少？若没有匹配记录，按 SQL SUM 的语义保留 NULL。",
+      "gold_sql": "SELECT SUM(total) AS total_amount FROM invoice WHERE billing_country = 'Atlantis';",
+      "executed_sql": "SELECT SUM(total) AS total_amount FROM invoice WHERE billing_country = 'Atlantis'",
+      "tables_used": [
+        "invoice"
+      ],
+      "actual_columns": [
+        "total_amount"
+      ],
+      "actual_result": [
+        {
+          "total_amount": null
+        }
+      ],
+      "actual_row_count": 1,
+      "truncated": false,
+      "gold_result_exact_match": true,
+      "recorded_review_hash_valid": true,
+      "ai_verdict": "accepted",
+      "reviewer_type": "ai",
+      "reason": "Atlantis 无发票，SUM(total) 返回一行 NULL，满足题面；不能 COALESCE 成 0。",
+      "human_review_status_unchanged": "needs_human_review",
+      "latency_ms": 15
+    }
+  ],
+  "separate_revision": {
+    "dataset": "E:\\中国电子杯-赛题八\\system\\eval\\datasets\\nl2sql_chinook_d1_acceptance.jsonl",
+    "manifest": "E:\\中国电子杯-赛题八\\system\\eval\\datasets\\nl2sql_chinook_d1_acceptance.manifest.json",
+    "dataset_sha256": "d7ecb412982761ce746565a7d847058567cc13d60d95462bf0c6d431bc50c51c",
+    "changed_ids": [
+      "sql-11",
+      "sql-22",
+      "sql-24"
+    ],
+    "parent_dataset_sha256_matches": true,
+    "changed_cases_ai_semantic_accepted": true,
+    "holdout_items_identical": true,
+    "pending_human_review_count": 30,
+    "human_accepted_count": 0,
+    "revision_gold_sql_executed": 3,
+    "revision_model_prediction_count": 0
+  },
+  "remaining_manual_steps": [
+    "团队逐题确认标准答案；AI 结论不替代人工签字。",
+    "修正版 21 开发题使用 --draft-gold 可进行真实探索评测；人工接受前不能称正式 EX。",
+    "9 道保留题维持隔离，冻结前不进行模型预测；可以审核已有 gold。"
+  ],
+  "future_scope": [
+    "D2 值链接、别名、改写、单表题扩至 50 与 30 鲁棒性变体。",
+    "D3 AdventureWorks 与澄清；这些不属于 D1 遗漏。"
+  ]
+}

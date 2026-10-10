@@ -1,0 +1,645 @@
+{
+  "task_date": "2026-10-10",
+  "timezone": "America/Chicago",
+  "checked_at_utc": "2026-10-10T12:39:28.710247+00:00",
+  "scope": "D1 plan requirements audit; historical measurements plus live read-only health; not a new model evaluation or human sign-off",
+  "sources": {
+    "plan": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+    "d1_guide": "E:/中国电子杯-赛题八/D1执行指导书-A和B及Codex分工.md",
+    "official_rules_pdf": "C:/Users/郭乾冥/Desktop/8 赛题八：网信产业应用赛道-多模态数据驱动的可解释精准问数问答智能体（中电云计算技术有限公司）.pdf",
+    "official_rules_pages": [
+      4,
+      5,
+      8,
+      9,
+      10,
+      11
+    ],
+    "d1_guide_system_copy": "E:/中国电子杯-赛题八/system/notes/D1执行指导书.md"
+  },
+  "snapshot": {
+    "git_commit": "5c522a48c48e11378c4b4283cc26b90c7bb4d66a",
+    "live_health": {
+      "status": "ok",
+      "stage": "D1",
+      "database_ready": true,
+      "llm_configured": true,
+      "model": "deepseek-flash",
+      "catalog_exists": true,
+      "statement_timeout_ms": 5000,
+      "max_rows": 200
+    },
+    "document_count": 6,
+    "ready_document_count": 6,
+    "ui_health_http": 200,
+    "runtime_contract_sha256": "d5129906f73c5a60d465996f1d6ca60ec6deffb3bb47df8d4d7221912b22de8e",
+    "d1_status_counts": {
+      "EXTERNAL_PENDING": 1,
+      "PARTIAL": 1,
+      "PASS": 20,
+      "IN_PROGRESS": 1,
+      "IMPLEMENTED_WITH_RECORDED_ADJUSTMENT": 1,
+      "PASS_FOR_MACHINE_PREPARATION": 2,
+      "REVIEW_PENDING": 2,
+      "PASS_AS_DRAFT": 2,
+      "PASS_FOR_D1": 1,
+      "PASS_WITH_FINAL_SCAN_PENDING": 1
+    }
+  },
+  "requirements": [
+    {
+      "id": "S01",
+      "phase": "D1",
+      "owner": "团队",
+      "requirement": "确认学校初赛截止日期及具体时刻、提交入口、额外材料/PPT",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§9；指导书§2.1"
+      },
+      "evidence": [
+        "用户明确目前暂无通知；notes/dev-log.md明确仍需学校核实"
+      ],
+      "status": "EXTERNAL_PENDING",
+      "gap": "暂无学校通知，不把计划D9倒排日期当成已确认截止日期；团队获得通知后补记，未经授权不联系他人。"
+    },
+    {
+      "id": "S02",
+      "phase": "D1",
+      "owner": "A/B",
+      "requirement": "确认本机与B电脑开发环境/Docker可用",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§9；指导书§2.2"
+      },
+      "evidence": [
+        "本机实际Python3.12.10、Docker29.8.2、Compose5.5.1；chinook-pg healthy"
+      ],
+      "status": "PARTIAL",
+      "gap": "本机通过；没有B电脑的实际检查记录。D8另一台电脑从零复现是后续任务，今天不能冒称已完成。"
+    },
+    {
+      "id": "S03",
+      "phase": "D1",
+      "owner": "A/B",
+      "requirement": "确定A/B职责",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§9；指导书§2.3"
+      },
+      "evidence": [
+        "用户明确自己负责A、另交付B骨架；notes/B接口交接.md记录模块责任"
+      ],
+      "status": "PASS",
+      "gap": ""
+    },
+    {
+      "id": "S04",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "初始化Git及建立私有远程协作",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1上午；§9"
+      },
+      "evidence": [
+        "本地Git与提交历史已存在",
+        "私有仓库已创建并验证private=true：https://github.com/gaara119/china-electronics-cup-task8-comagent",
+        "notes/github-repository.json；root正在完成最终上传与远程提交验证"
+      ],
+      "status": "IN_PROGRESS",
+      "gap": "私有仓库创建已通过；最终push及远程commit匹配由主任务完成后更新，尚不判上传通过。"
+    },
+    {
+      "id": "S05",
+      "phase": "D1",
+      "owner": "A/B",
+      "requirement": "按代码目录建立仓库骨架",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§3.7；§4.2 D1上午"
+      },
+      "evidence": [
+        "README.md、qa_agent/{sql,rag}、api、ui、scripts、data、eval、notes均存在"
+      ],
+      "status": "PASS",
+      "gap": "后续nlu/clarify/fusion/AW/scale模块按D2-D4实现；不是D1欠项。"
+    },
+    {
+      "id": "S06",
+      "phase": "D1",
+      "owner": "A/B",
+      "requirement": "确定共享schemas及输入/响应/步骤/证据协议",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§3.5；§4.2 D1上午"
+      },
+      "evidence": [
+        "qa_agent/schemas.py；notes/B接口交接.md；A/B均使用共享API与模型"
+      ],
+      "status": "IMPLEMENTED_WITH_RECORDED_ADJUSTMENT",
+      "gap": "当前工程统一物理页page从1起；计划原示意为0起，已同步修订根指导书与system内副本。官方OHR原始evidence_page_no仍0起，仅转换一次+1。接口已实现并联调；双方人员正式共识签字记录尚无，不能自动代表两人签字。"
+    },
+    {
+      "id": "A01",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "起Chinook PostgreSQL并核对实际表名、年份范围",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 A第一项"
+      },
+      "evidence": [
+        "docker-compose.yml；data/db/source_manifest.json；data/db/db_check.json；11表64列13外键；2021-2025"
+      ],
+      "status": "PASS",
+      "gap": ""
+    },
+    {
+      "id": "A02",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "只读qa_reader和SQL超时",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 A第一项；§3.6.2"
+      },
+      "evidence": [
+        "data/db/db_check.json：所有11表SELECT=true/write=false，非超级用户，无CREATE/TEMP权限，read_only=on、5s；零行写入拦截"
+      ],
+      "status": "PASS",
+      "gap": ""
+    },
+    {
+      "id": "A03",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "查询账号可用model id、真实JSON接入",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 A第二项；§7风险1"
+      },
+      "evidence": [
+        "notes/model-check.json：models实际返回deepseek-flash/deepseek-v4-pro，配置flash；JSON真实成功；真实SQL/RAG开发响应"
+      ],
+      "status": "PASS",
+      "gap": "真实调用成功证明当次可用；未取得余额金额，不声称已核对余额充足。"
+    },
+    {
+      "id": "A04",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "统一LLM超时、有限重试、token及trace",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 A第三项"
+      },
+      "evidence": [
+        "qa_agent/llm.py、trace.py；开发报告usage_summary.json及逐题真实steps"
+      ],
+      "status": "PASS",
+      "gap": ""
+    },
+    {
+      "id": "A05",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "真实schema目录和中文字段语义",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§3.6.2；指导书§3.3"
+      },
+      "evidence": [
+        "data/catalog/chinook.yaml；scripts/build_catalog.py；data/db/chinook_schema.sql"
+      ],
+      "status": "PASS",
+      "gap": "字段语义的人工业务认可与逐题gold审核分开保留。"
+    },
+    {
+      "id": "A06",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "NL2SQL v0：目录→生成→AST校验→只读执行",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 A第四项"
+      },
+      "evidence": [
+        "qa_agent/sql/{generator,validator,executor}.py；notes/api-smoke.json；SQL开发集21条真实预测"
+      ],
+      "status": "PASS",
+      "gap": ""
+    },
+    {
+      "id": "A07",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "30道单表gold，逐条执行并保存结果",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 A第五项"
+      },
+      "evidence": [
+        "eval/datasets/nl2sql_chinook.jsonl：30题；21dev/9holdout；data/db实际结果；review/gold_review.md"
+      ],
+      "status": "PASS_FOR_MACHINE_PREPARATION",
+      "gap": "30条结果已独立核验；人工业务审核属于A08，不能将机器准备通过当成人工接受。"
+    },
+    {
+      "id": "A08",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "人工核对SQL题意、标准SQL与结果；正式开发EX",
+      "source": {
+        "path": "E:/中国电子杯-赛题八/system/notes/D1执行指导书.md",
+        "section": "指导书§3.6；§6.1"
+      },
+      "evidence": [
+        "eval/datasets/review/gold_review.md；gold_review仍needs_human_review；d1-readiness；历史d1-dev-draft"
+      ],
+      "status": "REVIEW_PENDING",
+      "gap": "sql-22/sql-24“名字”first_name/姓名口径待决定；A逐题接受后新跑正式21题，历史19/21保留。"
+    },
+    {
+      "id": "A09",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "评测脚本计算EX、保存真实基线",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 A第五项；§4.1 D1当天验收"
+      },
+      "evidence": [
+        "eval/run_eval.py、metrics.py；eval/reports/d1-dev-draft/report.json：19/21 exploratory_ex=90.48%，3216.94ms，holdout预测0"
+      ],
+      "status": "PASS_AS_DRAFT",
+      "gap": "正式EX尚未发布；当前分数以待人工确认gold计算，不能冒称正式成绩。"
+    },
+    {
+      "id": "A10",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "跑Top艺术家SQL并交名单给B",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 A第六项；附录C"
+      },
+      "evidence": [
+        "data/handoff/A_to_B_chinook.{json,md}；Top10，Iron Maiden第一138.60；原SQL可核验"
+      ],
+      "status": "PASS",
+      "gap": "币种未指定；榜单含电视内容，后续百科筛选要核实实体类型。"
+    },
+    {
+      "id": "A11",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "核对客户国与账单国地区口径差异",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 A第七项；附录C"
+      },
+      "evidence": [
+        "data/handoff/A_to_B_chinook.json：412张发票比较，非空及NULL安全差异均0"
+      ],
+      "status": "PASS",
+      "gap": "当前数据不能用两国字段数值差异作澄清演示；字段业务含义仍不同。"
+    },
+    {
+      "id": "B01",
+      "phase": "D1",
+      "owner": "B",
+      "requirement": "固定OHR官方qas_v2及六域PDF、盘点语言",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 B第一项；§3.4.2"
+      },
+      "evidence": [
+        "scripts/prepare_rag_data.py；data/docs/manifest.csv/source_manifest.json；六域均英文，261物理页255文字页"
+      ],
+      "status": "PASS",
+      "gap": "实际定向HTTP Range取得固定官方文件，未整包下载；可重现来源而非要求唯一镜像。"
+    },
+    {
+      "id": "B02",
+      "phase": "D1",
+      "owner": "B",
+      "requirement": "PDF解析、章节与真实文字/页码切片",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 B第二项；§3.6.6"
+      },
+      "evidence": [
+        "qa_agent/rag/parsers.py、chunker.py；notes/rag-corpus-check.json：1381片段，max600，1273有真实块bbox，不跨页"
+      ],
+      "status": "PASS",
+      "gap": "空白/图片页保留编号；本次不宣称OCR及逐字高亮已实现。"
+    },
+    {
+      "id": "B03",
+      "phase": "D1",
+      "owner": "B",
+      "requirement": "真实BGE-M3 + BM25索引",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 B第二项；§3.3"
+      },
+      "evidence": [
+        "qa_agent/rag/index.py、embeddings.py；notes/embedding-check.json、rag-index-check.json；实际1381×1024 CPU/QInt8向量"
+      ],
+      "status": "PASS",
+      "gap": "不是只有下载配置；有实际CPU编码、模型与向量哈希。"
+    },
+    {
+      "id": "B04",
+      "phase": "D1",
+      "owner": "B",
+      "requirement": "先指定单文档，再混合检索",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 B第二项；§3.6.6"
+      },
+      "evidence": [
+        "qa_agent/rag/retriever.py；真实开发report retrieval_methods=bm25+bge-m3_dense_rrf"
+      ],
+      "status": "PASS",
+      "gap": "Top-K采用用户配置5；计划设计Top8已记录调整，不能同时声明实际Top8。"
+    },
+    {
+      "id": "B05",
+      "phase": "D1",
+      "owner": "B",
+      "requirement": "带编号证据回答、引用约束和真实错误",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 B第二项；指导书§4.4"
+      },
+      "evidence": [
+        "qa_agent/rag/{answer,service}.py；实际14条响应；共享llm/trace，引用指定文档、编号存在"
+      ],
+      "status": "PASS",
+      "gap": "编号及原文真实性检查不等于完整语义/数值支持；D2深化核验。"
+    },
+    {
+      "id": "B06",
+      "phase": "D1",
+      "owner": "B",
+      "requirement": "Streamlit来源选择、答案、SQL/表/引用/步骤面板",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 B第三项；指导书§4.5"
+      },
+      "evidence": [
+        "ui/app.py；api/main.py、api/documents.py；notes/ui-smoke.json；实际页面8501健康200"
+      ],
+      "status": "PASS",
+      "gap": ""
+    },
+    {
+      "id": "B07",
+      "phase": "D1",
+      "owner": "B",
+      "requirement": "20道官方evidence_source=text QA、固定14dev/6holdout",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1 B第四项；指导书§4.2"
+      },
+      "evidence": [
+        "eval/datasets/rag_ohr.jsonl/manifest；rag_machine_audit.json：20/20来源/原问题/答案/页码/原文核验"
+      ],
+      "status": "PASS_FOR_MACHINE_PREPARATION",
+      "gap": "全集六域、dev五域；唯一finance题属于holdout，今天没有预测它。"
+    },
+    {
+      "id": "B08",
+      "phase": "D1",
+      "owner": "B",
+      "requirement": "人工核对20道RAG gold及14条真实开发答案",
+      "source": {
+        "path": "E:/中国电子杯-赛题八/system/notes/D1执行指导书.md",
+        "section": "指导书§4.2、§4.6；§6.1"
+      },
+      "evidence": [
+        "rag_review/rag_gold_review.md；rag-d1-dev-draft/human_review.md；当前gold接受0、答案语义审核0"
+      ],
+      "status": "REVIEW_PENDING",
+      "gap": "机器定位原文不能代替人工题意/忠实度；rag-19需核对particularly限定及回答范围。"
+    },
+    {
+      "id": "B09",
+      "phase": "D1",
+      "owner": "B",
+      "requirement": "保存真实RAG开发基线、失败、耗时",
+      "source": {
+        "path": "E:/中国电子杯-赛题八/system/notes/D1执行指导书.md",
+        "section": "指导书§4.6；§4.1 D1验收"
+      },
+      "evidence": [
+        "eval/reports/rag-d1-dev-draft：14/14调用与引用机械条件、平均3114.79ms；语义审核待完成"
+      ],
+      "status": "PASS_AS_DRAFT",
+      "gap": "14/14不是RAG准确率；8/14字符串命中也是诊断，不发布语义成绩。"
+    },
+    {
+      "id": "I01",
+      "phase": "D1",
+      "owner": "A/B",
+      "requirement": "同一API接入SQL与文档，真实统一响应",
+      "source": {
+        "path": "E:/中国电子杯-赛题八/system/notes/D1执行指导书.md",
+        "section": "指导书§3.5；§4.2 D1晚上"
+      },
+      "evidence": [
+        "POST /api/chat；notes/B接口交接.md；SQL与RAG实际HTTP预测和UI记录"
+      ],
+      "status": "PASS",
+      "gap": ""
+    },
+    {
+      "id": "I02",
+      "phase": "D1",
+      "owner": "A/B",
+      "requirement": "界面数据库题、文档题各跑通且给证据",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1晚上；§4.1 D1当天验收"
+      },
+      "evidence": [
+        "notes/ui-smoke.json：SQL/答案渲染、doc/证据、引用点击、原页均true，page_errors=[]"
+      ],
+      "status": "PASS",
+      "gap": "此项已有实际浏览器证据；今天主任务将再按验收步骤检查。"
+    },
+    {
+      "id": "I03",
+      "phase": "D1",
+      "owner": "A/B",
+      "requirement": "保存D1真实截图",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1晚上"
+      },
+      "evidence": [
+        "notes/screenshots/D1-sql.png、D1-rag.png、D1-rag-trace.png"
+      ],
+      "status": "PASS",
+      "gap": ""
+    },
+    {
+      "id": "I04",
+      "phase": "D1",
+      "owner": "A/B",
+      "requirement": "首条dev-log记录数字、问题及D2待修",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D1晚上；§9"
+      },
+      "evidence": [
+        "notes/dev-log.md：A/B实现、真实版本/分母/耗时/不一致、人工状态及D2问题"
+      ],
+      "status": "PASS",
+      "gap": "主任务补充本次验收日志；不覆盖旧草稿数字。"
+    },
+    {
+      "id": "I05",
+      "phase": "D1",
+      "owner": "A",
+      "requirement": "环境依赖、README、快速本机启动",
+      "source": {
+        "path": "E:/中国电子杯-赛题八/system/notes/D1执行指导书.md",
+        "section": "指导书§2.3、§6.1；§3.7"
+      },
+      "evidence": [
+        "requirements.txt；README.md；scripts/start_demo.ps1/.sh；本机API/UI/database健康"
+      ],
+      "status": "PASS_FOR_D1",
+      "gap": "脚本启动API/UI，依赖/容器/模型/索引按README先准备；从零一键打包验收计划D5/D8。"
+    },
+    {
+      "id": "I06",
+      "phase": "D1",
+      "owner": "A/B",
+      "requirement": "保护凭据并保证题库/运行库分离",
+      "source": {
+        "path": "E:/中国电子杯-赛题八/system/notes/D1执行指导书.md",
+        "section": "指导书§2.3、§4.2；§3.4.2"
+      },
+      "evidence": [
+        ".gitignore忽略.env/.venv/PDF缓存/模型/索引；scripts/check_secrets.py；RAG运行库来自原PDF，不读gold"
+      ],
+      "status": "PASS_WITH_FINAL_SCAN_PENDING",
+      "gap": "已有扫描0；主任务最终提交前再次扫描，本专项只读核对不替代最新扫描。"
+    },
+    {
+      "id": "F01",
+      "phase": "D2",
+      "owner": "A",
+      "requirement": "要素级联/改写、50SQL及30鲁棒题",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D2"
+      },
+      "evidence": [
+        "方案排期；D1范围声明"
+      ],
+      "status": "NOT_D1",
+      "gap": "D2任务，今天不因未完成它判D1工程失败。"
+    },
+    {
+      "id": "F02",
+      "phase": "D2",
+      "owner": "B",
+      "requirement": "多格式/OCR≥10文档、业务口径手册、30RAG及完善引用/数字核验",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D2；正式PDF物理p9最终提交"
+      },
+      "evidence": [
+        "方案排期；D1只有六份原生PDF"
+      ],
+      "status": "NOT_D1",
+      "gap": "初赛最终必须补齐不同格式≥10份；D1六PDF不等于最终提交齐备。"
+    },
+    {
+      "id": "F03",
+      "phase": "D3",
+      "owner": "A/B",
+      "requirement": "AW④与③澄清状态机/卡片",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D3；正式PDFp5/p11至少一中级任务"
+      },
+      "evidence": [
+        "方案排期；D1明确单表/单文档范围"
+      ],
+      "status": "NOT_D1",
+      "gap": "D1工程通过不代表已满足初赛至少1中级任务门槛。"
+    },
+    {
+      "id": "F04",
+      "phase": "D4",
+      "owner": "A/B",
+      "requirement": "多轮、跨源、消融与两规模效率",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D4；正式PDFp10"
+      },
+      "evidence": [
+        "方案排期"
+      ],
+      "status": "NOT_D1",
+      "gap": "后续需要真实功能和实验，不以D1计时替代两规模效率证明。"
+    },
+    {
+      "id": "F05",
+      "phase": "D5",
+      "owner": "A/B",
+      "requirement": "冻结全评测、评测看板、从零一键启动与final报告",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D5"
+      },
+      "evidence": [
+        "方案排期；当前holdout预测0"
+      ],
+      "status": "NOT_D1",
+      "gap": "冻结后按预先纪律评测保留集；今天不运行holdout。"
+    },
+    {
+      "id": "F06",
+      "phase": "D6-D9",
+      "owner": "A/B",
+      "requirement": "最终设计报告/实现说明书Word+PDF、演示视频与ZIP",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D6-D9；正式PDFp8-p11"
+      },
+      "evidence": [
+        "方案排期；当前用户要求今日验收报告手册"
+      ],
+      "status": "NOT_D1",
+      "gap": "今日验收报告手册与初赛最终两份技术文档不同；不要提前宣称参赛材料已全部齐备。"
+    },
+    {
+      "id": "F07",
+      "phase": "D8",
+      "owner": "B",
+      "requirement": "另一台电脑从零解压README复现",
+      "source": {
+        "path": "D:/wechat/WeChat Files/wxid_zb8l7g4m4o7i22/FileStorage/File/2026-10/方案.md",
+        "section": "§4.2 D8"
+      },
+      "evidence": [
+        "无B电脑实际接入记录"
+      ],
+      "status": "NOT_D1",
+      "gap": "提供协作交接说明；远机实际复现由D8按计划执行。"
+    }
+  ],
+  "conclusion": "D1 core engineering and real draft baselines exist; human review/formal metrics and external team confirmations remain separately pending; remote sync is being completed by root. Future D2-D9 items are excluded from D1 failure count.",
+  "remote_repository": {
+    "url": "https://github.com/gaara119/china-electronics-cup-task8-comagent",
+    "private_verified": true,
+    "push_verified": false,
+    "verification_record": "notes/github-repository.json"
+  }
+}

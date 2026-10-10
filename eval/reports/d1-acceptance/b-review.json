@@ -1,0 +1,863 @@
+{
+  "title": "D1B 独立 AI 复核（原开发集草稿）",
+  "created_at_utc": "2026-10-10T12:39:48.784155+00:00",
+  "review_type": "AI semantic and source audit; not human sign-off",
+  "source_commit": "5c522a48c48e11378c4b4283cc26b90c7bb4d66a",
+  "gold_source": "eval/datasets/rag_ohr.jsonl",
+  "gold_sha256": "f52197dcdd031bdbab51ad2b74da8dce0b0777cbcdad3f7803934fbeb00cfd98",
+  "prediction_source": "eval/reports/rag-d1-dev-draft/responses.jsonl",
+  "prediction_sha256": "6e6e86f473e13ce647ca9a2c494d5b896d8b0ba8d2f59d38608463e819da926e",
+  "reviewed_existing_predictions": 14,
+  "additional_model_requests": 0,
+  "holdout_predictions": 0,
+  "source_gold_status_changed": false,
+  "summary": {
+    "gold_source_checks_pass": 20,
+    "gold_count": 20,
+    "semantic_correctness": {
+      "correct": 13,
+      "incomplete": 1
+    },
+    "claim_support": {
+      "complete": 13,
+      "incomplete": 1
+    },
+    "joint_pass": 12,
+    "denominator": 14
+  },
+  "gold_reviews": [
+    {
+      "id": "rag-01",
+      "split": "holdout",
+      "doc_id": "ohr-finance-amd-2022",
+      "pdf_path": "data/docs/raw/finance/AMD_2022_10K.pdf",
+      "physical_pages": [
+        51
+      ],
+      "source_qa_id": "07d8ab49-76e2-44c4-b1a5-621012fdd312",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "原文明确是 2022-12-31 无未偿商业票据；不能推广到其他日期。",
+      "original_page_context": "old at a discount from par\nor, alternatively, will be sold at par and bear interest at rates that will vary based on market conditions at the time of issuance. As of December 31, 2022, we had\nno commercial paper outstanding.\nAs of December 31, 2022, we had unconditional purchase commitments of approximately $8.6 billion, of which $6.5 billion are in fiscal year 2023. On an\nongoing",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-02",
+      "split": "dev",
+      "doc_id": "ohr-law-affiliate",
+      "pdf_path": "data/docs/raw/law/GULFSOUTHMEDICALSUPPLYINC_12_24_1997-EX-4-AFFILIATE AGREEMENT.pdf",
+      "physical_pages": [
+        1
+      ],
+      "source_qa_id": "2868c76b-7a94-4483-a8ce-122009b12bc9",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "45 天起点是含有所需合并后经营期间的首个财政季度结束；不是简单从合并日起算。",
+      "original_page_context": "ombined operations of PSS and GSMS. PSS agrees that it will publish\nsuch results as promptly as practicable following the Merger in the sole\ndiscretion of PSS, but in any event within 45 days after the end of the first\nfiscal quarter of PSS containing the required period of post-Merger combined\noperations and that it will notify the undersigned promptly following such\npublication.\n     3.  Covenants and Warranties of Undersigned.  The undersigned represents,\n         ---------------------------------------                              \n",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-03",
+      "split": "dev",
+      "doc_id": "ohr-law-affiliate",
+      "pdf_path": "data/docs/raw/law/GULFSOUTHMEDICALSUPPLYINC_12_24_1997-EX-4-AFFILIATE AGREEMENT.pdf",
+      "physical_pages": [
+        2
+      ],
+      "source_qa_id": "28805c5d-ad1b-4f60-89e4-dab20edc6d2b",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "三年自合并生效日开始，限定 Section 13 所需报告。",
+      "original_page_context": "of PSS Common Stock received by the undersigned, to the extent he\nbelieves necessary, with his counsel or counsel for GSMS.\n     6.  Filing of Reports by PSS.  PSS agrees, for a period of three years\n         ------------------------                                          \nafter the effective date of the Merger, to file on a timely basis all reports\nrequired to be filed by it pursuant to Section 13 of the Securities Exchange Act\nof 1934, as amended, so that the public information provisions of Rule 145(d)\npromulgated by the SEC as the same are presently in effect will be available to\nthe undersigned in the event the undersigned desires to transfer any shares of\nPSS Common Stock issued to the undersigned pursuant to the Merger.\n     7.  Transfer Under Rule 145(d).  If the undersigned desires to sell or\n         --------------------------                                        \notherw",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-04",
+      "split": "holdout",
+      "doc_id": "ohr-law-affiliate",
+      "pdf_path": "data/docs/raw/law/GULFSOUTHMEDICALSUPPLYINC_12_24_1997-EX-4-AFFILIATE AGREEMENT.pdf",
+      "physical_pages": [
+        1
+      ],
+      "source_qa_id": "2866365a-fb4d-4ca6-b540-fe0246245efc",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "原文 GSMS 普通股面值 $.01；币种及小数位明确，题意匹配。",
+      "original_page_context": "by and among PSS, PSS\nMerger Corp. (\"Merger Corp.\") and GSMS.  Under the terms of the Agreement,\nMerger Corp. will be merged into and with GSMS (the \"Merger\"), and the shares of\nthe $.01 par value common stock of GSMS (\"GSMS Common Stock\") will be converted\ninto and exchanged for shares of the $.01 par value common stock of PSS (\"PSS\nCommon Stock\").  This Affiliate Agreement represents an agreement between the\nundersigned and PSS regarding certain rights and obligations of the undersigned\nin connection ",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-05",
+      "split": "dev",
+      "doc_id": "ohr-textbook-geology",
+      "pdf_path": "data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+      "physical_pages": [
+        1
+      ],
+      "source_qa_id": "9c546b13-f581-4c4c-bdb3-784510aac204",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "西侧汇入 Mersey 的河流是 Tame 和 Etherow；不能混用东侧 Humber 支流。",
+      "original_page_context": "ply south aiid takes an \nirregular course, shown by the parish boundary, to Devil’s Dike, \nwhere it passes out of the area and goes south-west to Ashop \nHead. \nOn the western side of this line the drainage is to the Mersey \nby the rivers Tame and Etherow; the basin of the latter forms a \nsalient projecting some seven miles east of the general run of \nthe North Sea—Irish Sea divide (see map, Fig. 1). To the east \nthe drainage is to rivers entering the Humber; the Marsden \nBrook and the Holme with their tributaries join the Calder; the \nDearne, Little Don ",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-06",
+      "split": "dev",
+      "doc_id": "ohr-textbook-geology",
+      "pdf_path": "data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+      "physical_pages": [
+        8
+      ],
+      "source_qa_id": "9c6725b2-7765-4a0a-95a6-ee8b3ced1be5",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "列举正确；原文有 perhaps，完整自然语言回答宜保留其谨慎语气。",
+      "original_page_context": ", though they suffer from the same \nlack of lime. The shales often give a heavy clay soil, which is \nmostly under grass, but the sandstones give lighter loams. Wheat, \noats and potatoes are perhaps the-most satisfactory arable crops; \nswedes and turnips are apt to suffer from ‘ finger and toe ’ disease, \nunless liming is liberal.' The Coal Measures are better wooded \nthan the Millstone Grits, oak and elm being prevalent instead of \nbirch, and the fields are often divided by hedgerows, ",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-07",
+      "split": "dev",
+      "doc_id": "ohr-textbook-geology",
+      "pdf_path": "data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+      "physical_pages": [
+        14
+      ],
+      "source_qa_id": "9c7b49ee-0599-4b64-890a-58b48b8f0f0d",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "450 至 550 英尺限定 Sheet 南部，不是所有地区统一厚度。",
+      "original_page_context": " beds between the Shale \nGrit and the Carboniferous Limestone in North Derbyshire are \nnow classed as part of the Millstone Grit Series. \nGeneral Stratigraphy \nThe Shale Grit forms a wide spread on the moors in the \nsouthern part of the Sheet, where it is 450 to 550 feet thick. It is \nalso exposed in the valleys of the Etherow and Tame. In the \nsouth it consists of grits and sandstones with frequent thin sandy \nshale beds and less fr",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-08",
+      "split": "dev",
+      "doc_id": "ohr-textbook-geology",
+      "pdf_path": "data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+      "physical_pages": [
+        8
+      ],
+      "source_qa_id": "9c6a4f19-6165-4ec6-b91d-55c727357c1d",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "四项与原文 viz. 列举一一对应；不把旁边地层表加入答案。",
+      "original_page_context": "stones of the Lower and \nMiddle Coal Measures are distinguished by colour, and the more \nimportant sandstones and coals are individually indicated by \nletters. In the Millstone Grits the shales are coloured uniformly \nthroughout, but the grits and sandstones are shown by four \ncolours for the main groups, viz., The Rough Rock Series, the \nMiddle Grits, the Kinderscout Grits and the Shale Grit. These \nagain are individually distinguished by letters. \nSuperficial Formations \n('Alluvium \nRecent\\ Peat \nI Gravel \nPleistocene :—fSand and Gravel \n\\Boulder ",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-09",
+      "split": "holdout",
+      "doc_id": "ohr-textbook-geology",
+      "pdf_path": "data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+      "physical_pages": [
+        4
+      ],
+      "source_qa_id": "ecee26b3-1a3b-4354-aff7-6887110eb69f",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "金标数字匹配，但原文 up to 8 ft 是上限；验收应接受“最多/可达 8 英尺”，不能解读为处处固定 8 英尺。",
+      "original_page_context": " displaced in recent years. The softer shales and mudstones \nform concave slopes, often marshy, between successive grit \nplateaux, locally known as ' slacks.’ \nApart from the exposures of bare rock mentioned above the \nmoors are largely covered with peat, up to 8 ft. in thickness, con¬ \nsisting mainly of cotton-grass (Eriophorum) which flourishes \nexceedingly on the ill-drained ground, almost to the exclusion of \nsphagnum mosses. Locally, however, these cotton-grass areas \nare termed ‘ mosses ’; the name ‘ Featherbed Moss ’ which, as \nnoted above, occurs three times on the one-inch map",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-10",
+      "split": "dev",
+      "doc_id": "ohr-manual-macbook-air",
+      "pdf_path": "data/docs/raw/manual/Macbook_air.pdf",
+      "physical_pages": [
+        65
+      ],
+      "source_qa_id": "3ff0b97a-a1f9-4f23-ae4e-8052329d0a1d",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "FCC Part 15 对应 Class B；加拿大规定属于附加信息。",
+      "original_page_context": "t is not installed and \nused properly—that is, in strict accordance with Apple’s \ninstructions—it may cause interference with radio and \ntelevision reception. \nThis equipment has been tested and found to comply \nwith the limits for a Class B digital device in accordance \nwith the specifications in Part 1 5 of FCC rules. These \nspecifications are designed to provide reasonable \nprotection against such interference in a residential \ninstallation. However, there is no guarantee ",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-11",
+      "split": "dev",
+      "doc_id": "ohr-manual-macbook-air",
+      "pdf_path": "data/docs/raw/manual/Macbook_air.pdf",
+      "physical_pages": [
+        3
+      ],
+      "source_qa_id": "401f8134-c3e5-4827-82bc-0550dfeddf7e",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "原文证据片段未包含应用标题，必须结合同页 iMovie 栏标题；版面核对后答案成立。",
+      "original_page_context": "d dynamic \nweb widgets.\nwww.apple.com/ilife/iweb\niWeb Help website\niPhoto\nOrganize all your photos \nwith Events. Publish to a \nWeb Gallery with a click.\niMovie\nCollect all your video in \none library. Create and \nshare movies in minutes.\niMovie Help movie\nwww.apple.com/ilife/imovie",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-12",
+      "split": "dev",
+      "doc_id": "ohr-manual-macbook-air",
+      "pdf_path": "data/docs/raw/manual/Macbook_air.pdf",
+      "physical_pages": [
+        67
+      ],
+      "source_qa_id": "406b40fe-fcde-40fe-bf9f-52c728a96c64",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "ENERGY STAR 的目标是推广节能产品，不是以节省费用等结果替代目标。",
+      "original_page_context": "pliance\nAs an ENERGY STAR® partner, Apple has determined \nthat standard configurations of this product meet the \nENERGY STAR® guidelines for energy efficiency. The \nENERGY STAR® program is a partnership with electronic \nequipment manufacturers to promote energy-efficient \nproducts. Reducing energy consumption of products \nsaves money and helps conserve valuable resources. \nThis computer is shipped with power management \nenabled with the ",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-13",
+      "split": "dev",
+      "doc_id": "ohr-manual-macbook-air",
+      "pdf_path": "data/docs/raw/manual/Macbook_air.pdf",
+      "physical_pages": [
+        52
+      ],
+      "source_qa_id": "410616bd-66bf-45f8-9cbe-3e7a74e0da1e",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "原文明确 AirPort Base Station 可在多台电脑之间共享一个 IP 地址。",
+      "original_page_context": "s translation (NAT) or “IP masquerading.” \nFor setup information, check the documentation provided with your router or ask the \nperson who set up your network. You can use an AirPort Base Station to share one \nIP address among multiple computers. For information about using an AirPort Base \nStation, check Mac Help or visit the Apple AirPort website at \nwww.apple.com/support/airport.\nIf you cannot resol",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-14",
+      "split": "holdout",
+      "doc_id": "ohr-manual-macbook-air",
+      "pdf_path": "data/docs/raw/manual/Macbook_air.pdf",
+      "physical_pages": [
+        64
+      ],
+      "source_qa_id": "40a2f403-fbb8-4582-b919-64532aff2792",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "125 度是原档案版手册规定的最大打开角度，不作为其他版本机型的建议。",
+      "original_page_context": "n Display\nAdjust the angle of the display to minimize glare and reflections from overhead lights \nand windows. Do not force the display if you meet resistance. The display is not meant \nto open past 1 25 degrees.\nYou can adjust the brightness of the screen when you take the computer from one \nwork location to another, or if the lighting in your work area changes.\nMore ",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-15",
+      "split": "dev",
+      "doc_id": "ohr-news-executive-insight",
+      "pdf_path": "data/docs/raw/news/DUDE_62ba680b413005aa9f018454c4ab4c43.pdf",
+      "physical_pages": [
+        10
+      ],
+      "source_qa_id": "864962b3-e99e-4364-a7da-a98e470a03a9",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "五种能力与 ELEMENTS OF SUCCESS 列表一致，ASQ/Forbes 研究归属可由同页上下文核对。",
+      "original_page_context": "c need: \nprotecting patients from harm and providing safe \ncare while in our facilities (source: Chassin, Loeb, \nMilbank Quarterly, 2013). \nELEMENTS OF SUCCESS\nSuccess boils down to five not-so-simple but \nfundamental capabilities—leadership, culture, \nstrategy execution, management practices, and \nrobust process improvement.\nASQ and Forbes surveyed executives and \nquality professionals internationally across di-\nverse industries and found only 12% consider \nt\nheir organization’s q",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-16",
+      "split": "dev",
+      "doc_id": "ohr-news-executive-insight",
+      "pdf_path": "data/docs/raw/news/DUDE_62ba680b413005aa9f018454c4ab4c43.pdf",
+      "physical_pages": [
+        11
+      ],
+      "source_qa_id": "864cce95-3e97-4b9e-a362-bc243927e72b",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "71% 对应高级管理者 world class 或至少 advanced；旁边 60% 是另一受访群体及另一评价范围。",
+      "original_page_context": "y organizations \nas well, a challenge that reflects blind spots within the C-suite that \ncan greatly encumber efforts to improve.\nRANKINGS OF QUALITY PROGRAMS \nAccording to the research, 71% of senior leaders rate their qual-\nity programs as world class or at least advanced. In comparison, \n60% of qu\nality professional respondents instead rank their quality \nprogram as average or below average. This conclusion would not \nsurprise ",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-17",
+      "split": "holdout",
+      "doc_id": "ohr-news-executive-insight",
+      "pdf_path": "data/docs/raw/news/DUDE_62ba680b413005aa9f018454c4ab4c43.pdf",
+      "physical_pages": [
+        8
+      ],
+      "source_qa_id": "86480bbe-9f76-49fa-a5a6-b8997f6bb6fb",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "姓名、职务和 Lenexa, KS 同属档案页的一个署名块；回答应按该档案时点，不当作现任信息。",
+      "original_page_context": " VA\nwww.statussolutions.com\nKEN PEREZ\nSenior Vice President \nof Marketing and Director \nof Healthcare Policy\nMedeAnalytics\nEmeryville, CA\nwww.medeanalytics.com\nCHRISTINE RICCI, RN, BSN, MBA\nChief Marketing Officer, \nB. E. Smith, Inc.\nLenexa, KS\nwww.besmith.com\nEDITORIAL ADVISORY BOARD\nJOSHUA ADLER, MD\nCMO, UCSF Medical Center\nSan Francisco, CA\nALLEN BUTCHER\nCFO, \nCamden Clark Memorial Hospital\nParkersburg, WV\nEDMUND ",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-18",
+      "split": "dev",
+      "doc_id": "ohr-academic-label-words",
+      "pdf_path": "data/docs/raw/academic/2305.14160v4.pdf",
+      "physical_pages": [
+        12
+      ],
+      "source_qa_id": "5710c060-2ea2-4ca2-9fda-de0ea9b0a8ae",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "AUCROC 与 AUC-ROC 是同一指标写法，原文直接量化所问相关性。",
+      "original_page_context": "trong correlation be-\ntween the attention distributions on the label words\nof the target position (Al(q, p1), ..., Al(q, pC)) and\nthe model’s final prediction. We use the AUC-\nROC score to quantify this correlation. We re-\ngard (Al(q, p1), ..., Al(q, pC)) as a classifier’s pre-\ndiction for the model output label (that is, Al(q, pi)\nis equivalent to the probability of mode",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-19",
+      "split": "dev",
+      "doc_id": "ohr-academic-label-words",
+      "pdf_path": "data/docs/raw/academic/2305.14160v4.pdf",
+      "physical_pages": [
+        6
+      ],
+      "source_qa_id": "571aa4f6-40a2-4015-8a40-a3799a1ab357",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "原文 particularly 明确突出 SST-2 和 EmoC；表 1 的四个评测数据集不能直接替代题目所问重点。",
+      "original_page_context": "-shot per class) (2) Vanilla ICL, where\nthe auxiliary training set of β is included as demon-\nstrations (5-shot per class) for a fair comparison.\n3.1.3 Results\nAs Table 1 shows, the proposed anchor re-\nweighting significantly enhances ICL performance,\nparticularly on the SST-2 and EmoC datasets. Be-\nsides, adding more demonstrations for vanilla ICL\nmay not bring a stable accuracy boost due to the po-\ntential noise introduced, as discussed in Zhao et a",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    },
+    {
+      "id": "rag-20",
+      "split": "holdout",
+      "doc_id": "ohr-academic-label-words",
+      "pdf_path": "data/docs/raw/academic/2305.14160v4.pdf",
+      "physical_pages": [
+        2
+      ],
+      "source_qa_id": "57446b2d-ddb3-48ee-af8b-6cbeb759f3ec",
+      "official_source_record_exact": true,
+      "question_answer_source_unchanged": true,
+      "zero_to_one_based_page_conversion_correct": true,
+      "pdf_hash_matches_manifest": true,
+      "reference_is_exact_original_page_substring": true,
+      "ai_gold_semantic_review": "correct",
+      "rationale": "原文写 16.7% average accuracy boost，金标忠于原文；不要自行改写成相对增幅或 16.7 倍。",
+      "original_page_context": "rawing on insights from the information flow\nperspective, we explore three approaches to en-\nhance ICL’s effectiveness, efficiency, and inter-\npretability. (1) An anchor re-weighting method\nis introduced, which employs a learnable vector to\nadjust the significance of different label words in\ndemonstrations, leading to a 16.7% average accu-\nracy boost compared to standard ICL baselines. (2)\nFor quicker ICL inference, inputs are compressed\ninto pre-calculated anchor representations since\nmodel predictions primarily rely on label word acti-\nvat",
+      "human_approval": false,
+      "source_gold_review_status": "needs_human_review",
+      "official_qa_artifact_hash_matches_provenance": true,
+      "pdf_hash_matches_gold_source_hash": true
+    }
+  ],
+  "actual_answer_reviews": [
+    {
+      "id": "rag-02",
+      "doc_id": "ohr-law-affiliate",
+      "question": "How many days after the end of the first fiscal quarter of Physician Sales & Service, Inc. must the financial results of post-Merger combined operations be published?",
+      "answer": "PSS must publish the financial results of post-Merger combined operations within 45 days after the end of the first fiscal quarter of PSS containing the required period of post-Merger combined operations [E1].",
+      "trace_id": "7521ae10-9b7d-43ec-9e83-7b4a7787f6c0",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "45 天、计时起点和含所需合并后经营期间的季度限定均与原页一致；E1 虽末尾截断 operations，但同片段上文已含该词组，核心依据可完整识别。",
+      "actual_citations": [
+        {
+          "evidence_id": "E1",
+          "page": 1,
+          "text": "as PSS notifies the undersigned that the requirements of SEC Accounting Series\nRelease Nos. 130 and 135 (\"ASR 130 and 135\") have been met. The undersigned\nunderstands that ASR 130 and 135 relate to publication of financial results of\npost-Merger combined operations of PSS and GSMS. PSS agrees that it will publish\nsuch results as promptly as practicable following the Merger in the sole\ndiscretion of PSS, but in any event within 45 days after the end of the first\nfiscal quarter of PSS containing the required period of post-Merger combined"
+        }
+      ],
+      "gold_pages": [
+        1
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-03",
+      "doc_id": "ohr-law-affiliate",
+      "question": "For how many years after the effective date of the Merger does PSS agree to file all reports required by Section 13 of the Securities Exchange Act of 1934?",
+      "answer": "PSS agrees to file all reports required by Section 13 of the Securities Exchange Act for a period of three years after the effective date of the Merger. [E1]",
+      "trace_id": "d972c693-eb14-4fe9-ae8b-d1e15795f79c",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "三年期限、合并生效日起算与 Section 13 范围均在 E1 中。",
+      "actual_citations": [
+        {
+          "evidence_id": "E1",
+          "page": 2,
+          "text": "---------------------------------------------\ncarefully read the Agreement and this Affiliate Agreement and discussed their\nrequirements and impact upon his ability to sell, transfer, or otherwise dispose\nof the shares of PSS Common Stock received by the undersigned, to the extent he\nbelieves necessary, with his counsel or counsel for GSMS.\n6. Filing of Reports by PSS. PSS agrees, for a period of three years\n------------------------\nafter the effective date of the Merger, to file on a timely basis all reports\nrequired to be filed by it pursuant to Section 13 of the Securities Exchange Act"
+        }
+      ],
+      "gold_pages": [
+        2
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-05",
+      "doc_id": "ohr-textbook-geology",
+      "question": "Which rivers drain the western side of the primary watershed in the area around Holmfirth and Glossop?",
+      "answer": "On the western side of the primary watershed, the drainage is to the Mersey by the rivers Tame and Etherow [E2].",
+      "trace_id": "52c4d7d9-9411-406f-bfdb-3d821fafee54",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "E2 明确 western side → Mersey → Tame/Etherow；回答完整。",
+      "actual_citations": [
+        {
+          "evidence_id": "E2",
+          "page": 1,
+          "text": "map, but then bends westward and is followed by a parish\nboundary past Swains Head, where it crosses the Yorkshire-\nDerbyshire boundary at right angles, to Bleaklow. Head (2,061\nft. above O'.D.). Here it turns sharply south aiid takes an\nirregular course, shown by the parish boundary, to Devil’s Dike,\nwhere it passes out of the area and goes south-west to Ashop\nHead.\nOn the western side of this line the drainage is to the Mersey\nby the rivers Tame and Etherow; the basin of the latter forms a\nsalient projecting some seven miles east of the general run of"
+        }
+      ],
+      "gold_pages": [
+        1
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-06",
+      "doc_id": "ohr-textbook-geology",
+      "question": "What are the most satisfactory arable crops grown in the soils of the Coal Measures?",
+      "answer": "The most satisfactory arable crops grown in the soils of the Coal Measures are wheat, oats and potatoes [E1].",
+      "trace_id": "bb738d73-f193-4fee-8cdb-50f21244631a",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "三种作物与 E1 一致；建议保留原文 perhaps 的谨慎语气，不影响本题列表匹配。",
+      "actual_citations": [
+        {
+          "evidence_id": "E1",
+          "page": 8,
+          "text": "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :\nThe soils of the Coal Measures are on the whole better than\nthose of the Millstone Grits, though they suffer from the same\nlack of lime. The shales often give a heavy clay soil, which is\nmostly under grass, but the sandstones give lighter loams. Wheat,\noats and potatoes are perhaps the-most satisfactory arable crops;\nswedes and turnips are apt to suffer from ‘ finger and toe ’ disease,\nunless liming is liberal.' The Coal Measures are better wooded\nthan the Millstone Grits, oak and elm being prevalent instead of"
+        }
+      ],
+      "gold_pages": [
+        8
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-07",
+      "doc_id": "ohr-textbook-geology",
+      "question": "What is the thickness range of the Shale Grit in the southern part of the Sheet?",
+      "answer": "The Shale Grit in the southern part of the Sheet is 450 to 550 feet thick. [E1]",
+      "trace_id": "54b2cbd4-d6e7-4411-a2c7-aaa9f3aee1ed",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "E1 原句同时包含南部范围和 450-550 feet；没有漏单位。",
+      "actual_citations": [
+        {
+          "evidence_id": "E1",
+          "page": 14,
+          "text": "base of the Sabden Shales® so that all the beds between the Shale\nGrit and the Carboniferous Limestone in North Derbyshire are\nnow classed as part of the Millstone Grit Series.\nGeneral Stratigraphy\nThe Shale Grit forms a wide spread on the moors in the\nsouthern part of the Sheet, where it is 450 to 550 feet thick. It is\nalso exposed in the valleys of the Etherow and Tame. In the\nsouth it consists of grits and sandstones with frequent thin sandy\nshale beds and less frequent thicker shale beds; in Longdendale\nthe exposed part of the series consists of thicker and more massive"
+        }
+      ],
+      "gold_pages": [
+        14
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-08",
+      "doc_id": "ohr-textbook-geology",
+      "question": "In the Millstone Grits, what are the four main groups of grits and sandstones distinguished by color on the map?",
+      "answer": "The four main groups of grits and sandstones distinguished by colour on the map in the Millstone Grits are: the Rough Rock Series, the Middle Grits, the Kinderscout Grits and the Shale Grit [E2].",
+      "trace_id": "aa822364-863a-4cb1-be7a-e633bde64d10",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "E2 中四组名称完整，回答没有加入旁边地层表项目。",
+      "actual_citations": [
+        {
+          "evidence_id": "E2",
+          "page": 8,
+          "text": "letters. In the Millstone Grits the shales are coloured uniformly\nthroughout, but the grits and sandstones are shown by four\ncolours for the main groups, viz., The Rough Rock Series, the\nMiddle Grits, the Kinderscout Grits and the Shale Grit. These\nagain are individually distinguished by letters.\nSuperficial Formations\n('Alluvium\nRecent\\ Peat\nI Gravel\nPleistocene :—fSand and Gravel\n\\Boulder Clay\nSolid Formations\nUpper Carboniferous :—\n. Middle Coal Measures :—(top of division not present).\n- Ft. ,\nThornhill Rock ... ... . . 504\nC Measures ... .\n1-Joan Coal"
+        }
+      ],
+      "gold_pages": [
+        8
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-10",
+      "doc_id": "ohr-manual-macbook-air",
+      "question": "What type of digital device classification is specified for the equipment in accordance with the FCC rules?",
+      "answer": "The equipment is specified as a Class B digital device in accordance with the specifications in Part 15 of FCC rules. [E1] This Class B device also meets all requirements of the Canadian interference-causing equipment regulations. [E3]",
+      "trace_id": "809116b5-3f68-4c26-9ef5-f5800af005d3",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "所问 Class B/Part 15 由 E1 支持；额外加拿大规定由 E3 支持，虽可精简但未虚构。",
+      "actual_citations": [
+        {
+          "evidence_id": "E1",
+          "page": 65,
+          "text": "information that came with your Apple product. Or\nused properly—that is, in strict accordance with Apple’s\nconsult an experienced radio/television technician for\ninstructions—it may cause interference with radio and\nadditional suggestions.\ntelevision reception.\nImportant: Changes or modifications to this product\nThis equipment has been tested and found to comply\nnot authorized by Apple Inc., could void the EMC\nwith the limits for a Class B digital device in accordance\ncompliance and negate your authority to operate the\nwith the specifications in Part 15 of FCC rules. These\nproduct."
+        },
+        {
+          "evidence_id": "E3",
+          "page": 66,
+          "text": "limits. Nevertheless, it is advised to use the wireless\nequipment in such a manner that the potential for\nhuman contact during normal operation is minimized.\nFCC Bluetooth Wireless Compliance\nThe antenna used with this transmitter must not be\ncollocated or operated in conjunction with any other\nantenna or transmitter subject to the conditions of the\nFCC Grant.\nBluetooth Industry Canada Statement\nThis Class B device meets all requirements of the\nCanadian interference-causing equipment regulations.\nCet appareil numérique de la Class B respecte toutes les Taiwan Class B Statement"
+        }
+      ],
+      "gold_pages": [
+        65
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-11",
+      "doc_id": "ohr-manual-macbook-air",
+      "question": "Which application allows you to create and share movies in minutes?",
+      "answer": "iMovie allows you to create and share movies in minutes. [E1]",
+      "trace_id": "9864042d-28f3-4f96-bb59-6b145b4f34cf",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "E1 标题与栏内 Create/share movies 对应；已结合原页双栏版面核对，不仅依赖串行文字。",
+      "actual_citations": [
+        {
+          "evidence_id": "E1",
+          "page": 3,
+          "text": "iMovie iPhoto\nCollect all your video in Organize all your photos\none library. Create and with Events. Publish to a\nshare movies in minutes. Web Gallery with a click.\nwww.apple.com/ilife/imovie www.apple.com/ilife/iphoto\niMovie Help movie iPhoto Help photo\nGarageBand iWeb\nCreate music by adding Create beautiful websites\nmusicians to a virtual stage. with photos, movies, blogs,\nEnhance your song to sound podcasts, and dynamic\nlike a pro. web widgets.\nwww.apple.com/ilife/garageband www.apple.com/ilife/iweb\nGarageBand Help record iWeb Help website"
+        }
+      ],
+      "gold_pages": [
+        3
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-12",
+      "doc_id": "ohr-manual-macbook-air",
+      "question": "What is the primary goal of the ENERGY STAR program in which Apple participates?",
+      "answer": "The ENERGY STAR program is a partnership with electronic equipment manufacturers to promote energy-efficient products; reducing energy consumption of products saves money and helps conserve valuable resources [E1][E2].",
+      "trace_id": "291aeb3c-4045-4003-aa13-59ad2a0a75a0",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "主目标由 E1 支持，节能带来的节省费用和资源保护由 E2 补全；两片段合起来支持整句。",
+      "actual_citations": [
+        {
+          "evidence_id": "E1",
+          "page": 67,
+          "text": "VCCI Class B Statement\nExternal USB Modem Information\nWhen connecting your MacBook Air to the phone line\nusing an external USB modem, refer to the\ntelecommunications agency information in the\ndocumentation that came with your modem.\nENERGY STAR® Compliance\nAs an ENERGY STAR® partner, Apple has determined\nthat standard configurations of this product meet the\nENERGY STAR® guidelines for energy efficiency. The\nENERGY STAR® program is a partnership with electronic\nequipment manufacturers to promote energy-efficient\nproducts. Reducing energy consumption of products"
+        },
+        {
+          "evidence_id": "E2",
+          "page": 67,
+          "text": "products. Reducing energy consumption of products\nsaves money and helps conserve valuable resources.\nThis computer is shipped with power management\nenabled with the computer set to sleep after 10 minutes\nof user inactivity. To wake your computer, click the\nmouse or trackpad button or press any key on the\nkeyboard.\nFor more information about ENERGY STAR®, visit:\nwww.energystar.gov\n67"
+        }
+      ],
+      "gold_pages": [
+        67
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-13",
+      "doc_id": "ohr-manual-macbook-air",
+      "question": "Which device can be used to share one IP address among multiple computers?",
+      "answer": "You can use an AirPort Base Station to share one IP address among multiple computers. [E1]",
+      "trace_id": "ede6aac5-e47f-4f87-8f2e-78627b0b4d8d",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "E1 原句直接支持 AirPort Base Station 共享 IP 的回答。",
+      "actual_citations": [
+        {
+          "evidence_id": "E1",
+          "page": 52,
+          "text": "wireless network is set up properly. You need to know if your ISP provides only one IP\naddress or if it provides multiple IP addresses, one for each computer.\nIf only one IP address is provided, then you must have a router capable of sharing the\nconnection, also known as network address translation (NAT) or “IP masquerading.”\nFor setup information, check the documentation provided with your router or ask the\nperson who set up your network. You can use an AirPort Base Station to share one\nIP address among multiple computers. For information about using an AirPort Base"
+        }
+      ],
+      "gold_pages": [
+        52
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-15",
+      "doc_id": "ohr-news-executive-insight",
+      "question": "What are the five fundamental capabilities identified by ASQ and Forbes Insights as essential for building a successful organizational culture?",
+      "answer": "ASQ and Forbes Insights identified five fundamental capabilities essential for building a successful organizational culture: leadership, culture, strategy execution, management practices, and robust process improvement [E1][E2].",
+      "trace_id": "433e4e26-7f9a-4c12-8b37-2a8214d59375",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "五项能力全部列出；E1/E2 的栏目、列表及 ASQ/Forbes 研究上下文可以支持。",
+      "actual_citations": [
+        {
+          "evidence_id": "E1",
+          "page": 11,
+          "text": "EYE ON QUALITY\nSuccess boils down to five not-so-sim- to leadership and effective action at all levels to build culture that\nsupports excellence and high reliability into operations. Awareness\nple but fundamental capabilities—\nof how the organization is perceived at all levels is key to building\nleadership, culture, strategy execution,\neffective approaches to culture change.\nmanagement practices, and robust pro-\nBUILDING A NEW CULTURE\ncess improvement.\nBut there are other critical elements to building a culture that is\nready and able to address quality problems effectively. Approaches"
+        },
+        {
+          "evidence_id": "E2",
+          "page": 10,
+          "text": "ELEMENTS OF SUCCESS\nInsights. The study, conducted in a variety of in-\ndustries, including healthcare, highlighted the Success boils down to five not-so-simple but\nuniversal challenge of leading for excellence. The fundamental capabilities—leadership, culture,\nresearch underscored that every leader, regardless strategy execution, management practices, and\nof industry or country around the world, must robust process improvement.\nwork deliberately and persistently from C-suite to ASQ and Forbes surveyed executives and"
+        }
+      ],
+      "gold_pages": [
+        10
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-16",
+      "doc_id": "ohr-news-executive-insight",
+      "question": "What percentage of senior leaders rate their quality programs as world class or advanced according to the research?",
+      "answer": "According to the research, 71% of senior leaders rate their quality programs as world class or at least advanced. [E3]",
+      "trace_id": "a0fd4119-1b12-4284-9ab0-3c8dd5da9da8",
+      "semantic_correctness": "correct",
+      "claim_support": "incomplete",
+      "joint_acceptance": false,
+      "rationale": "答案 71% 在原页是正确的，但实际唯一引用 E3 截断于 qual-，未包含 world class / at least advanced 分类条件。同页真实性和金标页命中不能证明该引用支持整句。",
+      "actual_citations": [
+        {
+          "evidence_id": "E3",
+          "page": 11,
+          "text": "as well, a challenge that reflects blind spots within the C-suite that built mature processes for strategy and implementation, managed\ncan greatly encumber efforts to improve. oversight of excellence in their clinical service units, and created\nrobust process improvement. All of this investment has allowed\nRANKINGS OF QUALITY PROGRAMS DUH to be named in the Top 100 HospitalTM seven times and re-\nAccording to the research, 71% of senior leaders rate their qual- ceive recognition from the Baldrige Performance Excellence Pro-"
+        }
+      ],
+      "gold_pages": [
+        11
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-18",
+      "doc_id": "ohr-academic-label-words",
+      "question": "What is the correlation between attention distributions on label words and the model's final prediction quantified by?",
+      "answer": "The correlation between attention distributions on label words of the target position and the model's final prediction is quantified using the AUC-ROC score [E1][E3].",
+      "trace_id": "792177f7-33cc-46b3-b4aa-f54f5e002423",
+      "semantic_correctness": "correct",
+      "claim_support": "complete",
+      "joint_acceptance": true,
+      "rationale": "E1/E3 明确注意力分布与模型预测相关性由 AUC-ROC 量化；拼写变体等价。",
+      "actual_citations": [
+        {
+          "evidence_id": "E1",
+          "page": 12,
+          "text": "ytlayoL\ntrices of all attention heads at the l layer is A .\nl\nWe postulate that there’s a strong correlation be-\ntween the attention distributions on the label words\nof the target position (A (q,p ),...,A (q,p )) and\nl 1 l C\nthe model’s final prediction. We use the AUC-\nROC score to quantify this correlation. We re-\ngard (A (q,p ),...,A (q,p )) as a classifier’s pre-\nl 1 l C\ndiction for the model output label (that is, A (q,p )\nl i\nis equivalent to the probability of model outputting\nlabel i), and compute the AUC-ROC value of this\nprediction relative to the actual model output. We"
+        },
+        {
+          "evidence_id": "E3",
+          "page": 5,
+          "text": "layer as A .5 In deeper layers, we find a strong\nl\ncorrelation between the attention distributions on\nthe label words of the target position, represented\nas (A (q,p ),...,A (q,p )), and the model’s final\nl 1 l C\nprediction, affirming our hypothesis. The experi-\nmental setup mirrors that discussed in § 2.2.\n2.3.1 Experiments\nWe utilize the AUC-ROC score to quantify the cor-\nrelation between A (q,p ) and model prediction,\nl i (a) GPT2-XL (total 48 layers).\nwhich we denote as AUCROC for the l-th layer.\nl\nWe prefer the AUC-ROC metric due to two pri-"
+        }
+      ],
+      "gold_pages": [
+        12
+      ],
+      "human_approval": false
+    },
+    {
+      "id": "rag-19",
+      "doc_id": "ohr-academic-label-words",
+      "question": "Which datasets showed significant performance enhancement with the proposed anchor reweighting method?",
+      "answer": "The proposed anchor re-weighting method significantly enhances ICL performance as shown in Table 1 [E2]. Table 1 compares Anchor Re-weighting (1-shot per class) against Vanilla In-Context Learning baselines on several datasets, with Anchor Re-weighting achieving the best performance overall tasks [E4]. The datasets evaluated are SST-2, TREC, AGNews, and EmoC [E4].",
+      "trace_id": "b60c6989-cbb4-46e2-9926-9e8413866c0e",
+      "semantic_correctness": "incomplete",
+      "claim_support": "complete",
+      "joint_acceptance": false,
+      "rationale": "所列四个评测集及 overall tasks 表述都受到表 1/E4 支持；但没有回答原页特别突出哪些数据集这一重点，遗漏 particularly on SST-2 and EmoC，因此按题意判 incomplete，而非把所有陈述判虚构。",
+      "actual_citations": [
+        {
+          "evidence_id": "E2",
+          "page": 6,
+          "text": "j=1 q j in Appendix H.\n√\nWe compare Anchoring Re-weighting with two\nBy setting q / d = xˆ and k − k = β , we\nq pi pC i\nbaselines: (1) Vanilla ICL with the same demon-\ndeduce:\nstration (1-shot per class) (2) Vanilla ICL, where\nlog Pr f (Y = i|X = x) = βTxˆ. (7) the auxiliary training set of β is included as demon-\nPr (Y = C|X = x) i\nf strations (5-shot per class) for a fair comparison.\nThis approximates a logistic regression model\n3.1.3 Results\nwhere:\nAs Table 1 shows, the proposed anchor re-\nlog Pr f (Y = i|X = x) = βi + βTx. (8) weighting significantly enhances ICL performance,"
+        },
+        {
+          "evidence_id": "E4",
+          "page": 7,
+          "text": "Method SST-2 TREC AGNews EmoC Average\nVanilla In-Context Learning ( 1-shot per class ) 61.28 57.56 73.32 15.44 51.90\nVanilla In-Context Learning ( 5-shot per class ) 64.75 60.40 52.52 9.80 46.87\nAnchor Re-weighting (1-shot per class) 90.07 60.92 81.94 41.64 68.64\nTable 1: The effect after adding parameter βi. For AGNews, due to the length limit, we only use three demonstrations\n0\nper class. Our Anchor Re-weighting method achieves the best performance overall tasks.\nfrom the demonstrations. Given the auto-regressive Method Label Loyalty Word Loyalty Acc."
+        }
+      ],
+      "gold_pages": [
+        6
+      ],
+      "human_approval": false
+    }
+  ],
+  "findings": [
+    {
+      "id": "B-01",
+      "severity": "high",
+      "file": "qa_agent/rag/chunker.py",
+      "finding": "按长度加整行截断不能保证完整句子；逗号后的限定词或连字符续行可能落入下一块，导致 rag-19 回答遗漏重点以及 rag-16 引用条件不完整。",
+      "action": "以通用完整句界与表格整行边界切片，保留同页及600字符上限；超长句无法完整时记录片段完整性，不读取评测答案。"
+    },
+    {
+      "id": "B-02",
+      "severity": "medium",
+      "file": "qa_agent/rag/answer.py",
+      "finding": "当前 validate_answer 核对引用集合和编号存在性，没有证明每个事实断言由对应引用支持。",
+      "action": "本 D1 报告明确限制指标含义；改进生成提示及切片后重新开发集复核，D2继续完善数字/引用支持核验。"
+    },
+    {
+      "id": "B-03",
+      "severity": "low",
+      "file": "qa_agent/rag/chunker.py",
+      "finding": "宽泛数字前缀和大写规则可把含数字的金融/ICL表行误作章节标题。",
+      "action": "排除多数值的数据行；字体标题候选使用同样过滤，保留原文字符串与真实坐标。"
+    }
+  ],
+  "repair_validation": {
+    "completed_at_utc": "2026-10-10T12:44:10.993795+00:00",
+    "source_runtime_repair_complete": true,
+    "new_dense_index_rebuild": "root running; not performed by this reviewer",
+    "new_real_predictions_review": "pending",
+    "test_command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\test_rag_core.py -q --tb=short",
+    "test_pass": 34,
+    "new_regression_tests": 7,
+    "test_failed": 0,
+    "index_version": 2,
+    "max_chars": 600,
+    "target_overlap": 80,
+    "cross_page": false,
+    "source_text_rewritten": false,
+    "gold_in_runtime_rules": false,
+    "algorithm": "complete sentence or numeric table line; forced long units are disclosed; actual source offsets retained; numeric rows excluded from headings",
+    "changed_files_sha256": {
+      "qa_agent/rag/chunker.py": "402f67b9f39389c54023be93268144dd9d9aafb7c666f1ef369292a1944d228d",
+      "qa_agent/rag/parsers.py": "08b2a09514355f685376e3f3035ca98c6dd71370435b44e6e3997050ab7e224f",
+      "qa_agent/rag/index.py": "01ba11da37f6cd899a85e6363d842b9255346580c28d7b83e39958c69f9796f9",
+      "tests/test_rag_core.py": "70bb651f98e50f897889c5a72f92cbe7a32a5c6ed5ebf2262be3e18ec5a74fb5"
+    },
+    "offline_original_page_inspection": [
+      {
+        "doc_id": "ohr-news-executive-insight",
+        "physical_page": 11,
+        "finding": "71% and world class / at least advanced classification now located in one unchanged source chunk"
+      },
+      {
+        "doc_id": "ohr-academic-label-words",
+        "physical_page": 6,
+        "finding": "significantly improves statement and particularly on SST-2 and EmoC now located in one unchanged source chunk"
+      }
+    ]
+  }
+}
