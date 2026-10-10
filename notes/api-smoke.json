@@ -1,22 +1,15 @@
 {
-  "health": {
-    "status": "ok",
-    "stage": "D1",
-    "database_ready": true,
-    "llm_configured": false,
-    "model": "deepseek-flash",
-    "catalog_exists": true,
-    "statement_timeout_ms": 5000,
-    "max_rows": 200
-  },
-  "checked_at_utc": "2026-10-10T11:35:08.3568056+00:00",
   "response": {
-    "trace_id": "d201261e-8cb5-4344-a2cf-2a361d9c12d3",
-    "status": "FAILED",
-    "answer": "请在项目本地 .env 配置 LLM_API_KEY，然后重启 API 服务。",
+    "trace_id": "e3d60740-2020-4ba1-8e6c-e2d8d8179b0d",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：59。",
     "rewritten_question": null,
-    "sql": null,
-    "table": null,
+    "sql": "SELECT COUNT(*) FROM \"public\".\"customer\"",
+    "table": [
+      {
+        "count": 59
+      }
+    ],
     "evidences": [],
     "clarification": null,
     "intent": {
@@ -46,37 +39,138 @@
       },
       {
         "name": "config_check",
-        "status": "error",
+        "status": "ok",
         "input_summary": {},
         "output_summary": {
-          "llm_configured": false,
+          "llm_configured": true,
           "model": "deepseek-flash",
           "catalog_exists": true,
           "statement_timeout_ms": 5000,
-          "max_rows": 200,
-          "error": "请在项目本地 .env 配置 LLM_API_KEY，然后重启 API 服务。"
+          "max_rows": 200
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11
+        },
+        "latency_ms": 21
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "客户表共有多少位客户？",
+          "repair_attempt": 0
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\"",
+          "explanation": "统计客户表中的客户总数"
+        },
+        "latency_ms": 3357
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 38,
+            "prompt_tokens": 4151,
+            "total_tokens": 4189,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 3968
+            },
+            "prompt_cache_hit_tokens": 3968,
+            "prompt_cache_miss_tokens": 183
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2454
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\""
+        },
+        "output_summary": {
+          "tables": [
+            "customer"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\""
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\"",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 13
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
         },
         "latency_ms": 0
       }
     ],
-    "error": {
-      "code": "missing_llm_key",
-      "message": "请在项目本地 .env 配置 LLM_API_KEY，然后重启 API 服务。",
-      "retryable": false
-    },
+    "error": null,
     "metadata": {
       "model": "deepseek-flash",
       "db_id": "chinook",
-      "latency_ms": 72
+      "result_columns": [
+        "count"
+      ],
+      "truncated": false,
+      "latency_ms": 3392
     }
   },
   "request": {
-    "message": "客户有多少位？",
     "scope": {
-      "route": "sql",
       "db_id": "chinook",
-      "doc_ids": []
+      "doc_ids": [],
+      "route": "sql"
     },
-    "session_id": "d1-http-smoke"
+    "session_id": "A-d1-real-model-demo",
+    "message": "客户表共有多少位客户？"
+  },
+  "checked_at_utc": "2026-10-10T11:40:23.3521020+00:00",
+  "health": {
+    "status": "ok",
+    "stage": "D1",
+    "database_ready": true,
+    "llm_configured": true,
+    "model": "deepseek-flash",
+    "catalog_exists": true,
+    "statement_timeout_ms": 5000,
+    "max_rows": 200
   }
 }

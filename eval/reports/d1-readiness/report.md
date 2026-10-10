@@ -3,22 +3,20 @@
 状态：READINESS_ONLY
 题集：dev；选中 21 题；实际预测 0 题。
 保留题预测：本次未运行
-模型：deepseek-flash；Git commit：361f05eede8d23f9b92a308d1690d39a52c33544。
+模型：deepseek-flash；Git commit：fe4c4b9bddc3dbc5e23aa1d0a7089f879e2be335。
 
 未运行模型预测，不计算 EX。
 
 需要处理：
-- 本地 LLM_API_KEY 尚未配置；未调用模型，不能生成真实基线。
 - gold 等待人工复核：sql-01, sql-02, sql-04, sql-05, sql-06, sql-07, sql-09, sql-10, sql-11, sql-13, sql-14, sql-15, sql-17, sql-18, sql-19, sql-21, sql-22, sql-24, sql-26, sql-27, sql-29
-- 运行中的 API 未配置 LLM key。
 
 ## 溯源
 
 ```json
 {
-  "created_at_utc": "2026-10-10T11:35:57.828041+00:00",
-  "git_commit": "361f05eede8d23f9b92a308d1690d39a52c33544",
-  "working_tree_dirty": false,
+  "created_at_utc": "2026-10-10T11:40:52.630514+00:00",
+  "git_commit": "fe4c4b9bddc3dbc5e23aa1d0a7089f879e2be335",
+  "working_tree_dirty": true,
   "frozen_tag": null,
   "dataset": "E:\\中国电子杯-赛题八\\system\\eval\\datasets\\nl2sql_chinook.jsonl",
   "dataset_sha256": "14ab118f0d325c8ab796a2802da78385c34619df809d13a2ad70d518943e4cfa",
@@ -33,7 +31,7 @@
     "status": "ok",
     "stage": "D1",
     "database_ready": true,
-    "llm_configured": false,
+    "llm_configured": true,
     "model": "deepseek-flash",
     "catalog_exists": true,
     "statement_timeout_ms": 5000,

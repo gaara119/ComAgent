@@ -114,9 +114,9 @@ def build(output: Path = DEFAULT_DATASET) -> dict[str, Any]:
         "dataset_sha256": hashlib.sha256(output.read_bytes()).hexdigest(),
         "actual_invoice_date_range": [earliest.isoformat(), latest.isoformat()],
         "split_counts": dict(split_counts), "category_counts": dict(Counter(item["category"] for item in specifications)),
-        "gold_sql_executed": 30, "model_predictions_executed": 0, "holdout_predictions_executed": 0,
+        "gold_sql_executed": 30, "gold_build_model_prediction_count": 0, "gold_build_holdout_prediction_count": 0,
         "gold_pending_human_review": sum(not reviewed(item) for item in specifications),
-        "notes": "运行所有 gold SQL 是标注核验；保留题未送入模型。日期取自真实导入数据库。",
+        "notes": "上述执行与预测计数仅描述本次题库构建：运行 30 条 gold SQL 是标注核验，构建过程没有模型预测。实际系统预测次数和成绩以 eval/reports 下各次运行记录为准。日期取自真实导入数据库。",
     }
     (output.parent / "nl2sql_chinook_manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     return manifest

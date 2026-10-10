@@ -61,7 +61,7 @@ docker compose --project-name comagent-d1 ps
 
 `check_db.py` 使用只读账号获取实际行数、国家值和发票日期，验证其没有写权限，并导出 B 的选材结果。`build_catalog.py` 用真实表列和主外键生成中文目录。检查记录见 `data/db/db_check.json`，来源与 SHA256 见 `data/db/source_manifest.json`。
 
-连接规则：本机程序使用 `127.0.0.1:55432`；Compose 服务名是 `chinook-pg`、容器内端口是 `5432`。应用的 `DB_URL` 使用 `qa_reader`，管理账号只用于初始化。此服务与已有其他 Docker 项目分开。
+连接规则：本机程序使用 `127.0.0.1:55432`；Compose 服务名是 `chinook-pg`、容器内端口是 `5432`。应用的 `CHINOOK_DB_URL` 使用 `qa_reader`，也兼容旧字段 `DB_URL`，优先读取非空的 `CHINOOK_DB_URL`。管理账号只用于初始化。此服务与已有其他 Docker 项目分开。
 
 如果容器异常，先查看本项目日志：
 
@@ -86,6 +86,8 @@ LLM_API_KEY=在本机编辑器内填写真实key
 ```
 
 上面的 key 文本是说明占位，不能原样使用。`LLM_MODEL` 以你账号实际支持的模型 ID 为准。已有 `.env` 中的数据库口令由本机配置生成，保留它们；不要用 `.env.example` 覆盖现有文件，不要把 key 发到聊天、写进源码、截图或提交 Git。
+
+你给出的共享字段已经纳入配置：`CHINOOK_DB_URL` 连接当前只读库；`SQL_STATEMENT_TIMEOUT_MS=5000` 控制 SQL 超时并优先于旧字段 `STATEMENT_TIMEOUT_MS`；`AW_DB_URL` 留作后续 AdventureWorks 配置。RAG 清单/索引/模型路径、Top-K、512 长度、2 批次、CPU/int8 与 `RAG_ANSWER_MODE=llm` 可由 B 通过 `get_settings()` 读取。这些是配置值；RAG 数据、模型和实际检索仍须 B 准备，配置本身不会自动建立索引。
 
 保存后运行：
 

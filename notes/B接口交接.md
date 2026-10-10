@@ -9,7 +9,7 @@
 | 文件 | B 的用途 |
 |---|---|
 | `qa_agent/schemas.py` | 导入 `ChatRequest`、`SourceScope`、`AnswerEnvelope`、`IntentContract`、`Evidence`、`Step`、`ErrorDetail` |
-| `qa_agent/config.py` | `get_settings()` 读取同一个本地 `.env`；字段 `.llm_*` 与 `.rag_handler` |
+| `qa_agent/config.py` | `get_settings()` 读取同一个本地 `.env`；字段 `.llm_*`、`.rag_handler`、`.rag_*` 与 `.bge_model_path` |
 | `qa_agent/llm.py` | `JsonLLM.complete_json()`，共享超时、总调用预算、结构检查及错误分类 |
 | `qa_agent/trace.py` | `TraceRecorder` 记录 B 实际发生的阶段，不编造步骤 |
 | `qa_agent/pipeline.py` | 分派 SQL/doc、调用 B handler、验证共享响应 |
@@ -57,6 +57,8 @@ def run_doc_qa(*, question: str, doc_id: str, trace_id: str,
 上面是签名说明，`...` 不是完整实现，不应部署。`async def` 和相同的关键字参数也受支持。函数可以返回 `AnswerEnvelope`，也可以返回可通过 `AnswerEnvelope.model_validate()` 的 dict；A 的同步 FastAPI 路由会等待 awaitable。
 
 可以用其他函数名和文件名，但 `.env` 的 `RAG_HANDLER` 必须同步修改，模块需要位于 `qa_agent.rag.` 下。保存配置后重启 API。B handler 不能再把请求递归发回 `/api/chat`，应直接调用自己的文档服务和共享模型调用层。
+
+用户给出的 RAG 配置已保存：清单 `data/docs/manifest.csv`、索引 `data/processed/rag/ohr`、BGE 路径 `data/models/bge-m3`、Top-K 5、max length 512、batch size 2、device cpu、quantization int8、answer mode llm。`get_settings()` 将路径解析为项目内绝对路径。B 需要根据真实检索实现使用这些字段并记录实际生效方式；当前没有自动下载模型或实现量化。SQL 优先使用非空 `CHINOOK_DB_URL`，兼容旧字段 `DB_URL`；超时字段优先使用 `SQL_STATEMENT_TIMEOUT_MS`。
 
 A 传给 B 的 `question` 是本次用户原问题；`doc_id` 是本次显式指定文档；`trace_id` 由 A 创建；`intent` 初始为 `IntentContract(route="doc", task_type="doc_qa")`。B 返回的 `trace_id` 会被 A 统一为当前值；B 的 `steps` 会追加在 A 的真实路由/调用记录后，`metadata.latency_ms` 会写成整个请求的时间。
 

@@ -22,8 +22,8 @@
     "no_match": 2
   },
   "gold_sql_executed": 30,
-  "model_predictions_executed": 0,
-  "holdout_predictions_executed": 0,
+  "gold_build_model_prediction_count": 0,
+  "gold_build_holdout_prediction_count": 0,
   "gold_pending_human_review": 30,
-  "notes": "运行所有 gold SQL 是标注核验；保留题未送入模型。日期取自真实导入数据库。"
+  "notes": "上述执行与预测计数仅描述本次题库构建：运行 30 条 gold SQL 是标注核验，构建过程没有模型预测。实际系统预测次数和成绩以 eval/reports 下各次运行记录为准。日期取自真实导入数据库。"
 }
