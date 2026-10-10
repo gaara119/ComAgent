@@ -1,171 +1,144 @@
-# D1：A → B 接口与数据交接
+# D1：A + B 共用接口与实现交接
 
-本项目按用户“完成 A 剩余 D1 工作”的授权实现了 A 的数据库、单表 SQL 通道、共享模型调用与统一 API。本文给 B 接入 PDF 问答和 Streamlit 的具体契约；**B 的解析、索引、检索、证据回答和前端仍由 B 实现**。A 的 RAG 适配入口已存在，不代表 RAG 已经可用。
+A 的 SQL 与 B 的单文档 RAG 已接入统一 API，Streamlit 只通过 HTTP 调用该 API。模型可用性、实际索引方式、工程验证和题库结果以具体实跑记录为准。
 
-## 1. 共用入口与源码
+## 1. 实际入口和模块
 
-共用入口是 `POST http://127.0.0.1:8000/api/chat`。本机接口文档在 `/docs`；API 启动方法见 `README.md`。B 的 Streamlit 可以作为 API 客户端展示 SQL 和文档通道，避免在前端另写一套 SQL 执行逻辑。
-
-| 文件 | B 的用途 |
+| 入口／模块 | 用途 |
 |---|---|
-| `qa_agent/schemas.py` | 导入 `ChatRequest`、`SourceScope`、`AnswerEnvelope`、`IntentContract`、`Evidence`、`Step`、`ErrorDetail` |
-| `qa_agent/config.py` | `get_settings()` 读取同一个本地 `.env`；字段 `.llm_*`、`.rag_handler`、`.rag_*` 与 `.bge_model_path` |
-| `qa_agent/llm.py` | `JsonLLM.complete_json()`，共享超时、总调用预算、结构检查及错误分类 |
-| `qa_agent/trace.py` | `TraceRecorder` 记录 B 实际发生的阶段，不编造步骤 |
-| `qa_agent/pipeline.py` | 分派 SQL/doc、调用 B handler、验证共享响应 |
-| `data/handoff/A_to_B_chinook.json`、`.md` | 艺术家实际 Top10、查询 SQL、收入和国家字段口径 |
+| `POST /api/chat` | SQL／指定文档共用问答 |
+| `GET /health` | 进程、真实数据库连接与共享配置 |
+| `GET /api/documents` | 受控清单，含标题、物理页数、哈希及 ready |
+| `GET /api/documents/{doc_id}/file` | 清单登记的原 PDF |
+| `GET /api/documents/{doc_id}/pages/{page}` | PDF 指定物理页 PNG，页从 1 起 |
+| `qa_agent/schemas.py` | 共享请求、来源、响应、意图、证据与步骤 |
+| `config.py`／`llm.py`／`trace.py` | 共享设置、JSON 模型调用／错误、真实步骤／计时 |
+| `qa_agent/rag/service.py` | 实现指定文档加载、检索、证据回答与共享响应 |
+| `rag/parsers.py`／`chunker.py`／`index.py` | 原 PDF 抽取、保留物理页切片、带来源哈希的索引 |
+| `rag/embeddings.py`／`retriever.py` | CPU BGE-M3 QInt8 ONNX、单文档 BM25／dense 排名融合 |
+| `ui/app.py` | 来源选择、答案、SQL／表、引用／原页、步骤 |
 
-Pydantic 协议使用 `extra="forbid"`：字段名不一致或在模型上塞额外字段会报错。添加新字段前 A/B 先协调；检索模式、评分、文档来源等扩展信息可放 `metadata`，不能擅自给 `Evidence` 添加 `url`。
-
-## 2. 请求格式与路由边界
-
-文档请求为：
-
-```json
-{
-  "session_id": "B-d1-doc-demo",
-  "message": "用户针对当前文档提出的实际问题",
-  "scope": {
-    "route": "doc",
-    "db_id": null,
-    "doc_ids": ["B真实清单中的doc_id"]
-  }
-}
-```
-
-这个 JSON 的 `doc_id` 是字段位置说明，必须换成 B 清单中的真实值。D1 文档通道要求且仅允许一个 `doc_ids`；没有选择或多选会返回 `UNSUPPORTED`。SQL 请求为 `route: sql`、`db_id: chinook`、空 `doc_ids`。`auto`、`hybrid`、跨来源链路和多文档比较是后续工作，当前入口会明确拒绝。
-
-`session_id` 目前用于请求协议，不能据此宣称已实现多轮意图状态合并。D1 路由来自用户在界面的显式选择；`IntentContract` 也不代表中级题的完整语义识别和澄清已完成。
-
-## 3. B 的 handler：模块位置、签名和返回值
-
-默认配置：
-
-```dotenv
-RAG_HANDLER=qa_agent.rag.service:run_doc_qa
-```
-
-B 创建 `qa_agent/rag/service.py` 并实现以下关键字参数签名：
+默认 API 8000、页面 8501，`RAG_HANDLER=qa_agent.rag.service:run_doc_qa`。实际函数关键字参数契约为：
 
 ```python
 def run_doc_qa(*, question: str, doc_id: str, trace_id: str,
                intent: IntentContract) -> AnswerEnvelope:
-    # 在这里接 B 的实际检索、生成与核验实现。
     ...
 ```
 
-上面是签名说明，`...` 不是完整实现，不应部署。`async def` 和相同的关键字参数也受支持。函数可以返回 `AnswerEnvelope`，也可以返回可通过 `AnswerEnvelope.model_validate()` 的 dict；A 的同步 FastAPI 路由会等待 awaitable。
+这里说明签名，实际函数体已在源码中实现。A 统一本次 trace_id、追加 B 的实际步骤，并检查证据来自指定文档、编号唯一和响应结构正确。
 
-可以用其他函数名和文件名，但 `.env` 的 `RAG_HANDLER` 必须同步修改，模块需要位于 `qa_agent.rag.` 下。保存配置后重启 API。B handler 不能再把请求递归发回 `/api/chat`，应直接调用自己的文档服务和共享模型调用层。
+## 2. 请求与 D1 范围
 
-用户给出的 RAG 配置已保存：清单 `data/docs/manifest.csv`、索引 `data/processed/rag/ohr`、BGE 路径 `data/models/bge-m3`、Top-K 5、max length 512、batch size 2、device cpu、quantization int8、answer mode llm。`get_settings()` 将路径解析为项目内绝对路径。B 需要根据真实检索实现使用这些字段并记录实际生效方式；当前没有自动下载模型或实现量化。SQL 优先使用非空 `CHINOOK_DB_URL`，兼容旧字段 `DB_URL`；超时字段优先使用 `SQL_STATEMENT_TIMEOUT_MS`。
+SQL 请求：
 
-A 传给 B 的 `question` 是本次用户原问题；`doc_id` 是本次显式指定文档；`trace_id` 由 A 创建；`intent` 初始为 `IntentContract(route="doc", task_type="doc_qa")`。B 返回的 `trace_id` 会被 A 统一为当前值；B 的 `steps` 会追加在 A 的真实路由/调用记录后，`metadata.latency_ms` 会写成整个请求的时间。
-
-A 已做的适配层检查包括：返回字段通过 Pydantic 验证；证据全部来自本次 `doc_id`；证据编号不重复。B 仍需自己校验原文、页码、答案引用及证据支持关系。不能把适配层检查当作引用忠实度已经核验。
-
-如果 handler 未提供，返回 `UNSUPPORTED`，说明 B 的 RAG 入口尚未接入。已有模块缺依赖或发生导入错误时，返回 `FAILED / rag_dependency`；handler 抛异常或响应不合格时，返回 `FAILED / rag_failed`。错误会经过脱敏。B 可以主动返回有含义的 `ErrorDetail`，不要将异常转换成伪造成功答案。
-
-## 4. `AnswerEnvelope`：前端展示与评测共用
-
-| 字段 | 类型与用途 |
-|---|---|
-| `trace_id` | 必需字符串，本次请求关联编号 |
-| `status` | 必需：`SUCCEEDED`、`EMPTY_RESULT`、`NEEDS_CLARIFICATION`、`UNSUPPORTED` 或 `FAILED` |
-| `answer` | 必需字符串，真实答案或不足依据/失败说明 |
-| `rewritten_question` | 可空；只有实际进行了改写才填写 |
-| `sql` | 可空；SQL 通道的实际被校验并执行的 SQL，文档通常为 null |
-| `table` | 可空；SQL 通道的结果行对象，文档通常为 null |
-| `evidences` | `Evidence` 列表；B 实际使用的证据 |
-| `clarification` | 可空 dict；真正需要澄清时才填写 |
-| `intent` | 可空 `IntentContract`，可保留 A 传入的文档意图 |
-| `steps` | `Step` 列表，来自实际阶段 |
-| `error` | 可空 `ErrorDetail`，包含 `code`、`message`、`retryable` |
-| `metadata` | 扩展 dict，可记录真实检索模式、候选数、模型/用量、来源定位等 |
-
-SQL 的无记录状态为 `EMPTY_RESULT`；COUNT 返回 0 仍是有返回行的正常查询；SUM 的 NULL 保留 null。金额为精确字符串，B 的前端不能先转换为浮点再写回结果或伪造单位。
-
-文档问答找不到足够证据时，可返回 `EMPTY_RESULT`、`answer="文档未提供足够依据……"` 并说明缺什么；接口不强制 B 采用这个业务约定，但 A/B 应统一前端文案。只有确实完成的证据回答才使用 `SUCCEEDED`。需要用户补充范围时使用 `NEEDS_CLARIFICATION`，有结构化补充问题；未实现能力使用 `UNSUPPORTED`；实际执行失败使用 `FAILED`。
-
-前端必须按 `status` 展示状态，HTTP 200 不是业务成功。失败时展示安全的原因和可操作建议，仍可保留真实步骤帮助排查。
-
-## 5. `IntentContract`：保留现有字段和边界
-
-结构字段为 `intent_version`（默认 1）、`route`、`task_type`、`metric`、`time_scope`、`filters`、`grouping`、`order`、`assumptions`、`unresolved`。
-
-- `route` 允许 `sql/doc/hybrid/chitchat`，实际 D1 入口只运行显式 `sql/doc`。
-- `metric/time_scope/order` 可以为 null；其他列表字段默认空列表。
-- D1 文档任务使用 `route="doc"`、`task_type="doc_qa"`。没有真正识别的年份、指标和筛选条件保持空或 null，不能补猜。
-- `assumptions` 只记录实际采用的约定，`unresolved` 记录真实未解决项；填了结构字段不表示澄清模块已经实现。
-
-## 6. `Evidence`：文档隔离、页码和引用可点击
-
-| 字段 | 要求 |
-|---|---|
-| `evidence_id` | 本次响应唯一，例如 `E1`、`E2`；答案使用 `[E1]` 等相同编号 |
-| `doc_id` | 必须严格等于请求指定值，不跨文档 |
-| `doc_title` | 清单中的真实文档标题 |
-| `page` | 可空整数；PDF 证据交接约定为物理页从 1 开始。模型允许 0，但 B 必须自行核验且不要把 0 当展示页码 |
-| `section_path` | 实际识别到的章节路径列表；未识别就空，不编造 |
-| `text` | 能在原文找到的证据片段，不能用模型总结代替引用原文 |
-| `bbox` | 可空浮点列表；有定位数据才填，B 应记录坐标顺序、单位和页面尺寸 |
-
-B 在解析产物中同时保存稳定 `doc_id`、来源文件/URL、文档标题、实际 PDF 页号与章节路径。引用的每个编号都要有对应 Evidence；每条 Evidence 都要能回到指定 PDF 的原文。答案中的数字和判断要由该片段支持，证据不足直接说明。
-
-**检索必须先按 `doc_id` 限定候选集合，再做 BM25/dense 排名或融合。** 不可先从全库取 Top8 再删除其他文档。若 BM25 和向量索引分别实现，两侧都要执行这个范围约束；索引键和查询缓存键也应带 `doc_id`，不能复用另一份文档的结果。
-
-引用可点击由 B 的前端实现：维护 `doc_id → 可信来源/PDF查看器` 的文档清单，点击 `[E1]` 时定位该文档的 `page`，展开原文证据、标题和章节路径。如果实现 bbox 高亮，同时核对页面坐标。来源清单由已下载资料生成，不能使用模型任意生成的链接。
-
-`Evidence` 当前没有 URL 字段。B 可让前端读取自己的文档清单，或与 A 约定在 `metadata.document_sources` 保存该清单的引用；这属于推荐扩展，现有 API 没有提供 PDF 静态文件/查看器接口，B 需要自己实现访问和渲染。公开 URL 可以追加 `#page=N`；本地 PDF 要通过实际的 Streamlit 展示/下载或受控文件服务使用，不能承诺仅在答案后写页码就已可点击。
-
-## 7. 真实 `Step` 与共享模型调用
-
-`Step` 字段为 `name`、`status`（`ok/warn/error/skipped`）、`input_summary`、`output_summary`、`latency_ms`。B 应记录实际在线检索、生成和引用校验阶段；PDF 解析、离线索引构建和首次模型加载单独记录，不混成在线热请求耗时。
-
-可以直接使用共享记录器，生成 B 自己的步骤再返回：
-
-```python
-from qa_agent.config import get_settings
-from qa_agent.trace import TraceRecorder
-
-trace = TraceRecorder(trace_id=trace_id, settings=get_settings())
-with trace.step("retrieval", {"doc_id": doc_id, "question": question}) as step:
-    # 这里执行真实的、按 doc_id 限定的检索。
-    # step.output_summary 写实际候选数、实际模式和片段编号。
-    ...
-
-# B 返回 AnswerEnvelope(..., steps=trace.steps)。
+```json
+{"session_id":"A-B-sql-demo","message":"来自巴西的客户有多少位？","scope":{"route":"sql","db_id":"chinook","doc_ids":[]}}
 ```
 
-这是使用方式说明，不是现成检索器。`TraceRecorder` 自动计时并在异常时记录错误；摘要里不要放 key、密码或完整连接串，不要编造“思考”轨迹。真实检索模式是 BM25 就写 BM25，只有 BGE-M3 成功加载且实际检索才记录 dense/混合模式。
+使用真实清单 doc_id 的文档请求示例：
 
-模型调用复用 `JsonLLM(get_settings()).complete_json(system_prompt, user_prompt, response_model, trace)`。`response_model` 是 B 为生成结果定义的 Pydantic 结构，例如答案文本和证据编号。prompt 必须只给本次允许的证据，回答证据不足时不使用外部知识补齐。
+```json
+{"session_id":"A-B-doc-demo","message":"What does the document say about built-in microphones?","scope":{"route":"doc","db_id":null,"doc_ids":["ohr-manual-macbook-air"]}}
+```
 
-共享调用层按一次请求维护总尝试预算，默认最多 3 次；JSON/网络重试共用预算。B 使用同一个 `trace`，不要在循环里不断新建记录器重置预算。无需另建一套 key、模型客户端或隐藏重试。模型配置更改后重启 API；本机真实模型可用性用 `scripts/check_llm.py` 验证。
+该例仅说明结构，不预先声明答案／成功。文档必须恰好一个已登记 doc_id；BM25 和 dense 候选都先按此范围筛选。`llm` 模式中文问题查询英文 PDF 会真实调用模型生成英文检索问题，保留数字、年份、单位和实体；dense 可以编码原中文问题，trace 记录实际方式。
 
-## 8. SQL 数据和 Top10 交接
+D1 显式选来源，不把 `session_id` 当成多轮状态合并。`auto`／`hybrid`、多文档、AdventureWorks、跨来源和完整澄清按后续计划推进。SQL 通道只允许一张真实业务表；资料准备的多表 Top10 不代表多表 NL2SQL。
 
-A 数据库为官方 Chinook 1.4.5，物理表列 `public` + snake_case；实际年份 2021–2025。读接口有 `qa_agent.sql.catalog.load_catalog()`、`validator.validate_sql()` 和 `executor.execute_sql()`，但 B 前端展示问数优先调用统一 `/api/chat`，不能把用户生成 SQL 直接送执行器而绕过校验。
+共享模型使用 `extra="forbid"`，字段不一致会失败；扩展放 `metadata` 或协调 schema。不要给 Evidence 增加未声明的 url，也不要用资料目录中的另一份协议覆盖当前 A 协议。
 
-D1 SQL pipeline 只允许一张真实业务表，不允许常量查询假装问数、多表 JOIN、跨来源或 AdventureWorks。Top 艺术家选择需要多表，它是 A 事先审查并直接执行的资料准备 SQL，**不代表 D1 NL2SQL 已支持多表**。
+## 3. 响应与引用页码
 
-实际取数文件：
+保留 `AnswerEnvelope` 的 `trace_id`、`status`、`answer`、`rewritten_question`、`sql`、`table`、`evidences`、`clarification`、`intent`、`steps`、`error`、`metadata`。状态支持 `SUCCEEDED`／`EMPTY_RESULT`／`NEEDS_CLARIFICATION`／`UNSUPPORTED`／`FAILED`；HTTP 200 不等于业务成功。
 
-- `data/handoff/A_to_B_chinook.json`：可供 B 程序读取的英文名、artist_id、销售额、SQL、日期和字段口径。
-- `data/handoff/A_to_B_chinook.md`：人读版本，含 Top10 排名和完整 SQL。
-- `data/db/source_manifest.json`：固定来源、许可证、文件 SHA256 与镜像；`db_check.json` 是实际数据和权限。
+证据字段为 `evidence_id`、`doc_id`、`doc_title`、`page`、`section_path`、`text`、`bbox`：
 
-Top10 第一名是 Iron Maiden，销售额 138.60，口径为所有发票明细 `unit_price * quantity`。榜单包含 Lost、The Office 等电视类内容条目，不能将所有 artist 自动当作乐队。B 后续准备“音乐风格”文档时要先核对实体类型并保持英文名和 artist_id 的映射；本次文件只是后续选材准备，不应把 D1 演示范围扩成跨源问答。
+- `evidence_id` 本次唯一，答案 `[E1]` 必须对应实际证据；编号可能不连续。
+- doc_id 严格等于请求，text 是实际原 PDF 证据文字，不能以模型摘要代替。
+- **page 为从 1 起的 PDF 物理页，封面计页。** OHR 原页索引从 0 起，仅解析／标注转换时加 1，前端不再加 1。
+- 章节仅填写实际识别到的路径；没有可靠坐标保持 bbox=null。页面显示原页与原文，不把未实现的框选高亮当成定位结果。
 
-`customer.country` 是客户所在地，`invoice.billing_country` 是账单地址所在地，两者含义不同；原始数据的不同记录数为 0。文案可以讲含义，不能宣称已有数值差异，也不能未经标注地修改原始数据制造差异。原数据未在字段上声明币种，前端展示收入不得擅自加币种符号。
+页面点击引用展示标题、实际原文和物理页，受控 API 返回对应页 PNG；打开原 PDF 附 `#page=N` 并可下载。文件服务只接收清单 doc_id、核对源哈希，不接收任意磁盘路径或模型生成网址。引用按钮仅切换展示，不再次调用模型；换来源不显示另一来源旧答案。
 
-## 9. B 接入后的共同验收顺序
+缺 key、模型失败、索引不一致等如实 `FAILED`，证据不足明确说明，不用固定演示答案替代失败。SQL 的空表、COUNT 0 和 SUM NULL 分开表达，金额保持精确字符串。
 
-1. B 整理真实文档清单、PDF 页码、切片和索引，确定一个可回答问题及其真实原文。
-2. 实现 handler 并设置 `.env`；重启 A 的 API，选择本次单文档 `doc_id` 调用 `/api/chat`。
-3. 核对响应状态、证据全部同一文档、编号唯一、页码和原文正确、答案确实引用且被证据支持，步骤与耗时来自实际运行。
-4. 使用另一份文档提出相同问题，确认检索范围确实隔离；对文档没提供答案的问题返回不足依据。
-5. 在 Streamlit 通过同一 API 展示 SQL 答案、实际 SQL/表格、文档答案、可点击引用和实际步骤，记录真实页面体验。
-6. B 的 RAG 开发集采用真实标签、逐题输出和人工证据核验，复用共享外层评测思路；当前 `eval.run_eval` 仅实现 A 的 SQL 评测，B 需要继续接文档题输入和文档判题，不能宣称它已评估 RAG。
+## 4. 六份真实 PDF 和索引
 
-B 本机独立配置自己的 `.env`，不要复制 A 的真实 key 或数据库管理口令到聊天和仓库。A/B 两台电脑如果需要联网访问 API，需要单独明确地址、访问范围与部署方式；默认 A 服务只绑定 `127.0.0.1`，本文不假设 B 的另一台机器已经能远程连接。
+固定 PDF 修订为 `7f833e3eda9a571a9ea545a8f6d476fa1685033d`；清单／哈希在 `data/docs/manifest.csv`、`source_manifest.json`。来源许可说明见 `data/docs/README.md`。
+
+| doc_id | 领域 | 资料 | 物理页 |
+|---|---|---|---:|
+| `ohr-finance-amd-2022` | finance | AMD 2022 Form 10-K | 121 |
+| `ohr-law-affiliate` | law | Gulf South Medical Supply Affiliate Agreement | 8 |
+| `ohr-textbook-geology` | textbook | Holmfirth and Glossop 地质节选 | 20 |
+| `ohr-manual-macbook-air` | manual | MacBook Air 存档指南 | 76 |
+| `ohr-news-executive-insight` | news | Executive Insight Healthcare 存档节选 | 20 |
+| `ohr-academic-label-words` | academic | Label Words are Anchors 论文 | 16 |
+
+合计 261 页、255 页可抽取原生文字。6 个空白／图片页保留页号，不虚构 OCR。存档资料答案按指定文件，不当成当前设备／行业信息。
+
+准备／迁移顺序：
+
+```powershell
+Set-Location -LiteralPath 'E:\中国电子杯-赛题八\system'
+.\.venv\Scripts\python.exe scripts/prepare_rag_data.py --selected-d1
+.\.venv\Scripts\python.exe -m eval.rag_build_gold
+.\.venv\Scripts\python.exe scripts/download_embeddings.py
+.\.venv\Scripts\python.exe scripts/check_embeddings.py
+.\.venv\Scripts\python.exe scripts/ingest_docs.py
+```
+
+已有 PDF 以 SHA256 验证后复用；新机未带模型需下载。BGE-M3 固定 QInt8 ONNX、CPU、1024 维 CLS／L2，Top-K 5、max length 512、batch size 2。来源／修订／哈希在 `data/model_manifest/bge-m3.json`；模型和处理产物不依赖 Git 迁移。
+
+真实编码检查使用 `scripts/check_embeddings.py`。PDF 核心使用 PyMuPDF 文字块与字体，兼容原文由 pdfplumber 保留；bbox 反映实际文字块／联合范围，不冒充逐字坐标。中文 BM25 已用 jieba 分词。
+
+**下载模型不会自动改变旧索引**，必须完成真实 dense 编码。`index_meta.json` 记录 `dense_embedding.enabled`、模型和向量哈希，enabled 后才使用 `bm25+bge-m3_dense_rrf`；仅 BM25 如实记录 bm25。源 PDF、清单、模型或索引改变后重建，拒绝哈希不一致。
+
+运行时只读清单、原 PDF chunks 和索引，不读取 gold，不索引官方 QA 或 OCR ground truth。
+
+## 5. 模型、步骤和启动
+
+B 复用 A 的 `JsonLLM.complete_json` 与同请求 `TraceRecorder`；翻译、回答及网络／JSON 重试共享默认最多 3 次总尝试。真实阶段为 `doc_scope`、可能的 `query_translate`、`retrieve`、`doc_answer` 和模型调用，摘要记录候选、分数、证据页、实际模式／模型／token。
+
+离线解析、建索引与首次加载不混成稳定热请求耗时。`RAG_ANSWER_MODE=extractive` 返回原文，适合排查且不调用回答模型；演示使用 llm，不将抽取模式记为生成式成绩。key／模式修改后重启 API，真实最小调用用 `scripts/check_llm.py`。
+
+准备好数据库与索引后运行 `.\scripts\start_demo.ps1`。脚本复用健康项目 API，空闲端口时隐藏启动 API，日志／PID 在 `.runtime`；前台 Streamlit 用 Ctrl+C 停止，API 保持可用，不结束陌生进程。修改配置需显式重启旧 API。页面默认 8501、API 8000，只绑定本机；跨电脑需实际网络配置。
+
+也可分别用项目 `.venv\Scripts\python.exe` 启动 `-m uvicorn api.main:app --host 127.0.0.1 --port 8000` 和 `-m streamlit run ui/app.py --server.address 127.0.0.1 --server.port 8501 --browser.gatherUsageStats false`。Bash 入口 `scripts/start_demo.sh`。UI 严格走共享 API，不直接调用 SQL 执行器。
+
+## 6. Gold 和开发集评测
+
+SQL 固定 30 题＝21 dev／9 holdout，A 核对 `eval/datasets/review/gold_review.md`。RAG 固定 20 官方 QA＝14 dev／6 holdout，保持问题、答案和原 ID，均单页 `evidence_source=text`，引用已机器定位实际 PDF。
+
+RAG 全集数量 finance 1、law 3、textbook 5、manual 5、news 3、academic 3，各文档 1 保留题。全文和题库覆盖六域，14 dev 覆盖五域；唯一入选金融题在保留集，不描述为六域开发准确率。
+
+**机器定位不代替人工接受。** B 打开 `eval/datasets/rag_review/rag_gold_review.md` 对照原页、答案和证据，仅记录实际审核的 ID：
+
+```powershell
+.\.venv\Scripts\python.exe scripts/review_rag_gold.py --accept rag-02,rag-03 --reviewer B
+```
+
+审核绑定内容哈希，题意、答案、文档、页码或 split 改变后失效。仅 Markdown 打勾不改题库状态，手写备注另存。SQL 对应命令为 `scripts/review_gold.py --accept sql-01,sql-02 --reviewer A`。
+
+真实开发运行：
+
+```powershell
+# gold 未人工确认的开发探索。
+.\.venv\Scripts\python.exe -m eval.run_eval --draft-gold
+.\.venv\Scripts\python.exe -m eval.rag_run_eval --draft-gold
+
+# 开发题 gold 有效人工接受后。
+.\.venv\Scripts\python.exe -m eval.run_eval
+.\.venv\Scripts\python.exe -m eval.rag_run_eval
+```
+
+SQL 比较执行结果 EX；草稿记 exploratory_ex。RAG 自动检查状态、指定文档、原文子串、金标页候选／引用命中和答案字符串，**属于机械诊断，不是语义准确率或 groundedness**。每次 RAG 的 `human_review.md` 还需人工判断实际回答正确完整、每项事实受引用支持。gold 审核和实际回答审核是两项工作。
+
+准备不足产生 `READINESS_ONLY`、预测 0、不填成绩。实际运行保留请求、响应、引用、步骤、耗时和版本，失败计入分母，不覆盖既有目录。D1 不运行任何 holdout；后续冻结要求真实 tag、干净 Git、已接受 gold 和显式开关。
+
+## 7. 取数与共同验收
+
+`data/handoff/A_to_B_chinook.{json,md}` 保存实际 Top10，收入为所有发票明细 `unit_price * quantity`，Iron Maiden 第一、138.60。榜单含电视内容，后续音乐资料需核对实体类型；原数据未声明币种，不擅加货币符号。客户国和账单国含义不同，本次数据差异数为 0，不声称存在实际数值差异。
+
+共同验收同一页面 SQL／表格与所选 PDF，引用能回到指定原页、换文档范围隔离、无依据和失败明确、步骤和耗时真实、审核状态清楚、未预测保留题。依赖在 `requirements.txt`，工程命令 `-m pytest -q --tb=short`、`-m pip check`、`scripts/check_secrets.py`；总通过数和实跑成绩以当次记录为准。

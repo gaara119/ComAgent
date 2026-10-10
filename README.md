@@ -1,157 +1,175 @@
-# 赛题八 D1：A 的后端、数据库与 SQL 问数
+# 赛题八 D1：A + B 问数问答演示
 
-本目录落实你授权的“完成 A 剩余 D1 工作”：真实 Chinook 数据库、共享配置和模型调用层、数据库目录、单表 NL2SQL、SQL 校验与只读执行、统一 FastAPI、单表题库和评测工具，以及交给 B 的接口和取数文件。
+A 的 Chinook 单表问数和 B 的单文档问答已接入同一个 FastAPI，Streamlit 页面显式选择数据库或一份 PDF。答案、SQL、结果表、引用原文、PDF 对应页和处理步骤均来自实际请求。
 
-B 的 PDF 解析、单文档检索、引用回答和 Streamlit 页面由 B 继续实现。当前目录提供 RAG 接入位置；不能把这个接入位置当成文档问答已完成。模型真实调用需要 A 在本地填写自己的可用凭据，gold 的业务含义需要 A 人工核验。最新运行记录以 `notes` 和 `eval/reports` 的实际文件为准，本说明给出复现操作。
+D1 范围为显式 `sql`／`doc`。多表 NL2SQL、AdventureWorks、多文档比较、自动来源判断、跨来源和多轮状态合并按后续计划推进。工程验证、模型接入和题库评测分别以 `notes`、`data` 与 `eval/reports` 中的实际记录为准。
 
-## 1. 先认识项目
+## 已接入的数据和代码
+
+| 内容 | 实际实现 |
+|---|---|
+| A 数据库 | 官方 Chinook 1.4.5，PostgreSQL 只读角色、中文结构目录、单表 SQL 生成／校验／执行 |
+| B 文档 | 固定 OHR-Bench 六份 PDF，涵盖 finance、law、textbook、manual、news、academic 六域 |
+| PDF 文字 | 261 个物理页，255 页可抽取原生文字；6 个空白／图片页保留页码，不生成虚构文字 |
+| 检索 | 先限定 `doc_id` 再 BM25 排名；实际生成 dense 索引后融合 BGE-M3 排名 |
+| 模型 | 共享 DeepSeek JSON 调用；中文问题查询英文 PDF 时记录真实英文检索翻译调用 |
+| 页面 | SQL／指定文档、实际答案、SQL／表格、引用原文、原页 PNG、PDF 打开／下载、实际步骤／耗时 |
+| SQL gold | 30 题，固定 21 dev／9 holdout，业务含义等待人工审核 |
+| RAG gold | 20 条官方 `evidence_source=text` QA，固定 14 dev／6 holdout，等待人工审核 |
+
+六域 PDF 和 20 题全集涵盖六域；**14 道 RAG 开发题涵盖五域**，本次唯一合适的金融文本题固定在保留集。D1 不运行任何保留题预测。
+
+Chinook 发票实际日期为 **2021-01-01 至 2025-12-22**，旧示例的 2009–2013 不适用于本次导入。数据固定来源、修订、许可和哈希见 `data/db/source_manifest.json`、`data/docs/source_manifest.json` 与 `data/docs/README.md`。
 
 | 路径 | 用途 |
 |---|---|
-| `.venv/` | 已建立的 Python 3.12 项目环境；命令显式使用其中的 Python |
-| `.env` | 本机真实模型 key、数据库口令和配置；不提交 Git |
-| `.env.example` | 给另一台电脑看的配置字段模板，不含真实凭据 |
-| `requirements.txt` | 本项目依赖版本，供迁移或重新建立环境 |
-| `docker-compose.yml` | A 的独立 PostgreSQL 服务与持久化数据卷 |
-| `qa_agent/config.py`、`llm.py`、`schemas.py`、`trace.py` | A/B 共用配置、JSON 模型调用、请求响应协议和真实步骤 |
-| `qa_agent/sql/` | 数据库目录加载、SQL 生成、结构校验及只读执行 |
-| `qa_agent/pipeline.py`、`api/main.py` | 显式来源路由与 `/api/chat` |
-| `qa_agent/rag/` | 留给 B 的文档问答模块，默认入口为 `service:run_doc_qa` |
-| `data/db/` | 官方原始 SQL、安全导入 SQL、许可证、来源哈希、实际 schema 和数据库检查 |
-| `data/catalog/chinook.yaml` | 从真实数据库生成的结构目录与字段含义，不含 gold |
-| `data/handoff/` | 艺术家 Top10 和地区字段口径，供 B 后续选材 |
-| `eval/datasets/` | 30 题 gold；21 道开发题、9 道保留题 |
-| `eval/reports/` | 逐次评测报告、实际请求响应和判题结果 |
-| `tests/` | SQL 边界、序列化、接口、模型层与评测比较测试 |
-| `notes/B接口交接.md` | B 的接入协议、文档范围、引用与前端展示要求 |
+| `.env`／`.env.example` | 本机真实配置／不含凭据的模板 |
+| `qa_agent/config.py`、`llm.py`、`schemas.py`、`trace.py` | A/B 共用设置、模型、协议和实际步骤 |
+| `qa_agent/sql/`／`qa_agent/rag/` | SQL 链路／文档解析、切片、检索与证据回答 |
+| `api/`／`ui/app.py` | 统一 API、受控文件服务／只调用 API 的页面 |
+| `data/catalog/`／`data/handoff/` | 真实数据库目录／A 给 B 的取数资料 |
+| `data/docs/manifest.csv`、`data/docs/raw/` | 六份 PDF 的受控清单／原文件 |
+| `data/models/bge-m3/`、`data/model_manifest/bge-m3.json` | 本机模型／固定来源和 SHA256 |
+| `data/processed/rag/ohr/` | 原 PDF chunks、索引元数据和实际 dense 向量 |
+| `eval/datasets/`、`eval/reports/` | gold 及审核表／逐次真实评测与回答复核表 |
 
-当前使用官方 Chinook **1.4.5**。表和列为 `public` schema 下的 snake_case。发票实际日期范围为 **2021-01-01 至 2025-12-22**，年份为 **2021–2025**；旧 Chinook 示例的 2009–2013 不适用于本次导入。此处是数据源事实，不代表模型评测成绩；需要时重新运行数据库检查获取最新记录。
+## 1. 环境和模型配置
 
-## 2. 打开正确的 PowerShell 与 Python
-
-在 PowerShell 输入：
+本机已有 Python 3.12 环境，命令明确使用项目 Python，无需反复激活或重建：
 
 ```powershell
 Set-Location -LiteralPath 'E:\中国电子杯-赛题八\system'
 .\.venv\Scripts\python.exe --version
-.\.venv\Scripts\python.exe -m pip --version
 ```
 
-这台电脑已有 `.venv`，不需要反复重建，也不必激活环境。后面的每条命令都明确使用项目里的 Python。如果以后在 B 的另一台电脑建立环境，先使用与 A 一致的 Python 3.12 创建自己的 `.venv`，再执行：
+新电脑创建自己的环境并安装依赖，不复制旧 `.venv`。已有 `.env` 保留，不用模板覆盖：
 
 ```powershell
+py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+if (-not (Test-Path -LiteralPath '.env')) {
+    Copy-Item -LiteralPath '.env.example' -Destination '.env'
+}
 ```
 
-不要把 A 的 `.venv` 目录直接复制给 B。
+在本机编辑器填写 `LLM_API_KEY`，模型配置使用 `LLM_BASE_URL=https://api.deepseek.com` 和账号实际支持的 `LLM_MODEL`，当前配置为 `deepseek-flash`。新机还需填写 `POSTGRES_PASSWORD`、`DB_READER_PASSWORD`，使 `CHINOOK_DB_URL` 与 `qa_reader` 口令一致；默认本机端口为 55432，`AW_DB_URL` 在 D1 留空。应用优先读取非空 `CHINOOK_DB_URL`，兼容旧 `DB_URL`；超时优先使用 `SQL_STATEMENT_TIMEOUT_MS=5000`，兼容旧 `STATEMENT_TIMEOUT_MS`。
 
-## 3. 数据库启动、检查和结构导出
+共享 RAG 配置：
 
-先打开 Docker Desktop，等待 Linux 引擎正常。然后在项目目录执行：
+```dotenv
+RAG_HANDLER=qa_agent.rag.service:run_doc_qa
+RAG_MANIFEST_PATH=data/docs/manifest.csv
+RAG_INDEX_PATH=data/processed/rag/ohr
+BGE_MODEL_PATH=data/models/bge-m3
+RAG_TOP_K=5
+RAG_EMBEDDING_MAX_LENGTH=512
+RAG_EMBEDDING_BATCH_SIZE=2
+RAG_EMBEDDING_DEVICE=cpu
+RAG_EMBEDDING_QUANTIZATION=int8
+RAG_ANSWER_MODE=llm
+```
+
+key 和口令只保留在本机 `.env`，不提交 Git。**修改 `.env` 后重启 API**，运行中的进程不会自动重载设置。真实最小模型验证：
 
 ```powershell
-docker info --format '{{.ServerVersion}}'
+.\.venv\Scripts\python.exe scripts/check_llm.py
+```
+
+脚本检查账号模型列表并发起真实 JSON 调用，保存 `notes/model-check.json`。`llm_configured=true` 只表示读取到 key，真实可用性以实测为准。
+
+## 2. 准备 A 数据库
+
+打开 Docker Desktop，等待 Linux 引擎正常：
+
+```powershell
 .\.venv\Scripts\python.exe scripts/bootstrap_db.py
 .\.venv\Scripts\python.exe scripts/check_db.py
 .\.venv\Scripts\python.exe scripts/build_catalog.py
 docker compose --project-name comagent-d1 ps
 ```
 
-`bootstrap_db.py` 会校验固定版本的官方 SQL 和许可证、生成安全导入文件、启动本项目服务、配置 `qa_reader` 并导出 schema。原始官方 SQL 含删除数据库的前言，实际初始化使用派生的 `Chinook_PostgreSql.import.sql`，不能拿原始文件手工重跑。重复执行脚本会保留业务数据和命名卷，不会重复导入或删除卷。
+初始化脚本验证固定来源、生成安全导入 SQL、启动独立服务并配置只读角色，数据保存在命名卷。重复执行不会重复导入或删除卷。原始官方 SQL 有删除数据库的前言，实际使用 `Chinook_PostgreSql.import.sql`，不要手工重跑原始 SQL。
 
-`check_db.py` 使用只读账号获取实际行数、国家值和发票日期，验证其没有写权限，并导出 B 的选材结果。`build_catalog.py` 用真实表列和主外键生成中文目录。检查记录见 `data/db/db_check.json`，来源与 SHA256 见 `data/db/source_manifest.json`。
+应用账号没有写权限。D1 SQL 还检查类型、真实表列、危险函数、单业务表约束与结果上限，拒绝常量冒充数据查询和多表 JOIN。列表默认限制 200 行，显式 Top-N 保留，超限标记 `metadata.truncated`；金额保持精确字符串，NULL 保持 JSON null，空表、COUNT 0 和 SUM NULL 分别表达。
 
-连接规则：本机程序使用 `127.0.0.1:55432`；Compose 服务名是 `chinook-pg`、容器内端口是 `5432`。应用的 `CHINOOK_DB_URL` 使用 `qa_reader`，也兼容旧字段 `DB_URL`，优先读取非空的 `CHINOOK_DB_URL`。管理账号只用于初始化。此服务与已有其他 Docker 项目分开。
-
-如果容器异常，先查看本项目日志：
+排查／停止且保留数据：
 
 ```powershell
 docker compose --project-name comagent-d1 logs --tail 80 chinook-pg
-```
-
-初始化 SQL 只在空 PostgreSQL 数据卷中运行。已有表结构与固定数据源不符时，脚本会停止，让你检查已有数据；不要用删除卷作为日常修复方式。停止数据库而保留数据可用：
-
-```powershell
 docker compose --project-name comagent-d1 stop chinook-pg
 ```
 
-## 4. 在本地填写模型 key 并验证
+实际行数、日期和权限见 `data/db/db_check.json`。`data/handoff/A_to_B_chinook.md` 中 Top10 多表取数用于资料准备，不代表 D1 NL2SQL 支持多表。
 
-用编辑器打开本机 `system/.env`，填写这三项：
+## 3. 准备 B 的 PDF、模型和索引
 
-```dotenv
-LLM_BASE_URL=https://api.deepseek.com
-LLM_MODEL=deepseek-flash
-LLM_API_KEY=在本机编辑器内填写真实key
-```
-
-上面的 key 文本是说明占位，不能原样使用。`LLM_MODEL` 以你账号实际支持的模型 ID 为准。已有 `.env` 中的数据库口令由本机配置生成，保留它们；不要用 `.env.example` 覆盖现有文件，不要把 key 发到聊天、写进源码、截图或提交 Git。
-
-你给出的共享字段已经纳入配置：`CHINOOK_DB_URL` 连接当前只读库；`SQL_STATEMENT_TIMEOUT_MS=5000` 控制 SQL 超时并优先于旧字段 `STATEMENT_TIMEOUT_MS`；`AW_DB_URL` 留作后续 AdventureWorks 配置。RAG 清单/索引/模型路径、Top-K、512 长度、2 批次、CPU/int8 与 `RAG_ANSWER_MODE=llm` 可由 B 通过 `get_settings()` 读取。这些是配置值；RAG 数据、模型和实际检索仍须 B 准备，配置本身不会自动建立索引。
-
-保存后运行：
+新机准备固定六份 PDF 和官方 QA；已有 PDF 符合 SHA256 时验证后复用：
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/check_llm.py
+.\.venv\Scripts\python.exe scripts/prepare_rag_data.py --selected-d1
+.\.venv\Scripts\python.exe -m eval.rag_build_gold
 ```
 
-脚本先读取账号的模型列表，再用配置模型做一次真实 JSON 调用；检查输出能否解析和满足结构，并记录耗时、实际模型和 token 用量。结果写入 `notes/model-check.json`。只有脚本实测成功，才能说模型接入已经完成；字段里有 key 并不意味着 key 有效。
+第一条仅定向提取所需 ZIP 条目，无需下载整包。第二条生成文档清单、20 条 gold 和审核表，不调用模型；内容哈希相同的既有人工接受记录保留，内容改变需重新审核。其他可用参数为 `--list` 和可重复的 `--doc-name`；日常复现使用 `--selected-d1` 保持固定范围。
 
-认证、权限、余额、网络或模型 ID 不可用时，按脚本的具体原因修正本地配置。不要通过换成固定答案来绕过失败。**修改 `.env` 后需要重启 API**：配置在服务进程内缓存，已经运行的 API 不会自动读取新 key；检查脚本是新的 Python 进程，会读取当前文件。
-
-## 5. 启动 API：一个终端运行，另一个终端请求
-
-终端 1 保持在 `system` 目录，用以下命令启动：
+下载验证 CPU/int8 BGE-M3，再**重新构建索引**：
 
 ```powershell
+.\.venv\Scripts\python.exe scripts/download_embeddings.py
+.\.venv\Scripts\python.exe scripts/check_embeddings.py
+.\.venv\Scripts\python.exe scripts/ingest_docs.py
+```
+
+模型使用固定修订的 BGE-M3 QInt8 ONNX 转换，1024 维 CLS 向量做 L2 归一化，下载约 587 MB。模型和处理产物不随 Git 迁移，新电脑需准备它们。来源、修订和 SHA256 见 `data/model_manifest/bge-m3.json` 及模型目录的 `download_manifest.json`。
+
+`check_embeddings.py` 进行真实 CPU 编码、维度与归一化检查；下载验证和编码检查都不代表问答准确率。PDF 核心解析采用 PyMuPDF 文字块／字体信息，并保留 pdfplumber 兼容原文；实际识别的文字块坐标可用于定位，但当前页面不声称完成逐字框选高亮。中文 BM25 使用实际 jieba 分词。
+
+**下载成功不会自动升级既有 BM25 索引。** 只有 `ingest_docs.py` 实际生成 dense 向量后，元数据 `dense_embedding.enabled` 才为 true，检索模式才为 `bm25+bge-m3_dense_rrf`。仅 BM25 时如实记录 `bm25`。查看实际状态：
+
+```powershell
+$indexMetadata = Get-Content -LiteralPath 'data/processed/rag/ohr/index_meta.json' -Raw | ConvertFrom-Json
+$indexMetadata | Select-Object retrieval_method, chunk_count, dense_embedding
+```
+
+CPU 首次编码会耗时，等待完成后重启 API。源 PDF、清单、模型或索引变化后重建，系统拒绝哈希不一致的文件。`ingest_docs.py` 还支持 `--manifest`、`--index-path`，默认来自 `.env`。
+
+运行时只索引原 PDF 文字，不把官方 QA、gold 答案／页码或 OCR ground truth 放入索引或模型提示。`RAG_ANSWER_MODE=extractive` 可用于不调用回答模型的原文排查；正常演示用 `llm`，不把抽取模式当成生成式问答成绩。
+
+## 4. 启动同一页面与 API
+
+数据库、模型配置和索引准备好后：
+
+```powershell
+.\scripts\start_demo.ps1
+```
+
+脚本复用健康运行的本项目 API；未运行且端口空闲时隐藏启动 API，日志写入 `.runtime`，随后当前终端运行 Streamlit。陌生端口占用只提示，不停止已有进程。
+
+- 页面：<http://127.0.0.1:8501>
+- API 文档：<http://127.0.0.1:8000/docs>
+- 健康检查：<http://127.0.0.1:8000/health>
+
+选数据库查看实际 SQL／表格；选指定文档仅查询该 PDF。`[E1]` 和引用按钮显示实际原文、物理页与对应页 PNG，并提供原 PDF `#page=N` 打开和下载。引用按钮不会重发模型请求，切换来源不会混用旧答案。
+
+`Ctrl+C` 停止前台页面，后台 API 保持可用；改 `.env` 后需显式停止旧 API 并重启。一键脚本不会替换仍在运行的服务。自选端口可用 `-ApiPort 8001 -UiPort 8502`，评测地址也要同步。
+
+脚本执行策略受限时，可分两个终端直接运行：
+
+```powershell
+# 终端 1。
 .\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
 ```
 
-该命令会一直运行，日志里显示服务地址。不要为了继续输入命令而关闭它。也可以使用 `scripts/start_api.ps1`；直接 Python 命令不依赖 PowerShell 脚本执行策略。
-
-打开终端 2，在同一目录检查：
-
 ```powershell
-Set-Location -LiteralPath 'E:\中国电子杯-赛题八\system'
-Invoke-RestMethod -Method Get -Uri 'http://127.0.0.1:8000/health' | ConvertTo-Json -Depth 10
+# 终端 2。
+.\.venv\Scripts\python.exe -m streamlit run ui/app.py --server.address 127.0.0.1 --server.port 8501 --browser.gatherUsageStats false
 ```
 
-健康检查会返回进程状态、`database_ready`、`llm_configured`、`catalog_exists` 等。`database_ready` 来自真实只读 `SELECT 1`；`llm_configured` 只表示读取到 key，真实模型是否可用仍需 `check_llm.py` 验证。HTTP 200 或 `status: ok` 也不表示后面每一道问数都正确。
+页面只通过 HTTP 调共享 API；服务端 `QA_API_BASE_URL` 默认 8000，页面不提供任意服务地址输入。Bash 用 `bash scripts/start_demo.sh`。默认绑定本机回环，两台电脑远程协作需另行配置实际网络地址。
 
-接口说明和可操作请求页面在 [本机 Swagger](http://127.0.0.1:8000/docs)。以下 PowerShell 请求不依赖前端：
+健康检查含实际只读连接和共享配置；文档就绪状态从 `/api/documents` 获取，实际检索方式从索引元数据及回答 trace 核实。HTTP 200 不等于回答正确；核对 `status`、`error`、SQL／结果／引用及步骤。业务失败也返回统一协议，页面显示未完成或证据不足。
 
-```powershell
-$requestPayload = @{
-    session_id = 'A-d1-demo'
-    message = '来自巴西的客户有多少位？'
-    scope = @{
-        route = 'sql'
-        db_id = 'chinook'
-        doc_ids = @()
-    }
-} | ConvertTo-Json -Depth 10
-
-$answerResult = Invoke-RestMethod -Method Post `
-    -Uri 'http://127.0.0.1:8000/api/chat' `
-    -ContentType 'application/json; charset=utf-8' `
-    -Body ([System.Text.Encoding]::UTF8.GetBytes($requestPayload))
-
-$answerResult | ConvertTo-Json -Depth 20
-```
-
-核对返回中的 `status`、`answer`、实际 `sql`、`table` 和 `steps`。不要只看回答句子。`trace_id` 用于关联这一请求；返回的步骤来自代码实际执行，包含输入输出摘要与耗时。
-
-当前 SQL 通道覆盖计数、筛选、聚合、分组、Top-N、日期、模糊匹配、NULL 和无匹配等单表题。请求必须显式选 `route: sql`、`db_id: chinook`、空 `doc_ids`。生成 SQL 必须引用真实业务表，**D1 拒绝跨业务表查询和用常量冒充数据库查询**；`auto`、`hybrid`、AdventureWorks、多轮改写等按照后续计划推进。文档通道必须显式选 `doc` 和一份文档，等待 B 实现后再验证。
-
-只读执行之外，SQL 校验会检查语句类型、实际表列、危险函数和结果上限。没有 LIMIT 的普通列表会在外层限制默认 200 行，显式 Top-N 的 SQL 会保留；超过返回上限时通过 `metadata.truncated` 提示。金额以字符串保留精度，NULL 保留为 JSON null；空结果、COUNT 的 0 和 SUM 的 NULL 分开表达。
-
-接口业务失败也使用统一响应，例如 `FAILED` 配合 `error.code`；不能因为 HTTP 为 200 就当成正确。缺 key、认证失败、SQL 被拒绝、数据库执行失败和超时要根据错误字段处理。停止或重启 API 时，在终端 1 按 `Ctrl+C`，再运行同一启动命令。
-
-如果 8000 已被本项目服务占用，直接在终端 2 请求现有服务；修改配置后先停止旧进程。需要换端口时将启动命令末尾改为 `8001`，同时更改所有请求地址和评测 `--base-url`，不要混用两个服务。
-
-## 6. 运行工程验证
-
-数据库启动并建立目录后，在终端 2 运行：
+## 5. 工程验证
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q --tb=short
@@ -159,55 +177,60 @@ $answerResult | ConvertTo-Json -Depth 20
 .\.venv\Scripts\python.exe scripts/check_secrets.py
 ```
 
-测试包括 SQL 校验边界、金额和 NULL 等结果保真、只读事务、数据库超时、接口协议以及 EX 比较。真实数据库不可连接时，有些集成检查会明确跳过；出现跳过不能说真实链路已全部验证。测试中的脚本化模型只验证工程链路，不是自然语言模型准确率，不能作为 EX。真实模型问数和开发集评测需要继续执行下一部分。
+覆盖 SQL 权限与边界、结果保真、共享协议、文档隔离、索引完整性、引用和页面。数据库不可连接时有些集成检查明确跳过，跳过不代表实际链路已验证。测试中的替代模型用于工程边界，不计自然语言答案准确率。
 
-## 7. 从 gold 审核到开发集评测
+## 6. A 的 gold 审核和 SQL 开发集
 
-30 题已经固定为 21 道开发题、9 道保留题。D1 仅运行开发题的系统预测。标注 SQL 读取真实数据库建立标准结果，这与把问题发送给模型预测是两件不同的操作。
-
-只有需要重新建立标注时才运行第一条；它会重新执行标准 SQL 并重写题库结果，随后要核对审核状态。第二条可随时导出当前审核表：
+30 题固定 **21 dev／9 holdout**。导出并查看 `eval/datasets/review/gold_review.md` 或 CSV：
 
 ```powershell
-.\.venv\Scripts\python.exe -m eval.build_gold
 .\.venv\Scripts\python.exe scripts/review_gold.py
 ```
 
-打开 `eval/datasets/review/gold_review.md` 或 UTF-8 CSV，对照每道题的自然语言、gold SQL 和实际结果，确认筛选值、时间边界、单位、排序、并列处理、NULL 和无匹配语义。A 真正核对完成后，按已核对的 ID 记录审核；下面只是接受两题的命令示例：
+核对题意、SQL、实际结果、字段、单位、日期、排序及 NULL／零／空表。`sql-22`、`sql-24` 的“名字”需明确只指 `first_name` 还是完整姓名，确认后同步源题库和审核表，旧草稿报告保留。只对真实核对通过的题记录接受，例如：
 
 ```powershell
 .\.venv\Scripts\python.exe scripts/review_gold.py --accept sql-01,sql-02 --reviewer A
 ```
 
-不能仅为获得分数而批量标记未核对的题。接受记录含内容哈希，修改问题、SQL、标准结果或划分会令旧记录失效。评测工具的详细口径见 `eval/README.md`。
-
-如果模型配置完成、API 正常，但人工审核尚未完成，可以先探索 **21 道开发题**：
+通过真实 API 运行开发集：
 
 ```powershell
+# 未人工接受 gold：草稿探索，仅预测 21 dev。
 .\.venv\Scripts\python.exe -m eval.run_eval --draft-gold
-```
 
-它会通过真实 `/api/chat` 调用当前系统，名称为 `exploratory_ex`，明确表示 gold 草稿，不能作为已人工核验的正式基线。此操作会产生模型调用费用，应在模型最小调用成功后运行。
-
-21 道开发题的 gold 都经 A 实际审核后，运行正式开发集基线：
-
-```powershell
+# 全部开发题已有效人工接受：正式 EX。
 .\.venv\Scripts\python.exe -m eval.run_eval
 ```
 
-自定义端口时使用：
+报告记录正确数／21、EX、失败、耗时和版本，失败保留在分母；草稿标为 `exploratory_ex`。缺 key、API／数据库不就绪或缺人工审核时为 `READINESS_ONLY`，预测 0、不填 EX。历史草稿在 `eval/reports/d1-dev-draft/`，新运行默认创建独立目录。
+
+只有重建标准结果才运行 `python -m eval.build_gold`，之后核对审核状态。比较口径及后续冻结保护见 `eval/README.md`。
+
+## 7. B 的 gold 审核和 RAG 开发集
+
+20 条官方 QA 固定 **14 dev／6 holdout**，保留原问题、答案和 QA ID。gold 引用已机器定位到 PDF 指定页的连续文字；人工仍需确认题意、答案与证据支持。查看 `eval/datasets/rag_review/rag_gold_review.md`，只记录已核对的题，例如：
 
 ```powershell
-.\.venv\Scripts\python.exe -m eval.run_eval --base-url 'http://127.0.0.1:8001'
+.\.venv\Scripts\python.exe scripts/review_rag_gold.py --accept rag-02,rag-03 --reviewer B
 ```
 
-结果写入 `eval/reports/dev_时间戳/`。先看 `report.md` 的实际预测数和状态，再看正确数/21、EX、失败分类和耗时；`responses.jsonl` 记录真正发出的请求、返回 SQL、答案、步骤及逐题判定。模型或数据库超时、错误状态和不正确结果都计入分母，不丢弃失败题。
+两类审核均绑定审核人与内容哈希；题意、gold、文档、页码或 split 改变使旧记录失效。仅 Markdown 打勾不会修改源题库接受状态，手写备注另存。
 
-如果 key 未配置、API 不可用、数据库不就绪或正式模式缺人工审核，报告为 `READINESS_ONLY`，预测数为 0，不填 EX。这是待处理条件的记录，不是性能成绩。文件不存在、准备检查通过或单题演示成功也不能当作 21 题评测已经完成。
+通过实际 `/api/chat` 运行 14 道开发题：
 
-**D1 不运行 9 道保留题的系统预测。** 后续 D5 冻结评测有独立参数、冻结 tag 与干净工作目录保护，操作见 `eval/README.md`。模型生成代码和目录不读取 `eval/datasets`，gold 不进入模型提示。
+```powershell
+# gold 未人工确认：草稿探索。
+.\.venv\Scripts\python.exe -m eval.rag_run_eval --draft-gold
 
-## 8. A 给 B 的交接和 D1 收尾
+# 开发题 gold 已人工接受：正式标注上的运行。
+.\.venv\Scripts\python.exe -m eval.rag_run_eval
+```
 
-A 的交接文件是 `notes/B接口交接.md`、`qa_agent/schemas.py` 与 `data/handoff/A_to_B_chinook.{json,md}`。Top10 按实际发票明细单价 × 数量计算；其中还有电视类 artist 条目，B 选音乐风格资料前应复核实体类型。客户国家和账单国家是两个含义不同的字段，但本次数据源差异数为 0，不能声称已经展示它们的数值差异。
+自动报告包含实际状态、引用、指定文档约束、原文子串真实性、金标页检索／引用命中、答案字符串匹配和耗时。**这些是机械诊断，不是答案语义准确率或 groundedness。** 每次运行的 `human_review.md` 需人工判断实际回答的正确性、完整性及每项事实是否被引用支持；gold 接受与回答审核是不同工作。
 
-D1 收尾时，A 需要看实际文件确认这些结果：数据库检查和目录可复现；自己账号模型最小调用成功；自然语言 SQL 请求能返回真实结果、SQL 和步骤；21 题开发报告写清 draft/已审核、实际分母与失败；B 收到实际资料和接口。B 完成文档链路与页面后，再共同做同一页面上的 SQL/指定文档演示。本项目不以占位内容代替未接入的模型、文档链路或评测成绩。
+结果保存在新 `eval/reports/rag_*` 目录；未就绪为 `READINESS_ONLY` 且不计算运行指标。详见 `eval/datasets/rag_README.md`。**D1 不预测任何 holdout**；后续冻结运行要求实际 tag、干净 Git、已接受 gold 和显式开关，草稿不能绕过。
+
+## 8. A/B 共同验收
+
+在同一页面实际完成 SQL／表格和单文档答案演示；引用可回到指定 PDF 原页；换文档验证范围隔离；证据不足和失败状态明确；步骤与耗时真实；gold 和 RAG 实际回答审核状态清楚；未预测保留题。完整契约和维护交接见 `notes/B接口交接.md`，具体结果以当次实跑报告为准。

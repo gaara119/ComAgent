@@ -8,6 +8,9 @@ from qa_agent.schemas import AnswerEnvelope, ChatRequest
 
 app = FastAPI(title="赛题八 D1 问数 API", version="0.1.0", description="A SQL 通道与 B RAG 通道共用入口；D1 按显式来源路由。")
 
+from api.documents import router as documents_router
+app.include_router(documents_router)
+
 
 @app.get("/health")
 def health() -> dict:

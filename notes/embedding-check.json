@@ -1,0 +1,71 @@
+{
+  "checks": {
+    "actual_shape_3_by_1024": true,
+    "finite_normalized_vectors": true,
+    "single_pair_similarity_smoke": true
+  },
+  "shape": [
+    3,
+    1024
+  ],
+  "norms": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "related_cosine": 0.8735305070877075,
+  "unrelated_cosine": 0.2648625671863556,
+  "elapsed_s": 2.453,
+  "model": {
+    "model": "BAAI/bge-m3",
+    "conversion_repo": "Xenova/bge-m3",
+    "revision": "4de13258303883538bd53b696b452bf8099f0858",
+    "source": "https://huggingface.co/Xenova/bge-m3/tree/4de13258303883538bd53b696b452bf8099f0858",
+    "license": "MIT",
+    "runtime": "onnxruntime",
+    "device": "cpu",
+    "weight_type": "QInt8",
+    "pooling": "CLS",
+    "normalization": "L2",
+    "dimensions": 1024,
+    "downloaded_at_utc": "2026-10-10T12:06:50.568592+00:00",
+    "files": [
+      {
+        "path": "onnx/model_quantized.onnx",
+        "size": 569694530,
+        "sha256": "0826f8c1ab9edf1801db86c61919d4d108e8bfc0b809ec823ad366882ff0b77d"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 17082821,
+        "sha256": "6710678b12670bc442b99edc952c4d996ae309a7020c1fa0096dd245c2faf790"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 1173,
+        "sha256": "7e4c1cc848840aeccdd763458c18dd525eb0f795c992e00ebe9c28554e7db2d4"
+      },
+      {
+        "path": "config.json",
+        "size": 770,
+        "sha256": "734a79bf12d388c1467a4e3ab625f45de7f6906cffcfb93a1eca1787504bed95"
+      },
+      {
+        "path": "quantize_config.json",
+        "size": 834,
+        "sha256": "4d98142624026cf78a40b36896ae1b1bada4faf185b77784a03b6995324aa176"
+      }
+    ],
+    "max_length": 512,
+    "batch_size": 2,
+    "providers": [
+      "CPUExecutionProvider"
+    ],
+    "mode": "bge-m3_onnx_int8",
+    "model_id": "BAAI/bge-m3",
+    "model_revision": "4de13258303883538bd53b696b452bf8099f0858",
+    "model_sha256": "0826f8c1ab9edf1801db86c61919d4d108e8bfc0b809ec823ad366882ff0b77d"
+  },
+  "llm_calls": 0,
+  "note": "This single pair smoke verifies encoder execution; it is not a retrieval accuracy metric."
+}
