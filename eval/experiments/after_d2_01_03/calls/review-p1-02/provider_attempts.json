@@ -1,0 +1,39 @@
+[
+  {
+    "number": 1,
+    "started_at": "2026-10-11T18:45:16.266594+00:00",
+    "ok": true,
+    "response_id": "f6555aad-2591-474b-bd35-08f36c844ee2",
+    "model": "deepseek-flash",
+    "usage": {
+      "completion_tokens": 1543,
+      "prompt_tokens": 19840,
+      "total_tokens": 21383,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cache_write_tokens": null,
+        "cached_tokens": 14720
+      },
+      "prompt_cache_hit_tokens": 14720,
+      "prompt_cache_miss_tokens": 5120
+    },
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "{\"reviews\":[{\"id\":\"sp01-06\",\"verdict\":\"disputed\",\"semantic_sql_check\":\"not_applicable\",\"classification_check\":\"disputed\",\"binding_check\":\"disputed\",\"controller_check\":\"pass\",\"reason\":\"输入 'Deguo 有多少张专辑？' 中的 'Deguo' 不是任何已 approved 别名的唯一合法拼音：approved 列表中无 'Deguo' 别名，虽存在 Germany→'德国' 的 approved 别名，但其拼音为 'Deguo' 时也无法唯一指向艺术家/专辑维度；主题词'专辑'指向 album.artist_id→artist 维度，而 Germany 是国名，不能成为专辑归属实体。canonical_input='加拿大有多少张专辑？'（Canada）与输入 'Deguo'（德国）语义不一致，属明显改写错误。该 case 将 reference_intent 置空、expected_bindings 置空却把 L2 澄清作为答案是对的，但 canonical_input 改写错误且 auto_issues 把'One SELECT/CTE query required'当作 SQL 失败亦不当（L2 无 gold SQL 是允许的）。class 应为 L2 澄清而非可执行 count，故 classification 与 binding 均 disputed；controller 的允许补充与最终意图合理。\",\"evidence\":[\"cases[sp01-06].input=Deguo 有多少张专辑？\",\"cases[sp01-06].canonical_input=加拿大有多少张专辑？\",\"approved_aliases 中 Germany 别名 '德国' review_status=approved；无 'Deguo' 条目\",\"named_artist_values 中无 Germany 艺术家\",\"actual_program_checks[sp01-06].status=disputed\"],\"issues\":[\"canonical_input 把 'Deguo' 改写为 Canada/加拿大，明显语义不符\",\"Deguo 在 approved 别名中无合法唯一绑定；'德国'→Germany 亦无法用于专辑计数\",\"auto_issues 把 L2 无 gold SQL 误报为 sql_check 失败\"],\"suggested_corrections\":{\"canonical_input\":\"保留原义：'Deguo 有多少张专辑？'，不做国名替换\",\"auto_issues\":\"移除 unexpected_missing_for_executable_case 与 sql_check:final 报错；L2 澄清无 gold SQL 属正常\",\"note\":\"若确实要测试德语德国拼音，则应改写为可澄清的 L2 表达并明确允许指向 artist.name 或 customer.country 两种澄清路径\"}},{\"id\":\"sp01-07\",\"verdict\":\"pass\",\"semantic_sql_check\":\"pass\",\"classification_check\":\"pass\",\"binding_check\":\"pass\",\"controller_check\":\"not_applicable\",\"reason\":\"输入 'Protected AAC audio file' 是混合语言但为 media_type.name 的精确值，live_database_facts.media_types 显示 media_type_id=2 恰为该名。gold_sql 用 track JOIN media_type ON t.media_type_id=mt.media_type_id WHERE mt.name='Protected AAC audio file' 统计 COUNT(*)，字段/FK 正确，无日期/NULL 边界问题，聚合粒度与粒度一致，输出列 track_count 正确，实际执行得 237。该 query 必要条件齐全且无歧义，属 L0 直接执行，不需澄清，故 controller=not_applicable。\",\"evidence\":[\"cases[sp01-07].input=Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？\",\"live_database_facts.media_types 中存在 name='Protected AAC audio file'\",\"actual_program_checks[sp01-07] candidate:final executed_readonly 结果 237\"],\"issues\":[],\"suggested_corrections\":null},{\"id\":\"sp01-08\",\"verdict\":\"pass\",\"semantic_sql_check\":\"pass\",\"classification_check\":\"pass\",\"binding_check\":\"pass\",\"controller_check\":\"not_applicable\",\"reason\":\"'意大利那边' 是 customer.country='Italy' 的口语表达，'意大利'→Italy 为 approved 别名；live_database_facts.countries 确认 Italy 存在。gold_sql WHERE country='Italy' 统计 customer_count，对象与维度正确，无日期条件，输出列正确，实跑得 1。必要条件齐全无歧义，L0 直接执行，controller=not_applicable。\",\"evidence\":[\"cases[sp01-08].input=意大利那边现在有多少客户？\",\"approved_aliases: customer.country 别名 '意大利'→'Italy' (approved)\",\"actual_program_checks[sp01-08] executed_readonly 结果 1\"],\"issues\":[],\"suggested_corrections\":null},{\"id\":\"sp01-09\",\"verdict\":\"pass\",\"semantic_sql_check\":\"pass\",\"classification_check\":\"pass\",\"binding_check\":\"pass\",\"controller_check\":\"not_applicable\",\"reason\":\"'摇滚' 同时映射到 genre.name='Rock' 与 'Rock And Roll'，且 approved_aliases 中两者均为 approved_candidate（非唯一 approved），live_database_facts.genres 确认两条真实值存在。该 case 正确保留双候选、gold_sql=null、L2 澄清，未强行绑定任一方。candidate_sql 两个候选均在 genre 维上 JOIN track 统计 COUNT(*) 且 WHERE g.name 精确等值，粒度、FK、输出列均正确，实跑分别得 1297 与 12（数量差别大，印证需澄清）。属 multi_candidate L2，controller 为 null 合理。\",\"evidence\":[\"cases[sp01-09].expected_bindings 双候选 Rock / Rock And Roll\",\"approved_aliases: Rock 与 Rock And Roll 均为 approved_candidate\",\"live_database_facts.genres 含 genre_id=1 Rock 与 genre_id=5 Rock And Roll\",\"actual_program_checks[sp01-09] candidate:Rock=1297, candidate:Rock And Roll=12\"],\"issues\":[],\"suggested_corrections\":null},{\"id\":\"sp01-10\",\"verdict\":\"pass\",\"semantic_sql_check\":\"pass\",\"classification_check\":\"pass\",\"binding_check\":\"pass\",\"controller_check\":\"not_applicable\",\"reason\":\"用户显式要求按字面值 genre.name='Vaporwave' 查询、无记录就报告没有记录，不得替换相近流派。live_database_facts.genres 的 25 个流派不含 'Vaporwave'。gold_sql 正确按精确等值统计 COUNT(*)，不替换、不扩充，实跑得 0，符合'明确不存在不替换'原则。必要条件齐全，属 L0 直接执行，controller=not_applicable；用户已给出空结果处理指令故不需追问。\",\"evidence\":[\"cases[sp01-10].input 明确'如果数据库里根本没有这个流派，请直接报告没有记录'\",\"live_database_facts.genres 无 'Vaporwave'\",\"actual_program_checks[sp01-10] executed_readonly 结果 0\"],\"issues\":[],\"suggested_corrections\":null}]}",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "latency_ms": 9678
+  }
+]

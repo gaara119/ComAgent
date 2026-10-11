@@ -1,0 +1,39 @@
+[
+  {
+    "number": 1,
+    "started_at": "2026-10-11T18:46:08.107288+00:00",
+    "ok": true,
+    "response_id": "cca8a748-c567-4f55-81c4-22fc1bdb8403",
+    "model": "deepseek-flash",
+    "usage": {
+      "completion_tokens": 949,
+      "prompt_tokens": 19715,
+      "total_tokens": 20664,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cache_write_tokens": null,
+        "cached_tokens": 14720
+      },
+      "prompt_cache_hit_tokens": 14720,
+      "prompt_cache_miss_tokens": 4995
+    },
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "{\"reviews\":[{\"id\":\"sp01-21\",\"verdict\":\"pass\",\"semantic_sql_check\":\"pass\",\"classification_check\":\"pass\",\"binding_check\":\"pass\",\"controller_check\":\"not_applicable\",\"reason\":\"拼音 Deguo 只还原为已真实存在且 approved 别名覆盖的 Germany 值，不改变对象/指标/期间。expected binding customer.country='Germany' 与 live facts 中 Germany 客户值一致；SQL 单表 COUNT(*) 语义正确，无期间缺失，无歧义。\",\"evidence\":[\"cases[0].input: Deguo 的客户有多少个？\",\"cases[0].gold_sql: SELECT COUNT(*) ... WHERE country = 'Germany'\",\"live_database_facts.countries 含 Germany\",\"approved_aliases_and_candidate_relations: Germany/customer.country alias 德国 approved\"],\"issues\":[],\"suggested_corrections\":null},{\"id\":\"sp01-22\",\"verdict\":\"pass\",\"semantic_sql_check\":\"pass\",\"classification_check\":\"pass\",\"binding_check\":\"pass\",\"controller_check\":\"not_applicable\",\"reason\":\"Gudian 还原为 approved 覆盖的标准流派 Classical，未改变指标或对象；SQL 通过 track JOIN genre 按 genre.name 过滤再 COUNT(track_id)，FK 正确、无期间和其他歧义。\",\"evidence\":[\"cases[1].input: Gudian 这个流派的曲目有多少首？\",\"cases[1].gold_sql: JOIN public.genre g ... WHERE g.name = 'Classical'\",\"live_database_facts.genres 含 (24,'Classical')\",\"approved_aliases_and_candidate_relations: Classical/genre.name alias 古典、古典音乐 approved\"],\"issues\":[],\"suggested_corrections\":null},{\"id\":\"sp01-23\",\"verdict\":\"pass\",\"semantic_sql_check\":\"pass\",\"classification_check\":\"pass\",\"binding_check\":\"pass\",\"controller_check\":\"not_applicable\",\"reason\":\"中英混合仅指代 customer 表与 Canada 客户居住国，approved 值 Canada 真实存在；SQL 对 customer 按 country 过滤 COUNT(*)，对象、国家和聚合均无歧义。\",\"evidence\":[\"cases[2].input: Canada 那边一共有多少 customers？\",\"cases[2].gold_sql: SELECT COUNT(*) FROM public.customer WHERE country = 'Canada'\",\"live_database_facts.countries 含 Canada\",\"confirmed_business_rules.general.region 说明 customer.country=客户居住地\"],\"issues\":[],\"suggested_corrections\":null},{\"id\":\"sp01-24\",\"verdict\":\"pass\",\"semantic_sql_check\":\"pass\",\"classification_check\":\"pass\",\"binding_check\":\"pass\",\"controller_check\":\"not_applicable\",\"reason\":\"Iron Maiden 为真实 artist.name 标准值；题面 artist 与 albums 唯一对应 artist→album 计数，SQL JOIN 键正确、无期间/多候选歧义。\",\"evidence\":[\"cases[3].input: Iron Maiden 这个 artist 有多少 albums？\",\"cases[3].gold_sql: JOIN public.artist ar ON al.artist_id=ar.artist_id WHERE ar.name='Iron Maiden'\",\"live_database_facts.named_artist_values 含 (90,'Iron Maiden')\",\"approved_aliases_and_candidate_relations: artist.name='Iron Maiden' 有 approved 别名\"],\"issues\":[],\"suggested_corrections\":null},{\"id\":\"sp01-25\",\"verdict\":\"pass\",\"semantic_sql_check\":\"pass\",\"classification_check\":\"pass\",\"binding_check\":\"pass\",\"controller_check\":\"not_applicable\",\"reason\":\"意大利对应 approved 的 Italy 客户居住国，未误用于 billing_country；按客户居住国联结 invoice 求和 SUM(invoice.total)，符合发票粒度销售额口径且无期间缺失。\",\"evidence\":[\"cases[4].input: 意大利那边的发票总共开了多少钱？\",\"cases[4].gold_sql: SELECT SUM(i.total) FROM invoice i JOIN customer c ... WHERE c.country='Italy'\",\"confirmed_business_rules.metrics[0]: sales_revenue=SUM(invoice.total), grain=invoice\",\"confirmed_business_rules.general.region: customer.country 与 billing_country 含义不合并\",\"approved_aliases_and_candidate_relations: Italy/customer.country alias 意大利 approved\"],\"issues\":[],\"suggested_corrections\":null}]}",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "latency_ms": 6478
+  }
+]

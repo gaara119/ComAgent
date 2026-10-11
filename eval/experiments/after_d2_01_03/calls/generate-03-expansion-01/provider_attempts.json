@@ -1,0 +1,39 @@
+[
+  {
+    "number": 1,
+    "started_at": "2026-10-11T18:38:14.838849+00:00",
+    "ok": true,
+    "response_id": "49898a9c-ecf9-4132-bad9-3ee0fae684b9",
+    "model": "deepseek-flash",
+    "usage": {
+      "completion_tokens": 1927,
+      "prompt_tokens": 17500,
+      "total_tokens": 19427,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cache_write_tokens": null,
+        "cached_tokens": 128
+      },
+      "prompt_cache_hit_tokens": 128,
+      "prompt_cache_miss_tokens": 17372
+    },
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "{\"cases\": [{\"id\": \"sp03-11\", \"family_id\": \"special-fam-13-usa-resident-customer-count-2021\", \"task\": \"03\", \"category\": \"L0\", \"input\": \"How many customers reside in the USA?\", \"scope\": {\"route\": \"sql\", \"db_id\": \"chinook\", \"doc_ids\": []}, \"history\": [], \"expected_behavior\": \"直接执行，返回客户居住国为 USA 的客户数量。\", \"allowed_interpretations\": [\"customer.country = 'USA' 的客户去重计数\"], \"expected_bindings\": [{\"column\": \"customer.country\", \"operator\": \"=\", \"value\": \"USA\"}], \"missing_conditions\": [], \"business_basis\": [\"D2 approved: customer.country is customer residence\", \"L0 necessary conditions complete: count object and filter country explicit\"], \"reference_intent\": {\"task_type\": \"count\", \"metric\": \"customer_count\", \"time_scope\": null, \"filters\": [{\"column\": \"customer.country\", \"operator\": \"=\", \"value\": \"USA\"}], \"notes\": \"只按居住国过滤，不涉及账单国\"}, \"gold_sql\": \"SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'USA';\", \"controller\": null, \"case_style\": \"standard\", \"secondary_tags\": [\"count\", \"resident_country\", \"L0\"]}, {\"id\": \"sp03-12\", \"family_id\": \"special-fam-14-italy-resident-customer-count-2021\", \"task\": \"03\", \"category\": \"L0\", \"input\": \"意大利有多少客户？\", \"scope\": {\"route\": \"sql\", \"db_id\": \"chinook\", \"doc_ids\": []}, \"history\": [], \"expected_behavior\": \"直接执行，返回客户居住国为 Italy 的客户数量。\", \"allowed_interpretations\": [\"customer.country = 'Italy' 的客户去重计数\"], \"expected_bindings\": [{\"column\": \"customer.country\", \"operator\": \"=\", \"value\": \"Italy\"}], \"missing_conditions\": [], \"business_basis\": [\"D2 approved: customer.country is customer residence\", \"L0 conditions complete: object and country explicit\"], \"reference_intent\": {\"task_type\": \"count\", \"metric\": \"customer_count\", \"filters\": [{\"column\": \"customer.country\", \"operator\": \"=\", \"value\": \"Italy\"}], \"notes\": \"客户所在地\"}, \"gold_sql\": \"SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Italy';\", \"controller\": null, \"case_style\": \"standard\", \"secondary_tags\": [\"count\", \"resident_country\", \"L0\"]}, {\"id\": \"sp03-13\", \"family_id\": \"special-fam-15-canada-2022-invoice-revenue\", \"task\": \"03\", \"category\": \"L0\", \"input\": \"What was the total invoice revenue for Canada in 2024?\", \"scope\": {\"route\": \"sql\", \"db_id\": \"chinook\", \"doc_ids\": []}, \"history\": [], \"expected_behavior\": \"直接执行，按账单国为 Canada 且 invoice_date 在 2024 左闭右开区间的发票销售额求和。\", \"allowed_interpretations\": [\"SUM(invoice.total) with billing_country='Canada' and 2024 [2024-01-01,2025-01-01)\"], \"expected_bindings\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"Canada\"}, {\"column\": \"invoice.invoice_date\", \"operator\": \">=\", \"value\": \"2024-01-01\"}, {\"column\": \"invoice.invoice_date\", \"operator\": \"<\", \"value\": \"2025-01-01\"}], \"missing_conditions\": [], \"business_basis\": [\"D2 approved: sales_revenue = SUM(invoice.total) at invoice grain\", \"D2 approved: invoice.billing_country is billing address country\", \"Explicit period 2024 and explicit metric make L0\"], \"reference_intent\": {\"task_type\": \"aggregate\", \"metric\": \"sales_revenue\", \"time_scope\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"end_exclusive\": true}, \"filters\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"Canada\"}], \"notes\": \"按账单国，不是客户居住国\"}, \"gold_sql\": \"SELECT SUM(total) AS revenue FROM public.invoice WHERE billing_country = 'Canada' AND invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';\", \"controller\": null, \"case_style\": \"standard\", \"secondary_tags\": [\"revenue\", \"billing_country\", \"L0\"]}, {\"id\": \"sp03-14\", \"family_id\": \"special-fam-16-multi-year-revenue\", \"task\": \"03\", \"category\": \"L0\", \"input\": \"2022年和2023年，Chinook 每年的发票销售额分别是多少？\", \"scope\": {\"route\": \"sql\", \"db_id\": \"chinook\", \"doc_ids\": []}, \"history\": [], \"expected_behavior\": \"直接执行，按年份 2022 与 2023 分别对 invoice.total 求和。\", \"allowed_interpretations\": [\"按 EXTRACT(YEAR FROM invoice_date) 分组，限 2022/2023\"], \"expected_bindings\": [{\"column\": \"invoice.invoice_date\", \"operator\": \">=\", \"value\": \"2022-01-01\"}, {\"column\": \"invoice.invoice_date\", \"operator\": \"<\", \"value\": \"2024-01-01\"}], \"missing_conditions\": [], \"business_basis\": [\"D2 approved: sales_revenue = SUM(invoice.total)\", \"Both years fully specified; grouping is directly derivable\"], \"reference_intent\": {\"task_type\": \"aggregate_by_year\", \"metric\": \"sales_revenue\", \"time_scope\": {\"start\": \"2022-01-01\", \"end\": \"2024-01-01\", \"end_exclusive\": true}, \"filters\": [], \"group_by\": \"year\"}, \"gold_sql\": \"SELECT EXTRACT(YEAR FROM invoice_date)::int AS year, SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2022-01-01' AND invoice_date < DATE '2024-01-01' GROUP BY year ORDER BY year;\", \"controller\": null, \"case_style\": \"standard\", \"secondary_tags\": [\"revenue\", \"yearly\", \"L0\"]}, {\"id\": \"sp03-15\", \"family_id\": \"special-fam-17-popular-track-count-2009-2010\", \"task\": \"03\", \"category\": \"L0\", \"input\": \"2009 年和 2010 年之间，哪首曲目最受欢迎？\", \"scope\": {\"route\": \"sql\", \"db_id\": \"chinook\", \"doc_ids\": []}, \"history\": [], \"expected_behavior\": \"直接执行，按购买数量排序取第一名；若并列按 track_id 升序取第一。\", \"allowed_interpretations\": [\"SUM(invoice_line.quantity) 在给定期间内对 track 分组，排序后 LIMIT 1\"], \"expected_bindings\": [{\"column\": \"invoice.invoice_date\", \"operator\": \">=\", \"value\": \"2009-01-01\"}, {\"column\": \"invoice.invoice_date\", \"operator\": \"<\", \"value\": \"2011-01-01\"}], \"missing_conditions\": [], \"business_basis\": [\"D2 approved: 热门曲目 default = SUM(invoice_line.quantity)\", \"D2 approved tie_breaker: track_id ascending\", \"Explicit period and popularity default make L0\"], \"reference_intent\": {\"task_type\": \"ranking\", \"metric\": \"purchased_quantity\", \"rank_object\": \"track\", \"top_n\": 1, \"time_scope\": {\"start\": \"2009-01-01\", \"end\": \"2011-01-01\", \"end_exclusive\": true}}, \"gold_sql\": \"SELECT track_id, SUM(quantity) AS purchased_quantity FROM public.invoice_line WHERE invoice_id IN (SELECT invoice_id FROM public.invoice WHERE invoice_date >= DATE '2009-01-01' AND invoice_date < DATE '2011-01-01') GROUP BY track_id ORDER BY purchased_quantity DESC, track_id ASC LIMIT 1;\", \"controller\": null, \"case_style\": \"standard\", \"secondary_tags\": [\"popularity\", \"ranking\", \"L0\"]}]}",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "latency_ms": 10004
+  }
+]

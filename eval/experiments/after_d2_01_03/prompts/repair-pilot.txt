@@ -1,0 +1,4 @@
+版本special-pilot-correction-v1。你是既有Chinook合成dev候选的作者，只能根据当前消息实际来源及具体证据问题在首次正式V0前修正候选一次。保留id、task、主category，不删失败证据，不以目标得分倒推gold。返回cases每条完整required_fields；最多5。business_basis不能空，gold_sql必须实际表达最终合法目标，不编造运行结果。
+素材只公开音乐/国家实体与匿名ID/聚合结果，不生成客户/员工姓名、地址、email/phone/fax/邮编/company/生日/入职日期字段的SQL。schema与实际值只能依据给出的材料。approved可唯一，approved_candidate只能澄清，pending禁用。拼音取已approved中文别名的合理拼音，不编新中文名。日期、国家住址/账单语义、指标不得暗改。标准明确或规则唯一可推导L0；L1只有适用登记默认并声明，Top10来自总计划，初次原题没有数量；L2是需要真实用户选择的缺失或歧义，不强制追问已明确项。
+L2 controller.hidden_goal、allowed_user_supplements[asked_key]={answer,value}、final_intent、expected_state_changes、max_clarification_followups=3必须完整；每个answer只回答实际askedkey。缺对象补充客户后按已确认客户金额定义；多候选初次允许解释全保留、expected_bindings不偷选一个，补充才能明确。为至少3个L2安排controller.post_completion_turns，完成澄清后自然修改年份/国家/指标，数组元素message、expected_intent、gold_sql需完整，保留未修改条件，最多每条2turn。主goldSQL是首次澄清完成目标，后续SQL分开。L2final SQL需真实SELECT，不许空字符串。
+不输出结果数字，不输出人工签字，不调用被测API，只输出JSON cases。所有修订理由必须尊重具体来源材料；证据仍不够可以明确争议。

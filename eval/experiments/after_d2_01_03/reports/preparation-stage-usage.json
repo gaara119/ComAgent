@@ -1,0 +1,79 @@
+{
+  "phases": {
+    "reference_sql_completion": {
+      "logical_calls": 2,
+      "requests": 2,
+      "total_tokens": 34822,
+      "prompt_tokens": 32866,
+      "completion_tokens": 1956,
+      "latency_ms": 13055
+    },
+    "generation": {
+      "logical_calls": 12,
+      "requests": 15,
+      "total_tokens": 297091,
+      "prompt_tokens": 253427,
+      "completion_tokens": 43664,
+      "latency_ms": 213433
+    },
+    "pilot_correction": {
+      "logical_calls": 2,
+      "requests": 3,
+      "total_tokens": 67909,
+      "prompt_tokens": 54980,
+      "completion_tokens": 12929,
+      "latency_ms": 61706
+    },
+    "ai_pass1": {
+      "logical_calls": 12,
+      "requests": 13,
+      "total_tokens": 294173,
+      "prompt_tokens": 277771,
+      "completion_tokens": 16402,
+      "latency_ms": 104239
+    },
+    "ai_pass2": {
+      "logical_calls": 12,
+      "requests": 12,
+      "total_tokens": 276973,
+      "prompt_tokens": 257867,
+      "completion_tokens": 19106,
+      "latency_ms": 153605
+    }
+  },
+  "actual_models": {
+    "deepseek-flash": 45
+  },
+  "protocol_rejected_attempts": [
+    {
+      "call_id": "generate-01-expansion-03",
+      "attempt": 1,
+      "error": "1 validation error for CompleteBatch\ncases.2\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp01-23', 'family...ge', 'candidate_alias']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error"
+    },
+    {
+      "call_id": "generate-03-expansion-03",
+      "attempt": 1,
+      "error": "5 validation errors for CompleteBatch\ncases.0\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-21', 'family...', '居住地口径']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.1\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-22', 'family...母', '法国', '2024']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.2\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-23', 'family...金额默认', '2023']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.3\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-24', 'family...'澳大利亚', '2022']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.4\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-25', 'family...'2024', '曲目金额']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error"
+    },
+    {
+      "call_id": "generate-03-expansion-03",
+      "attempt": 2,
+      "error": "5 validation errors for CompleteBatch\ncases.0\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-21', 'family...clarify_then_followup']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.1\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-22', 'family...clarify_then_followup']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.2\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-23', 'family...clarify_then_followup']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.3\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-24', 'family...clarify_then_followup']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.4\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-25', 'family...clarify_then_followup']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error"
+    },
+    {
+      "call_id": "generate-03-expansion-03",
+      "attempt": 3,
+      "error": "5 validation errors for CompleteBatch\ncases.0\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-21', 'family...', 'no_global_default']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.1\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-22', 'family...od', 'multi_candidate']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.2\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-23', 'family...r', 'region_semantics']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.3\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-24', 'family...', 'metric_definition']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.4\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-25', 'family...od', 'comparison_type']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error"
+    },
+    {
+      "call_id": "repair-pilot-01",
+      "attempt": 1,
+      "error": "Expecting ',' delimiter: line 1 column 12654 (char 12653)"
+    },
+    {
+      "call_id": "review-p1-08",
+      "attempt": 1,
+      "error": "Invalid control character at: line 26 column 232 (char 1200)"
+    }
+  ]
+}

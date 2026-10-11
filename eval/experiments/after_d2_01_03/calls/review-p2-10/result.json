@@ -1,0 +1,94 @@
+{
+  "reviews": [
+    {
+      "id": "sp03-16",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入问 Jazz 流派曲目数，genre.name='Jazz' 在数据库标准值中唯一；gold SQL 仅按 g.name='Jazz' 过滤并对 track_id 计数，JOIN track->genre 的 FK 使计数粒度为曲目，无重复计数，符合 COUNT 曲目单一解释。L0 必要条件齐全且无歧义，expected_bindings 仅保留标准值 Jazz，未把别名 Jazz 候选（已审核别名爵士/爵士乐）当条件，controller 为 null 与 L0 直接执行一致。",
+      "evidence": [
+        "cases[0].input",
+        "cases[0].expected_bindings:[{\"column\":\"genre.name\",\"operator\":\"=\",\"value\":\"Jazz\"}]",
+        "cases[0].gold_sql:JOIN public.genre g ... WHERE g.name = 'Jazz'",
+        "live_database_facts.genres:genre_id=2,name='Jazz'",
+        "actual_program_checks[0].result:130"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-17",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入明确期间 2020 全年且阈值至少 2 张发票，复购口径为期间内 COUNT(invoice_id)>=2 的客户数；gold SQL 使用 invoice_date >= 2020-01-01 AND < 2021-01-01 左闭右开，子查询按 customer_id 分组 HAVING COUNT(*)>=2，外层 COUNT 得 0，符合 confirmed_business_rules.repeat_customer_count 与 2020 空期如实输出 0 的字面要求。无歧义条件缺失，不替换或补默认期间，L0 正确。",
+      "evidence": [
+        "cases[1].input:2020年全年复购（至少开2张发票）...如果没有，请如实输出0",
+        "cases[1].gold_sql:invoice_date >= DATE '2020-01-01' AND invoice_date < DATE '2021-01-01' ... HAVING COUNT(*) >= 2",
+        "confirmed_business_rules.metrics.repeat_customer_count:期间内发票数量 >= 2；空结果0",
+        "live_database_facts.date_evidence:min 2021-01-01",
+        "actual_program_checks[1].result:0"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-18",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入明确 2021到2022 区间但未指定“受欢迎”口径。热门曲目在有明确期间时采用已登记默认 SUM(invoice_line.quantity)，总计划 3.6.4 ranking.defaults.top_n=10 支持 Top10；gold SQL 期间 [2021-01-01,2023-01-01) 左闭右开、按 track 分组 SUM(quantity)、ORDER BY quantity DESC, track_id ASC LIMIT 10，与 popular_tracks 定义和并列处理一致。分类为 L1 并声明可切换销量/销售额/歌单收录数，符合 approved 规则；allowed_interpretations 保留三种候选但默认只执行 by_quantity，不把无依据口径唯一化。",
+      "evidence": [
+        "cases[2].input:2021到2022年最受欢迎的曲目有哪些？",
+        "confirmed_business_rules.metrics.popular_tracks:SUM(invoice_line.quantity)默认; tie breaker track_id ascending",
+        "total_plan_semantic_gate:defaults: {top_n: 10}; popularity level L1 default by_quantity",
+        "cases[2].gold_sql:WHERE i.invoice_date >= DATE '2021-01-01' AND i.invoice_date < DATE '2023-01-01' ... ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10",
+        "actual_program_checks[2].result:10 rows"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-19",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入“2022年买得最多的客户是谁”中“客户”对象明确，附录及确认规则将客户谁买得最多按金额 SUM(invoice.total) 定义，且非无对象默认；gold SQL 按 customer_id 分组 SUM(invoice.total)、期间 [2022-01-01,2023-01-01)、ORDER BY amount DESC, customer_id ASC LIMIT 1，未用发票头金额 JOIN 明细导致重复累加。L1 按登记默认执行并声明假设与切换项，分类与绑定合理。",
+      "evidence": [
+        "cases[3].input:2022年买得最多的客户是谁？",
+        "confirmed_business_rules.metrics.popular_tracks.distinct_object_rule_proposal:客户谁买得最多 follows appendix amount definition",
+        "cases[3].gold_sql:GROUP BY c.customer_id ORDER BY amount DESC, c.customer_id ASC LIMIT 1",
+        "actual_program_checks[3].result:customer_id=45 amount=32.75"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-20",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入“2023年按销售额排名最高的艺术家，取前10名”已明确 metric=artist_revenue、object=artist、period=2023、limit=10。艺术家的销售额应使用明细 SUM(invoice_line.unit_price*quantity)，gold SQL 经 invoice_line->invoice->track->album->artist 链路聚合并按 revenue DESC, artist_id ASC LIMIT 10，未重复 SUM(invoice.total)，无 NULL/分母问题。数量未定但总计划 3.6.4 ranking.defaults.top_n=10 提供技术默认，属正当 L1，并且输入本身已写“取前10名”，无隐藏澄清必要。",
+      "evidence": [
+        "cases[4].input:2023年按销售额排名最高的艺术家，取前10名",
+        "total_plan_semantic_gate:ranking.defaults: {top_n: 10}",
+        "confirmed_business_rules.metrics.sales_revenue.alternative:track/artist analysis use SUM(invoice_line.unit_price * invoice_line.quantity)",
+        "cases[4].gold_sql:SUM(il.unit_price * il.quantity) ... ORDER BY revenue DESC, ar.artist_id ASC LIMIT 10",
+        "actual_program_checks[4].result:10 rows"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    }
+  ],
+  "notes": []
+}

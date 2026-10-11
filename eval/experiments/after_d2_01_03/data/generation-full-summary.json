@@ -1,0 +1,118 @@
+{
+  "count": 60,
+  "quotas": {
+    "01": {
+      "standard": 3,
+      "alias": 6,
+      "typo": 6,
+      "pinyin": 3,
+      "mixed_language": 3,
+      "colloquial": 3,
+      "multi_candidate": 3,
+      "explicit_absent": 3
+    },
+    "03": {
+      "L0": 10,
+      "L1": 5,
+      "L2": 15
+    }
+  },
+  "actual_categories": {
+    "01": {
+      "standard": 3,
+      "alias": 6,
+      "typo": 6,
+      "pinyin": 3,
+      "mixed_language": 3,
+      "colloquial": 3,
+      "multi_candidate": 3,
+      "explicit_absent": 3
+    },
+    "03": {
+      "L0": 10,
+      "L1": 5,
+      "L2": 15
+    }
+  },
+  "program_counts": {
+    "passed": 37,
+    "disputed": 23
+  },
+  "duplicates": [
+    {
+      "id": "sp01-13",
+      "status": "disputed",
+      "issues": [
+        "duplicate_input:sp01-02"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS album_count FROM public.album al JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE ar.name = 'Iron Maiden';",
+          "tables": [
+            "album",
+            "artist"
+          ],
+          "result": {
+            "columns": [
+              "album_count"
+            ],
+            "rows": [
+              [
+                21
+              ]
+            ],
+            "table": [
+              {
+                "album_count": 21
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-23",
+      "status": "disputed",
+      "issues": [
+        "duplicate_input:sp03-08",
+        "missing_sql:final"
+      ],
+      "sql_checks": [
+        {
+          "label": "post_completion_1",
+          "sql": "SELECT i.customer_id, SUM(i.total) AS amount FROM public.invoice i WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY i.customer_id ORDER BY amount DESC NULLS LAST, i.customer_id ASC LIMIT 1;",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "customer_id",
+              "amount"
+            ],
+            "rows": [
+              [
+                26,
+                "25.84"
+              ]
+            ],
+            "table": [
+              {
+                "customer_id": 26,
+                "amount": "25.84"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    }
+  ],
+  "rejected_attempts": [],
+  "unlimited_replacements": false
+}

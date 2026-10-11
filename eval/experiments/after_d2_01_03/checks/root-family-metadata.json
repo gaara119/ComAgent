@@ -1,0 +1,78 @@
+{
+  "new_label_file": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "new_label_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "new_case_count": 60,
+  "new_family_count": 50,
+  "sources": [
+    {
+      "path": "eval/datasets/nl2sql_chinook_d2.jsonl",
+      "sha256": "ea6009fc9d05e14b351234819247ac7664f34cde3b504d13ce4fa8c6e048f4e5",
+      "split_counts": {
+        "dev": 35,
+        "holdout": 15
+      },
+      "missing_family_id": 0,
+      "content_exposed_to_report_or_model": false
+    },
+    {
+      "path": "eval/datasets/robust.jsonl",
+      "sha256": "81e820e4da818dee347bf96acbebe07a26a44b98ce9e11fae33dc58304044d1b",
+      "split_counts": {
+        "dev": 21,
+        "holdout": 9
+      },
+      "missing_family_id": 0,
+      "content_exposed_to_report_or_model": false
+    },
+    {
+      "path": "eval/datasets/rag_single.jsonl",
+      "sha256": "8387615e3c65a8ffca4928cceb59f6f601b7f826d2870a6be792e3c4a5ea72c4",
+      "split_counts": {
+        "holdout": 9,
+        "dev": 21
+      },
+      "missing_family_id": 0,
+      "content_exposed_to_report_or_model": false
+    },
+    {
+      "path": "eval/datasets/d3/aw_schema_link.dev.v2.jsonl",
+      "sha256": "bfacfc7fec9e2ec32f1f2a2f8c9005502686be11ccb831cbc5242b438415ad88",
+      "split_counts": {
+        "dev": 21
+      },
+      "missing_family_id": 0,
+      "content_exposed_to_report_or_model": false
+    },
+    {
+      "path": "eval/datasets/d3/aw_schema_link.holdout.jsonl",
+      "sha256": "1a774b23d8601c67ce8b4a26c50c610c9f673aed6aa46f4cb550cb235742b3af",
+      "split_counts": {
+        "holdout": 9
+      },
+      "missing_family_id": 0,
+      "content_exposed_to_report_or_model": false
+    },
+    {
+      "path": "eval/datasets/d3/clarify/dev.jsonl",
+      "sha256": "bda1a8dc8da9a805e75d156039db8517ea349c21f442d94fdaee99d0fd9ab967",
+      "split_counts": {
+        "dev": 21
+      },
+      "missing_family_id": 0,
+      "content_exposed_to_report_or_model": false
+    },
+    {
+      "path": "eval/datasets/d3/clarify/protected_holdout/cases.jsonl",
+      "sha256": "9648dbc1e8fec766aca2055bc85d0d4cde384ad94b3b8f9ba43923dd74ef3b6e",
+      "split_counts": {
+        "holdout": 9
+      },
+      "missing_family_id": 0,
+      "content_exposed_to_report_or_model": false
+    }
+  ],
+  "exact_held_family_collisions_new_ids": [],
+  "exact_dev_family_collisions_new_ids": [],
+  "predictions_generated": 0,
+  "limitation": "Different family namespaces and missing older family metadata prevent proof of semantic independence. No held question/SQL/answer was used to fill this gap. Synthetic DEV only; root historical exposure remains disclosed."
+}

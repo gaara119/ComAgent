@@ -1,0 +1,95 @@
+{
+  "reviews": [
+    {
+      "id": "sp03-26",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“同比增长多少？”为增长率任务，指标与当前期间均未给出；按 clarify_rules.yaml growth.required=[metric,time_scope.current,comparison.type] 且 time_scope.base 可由 current 与 yoy 推导，最低必要条件缺失且无默认，L2 暂停澄清正确。gold_sql 左右边界左闭右开、零分母 NULL、两期均为 SUM(invoice.total)，与 final_intent 一致；controller 仅在实际 asked_key 上询问，allowed_user_supplements 覆盖 metric/time_scope.current 并给出 2024 明确值及基期推导，post_completion_turns 保留其他条件并更新 2025 同比与 AVG 口径，均与 gold 一致。",
+      "evidence": [
+        "input: 同比增长多少？",
+        "business_basis: clarify_rules.yaml growth.required=[metric,time_scope.current,comparison.type]; time_scope.base 由 current 与 comparison.type 推导",
+        "gold_sql: SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(... ,0) AS yoy_growth_rate FROM public.invoice;",
+        "actual_program_checks.sp03-26: final/post_completion_1/post_completion_2 均 executed_readonly，列与行形态正确"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-27",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“2023年销售额占比是多少？”已给期间但分子对象与分母范围均缺失；ratio.required=[numerator,denominator] 且 level_if_missing=L2，不能自动补全，L2 暂停澄清正确。gold_sql 用 customer.country='Brazil' 为客户居住国分子、SUM(i.total) 为分母，期间 2023 左闭右开，且 NULLIF 处理零分母，与 final_intent 的“巴西居住客户/全库发票”一致。controller 的澄清项覆盖 numerator、denominator、numerator_object、denominator_scope，post_completion_turns 分别改为德国居住分子和账单国德国分母，保留其他条件；这些补充均为用户选择而非系统数据错误。",
+      "evidence": [
+        "input: 2023年销售额占比是多少？",
+        "business_basis: clarify_rules.yaml ratio.required=[numerator,denominator]; level_if_missing=L2",
+        "general.region: customer.country 客户居住地；invoice.billing_country 账单国，语义不可合并",
+        "gold_sql: SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total),0) ... WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';",
+        "actual_program_checks.sp03-27: final 与 post_completion_1/2 均 executed_readonly"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-28",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“2022年金属乐队的销售额是多少？”存在对象多候选：artist.name 的 Metallica 与 genre.name 的 Metal 在别名/候选关系中均有 approved_candidate 或候选，且“金属乐队”不能自动唯一绑定；同时若按艺术家还需区分客户居住国还是账单国，地区语义未定。属于 multi_candidate_value 和对象歧义，L2 暂停澄清正确。gold_sql 针对 artist Metallica 使用明细 SUM(unit_price*quantity)，join invoice 过滤 invoice_date 左闭右开，不重复发票总额，符合“曲目/艺术家粒度用明细”口径。controller 的补充确认对象为 artist Metallica、地区 none，post_completion_turns 分别切换 genre Metal 与 2023 年账单国德国，均保留并按新对象更新 SQL。",
+      "evidence": [
+        "input: 2022年金属乐队的销售额是多少？",
+        "approved_aliases_and_candidate_relations: Metallica 与 Metal 均有 candidate 记录；approved_candidate 不能自动唯一绑定",
+        "approved_proposal: 曲目或艺术家粒度用明细 SUM(unit_price*quantity)，JOIN 后不可重复发票总额",
+        "general.region: customer.country 与 invoice.billing_country 语义不合并",
+        "gold_sql: SELECT SUM(il.unit_price * il.quantity) ... WHERE ar.name = 'Metallica' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+        "actual_program_checks.sp03-28: final/post_completion SQL 均 executed_readonly"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-29",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "“最受欢迎的10首曲目”命中 popularity 歧义，按登记默认可按购买数量执行；但复购/热门等指标要求明确期间，本题无时间范围，不能悄悄补全，因此暂停澄清期间正确。gold_sql 以 2023 年为澄清后期间，SUM(invoice_line.quantity) 按 track_id 分组，ORDER BY purchased_quantity DESC, track_id ASC LIMIT 10，join invoice 过滤日期且无重复计数，与 final_intent 一致。controller 只在缺失项 time_scope/year 上请求补充，并允许确认默认口径；post_completion_turns 改为 2024 年及按销售额，均保留对象 track 与 top_n 10。",
+      "evidence": [
+        "input: 最受欢迎的10首曲目是哪些？",
+        "business_basis: popularity level=L1 default=by_quantity；但 metric definitions 要求热门曲目 explicit period，缺期间不得静默填充",
+        "clarify_rules.yaml ranking.defaults.top_n=10",
+        "gold_sql: SELECT t.track_id, SUM(il.quantity) ... WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+        "actual_program_checks.sp03-29: final 与 post_completion_1/2 均 executed_readonly"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-30",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“谁买得最多？”缺时间范围且缺查询对象；虽然有附录“客户谁买得最多”采用金额定义的记录，但对象未明确时不能自动套用，通用“谁买得最多”无全局默认，L2 暂停澄清正确。gold_sql 在澄清为客户、2023 后按 customer_id 汇总 SUM(invoice.total)，ORDER BY amount DESC, customer_id ASC LIMIT 1，期间左闭右开，符合 ranking 与 tie_breaker 要求。controller 的 allowed_user_supplements 覆盖 rank_object/time_scope/metric，post_completion_turns 改 2024 年及改为曲目按购买数量，均保留客户/曲目对象切换且 SQL 表达更新。",
+      "evidence": [
+        "input: 谁买得最多？",
+        "clarify_rules.yaml ranking.required=[metric,rank_object]",
+        "approved_proposal 附录：客户谁买得最多 follows amount definition; 缺查询对象的“谁买得最多”不自动套同一个全局默认",
+        "gold_sql: SELECT c.customer_id, SUM(i.total) AS amount ... WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY c.customer_id ORDER BY amount DESC, c.customer_id ASC LIMIT 1;",
+        "actual_program_checks.sp03-30: final 与 post_completion_1/2 均 executed_readonly"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    }
+  ],
+  "notes": []
+}

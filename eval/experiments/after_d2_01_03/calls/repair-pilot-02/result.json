@@ -1,0 +1,391 @@
+{
+  "cases": [
+    {
+      "id": "sp03-08",
+      "family_id": "special-fam-10-l2-customer-buy-most-amount",
+      "task": "03",
+      "category": "L2",
+      "input": "2023年谁买得最多？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "暂停澄清：问题缺少被排名的对象（客户/曲目/艺术家）。确认对象=客户后，按已登记附录“客户谁买得最多”的金额定义 SUM(invoice.total) 执行；期间2023左闭右开，金额降序，并列按customer_id升序。",
+      "allowed_interpretations": [
+        "对象=客户，指标=SUM(invoice.total) 金额",
+        "对象=曲目，指标=SUM(invoice_line.quantity) 购买数量",
+        "对象=艺术家，指标=SUM(invoice_line.unit_price*quantity) 销售额"
+      ],
+      "expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "2023-01-01"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "2024-01-01"
+        }
+      ],
+      "missing_conditions": [
+        "rank_object"
+      ],
+      "business_basis": [
+        "已登记附录明确“客户谁买得最多”按金额定义；缺查询对象的“谁买得最多”没有全局默认（approved_proposal §4、general 规则）。",
+        "销售额发票粒度=SUM(invoice.total)；曲目/艺术家粒度才用明细SUM(unit_price*quantity)，JOIN后不得重复累加发票总额。"
+      ],
+      "reference_intent": {
+        "rank_object": "customer",
+        "metric": {
+          "id": "customer_purchase_amount",
+          "expression": "SUM(invoice.total)"
+        },
+        "time_scope": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "order": "desc",
+        "tie_breaker": "customer_id asc"
+      },
+      "gold_sql": "WITH customer_purchase AS (SELECT c.customer_id, SUM(i.total) AS purchase_amount FROM public.invoice i JOIN public.customer c ON c.customer_id = i.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY c.customer_id) SELECT cp.customer_id, cp.purchase_amount FROM customer_purchase cp ORDER BY cp.purchase_amount DESC, cp.customer_id ASC LIMIT 1;",
+      "case_style": "clarification_required",
+      "secondary_tags": [
+        "ranking",
+        "missing_object",
+        "customer_amount"
+      ],
+      "controller": {
+        "hidden_goal": "找出2023年购买金额最高的客户：按 customer 聚合 SUM(invoice.total)，期间左闭右开，金额高者优先，并列时 customer_id 升序。",
+        "allowed_user_supplements": {
+          "rank_object": {
+            "answer": "客户，看谁花的钱最多。",
+            "value": {
+              "object": "customer",
+              "metric": "purchase_amount",
+              "expression": "SUM(invoice.total)"
+            }
+          }
+        },
+        "final_intent": {
+          "rank_object": "customer",
+          "metric": {
+            "id": "customer_purchase_amount",
+            "expression": "SUM(invoice.total)"
+          },
+          "time_scope": {
+            "start": "2023-01-01",
+            "end": "2024-01-01"
+          },
+          "order": "desc",
+          "tie_breaker": "customer_id asc"
+        },
+        "expected_state_changes": [
+          "intent_version + 1",
+          "填充 rank_object=customer 并绑定附录金额定义",
+          "重新检查聚合粒度与字段"
+        ],
+        "max_clarification_followups": 3
+      },
+      "post_completion_turns": [
+        {
+          "message": "把年份换成2022年。",
+          "expected_intent": {
+            "rank_object": "customer",
+            "metric": {
+              "id": "customer_purchase_amount",
+              "expression": "SUM(invoice.total)"
+            },
+            "time_scope": {
+              "start": "2022-01-01",
+              "end": "2023-01-01"
+            },
+            "order": "desc",
+            "tie_breaker": "customer_id asc"
+          },
+          "gold_sql": "WITH customer_purchase AS (SELECT c.customer_id, SUM(i.total) AS purchase_amount FROM public.invoice i JOIN public.customer c ON c.customer_id = i.customer_id WHERE i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01' GROUP BY c.customer_id) SELECT cp.customer_id, cp.purchase_amount FROM customer_purchase cp ORDER BY cp.purchase_amount DESC, cp.customer_id ASC LIMIT 1;"
+        }
+      ],
+      "generation_call_id": "generate-03-pilot-02",
+      "generation_stage": "pilot",
+      "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+      "dataset_label": "本轮合成开发数据",
+      "split": "dev",
+      "reference_version": "special-dev-v1",
+      "ai_status": "not_yet_reviewed",
+      "human_review_status": "pending_human_review",
+      "auto_status": "corrected_pending_review",
+      "auto_issues": [
+        "原文缺对象不自动套全局默认；已用角色补充绑定附录客户金额定义。",
+        "gold_sql 已改为真实可执行 SELECT，不再为空。"
+      ]
+    },
+    {
+      "id": "sp03-09",
+      "family_id": "special-fam-11-l2-multi-candidate-rock",
+      "task": "03",
+      "category": "L2",
+      "input": "2024年摇滚曲目卖了多少张？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "暂停澄清：摇滚同时有 Rock 与 Rock And Roll 两个 approved_candidate 候选，且 Rock And Roll 还带有来自方案的 available 候选；初次保留全部解释，不预选任一。补充明确流派后才执行。",
+      "allowed_interpretations": [
+        "流派=Rock (genre_id=1)",
+        "流派=Rock And Roll (genre_id=5)",
+        "流派=Heavy Metal (genre_id=13) 代摇滚风格"
+      ],
+      "expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "2024-01-01"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "2025-01-01"
+        }
+      ],
+      "missing_conditions": [
+        "value"
+      ],
+      "business_basis": [
+        "热门曲目的默认口径为 SUM(invoice_line.quantity) 购买数量，并按 track_id 升序稳定并列（total_plan_semantic_gate、approved_proposal §4）。",
+        "Rock 与 Rock And Roll 均为 approved_candidate，不是自动唯一绑定；单候选也需先澄清（approved_aliases_and_candidate_relations 中 review_status=approved_candidate）。"
+      ],
+      "reference_intent": {
+        "genre": "Rock",
+        "metric": {
+          "id": "popular_tracks",
+          "expression": "SUM(invoice_line.quantity)"
+        },
+        "time_scope": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        }
+      },
+      "gold_sql": "SELECT SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id JOIN public.genre g ON g.genre_id = t.genre_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' AND g.name = 'Rock';",
+      "case_style": "clarification_required",
+      "secondary_tags": [
+        "multi_candidate",
+        "approved_candidate",
+        "genre"
+      ],
+      "controller": {
+        "hidden_goal": "统计2024年流派为 Rock 的曲目购买数量：SUM(invoice_line.quantity)，经 invoice.invoice_date 过滤，期间左闭右开。",
+        "allowed_user_supplements": {
+          "value": {
+            "answer": "Rock，不是 Rock And Roll。",
+            "value": {
+              "standard_value": "Rock",
+              "column": "genre.name"
+            }
+          }
+        },
+        "final_intent": {
+          "genre": "Rock",
+          "metric": {
+            "id": "popular_tracks",
+            "expression": "SUM(invoice_line.quantity)"
+          },
+          "time_scope": {
+            "start": "2024-01-01",
+            "end": "2025-01-01"
+          }
+        },
+        "expected_state_changes": [
+          "intent_version + 1",
+          "绑定 genre.name='Rock'",
+          "确认使用明细数量而非发票总额"
+        ],
+        "max_clarification_followups": 3
+      },
+      "post_completion_turns": [
+        {
+          "message": "那换成2023年呢？",
+          "expected_intent": {
+            "genre": "Rock",
+            "metric": {
+              "id": "popular_tracks",
+              "expression": "SUM(invoice_line.quantity)"
+            },
+            "time_scope": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            }
+          },
+          "gold_sql": "SELECT SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id JOIN public.genre g ON g.genre_id = t.genre_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' AND g.name = 'Rock';"
+        }
+      ],
+      "generation_call_id": "generate-03-pilot-02",
+      "generation_stage": "pilot",
+      "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+      "dataset_label": "本轮合成开发数据",
+      "split": "dev",
+      "reference_version": "special-dev-v1",
+      "ai_status": "not_yet_reviewed",
+      "human_review_status": "pending_human_review",
+      "auto_status": "corrected_pending_review",
+      "auto_issues": [
+        "初次 expected_bindings 不再预选唯一 Rock；改为仅绑定已明确的日期。",
+        "gold_sql 已改为真实可执行 SELECT，不再为空。"
+      ]
+    },
+    {
+      "id": "sp03-10",
+      "family_id": "special-fam-12-l2-residence-vs-billing-conflict",
+      "task": "03",
+      "category": "L2",
+      "input": "2024年巴西的客户有多少？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "暂停澄清：客户对象已明确，但“巴西的客户”地区语义未定——customer.country 为客户居住国，invoice.billing_country 为账单地址国，二者含义不同且应保留各自语义；补充 region_scope 后执行。",
+      "allowed_interpretations": [
+        "按 customer.country='Brazil' 统计居住国客户",
+        "按 invoice.billing_country='Brazil' 统计有巴西账单地址的客户",
+        "即使当前快照两者无差异也须确认语义"
+      ],
+      "expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "2024-01-01"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "2025-01-01"
+        }
+      ],
+      "missing_conditions": [
+        "region_scope"
+      ],
+      "business_basis": [
+        "已确认通用规则：customer.country 是客户居住地，invoice.billing_country 是发票账单地址，当前快照相等也不合并语义（confirmed_business_rules.general.region）。",
+        "客户数聚合为 COUNT(DISTINCT customer_id)，经 invoice_date 期间过滤，期间左闭右开（approved_proposal §5、repeat_customers 同款期间处理）。",
+        "live_database_facts.billing_customer_difference 在当前412张发票快照下差异为0，但仍需澄清语义，不能据此合并含义。"
+      ],
+      "reference_intent": {
+        "region": {
+          "column": "customer.country",
+          "value": "Brazil"
+        },
+        "metric": {
+          "id": "customer_count",
+          "expression": "COUNT(DISTINCT customer_id)"
+        },
+        "time_scope": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        }
+      },
+      "gold_sql": "SELECT COUNT(DISTINCT c.customer_id) AS customer_count FROM public.customer c JOIN public.invoice i ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' AND c.country = 'Brazil';",
+      "case_style": "clarification_required",
+      "secondary_tags": [
+        "region_semantics",
+        "residence_vs_billing",
+        "customer_count"
+      ],
+      "controller": {
+        "hidden_goal": "统计2024年客户所在国为巴西的客户数量：COUNT(DISTINCT customer_id)，日期 invoice_date 左闭右开，按 customer.country 筛选。",
+        "allowed_user_supplements": {
+          "region_scope": {
+            "answer": "按客户所在地算，不是账单地址。",
+            "value": {
+              "column": "customer.country",
+              "value": "Brazil"
+            }
+          }
+        },
+        "final_intent": {
+          "region": {
+            "column": "customer.country",
+            "value": "Brazil"
+          },
+          "metric": {
+            "id": "customer_count",
+            "expression": "COUNT(DISTINCT customer_id)"
+          },
+          "time_scope": {
+            "start": "2024-01-01",
+            "end": "2025-01-01"
+          }
+        },
+        "expected_state_changes": [
+          "intent_version + 1",
+          "绑定 region_scope=customer.country",
+          "确认日期过滤与聚合粒度"
+        ],
+        "max_clarification_followups": 3
+      },
+      "post_completion_turns": [
+        {
+          "message": "地区改成印度，年份还是2024。",
+          "expected_intent": {
+            "region": {
+              "column": "customer.country",
+              "value": "India"
+            },
+            "metric": {
+              "id": "customer_count",
+              "expression": "COUNT(DISTINCT customer_id)"
+            },
+            "time_scope": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            }
+          },
+          "gold_sql": "SELECT COUNT(DISTINCT c.customer_id) AS customer_count FROM public.customer c JOIN public.invoice i ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' AND c.country = 'India';"
+        },
+        {
+          "message": "再看2023年同地区。",
+          "expected_intent": {
+            "region": {
+              "column": "customer.country",
+              "value": "India"
+            },
+            "metric": {
+              "id": "customer_count",
+              "expression": "COUNT(DISTINCT customer_id)"
+            },
+            "time_scope": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            }
+          },
+          "gold_sql": "SELECT COUNT(DISTINCT c.customer_id) AS customer_count FROM public.customer c JOIN public.invoice i ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' AND c.country = 'India';"
+        }
+      ],
+      "generation_call_id": "generate-03-pilot-02",
+      "generation_stage": "pilot",
+      "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+      "dataset_label": "本轮合成开发数据",
+      "split": "dev",
+      "reference_version": "special-dev-v1",
+      "ai_status": "not_yet_reviewed",
+      "human_review_status": "pending_human_review",
+      "auto_status": "corrected_pending_review",
+      "auto_issues": [
+        "保留原L2类别，但澄清点改为客户居住国 vs 发票账单国的地区语义，而非重新对象化。",
+        "gold_sql 已改为真实可执行 SELECT，不再为空。"
+      ]
+    }
+  ],
+  "notes": [
+    "sp03-08：证据不足争议已按材料修正：缺对象时不允许自动套全局默认，补充对象=客户后方按附录金额定义绑定。",
+    "sp03-09：初次不得因 Rock 被预选为唯一 approved_candidate 而将其写进 expected_bindings；日期条件保留，流派值待补充。",
+    "sp03-10：客户对象本身明确，真正需澄清的是 residence vs billing 地区语义；即使当前快照无差异也须确认。",
+    "所有 L2 的 final gold_sql 与 post_completion_turn gold_sql 均以真实 SELECT 表达，未编造执行结果或运行输出。",
+    "未启用 runtime_defaults，不把 L2 缺对象静默降为默认口径。"
+  ]
+}

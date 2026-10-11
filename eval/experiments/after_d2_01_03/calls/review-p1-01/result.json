@@ -1,0 +1,88 @@
+{
+  "reviews": [
+    {
+      "id": "sp01-01",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "标准类别、问客户数、明确 France；绑定 customer.country='France' 与规则一致（客户所在地）。SQL 对 customer 行计数，无时间条件，字段与聚合正确，输出 customer_count。",
+      "evidence": [
+        "cases[sp01-01].input",
+        "cases[sp01-01].gold_sql",
+        "live_database_facts.countries",
+        "confirmed_business_rules.general.region"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-02",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "别名类别；'Iron Maiden乐队' 是 approved 别名，唯一绑定 artist.name='Iron Maiden'。SQL 通过 album.artist_id FK 连接 artist 并统计专辑数，正确。",
+      "evidence": [
+        "approved_aliases_and_candidate_relations alias_id=a-7a0187a2e65d10ae status=approved",
+        "live_database_facts.named_artist_values artist_id=90",
+        "cases[sp01-02].gold_sql"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-03",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "别名类别且已修订为明确账单国语义：'德国的发票'绑定 invoice.billing_country='Germany'（approved），与客户所在地 country 区分。按发票粒度 SUM(invoice.total) 符合销售额定义。",
+      "evidence": [
+        "approved_aliases_and_candidate_relations alias_id=a-3414db81951a6279 status=approved",
+        "confirmed_business_rules.general.region",
+        "confirmed_business_rules.metrics.sales_revenue",
+        "cases[sp01-03].gold_sql"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-04",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "拼写错误类别；Frnace 在数据国家列表中不存在，明确更正为 France，不改变指标/期间/对象。SQL 与标准国家计数一致。",
+      "evidence": [
+        "live_database_facts.countries 含 France、不含 Frnace",
+        "cases[sp01-04].gold_sql"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-05",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "拼写错误类别；Metallcia 更正为 Metallica（数据库存在 artist_id=50 name='Metallica'），统计其专辑数。SQL 连接 album/artist 正确。",
+      "evidence": [
+        "live_database_facts.named_artist_values artist_id=50 name='Metallica'",
+        "cases[sp01-05].gold_sql"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    }
+  ],
+  "notes": [
+    "sp01-03 原候选曾绑定 customer.country，已修订为 invoice.billing_country，依据 approved 别名及 region 规则；当前标注通过。",
+    "未发现需争议项。"
+  ]
+}

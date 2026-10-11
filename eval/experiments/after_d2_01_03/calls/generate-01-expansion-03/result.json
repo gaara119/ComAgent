@@ -1,0 +1,313 @@
+{
+  "cases": [
+    {
+      "id": "sp01-21",
+      "family_id": "special-fam-21-pinyin-country-germany-customers",
+      "task": "01",
+      "category": "pinyin",
+      "input": "Deguo 的客户有多少个？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "有限改写：把拼音 Deguo 还原为 approved 别面对应的标准值 Germany，按 customer.country = 'Germany' 计数客户数。",
+      "allowed_interpretations": [
+        "按客户所在国家 customer.country='Germany' 统计客户数量"
+      ],
+      "expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "Germany",
+          "surface": "Deguo"
+        }
+      ],
+      "missing_conditions": [],
+      "business_basis": [
+        {
+          "source": "approved_aliases_and_candidate_relations",
+          "detail": "Germany / customer.country 的已审核准别名 德国（approved）；现场只读事实 countries 结果显示 Germany 为真实客户国家值"
+        },
+        {
+          "source": "live_database_facts.countries",
+          "detail": "24 个客户国家值中明确包含 Germany；拼音 Deguo 为其常见拼音写法，不新造业务别名"
+        }
+      ],
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "COUNT(customer_id)",
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Germany"
+          }
+        ],
+        "time_scope": "无",
+        "grouping": "无",
+        "top_n": null
+      },
+      "gold_sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Germany';",
+      "controller": null,
+      "canonical_input": "客户所在国家为 Germany 的客户有多少个？",
+      "secondary_tags": [
+        "country_count"
+      ],
+      "case_style": "natural"
+    },
+    {
+      "id": "sp01-22",
+      "family_id": "special-fam-22-pinyin-genre-classical-tracks",
+      "task": "01",
+      "category": "pinyin",
+      "input": "Gudian 这个流派的曲目有多少首？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "有限改写：把拼音 Gudian 还原为 approved 别面对应的标准流派值 Classical，按 genre.name='Classical' 统计曲目数。",
+      "allowed_interpretations": [
+        "按流派名称 genre.name='Classical' 统计 track 行数"
+      ],
+      "expected_bindings": [
+        {
+          "column": "genre.name",
+          "operator": "=",
+          "value": "Classical",
+          "surface": "Gudian"
+        }
+      ],
+      "missing_conditions": [],
+      "business_basis": [
+        {
+          "source": "approved_aliases_and_candidate_relations",
+          "detail": "Classical / genre.name 的已审核准别名 古典、古典音乐（approved）；现场只读事实 genres 显示 genre_id=24 的 name='Classical'"
+        },
+        {
+          "source": "live_database_facts.genres",
+          "detail": "genre 表实有 25 行，其中包含 name='Classical'；拼音 Gudian 为该标准值的常见拼写"
+        }
+      ],
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "COUNT(track_id)",
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Classical"
+          }
+        ],
+        "time_scope": "无",
+        "grouping": "无",
+        "top_n": null
+      },
+      "gold_sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Classical';",
+      "controller": null,
+      "canonical_input": "流派为 Classical 的曲目有多少首？",
+      "secondary_tags": [
+        "genre_count"
+      ],
+      "case_style": "natural"
+    },
+    {
+      "id": "sp01-23",
+      "family_id": "special-fam-23-mixed-language-country-canada-customers",
+      "task": "01",
+      "category": "mixed_language",
+      "input": "Canada 那边一共有多少 customers？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "直接执行：中英混合题中 Canada 与 customers 对应客户国家与客户数指标，按 customer.country='Canada' 计数。",
+      "allowed_interpretations": [
+        "按客户所在国家 customer.country='Canada' 统计客户数量"
+      ],
+      "expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "Canada",
+          "surface": "Canada"
+        },
+        {
+          "column": "customer.customer_id",
+          "operator": "COUNT",
+          "value": null,
+          "surface": "customers"
+        }
+      ],
+      "missing_conditions": [],
+      "business_basis": [
+        {
+          "source": "live_database_facts.countries",
+          "detail": "customer 表 24 个不同国家值中明确包含 Canada"
+        },
+        {
+          "source": "confirmed_business_rules.general.region",
+          "detail": "customer.country 表示客户居住地；题面 customers 为计数对象，不涉及金额或期间"
+        }
+      ],
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "COUNT(customer_id)",
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Canada"
+          }
+        ],
+        "time_scope": "无",
+        "grouping": "无",
+        "top_n": null
+      },
+      "gold_sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Canada';",
+      "controller": null,
+      "canonical_input": "客户所在国家为 Canada 的客户有多少个？",
+      "secondary_tags": [
+        "country_count"
+      ],
+      "case_style": "natural"
+    },
+    {
+      "id": "sp01-24",
+      "family_id": "special-fam-24-mixed-language-artist-iron-maiden-albums",
+      "task": "01",
+      "category": "mixed_language",
+      "input": "Iron Maiden 这个 artist 有多少 albums？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "直接执行：中英混合题中 artist 与 albums 对应对应表和 COUNT 聚合，按 artist.name='Iron Maiden' 联结 album 计数。",
+      "allowed_interpretations": [
+        "按艺术家名 artist.name='Iron Maiden' 统计其 album 行数"
+      ],
+      "expected_bindings": [
+        {
+          "column": "artist.name",
+          "operator": "=",
+          "value": "Iron Maiden",
+          "surface": "Iron Maiden"
+        },
+        {
+          "column": "album.album_id",
+          "operator": "COUNT",
+          "value": null,
+          "surface": "albums"
+        }
+      ],
+      "missing_conditions": [],
+      "business_basis": [
+        {
+          "source": "live_database_facts.named_artist_values",
+          "detail": "artist 表中 artist_id=90, name='Iron Maiden' 为真实值"
+        },
+        {
+          "source": "approved_aliases_and_candidate_relations",
+          "detail": "Iron Maiden / artist.name 的已审核准别名 Iron Maiden乐队（approved）；本题使用标准英文值，故直接绑定"
+        }
+      ],
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "COUNT(album.album_id)",
+        "filters": [
+          {
+            "column": "artist.name",
+            "operator": "=",
+            "value": "Iron Maiden"
+          }
+        ],
+        "time_scope": "无",
+        "grouping": "无",
+        "top_n": null
+      },
+      "gold_sql": "SELECT COUNT(*) AS album_count FROM public.album al JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE ar.name = 'Iron Maiden';",
+      "controller": null,
+      "canonical_input": "艺术家 Iron Maiden 一共有多少张专辑？",
+      "secondary_tags": [
+        "artist_album_count"
+      ],
+      "case_style": "natural"
+    },
+    {
+      "id": "sp01-25",
+      "family_id": "special-fam-25-colloquial-italy-invoice-total",
+      "task": "01",
+      "category": "colloquial",
+      "input": "意大利那边的发票总共开了多少钱？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "有限改写：口语表达不自动绑定未审别名；按照已确认口径，以 customer.country='Italy' 的客户居住地为准，对 invoice.total 求和。",
+      "allowed_interpretations": [
+        "按客户居住国 customer.country='Italy' 统计 SUM(invoice.total)"
+      ],
+      "expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "Italy",
+          "surface": "意大利那边"
+        },
+        {
+          "column": "invoice.total",
+          "operator": "SUM",
+          "value": null,
+          "surface": "开了多少钱"
+        }
+      ],
+      "missing_conditions": [],
+      "business_basis": [
+        {
+          "source": "approved_aliases_and_candidate_relations",
+          "detail": "Italy / customer.country 的已审核准别名 意大利（approved）与 义大利（approved）；口语表达不新增绑定"
+        },
+        {
+          "source": "confirmed_business_rules.metrics[0]",
+          "detail": "发票销售额口径为 SUM(invoice.total)，grained at invoice，JOIN 明细不得重复累加"
+        },
+        {
+          "source": "confirmed_business_rules.general.region",
+          "detail": "customer.country 为客户居住地，invoice.billing_country 为账单地址，二者含义不合并"
+        }
+      ],
+      "reference_intent": {
+        "task_type": "sum",
+        "metric": "SUM(invoice.total)",
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Italy"
+          }
+        ],
+        "time_scope": "无",
+        "grouping": "无",
+        "top_n": null
+      },
+      "gold_sql": "SELECT SUM(i.total) AS revenue FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE c.country = 'Italy';",
+      "controller": null,
+      "canonical_input": "客户所在国家为 Italy 的发票总额是多少？",
+      "secondary_tags": [
+        "revenue",
+        "country"
+      ],
+      "case_style": "natural"
+    }
+  ],
+  "notes": []
+}

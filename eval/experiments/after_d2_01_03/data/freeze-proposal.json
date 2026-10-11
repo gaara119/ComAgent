@@ -1,0 +1,73 @@
+{
+  "status": "proposal_awaiting_root_formal_v0_freeze",
+  "created_at": "2026-10-11T18:53:57.718796+00:00",
+  "label_file": "data/cases-v6-reviewed.jsonl",
+  "label_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "source_manifest_sha256": "5201b756d4e91a8ae5f383ca972740e4afd192997b57751a5a4497b02063b157",
+  "scoring_protocol": "reports/scoring-protocol-draft.md",
+  "scoring_protocol_sha256": "b8f6b7d1d1d531d810a2244f6662db767d9654bc14e1bafa7a10637f918b480e",
+  "dataset_total": 60,
+  "unique_inputs": 58,
+  "scorable": 49,
+  "pending_confirmation": 11,
+  "all_human_pending": 60,
+  "scorable_by_task": {
+    "01": 26,
+    "03": 23
+  },
+  "intended_categories": {
+    "01": {
+      "standard": 3,
+      "alias": 6,
+      "typo": 6,
+      "pinyin": 3,
+      "mixed_language": 3,
+      "colloquial": 3,
+      "multi_candidate": 3,
+      "explicit_absent": 3
+    },
+    "03": {
+      "L0": 10,
+      "L1": 5,
+      "L2": 15
+    }
+  },
+  "scorable_categories": {
+    "01": {
+      "standard": 3,
+      "alias": 4,
+      "typo": 6,
+      "mixed_language": 3,
+      "colloquial": 3,
+      "multi_candidate": 2,
+      "explicit_absent": 3,
+      "pinyin": 2
+    },
+    "03": {
+      "L0": 9,
+      "L1": 3,
+      "L2": 11
+    }
+  },
+  "disputed_ids": [
+    "sp01-06",
+    "sp03-05",
+    "sp03-06",
+    "sp03-10",
+    "sp01-13",
+    "sp01-14",
+    "sp01-28",
+    "sp03-15",
+    "sp03-20",
+    "sp03-23",
+    "sp03-25"
+  ],
+  "source_guard_affected_ids": [
+    "sp01-28",
+    "sp03-15",
+    "sp03-20",
+    "sp03-25"
+  ],
+  "ai_is_not_human_acceptance": true,
+  "historical_exposure_disclosure": "Root historical context may have seen holdout; this context does not erase historical exposure. All 60 are synthetic development cases, not independent generalization tests."
+}

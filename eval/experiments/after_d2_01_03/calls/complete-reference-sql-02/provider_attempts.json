@@ -1,0 +1,39 @@
+[
+  {
+    "number": 1,
+    "started_at": "2026-10-11T18:43:21.660633+00:00",
+    "ok": true,
+    "response_id": "fd93ce0f-651a-4e6c-b9d1-e4258022bda7",
+    "model": "deepseek-flash",
+    "usage": {
+      "completion_tokens": 475,
+      "prompt_tokens": 15774,
+      "total_tokens": 16249,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cache_write_tokens": null,
+        "cached_tokens": 14464
+      },
+      "prompt_cache_hit_tokens": 14464,
+      "prompt_cache_miss_tokens": 1310
+    },
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "{\"annotations\":[{\"id\":\"sp03-24\",\"gold_sql\":\"SELECT SUM(i.total) AS revenue FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01' AND c.country = 'Australia';\",\"business_basis\":[\"controller.final_intent明确region.column=customer.country, value=Australia，来自allowed_user_supplements“按客户所在国家算，customer.country”与“客户居住地那边”\",\"已确认口径：销售额采用发票粒度SUM(invoice.total)\",\"期间使用invoice_date左闭右开[2022-01-01,2023-01-01)\",\"通用约定：customer.country是客户所在地，invoice.billing_country是账单地址，两者含义不合并；本SQL按最终意图使用customer.country\"],\"issues\":[\"原始输入“2022年澳大利亚的发票销售额”未说明住址还是账单国家，初始标注missing region_scope只能依赖程序外补充；已给定allowed_user_supplements后SQL按customer.country表达，但初始分类/模拟用户规则对地区口径覆盖不足\"]},{\"id\":\"sp03-25\",\"gold_sql\":\"SELECT SUM(il.unit_price * il.quantity) AS track_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' AND g.name = 'Rock';\",\"business_basis\":[\"controller.final_intent明确genre.value=Rock，来自allowed_user_supplements“就是Rock这个流派”\",\"已确认口径：曲目粒度销售额用SUM(invoice_line.unit_price * invoice_line.quantity)，并按invoice_date过滤期间，避免重复累加发票总额\",\"期间使用invoice_date左闭右开[2024-01-01,2025-01-01)\"],\"issues\":[]}]}",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "latency_ms": 4613
+  }
+]

@@ -1,0 +1,88 @@
+{
+  "reviews": [
+    {
+      "id": "sp01-26",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "'加拿大那边'经已批准别名唯一绑定 customer.country='Canada'（a-3cc0be84e1794908，review_status=approved），live facts 确认 Canada 在 customer.country 取值内。'现在有多少客户'是 COUNT 客户数，无时期含义，不应误当缺期间。gold_sql 正确计数 customer 表 country='Canada' 的行，无日期边界问题，结果 8 合理。",
+      "evidence": [
+        "cases[sp01-26].input",
+        "approved_aliases: Canada/加拿大 approved a-3cc0be84e1794908",
+        "live_database_facts.countries 含 Canada",
+        "actual_program_checks[sp01-26].sql_checks[0] final 返回 8"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-27",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "'摇滚'同时对应 genre 'Rock'(id=1) 与 'Rock And Roll'(id=5) 两个真实值，候选数量 1297 与 12 差别大，属 multi_candidate_value L2，应暂停澄清而非静默绑定。两条 candidate_sql 分别对曲目按 genre 名精确匹配计数，join 与聚合正确，无时期缺失问题。expected_bindings 用 in 表达候选集合与实际候选关系一致。",
+      "evidence": [
+        "cases[sp01-27].input 与 allowed_interpretations",
+        "live_database_facts.genres: 1 Rock, 5 Rock And Roll",
+        "approved_aliases: 摇滚→Rock approved_candidate a-cb69b4bf22161e6e；摇滚乐→Rock And Roll approved_candidate a-0e44ca874f4ba96f",
+        "actual_program_checks[sp01-27] 候选结果 1297/12"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-28",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "'金属'同时涉及 genre 'Metal'(id=3)、邻近值 'Heavy Metal'(id=13) 与 artist 'Metallica'，其中 '金属'对 Metallica 为 pending 别名（禁用），对 genre Metal 为 approved_candidate（仅候选），属 multi_candidate L2，保留候选并澄清正确。三条 candidate_sql 分别按 genre 名与 artist 名精确匹配计数，join 路径 track→album→artist 与 track→genre 正确，结果 374/28/112 差别明显，支持 L2。",
+      "evidence": [
+        "cases[sp01-28].input 与 allowed_interpretations",
+        "live_database_facts.genres: 3 Metal, 13 Heavy Metal",
+        "approved_aliases: 金属→Metal approved_candidate a-439ce0734774f114；金属→Metallica pending a-0c47392129d13dd6",
+        "actual_program_checks[sp01-28] 候选结果 374/28/112"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-29",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "用户显式要求按字面值 'Atlantis' 查询并报告无记录；Atlantis 不在 customer.country 取值列表内，应保留不存在精确匹配 COUNT=0。gold_sql 正确对 country='Atlantis' 计数，结果 0 与 expected_behavior 一致，没有替换为邻近国家。",
+      "evidence": [
+        "cases[sp01-29].input/expected_behavior",
+        "live_database_facts.countries 不含 Atlantis",
+        "actual_program_checks[sp01-29] final 返回 0"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-30",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "用户给出 2030-01-01 至 2030-12-31（左闭右开），用户正确表达 end_exclusive 为 2031-01-01，边界语义清晰。live facts 显示发票日期最大 2025-12-22，该区间无记录，应保留不存在返回 0 报告无记录，不补默认时期。gold_sql 使用 >= 2030-01-01 AND < 2031-01-01，左闭右开正确。",
+      "evidence": [
+        "cases[sp01-30].input/expected_behavior",
+        "live_database_facts.date_evidence: 2021-01-01 至 2025-12-22",
+        "actual_program_checks[sp01-30] final 返回 0"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    }
+  ],
+  "notes": []
+}

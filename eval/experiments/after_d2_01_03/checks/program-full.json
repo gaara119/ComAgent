@@ -1,0 +1,2812 @@
+{
+  "checked_at": "2026-10-11T18:42:24.053987+00:00",
+  "checks": [
+    {
+      "id": "sp01-01",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'France';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                5
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 5
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-02",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS album_count FROM public.album a JOIN public.artist ar ON a.artist_id = ar.artist_id WHERE ar.name = 'Iron Maiden';",
+          "tables": [
+            "album",
+            "artist"
+          ],
+          "result": {
+            "columns": [
+              "album_count"
+            ],
+            "rows": [
+              [
+                21
+              ]
+            ],
+            "table": [
+              {
+                "album_count": 21
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-03",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT SUM(i.total) AS revenue FROM public.invoice i WHERE i.billing_country = 'Germany';",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "revenue"
+            ],
+            "rows": [
+              [
+                "156.48"
+              ]
+            ],
+            "table": [
+              {
+                "revenue": "156.48"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-04",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'France';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                5
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 5
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-05",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS album_count FROM public.album a JOIN public.artist ar ON a.artist_id = ar.artist_id WHERE ar.name = 'Metallica';",
+          "tables": [
+            "album",
+            "artist"
+          ],
+          "result": {
+            "columns": [
+              "album_count"
+            ],
+            "rows": [
+              [
+                10
+              ]
+            ],
+            "table": [
+              {
+                "album_count": 10
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-06",
+      "status": "disputed",
+      "issues": [
+        "unexpected_missing_for_executable_case",
+        "sql_check:final:One SELECT/CTE query required"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "",
+          "status": "failed",
+          "error": "One SELECT/CTE query required"
+        }
+      ]
+    },
+    {
+      "id": "sp01-07",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.media_type mt ON t.media_type_id = mt.media_type_id WHERE mt.name = 'Protected AAC audio file';",
+          "tables": [
+            "media_type",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                237
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 237
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-08",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Italy';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                1
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 1
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-09",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "candidate:Rock",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Rock';",
+          "tables": [
+            "genre",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                1297
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 1297
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "candidate:Rock And Roll",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Rock And Roll';",
+          "tables": [
+            "genre",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                12
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 12
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-10",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Vaporwave';",
+          "tables": [
+            "genre",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                0
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 0
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-01",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2020-01-01' AND invoice_date < DATE '2021-01-01';",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "revenue"
+            ],
+            "rows": [
+              [
+                null
+              ]
+            ],
+            "table": [
+              {
+                "revenue": null
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-02",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'France';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                5
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 5
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-03",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE c.country = 'Brazil' AND invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2025-01-01';",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "yoy_growth_rate"
+            ],
+            "rows": [
+              [
+                "1.7000000000000000"
+              ]
+            ],
+            "table": [
+              {
+                "yoy_growth_rate": "1.7000000000000000"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-04",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:GROUP BY"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT track_id, SUM(unit_price * quantity) AS track_revenue FROM public.invoice_line WHERE invoice_id IN (SELECT invoice_id FROM public.invoice WHERE invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01') GROUP BY track_id ORDER BY track_revenue DESC, track_id ASC LIMIT 10;",
+          "tables": [
+            "invoice",
+            "invoice_line"
+          ],
+          "result": {
+            "columns": [
+              "track_id",
+              "track_revenue"
+            ],
+            "rows": [
+              [
+                2821,
+                "1.99"
+              ],
+              [
+                2827,
+                "1.99"
+              ],
+              [
+                2833,
+                "1.99"
+              ],
+              [
+                2839,
+                "1.99"
+              ],
+              [
+                2845,
+                "1.99"
+              ],
+              [
+                2851,
+                "1.99"
+              ],
+              [
+                2860,
+                "1.99"
+              ],
+              [
+                2869,
+                "1.99"
+              ],
+              [
+                2878,
+                "1.99"
+              ],
+              [
+                2887,
+                "1.99"
+              ]
+            ],
+            "table": [
+              {
+                "track_id": 2821,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2827,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2833,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2839,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2845,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2851,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2860,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2869,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2878,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2887,
+                "track_revenue": "1.99"
+              }
+            ],
+            "row_count": 10,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-05",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id JOIN public.genre g ON g.genre_id = t.genre_id WHERE i.invoice_date >= DATE '2007-01-01' AND i.invoice_date < DATE '2008-01-01' AND g.name = 'Jazz' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+          "tables": [
+            "genre",
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_id",
+              "purchased_quantity"
+            ],
+            "rows": [],
+            "table": [],
+            "row_count": 0,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-06",
+      "status": "disputed",
+      "issues": [
+        "sql_check:final:One SELECT/CTE query required"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "",
+          "status": "failed",
+          "error": "One SELECT/CTE query required"
+        }
+      ]
+    },
+    {
+      "id": "sp03-07",
+      "status": "disputed",
+      "issues": [
+        "sql_check:final:One SELECT/CTE query required"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "",
+          "status": "failed",
+          "error": "One SELECT/CTE query required"
+        }
+      ]
+    },
+    {
+      "id": "sp03-08",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "WITH customer_purchase AS (SELECT c.customer_id, SUM(i.total) AS purchase_amount FROM public.invoice i JOIN public.customer c ON c.customer_id = i.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY c.customer_id) SELECT cp.customer_id, cp.purchase_amount FROM customer_purchase cp ORDER BY cp.purchase_amount DESC, cp.customer_id ASC LIMIT 1;",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "customer_id",
+              "purchase_amount"
+            ],
+            "rows": [
+              [
+                46,
+                "32.75"
+              ]
+            ],
+            "table": [
+              {
+                "customer_id": 46,
+                "purchase_amount": "32.75"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-09",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id JOIN public.genre g ON g.genre_id = t.genre_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' AND g.name = 'Rock';",
+          "tables": [
+            "genre",
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "purchased_quantity"
+            ],
+            "rows": [
+              [
+                164
+              ]
+            ],
+            "table": [
+              {
+                "purchased_quantity": 164
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-10",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(DISTINCT c.customer_id) AS customer_count FROM public.customer c JOIN public.invoice i ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' AND c.country = 'Brazil';",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                4
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 4
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-11",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Canada';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                8
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 8
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-12",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT SUM(total) AS revenue FROM public.invoice WHERE billing_country = 'France' AND invoice_date >= DATE '2022-01-01' AND invoice_date < DATE '2023-01-01';",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "revenue"
+            ],
+            "rows": [
+              [
+                "39.60"
+              ]
+            ],
+            "table": [
+              {
+                "revenue": "39.60"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-13",
+      "status": "disputed",
+      "issues": [
+        "duplicate_input:sp01-02"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS album_count FROM public.album al JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE ar.name = 'Iron Maiden';",
+          "tables": [
+            "album",
+            "artist"
+          ],
+          "result": {
+            "columns": [
+              "album_count"
+            ],
+            "rows": [
+              [
+                21
+              ]
+            ],
+            "table": [
+              {
+                "album_count": 21
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-14",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS invoice_count FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE c.country = 'France';",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "invoice_count"
+            ],
+            "rows": [
+              [
+                35
+              ]
+            ],
+            "table": [
+              {
+                "invoice_count": 35
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-15",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.media_type mt ON t.media_type_id = mt.media_type_id WHERE mt.name = 'Protected AAC audio file';",
+          "tables": [
+            "media_type",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                237
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 237
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-16",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(DISTINCT a.album_id) AS album_count FROM public.album a JOIN public.artist ar ON a.artist_id = ar.artist_id WHERE ar.name = 'U2';",
+          "tables": [
+            "album",
+            "artist"
+          ],
+          "result": {
+            "columns": [
+              "album_count"
+            ],
+            "rows": [
+              [
+                10
+              ]
+            ],
+            "table": [
+              {
+                "album_count": 10
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-17",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'France';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                5
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 5
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-18",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(DISTINCT a.album_id) AS album_count FROM public.album a JOIN public.artist ar ON a.artist_id = ar.artist_id WHERE ar.name = 'Led Zeppelin';",
+          "tables": [
+            "album",
+            "artist"
+          ],
+          "result": {
+            "columns": [
+              "album_count"
+            ],
+            "rows": [
+              [
+                14
+              ]
+            ],
+            "table": [
+              {
+                "album_count": 14
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-19",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Canada';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                8
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 8
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-20",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.media_type mt ON t.media_type_id = mt.media_type_id WHERE mt.name = 'MPEG audio file';",
+          "tables": [
+            "media_type",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                3034
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 3034
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-21",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Germany';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                4
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 4
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-22",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Classical';",
+          "tables": [
+            "genre",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                74
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 74
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-23",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:COUNT"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Canada';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                8
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 8
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-24",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:COUNT"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS album_count FROM public.album al JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE ar.name = 'Iron Maiden';",
+          "tables": [
+            "album",
+            "artist"
+          ],
+          "result": {
+            "columns": [
+              "album_count"
+            ],
+            "rows": [
+              [
+                21
+              ]
+            ],
+            "table": [
+              {
+                "album_count": 21
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-25",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:SUM"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT SUM(i.total) AS revenue FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE c.country = 'Italy';",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "revenue"
+            ],
+            "rows": [
+              [
+                "37.62"
+              ]
+            ],
+            "table": [
+              {
+                "revenue": "37.62"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-26",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Canada';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                8
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 8
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-27",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "interpretation_candidate:1",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id=g.genre_id WHERE g.name='Rock';",
+          "tables": [
+            "genre",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                1297
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 1297
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "interpretation_candidate:2",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id=g.genre_id WHERE g.name='Rock And Roll';",
+          "tables": [
+            "genre",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                12
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 12
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-28",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "interpretation_candidate:1",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id=g.genre_id WHERE g.name='Metal';",
+          "tables": [
+            "genre",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                374
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 374
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "interpretation_candidate:2",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id=g.genre_id WHERE g.name='Heavy Metal';",
+          "tables": [
+            "genre",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                28
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 28
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "interpretation_candidate:3",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.album a ON t.album_id=a.album_id JOIN public.artist ar ON a.artist_id=ar.artist_id WHERE ar.name='Metallica';",
+          "tables": [
+            "album",
+            "artist",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                112
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 112
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-29",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Atlantis';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                0
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 0
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp01-30",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS invoice_count FROM public.invoice WHERE invoice_date >= DATE '2030-01-01' AND invoice_date < DATE '2031-01-01';",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "invoice_count"
+            ],
+            "rows": [
+              [
+                0
+              ]
+            ],
+            "table": [
+              {
+                "invoice_count": 0
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-11",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'USA';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                13
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 13
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-12",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Italy';",
+          "tables": [
+            "customer"
+          ],
+          "result": {
+            "columns": [
+              "customer_count"
+            ],
+            "rows": [
+              [
+                1
+              ]
+            ],
+            "table": [
+              {
+                "customer_count": 1
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-13",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT SUM(total) AS revenue FROM public.invoice WHERE billing_country = 'Canada' AND invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "revenue"
+            ],
+            "rows": [
+              [
+                "42.57"
+              ]
+            ],
+            "table": [
+              {
+                "revenue": "42.57"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-14",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT EXTRACT(YEAR FROM invoice_date)::int AS year, SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2022-01-01' AND invoice_date < DATE '2024-01-01' GROUP BY year ORDER BY year;",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "year",
+              "revenue"
+            ],
+            "rows": [
+              [
+                2022,
+                "481.45"
+              ],
+              [
+                2023,
+                "469.58"
+              ]
+            ],
+            "table": [
+              {
+                "year": 2022,
+                "revenue": "481.45"
+              },
+              {
+                "year": 2023,
+                "revenue": "469.58"
+              }
+            ],
+            "row_count": 2,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-15",
+      "status": "passed",
+      "issues": [],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT track_id, SUM(quantity) AS purchased_quantity FROM public.invoice_line WHERE invoice_id IN (SELECT invoice_id FROM public.invoice WHERE invoice_date >= DATE '2009-01-01' AND invoice_date < DATE '2011-01-01') GROUP BY track_id ORDER BY purchased_quantity DESC, track_id ASC LIMIT 1;",
+          "tables": [
+            "invoice",
+            "invoice_line"
+          ],
+          "result": {
+            "columns": [
+              "track_id",
+              "purchased_quantity"
+            ],
+            "rows": [],
+            "table": [],
+            "row_count": 0,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-16",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:COUNT"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Jazz';",
+          "tables": [
+            "genre",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              [
+                130
+              ]
+            ],
+            "table": [
+              {
+                "track_count": 130
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-17",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:COUNT >="
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT COUNT(*) AS repeat_customer_count FROM (SELECT customer_id FROM public.invoice WHERE invoice_date >= DATE '2020-01-01' AND invoice_date < DATE '2021-01-01' GROUP BY customer_id HAVING COUNT(*) >= 2) AS rc;",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "repeat_customer_count"
+            ],
+            "rows": [
+              [
+                0
+              ]
+            ],
+            "table": [
+              {
+                "repeat_customer_count": 0
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-18",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:SUM"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= DATE '2021-01-01' AND i.invoice_date < DATE '2023-01-01' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+          "tables": [
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_id",
+              "purchased_quantity"
+            ],
+            "rows": [
+              [
+                207,
+                2
+              ],
+              [
+                439,
+                2
+              ],
+              [
+                671,
+                2
+              ],
+              [
+                903,
+                2
+              ],
+              [
+                1135,
+                2
+              ],
+              [
+                1367,
+                2
+              ],
+              [
+                1599,
+                2
+              ],
+              [
+                1831,
+                2
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                2,
+                1
+              ]
+            ],
+            "table": [
+              {
+                "track_id": 207,
+                "purchased_quantity": 2
+              },
+              {
+                "track_id": 439,
+                "purchased_quantity": 2
+              },
+              {
+                "track_id": 671,
+                "purchased_quantity": 2
+              },
+              {
+                "track_id": 903,
+                "purchased_quantity": 2
+              },
+              {
+                "track_id": 1135,
+                "purchased_quantity": 2
+              },
+              {
+                "track_id": 1367,
+                "purchased_quantity": 2
+              },
+              {
+                "track_id": 1599,
+                "purchased_quantity": 2
+              },
+              {
+                "track_id": 1831,
+                "purchased_quantity": 2
+              },
+              {
+                "track_id": 1,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 2,
+                "purchased_quantity": 1
+              }
+            ],
+            "row_count": 10,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-19",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:SUM"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT c.customer_id, SUM(i.total) AS amount FROM public.customer c JOIN public.invoice i ON c.customer_id = i.customer_id WHERE i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01' GROUP BY c.customer_id ORDER BY amount DESC, c.customer_id ASC LIMIT 1;",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "customer_id",
+              "amount"
+            ],
+            "rows": [
+              [
+                45,
+                "32.75"
+              ]
+            ],
+            "table": [
+              {
+                "customer_id": 45,
+                "amount": "32.75"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-20",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:SUM(unit_price*quantity)"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT ar.artist_id, SUM(il.unit_price * il.quantity) AS revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.album al ON t.album_id = al.album_id JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY ar.artist_id ORDER BY revenue DESC, ar.artist_id ASC LIMIT 10;",
+          "tables": [
+            "album",
+            "artist",
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "artist_id",
+              "revenue"
+            ],
+            "rows": [
+              [
+                150,
+                "26.73"
+              ],
+              [
+                149,
+                "21.89"
+              ],
+              [
+                158,
+                "17.91"
+              ],
+              [
+                81,
+                "13.86"
+              ],
+              [
+                124,
+                "12.87"
+              ],
+              [
+                113,
+                "11.88"
+              ],
+              [
+                51,
+                "10.89"
+              ],
+              [
+                252,
+                "10.89"
+              ],
+              [
+                156,
+                "9.95"
+              ],
+              [
+                58,
+                "9.90"
+              ]
+            ],
+            "table": [
+              {
+                "artist_id": 150,
+                "revenue": "26.73"
+              },
+              {
+                "artist_id": 149,
+                "revenue": "21.89"
+              },
+              {
+                "artist_id": 158,
+                "revenue": "17.91"
+              },
+              {
+                "artist_id": 81,
+                "revenue": "13.86"
+              },
+              {
+                "artist_id": 124,
+                "revenue": "12.87"
+              },
+              {
+                "artist_id": 113,
+                "revenue": "11.88"
+              },
+              {
+                "artist_id": 51,
+                "revenue": "10.89"
+              },
+              {
+                "artist_id": 252,
+                "revenue": "10.89"
+              },
+              {
+                "artist_id": 156,
+                "revenue": "9.95"
+              },
+              {
+                "artist_id": 58,
+                "revenue": "9.90"
+              }
+            ],
+            "row_count": 10,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-21",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:SUM",
+        "missing_sql:final"
+      ],
+      "sql_checks": []
+    },
+    {
+      "id": "sp03-22",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:SUM",
+        "missing_sql:final"
+      ],
+      "sql_checks": []
+    },
+    {
+      "id": "sp03-23",
+      "status": "disputed",
+      "issues": [
+        "duplicate_input:sp03-08",
+        "missing_sql:final"
+      ],
+      "sql_checks": [
+        {
+          "label": "post_completion_1",
+          "sql": "SELECT i.customer_id, SUM(i.total) AS amount FROM public.invoice i WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY i.customer_id ORDER BY amount DESC NULLS LAST, i.customer_id ASC LIMIT 1;",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "customer_id",
+              "amount"
+            ],
+            "rows": [
+              [
+                26,
+                "25.84"
+              ]
+            ],
+            "table": [
+              {
+                "customer_id": 26,
+                "amount": "25.84"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-24",
+      "status": "disputed",
+      "issues": [
+        "missing_sql:final"
+      ],
+      "sql_checks": [
+        {
+          "label": "post_completion_1",
+          "sql": "SELECT SUM(i.total) AS revenue FROM public.invoice i WHERE i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01' AND i.billing_country = 'Australia';",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "revenue"
+            ],
+            "rows": [
+              [
+                "0.99"
+              ]
+            ],
+            "table": [
+              {
+                "revenue": "0.99"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-25",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:SUM",
+        "unknown_binding_column:invoice_line.unit_price * invoice_line.quantity",
+        "missing_sql:final"
+      ],
+      "sql_checks": [
+        {
+          "label": "post_completion_1",
+          "sql": "SELECT SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' AND g.name = 'Rock';",
+          "tables": [
+            "genre",
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "purchased_quantity"
+            ],
+            "rows": [
+              [
+                164
+              ]
+            ],
+            "table": [
+              {
+                "purchased_quantity": 164
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-26",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:half-open-range",
+        "illegal_binding_operator:SUM"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "yoy_growth_rate"
+            ],
+            "rows": [
+              [
+                "0.01693002257336343115"
+              ]
+            ],
+            "table": [
+              {
+                "yoy_growth_rate": "0.01693002257336343115"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "post_completion_1",
+          "sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2025-01-01' AND invoice_date < DATE '2026-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "yoy_growth_rate"
+            ],
+            "rows": [
+              [
+                "-0.05643624484325592109"
+              ]
+            ],
+            "table": [
+              {
+                "yoy_growth_rate": "-0.05643624484325592109"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "post_completion_2",
+          "sql": "SELECT (AVG(CASE WHEN invoice_date >= DATE '2025-01-01' AND invoice_date < DATE '2026-01-01' THEN total END) - AVG(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END)) / NULLIF(AVG(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+          "tables": [
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "yoy_growth_rate"
+            ],
+            "rows": [
+              [
+                "-0.02105260402487801567"
+              ]
+            ],
+            "table": [
+              {
+                "yoy_growth_rate": "-0.02105260402487801567"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-27",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:half-open-range",
+        "illegal_binding_operator:SUM"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "share"
+            ],
+            "rows": [
+              [
+                "0.04216533923932024362"
+              ]
+            ],
+            "table": [
+              {
+                "share": "0.04216533923932024362"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "post_completion_1",
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "share"
+            ],
+            "rows": [
+              [
+                "0.10343285489160526428"
+              ]
+            ],
+            "table": [
+              {
+                "share": "0.10343285489160526428"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "post_completion_2",
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total END) / NULLIF(SUM(CASE WHEN i.billing_country = 'Germany' THEN i.total END), 0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "share"
+            ],
+            "rows": [
+              [
+                "1.00000000000000000000"
+              ]
+            ],
+            "table": [
+              {
+                "share": "1.00000000000000000000"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-28",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:half-open-range",
+        "illegal_binding_operator:SUM",
+        "unknown_binding_column:invoice_line.unit_price * invoice_line.quantity"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS artist_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.album al ON t.album_id = al.album_id JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE ar.name = 'Metallica' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+          "tables": [
+            "album",
+            "artist",
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "artist_revenue"
+            ],
+            "rows": [
+              [
+                "22.77"
+              ]
+            ],
+            "table": [
+              {
+                "artist_revenue": "22.77"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "post_completion_1",
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+          "tables": [
+            "genre",
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "genre_revenue"
+            ],
+            "rows": [
+              [
+                "53.46"
+              ]
+            ],
+            "table": [
+              {
+                "genre_revenue": "53.46"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "post_completion_2",
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' AND i.billing_country = 'Germany';",
+          "tables": [
+            "genre",
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "genre_revenue"
+            ],
+            "rows": [
+              [
+                "5.94"
+              ]
+            ],
+            "table": [
+              {
+                "genre_revenue": "5.94"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-29",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:half-open-range",
+        "illegal_binding_operator:SUM"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+          "tables": [
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_id",
+              "purchased_quantity"
+            ],
+            "rows": [
+              [
+                2,
+                1
+              ],
+              [
+                8,
+                1
+              ],
+              [
+                14,
+                1
+              ],
+              [
+                20,
+                1
+              ],
+              [
+                26,
+                1
+              ],
+              [
+                32,
+                1
+              ],
+              [
+                38,
+                1
+              ],
+              [
+                44,
+                1
+              ],
+              [
+                53,
+                1
+              ],
+              [
+                62,
+                1
+              ]
+            ],
+            "table": [
+              {
+                "track_id": 2,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 8,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 14,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 20,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 26,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 32,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 38,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 44,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 53,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 62,
+                "purchased_quantity": 1
+              }
+            ],
+            "row_count": 10,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "post_completion_1",
+          "sql": "SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+          "tables": [
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_id",
+              "purchased_quantity"
+            ],
+            "rows": [
+              [
+                3,
+                1
+              ],
+              [
+                9,
+                1
+              ],
+              [
+                15,
+                1
+              ],
+              [
+                21,
+                1
+              ],
+              [
+                30,
+                1
+              ],
+              [
+                39,
+                1
+              ],
+              [
+                48,
+                1
+              ],
+              [
+                57,
+                1
+              ],
+              [
+                66,
+                1
+              ],
+              [
+                75,
+                1
+              ]
+            ],
+            "table": [
+              {
+                "track_id": 3,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 9,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 15,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 21,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 30,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 39,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 48,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 57,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 66,
+                "purchased_quantity": 1
+              },
+              {
+                "track_id": 75,
+                "purchased_quantity": 1
+              }
+            ],
+            "row_count": 10,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "post_completion_2",
+          "sql": "SELECT t.track_id, SUM(il.unit_price * il.quantity) AS track_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY t.track_id ORDER BY track_revenue DESC, t.track_id ASC LIMIT 10;",
+          "tables": [
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "result": {
+            "columns": [
+              "track_id",
+              "track_revenue"
+            ],
+            "rows": [
+              [
+                2822,
+                "1.99"
+              ],
+              [
+                2828,
+                "1.99"
+              ],
+              [
+                2837,
+                "1.99"
+              ],
+              [
+                2846,
+                "1.99"
+              ],
+              [
+                2855,
+                "1.99"
+              ],
+              [
+                2864,
+                "1.99"
+              ],
+              [
+                2873,
+                "1.99"
+              ],
+              [
+                2882,
+                "1.99"
+              ],
+              [
+                2891,
+                "1.99"
+              ],
+              [
+                2900,
+                "1.99"
+              ]
+            ],
+            "table": [
+              {
+                "track_id": 2822,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2828,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2837,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2846,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2855,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2864,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2873,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2882,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2891,
+                "track_revenue": "1.99"
+              },
+              {
+                "track_id": 2900,
+                "track_revenue": "1.99"
+              }
+            ],
+            "row_count": 10,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    },
+    {
+      "id": "sp03-30",
+      "status": "disputed",
+      "issues": [
+        "illegal_binding_operator:half-open-range",
+        "illegal_binding_operator:SUM"
+      ],
+      "sql_checks": [
+        {
+          "label": "final",
+          "sql": "SELECT c.customer_id, SUM(i.total) AS amount FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY c.customer_id ORDER BY amount DESC, c.customer_id ASC LIMIT 1;",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "customer_id",
+              "amount"
+            ],
+            "rows": [
+              [
+                46,
+                "32.75"
+              ]
+            ],
+            "table": [
+              {
+                "customer_id": 46,
+                "amount": "32.75"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "post_completion_1",
+          "sql": "SELECT c.customer_id, SUM(i.total) AS amount FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY c.customer_id ORDER BY amount DESC, c.customer_id ASC LIMIT 1;",
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "result": {
+            "columns": [
+              "customer_id",
+              "amount"
+            ],
+            "rows": [
+              [
+                26,
+                "25.84"
+              ]
+            ],
+            "table": [
+              {
+                "customer_id": 26,
+                "amount": "25.84"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        },
+        {
+          "label": "post_completion_2",
+          "sql": "SELECT il.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY il.track_id ORDER BY purchased_quantity DESC, il.track_id ASC LIMIT 1;",
+          "tables": [
+            "invoice",
+            "invoice_line"
+          ],
+          "result": {
+            "columns": [
+              "track_id",
+              "purchased_quantity"
+            ],
+            "rows": [
+              [
+                3,
+                1
+              ]
+            ],
+            "table": [
+              {
+                "track_id": 3,
+                "purchased_quantity": 1
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          },
+          "status": "executed_readonly"
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "passed": 37,
+    "disputed": 23
+  },
+  "sql_role": "qa_reader",
+  "timeout_ms": 5000,
+  "conservative_family_updates": [
+    {
+      "id": "sp01-04",
+      "before": "special-fam-04-typo-country",
+      "after": "special-fam-01-standard-country-count"
+    },
+    {
+      "id": "sp03-02",
+      "before": "special-fam-04-standard-l0-france-customer-count",
+      "after": "special-fam-01-standard-country-count"
+    },
+    {
+      "id": "sp01-13",
+      "before": "special-fam-13-alias-approved-artist-iron-maiden",
+      "after": "special-fam-02-alias-approved-artist"
+    },
+    {
+      "id": "sp01-15",
+      "before": "special-fam-15-alias-approved-media-type",
+      "after": "special-fam-07-mixed-language-media-type"
+    },
+    {
+      "id": "sp01-17",
+      "before": "special-fam-17-typo-country-france",
+      "after": "special-fam-01-standard-country-count"
+    },
+    {
+      "id": "sp01-19",
+      "before": "special-fam-19-typo-country-canada",
+      "after": "special-fam-11-standard-canada-customers"
+    },
+    {
+      "id": "sp01-23",
+      "before": "special-fam-23-mixed-language-country-canada-customers",
+      "after": "special-fam-11-standard-canada-customers"
+    },
+    {
+      "id": "sp01-24",
+      "before": "special-fam-24-mixed-language-artist-iron-maiden-albums",
+      "after": "special-fam-02-alias-approved-artist"
+    },
+    {
+      "id": "sp01-26",
+      "before": "special-fam-26-colloquial-canada-customers",
+      "after": "special-fam-11-standard-canada-customers"
+    },
+    {
+      "id": "sp03-12",
+      "before": "special-fam-14-italy-resident-customer-count-2021",
+      "after": "special-fam-08-colloquial-italy-customers"
+    }
+  ]
+}

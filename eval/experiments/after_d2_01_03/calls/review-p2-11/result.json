@@ -1,0 +1,107 @@
+{
+  "reviews": [
+    {
+      "id": "sp03-21",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "同比缺当前期间：growth 所需 current 缺失，无登记默认年份，L2 澄清成立；补充 2024 后 base 由 current-1 唯一推导，属 L0 直接执行。gold SQL 用 customer.country='Germany'（居住地口径，符合已确认规则而非 billing_country），发票粒度 SUM(invoice.total) 未 JOIN 明细，期间 [2024-01-01,2025-01-01) 与 [2023-01-01,2024-01-01) 左闭右开，分母零或空返回 NULL，CROSS JOIN 单行聚合不会重复计数。程序实跑结果与 gold 一致，仅作为执行验证。",
+      "evidence": [
+        "input: 德国的销售额同比增长多少？",
+        "reference_intent.time_scope.current=null, missing=[time_scope.current]",
+        "总计划 clarify_rules growth: required=[metric, time_scope.current, comparison.type], level_if_missing=L2",
+        "gold_sql: customer.country='Germany'，invoice_date 半开区间，CASE 零分母 NULL",
+        "actual_program_checks.sp03-21: executed_readonly 结果 18.81/48.57/-0.6127..."
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-22",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "占比任务缺分母定义，ratio 的 required=[numerator,denominator] 中 denominator 缺失，无登记默认，L2 澄清成立；补充为同期全部发票销售额后分母唯一。gold SQL 分子用 customer_id 关联 customer.country='France'（居住地口径非 billing_country），分子分母同为 invoice 粒度 SUM(invoice.total)，外层 WHERE 限定同期，CASE 处理零/空分母为 NULL；FILTER 子查询按 customer_id 集合筛选，不会因 JOIN 重复累加总额。程序实跑与 gold 一致。",
+      "evidence": [
+        "input: 2024年法国居住客户的销售额占比是多少？",
+        "reference_intent.denominator=null, missing=[denominator]",
+        "总计划 clarify_rules ratio: required=[numerator, denominator], level_if_missing=L2",
+        "gold_sql: SUM(total) FILTER (WHERE customer_id IN France) / SUM(total)，期间 2024 半开区间",
+        "actual_program_checks.sp03-22: 0.07677004586099302662"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-23",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "缺查询对象的“谁买得最多”无全局默认（已确认规则明确 generic 无对象不套默认），ranking 的 required=[metric, rank_object] 中 rank_object 缺失，L2 澄清成立；澄清为客户后，附录定义的客户金额口径（SUM(invoice.total)）为唯一合法默认。gold SQL 仅 invoice 粒度求和、按 invoice_date 期间过滤、稳定二级排序 customer_id ASC，无明细 JOIN 重复。post_completion_turns 把期间 2023→2024，保留 rank_object=customer 与金额指标，符合未改条件保留。auto_issues 标注 duplicate_input:sp03-08 属数据集去重问题，不影响本题语义正确性，但该重复确为实质数据问题。",
+      "evidence": [
+        "input: 2023年谁买得最多？",
+        "reference_intent.rank_object=null, missing=[rank_object]",
+        "已确认规则: 通用无对象谁买得最多无全局默认；客户对象买得最多为金额",
+        "gold_sql: GROUP BY customer_id ORDER BY amount DESC, customer_id ASC LIMIT 1，期间 2023 半开",
+        "post_completion_turns: 改看2024年，仅期间变化，gold SQL 对应同期",
+        "auto_issues: duplicate_input:sp03-08"
+      ],
+      "issues": [
+        "数据集层面 input 与 sp03-08 重复，属需人工/上游处理的数据集问题，非本题语义错误"
+      ],
+      "suggested_corrections": {
+        "data_dedup": "去掉与 sp03-08 的重复输入或改为不同期间/措辞，保持 L2 缺对象考点"
+      }
+    },
+    {
+      "id": "sp03-24",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "地区语义冲突：澳大利亚可指 customer.country 或 invoice.billing_country，二者含义不同且规则禁止因当前快照相等而合并，故 region_scope 缺失属真实 L2 歧义。补充为居住地后 gold SQL 用 JOIN customer 且 c.country='Australia'，发票粒度 SUM(invoice.total)，期间 [2022-01-01,2023-01-01) 半开。post_completion_turn 改为账单国时正确移除 customer JOIN 只保留 billing_country='Australia'，未改期间与指标，未改条件保留。程序实跑 final 与 post 结果均为 0.99，仅为执行验证（快照相等不改变语义判断）。",
+      "evidence": [
+        "input: 2022年澳大利亚的发票销售额是多少？",
+        "通用约定: customer.country 与 invoice.billing_country 保留各自含义，快照相等不等于合并",
+        "gold_sql: JOIN customer WHERE c.country='Australia'，期间 2022 半开",
+        "post_completion_turn gold_sql: WHERE billing_country='Australia'，无 customer JOIN",
+        "actual_program_checks.sp03-24: final 与 post 均 0.99"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-25",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "摇滚对应 Rock 与 Rock And Roll 两个 approved_candidate（且 Rock And Roll 另有“摇滚”candidate），不能自动唯一绑定，multi_candidate_value 属 L2 澄清。补充 Rock 后 gold SQL 用明细粒度 SUM(unit_price*quantity)（非重复累加发票总额），JOIN track/genre，期间由 invoice.invoice_date 半开过滤，g.name='Rock'。post_completion_turn 把指标改为购买数量 SUM(quantity)，保留 object/genre/period，正确。pending 的“节奏摇滚”未启用。程序实跑 final 162.36、post 164 仅为执行验证。",
+      "evidence": [
+        "input: 2024年摇滚曲目的销售额是多少？",
+        "已确认别名: Rock→摇滚(approved_candidate)，Rock And Roll→摇滚乐(approved_candidate)，Rock And Roll→节奏摇滚(pending)",
+        "总计划 clarify_rules multi_candidate_value level=L2",
+        "gold_sql: SUM(unit_price*quantity) JOIN genre g.name='Rock'，期间 2024 半开",
+        "post_completion_turn gold_sql: SUM(quantity)，其余条件保留",
+        "actual_program_checks.sp03-25: 162.36 / 164"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    }
+  ],
+  "notes": [
+    "所有五题均按“先形成解释，再对照 reference_intent/SQL/controller”独立复核：每题澄清级别与缺失条件相符，L0 条件（2024 明确年份后的同比推导、分母已定后的占比）直接执行，L2 的真实歧义（缺年份、缺分母、缺对象、地区双语义、流派多候选）均未被 hidden_goal 强行唯一化。",
+    "SQL 语义逐条独立核对过滤/时间边界/聚合粒度/FK/分母/NULL/排序；程序实跑结果仅用于执行可行性验证，不作语义证明。所有金额口径未出现发票与明细 JOIN 后的重复累加。",
+    "approved_candidate 在 sp03-25 保持候选不被自动绑定；pending 别名（节奏摇滚、金属）未启用。",
+    "sp03-23 的 duplicate_input:sp03-08 是数据集层面的实质问题，已记录，不影响其语义/绑定/controller 正确性。",
+    "注：本评审为第二遍独立上下文 AI 预审，不代表人工签名或最终 gold 批准。"
+  ]
+}

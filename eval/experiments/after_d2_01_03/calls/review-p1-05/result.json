@@ -1,0 +1,93 @@
+{
+  "reviews": [
+    {
+      "id": "sp01-11",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入询问居住地为Canada的客户数量，主类别为standard且无歧义；customer.country在schema和业务规则中明确为客户所在地，live facts确认Canada为真实客户国家值。gold_sql在customer表按country='Canada'计数，字段、过滤、聚合粒度与输出均符合，实跑结果8；无别名、无期间、无默认口径问题。controller为null，不适用。",
+      "evidence": [
+        "cases[0].input: How many customers are from Canada?",
+        "cases[0].gold_sql: SELECT COUNT(*) FROM public.customer WHERE country = 'Canada'",
+        "live_database_facts.countries 包含 Canada",
+        "confirmed_business_rules.general.region: customer.country 是客户所在地",
+        "actual_program_checks.sp01-11: executed_readonly, customer_count=8"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-12",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入为France在2022年的发票销售额。业务规则将销售额定义为发票粒度SUM(invoice.total)，期间采用[2022-01-01,2023-01-01)左闭右开；case use invoice.billing_country 在 allowed_interpretations 中明确存在，且金标绑定到 billing_country。gold_sql对invoice.total求和并按billing_country='France'及正确日期边界过滤，无JOIN重复累加风险，实跑39.60。当前快照两个国家字段无差异，但业务上仍应按已绑定字段解释；此case绑定清晰。",
+      "evidence": [
+        "cases[1].input: What was the total invoice revenue for France in 2022?",
+        "cases[1].expected_bindings: invoice.billing_country = 'France'; invoice_date >= 2022-01-01; invoice_date < 2023-01-01",
+        "confirmed_business_rules.metrics.sales_revenue: invoice grain SUM(invoice.total)",
+        "confirmed_business_rules.general.period: half-open [start,end)",
+        "actual_program_checks.sp01-12: revenue=39.60"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-13",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入含 approved 别名“Iron Maiden乐队”，alias a-7a0187a2e65d10ae review_status=approved，唯一绑定artist.name='Iron Maiden'，不属于approved_candidate或pending。主类别alias成立；统计专辑数的对象和指标清晰。SQL通过album.artist_id关联artist并按artist.name过滤，FK正确，COUNT(*)为专辑粒度，实跑21。程序标记的duplicate_input:sp01-02不属于本case本身SQL或语义缺陷；作为独立预审只据当前材料不能确认重复源，且不影响本条正确性。",
+      "evidence": [
+        "cases[2].input: Iron Maiden乐队一共有多少张专辑？",
+        "approved_aliases_and_candidate_relations alias_id a-7a0187a2e65d10ae: status approved, artist.name='Iron Maiden', alias='Iron Maiden乐队'",
+        "schema: album.artist_id -> artist.artist_id",
+        "actual_program_checks.sp01-13: album_count=21"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-14",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入“法兰西共和国的发票一共开了多少张？”统计法国客户发票数。alias a-ca229f69098da675 approved，绑定customer.country='France'；同时billing_country也有approved同值别名，但业务规则保留两字段不同含义，reference_intent选择客户所在地口径，且gold_sql通过invoice.customer_id关联customer并按c.country过滤，FK正确、COUNT(*)发票粒度正确，跑得35。虽然两个字段当前快照无差异，但绑定与reference_intent一致且已在绑定中明确为customer.country，非歧义不唯一。",
+      "evidence": [
+        "cases[3].input: 法兰西共和国的发票一共开了多少张？",
+        "approved_aliases... customer.country alias a-ca229f69098da675 status approved; invoice.billing_country alias a-99f7789e108299a0 status approved",
+        "cases[3].reference_intent.filters: customer.country = 'France'",
+        "confirmed_business_rules.general.region: customer.country is residence; billing_country is billing address; meanings retained",
+        "actual_program_checks.sp01-14: invoice_count=35"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-15",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入含中文混合别名“受保护AAC音频文件”，对应 approved alias a-bfc4b2a75ae6d393，标准值media_type.name='Protected AAC audio file'，live_database_facts确认该媒体类型真实存在。SQL通过track.media_type_id关联media_type，按名称过滤并COUNT(*)曲目，FK与聚合粒度正确，实跑237。无期间、无L1/L2缺失条件问题。",
+      "evidence": [
+        "cases[4].input: 受保护AAC音频文件这种媒体格式有多少首曲目？",
+        "approved_aliases... alias_id a-bfc4b2a75ae6d393 status approved, media_type.name='Protected AAC audio file'",
+        "live_database_facts.media_types 包含 Protected AAC audio file",
+        "actual_program_checks.sp01-15: track_count=237"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    }
+  ],
+  "notes": []
+}

@@ -1,0 +1,85 @@
+{
+  "reviews": [
+    {
+      "id": "sp01-16",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入“U2乐队一共有多少张专辑？”中“U2乐队”为 approved 别名（a-a04cacbc074e2ac6，review_status=approved），唯一绑定 artist.name='U2'；named_artist_values 证实 artist_id=150 实体存在。查询为计数类，无时期条件，无歧义，L0 合理。gold_sql 连接 album→artist，按 ar.name='U2' 过滤，COUNT(DISTINCT album.album_id) 与题意“多少张专辑”一致；实跑 album_count=10，无 NULL/tie 问题。",
+      "evidence": [
+        "source_materials.approved_aliases_and_candidate_relations: U2/'U2乐队'/approved",
+        "live_database_facts.named_artist_values: artist_id=150,name='U2'",
+        "actual_program_checks.sp01-16: executed_readonly, album_count=10"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-17",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "“Fracne”是 France 的拼写变体（相邻换位），不改变对象/指标/期间；approved 国家别名与 live countries 均确证 France 存在于 customer.country。单国计数、无时期、无歧义，L0 合理。gold_sql 按 customer.country='France' 做 COUNT(*)，字段与粒度正确；实跑 customer_count=5。",
+      "evidence": [
+        "source_materials.live_database_facts.countries: France 在 24 个取值中",
+        "approved_aliases: customer.country='France', alias='法国' approved",
+        "actual_program_checks.sp01-17: executed_readonly, customer_count=5"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-18",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "“Led Zepelin”为 artist.name='Led Zeppelin' 的单字拼写错误（缺 p），named_artist_values 确证 artist_id=22。唯一实体、无时期、计数类，L0 合理。gold_sql JOIN album→artist，过滤 ar.name='Led Zeppelin'，COUNT(DISTINCT album.album_id) 语义正确；实跑 album_count=14。",
+      "evidence": [
+        "live_database_facts.named_artist_values: artist_id=22,name='Led Zeppelin'",
+        "approved_aliases: artist.name='Led Zeppelin', alias='Led Zeppelin乐队' approved",
+        "actual_program_checks.sp01-18: executed_readonly, album_count=14"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-19",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "“Canda”为 Canada 的拼写错误（字母换位），approved 别名与 live countries 均确证 Canada 在 customer.country 中。单国计数、无时期、无歧义，L0 合理。gold_sql 按 customer.country='Canada' 计数，实跑 customer_count=8，结果与预期一致。",
+      "evidence": [
+        "approved_aliases: customer.country='Canada', alias='加拿大', approved, a-3cc0be84e1794908",
+        "live_database_facts.countries: Canada 存在",
+        "actual_program_checks.sp01-19: executed_readonly, customer_count=8"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-20",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "“MPEG adiou file”为 media_type.name='MPEG audio file' 的字符换位拼写错误，不改变对象/指标；live media_types 确证 media_type_id=1,name='MPEG audio file'，approved 别名亦支持。计数类、无时期、无歧义，L0 合理。gold_sql 经 track→media_type 连接过滤 mt.name='MPEG audio file'，COUNT(*) 按曲目计正确；实跑 track_count=3034。",
+      "evidence": [
+        "live_database_facts.media_types: media_type_id=1,name='MPEG audio file'",
+        "approved_aliases: media_type.name='MPEG audio file', alias='MPEG音频文件' approved",
+        "actual_program_checks.sp01-20: executed_readonly, track_count=3034"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    }
+  ],
+  "notes": []
+}

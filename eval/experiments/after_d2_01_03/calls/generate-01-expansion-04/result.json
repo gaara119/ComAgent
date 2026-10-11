@@ -1,0 +1,346 @@
+{
+  "cases": [
+    {
+      "id": "sp01-26",
+      "family_id": "special-fam-26-colloquial-canada-customers",
+      "task": "01",
+      "category": "colloquial",
+      "input": "加拿大那边现在有多少客户？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "直接执行：'加拿大那边'按已批准别名唯一绑定 customer.country='Canada'；'现在有多少客户'为COUNT客户数，无歧义。",
+      "allowed_interpretations": [
+        {
+          "interpretation": "统计 customer 表中 country='Canada' 的客户行数",
+          "canonical_value": "Canada",
+          "binding": "customer.country",
+          "unique": true
+        }
+      ],
+      "expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "Canada",
+          "surface": "加拿大那边"
+        }
+      ],
+      "missing_conditions": [],
+      "business_basis": [
+        "approved_aliases: customer.country 别名'加拿大' review_status=approved（a-3cc0be84e1794908）",
+        "live_database_facts.countries 显示 Canada 在 customer.country 取值列表内",
+        "confirmed_business_rules.general.region：customer.country 为客户居住地"
+      ],
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "customer_count",
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Canada"
+          }
+        ],
+        "time_scope": "none",
+        "grouping": "none"
+      },
+      "gold_sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Canada';",
+      "controller": null,
+      "canonical_input": "加拿大（Canada）的客户有多少？",
+      "secondary_tags": [
+        "approved_alias"
+      ],
+      "case_style": "natural"
+    },
+    {
+      "id": "sp01-27",
+      "family_id": "special-fam-27-multi-candidate-rock-and-roll",
+      "task": "01",
+      "category": "multi_candidate",
+      "input": "Chinook 里摇滚曲目有多少首？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "多候选澄清：'摇滚'同时被已批准候选 'Rock'（枚举值）与 'Rock And Roll'（枚举值）覆盖，数量差别可能较大，应在 L2 弹出候选让用户选择，不得静默绑定其一。",
+      "allowed_interpretations": [
+        {
+          "id": "genre_rock",
+          "label": "Rock",
+          "expr": "track.genre_id = 1",
+          "candidate_sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id=g.genre_id WHERE g.name='Rock';"
+        },
+        {
+          "id": "genre_rock_and_roll",
+          "label": "Rock And Roll",
+          "expr": "track.genre_id = 5",
+          "candidate_sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id=g.genre_id WHERE g.name='Rock And Roll';"
+        }
+      ],
+      "expected_bindings": [
+        {
+          "column": "genre.name",
+          "operator": "in",
+          "value": [
+            "Rock",
+            "Rock And Roll"
+          ],
+          "surface": "摇滚"
+        }
+      ],
+      "missing_conditions": [
+        "用户未在 Rock 与 Rock And Roll 之间明确选择"
+      ],
+      "business_basis": [
+        "live_database_facts.genres: genre_id=1 name='Rock'，genre_id=5 name='Rock And Roll'",
+        "approved_aliases: '摇滚' 对 Rock 为 approved_candidate（a-cb69b4bf22161e6e），'摇滚乐' 对 Rock And Roll 为 approved_candidate（a-0e44ca874f4ba96f）",
+        "total_plan_semantic_gate 3.6.4 multi_candidate_value level=L2"
+      ],
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "track_count",
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "in",
+            "value": [
+              "Rock",
+              "Rock And Roll"
+            ]
+          }
+        ],
+        "time_scope": "none",
+        "grouping": "none"
+      },
+      "gold_sql": null,
+      "controller": null,
+      "canonical_input": "Chinook 里'摇滚'流派的曲目有多少首？",
+      "secondary_tags": [
+        "rock_multicandidate",
+        "L2"
+      ],
+      "case_style": "natural"
+    },
+    {
+      "id": "sp01-28",
+      "family_id": "special-fam-28-multi-candidate-metal",
+      "task": "01",
+      "category": "multi_candidate",
+      "input": "Chinook 里金属流派的曲目有多少首？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "多候选澄清：'金属'对应真实 genre 值 'Metal'，同时 artist 'Metallica' 有 approved/pending 别名'金属'，以及 genre 'Heavy Metal' 为邻近值；应保留候选关系让用户确认，不得唯一绑定。",
+      "allowed_interpretations": [
+        {
+          "id": "genre_metal",
+          "label": "Metal",
+          "expr": "genre.name='Metal'",
+          "candidate_sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id=g.genre_id WHERE g.name='Metal';"
+        },
+        {
+          "id": "genre_heavy_metal",
+          "label": "Heavy Metal",
+          "expr": "genre.name='Heavy Metal'",
+          "candidate_sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id=g.genre_id WHERE g.name='Heavy Metal';"
+        },
+        {
+          "id": "artist_metallica",
+          "label": "Metallica 乐队",
+          "expr": "artist.name='Metallica'",
+          "candidate_sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.album a ON t.album_id=a.album_id JOIN public.artist ar ON a.artist_id=ar.artist_id WHERE ar.name='Metallica';"
+        }
+      ],
+      "expected_bindings": [
+        {
+          "column": "genre.name",
+          "operator": "in",
+          "value": [
+            "Metal",
+            "Heavy Metal"
+          ],
+          "surface": "金属"
+        },
+        {
+          "column": "artist.name",
+          "operator": "=",
+          "value": "Metallica",
+          "surface": "金属"
+        }
+      ],
+      "missing_conditions": [
+        "用户未明确'金属'指 genre 'Metal' / 'Heavy Metal' 还是 artist 'Metallica'"
+      ],
+      "business_basis": [
+        "live_database_facts.genres: 'Metal'(id=3) 与 'Heavy Metal'(id=13) 均为真实值",
+        "approved_aliases: '金属' 对 genre Metal 为 approved_candidate（a-439ce0734774f114）；'金属' 对 artist Metallica 为 pending（a-0c47392129d13dd6）",
+        "total_plan_semantic_gate 3.6.4 multi_candidate_value level=L2"
+      ],
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "track_count",
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "in",
+            "value": [
+              "Metal",
+              "Heavy Metal"
+            ]
+          },
+          {
+            "column": "artist.name",
+            "operator": "=",
+            "value": "Metallica"
+          }
+        ],
+        "time_scope": "none",
+        "grouping": "none"
+      },
+      "gold_sql": null,
+      "controller": null,
+      "canonical_input": "Chinook 里'金属'流派的曲目有多少首？",
+      "secondary_tags": [
+        "metal_multicandidate",
+        "L2"
+      ],
+      "case_style": "natural"
+    },
+    {
+      "id": "sp01-29",
+      "family_id": "special-fam-29-explicit-absent-country",
+      "task": "01",
+      "category": "explicit_absent",
+      "input": "查一下 customer.country='Atlantis' 的客户数量；如果数据库没有这个国家，就按这个字面值查，直接报告没有记录。",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "保留不存在：用户显式要求按字面值 'Atlantis' 查询，数据库中不存在该国家值，应返回 COUNT=0 并报告没有记录，不得替换为附近国家。",
+      "allowed_interpretations": [
+        {
+          "interpretation": "对 customer.country='Atlantis' 做精确匹配计数",
+          "literal_value": "Atlantis",
+          "result_hint": "0 行，报告无记录"
+        }
+      ],
+      "expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "Atlantis",
+          "surface": "Atlantis"
+        }
+      ],
+      "missing_conditions": [],
+      "business_basis": [
+        "live_database_facts.countries 列表中没有 'Atlantis'",
+        "用户消息显式说明按这个字面值查、无记录就报告无记录",
+        "confirmed_business_rules.general.region：country 为客户居住地精确匹配"
+      ],
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "customer_count",
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Atlantis"
+          }
+        ],
+        "time_scope": "none",
+        "grouping": "none"
+      },
+      "gold_sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'Atlantis';",
+      "controller": null,
+      "canonical_input": "查一下 country='Atlantis' 的客户数量；若不存在按字面值查询并报告无记录。",
+      "secondary_tags": [
+        "exact_no_match"
+      ],
+      "case_style": "technical_boundary"
+    },
+    {
+      "id": "sp01-30",
+      "family_id": "special-fam-30-explicit-absent-date",
+      "task": "01",
+      "category": "explicit_absent",
+      "input": "统计 invoice_date 在 2030-01-01 到 2030-12-31（左闭右开）之间的发票张数；如果那段时间没有发票，就按这个时间范围查询并报告没有记录。",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "保留不存在：用户显式给出 2030 年区间并按左闭右开查询，数据库发票日期范围只到 2025-12-22，应返回 COUNT=0 并报告没有记录，不补默认时期也不换附近年份。",
+      "allowed_interpretations": [
+        {
+          "interpretation": "invoice_date 属于 [2030-01-01, 2031-01-01) 的发票计数",
+          "start": "2030-01-01",
+          "end_exclusive": "2031-01-01",
+          "result_hint": "0 张，报告无记录"
+        }
+      ],
+      "expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "2030-01-01",
+          "surface": "2030-01-01"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "2031-01-01",
+          "surface": "2030-12-31 左闭右开"
+        }
+      ],
+      "missing_conditions": [],
+      "business_basis": [
+        "live_database_facts.date_evidence: MIN(invoice_date)=2021-01-01, MAX(invoice_date)=2025-12-22",
+        "confirmed_business_rules.general.period：左闭右开 [start_date, end_date)，不悄悄补时期",
+        "用户消息显式说明按这个时间范围查、无记录就报告无记录"
+      ],
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "invoice_count",
+        "filters": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2030-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2031-01-01"
+          }
+        ],
+        "time_scope": {
+          "start": "2030-01-01",
+          "end_exclusive": "2031-01-01"
+        },
+        "grouping": "none"
+      },
+      "gold_sql": "SELECT COUNT(*) AS invoice_count FROM public.invoice WHERE invoice_date >= DATE '2030-01-01' AND invoice_date < DATE '2031-01-01';",
+      "controller": null,
+      "canonical_input": "统计 invoice_date 属于 [2030-01-01, 2031-01-01) 的发票张数；无记录则报告无记录。",
+      "secondary_tags": [
+        "exact_no_match",
+        "half_open"
+      ],
+      "case_style": "technical_boundary"
+    }
+  ],
+  "notes": []
+}

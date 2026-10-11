@@ -1,0 +1,80 @@
+[
+  {
+    "name": "llm",
+    "status": "error",
+    "input_summary": {
+      "attempt": 1,
+      "model": "deepseek-flash"
+    },
+    "output_summary": {
+      "model": "deepseek-flash",
+      "usage": {
+        "completion_tokens": 4210,
+        "prompt_tokens": 17986,
+        "total_tokens": 22196,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_write_tokens": null,
+          "cached_tokens": 15360
+        },
+        "prompt_cache_hit_tokens": 15360,
+        "prompt_cache_miss_tokens": 2626
+      },
+      "error": "5 validation errors for CompleteBatch\ncases.0\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-21', 'family...', '居住地口径']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.1\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-22', 'family...母', '法国', '2024']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.2\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-23', 'family...金额默认', '2023']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.3\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-24', 'family...'澳大利亚', '2022']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.4\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-25', 'family...'2024', '曲目金额']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error"
+    },
+    "latency_ms": 19944
+  },
+  {
+    "name": "llm",
+    "status": "error",
+    "input_summary": {
+      "attempt": 2,
+      "model": "deepseek-flash"
+    },
+    "output_summary": {
+      "model": "deepseek-flash",
+      "usage": {
+        "completion_tokens": 4478,
+        "prompt_tokens": 18017,
+        "total_tokens": 22495,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_write_tokens": null,
+          "cached_tokens": 17792
+        },
+        "prompt_cache_hit_tokens": 17792,
+        "prompt_cache_miss_tokens": 225
+      },
+      "error": "5 validation errors for CompleteBatch\ncases.0\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-21', 'family...clarify_then_followup']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.1\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-22', 'family...clarify_then_followup']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.2\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-23', 'family...clarify_then_followup']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.3\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-24', 'family...clarify_then_followup']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.4\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-25', 'family...clarify_then_followup']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error"
+    },
+    "latency_ms": 21444
+  },
+  {
+    "name": "llm",
+    "status": "error",
+    "input_summary": {
+      "attempt": 3,
+      "model": "deepseek-flash"
+    },
+    "output_summary": {
+      "model": "deepseek-flash",
+      "usage": {
+        "completion_tokens": 2954,
+        "prompt_tokens": 18047,
+        "total_tokens": 21001,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_write_tokens": null,
+          "cached_tokens": 17792
+        },
+        "prompt_cache_hit_tokens": 17792,
+        "prompt_cache_miss_tokens": 255
+      },
+      "error": "5 validation errors for CompleteBatch\ncases.0\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-21', 'family...', 'no_global_default']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.1\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-22', 'family...od', 'multi_candidate']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.2\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-23', 'family...r', 'region_semantics']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.3\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-24', 'family...', 'metric_definition']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error\ncases.4\n  Value error, Executable or L2-final reference requires SQL [type=value_error, input_value={'id': 'sp03-25', 'family...od', 'comparison_type']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/value_error"
+    },
+    "latency_ms": 14556
+  }
+]

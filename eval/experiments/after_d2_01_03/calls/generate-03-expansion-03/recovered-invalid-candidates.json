@@ -1,0 +1,634 @@
+{
+  "cases": [
+    {
+      "id": "sp03-21",
+      "family_id": "special-fam-23-l2-growth-germany-missing-current-year",
+      "task": "03",
+      "category": "L2",
+      "input": "德国的销售额同比增长多少？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "缺当前期间（同比的current），无登记默认年份，属于growth类型必要条件缺失，必须先澄清年份再执行。",
+      "allowed_interpretations": [
+        {
+          "type": "growth",
+          "note": "同比：current与comparison.type给出后可推导base=current-1年。"
+        },
+        {
+          "type": "region_scope",
+          "note": "德国指 customer.country='Germany'（客户居住地），非billing_country。"
+        }
+      ],
+      "expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "Germany"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "DATE '<current year>-01-01' (待澄清)"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "DATE '<current year+1>-01-01' (待澄清)"
+        },
+        {
+          "column": "invoice.total",
+          "operator": "SUM",
+          "value": "revenue"
+        }
+      ],
+      "missing_conditions": [
+        "time_scope"
+      ],
+      "business_basis": [
+        "总计划3.6.4 clarify_rules: growth required=[metric, time_scope.current, comparison.type], level_if_missing=L2",
+        "已确认口径: 销售额SUM(invoice.total)、期间左闭右开invoice_date、customer.country为客户居住地"
+      ],
+      "reference_intent": {
+        "task_type": "growth",
+        "metric": "sales_revenue",
+        "metric_expression": "SUM(invoice.total)",
+        "region": {
+          "column": "customer.country",
+          "value": "Germany"
+        },
+        "comparison": {
+          "type": "yoy"
+        },
+        "time_scope": {
+          "current": null,
+          "base": "由current推导"
+        },
+        "missing": [
+          "time_scope.current"
+        ]
+      },
+      "gold_sql": null,
+      "controller": {
+        "hidden_goal": "查询德国客户居住地口径下，某一自然年（当前期间）相比其上一年的发票销售额同比变化，缺年份需先澄清。",
+        "allowed_user_supplements": {
+          "time_scope": {
+            "answer": "2024年，按2024年整年算。",
+            "value": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01"
+              },
+              "base": {
+                "start": "2023-01-01",
+                "end": "2024-01-01"
+              }
+            }
+          },
+          "period": {
+            "answer": "2024年吧，整年。",
+            "value": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01"
+              }
+            }
+          },
+          "year": {
+            "answer": "用2024年。",
+            "value": 2024
+          }
+        },
+        "final_intent": {
+          "task_type": "growth",
+          "metric": "sales_revenue",
+          "region": {
+            "column": "customer.country",
+            "value": "Germany"
+          },
+          "comparison": {
+            "type": "yoy"
+          },
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "base": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            }
+          }
+        },
+        "expected_state_changes": [
+          "set time_scope.current",
+          "derive time_scope.base",
+          "check_constraints_ready → EXECUTING"
+        ],
+        "max_clarification_followups": 3
+      },
+      "case_style": "growth_missing_period",
+      "secondary_tags": [
+        "同比",
+        "缺年份",
+        "德国",
+        "居住地口径"
+      ],
+      "generation_protocol_recovery": "Earliest syntactically valid provider JSON with the fixed 5 IDs/categories, after failed protocol attempts; original failure preserved; no claim of valid labels"
+    },
+    {
+      "id": "sp03-22",
+      "family_id": "special-fam-24-l2-share-missing-denominator-france",
+      "task": "03",
+      "category": "L2",
+      "input": "2024年法国居住客户的销售额占比是多少？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "占比任务缺分母定义（对比全表/全部客户/特定期间），必须澄清分母范围后再执行；分子期间与地区已明确。",
+      "allowed_interpretations": [
+        {
+          "type": "ratio",
+          "note": "分母可能是全库销售额、2024全库销售额或非法国客户销售额。"
+        },
+        {
+          "type": "region_scope",
+          "note": "法国指 customer.country='France'。"
+        }
+      ],
+      "expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "France"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "DATE '2024-01-01'"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "DATE '2025-01-01'"
+        },
+        {
+          "column": "invoice.total",
+          "operator": "SUM",
+          "value": "numerator"
+        }
+      ],
+      "missing_conditions": [
+        "denominator"
+      ],
+      "business_basis": [
+        "总计划3.6.4 clarify_rules: ratio required=[numerator, denominator], level_if_missing=L2",
+        "已确认口径: 销售额SUM(invoice.total)、期间左闭右开invoice_date"
+      ],
+      "reference_intent": {
+        "task_type": "ratio",
+        "metric": "sales_revenue",
+        "numerator": {
+          "region": {
+            "column": "customer.country",
+            "value": "France"
+          },
+          "period": {
+            "start": "2024-01-01",
+            "end": "2025-01-01"
+          }
+        },
+        "denominator": null,
+        "missing": [
+          "denominator"
+        ]
+      },
+      "gold_sql": null,
+      "controller": {
+        "hidden_goal": "计算2024年法国居住客户发票销售额占分母口径销售额的比例，需先澄清分母范围。",
+        "allowed_user_supplements": {
+          "denominator": {
+            "answer": "分母就用2024年所有发票销售额。",
+            "value": {
+              "type": "all_invoices_same_period",
+              "period": {
+                "start": "2024-01-01",
+                "end": "2025-01-01"
+              }
+            }
+          },
+          "ratio_base": {
+            "answer": "跟2024全部销售额比。",
+            "value": "all_invoices_same_period"
+          }
+        },
+        "final_intent": {
+          "task_type": "ratio",
+          "metric": "sales_revenue",
+          "numerator": {
+            "region": {
+              "column": "customer.country",
+              "value": "France"
+            },
+            "period": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            }
+          },
+          "denominator": {
+            "type": "all_invoices_same_period",
+            "period": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            }
+          },
+          "region_scope": {
+            "column": "customer.country",
+            "value": "France"
+          }
+        },
+        "expected_state_changes": [
+          "set denominator",
+          "check_constraints_ready → EXECUTING"
+        ],
+        "max_clarification_followups": 3
+      },
+      "case_style": "ratio_missing_denominator",
+      "secondary_tags": [
+        "占比",
+        "缺分母",
+        "法国",
+        "2024"
+      ],
+      "generation_protocol_recovery": "Earliest syntactically valid provider JSON with the fixed 5 IDs/categories, after failed protocol attempts; original failure preserved; no claim of valid labels"
+    },
+    {
+      "id": "sp03-23",
+      "family_id": "special-fam-25-l2-customer-buy-most-missing-object",
+      "task": "03",
+      "category": "L2",
+      "input": "2023年谁买得最多？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "缺查询对象（谁指客户还是曲目/艺术家），没有全局无对象默认，必须澄清对象后再执行；期间已明确。",
+      "allowed_interpretations": [
+        {
+          "type": "ranking",
+          "note": "对象可能是客户（金额）或曲目/艺术家（金额或数量）。"
+        },
+        {
+          "type": "object_scope",
+          "note": "客户用customer_id，不需姓名。"
+        }
+      ],
+      "expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "DATE '2023-01-01'"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "DATE '2024-01-01'"
+        }
+      ],
+      "missing_conditions": [
+        "rank_object"
+      ],
+      "business_basis": [
+        "已确认口径: 客户谁买得最多默认金额定义；缺查询对象的谁买得最多不自动套全局默认",
+        "总计划3.6.4 ranking required=[metric, rank_object]"
+      ],
+      "reference_intent": {
+        "task_type": "ranking",
+        "rank_object": null,
+        "period": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "missing": [
+          "rank_object"
+        ]
+      },
+      "gold_sql": null,
+      "controller": {
+        "hidden_goal": "在2023年期间找出购买金额最高的客户（customer_id），需先澄清排名对象为客户。",
+        "allowed_user_supplements": {
+          "rank_object": {
+            "answer": "看客户，谁买得最多。",
+            "value": "customer"
+          },
+          "object": {
+            "answer": "客户。",
+            "value": "customer"
+          }
+        },
+        "final_intent": {
+          "task_type": "ranking",
+          "rank_object": "customer",
+          "object_key": "customer_id",
+          "metric": "sales_revenue",
+          "metric_expression": "SUM(invoice.total)",
+          "period": {
+            "start": "2023-01-01",
+            "end": "2024-01-01"
+          },
+          "top_n": 1
+        },
+        "expected_state_changes": [
+          "set rank_object=customer",
+          "apply customer amount default",
+          "check_constraints_ready → EXECUTING"
+        ],
+        "max_clarification_followups": 3,
+        "post_completion_turns": [
+          {
+            "message": "改看2024年。",
+            "expected_intent": {
+              "task_type": "ranking",
+              "rank_object": "customer",
+              "metric": "sales_revenue",
+              "period": {
+                "start": "2024-01-01",
+                "end": "2025-01-01"
+              },
+              "top_n": 1
+            },
+            "gold_sql": "SELECT i.customer_id, SUM(i.total) AS amount FROM public.invoice i WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY i.customer_id ORDER BY amount DESC NULLS LAST, i.customer_id ASC LIMIT 1;"
+          }
+        ]
+      },
+      "case_style": "ranking_missing_object",
+      "secondary_tags": [
+        "缺对象",
+        "客户金额默认",
+        "2023"
+      ],
+      "generation_protocol_recovery": "Earliest syntactically valid provider JSON with the fixed 5 IDs/categories, after failed protocol attempts; original failure preserved; no claim of valid labels"
+    },
+    {
+      "id": "sp03-24",
+      "family_id": "special-fam-26-l2-region-semantics-residence-vs-billing-australia",
+      "task": "03",
+      "category": "L2",
+      "input": "2022年澳大利亚的发票销售额是多少？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "地区语义冲突：澳大利亚可指客户居住国 customer.country 或发票账单国 invoice.billing_country，二者含义不同，必须澄清口径后再执行。",
+      "allowed_interpretations": [
+        {
+          "type": "region_scope",
+          "note": "可能按客户居住地或账单地址国家。"
+        },
+        {
+          "type": "period",
+          "note": "2022整年左闭右开。"
+        }
+      ],
+      "expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "DATE '2022-01-01'"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "DATE '2023-01-01'"
+        }
+      ],
+      "missing_conditions": [
+        "region_scope"
+      ],
+      "business_basis": [
+        "通用约定: customer.country与invoice.billing_country保留各自含义；当前快照相等不等于合并",
+        "已确认口径: 销售额SUM(invoice.total)"
+      ],
+      "reference_intent": {
+        "task_type": "aggregation",
+        "metric": "sales_revenue",
+        "region": {
+          "value": "Australia",
+          "column": null
+        },
+        "period": {
+          "start": "2022-01-01",
+          "end": "2023-01-01"
+        },
+        "missing": [
+          "region_scope"
+        ]
+      },
+      "gold_sql": null,
+      "controller": {
+        "hidden_goal": "计算2022年澳大利亚地区发票销售额，需先澄清地区是按客户居住国还是账单国口径。",
+        "allowed_user_supplements": {
+          "region_scope": {
+            "answer": "按客户所在国家算，customer.country。",
+            "value": "customer.country"
+          },
+          "region": {
+            "answer": "客户居住地那边。",
+            "value": {
+              "column": "customer.country",
+              "value": "Australia"
+            }
+          }
+        },
+        "final_intent": {
+          "task_type": "aggregation",
+          "metric": "sales_revenue",
+          "metric_expression": "SUM(invoice.total)",
+          "region": {
+            "column": "customer.country",
+            "value": "Australia"
+          },
+          "period": {
+            "start": "2022-01-01",
+            "end": "2023-01-01"
+          }
+        },
+        "expected_state_changes": [
+          "set region_scope=customer.country",
+          "check_constraints_ready → EXECUTING"
+        ],
+        "max_clarification_followups": 3,
+        "post_completion_turns": [
+          {
+            "message": "改成按账单国家算。",
+            "expected_intent": {
+              "task_type": "aggregation",
+              "metric": "sales_revenue",
+              "region": {
+                "column": "invoice.billing_country",
+                "value": "Australia"
+              },
+              "period": {
+                "start": "2022-01-01",
+                "end": "2023-01-01"
+              }
+            },
+            "gold_sql": "SELECT SUM(i.total) AS revenue FROM public.invoice i WHERE i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01' AND i.billing_country = 'Australia';"
+          }
+        ]
+      },
+      "case_style": "region_semantics_conflict",
+      "secondary_tags": [
+        "居住地vs账单国",
+        "澳大利亚",
+        "2022"
+      ],
+      "generation_protocol_recovery": "Earliest syntactically valid provider JSON with the fixed 5 IDs/categories, after failed protocol attempts; original failure preserved; no claim of valid labels"
+    },
+    {
+      "id": "sp03-25",
+      "family_id": "special-fam-27-l2-multi-candidate-rock-genre",
+      "task": "03",
+      "category": "L2",
+      "input": "2024年摇滚曲目的销售额是多少？",
+      "scope": {
+        "route": "sql",
+        "db_id": "chinook",
+        "doc_ids": []
+      },
+      "history": [],
+      "expected_behavior": "多候选流派值：摇滚可能映射Rock或Rock And Roll（均为approved_candidate），必须先澄清具体流派再执行，期间已明确。",
+      "allowed_interpretations": [
+        {
+          "type": "multi_candidate_value",
+          "note": "Rock与Rock And Roll都是approved_candidate，不能自动唯一绑定。"
+        },
+        {
+          "type": "metric",
+          "note": "曲目销售额SUM(line.unit_price*quantity)。"
+        }
+      ],
+      "expected_bindings": [
+        {
+          "column": "genre.name",
+          "operator": "=",
+          "value": "Rock 或 Rock And Roll (待澄清)"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "DATE '2024-01-01'"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "DATE '2025-01-01'"
+        },
+        {
+          "column": "invoice_line.unit_price * invoice_line.quantity",
+          "operator": "SUM",
+          "value": "track_revenue"
+        }
+      ],
+      "missing_conditions": [
+        "value"
+      ],
+      "business_basis": [
+        "已确认别名关系: Rock与Rock And Roll均为approved_candidate，不是唯一绑定",
+        "总计划3.6.4 multi_candidate_value level=L2",
+        "已确认口径: 曲目粒度用SUM(line.unit_price*quantity)，期间由invoice_date过滤"
+      ],
+      "reference_intent": {
+        "task_type": "aggregation",
+        "metric": "track_revenue",
+        "object": "genre tracks",
+        "genre": null,
+        "period": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "missing": [
+          "value"
+        ]
+      },
+      "gold_sql": null,
+      "controller": {
+        "hidden_goal": "计算2024年某一摇滚流派（需先澄清Rock还是Rock And Roll）曲目的销售额。",
+        "allowed_user_supplements": {
+          "value": {
+            "answer": "就是Rock这个流派。",
+            "value": "Rock"
+          },
+          "genre": {
+            "answer": "Rock And Roll 那个。",
+            "value": "Rock And Roll"
+          }
+        },
+        "final_intent": {
+          "task_type": "aggregation",
+          "metric": "track_revenue",
+          "metric_expression": "SUM(invoice_line.unit_price * invoice_line.quantity)",
+          "object": "genre tracks",
+          "genre": {
+            "column": "genre.name",
+            "value": "Rock"
+          },
+          "period": {
+            "start": "2024-01-01",
+            "end": "2025-01-01"
+          }
+        },
+        "expected_state_changes": [
+          "set genre value=Rock",
+          "check_constraints_ready → EXECUTING"
+        ],
+        "max_clarification_followups": 3,
+        "post_completion_turns": [
+          {
+            "message": "改按购买数量算。",
+            "expected_intent": {
+              "task_type": "aggregation",
+              "metric": "purchased_quantity",
+              "metric_expression": "SUM(invoice_line.quantity)",
+              "object": "genre tracks",
+              "genre": {
+                "column": "genre.name",
+                "value": "Rock"
+              },
+              "period": {
+                "start": "2024-01-01",
+                "end": "2025-01-01"
+              }
+            },
+            "gold_sql": "SELECT SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' AND g.name = 'Rock';"
+          }
+        ]
+      },
+      "case_style": "multi_candidate_value",
+      "secondary_tags": [
+        "多候选",
+        "Rock",
+        "2024",
+        "曲目金额"
+      ],
+      "generation_protocol_recovery": "Earliest syntactically valid provider JSON with the fixed 5 IDs/categories, after failed protocol attempts; original failure preserved; no claim of valid labels"
+    }
+  ],
+  "notes": [
+    "本批5条均为L2，分别覆盖同比缺年份、占比缺分母、缺对象（谁买得最多）、居住地vs账单国地区语义、多候选流派值。",
+    "sp03-21/23/24/25在澄清完成后安排普通后续修改turn（sp03-23改年份、sp03-24改地区语义、sp03-25改指标），修改不丢失已确认条件；主gold_sql保持第一次澄清的目标SQL为null（L2初次意图不完整）。",
+    "controller.hidden_goal与gold从不传给被测系统；allowed_user_supplements每键只答一个关键项，不一次性泄漏全部目标。",
+    "所有gold_sql为只读SELECT，未执行、未编造结果；日期左闭右开，空SUM/AVG保留NULL。",
+    "客户排名使用customer_id，未生成任何姓名、地址等个人敏感查询。"
+  ]
+}

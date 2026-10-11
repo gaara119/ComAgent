@@ -1,0 +1,39 @@
+[
+  {
+    "number": 1,
+    "started_at": "2026-10-11T18:47:07.175235+00:00",
+    "ok": true,
+    "response_id": "8b85f190-d58b-4266-a23f-733bb191a210",
+    "model": "deepseek-flash",
+    "usage": {
+      "completion_tokens": 1371,
+      "prompt_tokens": 19381,
+      "total_tokens": 20752,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 19381
+    },
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "{\"reviews\": [{\"id\": \"sp01-01\", \"verdict\": \"pass\", \"semantic_sql_check\": \"pass\", \"classification_check\": \"pass\", \"binding_check\": \"pass\", \"controller_check\": \"not_applicable\", \"reason\": \"问句“How many customers are from France?”必要条件齐全：对象 customer、国家值 France、计数操作。customer.country 是客户所在地，France 在 live_database_facts.countries 中存在，按等值 COUNT(*) 是唯一合理执行；无期间/排名/占比条件，无歧义，L0 直接执行。gold_sql 只查 customer 表，过滤 country='France'，COUNT(*) 粒度正确，无重复 JOIN、无 NULL/分母问题。live 执行结果 5 仅验证数据可执行，不构成语义依据。\", \"evidence\": [\"case sp01-01 input/expected_behavior/reference_intent/gold_sql\", \"confirmed_business_rules.general.region: customer.country 是客户所在地\", \"live_database_facts.countries 含 France\", \"actual_program_checks sp01-01 result 5\"], \"issues\": [], \"suggested_corrections\": null}, {\"id\": \"sp01-02\", \"verdict\": \"pass\", \"semantic_sql_check\": \"pass\", \"classification_check\": \"pass\", \"binding_check\": \"pass\", \"controller_check\": \"not_applicable\", \"reason\": \"“Iron Maiden乐队”在 approved_aliases 中 review_status=approved（alias_id=a-7a0187a2e65d10ae），可唯一绑定 artist.name='Iron Maiden'；live named_artist_values 也确认 artist_id=90 存在该名称。“多少张专辑”需沿 album.artist_id FK 到 artist 过滤后 COUNT(*)。gold_sql JOIN album→artist 并按 artist.name 过滤，每个专辑一行，不会因 artist 一行导致计数放大；grouping='artist' 表达统计对象而非输出分组，不影响计数语义。\", \"evidence\": [\"case sp01-02 expected_bindings/business_basis/expected_final_intent\", \"approved_aliases a-7a0187a2e65d10ae status=approved\", \"live_database_facts.named_artist_values artist_id=90 name='Iron Maiden'\", \"gold_sql JOIN album/artist\"], \"issues\": [], \"suggested_corrections\": null}, {\"id\": \"sp01-03\", \"verdict\": \"pass\", \"semantic_sql_check\": \"pass\", \"classification_check\": \"pass\", \"binding_check\": \"pass\", \"controller_check\": \"not_applicable\", \"reason\": \"“德国的发票”字面修饰的是发票账单国，approved_aliases 中 invoice.billing_country='Germany' 有 review_status=approved（a-3414db81951a6279），可唯一绑定；customer.country 的同名 alias 与 invoice.billing_country 语义不同，且 confirmed_business_rules.general.region 明确保留各自含义，即使快照 billing_customer_difference=0 也不合并。sales_revenue 发票粒度表达式为 SUM(invoice.total)，不 JOIN invoice_line，不存在重复累加。分类为有限改写而非需澄清的多候选值。\", \"evidence\": [\"case sp01-03 expected_behavior/business_basis/revision_note\", \"approved_aliases a-3414db81951a6279 status=approved column=invoice.billing_country\", \"confirmed_business_rules.general.region\", \"confirmed_business_rules.metrics.sales_revenue expression SUM(invoice.total)\", \"live_database_facts.billing_customer_difference=0\"], \"issues\": [], \"suggested_corrections\": null}, {\"id\": \"sp01-04\", \"verdict\": \"pass\", \"semantic_sql_check\": \"pass\", \"classification_check\": \"pass\", \"binding_check\": \"pass\", \"controller_check\": \"not_applicable\", \"reason\": \"“Frnace”为 France 的字面拼写错误；live_database_facts.countries 含 France 不含 Frnace，且无任何 approved alias 指向其他实体，唯一可恢复目标为 France。按 customer.country='France' COUNT(*) 是唯一合理执行。gold_sql 与 sp01-01 同构，过滤和国家列正确。\", \"evidence\": [\"case sp01-04 input/expected_behavior/category=typo\", \"live_database_facts.countries 含 France 不含 Frnace\", \"gold_sql SELECT COUNT(*) FROM customer WHERE country='France'\", \"actual_program_checks sp01-04 result 5\"], \"issues\": [], \"suggested_corrections\": null}, {\"id\": \"sp01-05\", \"verdict\": \"pass\", \"semantic_sql_check\": \"pass\", \"classification_check\": \"pass\", \"binding_check\": \"pass\", \"controller_check\": \"not_applicable\", \"reason\": \"“Metallcia”为 Metallica 的字面拼写错误；live named_artist_values 含 artist_id=50 name='Metallica'，不含 Metallcia，也无 approved alias 指向其他实体，唯一合理恢复为 Metallica。统计专辑数需 JOIN album→artist 后 COUNT(*)。gold_sql JOIN 条件与过滤列正确，不会重复计数。\", \"evidence\": [\"case sp01-05 input/expected_behavior/category=typo\", \"live_database_facts.named_artist_values artist_id=50 name='Metallica'\", \"gold_sql JOIN album/artist WHERE ar.name='Metallica'\", \"actual_program_checks sp01-05 result 10\"], \"issues\": [], \"suggested_corrections\": null}], \"notes\": [\"本批 5 题均为 L0 直接执行：无期间/排名/占比条件，过滤值经字符匹配或拼写恢复后唯一。\", \"approved_candidate 未用于自动绑定；pending alias 未启用。\", \"多题共享 France/Metallica 等值但 SQL 结构均为独立简单计数/汇总，未发现以运行结果反推语义。\", \"所有 controller 为 null，controller_check 标记 not_applicable。\"]}",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "latency_ms": 8600
+  }
+]

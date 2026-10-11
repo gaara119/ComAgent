@@ -1,0 +1,1074 @@
+{
+  "reader": {
+    "sql": "SELECT current_user AS reader_user, current_setting('default_transaction_read_only') AS read_only, current_setting('statement_timeout') AS timeout;",
+    "result": {
+      "columns": [
+        "reader_user",
+        "read_only",
+        "timeout"
+      ],
+      "rows": [
+        [
+          "qa_reader",
+          "on",
+          "5s"
+        ]
+      ],
+      "table": [
+        {
+          "reader_user": "qa_reader",
+          "read_only": "on",
+          "timeout": "5s"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false
+    }
+  },
+  "countries": {
+    "sql": "SELECT DISTINCT country FROM public.customer ORDER BY country;",
+    "result": {
+      "columns": [
+        "country"
+      ],
+      "rows": [
+        [
+          "Argentina"
+        ],
+        [
+          "Australia"
+        ],
+        [
+          "Austria"
+        ],
+        [
+          "Belgium"
+        ],
+        [
+          "Brazil"
+        ],
+        [
+          "Canada"
+        ],
+        [
+          "Chile"
+        ],
+        [
+          "Czech Republic"
+        ],
+        [
+          "Denmark"
+        ],
+        [
+          "Finland"
+        ],
+        [
+          "France"
+        ],
+        [
+          "Germany"
+        ],
+        [
+          "Hungary"
+        ],
+        [
+          "India"
+        ],
+        [
+          "Ireland"
+        ],
+        [
+          "Italy"
+        ],
+        [
+          "Netherlands"
+        ],
+        [
+          "Norway"
+        ],
+        [
+          "Poland"
+        ],
+        [
+          "Portugal"
+        ],
+        [
+          "Spain"
+        ],
+        [
+          "Sweden"
+        ],
+        [
+          "USA"
+        ],
+        [
+          "United Kingdom"
+        ]
+      ],
+      "table": [
+        {
+          "country": "Argentina"
+        },
+        {
+          "country": "Australia"
+        },
+        {
+          "country": "Austria"
+        },
+        {
+          "country": "Belgium"
+        },
+        {
+          "country": "Brazil"
+        },
+        {
+          "country": "Canada"
+        },
+        {
+          "country": "Chile"
+        },
+        {
+          "country": "Czech Republic"
+        },
+        {
+          "country": "Denmark"
+        },
+        {
+          "country": "Finland"
+        },
+        {
+          "country": "France"
+        },
+        {
+          "country": "Germany"
+        },
+        {
+          "country": "Hungary"
+        },
+        {
+          "country": "India"
+        },
+        {
+          "country": "Ireland"
+        },
+        {
+          "country": "Italy"
+        },
+        {
+          "country": "Netherlands"
+        },
+        {
+          "country": "Norway"
+        },
+        {
+          "country": "Poland"
+        },
+        {
+          "country": "Portugal"
+        },
+        {
+          "country": "Spain"
+        },
+        {
+          "country": "Sweden"
+        },
+        {
+          "country": "USA"
+        },
+        {
+          "country": "United Kingdom"
+        }
+      ],
+      "row_count": 24,
+      "truncated": false
+    }
+  },
+  "billing_countries": {
+    "sql": "SELECT DISTINCT billing_country FROM public.invoice ORDER BY billing_country;",
+    "result": {
+      "columns": [
+        "billing_country"
+      ],
+      "rows": [
+        [
+          "Argentina"
+        ],
+        [
+          "Australia"
+        ],
+        [
+          "Austria"
+        ],
+        [
+          "Belgium"
+        ],
+        [
+          "Brazil"
+        ],
+        [
+          "Canada"
+        ],
+        [
+          "Chile"
+        ],
+        [
+          "Czech Republic"
+        ],
+        [
+          "Denmark"
+        ],
+        [
+          "Finland"
+        ],
+        [
+          "France"
+        ],
+        [
+          "Germany"
+        ],
+        [
+          "Hungary"
+        ],
+        [
+          "India"
+        ],
+        [
+          "Ireland"
+        ],
+        [
+          "Italy"
+        ],
+        [
+          "Netherlands"
+        ],
+        [
+          "Norway"
+        ],
+        [
+          "Poland"
+        ],
+        [
+          "Portugal"
+        ],
+        [
+          "Spain"
+        ],
+        [
+          "Sweden"
+        ],
+        [
+          "USA"
+        ],
+        [
+          "United Kingdom"
+        ]
+      ],
+      "table": [
+        {
+          "billing_country": "Argentina"
+        },
+        {
+          "billing_country": "Australia"
+        },
+        {
+          "billing_country": "Austria"
+        },
+        {
+          "billing_country": "Belgium"
+        },
+        {
+          "billing_country": "Brazil"
+        },
+        {
+          "billing_country": "Canada"
+        },
+        {
+          "billing_country": "Chile"
+        },
+        {
+          "billing_country": "Czech Republic"
+        },
+        {
+          "billing_country": "Denmark"
+        },
+        {
+          "billing_country": "Finland"
+        },
+        {
+          "billing_country": "France"
+        },
+        {
+          "billing_country": "Germany"
+        },
+        {
+          "billing_country": "Hungary"
+        },
+        {
+          "billing_country": "India"
+        },
+        {
+          "billing_country": "Ireland"
+        },
+        {
+          "billing_country": "Italy"
+        },
+        {
+          "billing_country": "Netherlands"
+        },
+        {
+          "billing_country": "Norway"
+        },
+        {
+          "billing_country": "Poland"
+        },
+        {
+          "billing_country": "Portugal"
+        },
+        {
+          "billing_country": "Spain"
+        },
+        {
+          "billing_country": "Sweden"
+        },
+        {
+          "billing_country": "USA"
+        },
+        {
+          "billing_country": "United Kingdom"
+        }
+      ],
+      "row_count": 24,
+      "truncated": false
+    }
+  },
+  "genres": {
+    "sql": "SELECT genre_id, name FROM public.genre ORDER BY genre_id;",
+    "result": {
+      "columns": [
+        "genre_id",
+        "name"
+      ],
+      "rows": [
+        [
+          1,
+          "Rock"
+        ],
+        [
+          2,
+          "Jazz"
+        ],
+        [
+          3,
+          "Metal"
+        ],
+        [
+          4,
+          "Alternative & Punk"
+        ],
+        [
+          5,
+          "Rock And Roll"
+        ],
+        [
+          6,
+          "Blues"
+        ],
+        [
+          7,
+          "Latin"
+        ],
+        [
+          8,
+          "Reggae"
+        ],
+        [
+          9,
+          "Pop"
+        ],
+        [
+          10,
+          "Soundtrack"
+        ],
+        [
+          11,
+          "Bossa Nova"
+        ],
+        [
+          12,
+          "Easy Listening"
+        ],
+        [
+          13,
+          "Heavy Metal"
+        ],
+        [
+          14,
+          "R&B/Soul"
+        ],
+        [
+          15,
+          "Electronica/Dance"
+        ],
+        [
+          16,
+          "World"
+        ],
+        [
+          17,
+          "Hip Hop/Rap"
+        ],
+        [
+          18,
+          "Science Fiction"
+        ],
+        [
+          19,
+          "TV Shows"
+        ],
+        [
+          20,
+          "Sci Fi & Fantasy"
+        ],
+        [
+          21,
+          "Drama"
+        ],
+        [
+          22,
+          "Comedy"
+        ],
+        [
+          23,
+          "Alternative"
+        ],
+        [
+          24,
+          "Classical"
+        ],
+        [
+          25,
+          "Opera"
+        ]
+      ],
+      "table": [
+        {
+          "genre_id": 1,
+          "name": "Rock"
+        },
+        {
+          "genre_id": 2,
+          "name": "Jazz"
+        },
+        {
+          "genre_id": 3,
+          "name": "Metal"
+        },
+        {
+          "genre_id": 4,
+          "name": "Alternative & Punk"
+        },
+        {
+          "genre_id": 5,
+          "name": "Rock And Roll"
+        },
+        {
+          "genre_id": 6,
+          "name": "Blues"
+        },
+        {
+          "genre_id": 7,
+          "name": "Latin"
+        },
+        {
+          "genre_id": 8,
+          "name": "Reggae"
+        },
+        {
+          "genre_id": 9,
+          "name": "Pop"
+        },
+        {
+          "genre_id": 10,
+          "name": "Soundtrack"
+        },
+        {
+          "genre_id": 11,
+          "name": "Bossa Nova"
+        },
+        {
+          "genre_id": 12,
+          "name": "Easy Listening"
+        },
+        {
+          "genre_id": 13,
+          "name": "Heavy Metal"
+        },
+        {
+          "genre_id": 14,
+          "name": "R&B/Soul"
+        },
+        {
+          "genre_id": 15,
+          "name": "Electronica/Dance"
+        },
+        {
+          "genre_id": 16,
+          "name": "World"
+        },
+        {
+          "genre_id": 17,
+          "name": "Hip Hop/Rap"
+        },
+        {
+          "genre_id": 18,
+          "name": "Science Fiction"
+        },
+        {
+          "genre_id": 19,
+          "name": "TV Shows"
+        },
+        {
+          "genre_id": 20,
+          "name": "Sci Fi & Fantasy"
+        },
+        {
+          "genre_id": 21,
+          "name": "Drama"
+        },
+        {
+          "genre_id": 22,
+          "name": "Comedy"
+        },
+        {
+          "genre_id": 23,
+          "name": "Alternative"
+        },
+        {
+          "genre_id": 24,
+          "name": "Classical"
+        },
+        {
+          "genre_id": 25,
+          "name": "Opera"
+        }
+      ],
+      "row_count": 25,
+      "truncated": false
+    }
+  },
+  "media_types": {
+    "sql": "SELECT media_type_id, name FROM public.media_type ORDER BY media_type_id;",
+    "result": {
+      "columns": [
+        "media_type_id",
+        "name"
+      ],
+      "rows": [
+        [
+          1,
+          "MPEG audio file"
+        ],
+        [
+          2,
+          "Protected AAC audio file"
+        ],
+        [
+          3,
+          "Protected MPEG-4 video file"
+        ],
+        [
+          4,
+          "Purchased AAC audio file"
+        ],
+        [
+          5,
+          "AAC audio file"
+        ]
+      ],
+      "table": [
+        {
+          "media_type_id": 1,
+          "name": "MPEG audio file"
+        },
+        {
+          "media_type_id": 2,
+          "name": "Protected AAC audio file"
+        },
+        {
+          "media_type_id": 3,
+          "name": "Protected MPEG-4 video file"
+        },
+        {
+          "media_type_id": 4,
+          "name": "Purchased AAC audio file"
+        },
+        {
+          "media_type_id": 5,
+          "name": "AAC audio file"
+        }
+      ],
+      "row_count": 5,
+      "truncated": false
+    }
+  },
+  "artist_catalog": {
+    "sql": "SELECT artist_id, name FROM public.artist ORDER BY artist_id LIMIT 40;",
+    "result": {
+      "columns": [
+        "artist_id",
+        "name"
+      ],
+      "rows": [
+        [
+          1,
+          "AC/DC"
+        ],
+        [
+          2,
+          "Accept"
+        ],
+        [
+          3,
+          "Aerosmith"
+        ],
+        [
+          4,
+          "Alanis Morissette"
+        ],
+        [
+          5,
+          "Alice In Chains"
+        ],
+        [
+          6,
+          "Antônio Carlos Jobim"
+        ],
+        [
+          7,
+          "Apocalyptica"
+        ],
+        [
+          8,
+          "Audioslave"
+        ],
+        [
+          9,
+          "BackBeat"
+        ],
+        [
+          10,
+          "Billy Cobham"
+        ],
+        [
+          11,
+          "Black Label Society"
+        ],
+        [
+          12,
+          "Black Sabbath"
+        ],
+        [
+          13,
+          "Body Count"
+        ],
+        [
+          14,
+          "Bruce Dickinson"
+        ],
+        [
+          15,
+          "Buddy Guy"
+        ],
+        [
+          16,
+          "Caetano Veloso"
+        ],
+        [
+          17,
+          "Chico Buarque"
+        ],
+        [
+          18,
+          "Chico Science & Nação Zumbi"
+        ],
+        [
+          19,
+          "Cidade Negra"
+        ],
+        [
+          20,
+          "Cláudio Zoli"
+        ],
+        [
+          21,
+          "Various Artists"
+        ],
+        [
+          22,
+          "Led Zeppelin"
+        ],
+        [
+          23,
+          "Frank Zappa & Captain Beefheart"
+        ],
+        [
+          24,
+          "Marcos Valle"
+        ],
+        [
+          25,
+          "Milton Nascimento & Bebeto"
+        ],
+        [
+          26,
+          "Azymuth"
+        ],
+        [
+          27,
+          "Gilberto Gil"
+        ],
+        [
+          28,
+          "João Gilberto"
+        ],
+        [
+          29,
+          "Bebel Gilberto"
+        ],
+        [
+          30,
+          "Jorge Vercilo"
+        ],
+        [
+          31,
+          "Baby Consuelo"
+        ],
+        [
+          32,
+          "Ney Matogrosso"
+        ],
+        [
+          33,
+          "Luiz Melodia"
+        ],
+        [
+          34,
+          "Nando Reis"
+        ],
+        [
+          35,
+          "Pedro Luís & A Parede"
+        ],
+        [
+          36,
+          "O Rappa"
+        ],
+        [
+          37,
+          "Ed Motta"
+        ],
+        [
+          38,
+          "Banda Black Rio"
+        ],
+        [
+          39,
+          "Fernanda Porto"
+        ],
+        [
+          40,
+          "Os Cariocas"
+        ]
+      ],
+      "table": [
+        {
+          "artist_id": 1,
+          "name": "AC/DC"
+        },
+        {
+          "artist_id": 2,
+          "name": "Accept"
+        },
+        {
+          "artist_id": 3,
+          "name": "Aerosmith"
+        },
+        {
+          "artist_id": 4,
+          "name": "Alanis Morissette"
+        },
+        {
+          "artist_id": 5,
+          "name": "Alice In Chains"
+        },
+        {
+          "artist_id": 6,
+          "name": "Antônio Carlos Jobim"
+        },
+        {
+          "artist_id": 7,
+          "name": "Apocalyptica"
+        },
+        {
+          "artist_id": 8,
+          "name": "Audioslave"
+        },
+        {
+          "artist_id": 9,
+          "name": "BackBeat"
+        },
+        {
+          "artist_id": 10,
+          "name": "Billy Cobham"
+        },
+        {
+          "artist_id": 11,
+          "name": "Black Label Society"
+        },
+        {
+          "artist_id": 12,
+          "name": "Black Sabbath"
+        },
+        {
+          "artist_id": 13,
+          "name": "Body Count"
+        },
+        {
+          "artist_id": 14,
+          "name": "Bruce Dickinson"
+        },
+        {
+          "artist_id": 15,
+          "name": "Buddy Guy"
+        },
+        {
+          "artist_id": 16,
+          "name": "Caetano Veloso"
+        },
+        {
+          "artist_id": 17,
+          "name": "Chico Buarque"
+        },
+        {
+          "artist_id": 18,
+          "name": "Chico Science & Nação Zumbi"
+        },
+        {
+          "artist_id": 19,
+          "name": "Cidade Negra"
+        },
+        {
+          "artist_id": 20,
+          "name": "Cláudio Zoli"
+        },
+        {
+          "artist_id": 21,
+          "name": "Various Artists"
+        },
+        {
+          "artist_id": 22,
+          "name": "Led Zeppelin"
+        },
+        {
+          "artist_id": 23,
+          "name": "Frank Zappa & Captain Beefheart"
+        },
+        {
+          "artist_id": 24,
+          "name": "Marcos Valle"
+        },
+        {
+          "artist_id": 25,
+          "name": "Milton Nascimento & Bebeto"
+        },
+        {
+          "artist_id": 26,
+          "name": "Azymuth"
+        },
+        {
+          "artist_id": 27,
+          "name": "Gilberto Gil"
+        },
+        {
+          "artist_id": 28,
+          "name": "João Gilberto"
+        },
+        {
+          "artist_id": 29,
+          "name": "Bebel Gilberto"
+        },
+        {
+          "artist_id": 30,
+          "name": "Jorge Vercilo"
+        },
+        {
+          "artist_id": 31,
+          "name": "Baby Consuelo"
+        },
+        {
+          "artist_id": 32,
+          "name": "Ney Matogrosso"
+        },
+        {
+          "artist_id": 33,
+          "name": "Luiz Melodia"
+        },
+        {
+          "artist_id": 34,
+          "name": "Nando Reis"
+        },
+        {
+          "artist_id": 35,
+          "name": "Pedro Luís & A Parede"
+        },
+        {
+          "artist_id": 36,
+          "name": "O Rappa"
+        },
+        {
+          "artist_id": 37,
+          "name": "Ed Motta"
+        },
+        {
+          "artist_id": 38,
+          "name": "Banda Black Rio"
+        },
+        {
+          "artist_id": 39,
+          "name": "Fernanda Porto"
+        },
+        {
+          "artist_id": 40,
+          "name": "Os Cariocas"
+        }
+      ],
+      "row_count": 40,
+      "truncated": false
+    }
+  },
+  "named_artist_values": {
+    "sql": "SELECT artist_id, name FROM public.artist WHERE name IN ('Iron Maiden','Led Zeppelin','Metallica','U2','AC/DC','Queen','Deep Purple','Pink Floyd') ORDER BY artist_id;",
+    "result": {
+      "columns": [
+        "artist_id",
+        "name"
+      ],
+      "rows": [
+        [
+          1,
+          "AC/DC"
+        ],
+        [
+          22,
+          "Led Zeppelin"
+        ],
+        [
+          50,
+          "Metallica"
+        ],
+        [
+          51,
+          "Queen"
+        ],
+        [
+          58,
+          "Deep Purple"
+        ],
+        [
+          90,
+          "Iron Maiden"
+        ],
+        [
+          120,
+          "Pink Floyd"
+        ],
+        [
+          150,
+          "U2"
+        ]
+      ],
+      "table": [
+        {
+          "artist_id": 1,
+          "name": "AC/DC"
+        },
+        {
+          "artist_id": 22,
+          "name": "Led Zeppelin"
+        },
+        {
+          "artist_id": 50,
+          "name": "Metallica"
+        },
+        {
+          "artist_id": 51,
+          "name": "Queen"
+        },
+        {
+          "artist_id": 58,
+          "name": "Deep Purple"
+        },
+        {
+          "artist_id": 90,
+          "name": "Iron Maiden"
+        },
+        {
+          "artist_id": 120,
+          "name": "Pink Floyd"
+        },
+        {
+          "artist_id": 150,
+          "name": "U2"
+        }
+      ],
+      "row_count": 8,
+      "truncated": false
+    }
+  },
+  "date_evidence": {
+    "sql": "SELECT MIN(invoice_date) AS first_date, MAX(invoice_date) AS last_date, COUNT(*) AS invoices FROM public.invoice;",
+    "result": {
+      "columns": [
+        "first_date",
+        "last_date",
+        "invoices"
+      ],
+      "rows": [
+        [
+          "2021-01-01T00:00:00",
+          "2025-12-22T00:00:00",
+          412
+        ]
+      ],
+      "table": [
+        {
+          "first_date": "2021-01-01T00:00:00",
+          "last_date": "2025-12-22T00:00:00",
+          "invoices": 412
+        }
+      ],
+      "row_count": 1,
+      "truncated": false
+    }
+  },
+  "billing_customer_difference": {
+    "sql": "SELECT COUNT(*) AS differences FROM public.invoice i JOIN public.customer c ON i.customer_id=c.customer_id WHERE i.billing_country IS DISTINCT FROM c.country;",
+    "result": {
+      "columns": [
+        "differences"
+      ],
+      "rows": [
+        [
+          0
+        ]
+      ],
+      "table": [
+        {
+          "differences": 0
+        }
+      ],
+      "row_count": 1,
+      "truncated": false
+    }
+  }
+}

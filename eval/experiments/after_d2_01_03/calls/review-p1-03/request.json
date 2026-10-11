@@ -1,0 +1,3211 @@
+{
+  "call_id": "review-p1-03",
+  "prompt_file": "prompts/review-p1.txt",
+  "prompt_sha256": "d5574acc4cd59d380ea8aa746964b0c22de4ea8d12bd6d316b7d7e5788bd814d",
+  "system_prompt": "版本 special-review-p1-v1。你是参考标注的独立AI预审员，本次没有生成上下文，只能依靠当前消息给出的真实来源材料、候选案例和程序实际SQL结果。逐项核对，不因为可执行或得到非空就通过。不得依据运行时代码推gold，不把自动审核叫人工接受。\n对每条逐字读input及必要history、绑定和允许解释，检查：主类别符合表意；中文错字/拼音不改变指标/期间/对象；approved仅允许唯一，approved_candidate只能保留并澄清，pending禁用；明确不存在不替换；business_basis具体存在且充分。L0条件完整/能唯一推导，L1有已确认且适用的默认（总计划Top10技术默认合法），L2缺失项是用户选择而非系统数据错误。完全明确同比/占比不得无脑L2；无时期复购/热门不得偷填。SQL逐个检查题意：字段/FK、日期左右边界、聚合粒度、分子分母、top/tie、NULL行为、列输出正确性，不能仅靠执行成功。multi_candidate检查candidate_sql；L2gold只代表真实补充后的目标，不表示初次可唯一执行。controller每个answer只回答实际asked_key，有合法补充；post_completion_turns保留未改条件且SQL表达更新的意图；隐藏目标不会传系统。程序错误或业务依据冲突则争议，不编造解决。\n返回reviews数组，每条{\"id\":原编号,\"verdict\":\"pass\"|\"disputed\"|\"reject\",\"semantic_sql_check\":\"pass\"|\"disputed\"|\"not_applicable\",\"classification_check\":\"pass\"|\"disputed\",\"binding_check\":\"pass\"|\"disputed\",\"controller_check\":\"pass\"|\"disputed\"|\"not_applicable\",\"reason\":\"具体判断\",\"evidence\":[来源路径或实跑字段],\"issues\":[问题],\"suggested_corrections\":对象或null}。必须检查消息中的每条编号，不漏不重复。存在实质争议保留，不强求全部通过。\n",
+  "payload": {
+    "source_materials": {
+      "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+      "schema": [
+        {
+          "table": "album",
+          "description": "专辑，每张专辑关联一位艺术家",
+          "columns": {
+            "album_id": "integer",
+            "title": "character varying(160)",
+            "artist_id": "integer"
+          },
+          "foreign_keys": [
+            {
+              "columns": [
+                "artist_id"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "artist",
+                "columns": [
+                  "artist_id"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "table": "artist",
+          "description": "艺术家、乐队及组合的英文名称",
+          "columns": {
+            "artist_id": "integer",
+            "name": "character varying(120)"
+          },
+          "foreign_keys": []
+        },
+        {
+          "table": "customer",
+          "description": "客户及其所在地、联系方式、销售支持员工",
+          "columns": {
+            "customer_id": "integer",
+            "first_name": "character varying(40)",
+            "last_name": "character varying(20)",
+            "company": "character varying(80)",
+            "address": "character varying(70)",
+            "city": "character varying(40)",
+            "state": "character varying(40)",
+            "country": "character varying(40)",
+            "postal_code": "character varying(10)",
+            "phone": "character varying(24)",
+            "fax": "character varying(24)",
+            "email": "character varying(60)",
+            "support_rep_id": "integer"
+          },
+          "foreign_keys": [
+            {
+              "columns": [
+                "support_rep_id"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "employee",
+                "columns": [
+                  "employee_id"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "table": "employee",
+          "description": "员工及其职位、入职日期、上下级关系",
+          "columns": {
+            "employee_id": "integer",
+            "last_name": "character varying(20)",
+            "first_name": "character varying(20)",
+            "title": "character varying(30)",
+            "reports_to": "integer",
+            "birth_date": "timestamp without time zone",
+            "hire_date": "timestamp without time zone",
+            "address": "character varying(70)",
+            "city": "character varying(40)",
+            "state": "character varying(40)",
+            "country": "character varying(40)",
+            "postal_code": "character varying(10)",
+            "phone": "character varying(24)",
+            "fax": "character varying(24)",
+            "email": "character varying(60)"
+          },
+          "foreign_keys": [
+            {
+              "columns": [
+                "reports_to"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "employee",
+                "columns": [
+                  "employee_id"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "table": "genre",
+          "description": "曲目音乐流派",
+          "columns": {
+            "genre_id": "integer",
+            "name": "character varying(120)"
+          },
+          "foreign_keys": []
+        },
+        {
+          "table": "invoice",
+          "description": "销售发票，含客户、开票时间、账单地址及发票总额",
+          "columns": {
+            "invoice_id": "integer",
+            "customer_id": "integer",
+            "invoice_date": "timestamp without time zone",
+            "billing_address": "character varying(70)",
+            "billing_city": "character varying(40)",
+            "billing_state": "character varying(40)",
+            "billing_country": "character varying(40)",
+            "billing_postal_code": "character varying(10)",
+            "total": "numeric(10,2)"
+          },
+          "foreign_keys": [
+            {
+              "columns": [
+                "customer_id"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "customer",
+                "columns": [
+                  "customer_id"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "table": "invoice_line",
+          "description": "发票销售明细，含实际成交单价及销售数量",
+          "columns": {
+            "invoice_line_id": "integer",
+            "invoice_id": "integer",
+            "track_id": "integer",
+            "unit_price": "numeric(10,2)",
+            "quantity": "integer"
+          },
+          "foreign_keys": [
+            {
+              "columns": [
+                "invoice_id"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "invoice",
+                "columns": [
+                  "invoice_id"
+                ]
+              }
+            },
+            {
+              "columns": [
+                "track_id"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "track",
+                "columns": [
+                  "track_id"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "table": "media_type",
+          "description": "曲目媒体格式",
+          "columns": {
+            "media_type_id": "integer",
+            "name": "character varying(120)"
+          },
+          "foreign_keys": []
+        },
+        {
+          "table": "playlist",
+          "description": "播放列表",
+          "columns": {
+            "playlist_id": "integer",
+            "name": "character varying(120)"
+          },
+          "foreign_keys": []
+        },
+        {
+          "table": "playlist_track",
+          "description": "播放列表与曲目的多对多关系",
+          "columns": {
+            "playlist_id": "integer",
+            "track_id": "integer"
+          },
+          "foreign_keys": [
+            {
+              "columns": [
+                "playlist_id"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "playlist",
+                "columns": [
+                  "playlist_id"
+                ]
+              }
+            },
+            {
+              "columns": [
+                "track_id"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "track",
+                "columns": [
+                  "track_id"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "table": "track",
+          "description": "曲目、专辑、流派、媒体格式、时长和目录单价",
+          "columns": {
+            "track_id": "integer",
+            "name": "character varying(200)",
+            "album_id": "integer",
+            "media_type_id": "integer",
+            "genre_id": "integer",
+            "composer": "character varying(220)",
+            "milliseconds": "integer",
+            "bytes": "integer",
+            "unit_price": "numeric(10,2)"
+          },
+          "foreign_keys": [
+            {
+              "columns": [
+                "album_id"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "album",
+                "columns": [
+                  "album_id"
+                ]
+              }
+            },
+            {
+              "columns": [
+                "genre_id"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "genre",
+                "columns": [
+                  "genre_id"
+                ]
+              }
+            },
+            {
+              "columns": [
+                "media_type_id"
+              ],
+              "references": {
+                "schema": "public",
+                "table": "media_type",
+                "columns": [
+                  "media_type_id"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "confirmed_business_rules": {
+        "version": "d2-proposal-1",
+        "review_status": "approved",
+        "runtime_defaults_enabled": false,
+        "reviewer_a": "A via explicit user attestation",
+        "reviewer_b": "B via explicit user attestation",
+        "reviewed_at_utc": "2026-10-10T17:50:08.519114+00:00",
+        "source": "Project-authored proposal based on D2 plan; not external company policy",
+        "general": {
+          "date_field": "invoice.invoice_date",
+          "period": "Half-open [start_date, end_date); no missing period is silently filled",
+          "region": "customer.country is customer residence; invoice.billing_country is invoice billing address; equality in current snapshot does not merge meanings",
+          "unit": "Database amount unit; no inferred USD/CNY or payment status",
+          "zero_denominator": "Return null and explain unavailable denominator"
+        },
+        "metrics": [
+          {
+            "id": "sales_revenue",
+            "name": "发票销售额",
+            "grain": "invoice",
+            "expression": "SUM(invoice.total)",
+            "empty_behavior": "Aggregate SUM yields NULL; presentation may say no available sales records but must not silently replace with zero",
+            "alternative": "For track/artist analysis use SUM(invoice_line.unit_price * invoice_line.quantity), with invoice date filtering and no repeated SUM(invoice.total) after joining lines"
+          },
+          {
+            "id": "average_invoice_amount",
+            "name": "平均每张发票金额",
+            "short_label_proposal": "客单价",
+            "grain": "invoice",
+            "expression": "AVG(invoice.total)",
+            "empty_behavior": "NULL when no invoices",
+            "alternative": "平均每位购买客户金额 = SUM(invoice.total) / COUNT(DISTINCT invoice.customer_id), kept as a separately named metric"
+          },
+          {
+            "id": "repeat_customer_count",
+            "name": "期间内复购客户数",
+            "grain": "customer within explicitly given period",
+            "expression": "COUNT of customers with COUNT(invoice_id) >= 2 in period",
+            "empty_behavior": "0 when no qualifying customers",
+            "limitation": "Invoice records are not evidence of successful payment; crossing period bounds is not inferred"
+          },
+          {
+            "id": "popular_tracks",
+            "name": "热门曲目",
+            "grain": "track within explicitly given period",
+            "expression": "SUM(invoice_line.quantity)",
+            "default_from_total_plan": true,
+            "alternatives": [
+              "SUM(invoice_line.unit_price * invoice_line.quantity)",
+              "COUNT of playlist_track memberships"
+            ],
+            "tie_breaker": "track_id ascending",
+            "distinct_object_rule_proposal": "曲目最受欢迎 follows purchased quantity; 客户谁买得最多 follows appendix amount definition. Generic subject-free 谁买得最多 remains unresolved; no global default is installed in D2"
+          }
+        ],
+        "sql_examples": {
+          "revenue_invoice": "SELECT SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+          "average_invoice": "SELECT ROUND(AVG(total), 2) AS average_invoice_amount FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+          "repeat_customers": "SELECT COUNT(*) AS repeat_customer_count FROM (SELECT customer_id FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' GROUP BY customer_id HAVING COUNT(*) >= 2) AS repeat_customers;",
+          "popular_tracks": "SELECT track_id, SUM(quantity) AS purchased_quantity FROM public.invoice_line WHERE invoice_id IN (SELECT invoice_id FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01') GROUP BY track_id ORDER BY purchased_quantity DESC, track_id ASC LIMIT 5;",
+          "revenue_reconciliation": "SELECT (SELECT SUM(total) FROM public.invoice) AS invoice_revenue, (SELECT SUM(unit_price * quantity) FROM public.invoice_line) AS detail_revenue, (SELECT SUM(total) FROM public.invoice) - (SELECT SUM(unit_price * quantity) FROM public.invoice_line) AS difference;",
+          "available_dates": "SELECT MIN(invoice_date) AS first_date, MAX(invoice_date) AS last_date FROM public.invoice;"
+        },
+        "human_confirmation": {
+          "method": "explicit_user_reply",
+          "statement": "A、B已共同核对同意四项口径",
+          "scope": "four business definitions and distinct query-object rule only; does not approve evaluation gold or aliases",
+          "proposal_sha256": "ab52f7a03866528fbfaa4e45c98193fd8ce9bce297c84b31e243c9e66254ea1e"
+        }
+      },
+      "approved_proposal": "# D2 业务指标口径提案 与共同审核记录\n\n本提案用于制作项目自编的 2–3 页指标手册。四项口径已获用户代表 A 和 B 共同确认；D2仅登记定义，没有启用D3完整澄清或口径切换。SQL 已在现有只读 Chinook 快照实际执行；数据库未导入、重建或写入。\n\n以下四项及短语区分已经得到用户代表 A 和 B 的明确共同确认：\n\n1. **销售额**：发票粒度用 `SUM(invoice.total)`；曲目或艺术家粒度用明细 `SUM(unit_price * quantity)`。JOIN 发票与明细后不能重复累加发票总额。\n2. **客单价**：拟明确命名为“平均每张发票金额”，采用 `AVG(invoice.total)`；“平均每位购买客户金额”另起名称，不当作同一指标。\n3. **复购客户**：指定期间内发票数量至少 2 张的客户。日期字段 `invoice_date`，期间采用左闭右开；没有期间时不悄悄补全。发票记录不等于已付款证据。\n4. **热门曲目**：沿用总计划的购买数量默认；销售额与歌单收录数是可选口径。拟保留附录“客户谁买得最多”的金额定义；缺查询对象的“谁买得最多”不自动套同一个全局默认。\n\n通用约定：客户所在地 `customer.country` 与账单地址 `invoice.billing_country` 保留各自含义；金额仅称数据库金额单位；空 SUM/AVG 保留 NULL，零分母保留 NULL 并说明；并列排序使用稳定 ID。\n\n## 已实际执行的 SQL 检查\n\n### revenue_invoice\n\n```sql\nSELECT SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';\n```\n\n实际结果：`[[\"477.53\"]]`\n\n### average_invoice\n\n```sql\nSELECT ROUND(AVG(total), 2) AS average_invoice_amount FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';\n```\n\n实际结果：`[[\"5.75\"]]`\n\n### repeat_customers\n\n```sql\nSELECT COUNT(*) AS repeat_customer_count FROM (SELECT customer_id FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' GROUP BY customer_id HAVING COUNT(*) >= 2) AS repeat_customers;\n```\n\n实际结果：`[[27]]`\n\n### popular_tracks\n\n```sql\nSELECT track_id, SUM(quantity) AS purchased_quantity FROM public.invoice_line WHERE invoice_id IN (SELECT invoice_id FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01') GROUP BY track_id ORDER BY purchased_quantity DESC, track_id ASC LIMIT 5;\n```\n\n实际结果：`[[3, 1], [9, 1], [15, 1], [21, 1], [30, 1]]`\n\n### revenue_reconciliation\n\n```sql\nSELECT (SELECT SUM(total) FROM public.invoice) AS invoice_revenue, (SELECT SUM(unit_price * quantity) FROM public.invoice_line) AS detail_revenue, (SELECT SUM(total) FROM public.invoice) - (SELECT SUM(unit_price * quantity) FROM public.invoice_line) AS difference;\n```\n\n实际结果：`[[\"2328.60\", \"2328.60\", \"0.00\"]]`\n\n### available_dates\n\n```sql\nSELECT MIN(invoice_date) AS first_date, MAX(invoice_date) AS last_date FROM public.invoice;\n```\n\n实际结果：`[[\"2021-01-01T00:00:00\", \"2025-12-22T00:00:00\"]]`\n\n## 审核记录\n\nA 和 B：用户已明确共同核对同意四项口径。确认记录时间：2026-10-10T17:50:08.519114+00:00。该确认不替代题库gold、别名或RAG答案审核。\n\n机器定义：[metric_definitions.json](../../data/rules/metric_definitions.json)。实跑证据：[metric-sql-checks.json](../../eval/artifacts/d2/source/metric-sql-checks.json)。\n",
+      "total_plan_semantic_gate": "#### 3.6.4 ③ 智能语义校验与澄清（在 03 基础上的改动）\n\n**新增：澄清分级**，解决“该不该问”。\n\n| 级别 | 条件 | 系统行为 | 例子 |\n|---|---|---|---|\n| L0 | 必要条件齐全，没有歧义 | 直接执行 | “巴西有多少客户” |\n| L1 | 有歧义，但有登记过的默认口径，且不是比较类任务 | 按默认口径执行，答案顶部声明假设，并给“切换口径”按钮 | “最受欢迎的 5 首歌”：默认按购买数量，可切换为按销售额或按歌单收录次数 |\n| L2 | 必要条件缺失且没有合理默认；或不同口径会导致结论明显不同；或是增长率、同比、占比这类比较任务 | 暂停，弹出澄清卡片 | “美国销售额同比增长多少”（缺年份）；“摇滚歌曲有多少”（Rock / Rock And Roll，数量差别大） |\n\nL1 的“一键切换”是一种低成本的澄清：既不打断简单问题，又能展示澄清能力。\n\n**规则表 `clarify_rules.yaml`**：跨领域复用，换领域只改绑定。\n\n```yaml\ntask_types:\n  growth:        # 同比 / 环比 / 增长率 / 增幅\n    required: [metric, time_scope.current, comparison.type]\n    derivable: {time_scope.base: \"由 current 和 comparison.type 推导\"}\n    level_if_missing: L2\n  ratio:\n    required: [numerator, denominator]\n    level_if_missing: L2\n  ranking:\n    required: [metric, rank_object]\n    defaults: {top_n: 10}\nambiguities:\n  - id: popularity\n    trigger: [\"最受欢迎\", \"最热门\", \"卖得最好\"]\n    level: L1\n    default: by_quantity\n    options:\n      - {id: by_quantity, label: \"按购买数量\", expr: \"SUM(invoice_line.quantity)\"}\n      - {id: by_revenue,  label: \"按销售额\",   expr: \"SUM(invoice_line.unit_price * invoice_line.quantity)\"}\n      - {id: by_playlist, label: \"按被收录的歌单数\", expr: \"COUNT(playlist_track.playlist_id)\"}\n  - id: multi_candidate_value     # 来自 ① 的多个候选\n    level: L2\n    options: from_linker\n```\n\n**澄清卡片**包含：\n\n- 问题和一句原因；\n- 选项：来自目录或数据，例如可选年份来自 `SELECT DISTINCT EXTRACT(YEAR FROM invoice_date)`；\n- 一个自由输入框。\n\n选项都带稳定 id，用户点击后不需要再让模型解析。\n\n**多轮状态**：\n\n1. 每个会话保存当前的 `IntentContract`。\n2. 用户每说一句，NLU 输出补丁（`set / add / remove`）。\n3. 程序应用补丁，`intent_version + 1`。\n4. 按依赖表让受影响的部分失效（沿用 03 §4.8 的表：改地区只重算结果；改指标要重新检查粒度、聚合和字段）。\n\n**实现**：\n\n- 写一个约 200 行的状态机：`IDLE → CHECKING →（WAITING_CLARIFICATION）→ EXECUTING → ANSWERED`。\n- 会话存在内存字典里，同时落盘成 JSON。\n- 前端提交澄清回答时带上 `clarification_id` 和 `intent_version`，防止用户在旧卡片上点选，改到了新任务。\n\n**03 文档本身要改的地方**：\n\n- 删除第 31 行“多智能体 gpt 说……”这条备注。\n- 补上目录里列了、正文却缺失的第 6 章“参考资料”。\n- 第 5 章补上指标定义（§5.2）。\n- 把 LangGraph 改为“自写状态机，接口可平滑迁移到 LangGraph interrupt”。\n- 把演示例子换成：同比缺年份、热门口径、摇滚多候选。\n\n",
+      "approved_aliases_and_candidate_relations": [
+        {
+          "standard_value": "Iron Maiden",
+          "column": "artist.name",
+          "alias": "铁娘子",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-3a8a1d5195e9c6a0"
+        },
+        {
+          "standard_value": "Iron Maiden",
+          "column": "artist.name",
+          "alias": "铁处女",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-e36bfe04cba29de8"
+        },
+        {
+          "standard_value": "Iron Maiden",
+          "column": "artist.name",
+          "alias": "Iron Maiden乐队",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-7a0187a2e65d10ae"
+        },
+        {
+          "standard_value": "Led Zeppelin",
+          "column": "artist.name",
+          "alias": "齐柏林飞船",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-f6304e1cde119b8f"
+        },
+        {
+          "standard_value": "Led Zeppelin",
+          "column": "artist.name",
+          "alias": "齐柏林飞艇",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-751d38c444555de2"
+        },
+        {
+          "standard_value": "Led Zeppelin",
+          "column": "artist.name",
+          "alias": "Led Zeppelin乐队",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-e7baa0eb0389f85e"
+        },
+        {
+          "standard_value": "Metallica",
+          "column": "artist.name",
+          "alias": "金属乐队",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-9ab23063254419e0"
+        },
+        {
+          "standard_value": "Metallica",
+          "column": "artist.name",
+          "alias": "金属",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "pending",
+          "reviewer": "",
+          "alias_id": "a-0c47392129d13dd6"
+        },
+        {
+          "standard_value": "Metallica",
+          "column": "artist.name",
+          "alias": "Metallica乐队",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-713e91edadb5f817"
+        },
+        {
+          "standard_value": "U2",
+          "column": "artist.name",
+          "alias": "U2乐队",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-a04cacbc074e2ac6"
+        },
+        {
+          "standard_value": "U2",
+          "column": "artist.name",
+          "alias": "U2乐团",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-5875ecf83bb89913"
+        },
+        {
+          "standard_value": "Australia",
+          "column": "customer.country",
+          "alias": "澳大利亚",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-b36489cadceee749"
+        },
+        {
+          "standard_value": "Australia",
+          "column": "customer.country",
+          "alias": "澳洲",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-7d3693714ee37b46"
+        },
+        {
+          "standard_value": "Australia",
+          "column": "customer.country",
+          "alias": "澳大利亚联邦",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-840245fad126ae71"
+        },
+        {
+          "standard_value": "Brazil",
+          "column": "customer.country",
+          "alias": "巴西",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-cf1b483ec6900d1a"
+        },
+        {
+          "standard_value": "Brazil",
+          "column": "customer.country",
+          "alias": "巴西联邦共和国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-48667df2696e251c"
+        },
+        {
+          "standard_value": "Canada",
+          "column": "customer.country",
+          "alias": "加拿大",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-3cc0be84e1794908"
+        },
+        {
+          "standard_value": "France",
+          "column": "customer.country",
+          "alias": "法国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-b25098af9fa5b17a"
+        },
+        {
+          "standard_value": "France",
+          "column": "customer.country",
+          "alias": "法兰西",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-2ad4affe6af89ef4"
+        },
+        {
+          "standard_value": "France",
+          "column": "customer.country",
+          "alias": "法兰西共和国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-ca229f69098da675"
+        },
+        {
+          "standard_value": "Germany",
+          "column": "customer.country",
+          "alias": "德国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-e4d835eae26ef07e"
+        },
+        {
+          "standard_value": "Germany",
+          "column": "customer.country",
+          "alias": "德意志",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-9f5bb5a79e3b2818"
+        },
+        {
+          "standard_value": "Germany",
+          "column": "customer.country",
+          "alias": "德意志联邦共和国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-fc51077551e79ac3"
+        },
+        {
+          "standard_value": "India",
+          "column": "customer.country",
+          "alias": "印度",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-94e30cebbc64041f"
+        },
+        {
+          "standard_value": "India",
+          "column": "customer.country",
+          "alias": "印度共和国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-4aca00f05bc3cd6c"
+        },
+        {
+          "standard_value": "USA",
+          "column": "customer.country",
+          "alias": "美国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-cbef6f7b472f48eb"
+        },
+        {
+          "standard_value": "USA",
+          "column": "customer.country",
+          "alias": "老美",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-c43d08f9e0effe4d"
+        },
+        {
+          "standard_value": "USA",
+          "column": "customer.country",
+          "alias": "美利坚合众国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-fab280bc88aa1682"
+        },
+        {
+          "standard_value": "United Kingdom",
+          "column": "customer.country",
+          "alias": "英国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-9a9f0da60f84554c"
+        },
+        {
+          "standard_value": "United Kingdom",
+          "column": "customer.country",
+          "alias": "联合王国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-b507c7d7ee1c26e7"
+        },
+        {
+          "standard_value": "United Kingdom",
+          "column": "customer.country",
+          "alias": "大不列颠及北爱尔兰联合王国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-1f08c5b75168548d"
+        },
+        {
+          "standard_value": "Classical",
+          "column": "genre.name",
+          "alias": "古典",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-6f2b17a026a9ef9b"
+        },
+        {
+          "standard_value": "Classical",
+          "column": "genre.name",
+          "alias": "古典音乐",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-fb76d9986e52aa10"
+        },
+        {
+          "standard_value": "Jazz",
+          "column": "genre.name",
+          "alias": "爵士",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-ae481372f2653475"
+        },
+        {
+          "standard_value": "Jazz",
+          "column": "genre.name",
+          "alias": "爵士乐",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-f3ab57aac4760fac"
+        },
+        {
+          "standard_value": "Metal",
+          "column": "genre.name",
+          "alias": "金属",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-439ce0734774f114"
+        },
+        {
+          "standard_value": "Metal",
+          "column": "genre.name",
+          "alias": "金属乐",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-f637ff312a6fead6"
+        },
+        {
+          "standard_value": "Pop",
+          "column": "genre.name",
+          "alias": "流行",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-10514461292c596d"
+        },
+        {
+          "standard_value": "Pop",
+          "column": "genre.name",
+          "alias": "流行音乐",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-34701ceea8df41eb"
+        },
+        {
+          "standard_value": "Rock",
+          "column": "genre.name",
+          "alias": "摇滚",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-cb69b4bf22161e6e"
+        },
+        {
+          "standard_value": "Rock",
+          "column": "genre.name",
+          "alias": "摇滚乐",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-5972cabfe64bae77"
+        },
+        {
+          "standard_value": "Rock And Roll",
+          "column": "genre.name",
+          "alias": "摇滚乐",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-0e44ca874f4ba96f"
+        },
+        {
+          "standard_value": "Rock And Roll",
+          "column": "genre.name",
+          "alias": "节奏摇滚",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "pending",
+          "reviewer": "",
+          "alias_id": "a-c748b229db869a4e"
+        },
+        {
+          "standard_value": "Australia",
+          "column": "invoice.billing_country",
+          "alias": "澳大利亚",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-4c5e26e87ffb2aa2"
+        },
+        {
+          "standard_value": "Australia",
+          "column": "invoice.billing_country",
+          "alias": "澳洲",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-b5ca3e94894dee8d"
+        },
+        {
+          "standard_value": "Australia",
+          "column": "invoice.billing_country",
+          "alias": "澳大利亚联邦",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-f2ecb45e404feda1"
+        },
+        {
+          "standard_value": "Brazil",
+          "column": "invoice.billing_country",
+          "alias": "巴西",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-bfc3cf35431dcceb"
+        },
+        {
+          "standard_value": "Brazil",
+          "column": "invoice.billing_country",
+          "alias": "巴西联邦共和国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-e8e5e4fe2d99ff1b"
+        },
+        {
+          "standard_value": "Canada",
+          "column": "invoice.billing_country",
+          "alias": "加拿大",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-b33ce127772f748d"
+        },
+        {
+          "standard_value": "France",
+          "column": "invoice.billing_country",
+          "alias": "法国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-1146eff0ef203810"
+        },
+        {
+          "standard_value": "France",
+          "column": "invoice.billing_country",
+          "alias": "法兰西",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-9eb72fa09563fb7e"
+        },
+        {
+          "standard_value": "France",
+          "column": "invoice.billing_country",
+          "alias": "法兰西共和国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-99f7789e108299a0"
+        },
+        {
+          "standard_value": "Germany",
+          "column": "invoice.billing_country",
+          "alias": "德国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-3414db81951a6279"
+        },
+        {
+          "standard_value": "Germany",
+          "column": "invoice.billing_country",
+          "alias": "德意志",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-604796b76eb1cd3b"
+        },
+        {
+          "standard_value": "Germany",
+          "column": "invoice.billing_country",
+          "alias": "德意志联邦共和国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-43165309220a1f56"
+        },
+        {
+          "standard_value": "India",
+          "column": "invoice.billing_country",
+          "alias": "印度",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-9c79948752527793"
+        },
+        {
+          "standard_value": "India",
+          "column": "invoice.billing_country",
+          "alias": "印度共和国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-5819628db78075fb"
+        },
+        {
+          "standard_value": "USA",
+          "column": "invoice.billing_country",
+          "alias": "美国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-dca9d898c8a31e37"
+        },
+        {
+          "standard_value": "USA",
+          "column": "invoice.billing_country",
+          "alias": "老美",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-9d6edadfda3e46a9"
+        },
+        {
+          "standard_value": "USA",
+          "column": "invoice.billing_country",
+          "alias": "美利坚合众国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-6d34332b7a54aaa8"
+        },
+        {
+          "standard_value": "United Kingdom",
+          "column": "invoice.billing_country",
+          "alias": "英国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-a51a0dfa5111c6b0"
+        },
+        {
+          "standard_value": "United Kingdom",
+          "column": "invoice.billing_country",
+          "alias": "联合王国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-7528c8542cbf31a0"
+        },
+        {
+          "standard_value": "United Kingdom",
+          "column": "invoice.billing_country",
+          "alias": "大不列颠及北爱尔兰联合王国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-8fd10b20a82508de"
+        },
+        {
+          "standard_value": "AAC audio file",
+          "column": "media_type.name",
+          "alias": "AAC音频文件",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-6799bc523f9e8693"
+        },
+        {
+          "standard_value": "AAC audio file",
+          "column": "media_type.name",
+          "alias": "AAC音频",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-7b241be59eef3bbb"
+        },
+        {
+          "standard_value": "MPEG audio file",
+          "column": "media_type.name",
+          "alias": "MPEG音频文件",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-623dcb996bdf111b"
+        },
+        {
+          "standard_value": "MPEG audio file",
+          "column": "media_type.name",
+          "alias": "MPEG音频",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-283ad9fbc2d748a9"
+        },
+        {
+          "standard_value": "Protected AAC audio file",
+          "column": "media_type.name",
+          "alias": "受保护AAC音频文件",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-bfc4b2a75ae6d393"
+        },
+        {
+          "standard_value": "Protected AAC audio file",
+          "column": "media_type.name",
+          "alias": "受保护AAC音频",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-e6995d2d188f2d9e"
+        },
+        {
+          "standard_value": "Protected MPEG-4 video file",
+          "column": "media_type.name",
+          "alias": "受保护MPEG-4视频文件",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-f1475c651575231c"
+        },
+        {
+          "standard_value": "Protected MPEG-4 video file",
+          "column": "media_type.name",
+          "alias": "受保护MPEG-4视频",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-546993461dc3354d"
+        },
+        {
+          "standard_value": "Purchased AAC audio file",
+          "column": "media_type.name",
+          "alias": "已购买AAC音频文件",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-4fbad68319f9e10e"
+        },
+        {
+          "standard_value": "Purchased AAC audio file",
+          "column": "media_type.name",
+          "alias": "购买AAC音频文件",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-0c3df10756626f4a"
+        },
+        {
+          "standard_value": "Purchased AAC audio file",
+          "column": "media_type.name",
+          "alias": "已购买AAC音频",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-a974e81df263a782"
+        },
+        {
+          "standard_value": "Italy",
+          "column": "customer.country",
+          "alias": "意大利",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-d0e9fad30baaded8"
+        },
+        {
+          "standard_value": "Italy",
+          "column": "customer.country",
+          "alias": "义大利",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-97a541d02a9d6f5b"
+        },
+        {
+          "standard_value": "Italy",
+          "column": "customer.country",
+          "alias": "意国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-a653ead69db804b0"
+        },
+        {
+          "standard_value": "Italy",
+          "column": "invoice.billing_country",
+          "alias": "意大利",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-97f75d30b3bcab32"
+        },
+        {
+          "standard_value": "Italy",
+          "column": "invoice.billing_country",
+          "alias": "义大利",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-477276f0186e7f07"
+        },
+        {
+          "standard_value": "Italy",
+          "column": "invoice.billing_country",
+          "alias": "意国",
+          "source": "llm_draft:deepseek-flash",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-14625e480dd8676e"
+        },
+        {
+          "standard_value": "Rock And Roll",
+          "column": "genre.name",
+          "alias": "摇滚",
+          "source": "方案.md:§3.6.3 ambiguous value example",
+          "review_status": "approved_candidate",
+          "reviewer": "user-attested-D2-audit",
+          "alias_id": "a-d2-plan-rock-and-roll"
+        }
+      ],
+      "live_database_facts": {
+        "reader": {
+          "sql": "SELECT current_user AS reader_user, current_setting('default_transaction_read_only') AS read_only, current_setting('statement_timeout') AS timeout;",
+          "result": {
+            "columns": [
+              "reader_user",
+              "read_only",
+              "timeout"
+            ],
+            "rows": [
+              [
+                "qa_reader",
+                "on",
+                "5s"
+              ]
+            ],
+            "table": [
+              {
+                "reader_user": "qa_reader",
+                "read_only": "on",
+                "timeout": "5s"
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          }
+        },
+        "countries": {
+          "sql": "SELECT DISTINCT country FROM public.customer ORDER BY country;",
+          "result": {
+            "columns": [
+              "country"
+            ],
+            "rows": [
+              [
+                "Argentina"
+              ],
+              [
+                "Australia"
+              ],
+              [
+                "Austria"
+              ],
+              [
+                "Belgium"
+              ],
+              [
+                "Brazil"
+              ],
+              [
+                "Canada"
+              ],
+              [
+                "Chile"
+              ],
+              [
+                "Czech Republic"
+              ],
+              [
+                "Denmark"
+              ],
+              [
+                "Finland"
+              ],
+              [
+                "France"
+              ],
+              [
+                "Germany"
+              ],
+              [
+                "Hungary"
+              ],
+              [
+                "India"
+              ],
+              [
+                "Ireland"
+              ],
+              [
+                "Italy"
+              ],
+              [
+                "Netherlands"
+              ],
+              [
+                "Norway"
+              ],
+              [
+                "Poland"
+              ],
+              [
+                "Portugal"
+              ],
+              [
+                "Spain"
+              ],
+              [
+                "Sweden"
+              ],
+              [
+                "USA"
+              ],
+              [
+                "United Kingdom"
+              ]
+            ],
+            "table": [
+              {
+                "country": "Argentina"
+              },
+              {
+                "country": "Australia"
+              },
+              {
+                "country": "Austria"
+              },
+              {
+                "country": "Belgium"
+              },
+              {
+                "country": "Brazil"
+              },
+              {
+                "country": "Canada"
+              },
+              {
+                "country": "Chile"
+              },
+              {
+                "country": "Czech Republic"
+              },
+              {
+                "country": "Denmark"
+              },
+              {
+                "country": "Finland"
+              },
+              {
+                "country": "France"
+              },
+              {
+                "country": "Germany"
+              },
+              {
+                "country": "Hungary"
+              },
+              {
+                "country": "India"
+              },
+              {
+                "country": "Ireland"
+              },
+              {
+                "country": "Italy"
+              },
+              {
+                "country": "Netherlands"
+              },
+              {
+                "country": "Norway"
+              },
+              {
+                "country": "Poland"
+              },
+              {
+                "country": "Portugal"
+              },
+              {
+                "country": "Spain"
+              },
+              {
+                "country": "Sweden"
+              },
+              {
+                "country": "USA"
+              },
+              {
+                "country": "United Kingdom"
+              }
+            ],
+            "row_count": 24,
+            "truncated": false
+          }
+        },
+        "billing_countries": {
+          "sql": "SELECT DISTINCT billing_country FROM public.invoice ORDER BY billing_country;",
+          "result": {
+            "columns": [
+              "billing_country"
+            ],
+            "rows": [
+              [
+                "Argentina"
+              ],
+              [
+                "Australia"
+              ],
+              [
+                "Austria"
+              ],
+              [
+                "Belgium"
+              ],
+              [
+                "Brazil"
+              ],
+              [
+                "Canada"
+              ],
+              [
+                "Chile"
+              ],
+              [
+                "Czech Republic"
+              ],
+              [
+                "Denmark"
+              ],
+              [
+                "Finland"
+              ],
+              [
+                "France"
+              ],
+              [
+                "Germany"
+              ],
+              [
+                "Hungary"
+              ],
+              [
+                "India"
+              ],
+              [
+                "Ireland"
+              ],
+              [
+                "Italy"
+              ],
+              [
+                "Netherlands"
+              ],
+              [
+                "Norway"
+              ],
+              [
+                "Poland"
+              ],
+              [
+                "Portugal"
+              ],
+              [
+                "Spain"
+              ],
+              [
+                "Sweden"
+              ],
+              [
+                "USA"
+              ],
+              [
+                "United Kingdom"
+              ]
+            ],
+            "table": [
+              {
+                "billing_country": "Argentina"
+              },
+              {
+                "billing_country": "Australia"
+              },
+              {
+                "billing_country": "Austria"
+              },
+              {
+                "billing_country": "Belgium"
+              },
+              {
+                "billing_country": "Brazil"
+              },
+              {
+                "billing_country": "Canada"
+              },
+              {
+                "billing_country": "Chile"
+              },
+              {
+                "billing_country": "Czech Republic"
+              },
+              {
+                "billing_country": "Denmark"
+              },
+              {
+                "billing_country": "Finland"
+              },
+              {
+                "billing_country": "France"
+              },
+              {
+                "billing_country": "Germany"
+              },
+              {
+                "billing_country": "Hungary"
+              },
+              {
+                "billing_country": "India"
+              },
+              {
+                "billing_country": "Ireland"
+              },
+              {
+                "billing_country": "Italy"
+              },
+              {
+                "billing_country": "Netherlands"
+              },
+              {
+                "billing_country": "Norway"
+              },
+              {
+                "billing_country": "Poland"
+              },
+              {
+                "billing_country": "Portugal"
+              },
+              {
+                "billing_country": "Spain"
+              },
+              {
+                "billing_country": "Sweden"
+              },
+              {
+                "billing_country": "USA"
+              },
+              {
+                "billing_country": "United Kingdom"
+              }
+            ],
+            "row_count": 24,
+            "truncated": false
+          }
+        },
+        "genres": {
+          "sql": "SELECT genre_id, name FROM public.genre ORDER BY genre_id;",
+          "result": {
+            "columns": [
+              "genre_id",
+              "name"
+            ],
+            "rows": [
+              [
+                1,
+                "Rock"
+              ],
+              [
+                2,
+                "Jazz"
+              ],
+              [
+                3,
+                "Metal"
+              ],
+              [
+                4,
+                "Alternative & Punk"
+              ],
+              [
+                5,
+                "Rock And Roll"
+              ],
+              [
+                6,
+                "Blues"
+              ],
+              [
+                7,
+                "Latin"
+              ],
+              [
+                8,
+                "Reggae"
+              ],
+              [
+                9,
+                "Pop"
+              ],
+              [
+                10,
+                "Soundtrack"
+              ],
+              [
+                11,
+                "Bossa Nova"
+              ],
+              [
+                12,
+                "Easy Listening"
+              ],
+              [
+                13,
+                "Heavy Metal"
+              ],
+              [
+                14,
+                "R&B/Soul"
+              ],
+              [
+                15,
+                "Electronica/Dance"
+              ],
+              [
+                16,
+                "World"
+              ],
+              [
+                17,
+                "Hip Hop/Rap"
+              ],
+              [
+                18,
+                "Science Fiction"
+              ],
+              [
+                19,
+                "TV Shows"
+              ],
+              [
+                20,
+                "Sci Fi & Fantasy"
+              ],
+              [
+                21,
+                "Drama"
+              ],
+              [
+                22,
+                "Comedy"
+              ],
+              [
+                23,
+                "Alternative"
+              ],
+              [
+                24,
+                "Classical"
+              ],
+              [
+                25,
+                "Opera"
+              ]
+            ],
+            "table": [
+              {
+                "genre_id": 1,
+                "name": "Rock"
+              },
+              {
+                "genre_id": 2,
+                "name": "Jazz"
+              },
+              {
+                "genre_id": 3,
+                "name": "Metal"
+              },
+              {
+                "genre_id": 4,
+                "name": "Alternative & Punk"
+              },
+              {
+                "genre_id": 5,
+                "name": "Rock And Roll"
+              },
+              {
+                "genre_id": 6,
+                "name": "Blues"
+              },
+              {
+                "genre_id": 7,
+                "name": "Latin"
+              },
+              {
+                "genre_id": 8,
+                "name": "Reggae"
+              },
+              {
+                "genre_id": 9,
+                "name": "Pop"
+              },
+              {
+                "genre_id": 10,
+                "name": "Soundtrack"
+              },
+              {
+                "genre_id": 11,
+                "name": "Bossa Nova"
+              },
+              {
+                "genre_id": 12,
+                "name": "Easy Listening"
+              },
+              {
+                "genre_id": 13,
+                "name": "Heavy Metal"
+              },
+              {
+                "genre_id": 14,
+                "name": "R&B/Soul"
+              },
+              {
+                "genre_id": 15,
+                "name": "Electronica/Dance"
+              },
+              {
+                "genre_id": 16,
+                "name": "World"
+              },
+              {
+                "genre_id": 17,
+                "name": "Hip Hop/Rap"
+              },
+              {
+                "genre_id": 18,
+                "name": "Science Fiction"
+              },
+              {
+                "genre_id": 19,
+                "name": "TV Shows"
+              },
+              {
+                "genre_id": 20,
+                "name": "Sci Fi & Fantasy"
+              },
+              {
+                "genre_id": 21,
+                "name": "Drama"
+              },
+              {
+                "genre_id": 22,
+                "name": "Comedy"
+              },
+              {
+                "genre_id": 23,
+                "name": "Alternative"
+              },
+              {
+                "genre_id": 24,
+                "name": "Classical"
+              },
+              {
+                "genre_id": 25,
+                "name": "Opera"
+              }
+            ],
+            "row_count": 25,
+            "truncated": false
+          }
+        },
+        "media_types": {
+          "sql": "SELECT media_type_id, name FROM public.media_type ORDER BY media_type_id;",
+          "result": {
+            "columns": [
+              "media_type_id",
+              "name"
+            ],
+            "rows": [
+              [
+                1,
+                "MPEG audio file"
+              ],
+              [
+                2,
+                "Protected AAC audio file"
+              ],
+              [
+                3,
+                "Protected MPEG-4 video file"
+              ],
+              [
+                4,
+                "Purchased AAC audio file"
+              ],
+              [
+                5,
+                "AAC audio file"
+              ]
+            ],
+            "table": [
+              {
+                "media_type_id": 1,
+                "name": "MPEG audio file"
+              },
+              {
+                "media_type_id": 2,
+                "name": "Protected AAC audio file"
+              },
+              {
+                "media_type_id": 3,
+                "name": "Protected MPEG-4 video file"
+              },
+              {
+                "media_type_id": 4,
+                "name": "Purchased AAC audio file"
+              },
+              {
+                "media_type_id": 5,
+                "name": "AAC audio file"
+              }
+            ],
+            "row_count": 5,
+            "truncated": false
+          }
+        },
+        "artist_catalog": {
+          "sql": "SELECT artist_id, name FROM public.artist ORDER BY artist_id LIMIT 40;",
+          "result": {
+            "columns": [
+              "artist_id",
+              "name"
+            ],
+            "rows": [
+              [
+                1,
+                "AC/DC"
+              ],
+              [
+                2,
+                "Accept"
+              ],
+              [
+                3,
+                "Aerosmith"
+              ],
+              [
+                4,
+                "Alanis Morissette"
+              ],
+              [
+                5,
+                "Alice In Chains"
+              ],
+              [
+                6,
+                "Antônio Carlos Jobim"
+              ],
+              [
+                7,
+                "Apocalyptica"
+              ],
+              [
+                8,
+                "Audioslave"
+              ],
+              [
+                9,
+                "BackBeat"
+              ],
+              [
+                10,
+                "Billy Cobham"
+              ],
+              [
+                11,
+                "Black Label Society"
+              ],
+              [
+                12,
+                "Black Sabbath"
+              ],
+              [
+                13,
+                "Body Count"
+              ],
+              [
+                14,
+                "Bruce Dickinson"
+              ],
+              [
+                15,
+                "Buddy Guy"
+              ],
+              [
+                16,
+                "Caetano Veloso"
+              ],
+              [
+                17,
+                "Chico Buarque"
+              ],
+              [
+                18,
+                "Chico Science & Nação Zumbi"
+              ],
+              [
+                19,
+                "Cidade Negra"
+              ],
+              [
+                20,
+                "Cláudio Zoli"
+              ],
+              [
+                21,
+                "Various Artists"
+              ],
+              [
+                22,
+                "Led Zeppelin"
+              ],
+              [
+                23,
+                "Frank Zappa & Captain Beefheart"
+              ],
+              [
+                24,
+                "Marcos Valle"
+              ],
+              [
+                25,
+                "Milton Nascimento & Bebeto"
+              ],
+              [
+                26,
+                "Azymuth"
+              ],
+              [
+                27,
+                "Gilberto Gil"
+              ],
+              [
+                28,
+                "João Gilberto"
+              ],
+              [
+                29,
+                "Bebel Gilberto"
+              ],
+              [
+                30,
+                "Jorge Vercilo"
+              ],
+              [
+                31,
+                "Baby Consuelo"
+              ],
+              [
+                32,
+                "Ney Matogrosso"
+              ],
+              [
+                33,
+                "Luiz Melodia"
+              ],
+              [
+                34,
+                "Nando Reis"
+              ],
+              [
+                35,
+                "Pedro Luís & A Parede"
+              ],
+              [
+                36,
+                "O Rappa"
+              ],
+              [
+                37,
+                "Ed Motta"
+              ],
+              [
+                38,
+                "Banda Black Rio"
+              ],
+              [
+                39,
+                "Fernanda Porto"
+              ],
+              [
+                40,
+                "Os Cariocas"
+              ]
+            ],
+            "table": [
+              {
+                "artist_id": 1,
+                "name": "AC/DC"
+              },
+              {
+                "artist_id": 2,
+                "name": "Accept"
+              },
+              {
+                "artist_id": 3,
+                "name": "Aerosmith"
+              },
+              {
+                "artist_id": 4,
+                "name": "Alanis Morissette"
+              },
+              {
+                "artist_id": 5,
+                "name": "Alice In Chains"
+              },
+              {
+                "artist_id": 6,
+                "name": "Antônio Carlos Jobim"
+              },
+              {
+                "artist_id": 7,
+                "name": "Apocalyptica"
+              },
+              {
+                "artist_id": 8,
+                "name": "Audioslave"
+              },
+              {
+                "artist_id": 9,
+                "name": "BackBeat"
+              },
+              {
+                "artist_id": 10,
+                "name": "Billy Cobham"
+              },
+              {
+                "artist_id": 11,
+                "name": "Black Label Society"
+              },
+              {
+                "artist_id": 12,
+                "name": "Black Sabbath"
+              },
+              {
+                "artist_id": 13,
+                "name": "Body Count"
+              },
+              {
+                "artist_id": 14,
+                "name": "Bruce Dickinson"
+              },
+              {
+                "artist_id": 15,
+                "name": "Buddy Guy"
+              },
+              {
+                "artist_id": 16,
+                "name": "Caetano Veloso"
+              },
+              {
+                "artist_id": 17,
+                "name": "Chico Buarque"
+              },
+              {
+                "artist_id": 18,
+                "name": "Chico Science & Nação Zumbi"
+              },
+              {
+                "artist_id": 19,
+                "name": "Cidade Negra"
+              },
+              {
+                "artist_id": 20,
+                "name": "Cláudio Zoli"
+              },
+              {
+                "artist_id": 21,
+                "name": "Various Artists"
+              },
+              {
+                "artist_id": 22,
+                "name": "Led Zeppelin"
+              },
+              {
+                "artist_id": 23,
+                "name": "Frank Zappa & Captain Beefheart"
+              },
+              {
+                "artist_id": 24,
+                "name": "Marcos Valle"
+              },
+              {
+                "artist_id": 25,
+                "name": "Milton Nascimento & Bebeto"
+              },
+              {
+                "artist_id": 26,
+                "name": "Azymuth"
+              },
+              {
+                "artist_id": 27,
+                "name": "Gilberto Gil"
+              },
+              {
+                "artist_id": 28,
+                "name": "João Gilberto"
+              },
+              {
+                "artist_id": 29,
+                "name": "Bebel Gilberto"
+              },
+              {
+                "artist_id": 30,
+                "name": "Jorge Vercilo"
+              },
+              {
+                "artist_id": 31,
+                "name": "Baby Consuelo"
+              },
+              {
+                "artist_id": 32,
+                "name": "Ney Matogrosso"
+              },
+              {
+                "artist_id": 33,
+                "name": "Luiz Melodia"
+              },
+              {
+                "artist_id": 34,
+                "name": "Nando Reis"
+              },
+              {
+                "artist_id": 35,
+                "name": "Pedro Luís & A Parede"
+              },
+              {
+                "artist_id": 36,
+                "name": "O Rappa"
+              },
+              {
+                "artist_id": 37,
+                "name": "Ed Motta"
+              },
+              {
+                "artist_id": 38,
+                "name": "Banda Black Rio"
+              },
+              {
+                "artist_id": 39,
+                "name": "Fernanda Porto"
+              },
+              {
+                "artist_id": 40,
+                "name": "Os Cariocas"
+              }
+            ],
+            "row_count": 40,
+            "truncated": false
+          }
+        },
+        "named_artist_values": {
+          "sql": "SELECT artist_id, name FROM public.artist WHERE name IN ('Iron Maiden','Led Zeppelin','Metallica','U2','AC/DC','Queen','Deep Purple','Pink Floyd') ORDER BY artist_id;",
+          "result": {
+            "columns": [
+              "artist_id",
+              "name"
+            ],
+            "rows": [
+              [
+                1,
+                "AC/DC"
+              ],
+              [
+                22,
+                "Led Zeppelin"
+              ],
+              [
+                50,
+                "Metallica"
+              ],
+              [
+                51,
+                "Queen"
+              ],
+              [
+                58,
+                "Deep Purple"
+              ],
+              [
+                90,
+                "Iron Maiden"
+              ],
+              [
+                120,
+                "Pink Floyd"
+              ],
+              [
+                150,
+                "U2"
+              ]
+            ],
+            "table": [
+              {
+                "artist_id": 1,
+                "name": "AC/DC"
+              },
+              {
+                "artist_id": 22,
+                "name": "Led Zeppelin"
+              },
+              {
+                "artist_id": 50,
+                "name": "Metallica"
+              },
+              {
+                "artist_id": 51,
+                "name": "Queen"
+              },
+              {
+                "artist_id": 58,
+                "name": "Deep Purple"
+              },
+              {
+                "artist_id": 90,
+                "name": "Iron Maiden"
+              },
+              {
+                "artist_id": 120,
+                "name": "Pink Floyd"
+              },
+              {
+                "artist_id": 150,
+                "name": "U2"
+              }
+            ],
+            "row_count": 8,
+            "truncated": false
+          }
+        },
+        "date_evidence": {
+          "sql": "SELECT MIN(invoice_date) AS first_date, MAX(invoice_date) AS last_date, COUNT(*) AS invoices FROM public.invoice;",
+          "result": {
+            "columns": [
+              "first_date",
+              "last_date",
+              "invoices"
+            ],
+            "rows": [
+              [
+                "2021-01-01T00:00:00",
+                "2025-12-22T00:00:00",
+                412
+              ]
+            ],
+            "table": [
+              {
+                "first_date": "2021-01-01T00:00:00",
+                "last_date": "2025-12-22T00:00:00",
+                "invoices": 412
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          }
+        },
+        "billing_customer_difference": {
+          "sql": "SELECT COUNT(*) AS differences FROM public.invoice i JOIN public.customer c ON i.customer_id=c.customer_id WHERE i.billing_country IS DISTINCT FROM c.country;",
+          "result": {
+            "columns": [
+              "differences"
+            ],
+            "rows": [
+              [
+                0
+              ]
+            ],
+            "table": [
+              {
+                "differences": 0
+              }
+            ],
+            "row_count": 1,
+            "truncated": false
+          }
+        }
+      },
+      "adjudication_notes": [
+        "Plan table's blanket L2 comparison wording is read with its explicit required/derivable fields: fully specified comparison is L0, missing current period/denominator is L2.",
+        "Approved metric definitions require explicit period for repeat customers/popular tracks; missing period is not silently filled even when plan examples omit it.",
+        "Top10 is the technical default explicitly present in total plan 3.6.4 ranking.defaults.top_n; record this basis on any such L1 case.",
+        "No global object-free purchase/popularity default; customer-object buy-most is amount, track-object popular is purchased quantity.",
+        "approved_candidate is a candidate relationship only, never an automatic unique binding; pending aliases disabled.",
+        "Residence and billing countries have different meanings even though current 412-invoice snapshot shows no differences.",
+        "Dates 2021-2025 are available, not evidence of complete years. Explicit outside-date or outside-entity queries remain exact no-match boundaries."
+      ]
+    },
+    "cases": [
+      {
+        "id": "sp03-01",
+        "family_id": "special-fam-03-standard-l0-2020-sales-null",
+        "task": "03",
+        "category": "L0",
+        "input": "Chinook 里2020年全年的发票销售额是多少？如果那一年没有发票记录，请直接说没有可用记录，不要用0代替。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "history": [],
+        "expected_behavior": "execute",
+        "allowed_interpretations": [
+          "按发票销售额 SUM(invoice.total)，期间为 invoice_date 在 [2020-01-01, 2021-01-01) 的发票；无记录时 SUM 为 NULL，回答没有可用销售记录"
+        ],
+        "expected_bindings": [],
+        "missing_conditions": [],
+        "business_basis": [
+          {
+            "source": "confirmed_business_rules.metrics[sales_revenue]",
+            "rule": "销售额发票粒度用 SUM(invoice.total)；空 SUM 返回 NULL，不能静默替换为 0"
+          },
+          {
+            "source": "confirmed_business_rules.general.period",
+            "rule": "期间左闭右开；用户已明确2020年，无需追问；2020年无数据是精确无匹配边界"
+          }
+        ],
+        "reference_intent": {
+          "metric": "sales_revenue",
+          "time_scope": {
+            "year": 2020,
+            "range": "[2020-01-01, 2021-01-01)"
+          },
+          "object": "all invoices"
+        },
+        "gold_sql": "SELECT SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2020-01-01' AND invoice_date < DATE '2021-01-01';",
+        "case_style": "standard",
+        "secondary_tags": [
+          "year_boundary",
+          "null_on_empty",
+          "no_zero_substitution"
+        ],
+        "controller": null,
+        "generation_call_id": "generate-03-pilot-01",
+        "generation_stage": "pilot",
+        "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+        "dataset_label": "本轮合成开发数据",
+        "split": "dev",
+        "reference_version": "special-dev-v1",
+        "human_review_status": "pending_human_review",
+        "gold_result": {
+          "columns": [
+            "revenue"
+          ],
+          "rows": [
+            [
+              null
+            ]
+          ],
+          "table": [
+            {
+              "revenue": null
+            }
+          ],
+          "row_count": 1,
+          "truncated": false
+        },
+        "auto_status": "passed",
+        "auto_issues": [],
+        "dataset_version": "special-dev-v4-format-normalized-before-v0",
+        "raw_expected_bindings": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2020-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2021-01-01"
+          }
+        ],
+        "expected_predicates": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2020-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2021-01-01"
+          }
+        ],
+        "expected_aggregations": [],
+        "expected_unresolved_constraints": [],
+        "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+        "expected_final_intent": {
+          "metric": "sales_revenue",
+          "time_scope": {
+            "year": 2020,
+            "range": "[2020-01-01, 2021-01-01)"
+          },
+          "object": "all invoices"
+        }
+      },
+      {
+        "id": "sp03-02",
+        "family_id": "special-fam-01-standard-country-count",
+        "task": "03",
+        "category": "L0",
+        "input": "How many customers reside in France?",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "history": [],
+        "expected_behavior": "execute",
+        "allowed_interpretations": [
+          "按客户所在地 customer.country = 'France' 统计客户数"
+        ],
+        "expected_bindings": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "France"
+          }
+        ],
+        "missing_conditions": [],
+        "business_basis": [
+          {
+            "source": "confirmed_business_rules.general.region",
+            "rule": "customer.country 表示客户所在地，与 invoice.billing_country 的账单地址含义不同"
+          },
+          {
+            "source": "approved_aliases a-b25098af9fa5b17a / a-ca229f69098da675",
+            "rule": "法国/法兰西 -> France；approved 别名可直接唯一绑定"
+          }
+        ],
+        "reference_intent": {
+          "metric": "customer_count",
+          "object": "customer",
+          "region_scope": {
+            "column": "customer.country",
+            "value": "France"
+          }
+        },
+        "gold_sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'France';",
+        "case_style": "standard",
+        "secondary_tags": [
+          "country_scope",
+          "customer_count"
+        ],
+        "controller": null,
+        "generation_call_id": "generate-03-pilot-01",
+        "generation_stage": "pilot",
+        "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+        "dataset_label": "本轮合成开发数据",
+        "split": "dev",
+        "reference_version": "special-dev-v1",
+        "human_review_status": "pending_human_review",
+        "generated_family_id": "special-fam-04-standard-l0-france-customer-count",
+        "family_normalization_basis": "Same canonical SQL structure and complete query conditions; no result-based grouping",
+        "gold_result": {
+          "columns": [
+            "customer_count"
+          ],
+          "rows": [
+            [
+              5
+            ]
+          ],
+          "table": [
+            {
+              "customer_count": 5
+            }
+          ],
+          "row_count": 1,
+          "truncated": false
+        },
+        "auto_status": "passed",
+        "auto_issues": [],
+        "dataset_version": "special-dev-v4-format-normalized-before-v0",
+        "raw_expected_bindings": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "France"
+          }
+        ],
+        "expected_predicates": [],
+        "expected_aggregations": [],
+        "expected_unresolved_constraints": [],
+        "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+        "expected_final_intent": {
+          "metric": "customer_count",
+          "object": "customer",
+          "region_scope": {
+            "column": "customer.country",
+            "value": "France"
+          }
+        }
+      },
+      {
+        "id": "sp03-03",
+        "family_id": "special-fam-05-standard-l0-year-over-year-revenue",
+        "task": "03",
+        "category": "L0",
+        "input": "2024年巴西的销售额同比2023年增长了多少？",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "history": [],
+        "expected_behavior": "execute",
+        "allowed_interpretations": [
+          "同比：当前完整期间为2024全年 [2024-01-01, 2025-01-01)，基期由同比类型推导为2023全年 [2023-01-01, 2024-01-01)；销售额用 SUM(invoice.total)；地区按客户所在地 customer.country='Brazil'"
+        ],
+        "expected_bindings": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil"
+          }
+        ],
+        "missing_conditions": [],
+        "business_basis": [
+          {
+            "source": "total_plan_semantic_gate §3.6.4 clarify_rules.yaml growth.derivable",
+            "rule": "同比在 current + comparison.type 齐全时可由规则唯一推导基期，非比较类缺条件才降级"
+          },
+          {
+            "source": "confirmed_business_rules.metrics[sales_revenue]",
+            "rule": "销售额发票粒度 SUM(invoice.total)，JOIN 明细后不能重复累加发票总额"
+          },
+          {
+            "source": "approved_aliases a-cf1b483ec6900d1a / a-48667df2696e251c",
+            "rule": "巴西 -> Brazil，approved 别名唯一绑定"
+          }
+        ],
+        "reference_intent": {
+          "metric": "sales_revenue",
+          "time_scope": {
+            "current": {
+              "year": 2024,
+              "range": "[2024-01-01, 2025-01-01)"
+            },
+            "base": {
+              "year": 2023,
+              "range": "[2023-01-01, 2024-01-01)"
+            },
+            "comparison": "year_over_year"
+          },
+          "region_scope": {
+            "column": "customer.country",
+            "value": "Brazil"
+          }
+        },
+        "gold_sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE c.country = 'Brazil' AND invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2025-01-01';",
+        "case_style": "standard",
+        "secondary_tags": [
+          "year_over_year",
+          "derived_base_period",
+          "comparison_l0"
+        ],
+        "controller": null,
+        "generation_call_id": "generate-03-pilot-01",
+        "generation_stage": "pilot",
+        "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+        "dataset_label": "本轮合成开发数据",
+        "split": "dev",
+        "reference_version": "special-dev-v1",
+        "human_review_status": "pending_human_review",
+        "gold_result": {
+          "columns": [
+            "yoy_growth_rate"
+          ],
+          "rows": [
+            [
+              "1.7000000000000000"
+            ]
+          ],
+          "table": [
+            {
+              "yoy_growth_rate": "1.7000000000000000"
+            }
+          ],
+          "row_count": 1,
+          "truncated": false
+        },
+        "auto_status": "passed",
+        "auto_issues": [],
+        "dataset_version": "special-dev-v4-format-normalized-before-v0",
+        "raw_expected_bindings": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2023-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2025-01-01"
+          },
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil"
+          }
+        ],
+        "expected_predicates": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2023-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2025-01-01"
+          }
+        ],
+        "expected_aggregations": [],
+        "expected_unresolved_constraints": [],
+        "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+        "expected_final_intent": {
+          "metric": "sales_revenue",
+          "time_scope": {
+            "current": {
+              "year": 2024,
+              "range": "[2024-01-01, 2025-01-01)"
+            },
+            "base": {
+              "year": 2023,
+              "range": "[2023-01-01, 2024-01-01)"
+            },
+            "comparison": "year_over_year"
+          },
+          "region_scope": {
+            "column": "customer.country",
+            "value": "Brazil"
+          }
+        }
+      },
+      {
+        "id": "sp03-04",
+        "family_id": "special-fam-06-ranking-top10-tracks-technical-default",
+        "task": "03",
+        "category": "L1",
+        "input": "2023年按销售额排名最高的曲目。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "history": [],
+        "expected_behavior": "execute_with_assumption：初次原题未给数量，按总计划 ranking.defaults.top_n=10 默认执行，并声明假设与可切换口径；missing_conditions 为空。",
+        "allowed_interpretations": [
+          "默认 Top10 按销售额（曲目粒度 SUM(invoice_line.unit_price * invoice_line.quantity) ）降序排列",
+          "可切换为购买数量 SUM(invoice_line.quantity) 或歌单收录数 COUNT(playlist_track.playlist_id)，切换需声明假设"
+        ],
+        "expected_bindings": [],
+        "missing_conditions": [],
+        "business_basis": [
+          {
+            "source": "total_plan_semantic_gate §3.6.4 clarify_rules.yaml ranking.defaults.top_n=10",
+            "rule": "排名 metric/object 明确而数量未定时，Top10 来自总计划 ranking.defaults.top_n=10，属已登记技术默认，故非 missing"
+          },
+          {
+            "source": "confirmed_business_rules.metrics[sales_revenue].alternative",
+            "rule": "曲目/艺术家金额用 SUM(invoice_line.unit_price * invoice_line.quantity)，按 invoice_date 过滤，避免 JOIN 后重复 SUM(invoice.total)"
+          },
+          {
+            "source": "confirmed_business_rules.metrics[sales_revenue].tie_breaker",
+            "rule": "并列排序使用 track_id 升序"
+          },
+          {
+            "source": "confirmed_business_rules.metrics[popular_tracks].alternatives",
+            "rule": "可切换口径为购买数量与歌单收录数，切换需声明假设"
+          }
+        ],
+        "reference_intent": {
+          "metric": "track_sales_revenue",
+          "rank_object": "track",
+          "time_scope": {
+            "year": 2023,
+            "range": "[2023-01-01, 2024-01-01)"
+          },
+          "top_n": 10
+        },
+        "gold_sql": "SELECT track_id, SUM(unit_price * quantity) AS track_revenue FROM public.invoice_line WHERE invoice_id IN (SELECT invoice_id FROM public.invoice WHERE invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01') GROUP BY track_id ORDER BY track_revenue DESC, track_id ASC LIMIT 10;",
+        "case_style": "top_n_technical_default",
+        "secondary_tags": [
+          "ranking",
+          "top10_default",
+          "track_level_amount"
+        ],
+        "controller": null,
+        "generation_call_id": "repair-pilot-01",
+        "generation_stage": "pilot",
+        "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+        "dataset_label": "本轮合成开发数据",
+        "split": "dev",
+        "reference_version": "special-dev-v2-pilot-repaired-before-v0",
+        "human_review_status": "pending_human_review",
+        "auto_status": "passed",
+        "auto_issues": [],
+        "revision_note": "原题面明写 Top10 与 missing top_n 矛盾：按 correction 指引去掉了原题面的'给我Top10'，使初次原题不含数量，Top10 来自总计划 ranking.defaults.top_n=10，missing_conditions 置空，basis 显式声明计划来源。原 gold_result 已删除。",
+        "revision_reason": "L1却明确写Top10又missing top_n矛盾；若用Top10技术默认应原题未给数量，basis明确计划来源，默认执行后missing_conditions应为空。",
+        "original_generation_call_id": "generate-03-pilot-01",
+        "gold_result": {
+          "columns": [
+            "track_id",
+            "track_revenue"
+          ],
+          "rows": [
+            [
+              2821,
+              "1.99"
+            ],
+            [
+              2827,
+              "1.99"
+            ],
+            [
+              2833,
+              "1.99"
+            ],
+            [
+              2839,
+              "1.99"
+            ],
+            [
+              2845,
+              "1.99"
+            ],
+            [
+              2851,
+              "1.99"
+            ],
+            [
+              2860,
+              "1.99"
+            ],
+            [
+              2869,
+              "1.99"
+            ],
+            [
+              2878,
+              "1.99"
+            ],
+            [
+              2887,
+              "1.99"
+            ]
+          ],
+          "table": [
+            {
+              "track_id": 2821,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2827,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2833,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2839,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2845,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2851,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2860,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2869,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2878,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2887,
+              "track_revenue": "1.99"
+            }
+          ],
+          "row_count": 10,
+          "truncated": false
+        },
+        "dataset_version": "special-dev-v4-format-normalized-before-v0",
+        "raw_expected_bindings": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2023-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2024-01-01"
+          },
+          {
+            "column": "invoice_line.track_id",
+            "operator": "GROUP BY",
+            "value": "track_id"
+          }
+        ],
+        "expected_predicates": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2023-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2024-01-01"
+          }
+        ],
+        "expected_aggregations": [
+          {
+            "column": "invoice_line.track_id",
+            "operator": "GROUP BY",
+            "value": "track_id"
+          }
+        ],
+        "expected_unresolved_constraints": [],
+        "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+        "expected_final_intent": {
+          "metric": "track_sales_revenue",
+          "rank_object": "track",
+          "time_scope": {
+            "year": 2023,
+            "range": "[2023-01-01, 2024-01-01)"
+          },
+          "top_n": 10
+        }
+      },
+      {
+        "id": "sp03-05",
+        "family_id": "special-fam-07-popular-2007-jazz-tracks-purchased-quantity",
+        "task": "03",
+        "category": "L1",
+        "input": "2007年最受欢迎的10首爵士曲目是哪些？",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "history": [],
+        "expected_behavior": "execute_with_assumption",
+        "allowed_interpretations": [
+          "最受欢迎按登记默认口径购买数量 SUM(invoice_line.quantity)，期间明确为2007年，对象曲目，数量明确10",
+          "可切换为按销售额 SUM(unit_price * quantity) 或按被收录歌单数 COUNT(playlist_track.playlist_id)，切换需声明假设",
+          "爵士 -> genre.name = 'Jazz'（approved 别名）"
+        ],
+        "expected_bindings": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Jazz"
+          }
+        ],
+        "missing_conditions": [],
+        "business_basis": [
+          {
+            "source": "total_plan_semantic_gate §3.6.4 ambiguities.popularity.default",
+            "rule": "热门曲目有登记默认 by_quantity，对应 SUM(invoice_line.quantity)；属于L1默认口径"
+          },
+          {
+            "source": "confirmed_business_rules.metrics[popular_tracks]",
+            "rule": "曲目对象最受欢迎默认购买数量；并列按 track_id 升序"
+          },
+          {
+            "source": "approved_aliases a-ae481372f2653475 / a-f3ab57aac4760fac",
+            "rule": "爵士/爵士乐 -> Jazz；approved 别名唯一绑定"
+          }
+        ],
+        "reference_intent": {
+          "metric": "purchased_quantity",
+          "rank_object": "track",
+          "time_scope": {
+            "year": 2007,
+            "range": "[2007-01-01, 2008-01-01)"
+          },
+          "genre": "Jazz",
+          "top_n": 10
+        },
+        "gold_sql": "SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id JOIN public.genre g ON g.genre_id = t.genre_id WHERE i.invoice_date >= DATE '2007-01-01' AND i.invoice_date < DATE '2008-01-01' AND g.name = 'Jazz' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+        "case_style": "default_switchable",
+        "secondary_tags": [
+          "popularity_default",
+          "purchased_quantity",
+          "genre_scope",
+          "year_scope"
+        ],
+        "controller": null,
+        "generation_call_id": "generate-03-pilot-01",
+        "generation_stage": "pilot",
+        "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+        "dataset_label": "本轮合成开发数据",
+        "split": "dev",
+        "reference_version": "special-dev-v1",
+        "human_review_status": "pending_human_review",
+        "gold_result": {
+          "columns": [
+            "track_id",
+            "purchased_quantity"
+          ],
+          "rows": [],
+          "table": [],
+          "row_count": 0,
+          "truncated": false
+        },
+        "auto_status": "passed",
+        "auto_issues": [],
+        "dataset_version": "special-dev-v4-format-normalized-before-v0",
+        "raw_expected_bindings": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2007-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2008-01-01"
+          },
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Jazz"
+          }
+        ],
+        "expected_predicates": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2007-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2008-01-01"
+          }
+        ],
+        "expected_aggregations": [],
+        "expected_unresolved_constraints": [],
+        "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+        "expected_final_intent": {
+          "metric": "purchased_quantity",
+          "rank_object": "track",
+          "time_scope": {
+            "year": 2007,
+            "range": "[2007-01-01, 2008-01-01)"
+          },
+          "genre": "Jazz",
+          "top_n": 10
+        }
+      }
+    ],
+    "actual_program_checks": [
+      {
+        "id": "sp03-01",
+        "status": "passed",
+        "issues": [],
+        "sql_checks": [
+          {
+            "label": "final",
+            "sql": "SELECT SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2020-01-01' AND invoice_date < DATE '2021-01-01';",
+            "tables": [
+              "invoice"
+            ],
+            "result": {
+              "columns": [
+                "revenue"
+              ],
+              "rows": [
+                [
+                  null
+                ]
+              ],
+              "table": [
+                {
+                  "revenue": null
+                }
+              ],
+              "row_count": 1,
+              "truncated": false
+            },
+            "status": "executed_readonly"
+          }
+        ]
+      },
+      {
+        "id": "sp03-02",
+        "status": "passed",
+        "issues": [],
+        "sql_checks": [
+          {
+            "label": "final",
+            "sql": "SELECT COUNT(*) AS customer_count FROM public.customer WHERE country = 'France';",
+            "tables": [
+              "customer"
+            ],
+            "result": {
+              "columns": [
+                "customer_count"
+              ],
+              "rows": [
+                [
+                  5
+                ]
+              ],
+              "table": [
+                {
+                  "customer_count": 5
+                }
+              ],
+              "row_count": 1,
+              "truncated": false
+            },
+            "status": "executed_readonly"
+          }
+        ]
+      },
+      {
+        "id": "sp03-03",
+        "status": "passed",
+        "issues": [],
+        "sql_checks": [
+          {
+            "label": "final",
+            "sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE c.country = 'Brazil' AND invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2025-01-01';",
+            "tables": [
+              "customer",
+              "invoice"
+            ],
+            "result": {
+              "columns": [
+                "yoy_growth_rate"
+              ],
+              "rows": [
+                [
+                  "1.7000000000000000"
+                ]
+              ],
+              "table": [
+                {
+                  "yoy_growth_rate": "1.7000000000000000"
+                }
+              ],
+              "row_count": 1,
+              "truncated": false
+            },
+            "status": "executed_readonly"
+          }
+        ]
+      },
+      {
+        "id": "sp03-04",
+        "status": "passed",
+        "issues": [],
+        "sql_checks": [
+          {
+            "label": "final",
+            "sql": "SELECT track_id, SUM(unit_price * quantity) AS track_revenue FROM public.invoice_line WHERE invoice_id IN (SELECT invoice_id FROM public.invoice WHERE invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01') GROUP BY track_id ORDER BY track_revenue DESC, track_id ASC LIMIT 10;",
+            "tables": [
+              "invoice",
+              "invoice_line"
+            ],
+            "result": {
+              "columns": [
+                "track_id",
+                "track_revenue"
+              ],
+              "rows": [
+                [
+                  2821,
+                  "1.99"
+                ],
+                [
+                  2827,
+                  "1.99"
+                ],
+                [
+                  2833,
+                  "1.99"
+                ],
+                [
+                  2839,
+                  "1.99"
+                ],
+                [
+                  2845,
+                  "1.99"
+                ],
+                [
+                  2851,
+                  "1.99"
+                ],
+                [
+                  2860,
+                  "1.99"
+                ],
+                [
+                  2869,
+                  "1.99"
+                ],
+                [
+                  2878,
+                  "1.99"
+                ],
+                [
+                  2887,
+                  "1.99"
+                ]
+              ],
+              "table": [
+                {
+                  "track_id": 2821,
+                  "track_revenue": "1.99"
+                },
+                {
+                  "track_id": 2827,
+                  "track_revenue": "1.99"
+                },
+                {
+                  "track_id": 2833,
+                  "track_revenue": "1.99"
+                },
+                {
+                  "track_id": 2839,
+                  "track_revenue": "1.99"
+                },
+                {
+                  "track_id": 2845,
+                  "track_revenue": "1.99"
+                },
+                {
+                  "track_id": 2851,
+                  "track_revenue": "1.99"
+                },
+                {
+                  "track_id": 2860,
+                  "track_revenue": "1.99"
+                },
+                {
+                  "track_id": 2869,
+                  "track_revenue": "1.99"
+                },
+                {
+                  "track_id": 2878,
+                  "track_revenue": "1.99"
+                },
+                {
+                  "track_id": 2887,
+                  "track_revenue": "1.99"
+                }
+              ],
+              "row_count": 10,
+              "truncated": false
+            },
+            "status": "executed_readonly"
+          }
+        ]
+      },
+      {
+        "id": "sp03-05",
+        "status": "passed",
+        "issues": [],
+        "sql_checks": [
+          {
+            "label": "final",
+            "sql": "SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id JOIN public.genre g ON g.genre_id = t.genre_id WHERE i.invoice_date >= DATE '2007-01-01' AND i.invoice_date < DATE '2008-01-01' AND g.name = 'Jazz' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+            "tables": [
+              "genre",
+              "invoice",
+              "invoice_line",
+              "track"
+            ],
+            "result": {
+              "columns": [
+                "track_id",
+                "purchased_quantity"
+              ],
+              "rows": [],
+              "table": [],
+              "row_count": 0,
+              "truncated": false
+            },
+            "status": "executed_readonly"
+          }
+        ]
+      }
+    ],
+    "independent_pass": 1,
+    "other_pass_judgments": "withheld"
+  },
+  "response_schema": {
+    "$defs": {
+      "ReviewItem": {
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "verdict": {
+            "enum": [
+              "pass",
+              "disputed",
+              "reject"
+            ],
+            "title": "Verdict",
+            "type": "string"
+          },
+          "semantic_sql_check": {
+            "enum": [
+              "pass",
+              "disputed",
+              "not_applicable"
+            ],
+            "title": "Semantic Sql Check",
+            "type": "string"
+          },
+          "classification_check": {
+            "enum": [
+              "pass",
+              "disputed"
+            ],
+            "title": "Classification Check",
+            "type": "string"
+          },
+          "binding_check": {
+            "enum": [
+              "pass",
+              "disputed"
+            ],
+            "title": "Binding Check",
+            "type": "string"
+          },
+          "controller_check": {
+            "enum": [
+              "pass",
+              "disputed",
+              "not_applicable"
+            ],
+            "title": "Controller Check",
+            "type": "string"
+          },
+          "reason": {
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          },
+          "evidence": {
+            "items": {},
+            "minItems": 1,
+            "title": "Evidence",
+            "type": "array"
+          },
+          "issues": {
+            "items": {},
+            "title": "Issues",
+            "type": "array"
+          },
+          "suggested_corrections": {
+            "default": null,
+            "title": "Suggested Corrections"
+          }
+        },
+        "required": [
+          "id",
+          "verdict",
+          "semantic_sql_check",
+          "classification_check",
+          "binding_check",
+          "controller_check",
+          "reason",
+          "evidence",
+          "issues"
+        ],
+        "title": "ReviewItem",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "reviews": {
+        "items": {
+          "$ref": "#/$defs/ReviewItem"
+        },
+        "title": "Reviews",
+        "type": "array"
+      },
+      "notes": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Notes",
+        "type": "array"
+      }
+    },
+    "required": [
+      "reviews"
+    ],
+    "title": "ReviewBatch",
+    "type": "object"
+  },
+  "generation_config": {
+    "model": "deepseek-flash",
+    "max_attempts": 3,
+    "max_tokens": 12000,
+    "timeout_seconds": 180,
+    "thinking": false
+  }
+}

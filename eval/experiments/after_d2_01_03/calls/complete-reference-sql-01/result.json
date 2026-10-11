@@ -1,0 +1,68 @@
+{
+  "annotations": [
+    {
+      "id": "sp03-06",
+      "gold_sql": "WITH cur AS (SELECT SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01'), base AS (SELECT SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01') SELECT cur.revenue AS current_year_revenue, base.revenue AS base_year_revenue, CASE WHEN base.revenue IS NULL OR base.revenue = 0 THEN NULL ELSE (cur.revenue - base.revenue) / base.revenue END AS yoy_growth_rate FROM cur CROSS JOIN base;",
+      "business_basis": [
+        "confirmed_business_rules.metrics[sales_revenue]: 发票粒度销售额 = SUM(invoice.total)",
+        "controller.final_intent.time_scope.current = [2024-01-01, 2025-01-01)，comparison = year_over_year，base 由同比推导 = [2023-01-01, 2024-01-01)",
+        "confirmed_business_rules.general.date_field = invoice.invoice_date；期间左闭右开；零分母返回 NULL"
+      ],
+      "issues": [
+        "初始输入缺 time_scope.current，按 total_plan growth 规则应为 L2 澄清；此处仅按已给出的允许补充 2024 年与 2023 年同比写 SQL，不重新选择年份。",
+        "该最终意图为同期销售额的同比增长；SQL 同时返回两期金额与增长率，所有只读聚合均来自已确认口径。"
+      ]
+    },
+    {
+      "id": "sp03-07",
+      "gold_sql": "SELECT CASE WHEN SUM(total) IS NULL OR SUM(total) = 0 THEN NULL ELSE SUM(total) FILTER (WHERE billing_country = 'USA') / SUM(total) END AS usa_billing_share FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+      "business_basis": [
+        "confirmed_business_rules.general.region: invoice.billing_country 为发票账单地址国，原题明写账单国故绑定 billing_country，不与 customer.country 合并",
+        "controller.final_intent: 分子为 2024 年 billing_country='USA' 的 SUM(invoice.total)，分母为 2024 年全球 SUM(invoice.total)",
+        "confirmed_business_rules.metrics[sales_revenue]: 发票粒度 SUM(invoice.total)",
+        "期间左闭右开；空分母/零分母返回 NULL"
+      ],
+      "issues": [
+        "初始缺 denominator 属 ratio 类 L2，已按允许补充取 2024 年全球总销售额；未使用 customer.country。"
+      ]
+    },
+    {
+      "id": "sp03-21",
+      "gold_sql": "WITH cur AS (SELECT SUM(i.total) AS revenue FROM public.invoice i JOIN public.customer c ON c.customer_id = i.customer_id WHERE c.country = 'Germany' AND i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01'), base AS (SELECT SUM(i.total) AS revenue FROM public.invoice i JOIN public.customer c ON c.customer_id = i.customer_id WHERE c.country = 'Germany' AND i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01') SELECT cur.revenue AS current_year_revenue, base.revenue AS base_year_revenue, CASE WHEN base.revenue IS NULL OR base.revenue = 0 THEN NULL ELSE (cur.revenue - base.revenue) / base.revenue END AS yoy_growth_rate FROM cur CROSS JOIN base;",
+      "business_basis": [
+        "controller.final_intent.region = {column: customer.country, value: Germany}，即客户居住地口径，不是账单国",
+        "controller.final_intent.time_scope: current=[2024-01-01, 2025-01-01)，base=[2023-01-01, 2024-01-01)，comparison=year_over_year",
+        "confirmed_business_rules.metrics[sales_revenue]: 发票粒度 SUM(invoice.total)；日期字段 invoice.invoice_date；期间左闭右开；零分母 NULL"
+      ],
+      "issues": [
+        "初始输入缺当前年份属 growth 类 L2，已按允许补充取 2024 年整年并推导 2023 年基期。"
+      ]
+    },
+    {
+      "id": "sp03-22",
+      "gold_sql": "SELECT CASE WHEN SUM(total) IS NULL OR SUM(total) = 0 THEN NULL ELSE SUM(total) FILTER (WHERE customer_id IN (SELECT c.customer_id FROM public.customer c WHERE c.country = 'France')) / SUM(total) END AS france_resident_share FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+      "business_basis": [
+        "controller.final_intent.numerator.region = {column: customer.country, value: France}，即法国居住客户口径",
+        "controller.final_intent.denominator = {type: all_invoices_same_period, period: [2024-01-01, 2025-01-01)}",
+        "confirmed_business_rules.metrics[sales_revenue]: 发票粒度 SUM(invoice.total)；日期字段 invoice.invoice_date；期间左闭右开；零分母返回 NULL"
+      ],
+      "issues": [
+        "初始缺分母属 ratio 类 L2，已按允许补充取 2024 年所有发票销售额。",
+        "分子通过 customer_id 关联 customer.country='France'，未使用 invoice.billing_country。"
+      ]
+    },
+    {
+      "id": "sp03-23",
+      "gold_sql": "SELECT i.customer_id, SUM(i.total) AS amount FROM public.invoice i WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY i.customer_id ORDER BY amount DESC NULLS LAST, i.customer_id ASC LIMIT 1;",
+      "business_basis": [
+        "controller.final_intent.rank_object = customer, object_key = customer_id, metric = sales_revenue, metric_expression = SUM(invoice.total), period = [2023-01-01, 2024-01-01), top_n = 1",
+        "已确认口径: 有明确客户对象时 '客户谁买得最多' 采用金额定义；无对象时无全局默认",
+        "confirmed_business_rules.metrics[sales_revenue]: 发票粒度 SUM(invoice.total)；稳定排序使用 customer_id ASC"
+      ],
+      "issues": [
+        "初始缺 rank_object，按规则应先澄清；此处仅按允许补充对象为客户写 SQL。",
+        "题目不允许输出客户联系人字段或值，故仅返回 customer_id 与金额。"
+      ]
+    }
+  ]
+}

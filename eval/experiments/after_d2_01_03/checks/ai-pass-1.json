@@ -1,0 +1,1042 @@
+{
+  "review_type": "AI",
+  "independent_call_context": true,
+  "no_human_signature": true,
+  "reviews": [
+    {
+      "id": "sp01-01",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "标准类别、问客户数、明确 France；绑定 customer.country='France' 与规则一致（客户所在地）。SQL 对 customer 行计数，无时间条件，字段与聚合正确，输出 customer_count。",
+      "evidence": [
+        "cases[sp01-01].input",
+        "cases[sp01-01].gold_sql",
+        "live_database_facts.countries",
+        "confirmed_business_rules.general.region"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-02",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "别名类别；'Iron Maiden乐队' 是 approved 别名，唯一绑定 artist.name='Iron Maiden'。SQL 通过 album.artist_id FK 连接 artist 并统计专辑数，正确。",
+      "evidence": [
+        "approved_aliases_and_candidate_relations alias_id=a-7a0187a2e65d10ae status=approved",
+        "live_database_facts.named_artist_values artist_id=90",
+        "cases[sp01-02].gold_sql"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-03",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "别名类别且已修订为明确账单国语义：'德国的发票'绑定 invoice.billing_country='Germany'（approved），与客户所在地 country 区分。按发票粒度 SUM(invoice.total) 符合销售额定义。",
+      "evidence": [
+        "approved_aliases_and_candidate_relations alias_id=a-3414db81951a6279 status=approved",
+        "confirmed_business_rules.general.region",
+        "confirmed_business_rules.metrics.sales_revenue",
+        "cases[sp01-03].gold_sql"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-04",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "拼写错误类别；Frnace 在数据国家列表中不存在，明确更正为 France，不改变指标/期间/对象。SQL 与标准国家计数一致。",
+      "evidence": [
+        "live_database_facts.countries 含 France、不含 Frnace",
+        "cases[sp01-04].gold_sql"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-05",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "拼写错误类别；Metallcia 更正为 Metallica（数据库存在 artist_id=50 name='Metallica'），统计其专辑数。SQL 连接 album/artist 正确。",
+      "evidence": [
+        "live_database_facts.named_artist_values artist_id=50 name='Metallica'",
+        "cases[sp01-05].gold_sql"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-06",
+      "verdict": "disputed",
+      "semantic_sql_check": "not_applicable",
+      "classification_check": "disputed",
+      "binding_check": "disputed",
+      "controller_check": "pass",
+      "reason": "输入 'Deguo 有多少张专辑？' 中的 'Deguo' 不是任何已 approved 别名的唯一合法拼音：approved 列表中无 'Deguo' 别名，虽存在 Germany→'德国' 的 approved 别名，但其拼音为 'Deguo' 时也无法唯一指向艺术家/专辑维度；主题词'专辑'指向 album.artist_id→artist 维度，而 Germany 是国名，不能成为专辑归属实体。canonical_input='加拿大有多少张专辑？'（Canada）与输入 'Deguo'（德国）语义不一致，属明显改写错误。该 case 将 reference_intent 置空、expected_bindings 置空却把 L2 澄清作为答案是对的，但 canonical_input 改写错误且 auto_issues 把'One SELECT/CTE query required'当作 SQL 失败亦不当（L2 无 gold SQL 是允许的）。class 应为 L2 澄清而非可执行 count，故 classification 与 binding 均 disputed；controller 的允许补充与最终意图合理。",
+      "evidence": [
+        "cases[sp01-06].input=Deguo 有多少张专辑？",
+        "cases[sp01-06].canonical_input=加拿大有多少张专辑？",
+        "approved_aliases 中 Germany 别名 '德国' review_status=approved；无 'Deguo' 条目",
+        "named_artist_values 中无 Germany 艺术家",
+        "actual_program_checks[sp01-06].status=disputed"
+      ],
+      "issues": [
+        "canonical_input 把 'Deguo' 改写为 Canada/加拿大，明显语义不符",
+        "Deguo 在 approved 别名中无合法唯一绑定；'德国'→Germany 亦无法用于专辑计数",
+        "auto_issues 把 L2 无 gold SQL 误报为 sql_check 失败"
+      ],
+      "suggested_corrections": {
+        "canonical_input": "保留原义：'Deguo 有多少张专辑？'，不做国名替换",
+        "auto_issues": "移除 unexpected_missing_for_executable_case 与 sql_check:final 报错；L2 澄清无 gold SQL 属正常",
+        "note": "若确实要测试德语德国拼音，则应改写为可澄清的 L2 表达并明确允许指向 artist.name 或 customer.country 两种澄清路径"
+      }
+    },
+    {
+      "id": "sp01-07",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入 'Protected AAC audio file' 是混合语言但为 media_type.name 的精确值，live_database_facts.media_types 显示 media_type_id=2 恰为该名。gold_sql 用 track JOIN media_type ON t.media_type_id=mt.media_type_id WHERE mt.name='Protected AAC audio file' 统计 COUNT(*)，字段/FK 正确，无日期/NULL 边界问题，聚合粒度与粒度一致，输出列 track_count 正确，实际执行得 237。该 query 必要条件齐全且无歧义，属 L0 直接执行，不需澄清，故 controller=not_applicable。",
+      "evidence": [
+        "cases[sp01-07].input=Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+        "live_database_facts.media_types 中存在 name='Protected AAC audio file'",
+        "actual_program_checks[sp01-07] candidate:final executed_readonly 结果 237"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-08",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "'意大利那边' 是 customer.country='Italy' 的口语表达，'意大利'→Italy 为 approved 别名；live_database_facts.countries 确认 Italy 存在。gold_sql WHERE country='Italy' 统计 customer_count，对象与维度正确，无日期条件，输出列正确，实跑得 1。必要条件齐全无歧义，L0 直接执行，controller=not_applicable。",
+      "evidence": [
+        "cases[sp01-08].input=意大利那边现在有多少客户？",
+        "approved_aliases: customer.country 别名 '意大利'→'Italy' (approved)",
+        "actual_program_checks[sp01-08] executed_readonly 结果 1"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-09",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "'摇滚' 同时映射到 genre.name='Rock' 与 'Rock And Roll'，且 approved_aliases 中两者均为 approved_candidate（非唯一 approved），live_database_facts.genres 确认两条真实值存在。该 case 正确保留双候选、gold_sql=null、L2 澄清，未强行绑定任一方。candidate_sql 两个候选均在 genre 维上 JOIN track 统计 COUNT(*) 且 WHERE g.name 精确等值，粒度、FK、输出列均正确，实跑分别得 1297 与 12（数量差别大，印证需澄清）。属 multi_candidate L2，controller 为 null 合理。",
+      "evidence": [
+        "cases[sp01-09].expected_bindings 双候选 Rock / Rock And Roll",
+        "approved_aliases: Rock 与 Rock And Roll 均为 approved_candidate",
+        "live_database_facts.genres 含 genre_id=1 Rock 与 genre_id=5 Rock And Roll",
+        "actual_program_checks[sp01-09] candidate:Rock=1297, candidate:Rock And Roll=12"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-10",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "用户显式要求按字面值 genre.name='Vaporwave' 查询、无记录就报告没有记录，不得替换相近流派。live_database_facts.genres 的 25 个流派不含 'Vaporwave'。gold_sql 正确按精确等值统计 COUNT(*)，不替换、不扩充，实跑得 0，符合'明确不存在不替换'原则。必要条件齐全，属 L0 直接执行，controller=not_applicable；用户已给出空结果处理指令故不需追问。",
+      "evidence": [
+        "cases[sp01-10].input 明确'如果数据库里根本没有这个流派，请直接报告没有记录'",
+        "live_database_facts.genres 无 'Vaporwave'",
+        "actual_program_checks[sp01-10] executed_readonly 结果 0"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-01",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "用户明确指定2020全年并声明无记录时说没有可用记录、不用0代替。SQL用invoice_date左闭右开[2020-01-01,2021-01-01)对invoice.total做SUM，空集返回NULL，与sales_revenue及period规则一致；2020年早于实际最早发票2021-01-01，属精确无匹配边界；L0条件完整，无需澄清。",
+      "evidence": [
+        "source_materials.confirmed_business_rules.metrics[sales_revenue]: SUM(invoice.total), empty NULL",
+        "source_materials.confirmed_business_rules.general.period: Half-open [start,end)",
+        "case sp03-01 gold_sql/actual_program_checks: 2020范围SUM返回null",
+        "live_database_facts.date_evidence: first_date 2021-01-01"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-02",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "问法国客户数，customer.country=France，COUNT(*)是客户所在地语义，结果5。法国/法兰西为approved别名，可唯一绑定France；L0条件完整。",
+      "evidence": [
+        "source_materials.confirmed_business_rules.general.region: customer.country residence",
+        "approved_aliases a-b25098af9fa5b17a / a-ca229f69098da675",
+        "actual_program_checks sp03-02: COUNT(*)=5"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-03",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "同比任务已明确当前2024年、对比类型同比，因而基期2023年可由规则推导，不是缺失自由度；地区巴西按customer.country='Brazil'（approved唯一绑定）。SQL以左闭右开分别聚合2024与2023发票总额，分母NULLIF防零，未JOIN明细重复累加，同比L0判断符合总计划derivable规则。",
+      "evidence": [
+        "case sp03-03 allowed_interpretations/reference_intent: current 2024, base 2023 derived",
+        "total_plan_semantic_gate growth.derivable: base由current和comparison.type推导",
+        "approved_aliases a-cf1b483ec6900d1a / a-48667df2696e251c Brazil approved",
+        "actual_program_checks sp03-03: SUM(CASE...) / NULLIF(SUM(CASE...),0)"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-04",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "原题未给数量，对象曲目、指标销售额、期间2023明确，Top10来自总计划ranking.defaults技术默认，故为L1默认执行而非missing。SQL按曲目粒度SUM(unit_price*quantity)并用发票日期子查询过滤，避免重复累加invoice.total；并列track_id升序，LIMIT 10。结果中并列金额相同但按ID升序，top/tie处理正确。",
+      "evidence": [
+        "case sp03-04 revision_note:去掉题面Top10，缺top_n由ranking.defaults.top_n=10补",
+        "total_plan_semantic_gate ranking.defaults.top_n=10",
+        "confirmed_business_rules.metrics[sales_revenue].alternative: track级SUM(unit_price*quantity)",
+        "actual_program_checks sp03-04: GROUP BY track_id ORDER BY track_revenue DESC, track_id ASC LIMIT 10"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-05",
+      "verdict": "disputed",
+      "semantic_sql_check": "pass",
+      "classification_check": "disputed",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "SQL本身按登记默认购买数量、Jazz、2007左闭右开、track_id并列升序、LIMIT 10，语义无误，执行的0行也是精确无匹配边界。但“最受欢迎的10首”已明确top_n=10，而输入年份2007早于数据最小发票日期2021，属无数据期间。虽然业务规则不允许静默补期间，本任务关键是默认口径是否应直接执行；在可判定2007完全无发票的情况下，直接以L1“默认购买数量”作答会把不可用数据包装成“最受欢迎”的结论。即使不强制L2，至少应在此边界声明该期间无可用发票记录、不能给出排名，而非自动套用默认口径执行。classification应为disputed，其余检查通过。",
+      "evidence": [
+        "live_database_facts.date_evidence: first_date 2021-01-01, last_date 2025-12-22",
+        "actual_program_checks sp03-05: 2007 Jazz查询返回row_count 0",
+        "confirmed_business_rules.general.period: no missing period silently filled",
+        "total_plan_semantic_gate ambiguities.popularity: 最受欢迎默认by_quantity"
+      ],
+      "issues": [
+        "2007年完全早于实际发票数据范围，直接L1默认执行会产出无意义排名；应至少在答案中明确无可用发票记录，不能默认给出“最受欢迎”排名。",
+        "若把无数据期间视为需要暂停/说明的数据可用性问题，则分类不应是普通L1 execute_with_assumption。"
+      ],
+      "suggested_corrections": {
+        "classification": "在可判定该期间无发票数据时，不应仅按L1默认执行；需声明2007年无可用销售记录，无法给出该年最受欢迎曲目，或作为需要澄清数据不可用的场景处理。",
+        "expected_behavior": "changed from execute_with_assumption to clarify/declare no available data for 2007"
+      }
+    },
+    {
+      "id": "sp03-06",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“销售额同比增长多少？”缺当前期间，同比类型可由“同比”确定，基期由当前推导；metric 已由已审 sales_revenue 明确为发票粒度 SUM(invoice.total)，所以唯一缺失是 time_scope.current，属 L2 澄清，符合 growth 规则。gold_sql 在澄清为 2024 对比 2023 后使用左闭右开期间、发票粒度 SUM(total)，基期零分母返回 NULL，语义正确；post_completion_turn 调整为 2021 同比时条件仅年份变化，SQL 表达更新意图，虽 2020 基期无数据会得 NULL，但 NULLIF 处理正确。controller 的补充只填 asked missing time_scope.current，并推导 base，状态变化合理。",
+      "evidence": [
+        "cases[0].input",
+        "cases[0].missing_conditions=[time_scope.current]",
+        "cases[0].business_basis: sales_revenue=SUM(invoice.total)",
+        "cases[0].gold_sql 期间左闭右开",
+        "actual_program_checks[0].sql_checks[0].result current=477.53 base=469.58 rate≈0.01693",
+        "post_completion_turns[0].gold_sql 使用 NULLIF 处理 2020 基期"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-07",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“2024年账单国是美国的发票销售额占比是多少？”分子语义已明确为 2024 年 invoice.billing_country='USA' 的发票销售额，缺分母口径，ratio 缺 denominator 属 L2。初始不应预绑定唯一分母；gold_sql 在补充全球分母后使用 SUM(total) FILTER 分子/全球分母，空分母返回 NULL，期间左闭右开，未误用 customer.country。两条 post_completion 更换年份/国家后仅替换期间与账单国，保持既定分母与指标。",
+      "evidence": [
+        "cases[1].input 明写“账单国”",
+        "cases[1].missing_conditions=[denominator]",
+        "cases[1].business_basis general.region 区分 billing_country 与 customer.country",
+        "cases[1].gold_sql: SUM(total) FILTER (WHERE billing_country='USA') / SUM(total)",
+        "post_completion_turns 两 SQL 对应 2021 美国/德国占比",
+        "live_database_facts.billing_customer_difference=0 但规则仍区分语义"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-08",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "“2023年谁买得最多？”缺被排名对象（客户/曲目/艺术家），且无全局无对象购买默认，属 L2。澄清为“客户，看谁花的钱最多”后，按已登记附录客户买得最多用金额 SUM(invoice.total)，期间 2023 左闭右开，金额降序、并列 customer_id 升序、LIMIT 1；gold_sql 与 controller final_intent 一致。post_completion 仅改为 2022 年，意图与 SQL 同步更新且未改动对象/金额定义。",
+      "evidence": [
+        "cases[2].input",
+        "cases[2].missing_conditions=[rank_object]",
+        "cases[2].business_basis 附录“客户谁买得最多”金额定义，缺少对象无全局默认",
+        "cases[2].gold_sql: SUM(i.total), GROUP BY customer_id, ORDER BY amount DESC, customer_id ASC LIMIT 1",
+        "post_completion_turns SQL 同年换为 2022"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-09",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "“2024年摇滚曲目卖了多少张？”中“摇滚”存在 Rock 与 Rock And Roll 两个 approved_candidate，且 Rock And Roll 另有方案候选，候选不自动唯一绑定，需 L2/多候选澄清。补充“Rock，不是 Rock And Roll”后按 genre.name='Rock' 统计 SUM(invoice_line.quantity)，经 invoice_date 左闭右开过滤；明细数量口径符合热门曲目默认购买数量，未误用发票总额。post_completion 换 2023 年仅更新期间。",
+      "evidence": [
+        "cases[3].input",
+        "cases[3].missing_conditions=[value]",
+        "approved_aliases_and_candidate_relations 中 Rock/Rock And Roll 均为 approved_candidate 且 Rock And Roll 有 available 方案候选",
+        "cases[3].gold_sql: SUM(il.quantity) JOIN track/genre WHERE g.name='Rock' 与日期区间",
+        "actual_program_checks[3] result=164",
+        "post_completion_turns SQL 期间改为 2023"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-10",
+      "verdict": "disputed",
+      "semantic_sql_check": "pass",
+      "classification_check": "disputed",
+      "binding_check": "disputed",
+      "controller_check": "disputed",
+      "reason": "该题输入“2024年巴西的客户有多少？”已明确对象为客户、国家为巴西、年份为 2024；“巴西的客户”在通用规则中客户对象对应 customer.country 为客户居住国，不应因存在另一列 billing_country 就把 region_scope 设为缺失并暂停。若把自然语言“客户”改成按账单地址的客户会有不同含义，但已确认规则 general.region 明确 customer.country 是客户所在地；live facts 也仅说明快照两者相等不应合并语义，不等同于本题语义未定而必须澄清。因此按 L2 处理属过度澄清，且初次不预选 customer.country 有误。gold_sql 与 controller 补充后 SQL 本身语义正确，但分类、绑定和 controller hidden goal 与补充设计建立在不应缺失的条件上。",
+      "evidence": [
+        "cases[4].input: 2024年巴西的客户有多少？",
+        "confirmed_business_rules.general.region: customer.country 是客户所在地；invoice.billing_country 是账单地址，两者语义不同",
+        "cases[4].business_basis 自述“客户数聚合为 COUNT(DISTINCT customer_id)”且当前快照差异为0",
+        "cases[4].gold_sql 使用 customer.country='Brazil'，语义正确",
+        "cases[4].missing_conditions=[region_scope] 与本句“客户”对象冲突"
+      ],
+      "issues": [
+        "已明确“客户”对象时不应把 region_scope 标记为缺失并暂停澄清",
+        "controller 设计回答“客户所在地，不是账单地址”属于额外澄清而非原题必需条件"
+      ],
+      "suggested_corrections": {
+        "classification": "改为可直接执行或至多 L1 按 customer.country 默认；或者在题面明确客户所在地/账单地址冲突时才做 L2",
+        "binding": "初始即绑定 customer.country='Brazil'，无需等待 region_scope 澄清",
+        "controller": "final_intent 保留 customer.country 聚合；移除或改写 region_scope 缺失条件"
+      }
+    },
+    {
+      "id": "sp01-11",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入询问居住地为Canada的客户数量，主类别为standard且无歧义；customer.country在schema和业务规则中明确为客户所在地，live facts确认Canada为真实客户国家值。gold_sql在customer表按country='Canada'计数，字段、过滤、聚合粒度与输出均符合，实跑结果8；无别名、无期间、无默认口径问题。controller为null，不适用。",
+      "evidence": [
+        "cases[0].input: How many customers are from Canada?",
+        "cases[0].gold_sql: SELECT COUNT(*) FROM public.customer WHERE country = 'Canada'",
+        "live_database_facts.countries 包含 Canada",
+        "confirmed_business_rules.general.region: customer.country 是客户所在地",
+        "actual_program_checks.sp01-11: executed_readonly, customer_count=8"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-12",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入为France在2022年的发票销售额。业务规则将销售额定义为发票粒度SUM(invoice.total)，期间采用[2022-01-01,2023-01-01)左闭右开；case use invoice.billing_country 在 allowed_interpretations 中明确存在，且金标绑定到 billing_country。gold_sql对invoice.total求和并按billing_country='France'及正确日期边界过滤，无JOIN重复累加风险，实跑39.60。当前快照两个国家字段无差异，但业务上仍应按已绑定字段解释；此case绑定清晰。",
+      "evidence": [
+        "cases[1].input: What was the total invoice revenue for France in 2022?",
+        "cases[1].expected_bindings: invoice.billing_country = 'France'; invoice_date >= 2022-01-01; invoice_date < 2023-01-01",
+        "confirmed_business_rules.metrics.sales_revenue: invoice grain SUM(invoice.total)",
+        "confirmed_business_rules.general.period: half-open [start,end)",
+        "actual_program_checks.sp01-12: revenue=39.60"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-13",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入含 approved 别名“Iron Maiden乐队”，alias a-7a0187a2e65d10ae review_status=approved，唯一绑定artist.name='Iron Maiden'，不属于approved_candidate或pending。主类别alias成立；统计专辑数的对象和指标清晰。SQL通过album.artist_id关联artist并按artist.name过滤，FK正确，COUNT(*)为专辑粒度，实跑21。程序标记的duplicate_input:sp01-02不属于本case本身SQL或语义缺陷；作为独立预审只据当前材料不能确认重复源，且不影响本条正确性。",
+      "evidence": [
+        "cases[2].input: Iron Maiden乐队一共有多少张专辑？",
+        "approved_aliases_and_candidate_relations alias_id a-7a0187a2e65d10ae: status approved, artist.name='Iron Maiden', alias='Iron Maiden乐队'",
+        "schema: album.artist_id -> artist.artist_id",
+        "actual_program_checks.sp01-13: album_count=21"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-14",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入“法兰西共和国的发票一共开了多少张？”统计法国客户发票数。alias a-ca229f69098da675 approved，绑定customer.country='France'；同时billing_country也有approved同值别名，但业务规则保留两字段不同含义，reference_intent选择客户所在地口径，且gold_sql通过invoice.customer_id关联customer并按c.country过滤，FK正确、COUNT(*)发票粒度正确，跑得35。虽然两个字段当前快照无差异，但绑定与reference_intent一致且已在绑定中明确为customer.country，非歧义不唯一。",
+      "evidence": [
+        "cases[3].input: 法兰西共和国的发票一共开了多少张？",
+        "approved_aliases... customer.country alias a-ca229f69098da675 status approved; invoice.billing_country alias a-99f7789e108299a0 status approved",
+        "cases[3].reference_intent.filters: customer.country = 'France'",
+        "confirmed_business_rules.general.region: customer.country is residence; billing_country is billing address; meanings retained",
+        "actual_program_checks.sp01-14: invoice_count=35"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-15",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入含中文混合别名“受保护AAC音频文件”，对应 approved alias a-bfc4b2a75ae6d393，标准值media_type.name='Protected AAC audio file'，live_database_facts确认该媒体类型真实存在。SQL通过track.media_type_id关联media_type，按名称过滤并COUNT(*)曲目，FK与聚合粒度正确，实跑237。无期间、无L1/L2缺失条件问题。",
+      "evidence": [
+        "cases[4].input: 受保护AAC音频文件这种媒体格式有多少首曲目？",
+        "approved_aliases... alias_id a-bfc4b2a75ae6d393 status approved, media_type.name='Protected AAC audio file'",
+        "live_database_facts.media_types 包含 Protected AAC audio file",
+        "actual_program_checks.sp01-15: track_count=237"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-16",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入“U2乐队一共有多少张专辑？”中“U2乐队”为 approved 别名（a-a04cacbc074e2ac6，review_status=approved），唯一绑定 artist.name='U2'；named_artist_values 证实 artist_id=150 实体存在。查询为计数类，无时期条件，无歧义，L0 合理。gold_sql 连接 album→artist，按 ar.name='U2' 过滤，COUNT(DISTINCT album.album_id) 与题意“多少张专辑”一致；实跑 album_count=10，无 NULL/tie 问题。",
+      "evidence": [
+        "source_materials.approved_aliases_and_candidate_relations: U2/'U2乐队'/approved",
+        "live_database_facts.named_artist_values: artist_id=150,name='U2'",
+        "actual_program_checks.sp01-16: executed_readonly, album_count=10"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-17",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "“Fracne”是 France 的拼写变体（相邻换位），不改变对象/指标/期间；approved 国家别名与 live countries 均确证 France 存在于 customer.country。单国计数、无时期、无歧义，L0 合理。gold_sql 按 customer.country='France' 做 COUNT(*)，字段与粒度正确；实跑 customer_count=5。",
+      "evidence": [
+        "source_materials.live_database_facts.countries: France 在 24 个取值中",
+        "approved_aliases: customer.country='France', alias='法国' approved",
+        "actual_program_checks.sp01-17: executed_readonly, customer_count=5"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-18",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "“Led Zepelin”为 artist.name='Led Zeppelin' 的单字拼写错误（缺 p），named_artist_values 确证 artist_id=22。唯一实体、无时期、计数类，L0 合理。gold_sql JOIN album→artist，过滤 ar.name='Led Zeppelin'，COUNT(DISTINCT album.album_id) 语义正确；实跑 album_count=14。",
+      "evidence": [
+        "live_database_facts.named_artist_values: artist_id=22,name='Led Zeppelin'",
+        "approved_aliases: artist.name='Led Zeppelin', alias='Led Zeppelin乐队' approved",
+        "actual_program_checks.sp01-18: executed_readonly, album_count=14"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-19",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "“Canda”为 Canada 的拼写错误（字母换位），approved 别名与 live countries 均确证 Canada 在 customer.country 中。单国计数、无时期、无歧义，L0 合理。gold_sql 按 customer.country='Canada' 计数，实跑 customer_count=8，结果与预期一致。",
+      "evidence": [
+        "approved_aliases: customer.country='Canada', alias='加拿大', approved, a-3cc0be84e1794908",
+        "live_database_facts.countries: Canada 存在",
+        "actual_program_checks.sp01-19: executed_readonly, customer_count=8"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-20",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "“MPEG adiou file”为 media_type.name='MPEG audio file' 的字符换位拼写错误，不改变对象/指标；live media_types 确证 media_type_id=1,name='MPEG audio file'，approved 别名亦支持。计数类、无时期、无歧义，L0 合理。gold_sql 经 track→media_type 连接过滤 mt.name='MPEG audio file'，COUNT(*) 按曲目计正确；实跑 track_count=3034。",
+      "evidence": [
+        "live_database_facts.media_types: media_type_id=1,name='MPEG audio file'",
+        "approved_aliases: media_type.name='MPEG audio file', alias='MPEG音频文件' approved",
+        "actual_program_checks.sp01-20: executed_readonly, track_count=3034"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-21",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "拼音 Deguo 只还原为已真实存在且 approved 别名覆盖的 Germany 值，不改变对象/指标/期间。expected binding customer.country='Germany' 与 live facts 中 Germany 客户值一致；SQL 单表 COUNT(*) 语义正确，无期间缺失，无歧义。",
+      "evidence": [
+        "cases[0].input: Deguo 的客户有多少个？",
+        "cases[0].gold_sql: SELECT COUNT(*) ... WHERE country = 'Germany'",
+        "live_database_facts.countries 含 Germany",
+        "approved_aliases_and_candidate_relations: Germany/customer.country alias 德国 approved"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-22",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "Gudian 还原为 approved 覆盖的标准流派 Classical，未改变指标或对象；SQL 通过 track JOIN genre 按 genre.name 过滤再 COUNT(track_id)，FK 正确、无期间和其他歧义。",
+      "evidence": [
+        "cases[1].input: Gudian 这个流派的曲目有多少首？",
+        "cases[1].gold_sql: JOIN public.genre g ... WHERE g.name = 'Classical'",
+        "live_database_facts.genres 含 (24,'Classical')",
+        "approved_aliases_and_candidate_relations: Classical/genre.name alias 古典、古典音乐 approved"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-23",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "中英混合仅指代 customer 表与 Canada 客户居住国，approved 值 Canada 真实存在；SQL 对 customer 按 country 过滤 COUNT(*)，对象、国家和聚合均无歧义。",
+      "evidence": [
+        "cases[2].input: Canada 那边一共有多少 customers？",
+        "cases[2].gold_sql: SELECT COUNT(*) FROM public.customer WHERE country = 'Canada'",
+        "live_database_facts.countries 含 Canada",
+        "confirmed_business_rules.general.region 说明 customer.country=客户居住地"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-24",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "Iron Maiden 为真实 artist.name 标准值；题面 artist 与 albums 唯一对应 artist→album 计数，SQL JOIN 键正确、无期间/多候选歧义。",
+      "evidence": [
+        "cases[3].input: Iron Maiden 这个 artist 有多少 albums？",
+        "cases[3].gold_sql: JOIN public.artist ar ON al.artist_id=ar.artist_id WHERE ar.name='Iron Maiden'",
+        "live_database_facts.named_artist_values 含 (90,'Iron Maiden')",
+        "approved_aliases_and_candidate_relations: artist.name='Iron Maiden' 有 approved 别名"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-25",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "意大利对应 approved 的 Italy 客户居住国，未误用于 billing_country；按客户居住国联结 invoice 求和 SUM(invoice.total)，符合发票粒度销售额口径且无期间缺失。",
+      "evidence": [
+        "cases[4].input: 意大利那边的发票总共开了多少钱？",
+        "cases[4].gold_sql: SELECT SUM(i.total) FROM invoice i JOIN customer c ... WHERE c.country='Italy'",
+        "confirmed_business_rules.metrics[0]: sales_revenue=SUM(invoice.total), grain=invoice",
+        "confirmed_business_rules.general.region: customer.country 与 billing_country 含义不合并",
+        "approved_aliases_and_candidate_relations: Italy/customer.country alias 意大利 approved"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-26",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "'加拿大那边'经已批准别名唯一绑定 customer.country='Canada'（a-3cc0be84e1794908，review_status=approved），live facts 确认 Canada 在 customer.country 取值内。'现在有多少客户'是 COUNT 客户数，无时期含义，不应误当缺期间。gold_sql 正确计数 customer 表 country='Canada' 的行，无日期边界问题，结果 8 合理。",
+      "evidence": [
+        "cases[sp01-26].input",
+        "approved_aliases: Canada/加拿大 approved a-3cc0be84e1794908",
+        "live_database_facts.countries 含 Canada",
+        "actual_program_checks[sp01-26].sql_checks[0] final 返回 8"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-27",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "'摇滚'同时对应 genre 'Rock'(id=1) 与 'Rock And Roll'(id=5) 两个真实值，候选数量 1297 与 12 差别大，属 multi_candidate_value L2，应暂停澄清而非静默绑定。两条 candidate_sql 分别对曲目按 genre 名精确匹配计数，join 与聚合正确，无时期缺失问题。expected_bindings 用 in 表达候选集合与实际候选关系一致。",
+      "evidence": [
+        "cases[sp01-27].input 与 allowed_interpretations",
+        "live_database_facts.genres: 1 Rock, 5 Rock And Roll",
+        "approved_aliases: 摇滚→Rock approved_candidate a-cb69b4bf22161e6e；摇滚乐→Rock And Roll approved_candidate a-0e44ca874f4ba96f",
+        "actual_program_checks[sp01-27] 候选结果 1297/12"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-28",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "'金属'同时涉及 genre 'Metal'(id=3)、邻近值 'Heavy Metal'(id=13) 与 artist 'Metallica'，其中 '金属'对 Metallica 为 pending 别名（禁用），对 genre Metal 为 approved_candidate（仅候选），属 multi_candidate L2，保留候选并澄清正确。三条 candidate_sql 分别按 genre 名与 artist 名精确匹配计数，join 路径 track→album→artist 与 track→genre 正确，结果 374/28/112 差别明显，支持 L2。",
+      "evidence": [
+        "cases[sp01-28].input 与 allowed_interpretations",
+        "live_database_facts.genres: 3 Metal, 13 Heavy Metal",
+        "approved_aliases: 金属→Metal approved_candidate a-439ce0734774f114；金属→Metallica pending a-0c47392129d13dd6",
+        "actual_program_checks[sp01-28] 候选结果 374/28/112"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-29",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "用户显式要求按字面值 'Atlantis' 查询并报告无记录；Atlantis 不在 customer.country 取值列表内，应保留不存在精确匹配 COUNT=0。gold_sql 正确对 country='Atlantis' 计数，结果 0 与 expected_behavior 一致，没有替换为邻近国家。",
+      "evidence": [
+        "cases[sp01-29].input/expected_behavior",
+        "live_database_facts.countries 不含 Atlantis",
+        "actual_program_checks[sp01-29] final 返回 0"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp01-30",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "用户给出 2030-01-01 至 2030-12-31（左闭右开），用户正确表达 end_exclusive 为 2031-01-01，边界语义清晰。live facts 显示发票日期最大 2025-12-22，该区间无记录，应保留不存在返回 0 报告无记录，不补默认时期。gold_sql 使用 >= 2030-01-01 AND < 2031-01-01，左闭右开正确。",
+      "evidence": [
+        "cases[sp01-30].input/expected_behavior",
+        "live_database_facts.date_evidence: 2021-01-01 至 2025-12-22",
+        "actual_program_checks[sp01-30] final 返回 0"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-11",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入明确问USA居住客户数；SQL按customer.country='USA'去重COUNT，列输出customer_count正确；L0条件（对象+国家）完整；approved规则确认customer.country为客户居住国，与账单国区分；无控制器轮次。",
+      "evidence": [
+        "case sp03-11 expected_bindings: customer.country=USA",
+        "gold_sql/actual SQL: SELECT COUNT(*) FROM public.customer WHERE country = 'USA'",
+        "live_database_facts.countries 含 USA",
+        "D2 approved: customer.country is customer residence"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-12",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入“意大利有多少客户”中文国名不改变指标/对象/期间；SQL customer.country='Italy'去重计数正确；L0对象与国家明确；approved别名 Italy/意大利存在，entity唯一。",
+      "evidence": [
+        "case sp03-12 expected_bindings: customer.country=Italy",
+        "gold_sql: SELECT COUNT(*) FROM public.customer WHERE country = 'Italy'",
+        "live_database_facts.countries 含 Italy",
+        "approved_alias: Italy/意大利 customer.country"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-13",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入明确2024年、加拿大、发票销售额；SQL按billing_country='Canada'且[2024-01-01,2025-01-01)左闭右开对invoice.total求和。D2明确sales_revenue发票粒度SUM(invoice.total)且billing_country为账单地址国，与customer.country独立；L0。",
+      "evidence": [
+        "case sp03-13 input 明确 Canada/2024",
+        "gold_sql: billing_country='Canada' AND invoice_date>=2024-01-01 AND <2025-01-01",
+        "D2 approved: sales_revenue=SUM(invoice.total); invoice.billing_country is billing address",
+        "live_database_facts.billing_customer_difference=0 不改账单国含义"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-14",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入明确2022与2023两年并问分别销售额；SQL用[2022-01-01,2024-01-01)年度分组SUM(total)，年份列输出正确，聚合粒度为invoice；期间左闭右开符合D2通用约定；无缺失条件。",
+      "evidence": [
+        "case sp03-14 expected_final_intent time_scope [2022-01-01,2024-01-01) group_by year",
+        "gold_sql: EXTRACT(YEAR)::int AS year, SUM(total) GROUP BY year ORDER BY year",
+        "D2 approved: sales_revenue=SUM(invoice.total); [start,end) half-open"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-15",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "输入区间2009–2010与对象“曲目”明确；按D2默认热门曲目=SUM(invoice_line.quantity)、并列track_id升序、top1；SQL期间[2009-01-01,2011-01-01)与LIMIT 1正确。数据库日期范围2021–2025导致空结果为真实无匹配，不替换，不因此误判为缺失期间。",
+      "evidence": [
+        "case sp03-15 reference_intent metric=purchased_quantity rank_object=track top_n=1",
+        "D2 approved: popular_tracks=SUM(invoice_line.quantity); tie_breaker track_id asc",
+        "actual SQL result row_count=0; live_database_facts.date_evidence first=2021-01-01 last=2025-12-22"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-16",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "Jazz 是 genre 表唯一标准值，SQL 正确 JOIN genre 并按 'Jazz' 过滤、COUNT 曲目，期间未限定即全库可用（题未要求期间）。结果 130 与实跑一致。L0 条件完整，无需澄清。",
+      "evidence": [
+        "live_database_facts.genres: genre_id=2 name=Jazz 唯一",
+        "actual_program_checks sp03-16 result track_count=130",
+        "gold_sql 与 final SQL 一致"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-17",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "2020 全年被显式给出，复购阈值 2 明确，半开区间 [2020-01-01,2021-01-01) 与规则一致；子查询为空时 COUNT 返回 0，符合规则及题面“如实输出0”。SQL 语法/语义正确。",
+      "evidence": [
+        "confirmed_business_rules.metrics.repeat_customer_count",
+        "actual_program_checks sp03-17 result repeat_customer_count=0",
+        "date_evidence 2021-2025 可用，故 2020 无记录不矛盾"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-18",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "“最受欢迎”属已登记 popularity L1 默认 by_quantity；期间 2021-2022 显式。SQL 用 SUM(invoice_line.quantity)、按 track_id 升序 tie-break、LIMIT 10（总计划 ranking.defaults.top_n=10）。JOIN 正确，日期左闭右开。结果与实跑一致。",
+      "evidence": [
+        "confirmed_business_rules.metrics.popular_tracks: default SUM(invoice_line.quantity), tie track_id asc",
+        "total_plan_semantic_gate ranking.defaults.top_n=10",
+        "actual_program_checks sp03-18 结果 10 行"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-19",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "客户对象“买得最多”按附录/规则为金额定义 SUM(invoice.total)，期间 2022 显式。SQL 按 customer_id 分组、金额降序、customer_id 升序稳定排序取 1。符合已登记规则。",
+      "evidence": [
+        "confirmed_business_rules.metrics.popular_tracks.alternatives 与 approved_proposal：客户谁买得最多按金额",
+        "actual_program_checks sp03-19 result customer_id=45 amount=32.75",
+        "adjudication_notes: customer-object buy-most is amount"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-20",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "not_applicable",
+      "reason": "艺术家金额用明细 SUM(unit_price*quantity)，避免重复累加 invoice.total；2023 显式期间，左闭右开；Top10 为总计划明确技术默认；tie-break artist_id asc。SQL JOIN 链完整正确，结果与实跑一致。",
+      "evidence": [
+        "confirmed_business_rules.metrics.sales_revenue.alternative",
+        "total_plan_semantic_gate ranking.defaults.top_n=10",
+        "actual_program_checks sp03-20 结果 10 行",
+        "adjudication_notes Top10 技术默认"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-21",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“德国的销售额同比增长多少？”含同比但缺当前年份；growth类required含time_scope.current，无登记默认年份，归L2正确。SQL按澄清后2024整年与2023基期，customer.country='Germany'居住地口径，SUM(invoice.total)发票粒度，左闭右开，零分母NULL，符合已确认口径。",
+      "evidence": [
+        "confirmed_business_rules.metrics[sales_revenue]",
+        "total_plan_semantic_gate 3.6.4 growth required",
+        "actual_program_checks sp03-21 final"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-22",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "占比任务缺分母，ratio required=[numerator,denominator]，无默认分母，L2正确。澄清后分母=2024全部发票销售额；SQL用SUM(total) FILTER France / SUM(total)，期间左闭右开，customer.country='France'居住地口径，零分母NULL，分子分母无误。",
+      "evidence": [
+        "total_plan_semantic_gate ratio L2",
+        "confirmed_business_rules zero_denominator",
+        "actual_program_checks sp03-22 final"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-23",
+      "verdict": "disputed",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "缺查询对象，ranking required含rank_object，无对象无全局默认，L2正确；澄清为客户后按客户金额SUM(invoice.total)、2023左闭右开、customer_id升序稳定排序、LIMIT 1，语义正确，post_completion改成2024保留客户与指标只更新期间，SQL表达正确。但实际程序检查自报auto_status disputed且issue为duplicate_input:sp03-08，即与另一题输入重复，属于数据集实质问题，故整体争议。",
+      "evidence": [
+        "total_plan_semantic_gate ranking required",
+        "approved_proposal“缺查询对象的谁买得最多不自动套全局默认”",
+        "actual_program_checks sp03-23 status disputed, issues duplicate_input:sp03-08"
+      ],
+      "issues": [
+        "与sp03-08输入重复（duplicate_input:sp03-08），影响数据集独立性"
+      ],
+      "suggested_corrections": {
+        "deduplicate": "合并、改写或移除与sp03-08重复的输入；保留本L2缺对象案例时使用不同表述或不同期间以区分。"
+      }
+    },
+    {
+      "id": "sp03-24",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入2022年澳大利亚发票销售额，地区语义存在customer.country居住地与invoice.billing_country账单国冲突，二者不合并，L2正确。澄清为customer.country='Australia'后SQL按SUM(invoice.total)、2022左闭右开执行；post_completion改为billing_country也正确保留期间与指标。",
+      "evidence": [
+        "confirmed_business_rules.general.region",
+        "actual_program_checks sp03-24 final/post_completion_1"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-25",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "“摇滚”可映射Rock与Rock And Roll，均为approved_candidate，不能唯一绑定，属multi_candidate_value，L2正确。澄清为Rock后SQL按曲目粒度SUM(invoice_line.unit_price*quantity)、invoice_date过滤2024期间、genre.name='Rock'，无重复累加发票总额；post_completion改购买数量为SUM(invoice_line.quantity)也正确。",
+      "evidence": [
+        "total_plan_semantic_gate multi_candidate_value L2",
+        "approved_aliases_and_candidate_relations Rock/Rock And Roll approved_candidate",
+        "actual_program_checks sp03-25 final/post_completion_1"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-26",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“同比增长多少？”为增长率任务，指标与当前期间均未给出；按 clarify_rules.yaml growth.required=[metric,time_scope.current,comparison.type] 且 time_scope.base 可由 current 与 yoy 推导，最低必要条件缺失且无默认，L2 暂停澄清正确。gold_sql 左右边界左闭右开、零分母 NULL、两期均为 SUM(invoice.total)，与 final_intent 一致；controller 仅在实际 asked_key 上询问，allowed_user_supplements 覆盖 metric/time_scope.current 并给出 2024 明确值及基期推导，post_completion_turns 保留其他条件并更新 2025 同比与 AVG 口径，均与 gold 一致。",
+      "evidence": [
+        "input: 同比增长多少？",
+        "business_basis: clarify_rules.yaml growth.required=[metric,time_scope.current,comparison.type]; time_scope.base 由 current 与 comparison.type 推导",
+        "gold_sql: SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(... ,0) AS yoy_growth_rate FROM public.invoice;",
+        "actual_program_checks.sp03-26: final/post_completion_1/post_completion_2 均 executed_readonly，列与行形态正确"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-27",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“2023年销售额占比是多少？”已给期间但分子对象与分母范围均缺失；ratio.required=[numerator,denominator] 且 level_if_missing=L2，不能自动补全，L2 暂停澄清正确。gold_sql 用 customer.country='Brazil' 为客户居住国分子、SUM(i.total) 为分母，期间 2023 左闭右开，且 NULLIF 处理零分母，与 final_intent 的“巴西居住客户/全库发票”一致。controller 的澄清项覆盖 numerator、denominator、numerator_object、denominator_scope，post_completion_turns 分别改为德国居住分子和账单国德国分母，保留其他条件；这些补充均为用户选择而非系统数据错误。",
+      "evidence": [
+        "input: 2023年销售额占比是多少？",
+        "business_basis: clarify_rules.yaml ratio.required=[numerator,denominator]; level_if_missing=L2",
+        "general.region: customer.country 客户居住地；invoice.billing_country 账单国，语义不可合并",
+        "gold_sql: SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total),0) ... WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';",
+        "actual_program_checks.sp03-27: final 与 post_completion_1/2 均 executed_readonly"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-28",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“2022年金属乐队的销售额是多少？”存在对象多候选：artist.name 的 Metallica 与 genre.name 的 Metal 在别名/候选关系中均有 approved_candidate 或候选，且“金属乐队”不能自动唯一绑定；同时若按艺术家还需区分客户居住国还是账单国，地区语义未定。属于 multi_candidate_value 和对象歧义，L2 暂停澄清正确。gold_sql 针对 artist Metallica 使用明细 SUM(unit_price*quantity)，join invoice 过滤 invoice_date 左闭右开，不重复发票总额，符合“曲目/艺术家粒度用明细”口径。controller 的补充确认对象为 artist Metallica、地区 none，post_completion_turns 分别切换 genre Metal 与 2023 年账单国德国，均保留并按新对象更新 SQL。",
+      "evidence": [
+        "input: 2022年金属乐队的销售额是多少？",
+        "approved_aliases_and_candidate_relations: Metallica 与 Metal 均有 candidate 记录；approved_candidate 不能自动唯一绑定",
+        "approved_proposal: 曲目或艺术家粒度用明细 SUM(unit_price*quantity)，JOIN 后不可重复发票总额",
+        "general.region: customer.country 与 invoice.billing_country 语义不合并",
+        "gold_sql: SELECT SUM(il.unit_price * il.quantity) ... WHERE ar.name = 'Metallica' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+        "actual_program_checks.sp03-28: final/post_completion SQL 均 executed_readonly"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-29",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "“最受欢迎的10首曲目”命中 popularity 歧义，按登记默认可按购买数量执行；但复购/热门等指标要求明确期间，本题无时间范围，不能悄悄补全，因此暂停澄清期间正确。gold_sql 以 2023 年为澄清后期间，SUM(invoice_line.quantity) 按 track_id 分组，ORDER BY purchased_quantity DESC, track_id ASC LIMIT 10，join invoice 过滤日期且无重复计数，与 final_intent 一致。controller 只在缺失项 time_scope/year 上请求补充，并允许确认默认口径；post_completion_turns 改为 2024 年及按销售额，均保留对象 track 与 top_n 10。",
+      "evidence": [
+        "input: 最受欢迎的10首曲目是哪些？",
+        "business_basis: popularity level=L1 default=by_quantity；但 metric definitions 要求热门曲目 explicit period，缺期间不得静默填充",
+        "clarify_rules.yaml ranking.defaults.top_n=10",
+        "gold_sql: SELECT t.track_id, SUM(il.quantity) ... WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+        "actual_program_checks.sp03-29: final 与 post_completion_1/2 均 executed_readonly"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    },
+    {
+      "id": "sp03-30",
+      "verdict": "pass",
+      "semantic_sql_check": "pass",
+      "classification_check": "pass",
+      "binding_check": "pass",
+      "controller_check": "pass",
+      "reason": "输入“谁买得最多？”缺时间范围且缺查询对象；虽然有附录“客户谁买得最多”采用金额定义的记录，但对象未明确时不能自动套用，通用“谁买得最多”无全局默认，L2 暂停澄清正确。gold_sql 在澄清为客户、2023 后按 customer_id 汇总 SUM(invoice.total)，ORDER BY amount DESC, customer_id ASC LIMIT 1，期间左闭右开，符合 ranking 与 tie_breaker 要求。controller 的 allowed_user_supplements 覆盖 rank_object/time_scope/metric，post_completion_turns 改 2024 年及改为曲目按购买数量，均保留客户/曲目对象切换且 SQL 表达更新。",
+      "evidence": [
+        "input: 谁买得最多？",
+        "clarify_rules.yaml ranking.required=[metric,rank_object]",
+        "approved_proposal 附录：客户谁买得最多 follows amount definition; 缺查询对象的“谁买得最多”不自动套同一个全局默认",
+        "gold_sql: SELECT c.customer_id, SUM(i.total) AS amount ... WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY c.customer_id ORDER BY amount DESC, c.customer_id ASC LIMIT 1;",
+        "actual_program_checks.sp03-30: final 与 post_completion_1/2 均 executed_readonly"
+      ],
+      "issues": [],
+      "suggested_corrections": null
+    }
+  ]
+}
