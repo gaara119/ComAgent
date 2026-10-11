@@ -1,0 +1,50 @@
+{
+  "status": "ok",
+  "table": "humanresources.department",
+  "source_hash": "a8e39f4bce501519a40c6b735d2aabd55387d824a215ee1c6e8620734c9eaaca",
+  "descriptions": {
+    "table_description": "人类资源模式下的部门表，记录 AdventureWorks 虚构自行车业务中各组织部门的标识、名称及其所属分组，用于按部门归集员工归属。",
+    "column_descriptions": {
+      "departmentid": "部门主键标识，唯一区分每个部门。",
+      "name": "部门名称，例如 Document Control、Engineering、Executive。",
+      "groupname": "部门所属分组名称，例如 Executive General and Administration、Inventory Management、Manufacturing。",
+      "modifieddate": "该部门记录的最后修改时间戳。"
+    },
+    "assumptions_or_limits": [
+      "示例值中的日期格式为 2008-04-30T00:00:00，仅表示记录中的时间值，不推断实际统计期间。",
+      "groupname 的具体分组划分依据未知，仅描述为部门所属分组名称。",
+      "本表未记录币种信息。",
+      "未提供部门与员工的关联外键，员工归属需通过其他表推断。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 204,
+          "prompt_tokens": 572,
+          "total_tokens": 776,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 572
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3407
+    }
+  ],
+  "latency_ms": 6070
+}

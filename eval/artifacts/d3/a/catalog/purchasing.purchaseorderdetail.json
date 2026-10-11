@@ -1,0 +1,56 @@
+{
+  "status": "ok",
+  "table": "purchasing.purchaseorderdetail",
+  "source_hash": "63b57c2aae98b2a4eb8e554bf057e06e1097e4cf35b1cbe57832a848e04acce7",
+  "descriptions": {
+    "table_description": "采购订单明细表（purchasing.purchaseorderdetail），记录每张采购订单所包含的逐行物料明细。每一行通过 purchaseorderid 与 purchaseorderdetailid 的组合唯一标识，关联采购订单头表 purchasing.purchaseorderheader 和产品表 production.product。该表用于记录采购业务中各产品的订购数量、到期日期、单价以及收货和拒收数量，区别于销售订单明细，属于采购侧数据。",
+    "column_descriptions": {
+      "purchaseorderid": "采购订单标识，外键关联 purchasing.purchaseorderheader.purchaseorderid，表示该明细行所属的采购订单。",
+      "purchaseorderdetailid": "采购订单明细行标识，与 purchaseorderid 共同构成主键，用于区分同一采购订单下的不同明细行。",
+      "duedate": "该明细行所订购产品的到期日期（应到货日期），为时间戳类型。",
+      "orderqty": "该明细行所订购产品的数量。",
+      "productid": "产品标识，外键关联 production.product.productid，表示该采购明细行所订购的具体产品。",
+      "unitprice": "该明细行产品的单价（采购单位价格），为数值类型。",
+      "receivedqty": "该明细行产品已收货的数量，为数值类型。",
+      "rejectedqty": "该明细行产品被拒收的数量，为数值类型。",
+      "modifieddate": "该明细行的最后修改日期，为时间戳类型。"
+    },
+    "assumptions_or_limits": [
+      "duedate 为日期时间类型且示例值均无时间部分，但仅凭数据无法确认是否始终按日期精度存储。",
+      "unitprice 的币种未由数据或字典明确说明，无法确认。",
+      "receivedqty 与 rejectedqty 的累计口径及是否包含退货场景，缺乏字典证据。",
+      "标志类信息未在本表列中出现，无需推断布尔标志含义。",
+      "示例值仅用于说明字段内容，不代表枚举或业务规则。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 434,
+          "prompt_tokens": 961,
+          "total_tokens": 1395,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 833
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3915
+    }
+  ],
+  "latency_ms": 5689
+}

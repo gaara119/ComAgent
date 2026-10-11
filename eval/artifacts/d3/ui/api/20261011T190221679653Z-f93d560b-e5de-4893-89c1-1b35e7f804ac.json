@@ -1,0 +1,1088 @@
+{
+  "started_at_utc": "2026-10-11T19:02:17.558975+00:00",
+  "finished_at_utc": "2026-10-11T19:02:21.679653+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d3-aw-20261011T190132Z-aw-12",
+    "message": "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。",
+    "scope": {
+      "route": "sql",
+      "db_id": "adventureworks",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "f2238e29-e8bf-4103-ba88-4ec62a793753",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：20315203.2850。",
+    "rewritten_question": null,
+    "sql": "SELECT SUM(h.subtotal) AS subtotal_sum FROM purchasing.purchaseorderheader AS h WHERE h.orderdate >= CAST('2024-01-01' AS DATE) AND h.orderdate < CAST('2025-01-01' AS DATE)",
+    "table": [
+      {
+        "subtotal_sum": "20315203.2850"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        }
+      },
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "adventureworks"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "table_count": 68,
+          "db_id": "adventureworks"
+        },
+        "latency_ms": 293
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "reason": "not_registered_for_db",
+          "bindings": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。"
+        },
+        "output_summary": {
+          "rewritten_question": "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 6
+      },
+      {
+        "name": "schema_link",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks",
+          "question": "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。"
+        },
+        "output_summary": {
+          "selected_tables": [
+            "person.address",
+            "person.stateprovince",
+            "production.transactionhistoryarchive",
+            "purchasing.productvendor",
+            "purchasing.purchaseorderdetail",
+            "purchasing.purchaseorderheader",
+            "purchasing.shipmethod",
+            "purchasing.vendor",
+            "sales.salesorderdetail",
+            "sales.salesorderheader",
+            "sales.salestaxrate"
+          ],
+          "columns": {
+            "person.address": [
+              "addressid",
+              "addressline1",
+              "addressline2",
+              "city",
+              "stateprovinceid",
+              "postalcode",
+              "spatiallocation",
+              "rowguid",
+              "modifieddate"
+            ],
+            "person.stateprovince": [
+              "stateprovinceid",
+              "stateprovincecode",
+              "countryregioncode",
+              "isonlystateprovinceflag",
+              "name",
+              "territoryid",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.transactionhistoryarchive": [
+              "transactionid",
+              "productid",
+              "referenceorderid",
+              "referenceorderlineid",
+              "transactiondate",
+              "transactiontype",
+              "quantity",
+              "actualcost",
+              "modifieddate"
+            ],
+            "purchasing.productvendor": [
+              "productid",
+              "businessentityid",
+              "averageleadtime",
+              "standardprice",
+              "lastreceiptcost",
+              "lastreceiptdate",
+              "minorderqty",
+              "maxorderqty",
+              "onorderqty",
+              "unitmeasurecode",
+              "modifieddate"
+            ],
+            "purchasing.purchaseorderdetail": [
+              "purchaseorderid",
+              "purchaseorderdetailid",
+              "duedate",
+              "orderqty",
+              "productid",
+              "unitprice",
+              "receivedqty",
+              "rejectedqty",
+              "modifieddate"
+            ],
+            "purchasing.purchaseorderheader": [
+              "purchaseorderid",
+              "revisionnumber",
+              "status",
+              "employeeid",
+              "vendorid",
+              "shipmethodid",
+              "orderdate",
+              "shipdate",
+              "subtotal",
+              "taxamt",
+              "freight",
+              "modifieddate"
+            ],
+            "purchasing.shipmethod": [
+              "shipmethodid",
+              "name",
+              "shipbase",
+              "shiprate",
+              "rowguid",
+              "modifieddate"
+            ],
+            "purchasing.vendor": [
+              "businessentityid",
+              "accountnumber",
+              "name",
+              "creditrating",
+              "preferredvendorstatus",
+              "activeflag",
+              "purchasingwebserviceurl",
+              "modifieddate"
+            ],
+            "sales.salesorderdetail": [
+              "salesorderid",
+              "salesorderdetailid",
+              "carriertrackingnumber",
+              "orderqty",
+              "productid",
+              "specialofferid",
+              "unitprice",
+              "unitpricediscount",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesorderheader": [
+              "salesorderid",
+              "revisionnumber",
+              "orderdate",
+              "duedate",
+              "shipdate",
+              "status",
+              "onlineorderflag",
+              "purchaseordernumber",
+              "accountnumber",
+              "customerid",
+              "salespersonid",
+              "territoryid",
+              "billtoaddressid",
+              "shiptoaddressid",
+              "shipmethodid",
+              "creditcardid",
+              "creditcardapprovalcode",
+              "currencyrateid",
+              "subtotal",
+              "taxamt",
+              "freight",
+              "totaldue",
+              "comment",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salestaxrate": [
+              "salestaxrateid",
+              "stateprovinceid",
+              "taxtype",
+              "taxrate",
+              "name",
+              "rowguid",
+              "modifieddate"
+            ]
+          },
+          "join_paths": [
+            {
+              "source_table": "person.address",
+              "source_columns": [
+                "stateprovinceid"
+              ],
+              "target_table": "person.stateprovince",
+              "target_columns": [
+                "stateprovinceid"
+              ]
+            },
+            {
+              "source_table": "sales.salestaxrate",
+              "source_columns": [
+                "stateprovinceid"
+              ],
+              "target_table": "person.stateprovince",
+              "target_columns": [
+                "stateprovinceid"
+              ]
+            },
+            {
+              "source_table": "purchasing.productvendor",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "purchasing.vendor",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "purchasing.purchaseorderdetail",
+              "source_columns": [
+                "purchaseorderid"
+              ],
+              "target_table": "purchasing.purchaseorderheader",
+              "target_columns": [
+                "purchaseorderid"
+              ]
+            },
+            {
+              "source_table": "purchasing.purchaseorderheader",
+              "source_columns": [
+                "shipmethodid"
+              ],
+              "target_table": "purchasing.shipmethod",
+              "target_columns": [
+                "shipmethodid"
+              ]
+            },
+            {
+              "source_table": "purchasing.purchaseorderheader",
+              "source_columns": [
+                "vendorid"
+              ],
+              "target_table": "purchasing.vendor",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "billtoaddressid"
+              ],
+              "target_table": "person.address",
+              "target_columns": [
+                "addressid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "shiptoaddressid"
+              ],
+              "target_table": "person.address",
+              "target_columns": [
+                "addressid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "shipmethodid"
+              ],
+              "target_table": "purchasing.shipmethod",
+              "target_columns": [
+                "shipmethodid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderdetail",
+              "source_columns": [
+                "salesorderid"
+              ],
+              "target_table": "sales.salesorderheader",
+              "target_columns": [
+                "salesorderid"
+              ]
+            }
+          ],
+          "reasons": {
+            "person.address": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "person.stateprovince": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "production.transactionhistoryarchive": [
+              "表描述向量召回第 8 位"
+            ],
+            "purchasing.productvendor": [
+              "表描述向量召回第 6 位"
+            ],
+            "purchasing.purchaseorderdetail": [
+              "表描述向量召回第 2 位",
+              "列描述 Top-20 投票：4 列"
+            ],
+            "purchasing.purchaseorderheader": [
+              "表描述向量召回第 1 位",
+              "列描述 Top-20 投票：12 列"
+            ],
+            "purchasing.shipmethod": [
+              "表描述向量召回第 5 位",
+              "列描述 Top-20 投票：2 列"
+            ],
+            "purchasing.vendor": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "sales.salesorderdetail": [
+              "表描述向量召回第 4 位"
+            ],
+            "sales.salesorderheader": [
+              "表描述向量召回第 3 位",
+              "列描述 Top-20 投票：2 列"
+            ],
+            "sales.salestaxrate": [
+              "表描述向量召回第 7 位"
+            ]
+          },
+          "table_recall": [
+            "purchasing.purchaseorderheader",
+            "purchasing.purchaseorderdetail",
+            "sales.salesorderheader",
+            "sales.salesorderdetail",
+            "purchasing.shipmethod",
+            "purchasing.productvendor",
+            "sales.salestaxrate",
+            "production.transactionhistoryarchive"
+          ],
+          "column_recall": [
+            "purchasing.purchaseorderheader.subtotal",
+            "purchasing.purchaseorderheader.taxamt",
+            "purchasing.purchaseorderheader.shipmethodid",
+            "purchasing.purchaseorderheader.freight",
+            "purchasing.purchaseorderheader.shipdate",
+            "purchasing.purchaseorderheader.revisionnumber",
+            "purchasing.purchaseorderheader.modifieddate",
+            "purchasing.purchaseorderheader.status",
+            "purchasing.purchaseorderheader.orderdate",
+            "purchasing.purchaseorderheader.vendorid",
+            "sales.salesorderheader.subtotal",
+            "purchasing.purchaseorderheader.employeeid",
+            "purchasing.purchaseorderheader.purchaseorderid",
+            "purchasing.purchaseorderdetail.unitprice",
+            "purchasing.purchaseorderdetail.receivedqty",
+            "purchasing.purchaseorderdetail.duedate",
+            "purchasing.shipmethod.shipbase",
+            "sales.salesorderheader.totaldue",
+            "purchasing.purchaseorderdetail.rejectedqty",
+            "purchasing.shipmethod.shiprate"
+          ],
+          "value_recall": [],
+          "terminal_tables": [
+            "purchasing.purchaseorderheader",
+            "purchasing.purchaseorderdetail",
+            "sales.salesorderheader",
+            "purchasing.shipmethod",
+            "sales.salesorderdetail",
+            "purchasing.productvendor",
+            "sales.salestaxrate",
+            "production.transactionhistoryarchive"
+          ],
+          "bridge_tables": [
+            "person.address",
+            "person.stateprovince",
+            "purchasing.vendor"
+          ],
+          "disconnected_components": [
+            [
+              "purchasing.productvendor",
+              "purchasing.purchaseorderdetail",
+              "purchasing.purchaseorderheader",
+              "purchasing.shipmethod",
+              "sales.salesorderdetail",
+              "sales.salesorderheader",
+              "sales.salestaxrate"
+            ],
+            [
+              "production.transactionhistoryarchive"
+            ]
+          ],
+          "scores": {
+            "purchasing.purchaseorderheader": 0.03278688524590164,
+            "purchasing.purchaseorderdetail": 0.03225806451612903,
+            "sales.salesorderheader": 0.031746031746031744,
+            "purchasing.shipmethod": 0.031009615384615385,
+            "sales.salesorderdetail": 0.015625,
+            "purchasing.productvendor": 0.015151515151515152,
+            "sales.salestaxrate": 0.014925373134328358,
+            "production.transactionhistoryarchive": 0.014705882352941176
+          },
+          "query_facets": [
+            "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。"
+          ],
+          "per_query_recall": [
+            {
+              "query": "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。",
+              "table_top": [
+                "purchasing.purchaseorderheader",
+                "purchasing.purchaseorderdetail",
+                "sales.salesorderheader",
+                "sales.salesorderdetail",
+                "purchasing.shipmethod",
+                "purchasing.productvendor",
+                "sales.salestaxrate",
+                "production.transactionhistoryarchive"
+              ],
+              "column_top": [
+                "purchasing.purchaseorderheader.subtotal",
+                "purchasing.purchaseorderheader.taxamt",
+                "purchasing.purchaseorderheader.shipmethodid",
+                "purchasing.purchaseorderheader.freight",
+                "purchasing.purchaseorderheader.shipdate",
+                "purchasing.purchaseorderheader.revisionnumber",
+                "purchasing.purchaseorderheader.modifieddate",
+                "purchasing.purchaseorderheader.status",
+                "purchasing.purchaseorderheader.orderdate",
+                "purchasing.purchaseorderheader.vendorid",
+                "sales.salesorderheader.subtotal",
+                "purchasing.purchaseorderheader.employeeid",
+                "purchasing.purchaseorderheader.purchaseorderid",
+                "purchasing.purchaseorderdetail.unitprice",
+                "purchasing.purchaseorderdetail.receivedqty",
+                "purchasing.purchaseorderdetail.duedate",
+                "purchasing.shipmethod.shipbase",
+                "sales.salesorderheader.totaldue",
+                "purchasing.purchaseorderdetail.rejectedqty",
+                "purchasing.shipmethod.shiprate"
+              ]
+            }
+          ]
+        },
+        "latency_ms": 38
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。",
+          "repair_attempt": 0,
+          "db_id": "adventureworks",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(h.subtotal) AS subtotal_sum FROM purchasing.purchaseorderheader AS h WHERE h.orderdate >= DATE '2024-01-01' AND h.orderdate < DATE '2025-01-01'",
+          "explanation": "对 2024 年（左闭右开区间 2024-01-01 至 2025-01-01）的采购订单头按 orderdate 过滤，求和其 subtotal（订单小计，不含税额与运费）。仅引用采购订单头表，保持订单颗粒度。"
+        },
+        "latency_ms": 3758
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 137,
+            "prompt_tokens": 9420,
+            "total_tokens": 9557,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 896
+            },
+            "prompt_cache_hit_tokens": 896,
+            "prompt_cache_miss_tokens": 8524
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2577
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(h.subtotal) AS subtotal_sum FROM purchasing.purchaseorderheader AS h WHERE h.orderdate >= DATE '2024-01-01' AND h.orderdate < DATE '2025-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "purchasing.purchaseorderheader"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(h.subtotal) AS subtotal_sum FROM purchasing.purchaseorderheader AS h WHERE h.orderdate >= CAST('2024-01-01' AS DATE) AND h.orderdate < CAST('2025-01-01' AS DATE)"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(h.subtotal) AS subtotal_sum FROM purchasing.purchaseorderheader AS h WHERE h.orderdate >= CAST('2024-01-01' AS DATE) AND h.orderdate < CAST('2025-01-01' AS DATE)",
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "subtotal_sum"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 18
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "adventureworks",
+      "latency_ms": 4118,
+      "nlu": {
+        "original_question": "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。",
+        "rewritten_question": "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "not_registered_for_db"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "schema_linker": {
+        "selected_tables": [
+          "person.address",
+          "person.stateprovince",
+          "production.transactionhistoryarchive",
+          "purchasing.productvendor",
+          "purchasing.purchaseorderdetail",
+          "purchasing.purchaseorderheader",
+          "purchasing.shipmethod",
+          "purchasing.vendor",
+          "sales.salesorderdetail",
+          "sales.salesorderheader",
+          "sales.salestaxrate"
+        ],
+        "columns": {
+          "person.address": [
+            "addressid",
+            "addressline1",
+            "addressline2",
+            "city",
+            "stateprovinceid",
+            "postalcode",
+            "spatiallocation",
+            "rowguid",
+            "modifieddate"
+          ],
+          "person.stateprovince": [
+            "stateprovinceid",
+            "stateprovincecode",
+            "countryregioncode",
+            "isonlystateprovinceflag",
+            "name",
+            "territoryid",
+            "rowguid",
+            "modifieddate"
+          ],
+          "production.transactionhistoryarchive": [
+            "transactionid",
+            "productid",
+            "referenceorderid",
+            "referenceorderlineid",
+            "transactiondate",
+            "transactiontype",
+            "quantity",
+            "actualcost",
+            "modifieddate"
+          ],
+          "purchasing.productvendor": [
+            "productid",
+            "businessentityid",
+            "averageleadtime",
+            "standardprice",
+            "lastreceiptcost",
+            "lastreceiptdate",
+            "minorderqty",
+            "maxorderqty",
+            "onorderqty",
+            "unitmeasurecode",
+            "modifieddate"
+          ],
+          "purchasing.purchaseorderdetail": [
+            "purchaseorderid",
+            "purchaseorderdetailid",
+            "duedate",
+            "orderqty",
+            "productid",
+            "unitprice",
+            "receivedqty",
+            "rejectedqty",
+            "modifieddate"
+          ],
+          "purchasing.purchaseorderheader": [
+            "purchaseorderid",
+            "revisionnumber",
+            "status",
+            "employeeid",
+            "vendorid",
+            "shipmethodid",
+            "orderdate",
+            "shipdate",
+            "subtotal",
+            "taxamt",
+            "freight",
+            "modifieddate"
+          ],
+          "purchasing.shipmethod": [
+            "shipmethodid",
+            "name",
+            "shipbase",
+            "shiprate",
+            "rowguid",
+            "modifieddate"
+          ],
+          "purchasing.vendor": [
+            "businessentityid",
+            "accountnumber",
+            "name",
+            "creditrating",
+            "preferredvendorstatus",
+            "activeflag",
+            "purchasingwebserviceurl",
+            "modifieddate"
+          ],
+          "sales.salesorderdetail": [
+            "salesorderid",
+            "salesorderdetailid",
+            "carriertrackingnumber",
+            "orderqty",
+            "productid",
+            "specialofferid",
+            "unitprice",
+            "unitpricediscount",
+            "rowguid",
+            "modifieddate"
+          ],
+          "sales.salesorderheader": [
+            "salesorderid",
+            "revisionnumber",
+            "orderdate",
+            "duedate",
+            "shipdate",
+            "status",
+            "onlineorderflag",
+            "purchaseordernumber",
+            "accountnumber",
+            "customerid",
+            "salespersonid",
+            "territoryid",
+            "billtoaddressid",
+            "shiptoaddressid",
+            "shipmethodid",
+            "creditcardid",
+            "creditcardapprovalcode",
+            "currencyrateid",
+            "subtotal",
+            "taxamt",
+            "freight",
+            "totaldue",
+            "comment",
+            "rowguid",
+            "modifieddate"
+          ],
+          "sales.salestaxrate": [
+            "salestaxrateid",
+            "stateprovinceid",
+            "taxtype",
+            "taxrate",
+            "name",
+            "rowguid",
+            "modifieddate"
+          ]
+        },
+        "join_paths": [
+          {
+            "source_table": "person.address",
+            "source_columns": [
+              "stateprovinceid"
+            ],
+            "target_table": "person.stateprovince",
+            "target_columns": [
+              "stateprovinceid"
+            ]
+          },
+          {
+            "source_table": "sales.salestaxrate",
+            "source_columns": [
+              "stateprovinceid"
+            ],
+            "target_table": "person.stateprovince",
+            "target_columns": [
+              "stateprovinceid"
+            ]
+          },
+          {
+            "source_table": "purchasing.productvendor",
+            "source_columns": [
+              "businessentityid"
+            ],
+            "target_table": "purchasing.vendor",
+            "target_columns": [
+              "businessentityid"
+            ]
+          },
+          {
+            "source_table": "purchasing.purchaseorderdetail",
+            "source_columns": [
+              "purchaseorderid"
+            ],
+            "target_table": "purchasing.purchaseorderheader",
+            "target_columns": [
+              "purchaseorderid"
+            ]
+          },
+          {
+            "source_table": "purchasing.purchaseorderheader",
+            "source_columns": [
+              "shipmethodid"
+            ],
+            "target_table": "purchasing.shipmethod",
+            "target_columns": [
+              "shipmethodid"
+            ]
+          },
+          {
+            "source_table": "purchasing.purchaseorderheader",
+            "source_columns": [
+              "vendorid"
+            ],
+            "target_table": "purchasing.vendor",
+            "target_columns": [
+              "businessentityid"
+            ]
+          },
+          {
+            "source_table": "sales.salesorderheader",
+            "source_columns": [
+              "billtoaddressid"
+            ],
+            "target_table": "person.address",
+            "target_columns": [
+              "addressid"
+            ]
+          },
+          {
+            "source_table": "sales.salesorderheader",
+            "source_columns": [
+              "shiptoaddressid"
+            ],
+            "target_table": "person.address",
+            "target_columns": [
+              "addressid"
+            ]
+          },
+          {
+            "source_table": "sales.salesorderheader",
+            "source_columns": [
+              "shipmethodid"
+            ],
+            "target_table": "purchasing.shipmethod",
+            "target_columns": [
+              "shipmethodid"
+            ]
+          },
+          {
+            "source_table": "sales.salesorderdetail",
+            "source_columns": [
+              "salesorderid"
+            ],
+            "target_table": "sales.salesorderheader",
+            "target_columns": [
+              "salesorderid"
+            ]
+          }
+        ],
+        "reasons": {
+          "person.address": [
+            "真实外键图 Steiner 补全的桥接表"
+          ],
+          "person.stateprovince": [
+            "真实外键图 Steiner 补全的桥接表"
+          ],
+          "production.transactionhistoryarchive": [
+            "表描述向量召回第 8 位"
+          ],
+          "purchasing.productvendor": [
+            "表描述向量召回第 6 位"
+          ],
+          "purchasing.purchaseorderdetail": [
+            "表描述向量召回第 2 位",
+            "列描述 Top-20 投票：4 列"
+          ],
+          "purchasing.purchaseorderheader": [
+            "表描述向量召回第 1 位",
+            "列描述 Top-20 投票：12 列"
+          ],
+          "purchasing.shipmethod": [
+            "表描述向量召回第 5 位",
+            "列描述 Top-20 投票：2 列"
+          ],
+          "purchasing.vendor": [
+            "真实外键图 Steiner 补全的桥接表"
+          ],
+          "sales.salesorderdetail": [
+            "表描述向量召回第 4 位"
+          ],
+          "sales.salesorderheader": [
+            "表描述向量召回第 3 位",
+            "列描述 Top-20 投票：2 列"
+          ],
+          "sales.salestaxrate": [
+            "表描述向量召回第 7 位"
+          ]
+        },
+        "table_recall": [
+          "purchasing.purchaseorderheader",
+          "purchasing.purchaseorderdetail",
+          "sales.salesorderheader",
+          "sales.salesorderdetail",
+          "purchasing.shipmethod",
+          "purchasing.productvendor",
+          "sales.salestaxrate",
+          "production.transactionhistoryarchive"
+        ],
+        "column_recall": [
+          "purchasing.purchaseorderheader.subtotal",
+          "purchasing.purchaseorderheader.taxamt",
+          "purchasing.purchaseorderheader.shipmethodid",
+          "purchasing.purchaseorderheader.freight",
+          "purchasing.purchaseorderheader.shipdate",
+          "purchasing.purchaseorderheader.revisionnumber",
+          "purchasing.purchaseorderheader.modifieddate",
+          "purchasing.purchaseorderheader.status",
+          "purchasing.purchaseorderheader.orderdate",
+          "purchasing.purchaseorderheader.vendorid",
+          "sales.salesorderheader.subtotal",
+          "purchasing.purchaseorderheader.employeeid",
+          "purchasing.purchaseorderheader.purchaseorderid",
+          "purchasing.purchaseorderdetail.unitprice",
+          "purchasing.purchaseorderdetail.receivedqty",
+          "purchasing.purchaseorderdetail.duedate",
+          "purchasing.shipmethod.shipbase",
+          "sales.salesorderheader.totaldue",
+          "purchasing.purchaseorderdetail.rejectedqty",
+          "purchasing.shipmethod.shiprate"
+        ],
+        "value_recall": [],
+        "terminal_tables": [
+          "purchasing.purchaseorderheader",
+          "purchasing.purchaseorderdetail",
+          "sales.salesorderheader",
+          "purchasing.shipmethod",
+          "sales.salesorderdetail",
+          "purchasing.productvendor",
+          "sales.salestaxrate",
+          "production.transactionhistoryarchive"
+        ],
+        "bridge_tables": [
+          "person.address",
+          "person.stateprovince",
+          "purchasing.vendor"
+        ],
+        "disconnected_components": [
+          [
+            "purchasing.productvendor",
+            "purchasing.purchaseorderdetail",
+            "purchasing.purchaseorderheader",
+            "purchasing.shipmethod",
+            "sales.salesorderdetail",
+            "sales.salesorderheader",
+            "sales.salestaxrate"
+          ],
+          [
+            "production.transactionhistoryarchive"
+          ]
+        ],
+        "scores": {
+          "purchasing.purchaseorderheader": 0.03278688524590164,
+          "purchasing.purchaseorderdetail": 0.03225806451612903,
+          "sales.salesorderheader": 0.031746031746031744,
+          "purchasing.shipmethod": 0.031009615384615385,
+          "sales.salesorderdetail": 0.015625,
+          "purchasing.productvendor": 0.015151515151515152,
+          "sales.salestaxrate": 0.014925373134328358,
+          "production.transactionhistoryarchive": 0.014705882352941176
+        },
+        "query_facets": [
+          "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。"
+        ],
+        "per_query_recall": [
+          {
+            "query": "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。",
+            "table_top": [
+              "purchasing.purchaseorderheader",
+              "purchasing.purchaseorderdetail",
+              "sales.salesorderheader",
+              "sales.salesorderdetail",
+              "purchasing.shipmethod",
+              "purchasing.productvendor",
+              "sales.salestaxrate",
+              "production.transactionhistoryarchive"
+            ],
+            "column_top": [
+              "purchasing.purchaseorderheader.subtotal",
+              "purchasing.purchaseorderheader.taxamt",
+              "purchasing.purchaseorderheader.shipmethodid",
+              "purchasing.purchaseorderheader.freight",
+              "purchasing.purchaseorderheader.shipdate",
+              "purchasing.purchaseorderheader.revisionnumber",
+              "purchasing.purchaseorderheader.modifieddate",
+              "purchasing.purchaseorderheader.status",
+              "purchasing.purchaseorderheader.orderdate",
+              "purchasing.purchaseorderheader.vendorid",
+              "sales.salesorderheader.subtotal",
+              "purchasing.purchaseorderheader.employeeid",
+              "purchasing.purchaseorderheader.purchaseorderid",
+              "purchasing.purchaseorderdetail.unitprice",
+              "purchasing.purchaseorderdetail.receivedqty",
+              "purchasing.purchaseorderdetail.duedate",
+              "purchasing.shipmethod.shipbase",
+              "sales.salesorderheader.totaldue",
+              "purchasing.purchaseorderdetail.rejectedqty",
+              "purchasing.shipmethod.shiprate"
+            ]
+          }
+        ]
+      },
+      "result_columns": [
+        "subtotal_sum"
+      ],
+      "truncated": false
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

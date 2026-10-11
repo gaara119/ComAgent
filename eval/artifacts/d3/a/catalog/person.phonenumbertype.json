@@ -1,0 +1,47 @@
+{
+  "status": "ok",
+  "table": "person.phonenumbertype",
+  "source_hash": "60ceead04979d51825eace8bef014a2c26d382a2ccf01b595f00078a5e28e09e",
+  "descriptions": {
+    "table_description": "该表用于存储电话号码的类型，例如手机、住宅电话和工作电话。属于人员相关的参考表。",
+    "column_descriptions": {
+      "phonenumbertypeid": "电话号码类型的主键标识符，整数类型，不可为空。",
+      "name": "电话号码类型的名称，例如 Cell、Home、Work，字符型，不可为空。",
+      "modifieddate": "该记录最后修改的时间戳，不可为空。"
+    },
+    "assumptions_or_limits": [
+      "示例值显示名称字段包含 Cell、Home、Work，但表中可能还有其他类型。",
+      "modifieddate 的具体时区和业务含义未给出，无法确定。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 128,
+          "prompt_tokens": 541,
+          "total_tokens": 669,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 413
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2067
+    }
+  ],
+  "latency_ms": 4264
+}

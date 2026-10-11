@@ -1,0 +1,50 @@
+{
+  "status": "ok",
+  "table": "sales.salesreason",
+  "source_hash": "de7f56033a267bd0866998130946c0adbb2a017e8e5a666a1c425ce5217e34f2",
+  "descriptions": {
+    "table_description": "销售原因表，用于记录订单中客户购买商品的原因，例如活动、杂志广告、制造商等，属于销售模块的基础参考表。",
+    "column_descriptions": {
+      "salesreasonid": "销售原因的唯一标识，是该表的主键。",
+      "name": "销售原因的具体名称，例如 Demo Event（演示活动）、Magazine Advertisement（杂志广告）、Manufacturer（制造商）。",
+      "reasontype": "销售原因所属的类型，例如 Marketing（营销）、Other（其他）、Promotion（促销）。",
+      "modifieddate": "该记录最后修改的日期和时间。"
+    },
+    "assumptions_or_limits": [
+      "示例值来自给定资料，仅用于说明字段可能的内容。",
+      "reasontype 的完整枚举含义及是否与 name 存在固定对应关系，资料中未提供字典证据，不作推断。",
+      "modifieddate 的具体时区信息未提供。",
+      "没有明确说明该表是否仅用于销售订单，也未提供与订单明细的关联关系。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 232,
+          "prompt_tokens": 577,
+          "total_tokens": 809,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 449
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3050
+    }
+  ],
+  "latency_ms": 4674
+}

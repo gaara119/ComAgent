@@ -1,0 +1,83 @@
+{
+  "status": "ok",
+  "table": "sales.salesorderdetail",
+  "source_hash": "a840e069a0c106cfddc9a8a0fabcd833694603830dc912e29eece93c862cbb2e",
+  "descriptions": {
+    "table_description": "该表为销售订单明细表（sales.salesorderdetail），记录每张销售订单中所包含商品行的明细信息，包括所属销售订单、订单内明细编号、承运商跟踪号、订购数量、产品、促销活动、单价、折扣率及行修改时间等，用于承接销售订单头表与实际售出产品之间的多对多关系。",
+    "column_descriptions": {
+      "salesorderid": "所属销售订单的编号，与 sales.salesorderheader 表的主键关联，标识该明细行属于哪一张销售订单。",
+      "salesorderdetailid": "销售订单明细行编号，在同一销售订单内唯一标识一条明细行，与 salesorderid 共同构成主键。",
+      "carriertrackingnumber": "承运商提供的货物跟踪编号，可为空，用于查询该明细行对应发货的物流跟踪信息。",
+      "orderqty": "该明细行所订购的产品数量，为非空的短整型字段。",
+      "productid": "所订购产品的编号，与促销活动编号共同关联到 sales.specialofferproduct，用于确定该行售卖的具体产品。",
+      "specialofferid": "应用于该明细行的促销活动编号，与产品编号共同关联到 sales.specialofferproduct。",
+      "unitprice": "该明细行产品的单价，为非空的数值型字段，示例值包括 1.3282、1.3740、2.2900。",
+      "unitpricediscount": "该明细行产品所享受的单价折扣率，为非空的数值型字段，示例值包括 0.0000、0.0200、0.0500。",
+      "rowguid": "该明细行的全局唯一标识符，为非空的 uuid 字段。",
+      "modifieddate": "该明细行记录的最后修改日期和时间，为非空的时间戳字段。"
+    },
+    "assumptions_or_limits": [
+      "本说明仅依据提供的表结构与示例值编写，未引入额外业务口径或统计规则。",
+      "unitprice 与 unitpricediscount 的具体币种、精度及是否含税在来源信息中未说明，本说明未作假设。",
+      "specialofferid 所对应的促销枚举含义未在来源中给出，未作解释。",
+      "各字段示例值仅用于说明字段可能存在的数据形态，不代表完整取值范围或默认值。",
+      "未说明 salesorderdetail 是否与其他表存在除已列外键之外的关联关系。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "error",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 539,
+          "prompt_tokens": 1050,
+          "total_tokens": 1589,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 922
+        },
+        "error": "Expecting property name enclosed in double quotes: line 1 column 1172 (char 1171)"
+      },
+      "latency_ms": 5393
+    },
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 2,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 516,
+          "prompt_tokens": 1081,
+          "total_tokens": 1597,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 896
+          },
+          "prompt_cache_hit_tokens": 896,
+          "prompt_cache_miss_tokens": 185
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3774
+    }
+  ],
+  "latency_ms": 11358
+}

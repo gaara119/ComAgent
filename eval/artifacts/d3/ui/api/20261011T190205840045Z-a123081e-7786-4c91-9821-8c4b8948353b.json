@@ -1,0 +1,1016 @@
+{
+  "started_at_utc": "2026-10-11T19:02:01.485189+00:00",
+  "finished_at_utc": "2026-10-11T19:02:05.840045+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d3-aw-20261011T190132Z-aw-08",
+    "message": "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+    "scope": {
+      "route": "sql",
+      "db_id": "adventureworks",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "eb6e9f95-bea2-43a9-b9bc-30d26fa60ddf",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 4 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT pc.\"name\" AS category_name, COUNT(DISTINCT p.\"productid\") AS product_count FROM \"production\".\"product\" AS p JOIN \"production\".\"productsubcategory\" AS ps ON p.\"productsubcategoryid\" = ps.\"productsubcategoryid\" JOIN \"production\".\"productcategory\" AS pc ON ps.\"productcategoryid\" = pc.\"productcategoryid\" WHERE p.\"productsubcategoryid\" IS NOT NULL GROUP BY pc.\"name\" ORDER BY product_count DESC, pc.\"name\" ASC LIMIT 200",
+    "table": [
+      {
+        "category_name": "Components",
+        "product_count": 134
+      },
+      {
+        "category_name": "Bikes",
+        "product_count": 97
+      },
+      {
+        "category_name": "Clothing",
+        "product_count": 35
+      },
+      {
+        "category_name": "Accessories",
+        "product_count": 29
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "adventureworks"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "table_count": 68,
+          "db_id": "adventureworks"
+        },
+        "latency_ms": 306
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "reason": "not_registered_for_db",
+          "bindings": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。"
+        },
+        "output_summary": {
+          "rewritten_question": "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 5
+      },
+      {
+        "name": "schema_link",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks",
+          "question": "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。"
+        },
+        "output_summary": {
+          "selected_tables": [
+            "production.product",
+            "production.productcategory",
+            "production.productdocument",
+            "production.productinventory",
+            "production.productmodel",
+            "production.productphoto",
+            "production.productproductphoto",
+            "production.productsubcategory",
+            "purchasing.productvendor"
+          ],
+          "columns": {
+            "production.product": [
+              "productid",
+              "name",
+              "productnumber",
+              "makeflag",
+              "finishedgoodsflag",
+              "color",
+              "safetystocklevel",
+              "reorderpoint",
+              "standardcost",
+              "listprice",
+              "size",
+              "sizeunitmeasurecode",
+              "weightunitmeasurecode",
+              "weight",
+              "daystomanufacture",
+              "productline",
+              "class",
+              "style",
+              "productsubcategoryid",
+              "productmodelid",
+              "sellstartdate",
+              "sellenddate",
+              "discontinueddate",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.productcategory": [
+              "productcategoryid",
+              "name",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.productdocument": [
+              "productid",
+              "modifieddate",
+              "documentnode"
+            ],
+            "production.productinventory": [
+              "productid",
+              "locationid",
+              "shelf",
+              "bin",
+              "quantity",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.productmodel": [
+              "productmodelid",
+              "name",
+              "catalogdescription",
+              "instructions",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.productphoto": [
+              "productphotoid",
+              "thumbnailphoto",
+              "thumbnailphotofilename",
+              "largephoto",
+              "largephotofilename",
+              "modifieddate"
+            ],
+            "production.productproductphoto": [
+              "productid",
+              "productphotoid",
+              "primary",
+              "modifieddate"
+            ],
+            "production.productsubcategory": [
+              "productsubcategoryid",
+              "productcategoryid",
+              "name",
+              "rowguid",
+              "modifieddate"
+            ],
+            "purchasing.productvendor": [
+              "productid",
+              "businessentityid",
+              "averageleadtime",
+              "standardprice",
+              "lastreceiptcost",
+              "lastreceiptdate",
+              "minorderqty",
+              "maxorderqty",
+              "onorderqty",
+              "unitmeasurecode",
+              "modifieddate"
+            ]
+          },
+          "join_paths": [
+            {
+              "source_table": "production.product",
+              "source_columns": [
+                "productsubcategoryid"
+              ],
+              "target_table": "production.productsubcategory",
+              "target_columns": [
+                "productsubcategoryid"
+              ]
+            },
+            {
+              "source_table": "production.productdocument",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "production.productinventory",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "production.product",
+              "source_columns": [
+                "productmodelid"
+              ],
+              "target_table": "production.productmodel",
+              "target_columns": [
+                "productmodelid"
+              ]
+            },
+            {
+              "source_table": "production.productproductphoto",
+              "source_columns": [
+                "productphotoid"
+              ],
+              "target_table": "production.productphoto",
+              "target_columns": [
+                "productphotoid"
+              ]
+            },
+            {
+              "source_table": "production.productproductphoto",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "production.productsubcategory",
+              "source_columns": [
+                "productcategoryid"
+              ],
+              "target_table": "production.productcategory",
+              "target_columns": [
+                "productcategoryid"
+              ]
+            },
+            {
+              "source_table": "purchasing.productvendor",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            }
+          ],
+          "reasons": {
+            "production.product": [
+              "表描述向量召回第 2 位",
+              "列描述 Top-20 投票：11 列"
+            ],
+            "production.productcategory": [
+              "表描述向量召回第 1 位",
+              "列描述 Top-20 投票：2 列",
+              "用户原文要素‘产品大类’的独立向量召回最高候选；仅提供定位"
+            ],
+            "production.productdocument": [
+              "表描述向量召回第 4 位"
+            ],
+            "production.productinventory": [
+              "表描述向量召回第 5 位",
+              "列描述 Top-20 投票：1 列"
+            ],
+            "production.productmodel": [
+              "表描述向量召回第 7 位"
+            ],
+            "production.productphoto": [
+              "表描述向量召回第 6 位",
+              "列描述 Top-20 投票：1 列"
+            ],
+            "production.productproductphoto": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "production.productsubcategory": [
+              "表描述向量召回第 3 位",
+              "列描述 Top-20 投票：5 列"
+            ],
+            "purchasing.productvendor": [
+              "表描述向量召回第 8 位"
+            ]
+          },
+          "table_recall": [
+            "production.productcategory",
+            "production.product",
+            "production.productsubcategory",
+            "production.productdocument",
+            "production.productinventory",
+            "production.productphoto",
+            "production.productmodel",
+            "purchasing.productvendor"
+          ],
+          "column_recall": [
+            "production.productsubcategory.productsubcategoryid",
+            "production.product.productsubcategoryid",
+            "production.productcategory.productcategoryid",
+            "production.productsubcategory.name",
+            "production.product.productnumber",
+            "production.product.name",
+            "production.productcategory.name",
+            "production.product.standardcost",
+            "production.product.weight",
+            "production.productsubcategory.productcategoryid",
+            "production.productphoto.largephoto",
+            "production.product.safetystocklevel",
+            "production.productinventory.quantity",
+            "production.productsubcategory.modifieddate",
+            "production.product.daystomanufacture",
+            "production.product.listprice",
+            "production.product.finishedgoodsflag",
+            "production.product.sizeunitmeasurecode",
+            "production.product.class",
+            "production.productsubcategory.rowguid"
+          ],
+          "value_recall": [],
+          "terminal_tables": [
+            "production.productcategory",
+            "production.product",
+            "production.productsubcategory",
+            "production.productphoto",
+            "production.productinventory",
+            "production.productdocument",
+            "production.productmodel",
+            "purchasing.productvendor"
+          ],
+          "bridge_tables": [
+            "production.productproductphoto"
+          ],
+          "disconnected_components": [
+            [
+              "production.product",
+              "production.productcategory",
+              "production.productdocument",
+              "production.productinventory",
+              "production.productmodel",
+              "production.productphoto",
+              "production.productsubcategory",
+              "purchasing.productvendor"
+            ]
+          ],
+          "scores": {
+            "production.product": 0.03252247488101534,
+            "production.productcategory": 0.032266458495966696,
+            "production.productsubcategory": 0.03200204813108039,
+            "production.productphoto": 0.030776515151515152,
+            "production.productinventory": 0.03076923076923077,
+            "production.productdocument": 0.015625,
+            "production.productmodel": 0.014925373134328358,
+            "purchasing.productvendor": 0.014705882352941176
+          },
+          "query_facets": [
+            "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+            "产品大类"
+          ],
+          "per_query_recall": [
+            {
+              "query": "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+              "table_top": [
+                "production.product",
+                "production.productsubcategory",
+                "production.productcategory",
+                "production.productdocument",
+                "production.productinventory",
+                "production.productphoto",
+                "production.productmodel",
+                "purchasing.productvendor"
+              ],
+              "column_top": [
+                "production.productsubcategory.productsubcategoryid",
+                "production.product.productsubcategoryid",
+                "production.productcategory.productcategoryid",
+                "production.productsubcategory.name",
+                "production.product.productnumber",
+                "production.product.name",
+                "production.productcategory.name",
+                "production.product.standardcost",
+                "production.product.weight",
+                "production.productsubcategory.productcategoryid",
+                "production.productphoto.largephoto",
+                "production.product.safetystocklevel",
+                "production.productinventory.quantity",
+                "production.productsubcategory.modifieddate",
+                "production.product.daystomanufacture",
+                "production.product.listprice",
+                "production.product.finishedgoodsflag",
+                "production.product.sizeunitmeasurecode",
+                "production.product.class",
+                "production.productsubcategory.rowguid"
+              ]
+            },
+            {
+              "query": "产品大类",
+              "table_top": [
+                "production.productcategory",
+                "production.productsubcategory",
+                "production.product",
+                "production.productmodel",
+                "production.productphoto",
+                "sales.shoppingcartitem",
+                "production.productdocument",
+                "production.productmodelproductdescriptionculture"
+              ],
+              "column_top": [
+                "production.productcategory.productcategoryid",
+                "production.productphoto.largephoto",
+                "production.productcategory.name",
+                "production.productsubcategory.productsubcategoryid",
+                "production.productsubcategory.name",
+                "production.product.productsubcategoryid",
+                "production.productsubcategory.modifieddate",
+                "production.productmodel.productmodelid",
+                "production.productsubcategory.productcategoryid",
+                "production.productphoto.largephotofilename",
+                "production.productmodel.name",
+                "production.productmodel.catalogdescription",
+                "production.productsubcategory.rowguid",
+                "production.product.name",
+                "production.product.safetystocklevel",
+                "production.product.finishedgoodsflag",
+                "sales.shoppingcartitem.quantity",
+                "production.product.productnumber",
+                "production.product.reorderpoint",
+                "production.productmodel.instructions"
+              ]
+            }
+          ]
+        },
+        "latency_ms": 77
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+          "repair_attempt": 0,
+          "db_id": "adventureworks",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT pc.\"name\" AS category_name, COUNT(DISTINCT p.\"productid\") AS product_count FROM \"production\".\"product\" p JOIN \"production\".\"productsubcategory\" ps ON p.\"productsubcategoryid\" = ps.\"productsubcategoryid\" JOIN \"production\".\"productcategory\" pc ON ps.\"productcategoryid\" = pc.\"productcategoryid\" WHERE p.\"productsubcategoryid\" IS NOT NULL GROUP BY pc.\"name\" ORDER BY product_count DESC, pc.\"name\" ASC",
+          "explanation": "通过产品子类别关联到产品类别，统计已分配到子类别的产品数（即 productsubcategoryid 非空），按产品类别分组，输出大类名称与产品数量，并按数量降序、名称升序排列。"
+        },
+        "latency_ms": 3941
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 200,
+            "prompt_tokens": 6396,
+            "total_tokens": 6596,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 896
+            },
+            "prompt_cache_hit_tokens": 896,
+            "prompt_cache_miss_tokens": 5500
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2782
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT pc.\"name\" AS category_name, COUNT(DISTINCT p.\"productid\") AS product_count FROM \"production\".\"product\" p JOIN \"production\".\"productsubcategory\" ps ON p.\"productsubcategoryid\" = ps.\"productsubcategoryid\" JOIN \"production\".\"productcategory\" pc ON ps.\"productcategoryid\" = pc.\"productcategoryid\" WHERE p.\"productsubcategoryid\" IS NOT NULL GROUP BY pc.\"name\" ORDER BY product_count DESC, pc.\"name\" ASC"
+        },
+        "output_summary": {
+          "tables": [
+            "production.product",
+            "production.productcategory",
+            "production.productsubcategory"
+          ],
+          "default_limit_added": true,
+          "sql": "SELECT pc.\"name\" AS category_name, COUNT(DISTINCT p.\"productid\") AS product_count FROM \"production\".\"product\" AS p JOIN \"production\".\"productsubcategory\" AS ps ON p.\"productsubcategoryid\" = ps.\"productsubcategoryid\" JOIN \"production\".\"productcategory\" AS pc ON ps.\"productcategoryid\" = pc.\"productcategoryid\" WHERE p.\"productsubcategoryid\" IS NOT NULL GROUP BY pc.\"name\" ORDER BY product_count DESC, pc.\"name\" ASC LIMIT 200"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT pc.\"name\" AS category_name, COUNT(DISTINCT p.\"productid\") AS product_count FROM \"production\".\"product\" AS p JOIN \"production\".\"productsubcategory\" AS ps ON p.\"productsubcategoryid\" = ps.\"productsubcategoryid\" JOIN \"production\".\"productcategory\" AS pc ON ps.\"productcategoryid\" = pc.\"productcategoryid\" WHERE p.\"productsubcategoryid\" IS NOT NULL GROUP BY pc.\"name\" ORDER BY product_count DESC, pc.\"name\" ASC LIMIT 200",
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "row_count": 4,
+          "columns": [
+            "category_name",
+            "product_count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 19
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "adventureworks",
+      "latency_ms": 4352,
+      "nlu": {
+        "original_question": "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+        "rewritten_question": "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "not_registered_for_db"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "schema_linker": {
+        "selected_tables": [
+          "production.product",
+          "production.productcategory",
+          "production.productdocument",
+          "production.productinventory",
+          "production.productmodel",
+          "production.productphoto",
+          "production.productproductphoto",
+          "production.productsubcategory",
+          "purchasing.productvendor"
+        ],
+        "columns": {
+          "production.product": [
+            "productid",
+            "name",
+            "productnumber",
+            "makeflag",
+            "finishedgoodsflag",
+            "color",
+            "safetystocklevel",
+            "reorderpoint",
+            "standardcost",
+            "listprice",
+            "size",
+            "sizeunitmeasurecode",
+            "weightunitmeasurecode",
+            "weight",
+            "daystomanufacture",
+            "productline",
+            "class",
+            "style",
+            "productsubcategoryid",
+            "productmodelid",
+            "sellstartdate",
+            "sellenddate",
+            "discontinueddate",
+            "rowguid",
+            "modifieddate"
+          ],
+          "production.productcategory": [
+            "productcategoryid",
+            "name",
+            "rowguid",
+            "modifieddate"
+          ],
+          "production.productdocument": [
+            "productid",
+            "modifieddate",
+            "documentnode"
+          ],
+          "production.productinventory": [
+            "productid",
+            "locationid",
+            "shelf",
+            "bin",
+            "quantity",
+            "rowguid",
+            "modifieddate"
+          ],
+          "production.productmodel": [
+            "productmodelid",
+            "name",
+            "catalogdescription",
+            "instructions",
+            "rowguid",
+            "modifieddate"
+          ],
+          "production.productphoto": [
+            "productphotoid",
+            "thumbnailphoto",
+            "thumbnailphotofilename",
+            "largephoto",
+            "largephotofilename",
+            "modifieddate"
+          ],
+          "production.productproductphoto": [
+            "productid",
+            "productphotoid",
+            "primary",
+            "modifieddate"
+          ],
+          "production.productsubcategory": [
+            "productsubcategoryid",
+            "productcategoryid",
+            "name",
+            "rowguid",
+            "modifieddate"
+          ],
+          "purchasing.productvendor": [
+            "productid",
+            "businessentityid",
+            "averageleadtime",
+            "standardprice",
+            "lastreceiptcost",
+            "lastreceiptdate",
+            "minorderqty",
+            "maxorderqty",
+            "onorderqty",
+            "unitmeasurecode",
+            "modifieddate"
+          ]
+        },
+        "join_paths": [
+          {
+            "source_table": "production.product",
+            "source_columns": [
+              "productsubcategoryid"
+            ],
+            "target_table": "production.productsubcategory",
+            "target_columns": [
+              "productsubcategoryid"
+            ]
+          },
+          {
+            "source_table": "production.productdocument",
+            "source_columns": [
+              "productid"
+            ],
+            "target_table": "production.product",
+            "target_columns": [
+              "productid"
+            ]
+          },
+          {
+            "source_table": "production.productinventory",
+            "source_columns": [
+              "productid"
+            ],
+            "target_table": "production.product",
+            "target_columns": [
+              "productid"
+            ]
+          },
+          {
+            "source_table": "production.product",
+            "source_columns": [
+              "productmodelid"
+            ],
+            "target_table": "production.productmodel",
+            "target_columns": [
+              "productmodelid"
+            ]
+          },
+          {
+            "source_table": "production.productproductphoto",
+            "source_columns": [
+              "productphotoid"
+            ],
+            "target_table": "production.productphoto",
+            "target_columns": [
+              "productphotoid"
+            ]
+          },
+          {
+            "source_table": "production.productproductphoto",
+            "source_columns": [
+              "productid"
+            ],
+            "target_table": "production.product",
+            "target_columns": [
+              "productid"
+            ]
+          },
+          {
+            "source_table": "production.productsubcategory",
+            "source_columns": [
+              "productcategoryid"
+            ],
+            "target_table": "production.productcategory",
+            "target_columns": [
+              "productcategoryid"
+            ]
+          },
+          {
+            "source_table": "purchasing.productvendor",
+            "source_columns": [
+              "productid"
+            ],
+            "target_table": "production.product",
+            "target_columns": [
+              "productid"
+            ]
+          }
+        ],
+        "reasons": {
+          "production.product": [
+            "表描述向量召回第 2 位",
+            "列描述 Top-20 投票：11 列"
+          ],
+          "production.productcategory": [
+            "表描述向量召回第 1 位",
+            "列描述 Top-20 投票：2 列",
+            "用户原文要素‘产品大类’的独立向量召回最高候选；仅提供定位"
+          ],
+          "production.productdocument": [
+            "表描述向量召回第 4 位"
+          ],
+          "production.productinventory": [
+            "表描述向量召回第 5 位",
+            "列描述 Top-20 投票：1 列"
+          ],
+          "production.productmodel": [
+            "表描述向量召回第 7 位"
+          ],
+          "production.productphoto": [
+            "表描述向量召回第 6 位",
+            "列描述 Top-20 投票：1 列"
+          ],
+          "production.productproductphoto": [
+            "真实外键图 Steiner 补全的桥接表"
+          ],
+          "production.productsubcategory": [
+            "表描述向量召回第 3 位",
+            "列描述 Top-20 投票：5 列"
+          ],
+          "purchasing.productvendor": [
+            "表描述向量召回第 8 位"
+          ]
+        },
+        "table_recall": [
+          "production.productcategory",
+          "production.product",
+          "production.productsubcategory",
+          "production.productdocument",
+          "production.productinventory",
+          "production.productphoto",
+          "production.productmodel",
+          "purchasing.productvendor"
+        ],
+        "column_recall": [
+          "production.productsubcategory.productsubcategoryid",
+          "production.product.productsubcategoryid",
+          "production.productcategory.productcategoryid",
+          "production.productsubcategory.name",
+          "production.product.productnumber",
+          "production.product.name",
+          "production.productcategory.name",
+          "production.product.standardcost",
+          "production.product.weight",
+          "production.productsubcategory.productcategoryid",
+          "production.productphoto.largephoto",
+          "production.product.safetystocklevel",
+          "production.productinventory.quantity",
+          "production.productsubcategory.modifieddate",
+          "production.product.daystomanufacture",
+          "production.product.listprice",
+          "production.product.finishedgoodsflag",
+          "production.product.sizeunitmeasurecode",
+          "production.product.class",
+          "production.productsubcategory.rowguid"
+        ],
+        "value_recall": [],
+        "terminal_tables": [
+          "production.productcategory",
+          "production.product",
+          "production.productsubcategory",
+          "production.productphoto",
+          "production.productinventory",
+          "production.productdocument",
+          "production.productmodel",
+          "purchasing.productvendor"
+        ],
+        "bridge_tables": [
+          "production.productproductphoto"
+        ],
+        "disconnected_components": [
+          [
+            "production.product",
+            "production.productcategory",
+            "production.productdocument",
+            "production.productinventory",
+            "production.productmodel",
+            "production.productphoto",
+            "production.productsubcategory",
+            "purchasing.productvendor"
+          ]
+        ],
+        "scores": {
+          "production.product": 0.03252247488101534,
+          "production.productcategory": 0.032266458495966696,
+          "production.productsubcategory": 0.03200204813108039,
+          "production.productphoto": 0.030776515151515152,
+          "production.productinventory": 0.03076923076923077,
+          "production.productdocument": 0.015625,
+          "production.productmodel": 0.014925373134328358,
+          "purchasing.productvendor": 0.014705882352941176
+        },
+        "query_facets": [
+          "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+          "产品大类"
+        ],
+        "per_query_recall": [
+          {
+            "query": "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+            "table_top": [
+              "production.product",
+              "production.productsubcategory",
+              "production.productcategory",
+              "production.productdocument",
+              "production.productinventory",
+              "production.productphoto",
+              "production.productmodel",
+              "purchasing.productvendor"
+            ],
+            "column_top": [
+              "production.productsubcategory.productsubcategoryid",
+              "production.product.productsubcategoryid",
+              "production.productcategory.productcategoryid",
+              "production.productsubcategory.name",
+              "production.product.productnumber",
+              "production.product.name",
+              "production.productcategory.name",
+              "production.product.standardcost",
+              "production.product.weight",
+              "production.productsubcategory.productcategoryid",
+              "production.productphoto.largephoto",
+              "production.product.safetystocklevel",
+              "production.productinventory.quantity",
+              "production.productsubcategory.modifieddate",
+              "production.product.daystomanufacture",
+              "production.product.listprice",
+              "production.product.finishedgoodsflag",
+              "production.product.sizeunitmeasurecode",
+              "production.product.class",
+              "production.productsubcategory.rowguid"
+            ]
+          },
+          {
+            "query": "产品大类",
+            "table_top": [
+              "production.productcategory",
+              "production.productsubcategory",
+              "production.product",
+              "production.productmodel",
+              "production.productphoto",
+              "sales.shoppingcartitem",
+              "production.productdocument",
+              "production.productmodelproductdescriptionculture"
+            ],
+            "column_top": [
+              "production.productcategory.productcategoryid",
+              "production.productphoto.largephoto",
+              "production.productcategory.name",
+              "production.productsubcategory.productsubcategoryid",
+              "production.productsubcategory.name",
+              "production.product.productsubcategoryid",
+              "production.productsubcategory.modifieddate",
+              "production.productmodel.productmodelid",
+              "production.productsubcategory.productcategoryid",
+              "production.productphoto.largephotofilename",
+              "production.productmodel.name",
+              "production.productmodel.catalogdescription",
+              "production.productsubcategory.rowguid",
+              "production.product.name",
+              "production.product.safetystocklevel",
+              "production.product.finishedgoodsflag",
+              "sales.shoppingcartitem.quantity",
+              "production.product.productnumber",
+              "production.product.reorderpoint",
+              "production.productmodel.instructions"
+            ]
+          }
+        ]
+      },
+      "result_columns": [
+        "category_name",
+        "product_count"
+      ],
+      "truncated": false
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

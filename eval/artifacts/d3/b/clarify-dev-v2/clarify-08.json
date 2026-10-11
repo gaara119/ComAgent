@@ -1,0 +1,426 @@
+{
+  "id": "clarify-08",
+  "request": {
+    "session_id": "d3-dev-74cfe85c-52b0-4eb0-a99b-595bada79942",
+    "message": "2024年账单国家为USA的发票销售额同比增长率是多少？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "14536530-01d6-4218-8030-c18456cce40e",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 1 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "WITH years AS (SELECT 2023 AS yr UNION ALL SELECT 2024), revenue AS (SELECT CAST(EXTRACT(YEAR FROM i.invoice_date) AS INT) AS yr, SUM(i.total) AS revenue FROM public.invoice AS i WHERE i.billing_country = 'USA' AND i.invoice_date >= '2023-01-01' AND i.invoice_date < '2025-01-01' GROUP BY EXTRACT(YEAR FROM i.invoice_date)) SELECT cur.revenue AS current_revenue, pri.revenue AS base_revenue, CASE WHEN pri.revenue IS NULL OR pri.revenue = 0 THEN NULL ELSE (cur.revenue - pri.revenue) / pri.revenue END AS yoy_growth_rate FROM revenue AS cur LEFT JOIN revenue AS pri ON cur.yr = pri.yr + 1 WHERE cur.yr = 2024 LIMIT 200",
+    "table": [
+      {
+        "current_revenue": "127.98",
+        "base_revenue": "103.01",
+        "yoy_growth_rate": "0.24240365013105523736"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "growth",
+      "metric": "invoice_revenue",
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        },
+        "base": {
+          "start": "2023-01-01",
+          "end": "2024-01-01",
+          "derived_from": "explicit current period and yoy"
+        }
+      },
+      "filters": [
+        {
+          "column": "invoice.billing_country",
+          "operator": "=",
+          "value": "USA",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "v-ab7ca55351c9f4bae96b",
+          "source": "verified_value_index",
+          "scope_evidence": "explicit_user_country_scope"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 21
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "USA",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "v-ab7ca55351c9f4bae96b",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "USA"
+        },
+        "output_summary": {
+          "candidate_count": 1,
+          "candidate_ids": [
+            "v-ab7ca55351c9f4bae96b"
+          ],
+          "scores": [
+            1.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024年账单国家为USA的发票销售额同比增长率是多少？"
+        },
+        "output_summary": {
+          "rewritten_question": "2024年账单国家为USA的发票销售额同比增长率是多少？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {
+            "time_scope.base": {
+              "start": "2023-01-01",
+              "end": "2024-01-01",
+              "derived_from": "explicit current period and yoy"
+            }
+          },
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3782
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/fb291e268ba2414d9dfc3e4d94c508d0.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 294,
+            "prompt_tokens": 5267,
+            "total_tokens": 5561,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1408
+            },
+            "prompt_cache_hit_tokens": 1408,
+            "prompt_cache_miss_tokens": 3859
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2610
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024年账单国家为USA的发票销售额同比增长率是多少？",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "WITH years AS (\n  SELECT 2023 AS yr UNION ALL SELECT 2024\n), revenue AS (\n  SELECT EXTRACT(YEAR FROM i.invoice_date)::int AS yr,\n         SUM(i.total) AS revenue\n  FROM public.invoice i\n  WHERE i.billing_country = 'USA'\n    AND i.invoice_date >= '2023-01-01' AND i.invoice_date < '2025-01-01'\n  GROUP BY EXTRACT(YEAR FROM i.invoice_date)\n)\nSELECT cur.revenue AS current_revenue,\n       pri.revenue AS base_revenue,\n       CASE WHEN pri.revenue IS NULL OR pri.revenue = 0 THEN NULL\n            ELSE (cur.revenue - pri.revenue) / pri.revenue END AS yoy_growth_rate\nFROM revenue cur\nLEFT JOIN revenue pri ON cur.yr = pri.yr + 1\nWHERE cur.yr = 2024",
+          "explanation": "按开票年份汇总账单国家为 USA 的发票销售额（invoice.total），计算 2024 年相对 2023 年的同比增长率。基期为 2023 年，基期销售额为零或缺失时返回 NULL。"
+        },
+        "latency_ms": 3882
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/29bb5fe63b5d45ab8473eb1c314b621c.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 285,
+            "prompt_tokens": 5049,
+            "total_tokens": 5334,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4864
+            },
+            "prompt_cache_hit_tokens": 4864,
+            "prompt_cache_miss_tokens": 185
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2779
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "WITH years AS (\n  SELECT 2023 AS yr UNION ALL SELECT 2024\n), revenue AS (\n  SELECT EXTRACT(YEAR FROM i.invoice_date)::int AS yr,\n         SUM(i.total) AS revenue\n  FROM public.invoice i\n  WHERE i.billing_country = 'USA'\n    AND i.invoice_date >= '2023-01-01' AND i.invoice_date < '2025-01-01'\n  GROUP BY EXTRACT(YEAR FROM i.invoice_date)\n)\nSELECT cur.revenue AS current_revenue,\n       pri.revenue AS base_revenue,\n       CASE WHEN pri.revenue IS NULL OR pri.revenue = 0 THEN NULL\n            ELSE (cur.revenue - pri.revenue) / pri.revenue END AS yoy_growth_rate\nFROM revenue cur\nLEFT JOIN revenue pri ON cur.yr = pri.yr + 1\nWHERE cur.yr = 2024"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": true,
+          "sql": "WITH years AS (SELECT 2023 AS yr UNION ALL SELECT 2024), revenue AS (SELECT CAST(EXTRACT(YEAR FROM i.invoice_date) AS INT) AS yr, SUM(i.total) AS revenue FROM public.invoice AS i WHERE i.billing_country = 'USA' AND i.invoice_date >= '2023-01-01' AND i.invoice_date < '2025-01-01' GROUP BY EXTRACT(YEAR FROM i.invoice_date)) SELECT cur.revenue AS current_revenue, pri.revenue AS base_revenue, CASE WHEN pri.revenue IS NULL OR pri.revenue = 0 THEN NULL ELSE (cur.revenue - pri.revenue) / pri.revenue END AS yoy_growth_rate FROM revenue AS cur LEFT JOIN revenue AS pri ON cur.yr = pri.yr + 1 WHERE cur.yr = 2024 LIMIT 200"
+        },
+        "latency_ms": 10
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "USA",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "v-ab7ca55351c9f4bae96b",
+              "source": "verified_value_index",
+              "scope_evidence": "explicit_user_country_scope"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "WITH years AS (SELECT 2023 AS yr UNION ALL SELECT 2024), revenue AS (SELECT CAST(EXTRACT(YEAR FROM i.invoice_date) AS INT) AS yr, SUM(i.total) AS revenue FROM public.invoice AS i WHERE i.billing_country = %(qa_value_1)s AND i.invoice_date >= %(qa_value_2)s AND i.invoice_date < %(qa_value_0)s GROUP BY EXTRACT(YEAR FROM i.invoice_date)) SELECT cur.revenue AS current_revenue, pri.revenue AS base_revenue, CASE WHEN pri.revenue IS NULL OR pri.revenue = 0 THEN NULL ELSE (cur.revenue - pri.revenue) / pri.revenue END AS yoy_growth_rate FROM revenue AS cur LEFT JOIN revenue AS pri ON cur.yr = pri.yr + 1 WHERE cur.yr = 2024 LIMIT 200",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "current_revenue",
+            "base_revenue",
+            "yoy_growth_rate"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 35
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 7738,
+      "nlu": {
+        "original_question": "2024年账单国家为USA的发票销售额同比增长率是多少？",
+        "rewritten_question": "2024年账单国家为USA的发票销售额同比增长率是多少？",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "USA",
+            "span": [
+              10,
+              13
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "invoice.billing_country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-ab7ca55351c9f4bae96b",
+                "column": "invoice.billing_country",
+                "standard_value": "USA",
+                "surface": "USA",
+                "score": 1.0,
+                "source": "catalog:invoice.billing_country",
+                "evidence_ref": "v-ab7ca55351c9f4bae96b",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": "v-ab7ca55351c9f4bae96b",
+            "match_method": "exact",
+            "evidence_ref": "v-ab7ca55351c9f4bae96b",
+            "canonical_value": "USA",
+            "column": "invoice.billing_country",
+            "stages": [
+              {
+                "method": "exact",
+                "candidates": [
+                  {
+                    "candidate_id": "v-ab7ca55351c9f4bae96b",
+                    "column": "invoice.billing_country",
+                    "standard_value": "USA",
+                    "surface": "USA",
+                    "score": 1.0,
+                    "source": "catalog:invoice.billing_country",
+                    "evidence_ref": "v-ab7ca55351c9f4bae96b",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "USA",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-ab7ca55351c9f4bae96b",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "derived": {
+          "time_scope.base": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "derived_from": "explicit current period and yoy"
+          }
+        },
+        "invalidated": [],
+        "switch": null
+      },
+      "result_columns": [
+        "current_revenue",
+        "base_revenue",
+        "yoy_growth_rate"
+      ],
+      "truncated": false
+    }
+  },
+  "error": null,
+  "latency_ms": 7746,
+  "created_at_utc": "2026-10-11T19:11:02.358574+00:00"
+}

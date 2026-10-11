@@ -1,0 +1,56 @@
+{
+  "status": "ok",
+  "table": "production.transactionhistoryarchive",
+  "source_hash": "70542edeec2c7bc0bd19048585ca610fe9ee2dbbdf45e01dbe0989c09ae08332",
+  "descriptions": {
+    "table_description": "AdventureWorks 自行车业务中的生产交易历史归档表，用于留存产品库存或成本交易的归档记录。该表与生产交易明细结构一致，但存放历史归档数据，不代表当前有效的交易记录。每行记录一次产品级交易，包含交易类型、数量、实际成本和关联的订单行信息。",
+    "column_descriptions": {
+      "transactionid": "交易记录的唯一标识，是归档表的主键。",
+      "productid": "发生该交易的产品标识，对应产品维度。",
+      "referenceorderid": "关联的来源订单标识，指向触发该交易的订单。",
+      "referenceorderlineid": "关联来源订单中的行号，用于定位订单明细行；可为 0。",
+      "transactiondate": "交易发生的日期时间。",
+      "transactiontype": "单字符交易类型标志，示例值包括 P、S、W；其具体枚举含义需参考源系统定义。",
+      "quantity": "该次交易涉及的产品数量。",
+      "actualcost": "该次交易的实际成本金额，不是销售价格。",
+      "modifieddate": "该记录最后修改的日期时间。"
+    },
+    "assumptions_or_limits": [
+      "transactiontype 的 P、S、W 等取值含义未在输入中给出字典证据，不能据此推断业务枚举。",
+      "actualcost 的具体币种未在输入中说明。",
+      "referenceorderid 与 referenceorderlineid 指向的订单/订单行可能同时来自销售订单或采购订单，输入未提供区分依据。",
+      "该表为归档表，不代表当前活动交易；不能与生产交易表直接合并统计而不考虑归档语义。",
+      "示例值仅用于理解字段形态，不代表统计期间或数据分布。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 342,
+          "prompt_tokens": 844,
+          "total_tokens": 1186,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 716
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3539
+    }
+  ],
+  "latency_ms": 5533
+}

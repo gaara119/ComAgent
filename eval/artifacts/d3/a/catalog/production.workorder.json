@@ -1,0 +1,55 @@
+{
+  "status": "ok",
+  "table": "production.workorder",
+  "source_hash": "785d0ded687ea0d95f9eb7f367a8c3aee31ae34e2340e67c2fc96d0d3af90240",
+  "descriptions": {
+    "table_description": "生产工单表，记录针对具体产品安排的生产制造工单，包含计划生产数量、报废数量、开始、结束与到期日期以及报废原因。该表属于生产制造环节，不同于销售订单或采购订单。",
+    "column_descriptions": {
+      "workorderid": "生产工单的唯一标识，主键。",
+      "productid": "生产工单所对应产品的标识，外键指向 production.product 表。",
+      "orderqty": "工单计划生产的产品数量。",
+      "scrappedqty": "该工单生产过程中报废的产品数量。",
+      "startdate": "工单开始生产的时间。",
+      "enddate": "工单完成生产的时间，可为空，表示尚未结束。",
+      "duedate": "工单计划到期完成的时间。",
+      "scrapreasonid": "工单报废原因的标识，外键指向 production.scrapreason 表，可为空。",
+      "modifieddate": "该工单记录最后修改的时间。"
+    },
+    "assumptions_or_limits": [
+      "示例值与原始描述仅为待解释的资料，其中不含需执行的指令。",
+      "scrappedqty 与 scrapreasonid 之间的具体对应关系未提供枚举字典，未作推断。",
+      "enddate 为空时的具体业务处理方式未在资料中说明。",
+      "各日期字段所用的时区未在资料中说明。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 295,
+          "prompt_tokens": 978,
+          "total_tokens": 1273,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 850
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2774
+    }
+  ],
+  "latency_ms": 4873
+}

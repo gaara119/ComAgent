@@ -27,3 +27,14 @@ eval/reports/d2-acceptance/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at
 eval/reports/d2-ai-preaudit/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
 eval/reports/d2-final/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
 notes/references/d2/*.md whitespace=-blank-at-eol
+# D3 and experiment evidence retain the exact bytes used by recorded hashes.
+eval/reports/d3*/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+eval/datasets/d3/** -text whitespace=-blank-at-eol,cr-at-eol
+eval/experiments/after_d2_01_03/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+notes/references/d3-and-special/** -text whitespace=-blank-at-eol,cr-at-eol
+data/catalog/adventureworks*.yaml -text whitespace=cr-at-eol
+notes/d3/staging/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+# Preserve the exact shared D3 source bytes verified by the runtime snapshots.
+qa_agent/pipeline.py -text whitespace=cr-at-eol
+qa_agent/schemas.py -text whitespace=cr-at-eol
+api/main.py -text whitespace=cr-at-eol

@@ -1,0 +1,112 @@
+{
+  "created_at_utc": "2026-10-11T20:01:37.751348+00:00",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "-B",
+    "scripts/capture_d3_clarify_demo.py",
+    "--api-records",
+    "eval/artifacts/d3/ui-v8/api",
+    "--output",
+    "eval/artifacts/d3/b/ui-live-v4"
+  ],
+  "method": "Real Edge + Streamlit + existing project actual API capture middleware",
+  "holdout_predictions": 0,
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "l2_no_sql_execution",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "same_session_and_version",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "one_button_one_request",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "resumed_actual_sql",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "free_input_actual_resume",
+      "passed": true,
+      "actual": "bb30fd91-7887-46dd-a201-e23d1ff5ba73"
+    },
+    {
+      "name": "one_free_submit_one_request",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "l1_assumption_visible",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "switch_new_version",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "switch_back_new_card",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "three_panels_preserved",
+      "passed": true,
+      "actual": null
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "notes/screenshots/D3-20261011T200137Z-clarification-before.png",
+      "trace_id": "591ad8dc-eff4-45ad-9f7e-ca8736fdb912",
+      "raw": "eval/artifacts/d3/b/ui-live-v4/clarification-before-raw.json",
+      "actual_api_record": "eval/artifacts/d3/ui-v8/api/20261011T200148712208Z-f7753a0e-bb8e-41ed-8388-3a5efc8160bc.json"
+    },
+    {
+      "file": "notes/screenshots/D3-20261011T200137Z-clarification-after.png",
+      "trace_id": "c6e2424d-dd09-4376-b446-6b2a40c46fac",
+      "raw": "eval/artifacts/d3/b/ui-live-v4/clarification-after-raw.json",
+      "actual_api_record": "eval/artifacts/d3/ui-v8/api/20261011T200155299348Z-e4bf3e05-783b-4d85-8318-f3f42beac25c.json"
+    },
+    {
+      "file": "notes/screenshots/D3-20261011T200137Z-free-input-before.png",
+      "trace_id": "ddb64c14-6ce0-431f-ba23-db17fec2cce4",
+      "raw": "eval/artifacts/d3/b/ui-live-v4/free-input-before-raw.json",
+      "actual_api_record": "eval/artifacts/d3/ui-v8/api/20261011T200204294372Z-3220df11-ee0c-41a6-84be-a1f3ba34e7ad.json"
+    },
+    {
+      "file": "notes/screenshots/D3-20261011T200137Z-free-input-after.png",
+      "trace_id": "bb30fd91-7887-46dd-a201-e23d1ff5ba73",
+      "raw": "eval/artifacts/d3/b/ui-live-v4/free-input-after-raw.json",
+      "actual_api_record": "eval/artifacts/d3/ui-v8/api/20261011T200213810656Z-1ddebce0-20d1-47f4-9656-4fd00a00eef3.json"
+    },
+    {
+      "file": "notes/screenshots/D3-20261011T200137Z-popular-default.png",
+      "trace_id": "f9be70ee-a580-4d21-8e2c-088f978065b5",
+      "raw": "eval/artifacts/d3/b/ui-live-v4/popular-default-raw.json",
+      "actual_api_record": "eval/artifacts/d3/ui-v8/api/20261011T200227844368Z-283624ae-eb8b-4165-ba5a-7d139babfc81.json"
+    },
+    {
+      "file": "notes/screenshots/D3-20261011T200137Z-switch-revenue.png",
+      "trace_id": "b415f705-2a24-4430-bce3-bf8ae55b5b2c",
+      "raw": "eval/artifacts/d3/b/ui-live-v4/switch-revenue-raw.json",
+      "actual_api_record": "eval/artifacts/d3/ui-v8/api/20261011T200233924096Z-a64f72c5-e260-4c49-96a7-100552fccb81.json"
+    },
+    {
+      "file": "notes/screenshots/D3-20261011T200137Z-switch-back-quantity.png",
+      "trace_id": "fa6e7498-4b60-418f-a246-07925b03bde4",
+      "raw": "eval/artifacts/d3/b/ui-live-v4/switch-back-quantity-raw.json",
+      "actual_api_record": "eval/artifacts/d3/ui-v8/api/20261011T200240873594Z-f1a0c959-3dcb-48f6-ba55-f8dd439c4e10.json"
+    }
+  ],
+  "errors": []
+}

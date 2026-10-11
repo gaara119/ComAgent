@@ -1,0 +1,16 @@
+{
+  "verified": true,
+  "sources": [
+    {
+      "position": "SELECT",
+      "source": "customer.country",
+      "sql_column": "\"customer\".\"country\""
+    },
+    {
+      "position": "GROUP BY",
+      "source": "customer.country",
+      "sql_column": "\"customer\".\"country\""
+    }
+  ],
+  "expected_scope_from_explicit_user_change": "customer.country"
+}

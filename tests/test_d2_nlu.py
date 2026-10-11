@@ -451,7 +451,10 @@ def test_pipeline_true_ambiguity_uses_existing_protocol_without_sql(monkeypatch,
     result = chat(ChatRequest(message="名称为摇滚的流派有哪些？"), llm=NeverModel())
     assert result.status == "NEEDS_CLARIFICATION"
     assert result.sql is None and not result.table
-    assert result.intent.unresolved and result.clarification["resume_supported"] is False
+    # D3 keeps the D2 no-SQL ambiguity guard and adds a versioned resume card.
+    assert result.intent.unresolved and result.clarification["resume_supported"] is True
+    assert result.clarification["clarification_id"]
+    assert result.clarification["intent_version"] == result.intent.intent_version
 
 
 @pytest.mark.integration

@@ -180,8 +180,15 @@ def _is_value_phrase(text: str) -> bool:
     )))
 
 
-def extract_mentions(question: str, index: ValueIndex) -> list[Mention]:
-    fields = field_scope(question, index)
+def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...] | None = None) -> list[Mention]:
+    if fields is None:
+        fields = field_scope(question, index)
+    else:
+        # Context supplies only previously confirmed field names. The literal
+        # spans still come exclusively from the new user text.
+        indexed_columns={record.column for record in index.records}
+        if any(column not in indexed_columns for column in fields):
+            raise ValueError('会话字段范围不在真实值索引中。')
     if not fields:
         return []
     possible = []

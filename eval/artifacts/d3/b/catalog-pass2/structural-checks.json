@@ -1,0 +1,3650 @@
+[
+  {
+    "table": "humanresources.department",
+    "column": "departmentid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "humanresources.department",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "humanresources.department",
+    "column": "groupname",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "humanresources.department",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "nationalidnumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(15)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "loginid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(256)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "jobtitle",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "birthdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "date",
+    "live_type": "date"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "maritalstatus",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(1)",
+    "live_type": "character"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "gender",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(1)",
+    "live_type": "character"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "hiredate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "date",
+    "live_type": "date"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "salariedflag",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "vacationhours",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "sickleavehours",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "currentflag",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "humanresources.employee",
+    "column": "organizationnode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying",
+    "live_type": "character varying"
+  },
+  {
+    "table": "humanresources.employeedepartmenthistory",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "humanresources.employeedepartmenthistory",
+    "column": "departmentid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "humanresources.employeedepartmenthistory",
+    "column": "shiftid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "humanresources.employeedepartmenthistory",
+    "column": "startdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "date",
+    "live_type": "date"
+  },
+  {
+    "table": "humanresources.employeedepartmenthistory",
+    "column": "enddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "date",
+    "live_type": "date"
+  },
+  {
+    "table": "humanresources.employeedepartmenthistory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "humanresources.employeepayhistory",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "humanresources.employeepayhistory",
+    "column": "ratechangedate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "humanresources.employeepayhistory",
+    "column": "rate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "humanresources.employeepayhistory",
+    "column": "payfrequency",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "humanresources.employeepayhistory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "humanresources.jobcandidate",
+    "column": "jobcandidateid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "humanresources.jobcandidate",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "humanresources.jobcandidate",
+    "column": "resume",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "xml",
+    "live_type": "xml"
+  },
+  {
+    "table": "humanresources.jobcandidate",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "humanresources.shift",
+    "column": "shiftid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "humanresources.shift",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "humanresources.shift",
+    "column": "starttime",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "time without time zone",
+    "live_type": "time without time zone"
+  },
+  {
+    "table": "humanresources.shift",
+    "column": "endtime",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "time without time zone",
+    "live_type": "time without time zone"
+  },
+  {
+    "table": "humanresources.shift",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.address",
+    "column": "addressid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.address",
+    "column": "addressline1",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(60)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.address",
+    "column": "addressline2",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(60)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.address",
+    "column": "city",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(30)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.address",
+    "column": "stateprovinceid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.address",
+    "column": "postalcode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(15)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.address",
+    "column": "spatiallocation",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "bytea",
+    "live_type": "bytea"
+  },
+  {
+    "table": "person.address",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "person.address",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.addresstype",
+    "column": "addresstypeid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.addresstype",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.addresstype",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "person.addresstype",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.businessentity",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.businessentity",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "person.businessentity",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.businessentityaddress",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.businessentityaddress",
+    "column": "addressid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.businessentityaddress",
+    "column": "addresstypeid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.businessentityaddress",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "person.businessentityaddress",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.businessentitycontact",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.businessentitycontact",
+    "column": "personid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.businessentitycontact",
+    "column": "contacttypeid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.businessentitycontact",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "person.businessentitycontact",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.contacttype",
+    "column": "contacttypeid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.contacttype",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.contacttype",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.countryregion",
+    "column": "countryregioncode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(3)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.countryregion",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.countryregion",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.emailaddress",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.emailaddress",
+    "column": "emailaddressid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.emailaddress",
+    "column": "emailaddress",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.emailaddress",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "person.emailaddress",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.password",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.password",
+    "column": "passwordhash",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(128)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.password",
+    "column": "passwordsalt",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(10)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.password",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "person.password",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.person",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.person",
+    "column": "persontype",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(2)",
+    "live_type": "character"
+  },
+  {
+    "table": "person.person",
+    "column": "namestyle",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "person.person",
+    "column": "title",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(8)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.person",
+    "column": "firstname",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.person",
+    "column": "middlename",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.person",
+    "column": "lastname",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.person",
+    "column": "suffix",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(10)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.person",
+    "column": "emailpromotion",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.person",
+    "column": "additionalcontactinfo",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "xml",
+    "live_type": "xml"
+  },
+  {
+    "table": "person.person",
+    "column": "demographics",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "xml",
+    "live_type": "xml"
+  },
+  {
+    "table": "person.person",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "person.person",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.personphone",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.personphone",
+    "column": "phonenumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(25)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.personphone",
+    "column": "phonenumbertypeid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.personphone",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.phonenumbertype",
+    "column": "phonenumbertypeid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.phonenumbertype",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.phonenumbertype",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "person.stateprovince",
+    "column": "stateprovinceid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.stateprovince",
+    "column": "stateprovincecode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(3)",
+    "live_type": "character"
+  },
+  {
+    "table": "person.stateprovince",
+    "column": "countryregioncode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(3)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.stateprovince",
+    "column": "isonlystateprovinceflag",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "person.stateprovince",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "person.stateprovince",
+    "column": "territoryid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "person.stateprovince",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "person.stateprovince",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.billofmaterials",
+    "column": "billofmaterialsid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.billofmaterials",
+    "column": "productassemblyid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.billofmaterials",
+    "column": "componentid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.billofmaterials",
+    "column": "startdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.billofmaterials",
+    "column": "enddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.billofmaterials",
+    "column": "unitmeasurecode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(3)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.billofmaterials",
+    "column": "bomlevel",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.billofmaterials",
+    "column": "perassemblyqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric(8,2)",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.billofmaterials",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.culture",
+    "column": "cultureid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(6)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.culture",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.culture",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.document",
+    "column": "title",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.document",
+    "column": "owner",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.document",
+    "column": "folderflag",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "production.document",
+    "column": "filename",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(400)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.document",
+    "column": "fileextension",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(8)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.document",
+    "column": "revision",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(5)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.document",
+    "column": "changenumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.document",
+    "column": "status",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.document",
+    "column": "documentsummary",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "text",
+    "live_type": "text"
+  },
+  {
+    "table": "production.document",
+    "column": "document",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "bytea",
+    "live_type": "bytea"
+  },
+  {
+    "table": "production.document",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "production.document",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.document",
+    "column": "documentnode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.illustration",
+    "column": "illustrationid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.illustration",
+    "column": "diagram",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "xml",
+    "live_type": "xml"
+  },
+  {
+    "table": "production.illustration",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.location",
+    "column": "locationid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.location",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.location",
+    "column": "costrate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.location",
+    "column": "availability",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric(8,2)",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.location",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.product",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.product",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.product",
+    "column": "productnumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(25)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.product",
+    "column": "makeflag",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "production.product",
+    "column": "finishedgoodsflag",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "production.product",
+    "column": "color",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(15)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.product",
+    "column": "safetystocklevel",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.product",
+    "column": "reorderpoint",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.product",
+    "column": "standardcost",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.product",
+    "column": "listprice",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.product",
+    "column": "size",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(5)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.product",
+    "column": "sizeunitmeasurecode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(3)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.product",
+    "column": "weightunitmeasurecode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(3)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.product",
+    "column": "weight",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric(8,2)",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.product",
+    "column": "daystomanufacture",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.product",
+    "column": "productline",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(2)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.product",
+    "column": "class",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(2)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.product",
+    "column": "style",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(2)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.product",
+    "column": "productsubcategoryid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.product",
+    "column": "productmodelid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.product",
+    "column": "sellstartdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.product",
+    "column": "sellenddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.product",
+    "column": "discontinueddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.product",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "production.product",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productcategory",
+    "column": "productcategoryid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productcategory",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productcategory",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "production.productcategory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productcosthistory",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productcosthistory",
+    "column": "startdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productcosthistory",
+    "column": "enddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productcosthistory",
+    "column": "standardcost",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.productcosthistory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productdescription",
+    "column": "productdescriptionid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productdescription",
+    "column": "description",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(400)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productdescription",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "production.productdescription",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productdocument",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productdocument",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productdocument",
+    "column": "documentnode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productinventory",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productinventory",
+    "column": "locationid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.productinventory",
+    "column": "shelf",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(10)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productinventory",
+    "column": "bin",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.productinventory",
+    "column": "quantity",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.productinventory",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "production.productinventory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productlistpricehistory",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productlistpricehistory",
+    "column": "startdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productlistpricehistory",
+    "column": "enddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productlistpricehistory",
+    "column": "listprice",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.productlistpricehistory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productmodel",
+    "column": "productmodelid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productmodel",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productmodel",
+    "column": "catalogdescription",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "xml",
+    "live_type": "xml"
+  },
+  {
+    "table": "production.productmodel",
+    "column": "instructions",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "xml",
+    "live_type": "xml"
+  },
+  {
+    "table": "production.productmodel",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "production.productmodel",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productmodelillustration",
+    "column": "productmodelid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productmodelillustration",
+    "column": "illustrationid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productmodelillustration",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productmodelproductdescriptionculture",
+    "column": "productmodelid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productmodelproductdescriptionculture",
+    "column": "productdescriptionid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productmodelproductdescriptionculture",
+    "column": "cultureid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(6)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.productmodelproductdescriptionculture",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productphoto",
+    "column": "productphotoid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productphoto",
+    "column": "thumbnailphoto",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "bytea",
+    "live_type": "bytea"
+  },
+  {
+    "table": "production.productphoto",
+    "column": "thumbnailphotofilename",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productphoto",
+    "column": "largephoto",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "bytea",
+    "live_type": "bytea"
+  },
+  {
+    "table": "production.productphoto",
+    "column": "largephotofilename",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productphoto",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productproductphoto",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productproductphoto",
+    "column": "productphotoid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productproductphoto",
+    "column": "primary",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "production.productproductphoto",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productreview",
+    "column": "productreviewid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productreview",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productreview",
+    "column": "reviewername",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productreview",
+    "column": "reviewdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productreview",
+    "column": "emailaddress",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productreview",
+    "column": "rating",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productreview",
+    "column": "comments",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(3850)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productreview",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.productsubcategory",
+    "column": "productsubcategoryid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productsubcategory",
+    "column": "productcategoryid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.productsubcategory",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.productsubcategory",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "production.productsubcategory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.scrapreason",
+    "column": "scrapreasonid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.scrapreason",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.scrapreason",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.transactionhistory",
+    "column": "transactionid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.transactionhistory",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.transactionhistory",
+    "column": "referenceorderid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.transactionhistory",
+    "column": "referenceorderlineid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.transactionhistory",
+    "column": "transactiondate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.transactionhistory",
+    "column": "transactiontype",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(1)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.transactionhistory",
+    "column": "quantity",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.transactionhistory",
+    "column": "actualcost",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.transactionhistory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.transactionhistoryarchive",
+    "column": "transactionid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.transactionhistoryarchive",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.transactionhistoryarchive",
+    "column": "referenceorderid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.transactionhistoryarchive",
+    "column": "referenceorderlineid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.transactionhistoryarchive",
+    "column": "transactiondate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.transactionhistoryarchive",
+    "column": "transactiontype",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(1)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.transactionhistoryarchive",
+    "column": "quantity",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.transactionhistoryarchive",
+    "column": "actualcost",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.transactionhistoryarchive",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.unitmeasure",
+    "column": "unitmeasurecode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(3)",
+    "live_type": "character"
+  },
+  {
+    "table": "production.unitmeasure",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "production.unitmeasure",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.workorder",
+    "column": "workorderid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.workorder",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.workorder",
+    "column": "orderqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.workorder",
+    "column": "scrappedqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.workorder",
+    "column": "startdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.workorder",
+    "column": "enddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.workorder",
+    "column": "duedate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.workorder",
+    "column": "scrapreasonid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.workorder",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "workorderid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "operationsequence",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "locationid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "scheduledstartdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "scheduledenddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "actualstartdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "actualenddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "actualresourcehrs",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric(9,4)",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "plannedcost",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "actualcost",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "production.workorderrouting",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "averageleadtime",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "standardprice",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "lastreceiptcost",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "lastreceiptdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "minorderqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "maxorderqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "onorderqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "unitmeasurecode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(3)",
+    "live_type": "character"
+  },
+  {
+    "table": "purchasing.productvendor",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "purchasing.purchaseorderdetail",
+    "column": "purchaseorderid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.purchaseorderdetail",
+    "column": "purchaseorderdetailid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.purchaseorderdetail",
+    "column": "duedate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "purchasing.purchaseorderdetail",
+    "column": "orderqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "purchasing.purchaseorderdetail",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.purchaseorderdetail",
+    "column": "unitprice",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "purchasing.purchaseorderdetail",
+    "column": "receivedqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric(8,2)",
+    "live_type": "numeric"
+  },
+  {
+    "table": "purchasing.purchaseorderdetail",
+    "column": "rejectedqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric(8,2)",
+    "live_type": "numeric"
+  },
+  {
+    "table": "purchasing.purchaseorderdetail",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "purchaseorderid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "revisionnumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "status",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "employeeid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "vendorid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "shipmethodid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "orderdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "shipdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "subtotal",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "taxamt",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "freight",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "purchasing.purchaseorderheader",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "purchasing.shipmethod",
+    "column": "shipmethodid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.shipmethod",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "purchasing.shipmethod",
+    "column": "shipbase",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "purchasing.shipmethod",
+    "column": "shiprate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "purchasing.shipmethod",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "purchasing.shipmethod",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "purchasing.vendor",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "purchasing.vendor",
+    "column": "accountnumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(15)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "purchasing.vendor",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "purchasing.vendor",
+    "column": "creditrating",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "purchasing.vendor",
+    "column": "preferredvendorstatus",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "purchasing.vendor",
+    "column": "activeflag",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "purchasing.vendor",
+    "column": "purchasingwebserviceurl",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(1024)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "purchasing.vendor",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.countryregioncurrency",
+    "column": "countryregioncode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(3)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.countryregioncurrency",
+    "column": "currencycode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(3)",
+    "live_type": "character"
+  },
+  {
+    "table": "sales.countryregioncurrency",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.creditcard",
+    "column": "creditcardid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.creditcard",
+    "column": "cardtype",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.creditcard",
+    "column": "cardnumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(25)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.creditcard",
+    "column": "expmonth",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "sales.creditcard",
+    "column": "expyear",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "sales.creditcard",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.currency",
+    "column": "currencycode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(3)",
+    "live_type": "character"
+  },
+  {
+    "table": "sales.currency",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.currency",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.currencyrate",
+    "column": "currencyrateid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.currencyrate",
+    "column": "currencyratedate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.currencyrate",
+    "column": "fromcurrencycode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(3)",
+    "live_type": "character"
+  },
+  {
+    "table": "sales.currencyrate",
+    "column": "tocurrencycode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character(3)",
+    "live_type": "character"
+  },
+  {
+    "table": "sales.currencyrate",
+    "column": "averagerate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.currencyrate",
+    "column": "endofdayrate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.currencyrate",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.customer",
+    "column": "customerid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.customer",
+    "column": "personid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.customer",
+    "column": "storeid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.customer",
+    "column": "territoryid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.customer",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.customer",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.personcreditcard",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.personcreditcard",
+    "column": "creditcardid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.personcreditcard",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesorderdetail",
+    "column": "salesorderid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderdetail",
+    "column": "salesorderdetailid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderdetail",
+    "column": "carriertrackingnumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(25)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salesorderdetail",
+    "column": "orderqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "sales.salesorderdetail",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderdetail",
+    "column": "specialofferid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderdetail",
+    "column": "unitprice",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesorderdetail",
+    "column": "unitpricediscount",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesorderdetail",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.salesorderdetail",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "salesorderid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "revisionnumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "orderdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "duedate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "shipdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "status",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "onlineorderflag",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "boolean",
+    "live_type": "boolean"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "purchaseordernumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(25)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "accountnumber",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(15)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "customerid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "salespersonid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "territoryid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "billtoaddressid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "shiptoaddressid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "shipmethodid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "creditcardid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "creditcardapprovalcode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(15)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "currencyrateid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "subtotal",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "taxamt",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "freight",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "totaldue",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "comment",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(128)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.salesorderheader",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesorderheadersalesreason",
+    "column": "salesorderid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheadersalesreason",
+    "column": "salesreasonid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesorderheadersalesreason",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesperson",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesperson",
+    "column": "territoryid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesperson",
+    "column": "salesquota",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesperson",
+    "column": "bonus",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesperson",
+    "column": "commissionpct",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesperson",
+    "column": "salesytd",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesperson",
+    "column": "saleslastyear",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesperson",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.salesperson",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salespersonquotahistory",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salespersonquotahistory",
+    "column": "quotadate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salespersonquotahistory",
+    "column": "salesquota",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salespersonquotahistory",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.salespersonquotahistory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesreason",
+    "column": "salesreasonid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesreason",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salesreason",
+    "column": "reasontype",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salesreason",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salestaxrate",
+    "column": "salestaxrateid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salestaxrate",
+    "column": "stateprovinceid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salestaxrate",
+    "column": "taxtype",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "smallint",
+    "live_type": "smallint"
+  },
+  {
+    "table": "sales.salestaxrate",
+    "column": "taxrate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salestaxrate",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salestaxrate",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.salestaxrate",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesterritory",
+    "column": "territoryid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesterritory",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salesterritory",
+    "column": "countryregioncode",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(3)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salesterritory",
+    "column": "group",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.salesterritory",
+    "column": "salesytd",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesterritory",
+    "column": "saleslastyear",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesterritory",
+    "column": "costytd",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesterritory",
+    "column": "costlastyear",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.salesterritory",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.salesterritory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesterritoryhistory",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesterritoryhistory",
+    "column": "territoryid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.salesterritoryhistory",
+    "column": "startdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesterritoryhistory",
+    "column": "enddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.salesterritoryhistory",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.salesterritoryhistory",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.shoppingcartitem",
+    "column": "shoppingcartitemid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.shoppingcartitem",
+    "column": "shoppingcartid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.shoppingcartitem",
+    "column": "quantity",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.shoppingcartitem",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.shoppingcartitem",
+    "column": "datecreated",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.shoppingcartitem",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "specialofferid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "description",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(255)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "discountpct",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "numeric",
+    "live_type": "numeric"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "type",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "category",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "startdate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "enddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "minqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "maxqty",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.specialoffer",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.specialofferproduct",
+    "column": "specialofferid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.specialofferproduct",
+    "column": "productid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.specialofferproduct",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.specialofferproduct",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  },
+  {
+    "table": "sales.store",
+    "column": "businessentityid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.store",
+    "column": "name",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "character varying(50)",
+    "live_type": "character varying"
+  },
+  {
+    "table": "sales.store",
+    "column": "salespersonid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "integer",
+    "live_type": "integer"
+  },
+  {
+    "table": "sales.store",
+    "column": "demographics",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "xml",
+    "live_type": "xml"
+  },
+  {
+    "table": "sales.store",
+    "column": "rowguid",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "uuid",
+    "live_type": "uuid"
+  },
+  {
+    "table": "sales.store",
+    "column": "modifieddate",
+    "actual_column_exists": true,
+    "nullability_matches": true,
+    "catalog_type": "timestamp without time zone",
+    "live_type": "timestamp without time zone"
+  }
+]

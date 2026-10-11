@@ -1,0 +1,49 @@
+{
+  "status": "ok",
+  "table": "production.productproductphoto",
+  "source_hash": "799cc56c2b94c9c3f193e94a5050354b9b87e3f5dcdb77bd5ef5cae76681f6d0",
+  "descriptions": {
+    "table_description": "该表是生产模块中产品与产品照片的关联表，用于记录每个产品对应哪些产品照片，以及某张照片是否被标记为该产品的主照片。产品照片本身存放在 productphoto 表中，本表仅保存产品与照片之间的多对多关系。",
+    "column_descriptions": {
+      "productid": "产品标识，关联 production.product 表的 productid，表示该关联记录所属的产品。",
+      "productphotoid": "产品照片标识，关联 production.productphoto 表的 productphotoid，表示该关联记录所引用的照片。",
+      "primary": "布尔标志，表示这条产品与照片的关联记录是否被标记为主照片；没有字典证据说明其取值在业务上的扩展含义。",
+      "modifieddate": "该关联记录的最后修改时间戳。"
+    },
+    "assumptions_or_limits": [
+      "示例值中 primary 仅有 true，无法据此判断是否存在 false 或两者并存的具体分布。",
+      "表中未提供币种、统计期间或业务枚举字段，说明中不涉及这些内容。",
+      "产品与照片的关联关系仅由 productid 和 productphotoid 的组合体现，不额外推断图片顺序或展示优先级。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 241,
+          "prompt_tokens": 655,
+          "total_tokens": 896,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 527
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2934
+    }
+  ],
+  "latency_ms": 4959
+}

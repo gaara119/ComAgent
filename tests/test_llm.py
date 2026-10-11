@@ -28,7 +28,8 @@ def make_llm(monkeypatch, contents, status=200):
             "choices": [{"index": 0, "message": {"role": "assistant", "content": content}, "finish_reason": "stop"}],
             "usage": {"prompt_tokens": 10, "completion_tokens": 3, "total_tokens": 13},
         })
-    settings = replace(get_settings(), llm_api_key="test-dummy", llm_max_attempts=3)
+    settings = replace(get_settings(), llm_api_key="test-dummy", llm_max_attempts=3,
+                       llm_request_max_attempts=None)
     model = JsonLLM(settings)
     monkeypatch.setattr(model, "_client", lambda: OpenAI(api_key="test-dummy", base_url="https://example.test/v1",
                          max_retries=0, http_client=httpx.Client(transport=httpx.MockTransport(reply))))
@@ -70,3 +71,48 @@ def test_total_budget_survives_multiple_generation_calls(monkeypatch):
         llm.complete_json("prompt", "question", Probe, trace)
     assert error.value.code == "llm_attempt_budget"
     assert len(calls) == 3
+
+
+def test_multistage_request_has_separate_bounded_budget(monkeypatch):
+    llm, calls = make_llm(monkeypatch, ['{"ok":true}'])
+    llm.settings = replace(llm.settings, llm_request_max_attempts=12)
+    trace = TraceRecorder()
+    for _ in range(12):
+        assert llm.complete_json("prompt", "question", Probe, trace).ok
+    with pytest.raises(LLMError) as error:
+        llm.complete_json("prompt", "question", Probe, trace)
+    assert error.value.code == "llm_attempt_budget"
+    assert len(calls) == 12
+
+
+def test_multistage_budget_does_not_expand_format_retry(monkeypatch):
+    llm, calls = make_llm(monkeypatch, ["not json"])
+    llm.settings = replace(llm.settings, llm_request_max_attempts=12)
+    with pytest.raises(LLMError) as error:
+        llm.complete_json("prompt", "question", Probe, TraceRecorder())
+    assert error.value.code == "llm_format"
+    assert len(calls) == 3
+
+
+def test_optional_provider_observation_preserves_response_and_redacts(monkeypatch, tmp_path):
+    # Treat the isolated fixture directory as this observer's project boundary.
+    monkeypatch.setattr("qa_agent.llm.PROJECT_ROOT", tmp_path)
+    monkeypatch.setenv("LLM_CAPTURE_DIR", str(tmp_path))
+    llm, calls = make_llm(monkeypatch, ['{"ok":true}'])
+    trace = TraceRecorder()
+    assert llm.complete_json("prompt", "question test-dummy sk-fixtureonly", Probe, trace).ok
+    path = tmp_path / trace.steps[0].output_summary["provider_capture"]
+    raw = path.read_text(encoding="utf-8")
+    assert "test-dummy" not in raw and "sk-fixtureonly" not in raw
+    record = json.loads(raw)
+    assert record["response"]["usage"]["total_tokens"] == 13
+    assert len(calls) == 1
+
+
+def test_observer_failure_does_not_break_model_call(monkeypatch):
+    monkeypatch.setenv("LLM_CAPTURE_DIR", "C:/outside-project/capture")
+    llm, calls = make_llm(monkeypatch, ['{"ok":true}'])
+    trace = TraceRecorder()
+    assert llm.complete_json("prompt", "question", Probe, trace).ok
+    assert trace.steps[0].output_summary["provider_capture_error"] == "local_capture_unavailable"
+    assert len(calls) == 1

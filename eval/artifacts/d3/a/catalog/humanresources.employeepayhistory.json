@@ -1,0 +1,51 @@
+{
+  "status": "ok",
+  "table": "humanresources.employeepayhistory",
+  "source_hash": "7b470e38864f9756a8bf673896805879ec2fa64eeaf9f665e95eb563e0294882",
+  "descriptions": {
+    "table_description": "员工薪酬历史表，记录每位员工自某次调薪日期起的时薪标准与付薪频率，用于追溯员工薪酬变动。该表通过 businessentityid 关联 humanresources.employee 表，标识受薪员工。",
+    "column_descriptions": {
+      "businessentityid": "员工业务实体编号，与 humanresources.employee 的 businessentityid 对应，标识该条薪酬记录所属的员工。",
+      "ratechangedate": "本次薪酬标准生效（调薪）的日期时间，与 businessentityid 共同构成主键，用于区分同一员工的不同薪酬历史记录。",
+      "rate": "本次生效的薪酬费率（时薪）金额数值，示例包含 6.5000、6.7500、7.0000。",
+      "payfrequency": "付薪频率的小整数编码，示例值为 1、2，具体编码含义以来源数据字典为准。",
+      "modifieddate": "该条薪酬历史记录最后修改的日期时间。"
+    },
+    "assumptions_or_limits": [
+      "表名与列描述均来自 AdventureWorks 示例数据，其中 payfrequency 的枚举业务含义需以来源数据字典为准，本说明未作推断。",
+      "rate 未标注币种，币种信息以来源数据为准，本说明不编造币种。",
+      "ratechangedate 与 modifieddate 为 timestamp without time zone 类型，时区含义以来源数据为准。",
+      "示例值（如 sample_values）仅用于说明字段可能取值，不代表完整取值范围或业务规则。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 331,
+          "prompt_tokens": 725,
+          "total_tokens": 1056,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 597
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3268
+    }
+  ],
+  "latency_ms": 5434
+}

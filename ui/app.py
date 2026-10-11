@@ -219,6 +219,59 @@ def render_panels(
                                    ensure_ascii=False, indent=2), language="json")
 
 
+
+
+def submit_resume(base_url: str, scope: SourceScope, *, message: str,
+                  card: dict, choice_id: str | None = None) -> None:
+    request = ChatRequest(session_id=st.session_state.qa_session_id, message=message, scope=scope,
+                          clarification_id=card["clarification_id"], intent_version=card["intent_version"],
+                          choice_id=choice_id)
+    with st.spinner("正在更新条件并查询……"):
+        try:
+            response = httpx.post(f"{base_url}/api/chat", json=request.model_dump(), timeout=240)
+            response.raise_for_status()
+            result = AnswerEnvelope.model_validate(response.json())
+        except (httpx.HTTPError, ValueError):
+            st.error("未能获取有效的补充结果，请稍后重试。")
+            return
+        st.session_state.last_answer = result.model_dump()
+    st.rerun()
+
+
+def render_clarification_controls(result: AnswerEnvelope, base_url: str, scope: SourceScope) -> None:
+    card = result.clarification
+    if card and card.get("resume_supported"):
+        st.markdown("**请补充查询条件**")
+        st.write(safe_text(card.get("question", "")))
+        if card.get("reason"):
+            st.caption(safe_text(card["reason"]))
+        for item in card.get("options", []):
+            if st.button(safe_text(item["label"]), key=f"clarify_{card['clarification_id']}_{item['id']}"):
+                submit_resume(base_url, scope, message=item["label"], card=card, choice_id=item["id"])
+        with st.form(f"clarify_free_{card['clarification_id']}"):
+            value = st.text_input("补充说明", max_chars=4000)
+            submitted = st.form_submit_button("提交补充")
+        if submitted:
+            if value.strip():
+                submit_resume(base_url, scope, message=value.strip(), card=card)
+            else:
+                st.warning("请写出需要补充的具体信息。")
+    elif card:
+        for item in card.get("options", []):
+            st.caption(safe_text(str(item)))
+    metadata = result.metadata.get("clarify", {})
+    region_labels={"customer.country":"客户所在地", "invoice.billing_country":"发票账单国家"}
+    region=metadata.get("region_scope")
+    if region in region_labels:
+        st.caption(f"当前国家口径：{region_labels[region]}（{region}）")
+    switch = metadata.get("switch")
+    if switch:
+        st.caption("切换统计口径")
+        for item in switch.get("options", []):
+            if st.button("切换：" + safe_text(item["label"]), key=f"switch_{switch['clarification_id']}_{item['id']}"):
+                submit_resume(base_url, scope, message=item["label"], card=switch, choice_id=item["id"])
+
+
 def render_result(
     result: AnswerEnvelope,
     base_url: str,
@@ -253,9 +306,9 @@ def render_result(
                 st.text(safe_text(f"{patch.get('original_text', patch.get('original', patch.get('before','')))} → "
                                   f"{patch.get('replacement', patch.get('after',''))}；"
                                   f"{patch.get('method','')} {patch.get('evidence_ref','')}"))
-    if result.clarification:
-        for item in result.clarification.get("options", []):
-            st.caption(safe_text(str(item)))
+    scope = SourceScope(route="sql", db_id=db_id, doc_ids=[]) if db_id else SourceScope(route="doc", db_id=None)
+    if db_id:
+        render_clarification_controls(result, base_url, scope)
     st.markdown(linked_answer(result.answer, result, base_url))
     if result.error:
         st.caption(safe_text(result.error.message))
@@ -286,11 +339,13 @@ def main() -> None:
     ready_documents = [d for d in documents if d.get("ready")]
     blocked = False
     if source == "数据库":
-        st.selectbox("数据库", ["Chinook"], disabled=True)
-        scope = SourceScope(route="sql", db_id="chinook", doc_ids=[])
-        context = "sql:chinook"
+        names = ["Chinook", "AdventureWorks"] if health.get("aw_database_ready") else ["Chinook"]
+        selected = st.selectbox("数据库", names, disabled=len(names) == 1)
+        db_id = "adventureworks" if selected == "AdventureWorks" else "chinook"
+        scope = SourceScope(route="sql", db_id=db_id, doc_ids=[])
+        context = f"sql:{db_id}"
         placeholder = "例如：来自巴西的客户有多少位？"
-        if health.get("database_ready") is False:
+        if health.get("aw_database_ready" if db_id == "adventureworks" else "database_ready") is False:
             st.warning("数据库暂不可用，请稍后重试。")
             blocked = True
     else:

@@ -175,7 +175,121 @@ def validate_sql(sql: str, catalog: Catalog, max_rows: int = 200) -> ValidatedSQ
     return ValidatedSQL(sql=rendered, tables_used=sorted(physical_tables), default_limit_added=added)
 
 
-def validate_value_bindings(sql: str, catalog: Catalog, bindings: list[dict]) -> None:
+def _validate_invoice_ratio_binding(sql: str, catalog: Catalog, bindings: list[dict], context: dict) -> bool:
+    """Prove a narrow same-period invoice share without weakening normal WHERE guards.
+
+    The country is a numerator condition; the denominator is explicitly all
+    invoices in the same period. Only a single invoice scan, CASE SUM numerator
+    and unfiltered SUM(total) denominator are admitted. Every other form keeps
+    the ordinary mandatory-filter validator.
+    """
+    if context.get('task_type')!='ratio' or len(bindings)!=1:
+        return False
+    binding=bindings[0]
+    if binding.get('column')!='invoice.billing_country' or binding.get('operator')!='=':
+        return False
+    numerator=str(context.get('numerator') or '')
+    denominator=str(context.get('denominator') or '')
+    question=str(context.get('question') or '')
+    value=str(binding.get('value') or '')
+    surfaces=[value,*context.get('verified_original_surfaces',[])]
+    if (not numerator or not denominator or not any(word in denominator for word in ('所有','全部','all')) or
+        not any(word in question for word in ('所有','全部','all')) or
+        not any(surface and surface.casefold() in numerator.casefold() for surface in surfaces) or
+        any(surface and surface.casefold() in denominator.casefold() for surface in surfaces) or
+        '发票' not in numerator or '发票' not in denominator):
+        return False
+    current=((context.get('time_scope') or {}).get('current') or {})
+    start,end=current.get('start'),current.get('end')
+    if not start or not end or context.get('region_scope')!='invoice.billing_country':
+        return False
+    denominator_start=re.search(r'占|分母|比例|比重',question)
+    denominator_question=question[denominator_start.end():] if denominator_start else ''
+    same_period=any(word in denominator_question for word in ('同年','同期','同一期间','相同期间','相同时期'))
+    try:
+        whole_year=(str(start).endswith('-01-01') and str(end)==f'{int(str(start)[:4])+1:04d}-01-01')
+    except ValueError:whole_year=False
+    explicit_same_year=whole_year and str(start)[:4]+'年' in denominator_question
+    if not same_period and not explicit_same_year:
+        # A numerator year cannot by itself establish the denominator period.
+        return False
+    expression=normalize_identifiers(sqlglot.parse_one(sql,read='postgres'),dialect='postgres')
+    try:
+        checked=qualify(expression,dialect='postgres',db='public',
+                        schema=MappingSchema(catalog.sqlglot_schema(),dialect='postgres',normalize=False),
+                        allow_partial_qualification=False,validate_qualify_columns=True)
+    except (OptimizeError,ValueError,KeyError,UnsupportedError) as exc:
+        raise SQLValidationError('比例分子绑定无法建立真实字段作用域。') from exc
+    scopes=list(traverse_scope(checked))
+    if (len(scopes)!=1 or not isinstance(checked,exp.Select) or len(checked.expressions)!=1 or
+        checked.args.get('joins') or checked.args.get('group') or checked.args.get('having') or checked.args.get('distinct')):
+        raise SQLValidationError('分子专属绑定仅支持已核验的单发票表同期间条件聚合比例。')
+    scope=scopes[0]
+    sources={alias:source for alias,(_,source) in scope.selected_sources.items()}
+    if len(sources)!=1 or not all(isinstance(source,exp.Table) and source.name=='invoice' for source in sources.values()):
+        raise SQLValidationError('分子专属绑定必须使用真实 invoice 单次扫描，禁止替换来源。')
+
+    def real_column(node,name):
+        return isinstance(node,exp.Column) and node.name==name and isinstance(sources.get(node.table),exp.Table) and sources[node.table].name=='invoice'
+
+    def zero_or_null(node):
+        return node is None or isinstance(node,exp.Null) or (isinstance(node,exp.Literal) and not node.is_string and str(node.this) in {'0','0.0'})
+
+    def numeric_zero(node):
+        return isinstance(node,exp.Literal) and not node.is_string and str(node.this) in {'0','0.0'}
+
+    projected=checked.expressions[0]
+    ratio=projected.this if isinstance(projected,exp.Alias) else projected
+    if not isinstance(ratio,exp.Div) or not isinstance(ratio.left,exp.Sum) or not isinstance(ratio.right,exp.Nullif):
+        raise SQLValidationError('分子专属绑定要求条件 SUM / NULLIF(同期间 SUM(total),0)，禁止任意 SELECT 表达式绕过。')
+    case=ratio.left.this
+    denominator_sum=ratio.right.this
+    if (not isinstance(case,exp.Case) or len(case.args.get('ifs') or [])!=1 or not zero_or_null(case.args.get('default')) or
+        not isinstance(denominator_sum,exp.Sum) or not real_column(denominator_sum.this,'total') or
+        not numeric_zero(ratio.right.expression)):
+        raise SQLValidationError('比例分子/分母金额字段或 ELSE 分支不符合已确认发票总额口径。')
+    branch=case.args['ifs'][0]
+    if not real_column(branch.args.get('true'),'total'):
+        raise SQLValidationError('比例分子必须累计真实 invoice.total，不能用常量或不同粒度字段代替。')
+    where=checked.args.get('where')
+    guard=branch.this
+    while isinstance(guard,exp.Paren):guard=guard.this
+    exact_country_guard=(isinstance(guard,exp.EQ) and any(
+        real_column(column,'billing_country') and isinstance(literal,exp.Literal) and literal.is_string and str(literal.this)==value
+        for column,literal in ((guard.left,guard.right),(guard.right,guard.left))))
+    if not exact_country_guard:
+        raise SQLValidationError('比例分子仅允许已确认的账单国家等值，禁止附加未确认条件或 OR 绕过。')
+
+    def literal_value(node):
+        if isinstance(node,exp.Cast):node=node.this
+        return str(node.this) if isinstance(node,exp.Literal) else None
+
+    def period_constraints(node):
+        if node is None:return set()
+        if isinstance(node,(exp.Where,exp.Paren)):return period_constraints(node.this)
+        if isinstance(node,exp.And):return period_constraints(node.left)|period_constraints(node.right)
+        found=None
+        if isinstance(node,(exp.GTE,exp.LT)) and real_column(node.left,'invoice_date'):
+            found=('>=' if isinstance(node,exp.GTE) else '<',literal_value(node.right))
+        elif isinstance(node,(exp.LTE,exp.GT)) and real_column(node.right,'invoice_date'):
+            found=('>=' if isinstance(node,exp.LTE) else '<',literal_value(node.left))
+        if found not in {('>=',str(start)),('<',str(end))}:
+            raise SQLValidationError('全部发票分母仅允许已确认期间的两项等价边界，禁止额外期间、条件或 OR。')
+        return {found}
+    if not {('>=',str(start)),('<',str(end))}.issubset(period_constraints(where)):
+        raise SQLValidationError('比例的分子与全部发票分母必须共享已确认的相同左闭右开期间。')
+    if where is None or any(not real_column(column,'invoice_date') for column in where.find_all(exp.Column)):
+        raise SQLValidationError('全部发票分母不得被国家或其它未经确认的筛选收窄。')
+    # Reuse the existing mandatory-filter proof on the numerator branch. This
+    # rejects a SELECT literal, wrong value/operator and any OR escape.
+    numerator_check=checked.copy()
+    numerator_check.set('expressions',[exp.Sum(this=branch.args['true'].copy())])
+    numerator_check.set('where',exp.Where(this=exp.and_(where.this.copy(),branch.this.copy())))
+    validate_value_bindings(numerator_check.sql(dialect='postgres'),catalog,bindings)
+    return True
+
+
+def validate_value_bindings(sql: str, catalog: Catalog, bindings: list[dict], *, ratio_context: dict | None = None) -> None:
     """Prove each verified value is a mandatory filter on its physical table.
 
     An equality in SELECT, a comment, an OR bypass or a different subquery is
@@ -184,6 +298,8 @@ def validate_value_bindings(sql: str, catalog: Catalog, bindings: list[dict]) ->
     intentional in D2's single-table stage; no SQL text is rewritten here.
     """
     if not bindings:
+        return
+    if ratio_context is not None and _validate_invoice_ratio_binding(sql,catalog,bindings,ratio_context):
         return
     expression = normalize_identifiers(sqlglot.parse_one(sql, read="postgres"), dialect="postgres")
     try:

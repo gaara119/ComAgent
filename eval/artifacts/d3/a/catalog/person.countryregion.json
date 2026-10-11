@@ -1,0 +1,48 @@
+{
+  "status": "ok",
+  "table": "person.countryregion",
+  "source_hash": "7130f9c116f0aecb5023651369d6a710fd7ff55fd030fbe40970f5dc2ff01455",
+  "descriptions": {
+    "table_description": "国家/地区表，属于 person 模式，记录 AdventureWorks 虚构自行车业务所涉及的国家或地区。每行代表一个国家或地区，以国家/地区代码作为唯一主键，并保存其名称与最后修改时间。",
+    "column_descriptions": {
+      "countryregioncode": "国家或地区的代码，字符型，最长 3 个字符，是本表主键；示例值有 AD、AE、AF。",
+      "name": "国家或地区的名称，字符型，最长 50 个字符，不允许为空；示例值有 Afghanistan、Albania、Algeria。",
+      "modifieddate": "该行记录的最后修改时间，时间戳类型（不带时区），不允许为空；示例值为 2019-04-30T00:00:00。"
+    },
+    "assumptions_or_limits": [
+      "未提供 countryregioncode 的编码标准或含义说明，示例值 AD、AE、AF 只能视作代码样例，不能据此推断编码规则。",
+      "名称字段未说明是否遵循特定语言或命名规范，示例值均为英文名称。",
+      "modifieddate 的更新触发机制和时区含义未说明。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 252,
+          "prompt_tokens": 537,
+          "total_tokens": 789,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 409
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2878
+    }
+  ],
+  "latency_ms": 5165
+}

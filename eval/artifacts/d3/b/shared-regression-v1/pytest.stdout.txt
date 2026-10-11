@@ -1,0 +1,29 @@
+........................................................................ [ 20%]
+.....................................F.................................. [ 41%]
+........................................................................ [ 62%]
+........................................................................ [ 82%]
+...........................................................              [100%]
+================================== FAILURES ===================================
+_______ test_pipeline_true_ambiguity_uses_existing_protocol_without_sql _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001E8DDCCEBD0>
+index = <qa_agent.nlu.value_index.ValueIndex object at 0x000001E886BE3740>
+
+    def test_pipeline_true_ambiguity_uses_existing_protocol_without_sql(monkeypatch, index):
+        from qa_agent.pipeline import chat
+        monkeypatch.setattr("qa_agent.nlu.value_index.load_value_index", lambda path: index)
+        class NeverModel:
+            def complete_json(self, **kwargs):
+                pytest.fail("已知真实歧义不应生成SQL")
+        result = chat(ChatRequest(message="名称为摇滚的流派有哪些？"), llm=NeverModel())
+        assert result.status == "NEEDS_CLARIFICATION"
+        assert result.sql is None and not result.table
+>       assert result.intent.unresolved and result.clarification["resume_supported"] is False
+E       AssertionError: assert ([{'id': 'value:issue-60977842fd36f329', 'question': '“摇滚”具体指哪个对象？', 'reason': '候选关系获准不等于允许自动绑定；请明确本次筛选。', 'field': 'filters', ...}] and True is False)
+E        +  where [{'id': 'value:issue-60977842fd36f329', 'question': '“摇滚”具体指哪个对象？', 'reason': '候选关系获准不等于允许自动绑定；请明确本次筛选。', 'field': 'filters', ...}] = IntentContract(intent_version=1, route='sql', task_type='lookup', metric=None, time_scope=None, filters=[], grouping=[...（genre.name）'}, {'id': 'value:issue-60977842fd36f329:v-10facd793602b59518e7', 'label': 'Rock And Roll（genre.name）'}]}]).unresolved
+E        +    where IntentContract(intent_version=1, route='sql', task_type='lookup', metric=None, time_scope=None, filters=[], grouping=[...（genre.name）'}, {'id': 'value:issue-60977842fd36f329:v-10facd793602b59518e7', 'label': 'Rock And Roll（genre.name）'}]}]) = AnswerEnvelope(trace_id='5153c31e-b5cc-4088-a11e-1dc0c35c6235', status='NEEDS_CLARIFICATION', answer='“摇滚”具体指哪个对象？', r...t_version': 1, 'state': 'WAITING_CLARIFICATION', 'assumptions': [], 'derived': {}, 'invalidated': [], 'switch': None}}).intent
+
+tests\test_d2_nlu.py:454: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_d2_nlu.py::test_pipeline_true_ambiguity_uses_existing_protocol_without_sql
+1 failed, 346 passed in 13.75s

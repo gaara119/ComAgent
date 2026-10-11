@@ -1,0 +1,322 @@
+{
+  "started_at_utc": "2026-10-11T19:11:02.360576+00:00",
+  "finished_at_utc": "2026-10-11T19:11:09.419564+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d3-dev-f342574b-88af-4791-b7ec-73af155f72dd",
+    "message": "2024年全部发票按总额从高到低列出前5张，相同金额按invoice_id升序。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "49df6c11-6f4a-4827-98e1-499930b6a472",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 5 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT \"invoice_id\", \"total\" FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' ORDER BY \"total\" DESC, \"invoice_id\" ASC LIMIT 5",
+    "table": [
+      {
+        "invoice_id": 299,
+        "total": "23.86"
+      },
+      {
+        "invoice_id": 306,
+        "total": "16.86"
+      },
+      {
+        "invoice_id": 313,
+        "total": "16.86"
+      },
+      {
+        "invoice_id": 250,
+        "total": "13.86"
+      },
+      {
+        "invoice_id": 257,
+        "total": "13.86"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "ranking",
+      "metric": "invoice_revenue",
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        }
+      },
+      "filters": [],
+      "grouping": [],
+      "order": {
+        "field": "invoice.total",
+        "direction": "desc",
+        "tiebreaker": "invoice.invoice_id asc",
+        "rank_object": "invoice",
+        "top_n": 5
+      },
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 23
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024年全部发票按总额从高到低列出前5张，相同金额按invoice_id升序。"
+        },
+        "output_summary": {
+          "rewritten_question": "2024年全部发票按总额从高到低列出前5张，相同金额按invoice_id升序。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3456
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/48c3d7e380ec437daa91ff5df9c28ff0.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 191,
+            "prompt_tokens": 5210,
+            "total_tokens": 5401,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1408
+            },
+            "prompt_cache_hit_tokens": 1408,
+            "prompt_cache_miss_tokens": 3802
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2371
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024年全部发票按总额从高到低列出前5张，相同金额按invoice_id升序。",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT \"invoice_id\", \"total\"\nFROM \"public\".\"invoice\"\nWHERE \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01'\nORDER BY \"total\" DESC, \"invoice_id\" ASC\nLIMIT 5",
+          "explanation": "筛选 2024 年开票的发票，按发票总额从高到低排序，金额相同时按 invoice_id 升序，取前 5 张。"
+        },
+        "latency_ms": 3553
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/ddab99eaab7243889dbd077337e37782.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 125,
+            "prompt_tokens": 4886,
+            "total_tokens": 5011,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4608
+            },
+            "prompt_cache_hit_tokens": 4608,
+            "prompt_cache_miss_tokens": 278
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2321
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"invoice_id\", \"total\"\nFROM \"public\".\"invoice\"\nWHERE \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01'\nORDER BY \"total\" DESC, \"invoice_id\" ASC\nLIMIT 5"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT \"invoice_id\", \"total\" FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' ORDER BY \"total\" DESC, \"invoice_id\" ASC LIMIT 5"
+        },
+        "latency_ms": 4
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"invoice_id\", \"total\" FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' ORDER BY \"total\" DESC, \"invoice_id\" ASC LIMIT 5",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 5,
+          "columns": [
+            "invoice_id",
+            "total"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 16
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 7057,
+      "nlu": {
+        "original_question": "2024年全部发票按总额从高到低列出前5张，相同金额按invoice_id升序。",
+        "rewritten_question": "2024年全部发票按总额从高到低列出前5张，相同金额按invoice_id升序。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "result_columns": [
+        "invoice_id",
+        "total"
+      ],
+      "truncated": false
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

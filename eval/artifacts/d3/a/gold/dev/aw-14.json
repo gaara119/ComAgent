@@ -1,0 +1,13 @@
+{
+  "id": "aw-14",
+  "sql": "SELECT CAST(EXTRACT(MONTH FROM orderdate) AS INT) AS month, COUNT(*) AS order_count FROM sales.salesorderheader WHERE orderdate >= CAST('2013-01-01' AS DATE) AND orderdate < CAST('2014-01-01' AS DATE) GROUP BY EXTRACT(MONTH FROM orderdate) ORDER BY month ASC LIMIT 200",
+  "tables": [
+    "sales.salesorderheader"
+  ],
+  "columns": [
+    "month",
+    "order_count"
+  ],
+  "rows": [],
+  "truncated": false
+}

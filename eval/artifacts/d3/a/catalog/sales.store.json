@@ -1,0 +1,53 @@
+{
+  "status": "ok",
+  "table": "sales.store",
+  "source_hash": "de9a6ba0bdbac7318aec27b6d004437b1b6665d00811fdab21649995286a8d85",
+  "descriptions": {
+    "table_description": "AdventureWorks 虚构自行车业务中的商店（零售客户）表，位于 sales 模式，记录作为销售渠道或销售对象的各商店客户基本信息，每行对应一家商店，主键为 businessentityid，并关联 person.businessentity 中的通用业务实体以及 sales.salesperson 中的负责销售人员。",
+    "column_descriptions": {
+      "businessentityid": "商店的主键，同时也是指向 person.businessentity 通用业务实体表的外键，用于标识该商店对应的业务实体。",
+      "name": "商店名称，示例包括 A Bicycle Association、A Bike Store、A Cycle Shop 等。",
+      "salespersonid": "负责该商店的销售人员标识，引用 sales.salesperson 表的 businessentityid；可为空，表示未指定或没有对应销售人员。",
+      "demographics": "以 XML 形式存储的商店人口统计或附加属性信息，可为空。",
+      "rowguid": "用于标识该行的全局唯一标识符（UUID），非空。",
+      "modifieddate": "该行记录的最近修改时间戳。"
+    },
+    "assumptions_or_limits": [
+      "demographics 为可空 XML 字段，示例值为空，未提供其内部结构或具体业务含义，无法进一步解释其内容。",
+      "salespersonid 可空，未说明为空时是否表示该商店无销售人员负责，仅能确定其引用 sales.salesperson。",
+      "rowguid 与 modifieddate 的具体生成或更新规则未在资料中说明。",
+      "本表只描述商店客户信息，不包含商店地址（地址应存在于 person 模式的地址相关表）。",
+      "资料未给出任何标志字段，也未提供币种、统计期间或枚举取值说明。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 366,
+          "prompt_tokens": 774,
+          "total_tokens": 1140,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 646
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3590
+    }
+  ],
+  "latency_ms": 5221
+}

@@ -1,0 +1,428 @@
+{
+  "name": "country-value",
+  "request": {
+    "session_id": "d3-condition-flow-1a645262-30d0-4cab-9617-ce71ab3fbec0",
+    "message": "改成加拿大，其他条件保持不变。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "284689c9-a109-46c4-8290-b3b4b823fea3",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 1 行，详细数据见结果表。",
+    "rewritten_question": "改成Canada，其他条件保持不变。",
+    "sql": "SELECT \"billing_country\", SUM(\"total\") AS \"invoice_total_sum\" FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'Canada' AND \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' GROUP BY \"billing_country\" LIMIT 200",
+    "table": [
+      {
+        "billing_country": "Canada",
+        "invoice_total_sum": "42.57"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 2,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        }
+      },
+      "filters": [
+        {
+          "column": "invoice.billing_country",
+          "operator": "=",
+          "value": "Canada",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "a-b33ce127772f748d",
+          "source": "verified_value_index",
+          "scope_evidence": "explicit_user_country_scope"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 26
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "Canada",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-b33ce127772f748d",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "加拿大"
+        },
+        "output_summary": {
+          "candidate_count": 1,
+          "candidate_ids": [
+            "v-ed13ace46d49a0165890"
+          ],
+          "scores": [
+            1.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "ok",
+        "input_summary": {
+          "original_question": "改成加拿大，其他条件保持不变。"
+        },
+        "output_summary": {
+          "rewritten_question": "改成Canada，其他条件保持不变。",
+          "patches": [
+            {
+              "start": 2,
+              "end": 5,
+              "original": "加拿大",
+              "replacement": "Canada",
+              "method": "exact",
+              "evidence_ref": "a-b33ce127772f748d"
+            }
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 2,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [
+            "result"
+          ],
+          "resume_supported": true
+        },
+        "latency_ms": 3312
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/b67035859dfb47da92111decdce12bdb.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 84,
+            "prompt_tokens": 1115,
+            "total_tokens": 1199,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 256
+            },
+            "prompt_cache_hit_tokens": 256,
+            "prompt_cache_miss_tokens": 859
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2231
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024年按账单国家统计美国发票总额。\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"invoice.billing_country\", \"filters\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"Canada\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"a-b33ce127772f748d\", \"source\": \"verified_value_index\", \"scope_evidence\": \"explicit_user_country_scope\"}]}",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": false
+        },
+        "output_summary": {
+          "sql": "SELECT \"billing_country\", SUM(\"total\") AS \"invoice_total_sum\" FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'Canada' AND \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' GROUP BY \"billing_country\"",
+          "explanation": "按发票账单国家统计加拿大在2024年的发票总额。"
+        },
+        "latency_ms": 3731
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/16e11c1b40904877b967bb811c838228.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 106,
+            "prompt_tokens": 4718,
+            "total_tokens": 4824,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4480
+            },
+            "prompt_cache_hit_tokens": 4480,
+            "prompt_cache_miss_tokens": 238
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2553
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"billing_country\", SUM(\"total\") AS \"invoice_total_sum\" FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'Canada' AND \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' GROUP BY \"billing_country\""
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": true,
+          "sql": "SELECT \"billing_country\", SUM(\"total\") AS \"invoice_total_sum\" FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'Canada' AND \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' GROUP BY \"billing_country\" LIMIT 200"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "Canada",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-b33ce127772f748d",
+              "source": "verified_value_index",
+              "scope_evidence": "explicit_user_country_scope"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"billing_country\", SUM(\"total\") AS \"invoice_total_sum\" FROM \"public\".\"invoice\" WHERE \"billing_country\" = %(qa_value_1)s AND \"invoice_date\" >= %(qa_value_2)s AND \"invoice_date\" < %(qa_value_0)s GROUP BY \"billing_country\" LIMIT 200",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "billing_country",
+            "invoice_total_sum"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 36
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 7113,
+      "nlu": {
+        "original_question": "改成加拿大，其他条件保持不变。",
+        "rewritten_question": "改成Canada，其他条件保持不变。",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "加拿大",
+            "span": [
+              2,
+              5
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "invoice.billing_country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-ed13ace46d49a0165890",
+                "column": "invoice.billing_country",
+                "standard_value": "Canada",
+                "surface": "加拿大",
+                "score": 1.0,
+                "source": "llm_draft:deepseek-flash",
+                "evidence_ref": "a-b33ce127772f748d",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": "v-ed13ace46d49a0165890",
+            "match_method": "exact",
+            "evidence_ref": "a-b33ce127772f748d",
+            "canonical_value": "Canada",
+            "column": "invoice.billing_country",
+            "stages": [
+              {
+                "method": "exact",
+                "candidates": [
+                  {
+                    "candidate_id": "v-ed13ace46d49a0165890",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Canada",
+                    "surface": "加拿大",
+                    "score": 1.0,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-b33ce127772f748d",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Canada",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "a-b33ce127772f748d",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [
+          {
+            "start": 2,
+            "end": 5,
+            "original": "加拿大",
+            "replacement": "Canada",
+            "method": "exact",
+            "evidence_ref": "a-b33ce127772f748d"
+          }
+        ],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 2,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "derived": {},
+        "invalidated": [
+          "result"
+        ],
+        "switch": null
+      },
+      "result_columns": [
+        "billing_country",
+        "invoice_total_sum"
+      ],
+      "truncated": false
+    }
+  },
+  "error": null,
+  "latency_ms": 7121,
+  "created_at_utc": "2026-10-11T19:32:05.432193+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "review_status": "pending_human_review",
+  "ai_passes": 2,
+  "basis": "两遍AI按真实字段和外键核验，根代理已独立确认；不代替人工签字",
+  "original_catalog_sha256": "2edf562dda972abd4aa2f6295c4a5487eecefa6a44a651aea9754ae746e40659",
+  "table_descriptions": [
+    {
+      "table": "sales.customer",
+      "original_description_sha256": "be54cdd267883746b5cd6a5ff5a615d8b59bd2c578a37c762d01de3d8cf7f634",
+      "replacement": "销售模块中的客户表，用于记录与销售业务相关的客户。每一行代表一个客户记录，客户可能通过个人(personid)或商店(storeid)表示。该表通过外键关联个人、商店和销售区域，用于销售订单等业务中识别客户。",
+      "evidence": "eval/artifacts/d3/a/catalog/live-schema.json"
+    },
+    {
+      "table": "person.address",
+      "original_description_sha256": "63d34fbaf368fe41f03321780d7e391859c9ecd30d04e5e7964e964b6b6aa744",
+      "replacement": "person.address 表存储 AdventureWorks 使用的地址信息，包括街道、城市、州/省、邮政编码和空间位置。销售订单头通过 billtoaddressid 和 shiptoaddressid 分别引用账单与收货地址；各类业务实体通过 person.businessentityaddress 关联地址。采购订单头没有直接引用本表的外键。",
+      "evidence": "eval/artifacts/d3/a/catalog/live-schema.json"
+    },
+    {
+      "table": "sales.creditcard",
+      "original_description_sha256": "2dedb917d0f8c9853095a653b183b26fa46f5b2bbe5fd82177668c7dd7d19110",
+      "replacement": "销售模式下的信用卡表，用于记录虚构自行车业务中客户使用的信用卡信息，包括卡类型、卡号、有效期和修改时间；每行由信用卡主键唯一标识，与销售订单、客户、地址、员工、销售人员、产品及订单明细等信息分属不同表。",
+      "evidence": "eval/artifacts/d3/a/catalog/live-schema.json"
+    }
+  ],
+  "structural_fix": {
+    "problem": "unconstrained numeric exported as numeric(None,None)",
+    "fix": "numeric without nonexistent precision/scale",
+    "business_change": false
+  }
+}

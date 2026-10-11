@@ -1,0 +1,55 @@
+{
+  "status": "ok",
+  "table": "production.billofmaterials",
+  "source_hash": "88cf2613ebec2a434e8aede85e15a092935b070bef6f640bad19f8d9a310c4ad",
+  "descriptions": {
+    "table_description": "production.billofmaterials 是 AdventureWorks 自行车业务中生产模块的物料清单（BOM）表，用于描述某个装配产品（productassemblyid）由哪些组件产品（componentid）构成，以及构成数量、计量单位、BOM 层级和生效起止日期，是产品结构与装配关系的明细记录。",
+    "column_descriptions": {
+      "billofmaterialsid": "物料清单记录的主键标识，唯一标识一条 BOM 明细行。",
+      "productassemblyid": "装配产品（父件）的产品ID，指向 production.product.productid；表示该物料清单所属的可装配产品。可为空，示例值有 3、316、324。",
+      "componentid": "组件产品（子件）的产品ID，指向 production.product.productid；表示装配产品所包含的组成部件。示例值有 1、2、3。",
+      "startdate": "该 BOM 组成关系的生效起始时间。示例值如 2021-03-03T00:00:00。",
+      "enddate": "该 BOM 组成关系的生效结束时间；可为空，为空通常表示仍然有效或未设置失效日期。示例值如 2021-05-02T00:00:00。",
+      "unitmeasurecode": "计量单位代码，指向 production.unitmeasure.unitmeasurecode，用于表示该组件在 BOM 中的用量单位；字段类型为定长三字符，示例值有 EA 、IN 、OZ 。",
+      "bomlevel": "BOM 层级编号，用于表示该组件在产品装配结构中的层级深度；示例值有 0、1、2。",
+      "perassemblyqty": "每个装配产品所需该组件的数量，类型为 numeric(8,2)；示例值有 1.00、2.00、3.00。",
+      "modifieddate": "该 BOM 记录的最后修改时间。示例值如 2021-02-17T00:00:00。"
+    },
+    "assumptions_or_limits": [
+      "无法从现有信息判断 productassemblyid 为空的具体业务含义，未在本说明中作推测。",
+      "bomlevel 的层级编码规则和取值含义未提供字典证据，仅按层级编号理解。",
+      "unitmeasurecode 为定长三字符，示例值中带尾部空格，不代表额外枚举含义。",
+      "本表仅描述字段本身，不对币种、统计期间或指标口径做任何定义。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 507,
+          "prompt_tokens": 990,
+          "total_tokens": 1497,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 862
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3980
+    }
+  ],
+  "latency_ms": 6250
+}

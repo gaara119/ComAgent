@@ -1,0 +1,52 @@
+{
+  "status": "ok",
+  "table": "person.businessentitycontact",
+  "source_hash": "e6d0987bccf787be82ee312cd1708d0e5e7e3661fe435624728d7395be07abb5",
+  "descriptions": {
+    "table_description": "该表用于记录业务实体（如客户、供应商等）与其联系人（人员）之间的多对多关系，并标明联系人在该业务实体中所属的联系人类型。每一行表示一个业务实体、一个人员以及一种联系人类型的组合。",
+    "column_descriptions": {
+      "businessentityid": "业务实体标识，关联到 person.businessentity 表，表示联系人所属的业务实体（如客户或供应商）。",
+      "personid": "人员标识，关联到 person.person 表，表示作为该业务实体联系人的具体人员。",
+      "contacttypeid": "联系人类型标识，关联到 person.contacttype 表，用于区分该联系人在业务实体中的角色或类型。",
+      "rowguid": "行的全局唯一标识符（UUID），用于标识该条记录。",
+      "modifieddate": "该行记录最后修改的时间戳。"
+    },
+    "assumptions_or_limits": [
+      "联系人类型 contacttypeid 的具体枚举含义需参考 person.contacttype 表，本表未提供。",
+      "业务实体 businessentityid 所指的具体实体类型（如客户、供应商）需参考 person.businessentity 表，本表未区分。",
+      "rowguid 为系统生成的全局唯一标识，无业务含义。",
+      "示例值仅为部分数据，不代表完整取值范围。",
+      "modifieddate 的时区信息未在列类型中明确，按 timestamp without time zone 处理。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 289,
+          "prompt_tokens": 818,
+          "total_tokens": 1107,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 690
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2863
+    }
+  ],
+  "latency_ms": 5319
+}

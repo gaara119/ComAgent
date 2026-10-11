@@ -1,0 +1,374 @@
+{
+  "started_at_utc": "2026-10-11T19:25:06.581306+00:00",
+  "finished_at_utc": "2026-10-11T19:25:13.460509+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d3-condition-flow-24a130d4-5e52-4551-b025-b4c5ba377111",
+    "message": "改成2023年，其他条件保持不变。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "eb8d0902-de14-4d35-84e2-3ec2603acf94",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 18 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT \"billing_country\", SUM(\"total\") AS total_amount FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' GROUP BY \"billing_country\" ORDER BY \"billing_country\" LIMIT 200",
+    "table": [
+      {
+        "billing_country": "Argentina",
+        "total_amount": "0.99"
+      },
+      {
+        "billing_country": "Australia",
+        "total_amount": "1.98"
+      },
+      {
+        "billing_country": "Belgium",
+        "total_amount": "24.75"
+      },
+      {
+        "billing_country": "Brazil",
+        "total_amount": "19.80"
+      },
+      {
+        "billing_country": "Canada",
+        "total_amount": "55.44"
+      },
+      {
+        "billing_country": "Chile",
+        "total_amount": "5.94"
+      },
+      {
+        "billing_country": "Czech Republic",
+        "total_amount": "12.87"
+      },
+      {
+        "billing_country": "Finland",
+        "total_amount": "15.88"
+      },
+      {
+        "billing_country": "France",
+        "total_amount": "42.61"
+      },
+      {
+        "billing_country": "Germany",
+        "total_amount": "48.57"
+      },
+      {
+        "billing_country": "India",
+        "total_amount": "24.75"
+      },
+      {
+        "billing_country": "Ireland",
+        "total_amount": "32.75"
+      },
+      {
+        "billing_country": "Netherlands",
+        "total_amount": "12.90"
+      },
+      {
+        "billing_country": "Norway",
+        "total_amount": "17.84"
+      },
+      {
+        "billing_country": "Portugal",
+        "total_amount": "8.91"
+      },
+      {
+        "billing_country": "Spain",
+        "total_amount": "22.77"
+      },
+      {
+        "billing_country": "USA",
+        "total_amount": "103.01"
+      },
+      {
+        "billing_country": "United Kingdom",
+        "total_amount": "17.82"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 4,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": {
+        "current": {
+          "start": "2023-01-01",
+          "end": "2024-01-01",
+          "label": "2023年",
+          "grain": "year"
+        }
+      },
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 34
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "改成2023年，其他条件保持不变。"
+        },
+        "output_summary": {
+          "rewritten_question": "改成2023年，其他条件保持不变。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 4,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [
+            "derived_period",
+            "result"
+          ],
+          "resume_supported": true
+        },
+        "latency_ms": 2953
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/e8bfa3ddcc074210b478027135192b1a.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 53,
+            "prompt_tokens": 939,
+            "total_tokens": 992,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 512
+            },
+            "prompt_cache_hit_tokens": 512,
+            "prompt_cache_miss_tokens": 427
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1774
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024年按账单国家统计美国发票总额。\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2023-01-01\", \"end\": \"2024-01-01\", \"label\": \"2023年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"customer.country\", \"filters\": []}",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT \"billing_country\", SUM(\"total\") AS total_amount FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' GROUP BY \"billing_country\" ORDER BY \"billing_country\"",
+          "explanation": "按账单国家（billing_country）分组，统计 2023-01-01 至 2024-01-01（左闭右开）期间发票总额 total 之和。使用发票头表的 total 列，避免明细连接造成重复求和。注：问题文字提到美国，但已确认条件中 region_scope 为 customer.country 且未指定筛选值，故按账单国家分组输出全部国家。"
+        },
+        "latency_ms": 3868
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/ea32c8c493024a3c82328dacac09cd9c.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 182,
+            "prompt_tokens": 4967,
+            "total_tokens": 5149,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1024
+            },
+            "prompt_cache_hit_tokens": 1024,
+            "prompt_cache_miss_tokens": 3943
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2667
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"billing_country\", SUM(\"total\") AS total_amount FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' GROUP BY \"billing_country\" ORDER BY \"billing_country\""
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": true,
+          "sql": "SELECT \"billing_country\", SUM(\"total\") AS total_amount FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' GROUP BY \"billing_country\" ORDER BY \"billing_country\" LIMIT 200"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"billing_country\", SUM(\"total\") AS total_amount FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' GROUP BY \"billing_country\" ORDER BY \"billing_country\" LIMIT 200",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 18,
+          "columns": [
+            "billing_country",
+            "total_amount"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 18
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 6878,
+      "nlu": {
+        "original_question": "改成2023年，其他条件保持不变。",
+        "rewritten_question": "改成2023年，其他条件保持不变。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 4,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "derived": {},
+        "invalidated": [
+          "derived_period",
+          "result"
+        ],
+        "switch": null
+      },
+      "result_columns": [
+        "billing_country",
+        "total_amount"
+      ],
+      "truncated": false
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

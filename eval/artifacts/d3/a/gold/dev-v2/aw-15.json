@@ -1,0 +1,25 @@
+{
+  "id": "aw-15",
+  "sql": "SELECT reasontype, COUNT(*) AS reason_count FROM sales.salesreason GROUP BY reasontype ORDER BY reasontype ASC LIMIT 200",
+  "columns": [
+    "reasontype",
+    "reason_count"
+  ],
+  "rows": [
+    [
+      "Marketing",
+      4
+    ],
+    [
+      "Other",
+      5
+    ],
+    [
+      "Promotion",
+      1
+    ]
+  ],
+  "tables": [
+    "sales.salesreason"
+  ]
+}

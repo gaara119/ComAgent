@@ -1,0 +1,50 @@
+{
+  "status": "ok",
+  "table": "person.personphone",
+  "source_hash": "75853c96f32fd218165c2f6924c26243a3d5494285964db0665d9a849795ff13",
+  "descriptions": {
+    "table_description": "人员电话号码表，存储 AdventureWorks 业务中人员（个人或实体）的联系电话号码，每条记录与特定人员及电话号码类型关联。",
+    "column_descriptions": {
+      "businessentityid": "人员业务实体ID，指向person.person表，标识电话号码所属的人员。",
+      "phonenumber": "电话号码字符串，包含号码本身及可能的格式信息。",
+      "phonenumbertypeid": "电话号码类型ID，指向person.phonenumbertype表，表示该电话号码的类别（如手机、家庭电话等）。",
+      "modifieddate": "记录最后修改日期和时间。"
+    },
+    "assumptions_or_limits": [
+      "phonenumbertypeid 的具体枚举含义（如1、2、3分别代表什么类型）未在提供的表结构中说明，需参考关联的phonenumbertype表。",
+      "电话号码的格式（如国家代码、区号、分隔符）未明确定义，样例值显示了一种常见格式。",
+      "modifieddate 的时区未明确，假设为服务器本地时间。",
+      "该表仅存储电话号码，不区分电话用途（如个人、工作），用途可能通过phonenumbertypeid体现。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 267,
+          "prompt_tokens": 728,
+          "total_tokens": 995,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 600
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2926
+    }
+  ],
+  "latency_ms": 5070
+}

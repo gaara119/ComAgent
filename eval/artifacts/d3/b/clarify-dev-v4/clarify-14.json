@@ -1,0 +1,327 @@
+{
+  "id": "clarify-14",
+  "request": {
+    "session_id": "d3-dev-4518ce49-a89d-473c-9c07-b6ee9d6737bd",
+    "message": "2024年客户中谁买得最多？请列前3名。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "3a066b95-5c09-4bad-8836-cb931780d1ef",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 3 行，详细数据见结果表。\n口径说明：“客户谁买得最多”按发票金额统计（已确认对象专属口径）。",
+    "rewritten_question": null,
+    "sql": "SELECT c.\"customer_id\", c.\"first_name\", c.\"last_name\", SUM(i.\"total\") AS total_spent FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON c.\"customer_id\" = i.\"customer_id\" WHERE i.\"invoice_date\" >= CAST('2024-01-01' AS DATE) AND i.\"invoice_date\" < CAST('2025-01-01' AS DATE) GROUP BY c.\"customer_id\", c.\"first_name\", c.\"last_name\" ORDER BY total_spent DESC, c.\"customer_id\" ASC LIMIT 3",
+    "table": [
+      {
+        "customer_id": 26,
+        "first_name": "Richard",
+        "last_name": "Cunningham",
+        "total_spent": "25.84"
+      },
+      {
+        "customer_id": 34,
+        "first_name": "João",
+        "last_name": "Fernandes",
+        "total_spent": "24.77"
+      },
+      {
+        "customer_id": 13,
+        "first_name": "Fernanda",
+        "last_name": "Ramos",
+        "total_spent": "24.75"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "ranking",
+      "metric": "invoice_revenue",
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        }
+      },
+      "filters": [],
+      "grouping": [],
+      "order": {
+        "rank_object": "customer",
+        "top_n": 3
+      },
+      "assumptions": [
+        "“客户谁买得最多”按发票金额统计（已确认对象专属口径）。"
+      ],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 26
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024年客户中谁买得最多？请列前3名。"
+        },
+        "output_summary": {
+          "rewritten_question": "2024年客户中谁买得最多？请列前3名。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L1",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [
+            "“客户谁买得最多”按发票金额统计（已确认对象专属口径）。"
+          ],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3549
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/9f7f13e9ac584eb7979b8dd2ad8ede5a.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 156,
+            "prompt_tokens": 5202,
+            "total_tokens": 5358,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4992
+            },
+            "prompt_cache_hit_tokens": 4992,
+            "prompt_cache_miss_tokens": 210
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2337
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024年客户中谁买得最多？请列前3名。",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT c.\"customer_id\", c.\"first_name\", c.\"last_name\", SUM(i.\"total\") AS total_spent FROM \"public\".\"invoice\" i JOIN \"public\".\"customer\" c ON c.\"customer_id\" = i.\"customer_id\" WHERE i.\"invoice_date\" >= DATE '2024-01-01' AND i.\"invoice_date\" < DATE '2025-01-01' GROUP BY c.\"customer_id\", c.\"first_name\", c.\"last_name\" ORDER BY total_spent DESC, c.\"customer_id\" ASC LIMIT 3",
+          "explanation": "按2024年（2024-01-01至2025-01-01左闭右开）发票金额汇总每位客户的消费总额，降序取前3名，客户编号升序稳定并列。使用发票头表 total 列避免明细连接导致重复求和。"
+        },
+        "latency_ms": 3685
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/9b42828522e84dfd83985422c2b1f1e2.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 220,
+            "prompt_tokens": 4872,
+            "total_tokens": 5092,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4608
+            },
+            "prompt_cache_hit_tokens": 4608,
+            "prompt_cache_miss_tokens": 264
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2565
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT c.\"customer_id\", c.\"first_name\", c.\"last_name\", SUM(i.\"total\") AS total_spent FROM \"public\".\"invoice\" i JOIN \"public\".\"customer\" c ON c.\"customer_id\" = i.\"customer_id\" WHERE i.\"invoice_date\" >= DATE '2024-01-01' AND i.\"invoice_date\" < DATE '2025-01-01' GROUP BY c.\"customer_id\", c.\"first_name\", c.\"last_name\" ORDER BY total_spent DESC, c.\"customer_id\" ASC LIMIT 3"
+        },
+        "output_summary": {
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT c.\"customer_id\", c.\"first_name\", c.\"last_name\", SUM(i.\"total\") AS total_spent FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON c.\"customer_id\" = i.\"customer_id\" WHERE i.\"invoice_date\" >= CAST('2024-01-01' AS DATE) AND i.\"invoice_date\" < CAST('2025-01-01' AS DATE) GROUP BY c.\"customer_id\", c.\"first_name\", c.\"last_name\" ORDER BY total_spent DESC, c.\"customer_id\" ASC LIMIT 3"
+        },
+        "latency_ms": 6
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT c.\"customer_id\", c.\"first_name\", c.\"last_name\", SUM(i.\"total\") AS total_spent FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON c.\"customer_id\" = i.\"customer_id\" WHERE i.\"invoice_date\" >= CAST('2024-01-01' AS DATE) AND i.\"invoice_date\" < CAST('2025-01-01' AS DATE) GROUP BY c.\"customer_id\", c.\"first_name\", c.\"last_name\" ORDER BY total_spent DESC, c.\"customer_id\" ASC LIMIT 3",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 3,
+          "columns": [
+            "customer_id",
+            "first_name",
+            "last_name",
+            "total_spent"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 18
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 7287,
+      "nlu": {
+        "original_question": "2024年客户中谁买得最多？请列前3名。",
+        "rewritten_question": "2024年客户中谁买得最多？请列前3名。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L1",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [
+          "“客户谁买得最多”按发票金额统计（已确认对象专属口径）。"
+        ],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "result_columns": [
+        "customer_id",
+        "first_name",
+        "last_name",
+        "total_spent"
+      ],
+      "truncated": false
+    }
+  },
+  "error": null,
+  "latency_ms": 7293,
+  "created_at_utc": "2026-10-11T19:49:50.992720+00:00"
+}

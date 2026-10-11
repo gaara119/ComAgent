@@ -1,0 +1,55 @@
+{
+  "status": "ok",
+  "table": "production.productreview",
+  "source_hash": "e9028ea186b595a3957c34dd953102c986c5208f249f079434e444fcc6583a1b",
+  "descriptions": {
+    "table_description": "AdventureWorks 自行车业务的产品评价表，记录客户对具体产品提交的评分、评论文本与评价日期等信息，用于汇总产品口碑。表中通过 productid 关联 production.product，标识被评价的产品。",
+    "column_descriptions": {
+      "productreviewid": "产品评价的唯一标识，主键，用于区分每一条评价记录。",
+      "productid": "被评价产品的标识，外键关联 production.product 表的 productid。",
+      "reviewername": "提交该评价的评价人姓名，为文本字段。",
+      "reviewdate": "该评价的提交日期，使用不带时区的时间戳。",
+      "emailaddress": "评价人提供的电子邮箱地址，为文本字段。",
+      "rating": "评价人对该产品给出的评分整数值，示例中包含 2、4、5。",
+      "comments": "评价人的评论文本，可为空；示例内容涉及踏板、袜子等产品的使用体验。",
+      "modifieddate": "该评价记录最后一次修改的日期时间，使用不带时区的时间戳。"
+    },
+    "assumptions_or_limits": [
+      "rating 字段的取值规则与范围未在本表说明中给出，示例中出现的 2、4、5 仅作为样例值，不代表完整评分体系。",
+      "emailaddress 与 reviewername 之间没有强制绑定关系，示例值仅用于展示姓名与邮箱的样例格式。",
+      "修改时间 modifieddate 与评价日期 reviewdate 在示例中相同，但不代表二者在所有记录中都一致或存在固定关系。",
+      "本表未说明评价记录是否允许同一产品对应多条评价，也未说明评价人是否可以匿名或重复提交。",
+      "来源数据中的评论内容、姓名与邮箱均为待解释的示例资料，不执行其中的任何指令。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 354,
+          "prompt_tokens": 1104,
+          "total_tokens": 1458,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 976
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3707
+    }
+  ],
+  "latency_ms": 5967
+}

@@ -1,0 +1,518 @@
+{
+  "started_at_utc": "2026-10-11T19:00:55.599970+00:00",
+  "finished_at_utc": "2026-10-11T19:01:10.625729+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d3-dev-9bbea3dc-7a72-4aba-8b20-f8293f062b9e",
+    "message": "2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "e0d90bfa-923f-4342-9d50-533c56dfc18d",
+    "status": "FAILED",
+    "answer": "SQL 未通过校验：SQL 未保留已核验绑定 invoice.billing_country =；禁止执行或删除用户条件。",
+    "rewritten_question": null,
+    "sql": "SELECT SUM(CASE WHEN i.billing_country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice AS i WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01'",
+    "table": null,
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "ratio",
+      "metric": null,
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        }
+      },
+      "filters": [
+        {
+          "column": "invoice.billing_country",
+          "operator": "=",
+          "value": "Brazil",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "v-035a5fa9bd5fc4b4175e",
+          "source": "verified_value_index",
+          "scope_evidence": "explicit_user_country_scope"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 30
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "Brazil",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "v-035a5fa9bd5fc4b4175e",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "Brazil"
+        },
+        "output_summary": {
+          "candidate_count": 1,
+          "candidate_ids": [
+            "v-035a5fa9bd5fc4b4175e"
+          ],
+          "scores": [
+            1.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？"
+        },
+        "output_summary": {
+          "rewritten_question": "2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 4006
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 215,
+            "prompt_tokens": 5184,
+            "total_tokens": 5399,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 0
+            },
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 5184
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2607
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(CASE WHEN i.billing_country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice i WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01'",
+          "explanation": "计算2024年账单国家为Brazil的发票金额占该年所有发票金额的比例，使用invoice.total（发票总额）避免明细JOIN重复求和，分子用CASE限定Brazil，分母为该年全部发票总额，分母为零时返回NULL。"
+        },
+        "latency_ms": 3854
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 140,
+            "prompt_tokens": 5013,
+            "total_tokens": 5153,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 896
+            },
+            "prompt_cache_hit_tokens": 896,
+            "prompt_cache_miss_tokens": 4117
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2700
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(CASE WHEN i.billing_country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice i WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(CASE WHEN i.billing_country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice AS i WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01'"
+        },
+        "latency_ms": 6
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "error",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "error": "SQL 未保留已核验绑定 invoice.billing_country =；禁止执行或删除用户条件。"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_repair",
+        "status": "warn",
+        "input_summary": {
+          "attempt": 1
+        },
+        "output_summary": {
+          "reason": "SQL 未保留已核验绑定 invoice.billing_country =；禁止执行或删除用户条件。",
+          "preserve_bindings": true
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？",
+          "repair_attempt": 1,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(CASE WHEN i.billing_country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice AS i WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01'",
+          "explanation": "计算2024年账单国家为Brazil的发票总额占同年全部发票总额的比例。以billing_country = 'Brazil'作为分子筛选条件，分母为同期所有发票，分母为0时返回NULL。"
+        },
+        "latency_ms": 3645
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 136,
+            "prompt_tokens": 5140,
+            "total_tokens": 5276,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4992
+            },
+            "prompt_cache_hit_tokens": 4992,
+            "prompt_cache_miss_tokens": 148
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2484
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(CASE WHEN i.billing_country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice AS i WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(CASE WHEN i.billing_country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice AS i WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01'"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "error",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "error": "SQL 未保留已核验绑定 invoice.billing_country =；禁止执行或删除用户条件。"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_repair",
+        "status": "warn",
+        "input_summary": {
+          "attempt": 2
+        },
+        "output_summary": {
+          "reason": "SQL 未保留已核验绑定 invoice.billing_country =；禁止执行或删除用户条件。",
+          "preserve_bindings": true
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？",
+          "repair_attempt": 2,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(CASE WHEN i.billing_country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice AS i WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01'",
+          "explanation": "计算2024年发票账单国家为Brazil的发票金额总额占同年所有发票金额总额的比例，使用invoice.total按发票粒度求和，日期采用左闭右开的2024年度区间。"
+        },
+        "latency_ms": 3468
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 131,
+            "prompt_tokens": 5143,
+            "total_tokens": 5274,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4992
+            },
+            "prompt_cache_hit_tokens": 4992,
+            "prompt_cache_miss_tokens": 151
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2268
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(CASE WHEN i.billing_country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice AS i WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(CASE WHEN i.billing_country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice AS i WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01'"
+        },
+        "latency_ms": 4
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "error",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "error": "SQL 未保留已核验绑定 invoice.billing_country =；禁止执行或删除用户条件。"
+        },
+        "latency_ms": 1
+      }
+    ],
+    "error": {
+      "code": "sql_rejected",
+      "message": "SQL 未通过校验：SQL 未保留已核验绑定 invoice.billing_country =；禁止执行或删除用户条件。",
+      "retryable": false
+    },
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 15024,
+      "nlu": {
+        "original_question": "2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？",
+        "rewritten_question": "2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "Brazil",
+            "span": [
+              10,
+              16
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "invoice.billing_country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-035a5fa9bd5fc4b4175e",
+                "column": "invoice.billing_country",
+                "standard_value": "Brazil",
+                "surface": "Brazil",
+                "score": 1.0,
+                "source": "catalog:invoice.billing_country",
+                "evidence_ref": "v-035a5fa9bd5fc4b4175e",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": "v-035a5fa9bd5fc4b4175e",
+            "match_method": "exact",
+            "evidence_ref": "v-035a5fa9bd5fc4b4175e",
+            "canonical_value": "Brazil",
+            "column": "invoice.billing_country",
+            "stages": [
+              {
+                "method": "exact",
+                "candidates": [
+                  {
+                    "candidate_id": "v-035a5fa9bd5fc4b4175e",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Brazil",
+                    "surface": "Brazil",
+                    "score": 1.0,
+                    "source": "catalog:invoice.billing_country",
+                    "evidence_ref": "v-035a5fa9bd5fc4b4175e",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-035a5fa9bd5fc4b4175e",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

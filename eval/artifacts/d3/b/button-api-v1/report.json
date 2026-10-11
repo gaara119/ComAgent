@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "name": "valid-year-real-period-ambiguity",
+      "passed": true,
+      "evidence": "valid-year-before.json"
+    },
+    {
+      "name": "valid-year-trusted-choice-result",
+      "passed": true,
+      "evidence": "valid-year-after.json",
+      "reason": "Valid user calendar choice resolves only period ambiguity; another missing metric still asks before SQL."
+    },
+    {
+      "name": "missing-metric-real-period-ambiguity",
+      "passed": true,
+      "evidence": "missing-metric-before.json"
+    },
+    {
+      "name": "missing-metric-trusted-choice-result",
+      "passed": true,
+      "evidence": "missing-metric-after.json",
+      "reason": "Valid user calendar choice resolves only period ambiguity; another missing metric still asks before SQL."
+    }
+  ],
+  "passed": 4,
+  "total": 4,
+  "actual_api_requests": 4,
+  "protected_holdout_predictions": 0,
+  "human_review_status": "pending_human_review",
+  "measurement": "actual affected trusted-year-button API regression; not all-question interaction success rate"
+}

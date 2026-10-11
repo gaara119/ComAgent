@@ -1,0 +1,8 @@
+{
+  "first_command": "scripts/restart_services.ps1 -Capture -ArtifactDirectory eval/artifacts/d3/runtime-v3 -CaptureDirectory eval/artifacts/d3/ui-v3/api",
+  "first_exit_code": 1,
+  "actual_result": "Owned API restarted PID23612; owned UI stopped; immediate port check still saw closing 8501 listener, script stopped instead of killing another process.",
+  "followup_read_only_check": "8501 had no remaining listener; saved API PID23612 and previous UI PID9944 verified",
+  "resolution": "Started only the project Streamlit UI after confirmed port release; existing new API remains active. Exact start arguments/logs saved in the terminal and runtime-v3 directory.",
+  "unrelated_processes_stopped": false
+}

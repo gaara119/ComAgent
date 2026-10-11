@@ -124,7 +124,15 @@ def main() -> None:
 
 if __name__ == "__main__":
     try:
-        main()
+        if "--db-id" in sys.argv:
+            position = sys.argv.index("--db-id")
+            db_id = sys.argv[position + 1] if len(sys.argv) > position + 1 else ""
+            if db_id not in {"aw", "adventureworks"}:
+                raise ValueError("--db-id currently accepts aw / adventureworks")
+            from scripts.build_aw_catalog import main as build_aw
+            build_aw(sys.argv[1:position] + sys.argv[position+2:])
+        else:
+            main()
     except Exception as exc:
         print(f"Catalog generation failed: {sanitize_error(exc, get_settings())}", file=sys.stderr)
         sys.exit(1)

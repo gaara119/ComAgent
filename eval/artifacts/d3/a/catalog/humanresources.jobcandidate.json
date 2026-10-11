@@ -1,0 +1,50 @@
+{
+  "status": "ok",
+  "table": "humanresources.jobcandidate",
+  "source_hash": "4f074d3729da81a721e227e67401b240df1ba40a43f7adfb4a156faf1d86fd84",
+  "descriptions": {
+    "table_description": "该表存储职位候选人的记录，每一行代表一位应聘者，包含其个人简历及关联的员工业务实体信息，用于招聘管理流程。",
+    "column_descriptions": {
+      "jobcandidateid": "职位候选人的唯一标识符，主键，用于区分不同的应聘记录。",
+      "businessentityid": "关联到员工表（humanresources.employee）的业务实体标识，表示该候选人对应的员工业务实体，可为空。",
+      "resume": "候选人的简历内容，以 XML 格式存储，可为空。",
+      "modifieddate": "该记录最后一次修改的日期和时间，不可为空。"
+    },
+    "assumptions_or_limits": [
+      "resume 字段的 XML 结构和具体标签未提供字典，因此无法描述其内部组成。",
+      "businessentityid 为可空外键，其与候选人之间的具体业务关系（如是否总是关联在职员工）未明确。",
+      "modifieddate 的时区信息及是否采用 UTC 未说明。",
+      "样本值中 resume 列为空数组，未提供任何简历示例内容。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 219,
+          "prompt_tokens": 630,
+          "total_tokens": 849,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 502
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2695
+    }
+  ],
+  "latency_ms": 4773
+}

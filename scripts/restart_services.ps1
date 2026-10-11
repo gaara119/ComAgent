@@ -25,6 +25,7 @@ function Stop-OwnedService([string]$PidFile, [string[]]$Markers) {
                 $d2ChildHasMarker = @($Markers | Where-Object { $d2Child.CommandLine.Contains($_) }).Count -gt 0
                 if ($d2Child.Name -eq 'python.exe' -and $d2ChildHasMarker) {
                     Stop-Process -Id $d2Child.ProcessId -Force
+                    Wait-Process -Id $d2Child.ProcessId -Timeout 5 -ErrorAction SilentlyContinue
                     Write-Output "Stopped owned worker PID=$($d2Child.ProcessId)"
                 } elseif ($d2Child.Name -in @('conhost.exe', 'OpenConsole.exe')) {
                     # Windows console hosts close with the launcher; they do
@@ -33,6 +34,7 @@ function Stop-OwnedService([string]$PidFile, [string[]]$Markers) {
                 } else { throw 'Unexpected child process; inspect it before restarting.' }
             }
             Stop-Process -Id $d2ServicePid -Force -ErrorAction SilentlyContinue
+            Wait-Process -Id $d2ServicePid -Timeout 5 -ErrorAction SilentlyContinue
             Write-Output "Stopped owned service PID=$d2ServicePid"
         }
     }

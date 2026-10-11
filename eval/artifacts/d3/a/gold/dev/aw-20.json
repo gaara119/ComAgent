@@ -1,0 +1,14 @@
+{
+  "id": "aw-20",
+  "sql": "SELECT t.name AS territory_name, SUM(h.subtotal) AS subtotal_sum FROM sales.salesorderheader AS h JOIN sales.salesterritory AS t ON h.territoryid = t.territoryid WHERE h.orderdate >= CAST('2013-01-01' AS DATE) AND h.orderdate < CAST('2014-01-01' AS DATE) GROUP BY t.territoryid, t.name ORDER BY subtotal_sum DESC NULLS LAST, t.name ASC LIMIT 200",
+  "tables": [
+    "sales.salesorderheader",
+    "sales.salesterritory"
+  ],
+  "columns": [
+    "territory_name",
+    "subtotal_sum"
+  ],
+  "rows": [],
+  "truncated": false
+}

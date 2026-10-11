@@ -1,30 +1,24 @@
-# 赛题八：D1 + D2 问数问答项目
+# 赛题八：D1 / D2 / D3 问数问答项目
 
-**D2 工程已完成并实际验收；人工审核集中待处理。** 沿用Python3.12.10与已验证的 `deepseek-flash`。最终SQL开发35/35、鲁棒21/21；RAG可答Hit@5 20/20，另1不足题处理正确。以上为gold待审的开发探索；RAG辅助模型复核21/21不能代替人工正确性或忠实度审核。全量模块281 passed（9.99秒），工程58/58，五场景真实浏览器联调通过。33道保留题D5待测，当前预测0。
+当前沿用 Python 3.12.10、已验证的 deepseek-flash、FastAPI 与 Streamlit，同一系统已接入 Chinook 和完整 AdventureWorks。D1 历史验收证据保留；D2 收尾与 D3 的新证据使用独立目录。
 
-查看 [D2原九项验收HTML](eval/reports/d2-acceptance/requested-d2-evidence.html) 或 [Markdown](eval/reports/d2-acceptance/requested-d2-evidence.md)。统一使用 [审核表HTML](eval/reports/d2-acceptance/unified-review.html)：191项待审、4项既有共同确认口径，内嵌标准材料、实际回答和证据，可搜索编号与筛选开发/保留集。待审别名未启用，gold和实际答案语义人审均为0。
+D2 收尾已实测 SQL 35/35、鲁棒 20/21；RAG 为19成功、1真实失败、1正确拒答，引用定位23条通过，答案支持仍有1项条件限制。模块296通过，五个真实浏览器场景和两个API探针通过。见 [D2原清单九项逐项验收与证据](eval/reports/d2-final/D2原清单九项逐项验收与证据.html)。54直接别名、25仅候选依用户共同审计意见启用关系，2证据不足继续停用；候选不能自动唯一绑定。
 
-最新 [D2逐项AI预审报告](eval/reports/d2-ai-preaudit/D2统一待审核表-AI预审报告.md) 与 [可筛选HTML](eval/reports/d2-ai-preaudit/D2统一待审核表-AI预审报告.html) 保留195个原编号，实际审核162项及77条已有开发回答，33道保留题因当前开发环境无法隔离而跳过内容审核。预审发现10道RAG题存在引用定位错误，并列出别名条件、题意范围与NULL处理等问题；这些问题尚待团队决定如何修正。AI预审未修改业务实现、标准答案、别名启用或人工审核记录，不替代人工签字。
+D3 已接入完整 AW（68表、456列、90FK）、中文目录、双路Schema Linking、RRF与Steiner、分级澄清、版本化意图补丁及页面交互。AW21开发题实际API首轮EX为21/21，复测为20/21；“产品编号”可指productid或productnumber的参考歧义已保留待人工核对，未强制提示词选gold字段。澄清开发集初始分级/询问行为21/21，不等同全部回答EX；真实多轮条件/金额/失效18项与地区来源2项共20/20，年份按钮增量4/4，最终真实页面10/10检查及7张截图通过。模块415通过；各轮源码SHA、失败、中止及增量采集区别见 [D3原清单八项逐项验收与证据](eval/reports/d3-acceptance/D3原清单八项逐项验收与证据.html)。目录两遍AI审查不代替人工签字；币种、枚举、字段单位和增长率展示形式存在的证据限制均保留。D2的33道保留与新D3的18道保留未预测，仍在D5冻结后运行。
 
-已有项目不需要重新导入或重建数据库、虚拟环境。页面 `http://127.0.0.1:8501/`，API `http://127.0.0.1:8000/docs`。需要重新启动本项目服务时，在 `system` 目录运行：
-
-```powershell
-pwsh -NoProfile -File scripts/restart_d2_services.ps1
-```
-
-D2当前配置为 `RAG_INDEX_PATH=data/indexes/docs-final`、`RAG_TOP_K=8`、两路候选各20、RRF k60；值索引为 `data/indexes/values`。真实.env保留本机，新电脑用.env.example填写自己的凭据；模型权重与虚拟环境不随ZIP提供。
-
-复现开发探索请使用新目录，避免覆盖实跑；人工审核完成前明确使用 `--draft-gold`：
+页面 http://127.0.0.1:8501/，API http://127.0.0.1:8000/docs。在system目录启动本机已有服务：
 
 ```powershell
-.\.venv\Scripts\python.exe eval\run_eval.py --suite nl2sql --split dev --draft-gold --run-id d2-sql-repeat --output-dir eval/artifacts/d2/nl2sql/repeat
-.\.venv\Scripts\python.exe eval\run_eval.py --suite robust --split dev --draft-gold --run-id d2-robust-repeat --output-dir eval/artifacts/d2/robust/repeat
-.\.venv\Scripts\python.exe eval\run_eval.py --suite rag --split dev --draft-gold --run-id d2-rag-repeat --output-dir eval/artifacts/d2/rag/repeat
+pwsh -NoProfile -File scripts/restart_services.ps1
 ```
 
-D2在现有单表SQL和指定单文档RAG上增加值链接、可核验改写、可展开真实Step、多格式/OCR解析、严格文档隔离的混合检索和引用/数字核验。完整AdventureWorks、多轮澄清和跨源流程留后续阶段。见 [覆盖清单](notes/d2-execution-checklist.md) 和 [决定记录](notes/decisions.md)。
+既有 Chinook 不需重新导入或重建。AW初次安装见 scripts/bootstrap_aw.py --help 与 docker-compose.aw.yml，导入脚本检查已有库，不重复导入完整表。真实 .env 仅保留本机，新的机器从 .env.example 填写自己的只读连接和密钥；虚拟环境、模型权重和数据库卷不随证据ZIP提供。
 
-以下保留D1历史验收、旧索引/题量及环境说明；当前D2以新报告为准。
+当前RAG索引 data/indexes/docs-d2-final-v4.3，值索引 data/indexes/values-d2-reviewed，AW结构索引 data/indexes/schema-aw-d3-v2。需在新机器重建索引时沿用各build脚本，不使用未经审核的别名或业务默认。每次模型逻辑调用最多3尝试，每条API请求总预算12，数据库只读5秒超时、最多展示200行。
+
+①③专项实验全部为本轮合成开发数据，独立目录 `eval/experiments/after_d2_01_03/`；不等同官方题库或独立泛化成绩。新成绩仅引用实际报告、原始输出与被冻结版本，待人审项不会自动改成已审核。
+
+以下为D1历史记录，旧题量、旧索引和旧成绩仅描述当时版本。
 
 ## D1 历史验收记录
 

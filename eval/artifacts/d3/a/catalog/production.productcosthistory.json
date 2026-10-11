@@ -1,0 +1,51 @@
+{
+  "status": "ok",
+  "table": "production.productcosthistory",
+  "source_hash": "5e2ebfa8f68d426d1854a87a4e8674ec79e8c3bbdc14f5aefd87f904ebdfcb94",
+  "descriptions": {
+    "table_description": "该表记录产品标准成本的历史变更，按产品与生效起始时间保存每一段成本有效期内的标准成本，用于追溯产品在生产或采购环节的成本变化（与销售价格区分，此处的 standardcost 是成本而非售价）。主键为 productid 与 startdate 的组合，并通过 productid 外键关联 production.product 表。",
+    "column_descriptions": {
+      "productid": "产品标识，关联 production.product 表的产品主键，与 startdate 共同构成主键，表示该成本记录所属的产品。",
+      "startdate": "该条标准成本开始生效的时间点，与 productid 共同构成主键；示例值如 2022-05-30、2023-05-30。",
+      "enddate": "该条标准成本失效的时间点，可为空，表示该成本可能仍在生效或尚未设定结束时间；示例值如 2023-05-29、2024-05-28。",
+      "standardcost": "该产品在对应有效期内采用的标准成本金额（成本口径，非销售价格），为数值类型，示例值如 0.8565、1.4923、1.8663。",
+      "modifieddate": "该成本记录最后被修改的时间戳，示例值如 2023-05-29、2024-05-15、2024-05-28。"
+    },
+    "assumptions_or_limits": [
+      "关于币种、成本金额单位及统计期间的口径信息未在提供的结构中给出，故不作推测。",
+      "enddate 为空的具体业务含义（如表示当前有效或未定义结束）缺少权威说明，仅按字段可空性描述。",
+      "表中未提供标志字段，也未提供成本变更原因或审核状态相关列。",
+      "示例值仅用于示例说明，不代表全表取值范围或业务规则。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 395,
+          "prompt_tokens": 737,
+          "total_tokens": 1132,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 609
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3598
+    }
+  ],
+  "latency_ms": 5759
+}

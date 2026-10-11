@@ -1,0 +1,847 @@
+{
+  "created_at": "2026-10-11T19:04:34.591090+00:00",
+  "mode": "saved-response observation only; no model calls",
+  "raw_response_file": "eval/reports/d3-aw-live-dev-run1/responses.jsonl",
+  "raw_response_sha256": "95f984136639e3bd78fc673c40fde327ce98cbe3d64dea6124b64ac90cde210b",
+  "input_responses_unchanged": true,
+  "development_count": 21,
+  "holdout_predictions_observed": 0,
+  "all_gold_recalled_cases": 21,
+  "mean_table_recall": 1.0,
+  "mean_table_precision": 0.1448687555830413,
+  "average_candidate_table_count": 10.952380952380953,
+  "average_actual_schema_latency_ms": 191.61904761904762,
+  "validated_aw_scope_cases": 21,
+  "actual_sql_execution_adventureworks_cases": 21,
+  "gold_human_status": "pending_human_review",
+  "rows": [
+    {
+      "id": "aw-01",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "humanresources.employee",
+        "person.address",
+        "person.person",
+        "person.personphone",
+        "person.phonenumbertype",
+        "person.stateprovince",
+        "production.product",
+        "production.productlistpricehistory",
+        "production.productmodel",
+        "sales.salesorderdetail",
+        "sales.salesorderheader",
+        "sales.salesperson",
+        "sales.salestaxrate",
+        "sales.salesterritory",
+        "sales.specialofferproduct"
+      ],
+      "candidate_count": 15,
+      "gold_tables": [
+        "sales.salesorderheader"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.06666666666666667,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "sales.salesorderheader"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。"
+      ],
+      "schema_latency_ms": 2947
+    },
+    {
+      "id": "aw-02",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "production.product",
+        "production.transactionhistory",
+        "purchasing.productvendor",
+        "purchasing.purchaseorderdetail",
+        "purchasing.purchaseorderheader",
+        "purchasing.shipmethod",
+        "purchasing.vendor",
+        "sales.salesorderdetail",
+        "sales.salesorderheader",
+        "sales.salesorderheadersalesreason"
+      ],
+      "candidate_count": 10,
+      "gold_tables": [
+        "purchasing.purchaseorderheader"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.1,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "purchasing.purchaseorderheader"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "采购订单一共有多少张？按采购订单头计数。"
+      ],
+      "schema_latency_ms": 33
+    },
+    {
+      "id": "aw-03",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "humanresources.employee",
+        "humanresources.employeedepartmenthistory",
+        "humanresources.employeepayhistory",
+        "humanresources.jobcandidate",
+        "person.person",
+        "sales.personcreditcard",
+        "sales.salesperson",
+        "sales.salespersonquotahistory"
+      ],
+      "candidate_count": 8,
+      "gold_tables": [
+        "humanresources.employee"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.125,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "humanresources.employee"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "员工档案中共有多少名员工？包括 currentflag 为 false 的档案。"
+      ],
+      "schema_latency_ms": 36
+    },
+    {
+      "id": "aw-04",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "person.person",
+        "person.stateprovince",
+        "sales.customer",
+        "sales.personcreditcard",
+        "sales.salesorderheader",
+        "sales.salesperson",
+        "sales.salespersonquotahistory",
+        "sales.salestaxrate",
+        "sales.salesterritory",
+        "sales.salesterritoryhistory",
+        "sales.store"
+      ],
+      "candidate_count": 11,
+      "gold_tables": [
+        "sales.salesperson"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.09090909090909091,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "sales.salesperson"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "销售人员表中共有多少名销售人员？"
+      ],
+      "schema_latency_ms": 28
+    },
+    {
+      "id": "aw-05",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "production.product",
+        "production.productcategory",
+        "production.productdocument",
+        "production.productinventory",
+        "production.productmodel",
+        "production.productmodelproductdescriptionculture",
+        "production.productsubcategory",
+        "sales.shoppingcartitem"
+      ],
+      "candidate_count": 8,
+      "gold_tables": [
+        "production.product"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.125,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "production.product"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "产品目录中共有多少个产品？不要用产品型号数替代。"
+      ],
+      "schema_latency_ms": 31
+    },
+    {
+      "id": "aw-06",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "production.billofmaterials",
+        "production.product",
+        "production.productcategory",
+        "production.productmodel",
+        "production.productphoto",
+        "production.productproductphoto",
+        "production.productsubcategory",
+        "production.scrapreason",
+        "production.workorder",
+        "purchasing.productvendor",
+        "sales.shoppingcartitem"
+      ],
+      "candidate_count": 11,
+      "gold_tables": [
+        "production.product"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.09090909090909091,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "production.product"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "产品颜色有多少种？未填写颜色的不计入。"
+      ],
+      "schema_latency_ms": 32
+    },
+    {
+      "id": "aw-07",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "production.product",
+        "production.productcategory",
+        "production.productcosthistory",
+        "production.productinventory",
+        "production.productlistpricehistory",
+        "production.productsubcategory",
+        "purchasing.productvendor",
+        "sales.salesorderdetail",
+        "sales.specialofferproduct"
+      ],
+      "candidate_count": 9,
+      "gold_tables": [
+        "production.product"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.1111111111111111,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "production.product"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。"
+      ],
+      "schema_latency_ms": 41
+    },
+    {
+      "id": "aw-08",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "production.product",
+        "production.productcategory",
+        "production.productdocument",
+        "production.productinventory",
+        "production.productmodel",
+        "production.productphoto",
+        "production.productproductphoto",
+        "production.productsubcategory",
+        "purchasing.productvendor"
+      ],
+      "candidate_count": 9,
+      "gold_tables": [
+        "production.product",
+        "production.productcategory",
+        "production.productsubcategory"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.3333333333333333,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "production.product",
+        "production.productcategory",
+        "production.productsubcategory"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+        "产品大类"
+      ],
+      "schema_latency_ms": 77
+    },
+    {
+      "id": "aw-09",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "humanresources.employee",
+        "humanresources.jobcandidate",
+        "production.product",
+        "production.transactionhistory",
+        "production.transactionhistoryarchive",
+        "purchasing.productvendor",
+        "purchasing.purchaseorderdetail",
+        "purchasing.purchaseorderheader",
+        "purchasing.vendor"
+      ],
+      "candidate_count": 9,
+      "gold_tables": [
+        "purchasing.vendor"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.1111111111111111,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "purchasing.vendor"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "供应商档案一共有多少条？不按客户或门店计数。"
+      ],
+      "schema_latency_ms": 38
+    },
+    {
+      "id": "aw-10",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "humanresources.department",
+        "humanresources.employee",
+        "humanresources.employeedepartmenthistory",
+        "humanresources.employeepayhistory",
+        "humanresources.jobcandidate",
+        "humanresources.shift",
+        "person.person",
+        "sales.salesperson"
+      ],
+      "candidate_count": 8,
+      "gold_tables": [
+        "humanresources.employee"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.125,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "humanresources.employee"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "各员工职位有多少人？列人数最多的十个职位，按人数降序、职位名称升序。",
+        "员工职位"
+      ],
+      "schema_latency_ms": 67
+    },
+    {
+      "id": "aw-11",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "humanresources.employee",
+        "person.stateprovince",
+        "production.product",
+        "production.transactionhistory",
+        "production.transactionhistoryarchive",
+        "purchasing.purchaseorderdetail",
+        "purchasing.purchaseorderheader",
+        "sales.salesorderdetail",
+        "sales.salesorderheader",
+        "sales.salesperson",
+        "sales.salestaxrate",
+        "sales.salesterritory"
+      ],
+      "candidate_count": 12,
+      "gold_tables": [
+        "sales.salesorderheader"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.08333333333333333,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "sales.salesorderheader"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "2013 年销售订单头的 subtotal 合计是多少？仅算这个字段，不含 taxamt 和 freight。"
+      ],
+      "schema_latency_ms": 42
+    },
+    {
+      "id": "aw-12",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "person.address",
+        "person.stateprovince",
+        "production.transactionhistoryarchive",
+        "purchasing.productvendor",
+        "purchasing.purchaseorderdetail",
+        "purchasing.purchaseorderheader",
+        "purchasing.shipmethod",
+        "purchasing.vendor",
+        "sales.salesorderdetail",
+        "sales.salesorderheader",
+        "sales.salestaxrate"
+      ],
+      "candidate_count": 11,
+      "gold_tables": [
+        "purchasing.purchaseorderheader"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.09090909090909091,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "purchasing.purchaseorderheader"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。"
+      ],
+      "schema_latency_ms": 38
+    },
+    {
+      "id": "aw-13",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "humanresources.employee",
+        "humanresources.employeepayhistory",
+        "person.address",
+        "person.addresstype",
+        "person.businessentity",
+        "person.businessentityaddress",
+        "person.emailaddress",
+        "person.person",
+        "person.personphone",
+        "production.document",
+        "production.location",
+        "production.product",
+        "production.productdocument",
+        "production.productinventory",
+        "production.transactionhistoryarchive"
+      ],
+      "candidate_count": 15,
+      "gold_tables": [
+        "person.address"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.06666666666666667,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "person.address"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "地址档案里哪个城市的地址记录最多？列出前五名城市和记录数，按记录数降序、城市名升序。"
+      ],
+      "schema_latency_ms": 49
+    },
+    {
+      "id": "aw-14",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "production.product",
+        "production.transactionhistory",
+        "purchasing.purchaseorderdetail",
+        "purchasing.purchaseorderheader",
+        "purchasing.shipmethod",
+        "sales.creditcard",
+        "sales.salesorderdetail",
+        "sales.salesorderheader",
+        "sales.salesorderheadersalesreason"
+      ],
+      "candidate_count": 9,
+      "gold_tables": [
+        "sales.salesorderheader"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.1111111111111111,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "sales.salesorderheader"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "2024 年每个月有多少张销售订单？输出月份数字和订单数，按月份从小到大。"
+      ],
+      "schema_latency_ms": 41
+    },
+    {
+      "id": "aw-15",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "person.address",
+        "person.addresstype",
+        "person.businessentity",
+        "person.businessentityaddress",
+        "person.businessentitycontact",
+        "person.contacttype",
+        "person.person",
+        "person.personphone",
+        "person.phonenumbertype",
+        "production.product",
+        "production.productcategory",
+        "production.productsubcategory",
+        "production.scrapreason",
+        "production.workorder",
+        "purchasing.purchaseorderdetail",
+        "purchasing.purchaseorderheader",
+        "purchasing.shipmethod",
+        "sales.salesorderheader",
+        "sales.salesorderheadersalesreason",
+        "sales.salesreason"
+      ],
+      "candidate_count": 20,
+      "gold_tables": [
+        "sales.salesreason"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.05,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "sales.salesreason"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "销售原因字典里每个 reasontype 分别有多少条原因？按类型名称排序。",
+        "reasontype"
+      ],
+      "schema_latency_ms": 54
+    },
+    {
+      "id": "aw-16",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "humanresources.employee",
+        "humanresources.jobcandidate",
+        "person.businessentity",
+        "person.password",
+        "person.person",
+        "sales.customer",
+        "sales.personcreditcard",
+        "sales.salesperson",
+        "sales.salespersonquotahistory",
+        "sales.store"
+      ],
+      "candidate_count": 10,
+      "gold_tables": [
+        "sales.customer"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.1,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "sales.customer"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "客户档案中 personid 非空的有多少条，storeid 非空的有多少条？两个条件分别计数，不要求互斥。"
+      ],
+      "schema_latency_ms": 44
+    },
+    {
+      "id": "aw-17",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "production.product",
+        "production.productinventory",
+        "production.transactionhistory",
+        "purchasing.productvendor",
+        "purchasing.purchaseorderdetail",
+        "purchasing.purchaseorderheader",
+        "sales.salesorderdetail",
+        "sales.shoppingcartitem",
+        "sales.specialofferproduct"
+      ],
+      "candidate_count": 9,
+      "gold_tables": [
+        "production.product",
+        "production.productinventory"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.2222222222222222,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "production.product",
+        "production.productinventory"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "汇总每个产品在所有库存地点的 quantity，列库存总量最高的五个产品编号、名称和数量；数量相同按编号升序。",
+        "产品在所"
+      ],
+      "schema_latency_ms": 71
+    },
+    {
+      "id": "aw-18",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "production.product",
+        "production.productcategory",
+        "production.productsubcategory",
+        "purchasing.productvendor",
+        "purchasing.purchaseorderdetail",
+        "purchasing.purchaseorderheader",
+        "purchasing.shipmethod",
+        "sales.salesorderdetail",
+        "sales.salesorderheader",
+        "sales.salesperson",
+        "sales.salespersonquotahistory",
+        "sales.shoppingcartitem",
+        "sales.specialoffer",
+        "sales.specialofferproduct"
+      ],
+      "candidate_count": 14,
+      "gold_tables": [
+        "production.product",
+        "production.productcategory",
+        "production.productsubcategory",
+        "sales.salesorderdetail",
+        "sales.salesorderheader"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.35714285714285715,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "production.product",
+        "production.productcategory",
+        "production.productsubcategory",
+        "sales.salesorderdetail",
+        "sales.salesorderheader"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "2024 年各产品大类的销售购买数量分别是多少？按 salesorderdetail.orderqty 加总，只统计有子类别的产品，输出大类名和数量，按数量降序、名称升序。",
+        "产品大类",
+        "salesorderdetail.orderqty"
+      ],
+      "schema_latency_ms": 110
+    },
+    {
+      "id": "aw-19",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "production.product",
+        "production.transactionhistory",
+        "production.transactionhistoryarchive",
+        "production.workorder",
+        "production.workorderrouting",
+        "purchasing.productvendor",
+        "purchasing.purchaseorderdetail",
+        "purchasing.purchaseorderheader",
+        "purchasing.shipmethod",
+        "purchasing.vendor",
+        "sales.salesorderheader"
+      ],
+      "candidate_count": 11,
+      "gold_tables": [
+        "purchasing.purchaseorderheader",
+        "purchasing.shipmethod"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.18181818181818182,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "purchasing.purchaseorderheader",
+        "purchasing.shipmethod"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "每种运输方式被多少张采购订单使用？输出运输方式名称和采购订单数，按订单数降序、名称升序。",
+        "运输方式"
+      ],
+      "schema_latency_ms": 77
+    },
+    {
+      "id": "aw-20",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "humanresources.employee",
+        "person.stateprovince",
+        "production.product",
+        "production.transactionhistory",
+        "purchasing.purchaseorderdetail",
+        "purchasing.purchaseorderheader",
+        "sales.salesorderdetail",
+        "sales.salesorderheader",
+        "sales.salesperson",
+        "sales.salestaxrate",
+        "sales.salesterritory",
+        "sales.salesterritoryhistory"
+      ],
+      "candidate_count": 12,
+      "gold_tables": [
+        "sales.salesorderheader",
+        "sales.salesterritory"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.16666666666666666,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "sales.salesorderheader",
+        "sales.salesterritory"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。",
+        "销售区域"
+      ],
+      "schema_latency_ms": 81
+    },
+    {
+      "id": "aw-21",
+      "status": "SUCCEEDED",
+      "ex_matched": true,
+      "db_id": "adventureworks",
+      "sql_execution_db_ids": [
+        "adventureworks"
+      ],
+      "selected_tables": [
+        "humanresources.department",
+        "humanresources.employee",
+        "humanresources.employeedepartmenthistory",
+        "humanresources.employeepayhistory",
+        "humanresources.jobcandidate",
+        "humanresources.shift",
+        "person.person",
+        "sales.salesperson",
+        "sales.salespersonquotahistory"
+      ],
+      "candidate_count": 9,
+      "gold_tables": [
+        "humanresources.department",
+        "humanresources.employee",
+        "humanresources.employeedepartmenthistory"
+      ],
+      "table_recall": 1.0,
+      "table_precision": 0.3333333333333333,
+      "all_gold_recalled": true,
+      "missing_gold_tables": [],
+      "actual_validated_sql_tables": [
+        "humanresources.department",
+        "humanresources.employee",
+        "humanresources.employeedepartmenthistory"
+      ],
+      "validated_sources_stay_in_aw_schemas": true,
+      "actual_user_facets": [
+        "currentflag 为 true 的员工中，各部门目前分配了多少人？以部门历史记录 enddate 为空表示目前分配，输出部门名和人数，按人数降序、部门名升序。",
+        "部门"
+      ],
+      "schema_latency_ms": 87
+    }
+  ]
+}

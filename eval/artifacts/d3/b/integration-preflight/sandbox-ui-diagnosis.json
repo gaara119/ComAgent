@@ -1,0 +1,21 @@
+{
+  "stage": "D3 shared integration module/UI preflight",
+  "commands": [
+    ".venv/Scripts/python.exe -B -m pytest tests/test_d3_clarify.py tests/test_d3_clarify_ai_counterexamples.py tests/test_d3_clarify_ui.py -q --basetemp .runtime/pytest-d3-b-integrated",
+    ".venv/Scripts/python.exe -B -m pytest tests/test_d3_clarify_ui.py::test_option_button_sends_trusted_card_id_version_and_session_once -v -s -o faulthandler_timeout=20 --basetemp .runtime/pytest-d3-ui-stack"
+  ],
+  "observed": "First 39 rule/state tests passed; initial AppTest did not reach a UI assertion. Default-sandbox runs were interrupted after the stack diagnosis. They are not marked as passed.",
+  "actual_stack_excerpt": [
+    "Timeout (0:00:20)!",
+    "socket.py:295 in accept",
+    "socket.py:627 in _fallback_socketpair",
+    "asyncio/proactor_events.py:787 in _make_self_pipe",
+    "asyncio/windows_events.py:316 in __init__",
+    "streamlit/testing/v1/local_script_runner.py:62 in __init__",
+    "streamlit/testing/v1/app_test.py:517 in _run",
+    "tests/test_d3_clarify_ui.py:45 in app_fixture"
+  ],
+  "handling": "Rerun the same tests with scoped local loopback/network permissions. Preserve the initial interrupted runs as environmental failures, not product assertion failures.",
+  "evidence_source": "actual terminal output; excerpt recorded after interruption",
+  "human_review_status": "pending_human_review"
+}

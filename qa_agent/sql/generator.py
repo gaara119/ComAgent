@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from qa_agent.schemas import IntentContract, SQLGeneration
@@ -43,6 +44,7 @@ def generate_sql(
     error: str | None = None,
     intent: IntentContract | None = None,
     bindings: list[dict] | None = None,
+    allow_joins: bool = False,
 ) -> SQLGeneration:
     prompt = {
         "question": question,
@@ -57,7 +59,8 @@ def generate_sql(
         prompt["technical_error"] = error or "SQL 需要技术修复"
         prompt["repair_rule"] = "仅修复技术错误；不得删除、替换原问题条件，不得制造非空结果。"
     return llm.complete_json(
-        system_prompt=SQL_SYSTEM_PROMPT,
+        system_prompt=(Path(__file__).with_name("prompts") / "multi_table.txt").read_text(encoding="utf-8")
+        if allow_joins else SQL_SYSTEM_PROMPT,
         user_prompt=json.dumps(prompt, ensure_ascii=False),
         response_model=SQLGeneration,
         trace=trace,

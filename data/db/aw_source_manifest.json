@@ -1,0 +1,43 @@
+{
+  "database": "AdventureWorks full OLTP",
+  "fetched_at": "2026-10-11T17:51:46.852981+00:00",
+  "upstream_repository": "https://github.com/lorint/AdventureWorks-for-Postgres",
+  "upstream_revision": "b474991f0df1c4bf55ca4735eb0254ca0709eed2",
+  "sources": [
+    {
+      "name": "install.sql",
+      "url": "https://raw.githubusercontent.com/lorint/AdventureWorks-for-Postgres/b474991f0df1c4bf55ca4735eb0254ca0709eed2/install.sql",
+      "sha256": "27f71c99365aa5f44dba5d3b7ca092a654fcf50e6931c4dbe96ba2a13f8b7e0e"
+    },
+    {
+      "name": "update_csvs.rb",
+      "url": "https://raw.githubusercontent.com/lorint/AdventureWorks-for-Postgres/b474991f0df1c4bf55ca4735eb0254ca0709eed2/update_csvs.rb",
+      "sha256": "f9c2575c21f1fc68ac9af655cb47d59ffbc1a85c1ae1b75312bb29994defa2b2"
+    },
+    {
+      "name": "README.md",
+      "url": "https://raw.githubusercontent.com/lorint/AdventureWorks-for-Postgres/b474991f0df1c4bf55ca4735eb0254ca0709eed2/README.md",
+      "sha256": "88ee06dab2737579098311b3a1dcf3cec71c0699657c6f739b2af53c7d5a5e6c"
+    },
+    {
+      "name": "LICENSE",
+      "url": "https://raw.githubusercontent.com/lorint/AdventureWorks-for-Postgres/b474991f0df1c4bf55ca4735eb0254ca0709eed2/LICENSE",
+      "sha256": "4eb50d9ccbc26bbdcab24778da282a3fae72f0cd29e773bfc5fa7caae9b0f231"
+    },
+    {
+      "name": "adventure_works_2014_OLTP_script.zip",
+      "url": "https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorks-oltp-install-script.zip",
+      "sha256": "58962e94ea386ef7cd3d8a08211bfd42a79d9b81bdd68fd4b6b0051de6c5bd42",
+      "size_bytes": 17486641
+    }
+  ],
+  "converter": "upstream update_csvs.rb run by ruby:3.4-alpine",
+  "expected_base_table_count": 68,
+  "business_schemas": [
+    "humanresources",
+    "person",
+    "production",
+    "purchasing",
+    "sales"
+  ]
+}

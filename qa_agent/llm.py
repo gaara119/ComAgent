@@ -2,6 +2,10 @@
 from __future__ import annotations
 
 import json
+import os
+from pathlib import Path
+import re
+from uuid import uuid4
 from contextlib import nullcontext
 from time import sleep
 from typing import TypeVar
@@ -9,7 +13,7 @@ from typing import TypeVar
 from openai import APIConnectionError, APIStatusError, APITimeoutError, OpenAI
 from pydantic import BaseModel, ValidationError
 
-from qa_agent.config import Settings, get_settings, sanitize_error
+from qa_agent.config import PROJECT_ROOT, Settings, get_settings, sanitize_error
 from qa_agent.trace import TraceRecorder
 
 T = TypeVar("T", bound=BaseModel)
@@ -40,6 +44,31 @@ class JsonLLM:
             timeout=self.settings.llm_timeout_seconds,
             max_retries=0,
         )
+
+    def _capture(self, call_id: str, payload: dict, step=None) -> None:
+        """Optional local observation; credentials never enter the recorded payload."""
+        configured = os.getenv("LLM_CAPTURE_DIR", "").strip()
+        if not configured:
+            return
+        try:
+            directory = Path(configured)
+            directory = (directory if directory.is_absolute() else PROJECT_ROOT / directory).resolve()
+            if not directory.is_relative_to(PROJECT_ROOT):
+                raise ValueError("capture path outside project")
+            directory.mkdir(parents=True, exist_ok=True)
+            raw = json.dumps(payload, ensure_ascii=False, indent=2)
+            for secret in (self.settings.llm_api_key, self.settings.db_url, self.settings.aw_db_url):
+                if secret:
+                    raw = raw.replace(secret, "[redacted]")
+            raw = re.sub(r"\bsk-[A-Za-z0-9_-]+", "[redacted]", raw)
+            raw = re.sub(r"postgres(?:ql)?://[^\s\"']+", "postgresql://[redacted]", raw)
+            path = directory / (call_id + ".json")
+            path.write_text(raw, encoding="utf-8")
+            if step is not None:
+                step.output_summary["provider_capture"] = path.relative_to(PROJECT_ROOT).as_posix()
+        except Exception:
+            if step is not None:
+                step.output_summary["provider_capture_error"] = "local_capture_unavailable"
 
     def list_models(self) -> list[str]:
         try:
@@ -77,11 +106,15 @@ class JsonLLM:
             {"role": "user", "content": user_prompt},
         ]
         last_error: LLMError | None = None
-        # The SDK performs no hidden retry; this loop owns the total attempt budget.
+        # Bound retries per logical call separately from the complete request.
+        request_budget = self.settings.llm_request_max_attempts or self.settings.llm_max_attempts
         with self._client() as client:
             for attempt in range(1, self.settings.llm_max_attempts + 1):
+                call_id = uuid4().hex
+                capture = {"trace_id": trace.trace_id if trace else None, "attempt": attempt}
+                step = None
                 if trace is not None:
-                    if trace.llm_attempts >= self.settings.llm_max_attempts:
+                    if trace.llm_attempts >= request_budget:
                         raise LLMError("本次请求已达到模型调用次数上限。", "llm_attempt_budget")
                     trace.llm_attempts += 1
                 context = trace.step("llm", {"attempt": attempt, "model": self.settings.llm_model}) if trace else nullcontext()
@@ -95,12 +128,16 @@ class JsonLLM:
                         }
                         if "deepseek.com" in self.settings.llm_base_url:
                             kwargs["extra_body"] = {"thinking": {"type": "enabled" if self.settings.llm_thinking else "disabled"}}
+                        capture["request"] = kwargs
+                        self._capture(call_id, capture, step)
                         response = client.chat.completions.create(**kwargs)
+                        capture["response"] = response.model_dump(mode="json")
+                        self._capture(call_id, capture, step)
                         if step is not None:
-                            step.output_summary = {
+                            step.output_summary.update({
                                 "model": response.model,
                                 "usage": response.usage.model_dump() if response.usage else {},
-                            }
+                            })
                         if not response.choices:
                             raise ValueError("模型返回为空")
                         choice = response.choices[0]
@@ -115,10 +152,14 @@ class JsonLLM:
                             step.output_summary["json_valid"] = True
                         return result
                 except (json.JSONDecodeError, ValidationError, ValueError) as exc:
+                    capture["validation_error"] = type(exc).__name__
+                    self._capture(call_id, capture, step)
                     last_error = LLMError("模型返回 JSON 格式或字段不符合协议。", "llm_format")
                     messages.append({"role": "user", "content":
                                      "上次结果未通过 JSON/字段校验。请重读原始任务，保持用户条件不变，只返回符合 Schema 的 JSON 对象。"})
                 except Exception as exc:
+                    capture["error"] = sanitize_error(exc, self.settings)
+                    self._capture(call_id, capture, step)
                     last_error = exc if isinstance(exc, LLMError) else self._error(exc)
                     if not last_error.retryable:
                         raise last_error from exc

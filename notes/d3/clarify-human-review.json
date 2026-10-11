@@ -1,0 +1,906 @@
+{
+  "title": "D3 B 统一人审输入：21开发题与4项公共待核事项",
+  "created_at_utc": "2026-10-11T20:05:16.295185+00:00",
+  "dataset_sha256": "bda1a8dc8da9a805e75d156039db8517ea349c21f442d94fdaee99d0fd9ab967",
+  "dev_checked": 21,
+  "rows": [
+    {
+      "id": "clarify-01",
+      "group": "D3澄清开发集",
+      "question": "巴西有多少客户？",
+      "expected_level": "L0",
+      "expected_behavior": "execute",
+      "reference_semantics": {
+        "metric": "customer_count"
+      },
+      "basis": "客户计数不需要期间；国家来自客户所在地。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "客户所在地 Brazil 明确，静态客户计数不需要发票期间；customer.country 与账单国家不混用。",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L0",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=1; id=clarify-01"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-01.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-01"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-02",
+      "group": "D3澄清开发集",
+      "question": "genre.name 明确为 Rock 的曲目有多少首？",
+      "expected_level": "L0",
+      "expected_behavior": "execute",
+      "reference_semantics": {
+        "metric": "track_count"
+      },
+      "basis": "显式标准对象不再问摇滚候选。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "显式 genre.name=Rock 排除了中文摇滚两候选的歧义；按标准对象筛选，不应再次追问。",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L0",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=2; id=clarify-02"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-02.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-02"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-04",
+      "group": "D3澄清开发集",
+      "question": "2024年全部发票的平均每张发票金额是多少？",
+      "expected_level": "L0",
+      "expected_behavior": "execute",
+      "reference_semantics": {
+        "metric": "average_invoice_amount",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        }
+      },
+      "basis": "已确认客单价定义，无地区歧义。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "明确2024完整请求期间和平均每张发票金额，AVG(invoice.total) 与已确认口径一致。",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L0",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=3; id=clarify-04"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-04.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-04"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-05",
+      "group": "D3澄清开发集",
+      "question": "数据库一共有多少个音乐流派？",
+      "expected_level": "L0",
+      "expected_behavior": "execute",
+      "reference_semantics": {
+        "metric": "record_count"
+      },
+      "basis": "单表全部记录范围明确。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "全库音乐流派字典的记录数明确，不要求时期也不猜销量。",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L0",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=4; id=clarify-05"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-05.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-05"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-07",
+      "group": "D3澄清开发集",
+      "question": "2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？",
+      "expected_level": "L0",
+      "expected_behavior": "execute",
+      "reference_semantics": {
+        "task_type": "ratio",
+        "metric": "invoice_revenue",
+        "numerator": "2024年账单国家Brazil的发票金额",
+        "denominator": "2024年全部发票金额",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "region_scope": "invoice.billing_country"
+      },
+      "basis": "分子分母同年且范围明确，不因比较任务一概追问。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "2024年、Brazil账单国家、分子发票额和同年全部发票额分母均明确；比例任务不能因比较一概追问，零分母应NULL。",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L0",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=5; id=clarify-07"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-07.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-07"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-08",
+      "group": "D3澄清开发集",
+      "question": "2024年账单国家为USA的发票销售额同比增长率是多少？",
+      "expected_level": "L0",
+      "expected_behavior": "execute",
+      "reference_semantics": {
+        "task_type": "growth",
+        "metric": "invoice_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "comparison": {
+          "type": "yoy"
+        },
+        "region_scope": "invoice.billing_country"
+      },
+      "basis": "当前年度和同比明确，2023年基期可程序推导。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "明确2024年销售发票金额、USA账单国家和同比；可推导2023年同期间，国家和金额口径须同源保持。",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L0",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=6; id=clarify-08"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-08.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-08"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-10",
+      "group": "D3澄清开发集",
+      "question": "2024年全部发票按总额从高到低列出前5张，相同金额按invoice_id升序。",
+      "expected_level": "L0",
+      "expected_behavior": "execute",
+      "reference_semantics": {
+        "task_type": "ranking",
+        "metric": "invoice_revenue",
+        "rank_object": "invoice",
+        "top_n": 5,
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        }
+      },
+      "basis": "排名对象、计量、时期、数量及并列次序明确。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "前5、发票总额排序、2024期间和invoice_id并列顺序已给出；不增加排名默认或切口径。",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L0",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=7; id=clarify-10"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-10.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-10"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-11",
+      "group": "D3澄清开发集",
+      "question": "2024年最受欢迎的5首曲目是哪些？",
+      "expected_level": "L1",
+      "expected_behavior": "execute_with_assumption",
+      "reference_semantics": {
+        "task_type": "ranking",
+        "rank_object": "track",
+        "top_n": 5,
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        }
+      },
+      "basis": "购买数量为已确认曲目默认，应声明并支持切换。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "曲目对象、2024期间、前5已明确，最受欢迎未指定计量；获准购买数量专属默认，可L1并必须声明和切换。",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L1",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=8; id=clarify-11"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-11.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-11"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-13",
+      "group": "D3澄清开发集",
+      "question": "2022年卖得最好的2首歌有哪些？",
+      "expected_level": "L1",
+      "expected_behavior": "execute_with_assumption",
+      "reference_semantics": {
+        "task_type": "ranking",
+        "rank_object": "track",
+        "top_n": 2,
+        "time_scope": {
+          "current": {
+            "start": "2022-01-01",
+            "end": "2023-01-01",
+            "label": "2022年",
+            "grain": "year"
+          }
+        }
+      },
+      "basis": "已登记热门曲目购买数量口径，不能改成全局销量默认。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "歌曲对象、2022期间、前2明确；卖得最好未指定金额/数量，适用已确认热门曲目数量默认，不推广成全局默认。",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L1",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=9; id=clarify-13"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-13.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-13"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-14",
+      "group": "D3澄清开发集",
+      "question": "2024年客户中谁买得最多？请列前3名。",
+      "expected_level": "L1",
+      "expected_behavior": "execute_with_assumption",
+      "reference_semantics": {
+        "task_type": "ranking",
+        "rank_object": "customer",
+        "top_n": 3,
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        }
+      },
+      "basis": "客户买得最多保留金额专属定义，不能套曲目数量。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "明确客户对象、2024期间、前3；谁买最多按用户已确认客户金额口径，不能套曲目数量。",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L1",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=10; id=clarify-14"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-14.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-14"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-16",
+      "group": "D3澄清开发集",
+      "question": "账单国家为USA的发票销售额同比增长多少？",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "task_type": "growth",
+        "metric": "invoice_revenue",
+        "comparison": {
+          "type": "yoy"
+        },
+        "region_scope": "invoice.billing_country"
+      },
+      "basis": "缺当前年份，真实年份只提供候选不代填。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "同比比较类型与USA账单国家销售额明确，当前期间缺失；实际有记录年份只可作为选项，不能补最新年。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=11; id=clarify-16"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-16.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-16"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-17",
+      "group": "D3澄清开发集",
+      "question": "2024年同比增长多少？",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "task_type": "growth",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "comparison": {
+          "type": "yoy"
+        }
+      },
+      "basis": "缺基础指标，不能猜发票额。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "2024与同比明确，基础指标缺失；不可假定发票额或客户数。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=12; id=clarify-17"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-17.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-17"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-19",
+      "group": "D3澄清开发集",
+      "question": "2024年Brazil账单发票销售额占比是多少？",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "task_type": "ratio",
+        "metric": "invoice_revenue",
+        "numerator": "2024年Brazil账单发票销售额",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "region_scope": "invoice.billing_country"
+      },
+      "basis": "分母范围未给，不默认全库或同年全部。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "分子、2024期间和账单国家已明确，但占比没有分母范围；不得自行用当年全库总额。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=13; id=clarify-19"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-19.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-19"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-20",
+      "group": "D3澄清开发集",
+      "question": "2024年哪些记录的金额占全部发票金额的比例？我还没确定分子范围。",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "task_type": "ratio",
+        "metric": "invoice_revenue",
+        "denominator": "2024年全部发票金额",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        }
+      },
+      "basis": "用户明确分子未定，不自行补条件。",
+      "ai_reference_judgment": "AI建议有条件通过",
+      "ai_reference_reason": "用户明确尚未确定分子，因此必须L2。reference把全部发票金额理解为同一个2024范围；需要人工确认此从句期间归属，判断L2不受该细节影响。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=14; id=clarify-20"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-20.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-20"
+        }
+      ],
+      "still_needs_human": "检查题意和期望级别；clarify-20额外确认分母的2024范围",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-22",
+      "group": "D3澄清开发集",
+      "question": "2024年谁买得最多？",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "task_type": "ranking",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        }
+      },
+      "basis": "没有查询对象，金额/数量不可安装全局默认。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "谁买最多未明确对象；按已确认四项规则不得安装全局数量/金额默认，即使自然语言可倾向客户也要确认。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=15; id=clarify-22"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-22.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-22"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-23",
+      "group": "D3澄清开发集",
+      "question": "摇滚歌曲有多少首？",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "metric": "track_count",
+        "_ambiguity": "摇滚"
+      },
+      "basis": "真实Rock与Rock And Roll都存在，必须用户选择。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "Rock 与 Rock And Roll 真值均存在；摇滚候选关系不等于允许自动唯一绑定，数量聚合也必须选择。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=16; id=clarify-23"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-23.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-23"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-25",
+      "group": "D3澄清开发集",
+      "question": "这批曲目的平均时长是多少？",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "scope_missing": true
+      },
+      "basis": "没有这批记录的范围，不能复用全库gold。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "没有上下文定义这批曲目范围；不得沿用全部曲目AVG标准结果，应L2补集合。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=17; id=clarify-25"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-25.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-25"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-26",
+      "group": "D3澄清开发集",
+      "question": "有多少复购客户？",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "metric": "repeat_customer_count"
+      },
+      "basis": "期间内至少2张发票定义必须说明期间。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "复购为指定期间内至少2张发票；未给统计期间，不能默认为全库或最近年。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=18; id=clarify-26"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-26.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-26"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-27",
+      "group": "D3澄清开发集",
+      "question": "2024年全部发票销售额环比增长率是多少？",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "task_type": "growth",
+        "metric": "invoice_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "comparison": {
+          "type": "mom"
+        }
+      },
+      "basis": "年度范围不能唯一推导月环比基期。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "年度范围不足以明确月环比基期；若环比指其它周期需用户说明，不把2024年强换成某个月。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=19; id=clarify-27"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-27.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-27"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-28",
+      "group": "D3澄清开发集",
+      "question": "统计2024年的发票销售额，但日期必须从2023年1月1日到2023年12月31日。",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "metric": "invoice_revenue",
+        "conflicts": [
+          "2024年与2023年日期范围冲突"
+        ]
+      },
+      "basis": "同一任务日期条件冲突，应由用户确定。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "2024年与显式2023日范围冲突，无优先级授权，应L2确认保留哪一个；不能模型自行覆盖。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=20; id=clarify-28"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-28.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-28"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "clarify-30",
+      "group": "D3澄清开发集",
+      "question": "摇滚乐曲目的平均时长是多少？",
+      "expected_level": "L2",
+      "expected_behavior": "clarify",
+      "reference_semantics": {
+        "_ambiguity": "摇滚乐"
+      },
+      "basis": "即便聚合平均值，也不能自动合并不同音乐流派。",
+      "ai_reference_judgment": "AI建议通过",
+      "ai_reference_reason": "摇滚乐仍有Rock/Rock And Roll两候选；平均时长不消除筛选对象歧义，不能并集计算。",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "ai_actual_level_judgment": "AI建议通过",
+      "actual_answer_business_judgment": "待人工逐题核对；分级通过不等于完整SQL/答案业务正确",
+      "evidence": [
+        {
+          "path": "eval/datasets/d3/clarify/dev.jsonl",
+          "position": "line=21; id=clarify-30"
+        },
+        {
+          "path": "eval/artifacts/d3/b/clarify-dev-v4/clarify-30.json",
+          "position": "actual API response, SQL/table, steps, clarification and metadata"
+        },
+        {
+          "path": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+          "position": "rows/id=clarify-30"
+        }
+      ],
+      "still_needs_human": "最终逐题检查纠错；AI预审不代替人工签字",
+      "human_review_status": "pending_human_review"
+    }
+  ],
+  "manual_items": [
+    {
+      "id": "d3-b-protocol",
+      "group": "公共接口与会话",
+      "requirement": "新增可选 ChatRequest.clarification_id/intent_version/choice_id 和 AnswerEnvelope.intent；IntentContract 延续 extra=forbid，卡片恢复需ID与版本同时匹配，PDF物理页从1开始的既有约定不改。",
+      "ai_judgment": "AI建议通过",
+      "reason": "新增字段兼容旧首次请求；原协议与新协议的具体源码版本需双方最后核对。真实陈旧卡在模型/SQL前拒绝，年份选择不会清掉独立缺指标问题。",
+      "evidence": [
+        "qa_agent/schemas.py",
+        "qa_agent/clarify/state.py",
+        "eval/artifacts/d3/b/shared-regression-v13/command.json",
+        "eval/artifacts/d3/b/clarify-flow-v6/stale-card-rejected.json",
+        "eval/artifacts/d3/b/button-api-v1/missing-metric-after.json"
+      ],
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "d3-b-defaults",
+      "group": "声明的对象限定假设",
+      "requirement": "热门曲目缺指标采用已共同确认的购买数量口径；客户谁买得最多缺指标采用已共同确认金额；缺Top-N数量按方案默认10并声明；缺关键期间/对象不得猜。",
+      "ai_judgment": "AI建议有条件通过",
+      "reason": "已确认四项指标不改。缺数量的10条假设和仅明确最近有记录年份的解释，需核对适用对象及声明；“数据中最近一年”不自动装成最大年份。数量→金额→数量真实切换均通过。",
+      "evidence": [
+        "qa_agent/clarify/clarify_rules.yaml",
+        "qa_agent/clarify/rules.py",
+        "data/rules/metric_definitions.json",
+        "eval/artifacts/d3/b/ui-live-v4/popular-default-raw.json",
+        "eval/artifacts/d3/b/ui-live-v4/switch-revenue-raw.json",
+        "eval/artifacts/d3/b/ui-live-v4/switch-back-quantity-raw.json"
+      ],
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "d3-b-growth-display",
+      "group": "增长率显示单位",
+      "requirement": "人工决定增长率结果表及文字采用fraction还是percent，以及统一舍入/单位说明方式；在决定前不修改原始输出。",
+      "ai_judgment": "AI建议有条件通过",
+      "reason": "真实 valid-year-after 返回 ROUND(*100,2) 的24.24，free-year-resumed/UI返回0.24240365…；数学增长可一致，但同一列名不足以证明同一显示单位。技术恢复成功不替代该显示规范审核。",
+      "evidence": [
+        "eval/artifacts/d3/b/button-api-v1/valid-year-after.json",
+        "eval/artifacts/d3/b/clarify-flow-v6/free-year-resumed.json",
+        "eval/artifacts/d3/b/ui-live-v4/clarification-after-raw.json",
+        "eval/artifacts/d3/b/ui-live-v4/free-input-after-raw.json"
+      ],
+      "human_review_status": "pending_human_review"
+    },
+    {
+      "id": "d3-b-measurement-scope",
+      "group": "测试结论范围",
+      "requirement": "21/21仅初始分级与执行门；7请求20/20为具体状态链；7UI请求10/10为控件连线。全部21题的澄清交互最终答案正确率尚未实测。",
+      "ai_judgment": "AI建议通过",
+      "reason": "保留9题预测0；D4的5段每段6轮、完整自动路由/混合跨源和复杂SQL数据流不提前声明完成。人工审核应分别检查参考判定与系统真实业务回答。",
+      "evidence": [
+        "eval/reports/d3/b/handoff-summary.json",
+        "eval/datasets/d3/clarify/manifest.json",
+        "eval/artifacts/d3/b/clarify-dev-v4/report.json",
+        "eval/artifacts/d3/b/clarify-flow-v6/report.json",
+        "eval/artifacts/d3/b/ui-live-v4/report.json"
+      ],
+      "human_review_status": "pending_human_review"
+    }
+  ],
+  "holdout": {
+    "count": 9,
+    "predictions": 0,
+    "content_not_included": true,
+    "policy": "D5冻结后运行"
+  },
+  "catalog_details_source": "eval/reports/d3-ai-review/catalog-pass2.json",
+  "human_review_status": "pending_human_review"
+}

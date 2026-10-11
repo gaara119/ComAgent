@@ -1,0 +1,49 @@
+{
+  "status": "ok",
+  "table": "production.culture",
+  "source_hash": "153b5db8793fff14776476b78b8c991f9d3b8c066aaffb383f8dc6bac6b859f8",
+  "descriptions": {
+    "table_description": "存储 AdventureWorks 自行车业务系统中使用的区域性（文化/语言）参考数据，每一行代表一种区域性标识及其可读名称，用于为产品说明、名称等文本内容提供多语言支持。",
+    "column_descriptions": {
+      "cultureid": "区域性标识代码，定长 6 字符，是主键；示例值包括空格填充的代码、'ar'、'en' 等。",
+      "name": "该区域性对应的可读名称，例如 Arabic、Chinese、English。",
+      "modifieddate": "该行记录最后一次修改的时间戳。"
+    },
+    "assumptions_or_limits": [
+      "cultureid 为定长 character(6)，示例值中可见两侧空格填充，实际比较时应注意定长补空行为。",
+      "表中仅给出 cultureid 与 name 两个业务列，未提供区域性代码与语言的官方映射规则，名称含义以示例为准。",
+      "modifieddate 的具体时区未在资料中说明，按无时区时间戳存储。",
+      "未提供该表与产品、产品说明等表的关联信息，外键列为空。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 227,
+          "prompt_tokens": 527,
+          "total_tokens": 754,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 399
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2912
+    }
+  ],
+  "latency_ms": 5264
+}

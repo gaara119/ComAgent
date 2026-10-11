@@ -1,0 +1,101 @@
+{
+  "started_at_utc": "2026-10-11T19:25:24.868160+00:00",
+  "finished_at_utc": "2026-10-11T19:25:24.869854+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d3-free-flow-a65c7467-f943-423b-a03f-2142b84bd056",
+    "message": "2024年",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    },
+    "clarification_id": "82d91dc6-f1e9-4818-bce8-a52442640753",
+    "intent_version": 1
+  },
+  "response": {
+    "trace_id": "6b1323b1-dee5-46a3-a325-7bf75783e3e8",
+    "status": "FAILED",
+    "answer": "这张澄清卡片已经失效，请使用当前问题的最新卡片。",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_version_check",
+        "status": "error",
+        "input_summary": {},
+        "output_summary": {
+          "error": "这张澄清卡片已经失效，请使用当前问题的最新卡片。"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": {
+      "code": "clarification_conflict",
+      "message": "这张澄清卡片已经失效，请使用当前问题的最新卡片。",
+      "retryable": false
+    },
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 0,
+      "nlu": {
+        "original_question": "2024年",
+        "rewritten_question": "2024年",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "not_loaded"
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

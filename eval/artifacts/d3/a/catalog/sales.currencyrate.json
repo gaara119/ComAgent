@@ -1,0 +1,52 @@
+{
+  "status": "ok",
+  "table": "sales.currencyrate",
+  "source_hash": "5334a7d87cd23f7669a720fd1b6c45e2b8c6fbbc5c2d73cce78259eddd06d323",
+  "descriptions": {
+    "table_description": "货币汇率表，记录从一种货币到另一种货币在指定日期的平均汇率和日终汇率，用于货币换算。",
+    "column_descriptions": {
+      "currencyrateid": "汇率记录的唯一标识符，主键。",
+      "currencyratedate": "汇率对应的日期。",
+      "fromcurrencycode": "源货币的三字母代码，外键关联到sales.currency表的currencycode。",
+      "tocurrencycode": "目标货币的三字母代码，外键关联到sales.currency表的currencycode。",
+      "averagerate": "当日平均汇率，表示一个单位的源货币可以兑换的目标货币数量。",
+      "endofdayrate": "当日结束时的汇率，表示一个单位的源货币可以兑换的目标货币数量。",
+      "modifieddate": "记录最后修改的日期和时间。"
+    },
+    "assumptions_or_limits": [
+      "示例值中的货币代码只显示了部分，未展示所有可能的货币组合。",
+      "汇率的具体计算方式和时间基准未在表中说明。",
+      "averagerate和endofdayrate的精度未明确。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 247,
+          "prompt_tokens": 851,
+          "total_tokens": 1098,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 723
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2558
+    }
+  ],
+  "latency_ms": 4502
+}

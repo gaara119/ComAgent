@@ -45,6 +45,7 @@ class Settings:
     llm_model: str = "deepseek-flash"
     llm_timeout_seconds: int = 60
     llm_max_attempts: int = 3
+    llm_request_max_attempts: int | None = None
     llm_max_tokens: int = 2048
     llm_thinking: bool = False
     catalog_path: Path = PROJECT_ROOT / "data/catalog/chinook.yaml"
@@ -55,6 +56,8 @@ class Settings:
     api_port: int = 8000
     rag_handler: str = "qa_agent.rag.service:run_doc_qa"
     aw_db_url: str = field(default="", repr=False)
+    aw_catalog_path: Path = PROJECT_ROOT / "data/catalog/adventureworks.yaml"
+    aw_schema_index_path: Path = PROJECT_ROOT / "data/indexes/schema-aw-d3-v2"
     rag_manifest_path: Path = PROJECT_ROOT / "data/docs/manifest.csv"
     rag_index_path: Path = PROJECT_ROOT / "data/processed/rag/ohr"
     bge_model_path: Path = PROJECT_ROOT / "data/models/bge-m3"
@@ -87,6 +90,11 @@ class Settings:
             "catalog_exists": self.catalog_path.is_file(),
             "statement_timeout_ms": self.statement_timeout_ms,
             "max_rows": self.max_rows,
+            "llm_call_max_attempts": self.llm_max_attempts,
+            "llm_request_max_attempts": self.llm_request_max_attempts or self.llm_max_attempts,
+            "aw_configured": bool(self.aw_db_url),
+            "aw_catalog_exists": self.aw_catalog_path.is_file(),
+            "aw_schema_index_exists": self.aw_schema_index_path.is_dir(),
         }
 
 
@@ -102,6 +110,10 @@ def get_settings() -> Settings:
         llm_model=os.getenv("LLM_MODEL", "deepseek-flash"),
         llm_timeout_seconds=_integer("LLM_TIMEOUT_SECONDS", 60, maximum=300),
         llm_max_attempts=_integer("LLM_MAX_ATTEMPTS", 3, maximum=5),
+        llm_request_max_attempts=(
+            _integer("LLM_REQUEST_MAX_ATTEMPTS", 12, maximum=30)
+            if os.getenv("LLM_REQUEST_MAX_ATTEMPTS", "").strip() else None
+        ),
         llm_max_tokens=_integer("LLM_MAX_TOKENS", 2048, maximum=16384),
         llm_thinking=os.getenv("LLM_THINKING", "false").lower() in {"true", "1", "yes"},
         catalog_path=catalog_path,
@@ -114,6 +126,8 @@ def get_settings() -> Settings:
         api_port=_integer("API_PORT", 8000, maximum=65535),
         rag_handler=os.getenv("RAG_HANDLER", "qa_agent.rag.service:run_doc_qa"),
         aw_db_url=os.getenv("AW_DB_URL", ""),
+        aw_catalog_path=_project_path("AW_CATALOG_PATH", "data/catalog/adventureworks.yaml"),
+        aw_schema_index_path=_project_path("AW_SCHEMA_INDEX_PATH", "data/indexes/schema-aw-d3-v2"),
         rag_manifest_path=_project_path("RAG_MANIFEST_PATH", "data/docs/manifest.csv"),
         rag_index_path=_project_path("RAG_INDEX_PATH", "data/processed/rag/ohr"),
         bge_model_path=_project_path("BGE_MODEL_PATH", "data/models/bge-m3"),

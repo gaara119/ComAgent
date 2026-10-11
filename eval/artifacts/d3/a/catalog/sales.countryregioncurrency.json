@@ -1,0 +1,48 @@
+{
+  "status": "ok",
+  "table": "sales.countryregioncurrency",
+  "source_hash": "3e0664bd8171c4ac6af4c2d76832a785281c3dcfa92863d25b2cd6468321f5fd",
+  "descriptions": {
+    "table_description": "AdventureWorks 自行车业务的销售架构下记录国家或地区与所用货币之间对应关系的关联表，用于说明某一国家或地区使用哪种货币。",
+    "column_descriptions": {
+      "countryregioncode": "国家或地区代码，取值如 AE、AR、AT，外键引用 person.countryregion 表。",
+      "currencycode": "货币代码，三位定长字符，取值如 AED、ARS、ATS，外键引用 sales.currency 表。",
+      "modifieddate": "该行记录最后修改的时间戳。"
+    },
+    "assumptions_or_limits": [
+      "国家或地区代码与货币代码的具体业务含义及两者是否一对一或多对多的映射约定在现有资料中未说明。",
+      "货币代码与具体币种名称、符号或小数位未在资料中给出，不应据代码推断币种全称。",
+      "modifieddate 的具体业务语义（记录创建或最后更新）未在本表中说明。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 204,
+          "prompt_tokens": 618,
+          "total_tokens": 822,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 490
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2627
+    }
+  ],
+  "latency_ms": 4914
+}

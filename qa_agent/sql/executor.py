@@ -68,7 +68,7 @@ def unique_columns(names: list[str]) -> list[str]:
 
 @traced(
     "sql_exec",
-    input_summary=lambda arguments: {"sql": arguments.arguments["sql"], "db_id": "chinook"},
+    input_summary=lambda arguments: {"sql": arguments.arguments["sql"], "db_id": arguments.arguments["db_id"]},
     output_summary=lambda result: {"row_count": result.row_count, "columns": result.columns,
                                    "truncated": result.truncated},
 )
@@ -79,6 +79,7 @@ def execute_sql(
     max_rows: int = 200,
     trace: TraceRecorder | None = None,
     parameters: dict[str, Any] | None = None,
+    db_id: str = "chinook",
 ) -> SQLResult:
     """Run a previously validated query; caller must call validate_sql first.
 
@@ -87,7 +88,7 @@ def execute_sql(
     row_count is the number of returned rows, never an invented total count.
     """
     if not db_url:
-        raise SQLExecutionError("未配置 DB_URL；请先初始化 Chinook 并配置只读连接。")
+        raise SQLExecutionError(f"未配置 {db_id} 的只读数据库连接。")
     if statement_timeout_ms < 1 or max_rows < 1:
         raise SQLExecutionError("数据库超时和结果行数上限必须大于 0。")
     try:

@@ -1,0 +1,79 @@
+{
+  "id": "aw-21",
+  "sql": "SELECT d.name AS department_name, COUNT(DISTINCT e.businessentityid) AS employee_count FROM humanresources.employee AS e JOIN humanresources.employeedepartmenthistory AS h ON e.businessentityid = h.businessentityid JOIN humanresources.department AS d ON h.departmentid = d.departmentid WHERE e.currentflag = TRUE AND h.enddate IS NULL GROUP BY d.departmentid, d.name ORDER BY employee_count DESC, d.name ASC LIMIT 200",
+  "columns": [
+    "department_name",
+    "employee_count"
+  ],
+  "rows": [
+    [
+      "Production",
+      179
+    ],
+    [
+      "Sales",
+      18
+    ],
+    [
+      "Purchasing",
+      12
+    ],
+    [
+      "Finance",
+      10
+    ],
+    [
+      "Information Services",
+      10
+    ],
+    [
+      "Marketing",
+      9
+    ],
+    [
+      "Facilities and Maintenance",
+      7
+    ],
+    [
+      "Engineering",
+      6
+    ],
+    [
+      "Human Resources",
+      6
+    ],
+    [
+      "Production Control",
+      6
+    ],
+    [
+      "Quality Assurance",
+      6
+    ],
+    [
+      "Shipping and Receiving",
+      6
+    ],
+    [
+      "Document Control",
+      5
+    ],
+    [
+      "Research and Development",
+      4
+    ],
+    [
+      "Tool Design",
+      4
+    ],
+    [
+      "Executive",
+      2
+    ]
+  ],
+  "tables": [
+    "humanresources.department",
+    "humanresources.employee",
+    "humanresources.employeedepartmenthistory"
+  ]
+}

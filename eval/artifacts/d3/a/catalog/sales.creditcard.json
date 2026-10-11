@@ -1,0 +1,52 @@
+{
+  "status": "ok",
+  "table": "sales.creditcard",
+  "source_hash": "8a42810e05fecaf505503274f1b2cc811265b52f5697e0ac2f5baa47e35e40a0",
+  "descriptions": {
+    "table_description": "销售额模式下的信用卡表，用于记录虚构自行车业务中客户使用的信用卡信息，包括卡类型、卡号、有效期和修改时间；每行由信用卡主键唯一标识，与销售订单、客户、地址、员工、销售人员、产品及订单明细等信息分属不同表。",
+    "column_descriptions": {
+      "creditcardid": "信用卡记录的唯一主键标识，整数，非空。",
+      "cardtype": "信用卡类型名称，可变长字符串，非空；示例值如 ColonialVoice、Distinguish、SuperiorCard。",
+      "cardnumber": "信用卡卡号，可变长字符串，非空；示例值未提供。",
+      "expmonth": "信用卡到期月份，小整数，非空；示例值如 1、2、3。",
+      "expyear": "信用卡到期年份，小整数，非空；示例值如 2005、2006、2007。",
+      "modifieddate": "记录最后修改时间，无时区时间戳，非空；示例值如 2017-06-22T00:00:00、2018-01-18T00:00:00、2018-11-03T00:00:00。"
+    },
+    "assumptions_or_limits": [
+      "cardtype 的可能取值与业务含义缺少完整字典说明，示例值仅代表出现过的值。",
+      "cardnumber、expmonth、expyear 未提供实际示例值，其格式与取值范围未在此确认。",
+      "modifieddate 的时区、数据来源及是否用于其他业务口径未确认。",
+      "该表与销售订单、客户、地址、员工、销售人员、产品、产品类别、产品子类别、售价、成本、订单金额或明细金额的关联未在本输入中给出。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 379,
+          "prompt_tokens": 673,
+          "total_tokens": 1052,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 545
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3591
+    }
+  ],
+  "latency_ms": 5887
+}

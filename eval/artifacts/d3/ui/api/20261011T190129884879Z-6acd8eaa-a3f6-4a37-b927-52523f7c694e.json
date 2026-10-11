@@ -1,0 +1,229 @@
+{
+  "started_at_utc": "2026-10-11T19:01:26.313876+00:00",
+  "finished_at_utc": "2026-10-11T19:01:29.884879+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d3-dev-bb4ae16d-28b8-4143-bd84-8bb0e4c4ece7",
+    "message": "2024年最受欢迎的5首曲目是哪些？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "fd4317e8-b773-4946-b06f-8197dd382997",
+    "status": "NEEDS_CLARIFICATION",
+    "answer": "请明确要计算的指标。",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [],
+    "clarification": {
+      "clarification_id": "9593b899-76fb-4a9b-9704-0572c1e98631",
+      "intent_version": 1,
+      "level": "L2",
+      "question": "请明确要计算的指标。",
+      "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+      "issues": [
+        {
+          "id": "missing:metric",
+          "question": "请明确要计算的指标。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "metric",
+          "options": []
+        }
+      ],
+      "options": [],
+      "resume_supported": true
+    },
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "ranking",
+      "metric": null,
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        }
+      },
+      "filters": [],
+      "grouping": [],
+      "order": {
+        "direction": "desc",
+        "rank_object": "曲目",
+        "top_n": 5
+      },
+      "assumptions": [],
+      "unresolved": [
+        {
+          "id": "missing:metric",
+          "question": "请明确要计算的指标。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "metric",
+          "options": []
+        }
+      ]
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 24
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024年最受欢迎的5首曲目是哪些？"
+        },
+        "output_summary": {
+          "rewritten_question": "2024年最受欢迎的5首曲目是哪些？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "warn",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L2",
+          "intent_version": 1,
+          "issues": [
+            {
+              "id": "missing:metric",
+              "question": "请明确要计算的指标。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "metric",
+              "options": []
+            }
+          ],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3543
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 173,
+            "prompt_tokens": 5110,
+            "total_tokens": 5283,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1280
+            },
+            "prompt_cache_hit_tokens": 1280,
+            "prompt_cache_miss_tokens": 3830
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2419
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 3569,
+      "nlu": {
+        "original_question": "2024年最受欢迎的5首曲目是哪些？",
+        "rewritten_question": "2024年最受欢迎的5首曲目是哪些？",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L2",
+        "intent_version": 1,
+        "state": "WAITING_CLARIFICATION",
+        "assumptions": [],
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

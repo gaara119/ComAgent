@@ -1,0 +1,336 @@
+{
+  "id": "clarify-13",
+  "request": {
+    "session_id": "d3-dev-7cb305e0-9e63-4b14-adc3-78e012491247",
+    "message": "2022年卖得最好的2首歌有哪些？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "449f0562-5c5a-4208-aeb2-21ec1546379f",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 2 行，详细数据见结果表。\n口径说明：热门曲目按购买数量统计（已确认默认口径）。",
+    "rewritten_question": null,
+    "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS total_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id WHERE i.invoice_date >= '2022-01-01' AND i.invoice_date < '2023-01-01' GROUP BY t.track_id, t.name ORDER BY total_quantity DESC, t.track_id ASC LIMIT 2",
+    "table": [
+      {
+        "track_id": 1,
+        "track_name": "For Those About To Rock (We Salute You)",
+        "total_quantity": 1
+      },
+      {
+        "track_id": 5,
+        "track_name": "Princess of the Dawn",
+        "total_quantity": 1
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "ranking",
+      "metric": "purchased_quantity",
+      "time_scope": {
+        "current": {
+          "start": "2022-01-01",
+          "end": "2023-01-01",
+          "label": "2022年",
+          "grain": "year"
+        }
+      },
+      "filters": [],
+      "grouping": [],
+      "order": {
+        "direction": "desc",
+        "rank_object": "track",
+        "top_n": 2
+      },
+      "assumptions": [
+        "热门曲目按购买数量统计（已确认默认口径）。"
+      ],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 40
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2022年卖得最好的2首歌有哪些？"
+        },
+        "output_summary": {
+          "rewritten_question": "2022年卖得最好的2首歌有哪些？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L1",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [
+            "热门曲目按购买数量统计（已确认默认口径）。"
+          ],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3570
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/2c30d4b02f6a43959bae3b93b960e8cb.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 231,
+            "prompt_tokens": 5196,
+            "total_tokens": 5427,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1408
+            },
+            "prompt_cache_hit_tokens": 1408,
+            "prompt_cache_miss_tokens": 3788
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2423
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2022年卖得最好的2首歌有哪些？",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS total_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= '2022-01-01' AND i.invoice_date < '2023-01-01' GROUP BY t.track_id, t.name ORDER BY total_quantity DESC, t.track_id ASC LIMIT 2",
+          "explanation": "统计2022年（左闭右开区间）各曲目的购买数量，按购买数量降序取前2，并列时以曲目编号稳定排序。"
+        },
+        "latency_ms": 3631
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/b9037d2884ae4b258df44e236971ea15.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 179,
+            "prompt_tokens": 4869,
+            "total_tokens": 5048,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 896
+            },
+            "prompt_cache_hit_tokens": 896,
+            "prompt_cache_miss_tokens": 3973
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2490
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS total_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= '2022-01-01' AND i.invoice_date < '2023-01-01' GROUP BY t.track_id, t.name ORDER BY total_quantity DESC, t.track_id ASC LIMIT 2"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS total_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id WHERE i.invoice_date >= '2022-01-01' AND i.invoice_date < '2023-01-01' GROUP BY t.track_id, t.name ORDER BY total_quantity DESC, t.track_id ASC LIMIT 2"
+        },
+        "latency_ms": 5
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS total_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id WHERE i.invoice_date >= '2022-01-01' AND i.invoice_date < '2023-01-01' GROUP BY t.track_id, t.name ORDER BY total_quantity DESC, t.track_id ASC LIMIT 2",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 2,
+          "columns": [
+            "track_id",
+            "track_name",
+            "total_quantity"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 42
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 7293,
+      "nlu": {
+        "original_question": "2022年卖得最好的2首歌有哪些？",
+        "rewritten_question": "2022年卖得最好的2首歌有哪些？",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L1",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [
+          "热门曲目按购买数量统计（已确认默认口径）。"
+        ],
+        "derived": {},
+        "invalidated": [],
+        "switch": {
+          "clarification_id": "d5062d5d-e565-4772-b050-792d84559f69",
+          "intent_version": 1,
+          "level": "L1",
+          "options": [
+            {
+              "id": "by_quantity",
+              "label": "按购买数量"
+            },
+            {
+              "id": "by_revenue",
+              "label": "按销售额"
+            },
+            {
+              "id": "by_playlist",
+              "label": "按歌单收录次数"
+            }
+          ]
+        }
+      },
+      "result_columns": [
+        "track_id",
+        "track_name",
+        "total_quantity"
+      ],
+      "truncated": false
+    }
+  },
+  "error": null,
+  "latency_ms": 7300,
+  "created_at_utc": "2026-10-11T19:11:23.971804+00:00"
+}

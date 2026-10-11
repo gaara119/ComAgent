@@ -1,0 +1,61 @@
+{
+  "status": "ok",
+  "table": "production.workorderrouting",
+  "source_hash": "ac5e5d5f702f1f72eb4161abded29a621ece6798f51be194b02f8f2dc50ba9c7",
+  "descriptions": {
+    "table_description": "生产架构下的工单工序表，记录某张生产工单中每个产品在各道生产工序上的排程与实际执行情况，包括工序顺序、执行地点、计划与实际起止时间、实际工时以及计划成本和实际成本。主键由工单、产品和工序顺序组成，用于唯一标识一道工单工序。",
+    "column_descriptions": {
+      "workorderid": "生产工单标识，外键关联 production.workorder 表，表示该工序所属的工单。",
+      "productid": "产品标识，表示该工单工序所加工的产品，与 workorderid、operationsequence 共同构成主键。",
+      "operationsequence": "工序顺序号，表示该产品在生产工单中的加工步骤次序。",
+      "locationid": "执行地点标识，外键关联 production.location 表，表示该工序所在的车间或工作中心。",
+      "scheduledstartdate": "计划开始日期时间，即该工序排程的计划起始时间。",
+      "scheduledenddate": "计划结束日期时间，即该工序排程的计划完成时间。",
+      "actualstartdate": "实际开始日期时间，即该工序实际开始执行的时间，可为空。",
+      "actualenddate": "实际结束日期时间，即该工序实际完成的时间，可为空。",
+      "actualresourcehrs": "实际资源工时，表示该工序实际消耗的资源小时数，可为空。",
+      "plannedcost": "计划成本，表示该工单工序按计划计算的生产成本金额。",
+      "actualcost": "实际成本，表示该工单工序实际发生的生产成本金额，可为空。",
+      "modifieddate": "修改日期时间，表示该记录最近一次被修改的时间。"
+    },
+    "assumptions_or_limits": [
+      "计划成本与实际成本均为金额字段，但本说明未指明币种，也不确定是否含税或是否按标准成本口径计算。",
+      "工单类型（生产工单）沿承 AdventureWorks 语境，未区分销售订单与采购订单，本表仅涉及生产工单。",
+      "实际工时 actualresourcehrs 的单位命名为小时，但不确定其是否包含准备时间或停机时间。",
+      "各日期时间字段的示例值均为零点时刻，但不确定其是否表示自然日粒度或仅保存日期部分。",
+      "主键由 workorderid、productid、operationsequence 组成，说明同一工单同一产品的同一工序顺序唯一。",
+      "本表未涉及售价与成本、订单金额与明细金额的区分，仅有工单工序层面的计划成本与实际成本。",
+      "是否含缺省过滤条件、状态枚举等未在输入中给出，不进行推断。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 565,
+          "prompt_tokens": 1183,
+          "total_tokens": 1748,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 1055
+        },
+        "json_valid": true
+      },
+      "latency_ms": 4343
+    }
+  ],
+  "latency_ms": 6567
+}

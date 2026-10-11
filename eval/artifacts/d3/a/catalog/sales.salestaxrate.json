@@ -1,0 +1,56 @@
+{
+  "status": "ok",
+  "table": "sales.salestaxrate",
+  "source_hash": "f1fbd1a2a507e44cff1b787fcc9cbdc56513f8f6b9a9a55b839837381f1ef3e0",
+  "descriptions": {
+    "table_description": "销售税税率表（sales.salestaxrate），记录 AdventureWorks 自行车业务在各州/省适用的销售税率及对应名称，并通过 stateprovinceid 关联 person.stateprovince 指明税率所属的州或省。该表属于定价/税务参考数据，与销售订单、采购订单及其金额、明细金额均无直接字段关系。",
+    "column_descriptions": {
+      "salestaxrateid": "销售税税率记录的主键标识，唯一标识一条销售税率。",
+      "stateprovinceid": "该税率适用的州或省标识，外键引用 person.stateprovince.stateprovinceid。",
+      "taxtype": "税类型的小整数标志/代码，示例值有 1、2、3；具体枚举含义未在表结构中给出。",
+      "taxrate": "销售税率数值，示例值如 5.0000、6.7500、7.0000；具体单位或百分比口径未在表结构中说明。",
+      "name": "销售税税率的名称，示例为 Arizona State Sales Tax、California State Sales Tax、Canadian GST。",
+      "rowguid": "行级全局唯一标识符（UUID），用于行的唯一识别。",
+      "modifieddate": "该行记录的最后修改时间戳，示例值为 2019-04-30T00:00:00。"
+    },
+    "assumptions_or_limits": [
+      "taxtype 的枚举含义（如 1、2、3 分别代表何种税）在给定信息中无字典证据，未作推断。",
+      "taxrate 的数值单位或是否为百分比、小数位数含义未在表结构中说明，未作推断。",
+      "未提供币种信息，本表不涉及币种字段。",
+      "未提供统计期间或生效期间字段，本表不含期间信息。",
+      "stateprovinceid 指向 person.stateprovince，说明税率按州/省维度定义；是否覆盖所有销售地区未在给定信息中说明。",
+      "rowguid 为 UUID 类型，示例值属于待解释资料，仅作格式示例，不代表其生成规则。",
+      "本表与销售订单、采购订单、订单金额、明细金额之间无给定外键或字段关系，未建立关联假设。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 480,
+          "prompt_tokens": 821,
+          "total_tokens": 1301,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 693
+        },
+        "json_valid": true
+      },
+      "latency_ms": 4355
+    }
+  ],
+  "latency_ms": 6410
+}

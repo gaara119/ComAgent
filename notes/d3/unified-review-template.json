@@ -1,0 +1,59 @@
+{
+  "title": "D3统一待人工审核表",
+  "human_review_status": "pending_human_review",
+  "human_signatures": null,
+  "human_confirmed_at": null,
+  "purpose": "AI两遍预审后按用户授权执行，最终由用户检查纠错；模板不填预期实测成绩",
+  "groups": [
+    {
+      "id": "aw_dev",
+      "title": "AdventureWorks开发题的题意、gold表、标准SQL与实际系统输出",
+      "expected_count": 21,
+      "source": "eval/datasets/d3/aw_schema_link.dev.v2.jsonl",
+      "required_columns": ["原编号", "题意", "参考答案AI第一遍", "参考答案AI第二遍", "标准SQL与实际标准结果", "实际系统输出与日志", "实测判断", "发现的问题", "人工意见"],
+      "actual_output_status": "await_actual_evidence"
+    },
+    {
+      "id": "clarify_dev",
+      "title": "澄清开发题标签、口径与真实卡片/执行行为",
+      "expected_count": 21,
+      "source": "eval/datasets/d3/clarify/dev.jsonl",
+      "ai_pass1": "eval/reports/d3/b/AI预审第一遍.md",
+      "ai_pass2": "eval/reports/d3-ai-review/clarify-dev-pass2.json",
+      "required_columns": ["原编号", "题意", "预期L0/L1/L2及依据", "AI第一遍", "AI第二遍", "真实系统状态与原始回答", "答案与引用之外的门控判断", "仍需人工确认事项", "人工意见"],
+      "actual_output_status": "await_actual_evidence",
+      "caution": "level正确/是否询问正确与查询答案业务正确分开，不能把门控分数当作EX"
+    },
+    {
+      "id": "catalog_conditions",
+      "title": "目录68表456列中文说明的条件项与证据不足项",
+      "source": "eval/reports/d3-ai-review/catalog-pass2.json",
+      "display_policy": "仅展开table verdict非通过或column verdict非通过的具体条件、枚举、单位与币种限制；完整456字段审读证据附链接",
+      "required_columns": ["schema.table", "字段", "真实类型/NULL/PK/FK", "当前中文说明", "独立AI判断", "缺少的依据", "实际来源证据", "人工意见"]
+    },
+    {
+      "id": "protocol_changes",
+      "title": "共享协议、默认声明与地区口径边界",
+      "items": [
+        "ChatRequest新增optional clarification_id/intent_version/choice_id；旧三字段客户端保持有效；不接受任意客户端patch",
+        "卡片每次变更新版本，旧卡片拒绝；稳定选项只代表本次用户确认，不把候选关系批准误当自动绑定",
+        "已登记L1曲目默认按购买数量，客户谁买最多默认金额，缺查询对象不设全局默认；缺必需期间不猜最近年",
+        "排名缺条数时按总计划前10名并声明，需要最终核对",
+        "有年份的热门查询切换歌单收录次数时，因没有收录日期必须再澄清是否取消期间；不偷换为发票日期",
+        "同一地区字段改value仅标记result失效，换地区字段还使fields/schema失效；实际SQL按当前条件重新生成，并复用目录/向量索引",
+        "人工确认过的四项业务定义没有增加币种、支付状态、完整年度或全局人气默认"
+      ],
+      "shared_schema_human_review_status": "pending_human_review"
+    },
+    {
+      "id": "holdout_progress",
+      "title": "保留集保护进度",
+      "aw_count": 9,
+      "clarify_count": 9,
+      "predictions": 0,
+      "display_policy": "开发侧只列数量、哈希与准备/待审进度，不展开题目、答案或模型预测；D5冻结后才运行"
+    }
+  ],
+  "evidence_link_policy": "以交付包项目根为基准记录项目内相对位置，HTML按报告所在目录转换相对href，不使用任何人的E盘绝对路径",
+  "output_integrity_policy": "原始响应、SQL命令、标准结果、修复前失败与回归分目录保存；没有实际输出的条目明确未运行"
+}

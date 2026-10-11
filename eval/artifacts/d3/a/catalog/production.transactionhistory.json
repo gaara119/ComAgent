@@ -1,0 +1,55 @@
+{
+  "status": "ok",
+  "table": "production.transactionhistory",
+  "source_hash": "54eab173f51b2e03e4e05a575877b50c4283d85448b38447af3dc8b6bd8a6231",
+  "descriptions": {
+    "table_description": "本表记录自行车业务中每笔库存事务的历史明细，用于追踪产品在销售订单、采购订单或生产等来源下的数量与成本变动。每行对应一次事务事件，通过 transactionid 唯一标识，并通过 productid 关联 production.product 表。",
+    "column_descriptions": {
+      "transactionid": "事务行的唯一标识符，主键。",
+      "productid": "发生该事务的产品标识，外键关联 production.product.productid。",
+      "referenceorderid": "该事务关联的来源单据标识，可能指向销售订单或采购订单等，具体对应哪类单据需结合 transactiontype 判断。",
+      "referenceorderlineid": "来源单据中的行号，用于区分同一来源单据下的不同明细行。",
+      "transactiondate": "该事务发生的日期与时间。",
+      "transactiontype": "事务类型的单字符代码，示例值包括 P、S、W；无字典证据时不应推断每个代码的具体业务含义。",
+      "quantity": "该事务涉及的产品数量。",
+      "actualcost": "该事务记录的实际成本金额，属于成本口径，不同于售价。",
+      "modifieddate": "该行记录最后被修改的日期与时间。"
+    },
+    "assumptions_or_limits": [
+      "transactiontype 的单字符代码（如 P、S、W）缺少字典证据，其业务含义未在本说明中推断。",
+      "referenceorderid 可能来自销售订单或采购订单等不同来源表，未提供其对应关系的证据。",
+      "actualcost 的币种、精度和统计口径未提供，无法确认。",
+      "未提供数据的时间范围或统计期间，示例日期仅为待解释的资料。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 332,
+          "prompt_tokens": 875,
+          "total_tokens": 1207,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 747
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3303
+    }
+  ],
+  "latency_ms": 5326
+}

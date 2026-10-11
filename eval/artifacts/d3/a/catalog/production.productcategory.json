@@ -1,0 +1,51 @@
+{
+  "status": "ok",
+  "table": "production.productcategory",
+  "source_hash": "913684bfa24a0d57c2fc8bfad9736d7d6060bff8ab7f9fad7fe9c11ef04bdd4f",
+  "descriptions": {
+    "table_description": "AdventureWorks 示例数据库生产架构中的产品类别表，用于存储自行车及相关商品的最顶层类别（与产品子类别层级区分），每行代表一个产品类别。",
+    "column_descriptions": {
+      "productcategoryid": "产品类别主键标识，整数，非空；唯一标识一个产品类别。例如示例值 1、2、3。",
+      "name": "产品类别名称，可变长字符串（最多 50 字符），非空；如示例值 Accessories（配件）、Bikes（自行车）、Clothing（服装）。",
+      "rowguid": "行全局唯一标识符，UUID 类型，非空；用于跨系统或复制场景的唯一标识，示例值如 10a7c342-ca82-48d4-8a38-46a2eb089b74。",
+      "modifieddate": "行最后修改时间，不带时区的时间戳，非空；示例值为 2019-04-30T00:00:00。"
+    },
+    "assumptions_or_limits": [
+      "该表仅含 4 行，属于产品类别维度；未提供产品子类别表结构，无法在此描述两者的外键关系。",
+      "name 字段的枚举含义仅由示例值说明，未提供完整字典，不能推断所有可能取值。",
+      "rowguid 的具体生成规则与用途未在输入中说明。",
+      "modifieddate 的时区语义未说明，示例值仅显示日期部分。",
+      "未提供币种、统计期间或默认过滤条件等信息。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 316,
+          "prompt_tokens": 634,
+          "total_tokens": 950,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 506
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3148
+    }
+  ],
+  "latency_ms": 5359
+}

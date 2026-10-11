@@ -1,0 +1,16 @@
+{
+  "id": "aw-28",
+  "sql": "SELECT COUNT(*) AS rate_count FROM sales.currencyrate WHERE currencyratedate >= CAST('2013-01-01' AS DATE) AND currencyratedate < CAST('2014-01-01' AS DATE)",
+  "tables": [
+    "sales.currencyrate"
+  ],
+  "columns": [
+    "rate_count"
+  ],
+  "rows": [
+    [
+      0
+    ]
+  ],
+  "truncated": false
+}

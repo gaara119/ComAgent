@@ -1,0 +1,54 @@
+{
+  "status": "ok",
+  "table": "person.stateprovince",
+  "source_hash": "ad70a3f0ab7fe6445b387e5027ec4c2a33e34489545dbff1de788d44e6a35477",
+  "descriptions": {
+    "table_description": "person.stateprovince 表存储 AdventureWorks 虚构自行车业务所使用的州/省级行政区划信息，包括行政区代码、名称、所属国家/地区以及关联的销售区域，用于为地址、客户及销售归属提供地理层级参照。",
+    "column_descriptions": {
+      "stateprovinceid": "州/省级行政区划的唯一标识符，主键。",
+      "stateprovincecode": "该州/省级行政区在所属国家或地区内使用的代码，固定长度为 3 个字符。",
+      "countryregioncode": "该州/省级行政区所属国家或地区的代码，外键指向 person.countryregion 表。",
+      "isonlystateprovinceflag": "布尔标志，表示该记录是否为仅作为州/省层级存在（而非具备更细行政层级）的条目。",
+      "name": "州/省级行政区的名称，例如 Ain、Aisne、Alabama。",
+      "territoryid": "该州/省级行政区所归属的销售区域标识，外键指向 sales.salesterritory 表。",
+      "rowguid": "用于标识该记录行的全局唯一标识符（UUID）。",
+      "modifieddate": "该记录最近一次被修改的时间戳。"
+    },
+    "assumptions_or_limits": [
+      "示例值中的代码（如 AS、AU、CA）仅为待解释资料，本说明不推断其具体国家/地区含义。",
+      "isonlystateprovinceflag 缺乏字典证据，仅能说明其为布尔标志，不推断 0/1 或 true/false 的业务扩展含义。",
+      "stateprovincecode 的示例值含尾部空格，属定长字符类型的常见表现，不推断其业务含义。",
+      "modifieddate 的示例值包含不同精度的时间戳，本说明不推断统一的统计期间或默认过滤条件。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 390,
+          "prompt_tokens": 900,
+          "total_tokens": 1290,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 772
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3305
+    }
+  ],
+  "latency_ms": 5567
+}

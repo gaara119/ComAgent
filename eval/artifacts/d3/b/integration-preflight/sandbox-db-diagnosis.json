@@ -1,0 +1,10 @@
+{
+  "command": ".venv/Scripts/python.exe -B -m pytest tests/test_d3_clarify.py tests/test_d3_ratio_binding.py tests/test_d2_nlu.py -q --basetemp .runtime/pytest-d3-flow-fixes",
+  "sandbox": "default restricted network",
+  "actual_exit_code": 1,
+  "actual_terminal_summary": "1 failed, 143 passed in 9.95s",
+  "failed_test": "tests/test_d2_nlu.py::test_real_database_parameterized_binding_wiring",
+  "observed_assertion": "FixedSQL mock with actual read-only Chinook DB returned FAILED under default network restrictions; expected SUCCEEDED and n=5.",
+  "status": "not marked passed; rerun the complete modules with scoped existing DB/local-network access",
+  "evidence_source": "actual terminal result recorded after command completion"
+}

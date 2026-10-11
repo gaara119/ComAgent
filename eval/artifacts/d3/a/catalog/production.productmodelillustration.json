@@ -1,0 +1,49 @@
+{
+  "status": "ok",
+  "table": "production.productmodelillustration",
+  "source_hash": "665102886a02091a235e8fbe554af47ec703d250c0c8ba988bfc0913eab54eaa",
+  "descriptions": {
+    "table_description": "该表用于关联产品型号与插图，属于生产模块中的多对多桥接表。每一行表示某个产品型号（productmodel）与某张插图（illustration）之间的对应关系，通常用于为产品型号提供视觉展示资料。示例数据中出现了多个不同的产品型号与插图编号组合。",
+    "column_descriptions": {
+      "productmodelid": "产品型号编号，整数类型，非空，是联合主键的一部分，同时作为外键引用 production.productmodel 表的 productmodelid 字段，用于标识该记录所属的产品型号。",
+      "illustrationid": "插图编号，整数类型，非空，是联合主键的一部分，同时作为外键引用 production.illustration 表的 illustrationid 字段，用于标识该记录关联的插图。",
+      "modifieddate": "记录最后修改时间，时间戳类型（不带时区），非空，用于记录该关联关系最后一次被修改的时间。"
+    },
+    "assumptions_or_limits": [
+      "示例值中的 productmodelid（7、10、47）和 illustrationid（3、4、5）仅作为实际数据示例，不代表完整的编号范围或业务含义。",
+      "modifieddate 的示例值均为同一时间点附近，可能来自数据初始化或批量导入，不能据此推断实际业务修改频率。",
+      "该表为多对多桥接表，未包含除主键和修改时间外的其他属性；本说明不对产品型号或插图的具体内容作扩展解释。",
+      "未提供插图的类型、用途或与产品型号关联的业务规则说明，这些信息不在本表字段描述范围内。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 343,
+          "prompt_tokens": 641,
+          "total_tokens": 984,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 513
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3407
+    }
+  ],
+  "latency_ms": 5237
+}

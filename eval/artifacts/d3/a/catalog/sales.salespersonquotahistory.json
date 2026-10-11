@@ -1,0 +1,51 @@
+{
+  "status": "ok",
+  "table": "sales.salespersonquotahistory",
+  "source_hash": "d90661103dc2cbb021302daf70adc870ebda3ac53447c523b4bf0b936619ae78",
+  "descriptions": {
+    "table_description": "销售配额历史表，记录每位销售人员在不同日期生效的销售配额，用于按时间追踪销售人员销售目标的历史变更。主键由销售人员业务实体标识与配额日期共同组成。",
+    "column_descriptions": {
+      "businessentityid": "销售人员对应的业务实体标识，外键关联 sales.salesperson 表的同名列，用于标识该配额记录所属的销售人员。",
+      "quotadate": "该条销售配额生效的日期。",
+      "salesquota": "该销售人员在对应配额日期所适用的销售配额金额。",
+      "rowguid": "该行的全局唯一标识符（UUID），用于唯一标识记录行。",
+      "modifieddate": "该行记录最近一次被修改的日期时间。"
+    },
+    "assumptions_or_limits": [
+      "salesquota 的具体币种未在数据中提供，无法确认。",
+      "配额金额的统计口径或计算方式未在数据中说明。",
+      "rowguid 为技术性唯一标识，其业务用途不明确。",
+      "示例值中的日期仅代表数据中存在的取值，不代表完整统计期间。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 218,
+          "prompt_tokens": 795,
+          "total_tokens": 1013,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 667
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2920
+    }
+  ],
+  "latency_ms": 4942
+}

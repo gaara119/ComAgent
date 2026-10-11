@@ -1,0 +1,407 @@
+{
+  "started_at_utc": "2026-10-11T20:00:08.958577+00:00",
+  "finished_at_utc": "2026-10-11T20:00:17.452628+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "77e43872-fa68-46bf-9514-4a69a1f98a7f",
+    "message": "2024年（该年有数据，不代表完整年度）",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    },
+    "clarification_id": "0f842274-39f0-4415-b9b8-f74609e18c87",
+    "intent_version": 1,
+    "choice_id": "year:2024"
+  },
+  "response": {
+    "trace_id": "31d824e6-e666-4d24-a1de-ecef54bf29db",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：24.24。",
+    "rewritten_question": null,
+    "sql": "WITH revenue AS (SELECT COALESCE(SUM(CASE WHEN i.\"invoice_date\" >= CAST('2024-01-01' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2025-01-01' AS TIMESTAMP) THEN i.\"total\" END), 0) AS current_revenue, COALESCE(SUM(CASE WHEN i.\"invoice_date\" >= CAST('2023-01-01' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2024-01-01' AS TIMESTAMP) THEN i.\"total\" END), 0) AS base_revenue FROM \"public\".\"invoice\" AS i WHERE i.\"billing_country\" = 'USA') SELECT CASE WHEN r.base_revenue = 0 THEN NULL ELSE ROUND((r.current_revenue - r.base_revenue) / r.base_revenue * 100, 2) END AS yoy_growth_pct FROM revenue AS r LIMIT 200",
+    "table": [
+      {
+        "yoy_growth_pct": "24.24"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 2,
+      "route": "sql",
+      "task_type": "growth",
+      "metric": "invoice_revenue",
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        },
+        "base": {
+          "start": "2023-01-01",
+          "end": "2024-01-01",
+          "derived_from": "explicit current period and yoy"
+        }
+      },
+      "filters": [
+        {
+          "column": "invoice.billing_country",
+          "operator": "=",
+          "value": "USA",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "v-ab7ca55351c9f4bae96b",
+          "source": "verified_value_index",
+          "scope_evidence": "explicit_user_country_scope"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_version_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "verified": true,
+          "intent_version": 1
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 27
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "reason": "explicit_card_choice",
+          "bindings": []
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024年（该年有数据，不代表完整年度）"
+        },
+        "output_summary": {
+          "rewritten_question": "2024年（该年有数据，不代表完整年度）",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 2,
+          "issues": [],
+          "assumptions": [],
+          "derived": {
+            "time_scope.base": {
+              "start": "2023-01-01",
+              "end": "2024-01-01",
+              "derived_from": "explicit current period and yoy"
+            }
+          },
+          "invalidated": [
+            "derived_period",
+            "result"
+          ],
+          "resume_supported": true
+        },
+        "latency_ms": 5
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "账单国家为USA的发票销售额同比增长多少？\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"growth\", \"metric\": \"invoice_revenue\", \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}, \"base\": {\"start\": \"2023-01-01\", \"end\": \"2024-01-01\", \"derived_from\": \"explicit current period and yoy\"}}, \"comparison\": {\"type\": \"yoy\"}, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"invoice.billing_country\", \"filters\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"USA\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"v-ab7ca55351c9f4bae96b\", \"source\": \"verified_value_index\", \"scope_evidence\": \"explicit_user_country_scope\"}]}",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "WITH periods AS (\n  SELECT 'current' AS period, TIMESTAMP '2024-01-01' AS start_ts, TIMESTAMP '2025-01-01' AS end_ts\n  UNION ALL\n  SELECT 'base', TIMESTAMP '2023-01-01', TIMESTAMP '2024-01-01'\n),\nrevenue AS (\n  SELECT p.period, COALESCE(SUM(i.\"total\"), 0) AS revenue\n  FROM periods p\n  LEFT JOIN \"public\".\"invoice\" i\n    ON i.\"invoice_date\" >= p.start_ts\n   AND i.\"invoice_date\" < p.end_ts\n   AND i.\"billing_country\" = 'USA'\n  GROUP BY p.period\n)\nSELECT\n  CASE\n    WHEN b.revenue = 0 OR b.revenue IS NULL THEN NULL\n    ELSE ROUND((c.revenue - b.revenue) / b.revenue * 100, 2)\n  END AS yoy_growth_pct\nFROM revenue c\nCROSS JOIN revenue b\nWHERE c.period = 'current' AND b.period = 'base';",
+          "explanation": "按账单国家为 USA 的发票，分别汇总 2023 年（基期）和 2024 年（当期）的 invoice.total 销售额，使用左闭右开日期区间，并计算同比增长率（百分比，保留两位小数）；基期收入为零或缺失时返回 NULL。"
+        },
+        "latency_ms": 4448
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/067f57596cf149cb86e66c2d615e668a.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 341,
+            "prompt_tokens": 5312,
+            "total_tokens": 5653,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 896
+            },
+            "prompt_cache_hit_tokens": 896,
+            "prompt_cache_miss_tokens": 4416
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3240
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "WITH periods AS (\n  SELECT 'current' AS period, TIMESTAMP '2024-01-01' AS start_ts, TIMESTAMP '2025-01-01' AS end_ts\n  UNION ALL\n  SELECT 'base', TIMESTAMP '2023-01-01', TIMESTAMP '2024-01-01'\n),\nrevenue AS (\n  SELECT p.period, COALESCE(SUM(i.\"total\"), 0) AS revenue\n  FROM periods p\n  LEFT JOIN \"public\".\"invoice\" i\n    ON i.\"invoice_date\" >= p.start_ts\n   AND i.\"invoice_date\" < p.end_ts\n   AND i.\"billing_country\" = 'USA'\n  GROUP BY p.period\n)\nSELECT\n  CASE\n    WHEN b.revenue = 0 OR b.revenue IS NULL THEN NULL\n    ELSE ROUND((c.revenue - b.revenue) / b.revenue * 100, 2)\n  END AS yoy_growth_pct\nFROM revenue c\nCROSS JOIN revenue b\nWHERE c.period = 'current' AND b.period = 'base';"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": true,
+          "sql": "WITH periods AS (SELECT 'current' AS period, CAST('2024-01-01' AS TIMESTAMP) AS start_ts, CAST('2025-01-01' AS TIMESTAMP) AS end_ts UNION ALL SELECT 'base', CAST('2023-01-01' AS TIMESTAMP), CAST('2024-01-01' AS TIMESTAMP)), revenue AS (SELECT p.period, COALESCE(SUM(i.\"total\"), 0) AS revenue FROM periods AS p LEFT JOIN \"public\".\"invoice\" AS i ON i.\"invoice_date\" >= p.start_ts AND i.\"invoice_date\" < p.end_ts AND i.\"billing_country\" = 'USA' GROUP BY p.period) SELECT CASE WHEN b.revenue = 0 OR b.revenue IS NULL THEN NULL ELSE ROUND((c.revenue - b.revenue) / b.revenue * 100, 2) END AS yoy_growth_pct FROM revenue AS c CROSS JOIN revenue AS b WHERE c.period = 'current' AND b.period = 'base' LIMIT 200"
+        },
+        "latency_ms": 8
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "error",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "error": "SQL 未保留已核验绑定 invoice.billing_country =；禁止执行或删除用户条件。"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_repair",
+        "status": "warn",
+        "input_summary": {
+          "attempt": 1
+        },
+        "output_summary": {
+          "reason": "SQL 未保留已核验绑定 invoice.billing_country =；禁止执行或删除用户条件。",
+          "preserve_bindings": true
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "账单国家为USA的发票销售额同比增长多少？\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"growth\", \"metric\": \"invoice_revenue\", \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}, \"base\": {\"start\": \"2023-01-01\", \"end\": \"2024-01-01\", \"derived_from\": \"explicit current period and yoy\"}}, \"comparison\": {\"type\": \"yoy\"}, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"invoice.billing_country\", \"filters\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"USA\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"v-ab7ca55351c9f4bae96b\", \"source\": \"verified_value_index\", \"scope_evidence\": \"explicit_user_country_scope\"}]}",
+          "repair_attempt": 1,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "WITH revenue AS (SELECT COALESCE(SUM(CASE WHEN i.\"invoice_date\" >= CAST('2024-01-01' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2025-01-01' AS TIMESTAMP) THEN i.\"total\" END), 0) AS current_revenue, COALESCE(SUM(CASE WHEN i.\"invoice_date\" >= CAST('2023-01-01' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2024-01-01' AS TIMESTAMP) THEN i.\"total\" END), 0) AS base_revenue FROM \"public\".\"invoice\" AS i WHERE i.\"billing_country\" = 'USA') SELECT CASE WHEN r.base_revenue = 0 THEN NULL ELSE ROUND((r.current_revenue - r.base_revenue) / r.base_revenue * 100, 2) END AS yoy_growth_pct FROM revenue AS r LIMIT 200",
+          "explanation": "按发票账单国家为 USA 筛选，分别汇总 2024 年（当前期）与 2023 年（同比基期）的发票总额 total，并计算同比增长率；基期为 0 时返回 NULL。"
+        },
+        "latency_ms": 3955
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/83fa20c14ef3447f9a200727ef8e34b6.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 283,
+            "prompt_tokens": 5611,
+            "total_tokens": 5894,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 5248
+            },
+            "prompt_cache_hit_tokens": 5248,
+            "prompt_cache_miss_tokens": 363
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2768
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "WITH revenue AS (SELECT COALESCE(SUM(CASE WHEN i.\"invoice_date\" >= CAST('2024-01-01' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2025-01-01' AS TIMESTAMP) THEN i.\"total\" END), 0) AS current_revenue, COALESCE(SUM(CASE WHEN i.\"invoice_date\" >= CAST('2023-01-01' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2024-01-01' AS TIMESTAMP) THEN i.\"total\" END), 0) AS base_revenue FROM \"public\".\"invoice\" AS i WHERE i.\"billing_country\" = 'USA') SELECT CASE WHEN r.base_revenue = 0 THEN NULL ELSE ROUND((r.current_revenue - r.base_revenue) / r.base_revenue * 100, 2) END AS yoy_growth_pct FROM revenue AS r LIMIT 200"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "WITH revenue AS (SELECT COALESCE(SUM(CASE WHEN i.\"invoice_date\" >= CAST('2024-01-01' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2025-01-01' AS TIMESTAMP) THEN i.\"total\" END), 0) AS current_revenue, COALESCE(SUM(CASE WHEN i.\"invoice_date\" >= CAST('2023-01-01' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2024-01-01' AS TIMESTAMP) THEN i.\"total\" END), 0) AS base_revenue FROM \"public\".\"invoice\" AS i WHERE i.\"billing_country\" = 'USA') SELECT CASE WHEN r.base_revenue = 0 THEN NULL ELSE ROUND((r.current_revenue - r.base_revenue) / r.base_revenue * 100, 2) END AS yoy_growth_pct FROM revenue AS r LIMIT 200"
+        },
+        "latency_ms": 4
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "USA",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "v-ab7ca55351c9f4bae96b",
+              "source": "verified_value_index",
+              "scope_evidence": "explicit_user_country_scope"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "WITH revenue AS (SELECT COALESCE(SUM(CASE WHEN i.\"invoice_date\" >= CAST(%(qa_value_1)s AS TIMESTAMP) AND i.\"invoice_date\" < CAST(%(qa_value_2)s AS TIMESTAMP) THEN i.\"total\" END), 0) AS current_revenue, COALESCE(SUM(CASE WHEN i.\"invoice_date\" >= CAST(%(qa_value_3)s AS TIMESTAMP) AND i.\"invoice_date\" < CAST(%(qa_value_4)s AS TIMESTAMP) THEN i.\"total\" END), 0) AS base_revenue FROM \"public\".\"invoice\" AS i WHERE i.\"billing_country\" = %(qa_value_0)s) SELECT CASE WHEN r.base_revenue = 0 THEN NULL ELSE ROUND((r.current_revenue - r.base_revenue) / r.base_revenue * 100, 2) END AS yoy_growth_pct FROM revenue AS r LIMIT 200",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "yoy_growth_pct"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 33
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 8492,
+      "nlu": {
+        "original_question": "2024年（该年有数据，不代表完整年度）",
+        "rewritten_question": "2024年（该年有数据，不代表完整年度）",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "explicit_card_choice"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 2,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": "invoice.billing_country",
+        "derived": {
+          "time_scope.base": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "derived_from": "explicit current period and yoy"
+          }
+        },
+        "invalidated": [
+          "derived_period",
+          "result"
+        ],
+        "switch": null
+      },
+      "result_columns": [
+        "yoy_growth_pct"
+      ],
+      "truncated": false
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

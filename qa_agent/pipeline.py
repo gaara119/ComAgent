@@ -75,34 +75,65 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                                        parameterize_strings, validate_question_sources, validate_generation_claim)
     from qa_agent.nlu.linker import LinkResult, ValueLinker
     from qa_agent.nlu.value_index import load_value_index
+    from qa_agent.clarify.service import (run_gate, finish_gate, public_metadata,
+                                         question_for_linking, mentions_for_linking, source_dict)
+    from qa_agent.clarify.state import DEFAULT_STORE, SessionConflict, verify_resume
 
+    db_id = request.scope.db_id or "chinook"
+    db_url = settings.aw_db_url if db_id == "adventureworks" else settings.db_url
+    catalog_path = settings.aw_catalog_path if db_id == "adventureworks" else settings.catalog_path
     intent = IntentContract(route="sql", task_type="lookup")
     last_sql = None
     linked = LinkResult(request.message, request.message, [], [], [], "not_loaded")
+    gate = None
+    schema_bundle = None
+
+    def metadata():
+        result = {"model": settings.llm_model, "db_id": db_id, "latency_ms": trace.latency_ms,
+                  "nlu": linked.as_dict()}
+        if gate:
+            result["clarify"] = public_metadata(gate)
+        if schema_bundle:
+            result["schema_linker"] = schema_bundle.as_dict()
+        return result
 
     def failed(*args, **kwargs):
+        if gate:
+            finish_gate(gate, succeeded=False)
         result = _error_envelope(*args, **kwargs)
-        result.metadata["nlu"] = linked.as_dict()
+        result.metadata.update(metadata())
         result.rewritten_question = linked.rewritten_question if linked.patches else None
         return result
 
     try:
         with trace.step("config_check") as step:
-            step.output_summary = settings.public()
-            if not settings.db_url:
-                raise ValueError("请先在本地 .env 配置 CHINOOK_DB_URL（兼容 DB_URL）。")
+            step.output_summary = {**settings.public(), "selected_db_id": db_id}
+            if not db_url:
+                raise ValueError("请先在本地 .env 配置 AW_DB_URL。" if db_id == "adventureworks"
+                                 else "请先在本地 .env 配置 CHINOOK_DB_URL（兼容 DB_URL）。")
             if not settings.llm_configured and isinstance(llm, JsonLLM):
                 raise MissingCredentialError()
-        with trace.step("catalog", {"db_id": "chinook"}) as step:
-            catalog = load_catalog(settings.catalog_path)
-            step.output_summary = {"table_count": len(catalog.tables)}
+        # A stale card fails before value linking, model calls or SQL generation.
+        if request.clarification_id:
+            with trace.step("clarification_version_check") as step:
+                previous = DEFAULT_STORE.get(request.session_id)
+                if previous is None:
+                    raise SessionConflict("会话已不存在，请重新提交完整问题。")
+                verify_resume(previous, request.clarification_id, request.intent_version, source_dict(request))
+                step.output_summary = {"verified": True, "intent_version": request.intent_version}
+        with trace.step("catalog", {"db_id": db_id}) as step:
+            catalog = load_catalog(catalog_path)
+            step.output_summary = {"table_count": len(catalog.tables), "db_id": db_id}
         with trace.step("requested_source_check") as step:
             requested_tables = validate_question_sources(request.message, catalog)
             step.output_summary = {"explicit_tables": requested_tables, "unknown_sources": False}
-        with trace.step("value_link", {"enabled": settings.nlu_enabled}) as step:
-            index = load_value_index(settings.value_index_path) if settings.nlu_enabled else None
-            if index is None:
-                linked.index_status = "disabled" if not settings.nlu_enabled else "missing"
+        with trace.step("value_link", {"enabled": settings.nlu_enabled, "db_id": db_id}) as step:
+            # Chinook's value index is never used to bind AdventureWorks fields.
+            index = load_value_index(settings.value_index_path) if settings.nlu_enabled and db_id == "chinook" else None
+            if index is None or request.choice_id:
+                linked.index_status = ("explicit_card_choice" if request.choice_id else
+                                       "not_registered_for_db" if db_id == "adventureworks" else
+                                       "disabled" if not settings.nlu_enabled else "missing")
                 step.status = "skipped"
                 step.output_summary = {"reason": linked.index_status, "bindings": []}
             else:
@@ -110,7 +141,7 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                     from qa_agent.rag.embeddings import get_embedder
                     embedder = get_embedder(settings)
                     if embedder is None:
-                        raise ValueError("值链接需要 D1 BGE-M3 模型，但模型尚未找到。")
+                        raise ValueError("值链接需要 BGE-M3 模型，但模型尚未找到。")
                     model = index.metadata.get("embedding") or {}
                     current = embedder.metadata()
                     for key in ("model_sha256", "model_revision", "max_length"):
@@ -119,13 +150,11 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                     return embedder.encode(texts)
                 linker = ValueLinker(index, settings, llm=llm, encode=encode_values)
                 try:
-                    linked = linker.link(request.message, trace)
+                    linked = linker.link(question_for_linking(request), trace,mentions=mentions_for_linking(request,index))
                 except Exception:
                     if linker.last_result is not None:
                         linked = linker.last_result
                     raise
-                intent.filters = linked.bindings
-                intent.unresolved = [item.as_dict() for item in linked.ambiguous]
                 step.output_summary = {"mention_count": len(linked.mentions), "bindings": linked.bindings,
                                        "ambiguous_count": len(linked.ambiguous), "index_status": linked.index_status}
         with trace.step("rewrite", {"original_question": request.message}) as step:
@@ -133,45 +162,98 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                                    "patches": [patch.as_dict() for patch in linked.patches]}
             if not linked.patches:
                 step.status = "skipped"
-        if linked.ambiguous:
-            choices = [{"mention_id": item.mention_id, "original_text": item.original_text,
-                        "candidates": item.candidates} for item in linked.ambiguous]
-            answer = "这个说法有多个可用解释，请用候选中的明确名称重新提问。"
-            with trace.step("clarification_gate") as step:
-                step.status = "warn"
-                step.output_summary = {"ambiguity_count": len(choices), "mode": "d2_reask_with_explicit_value"}
-            return AnswerEnvelope(trace_id=trace.trace_id, status="NEEDS_CLARIFICATION", answer=answer,
+        with trace.step("clarification_gate") as step:
+            gate = run_gate(request, catalog, llm, linked, trace)
+            intent = gate.state.intent
+            bindings = gate.state.bindings
+            question = gate.question
+            step.status = "warn" if gate.card else "ok"
+            step.output_summary = {"level": gate.decision.level, "intent_version": intent.intent_version,
+                                   "issues": [item.as_dict(public=True) for item in gate.decision.issues],
+                                   "assumptions": gate.decision.assumptions, "derived": gate.decision.derived,
+                                   "invalidated": gate.state.invalidated, "resume_supported": True}
+        if gate.card:
+            return AnswerEnvelope(trace_id=trace.trace_id, status="NEEDS_CLARIFICATION",
+                                  answer=gate.card["question"], clarification=gate.card,
                                   rewritten_question=linked.rewritten_question if linked.patches else None,
-                                  clarification={"question": answer, "options": choices, "resume_supported": False},
-                                  intent=intent, steps=trace.steps,
-                                  metadata={"model": settings.llm_model, "db_id": "chinook", "latency_ms": trace.latency_ms,
-                                            "nlu": linked.as_dict()})
+                                  intent=intent, steps=trace.steps, metadata=metadata())
+        if gate.state.original_question != request.message:
+            requested_tables = validate_question_sources(gate.state.original_question, catalog)
+        selected_catalog = catalog
+        if db_id == "adventureworks":
+            with trace.step("schema_link", {"db_id": db_id, "question": question}) as step:
+                from qa_agent.sql.schema_linker import SchemaLinker
+                from qa_agent.rag.embeddings import get_embedder
+                embedder = get_embedder(settings)
+                if embedder is None:
+                    raise ValueError("AdventureWorks Schema Linking 需要已安装的 BGE-M3 模型。")
+                schema_linker = SchemaLinker(catalog, settings.aw_schema_index_path, embedder.encode,
+                                             catalog_path=catalog_path)
+                schema_bundle = schema_linker.link(question, mentions=[item.original_text for item in linked.mentions],
+                                                   value_columns=[item["column"] for item in bindings])
+                selected_catalog = schema_bundle.selected_catalog
+                step.output_summary = schema_bundle.as_dict()
+        binding_tables = {item.get("column", "").rsplit(".", 1)[0] for item in bindings}
+        allow_joins = (db_id == "adventureworks" or intent.task_type in {"ranking", "growth", "ratio"}
+                       or len(binding_tables) > 1 or
+                       (gate.state.analysis.region_scope == "customer.country" and
+                        any(word in gate.state.original_question for word in ("发票", "invoice", "账单"))) or
+                       any(item.get("column", "").startswith(("artist.", "genre.", "media_type.")) for item in bindings))
         repair_error = None
         for attempt in range(settings.sql_repair_attempts + 1):
-            with trace.step("sql_gen", {"question": linked.rewritten_question, "repair_attempt": attempt}) as step:
-                generation = generate_sql(linked.rewritten_question, catalog, llm, trace,
+            with trace.step("sql_gen", {"question": question, "repair_attempt": attempt,
+                                       "db_id": db_id, "allow_joins": allow_joins}) as step:
+                generation = generate_sql(question, selected_catalog, llm, trace,
                                           previous_sql=last_sql, error=repair_error,
-                                          intent=intent, bindings=linked.bindings)
+                                          intent=intent, bindings=bindings, allow_joins=allow_joins)
                 last_sql = generation.sql
                 step.output_summary = {"sql": generation.sql, "explanation": generation.explanation}
             try:
                 with trace.step("sql_validate", {"sql": last_sql}) as step:
-                    validated = validate_sql(last_sql, catalog, max_rows=settings.max_rows)
+                    validated = validate_sql(last_sql, selected_catalog, max_rows=settings.max_rows)
                     last_sql = validated.sql
-                    validate_generation_claim(request.message, last_sql, generation.explanation)
+                    validate_generation_claim(gate.state.original_question, last_sql, generation.explanation)
                     if not validated.tables_used:
                         raise SQLValidationError("问数 SQL 必须引用真实业务表，不能以常量代替数据库查询。")
-                    if len(validated.tables_used) > 1:
-                        raise SQLValidationError("当前 SQL 通道只支持单表查询；跨表问题按后续计划实现。")
-                    if requested_tables and set(validated.tables_used) != set(requested_tables):
+                    if len(validated.tables_used) > 1 and not allow_joins:
+                        raise SQLValidationError("该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。")
+                    if requested_tables and ((not allow_joins and set(validated.tables_used) != set(requested_tables))
+                                             or (allow_joins and not set(requested_tables).issubset(validated.tables_used))):
                         raise SQLValidationError("生成 SQL 改变了原问题显式指定的业务表，禁止替换查询来源。")
                     step.output_summary = {"tables": validated.tables_used,
-                                           "default_limit_added": validated.default_limit_added,
-                                           "sql": last_sql}
-                with trace.step("sql_binding_validate", {"binding_count": len(linked.bindings)}) as step:
-                    validate_value_bindings(last_sql, catalog, linked.bindings)
-                    step.output_summary = {"verified": True, "bindings": linked.bindings,
-                                           "mode": "qualified_ast_mandatory_filters"}
+                                           "default_limit_added": validated.default_limit_added, "sql": last_sql}
+                current=(gate.state.analysis.time_scope or {}).get('current')
+                if (db_id=='chinook' and gate.state.resolutions and current and
+                    gate.state.analysis.task_type not in {'growth','ratio'} and 'invoice' in validated.tables_used):
+                    from qa_agent.clarify.sql_guard import validate_confirmed_invoice_period
+                    with trace.step('sql_period_validate',{'current':current,'db_id':db_id}) as step:
+                        validate_confirmed_invoice_period(last_sql,selected_catalog,current)
+                        step.output_summary={'verified':True,'mode':'qualified_invoice_where_period','current':current}
+                region=gate.state.analysis.region_scope
+                country_fields={item.get('column') for item in bindings if item.get('column') in
+                                {'invoice.billing_country','customer.country'}}
+                confirmed_region=any(patch.get('path')=='region_scope' and patch.get('op')=='set' and
+                                     patch.get('value')==region for resolution in gate.state.resolutions
+                                     for patch in resolution.get('patches',[]))
+                if (db_id=='chinook' and confirmed_region and region in {'invoice.billing_country','customer.country'}
+                    and not (country_fields-{region})):
+                    from qa_agent.clarify.sql_guard import validate_confirmed_country_output
+                    with trace.step('sql_region_validate',{'region_scope':region,'db_id':db_id}) as step:
+                        validate_confirmed_country_output(last_sql,selected_catalog,region)
+                        step.output_summary={'verified':True,'mode':'qualified_country_result_sources','region_scope':region}
+                with trace.step("sql_binding_validate", {"binding_count": len(bindings)}) as step:
+                    ratio_context = ({"task_type": "ratio", "numerator": gate.state.analysis.numerator,
+                                      "denominator": gate.state.analysis.denominator,
+                                      "time_scope": gate.state.analysis.time_scope,
+                                      "region_scope": gate.state.analysis.region_scope,
+                                      "question": gate.state.original_question,
+                                      "verified_original_surfaces": [item.original_text for item in linked.mentions
+                                                                     if item.status == "resolved"]}
+                                     if gate.state.analysis.task_type == "ratio" else None)
+                    validate_value_bindings(last_sql, selected_catalog, bindings, ratio_context=ratio_context)
+                    step.output_summary = {"verified": True, "bindings": bindings,
+                                           "mode": "qualified_ast_scoped_ratio_or_mandatory_filters" if ratio_context
+                                           else "qualified_ast_mandatory_filters"}
             except SQLValidationError as exc:
                 if attempt >= settings.sql_repair_attempts:
                     raise
@@ -180,10 +262,9 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                     step.status, step.output_summary = "warn", {"reason": repair_error, "preserve_bindings": True}
                 continue
             try:
-                executable_sql, parameters = parameterize_strings(last_sql) if linked.bindings else (last_sql, {})
-                result = execute_sql(executable_sql, settings.db_url,
-                                     statement_timeout_ms=settings.statement_timeout_ms,
-                                     max_rows=settings.max_rows, trace=trace, parameters=parameters)
+                executable_sql, parameters = parameterize_strings(last_sql) if bindings else (last_sql, {})
+                result = execute_sql(executable_sql, db_url, statement_timeout_ms=settings.statement_timeout_ms,
+                                     max_rows=settings.max_rows, trace=trace, parameters=parameters, db_id=db_id)
                 break
             except SQLTimeoutError:
                 raise
@@ -205,21 +286,23 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                 answer = f"查询返回 {result.row_count} 行，详细数据见结果表。"
             if result.truncated:
                 answer += f"本次最多展示 {settings.max_rows} 行。"
+            if gate.decision.assumptions:
+                answer += "\n口径说明：" + " ".join(gate.decision.assumptions)
             step.output_summary = {"status": status, "summary_source": "database_result_template"}
-        return AnswerEnvelope(
-            trace_id=trace.trace_id, status=status, answer=answer, sql=last_sql,
-            rewritten_question=linked.rewritten_question if linked.patches else None,
-            table=result.table, intent=intent, steps=trace.steps,
-            metadata={"model": settings.llm_model, "db_id": "chinook", "result_columns": result.columns,
-                      "truncated": result.truncated, "latency_ms": trace.latency_ms, "nlu": linked.as_dict()},
-        )
+        finish_gate(gate, succeeded=True)
+        return AnswerEnvelope(trace_id=trace.trace_id, status=status, answer=answer, sql=last_sql,
+                              rewritten_question=linked.rewritten_question if linked.patches else None,
+                              table=result.table, intent=intent, steps=trace.steps,
+                              metadata={**metadata(), "result_columns": result.columns, "truncated": result.truncated})
+    except SessionConflict as exc:
+        return failed(trace, settings, str(exc), "clarification_conflict", intent=intent)
     except MissingCredentialError as exc:
         return failed(trace, settings, str(exc), exc.code, intent=intent)
     except LLMError as exc:
         return failed(trace, settings, str(exc), exc.code, exc.retryable, last_sql, intent)
     except SQLValidationError as exc:
         return failed(trace, settings, f"SQL 未通过校验：{sanitize_error(exc, settings)}", "sql_rejected", sql=last_sql, intent=intent)
-    except SQLTimeoutError as exc:
+    except SQLTimeoutError:
         return failed(trace, settings, "数据库查询超过允许时限。", "sql_timeout", sql=last_sql, intent=intent)
     except SQLExecutionError as exc:
         return failed(trace, settings, f"数据库查询失败：{sanitize_error(exc, settings)}", "sql_execution", sql=last_sql, intent=intent)
@@ -227,9 +310,12 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
         return failed(trace, settings, sanitize_error(exc, settings), "pipeline_error", sql=last_sql, intent=intent)
 
 
+
 def chat(request: ChatRequest, llm: JsonLLM | None = None,
          settings: Settings | None = None) -> AnswerEnvelope:
     settings = settings or get_settings()
+    if request.scope.db_id == "aw":
+        request = request.model_copy(update={"scope": request.scope.model_copy(update={"db_id": "adventureworks"})})
     trace = TraceRecorder(settings=settings)
     with trace.step("route", {"selected": request.scope.route}) as step:
         step.output_summary = {"route": request.scope.route, "mode": "explicit_source_scope"}
@@ -237,8 +323,10 @@ def chat(request: ChatRequest, llm: JsonLLM | None = None,
         return _doc(request, trace, settings)
     if request.scope.route != "sql":
         return _unsupported(trace, "D1 先使用显式来源范围，请选择 sql 或指定单文档 doc。")
-    if request.scope.db_id != "chinook":
-        return _unsupported(trace, "D1 SQL 通道仅支持 Chinook 数据库。")
+    if request.scope.db_id not in {"chinook", "adventureworks"}:
+        return _unsupported(trace, "SQL 来源请选择 Chinook 或 AdventureWorks 数据库。")
     if request.scope.doc_ids:
         return _unsupported(trace, "SQL 请求请清空 doc_ids；混合来源查询按后续计划实现。")
-    return _sql(request, trace, settings, llm or JsonLLM(settings))
+    from qa_agent.clarify.state import DEFAULT_STORE
+    with DEFAULT_STORE.locked(request.session_id):
+        return _sql(request, trace, settings, llm or JsonLLM(settings))

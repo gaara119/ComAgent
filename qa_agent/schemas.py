@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Literal
 from uuid import uuid4
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class ContractModel(BaseModel):
@@ -21,6 +21,18 @@ class ChatRequest(ContractModel):
     session_id: str = Field(default_factory=lambda: str(uuid4()), min_length=1, max_length=128)
     message: str = Field(min_length=1, max_length=4000)
     scope: SourceScope = Field(default_factory=SourceScope)
+
+    clarification_id: str | None = Field(default=None, min_length=1, max_length=128)
+    intent_version: int | None = Field(default=None, ge=1)
+    choice_id: str | None = Field(default=None, min_length=1, max_length=512)
+
+    @model_validator(mode="after")
+    def valid_clarification_resume(self):
+        if (self.clarification_id is None) != (self.intent_version is None):
+            raise ValueError("clarification_id 与 intent_version 必须同时提供")
+        if self.choice_id is not None and self.clarification_id is None:
+            raise ValueError("choice_id 必须属于带版本的澄清卡片")
+        return self
 
     @field_validator("message")
     @classmethod

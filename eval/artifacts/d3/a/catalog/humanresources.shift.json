@@ -1,0 +1,51 @@
+{
+  "status": "ok",
+  "table": "humanresources.shift",
+  "source_hash": "4567155819355434c7af2673923d7332a43cb450d83d96a4609ce2f1d8b5c2ac",
+  "descriptions": {
+    "table_description": "人力资源模块中的班次表，用于定义企业内部的工作班次（如日班、晚班、夜班）及其起止时间，供员工排班和出勤记录引用。",
+    "column_descriptions": {
+      "shiftid": "班次唯一标识符，整数主键，用于区分不同班次记录。",
+      "name": "班次名称，例如 Day、Evening、Night，为可读的班次标签。",
+      "starttime": "班次开始时间，时间类型，不含时区与日期。",
+      "endtime": "班次结束时间，时间类型，不含时区与日期。",
+      "modifieddate": "该记录最后修改的时间戳，不含时区。"
+    },
+    "assumptions_or_limits": [
+      "本表仅描述班次定义，不包含员工与班次的具体排班分配关系。",
+      "未提供数据字典说明 name 的枚举含义，Day、Evening、Night 仅为表内示例值。",
+      "starttime 与 endtime 均以时间类型存储，未声明时区；跨天班次（结束时间早于或等于开始时间）的处理方式未在数据中说明。",
+      "表中没有币种、统计期间或默认过滤条件相关信息。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 254,
+          "prompt_tokens": 633,
+          "total_tokens": 887,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 505
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2697
+    }
+  ],
+  "latency_ms": 4759
+}

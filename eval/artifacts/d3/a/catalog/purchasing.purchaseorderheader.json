@@ -1,0 +1,57 @@
+{
+  "status": "ok",
+  "table": "purchasing.purchaseorderheader",
+  "source_hash": "e1a3662c1d5012c4d0c21fb8ac53d7bb29f5193e5d503dfa7f672f26b268849b",
+  "descriptions": {
+    "table_description": "采购订单头表，记录向供应商采购商品时每笔采购订单的汇总信息，包括负责采购的员工、供应商、发货方式、下单与发货日期以及订单级金额（小计、税额、运费）。与销售订单不同，此表用于采购业务。",
+    "column_descriptions": {
+      "purchaseorderid": "采购订单主键标识，唯一标识一笔采购订单。",
+      "revisionnumber": "采购订单的修订版本号。",
+      "status": "采购订单当前处理状态的代码，示例值 1、2、3。",
+      "employeeid": "负责该采购订单的员工标识，外键引用 humanresources.employee 的 businessentityid。",
+      "vendorid": "该采购订单对应的供应商标识，外键引用 purchasing.vendor 的 businessentityid。",
+      "shipmethodid": "该采购订单采用的发货方式标识，外键引用 purchasing.shipmethod 的 shipmethodid。",
+      "orderdate": "采购订单的下单日期时间。",
+      "shipdate": "采购订单的发货日期时间，可为空。",
+      "subtotal": "采购订单的小计金额，为订单明细金额汇总，不包含税额与运费。",
+      "taxamt": "采购订单的税额。",
+      "freight": "采购订单的运费。",
+      "modifieddate": "该采购订单记录的最后修改日期时间。"
+    },
+    "assumptions_or_limits": [
+      "status 的具体枚举含义未在来源中提供，无法从示例值 1、2、3 推断其业务状态。",
+      "subtotal、taxamt、freight 的币种未在来源中说明，无法确认。",
+      "示例值来源未提供统计期间或默认过滤条件。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 339,
+          "prompt_tokens": 1134,
+          "total_tokens": 1473,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 1006
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3141
+    }
+  ],
+  "latency_ms": 5439
+}

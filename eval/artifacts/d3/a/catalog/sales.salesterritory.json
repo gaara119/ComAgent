@@ -1,0 +1,57 @@
+{
+  "status": "ok",
+  "table": "sales.salesterritory",
+  "source_hash": "1c3c0f7fb507933f525021e074f8008821adff2b678970c322a9d332ec15ec59",
+  "descriptions": {
+    "table_description": "本表为 AdventureWorks 自行车业务中的销售区域（salesterritory）维度表，记录各销售区域的基本信息及其年度销售业绩汇总数据。",
+    "column_descriptions": {
+      "territoryid": "销售区域的唯一标识符，主键。",
+      "name": "销售区域的名称，如国家或地区名称。",
+      "countryregioncode": "销售区域对应的国家或地区代码，外键关联 person.countryregion 表。",
+      "group": "销售区域所属的地理分组，如 Europe、North America、Pacific。",
+      "salesytd": "该销售区域年初至今的销售业绩汇总数值。",
+      "saleslastyear": "该销售区域上一年度的销售业绩汇总数值。",
+      "costytd": "该销售区域年初至今的成本汇总数值。",
+      "costlastyear": "该销售区域上一年度的成本汇总数值。",
+      "rowguid": "行的唯一标识符（UUID），用于复制或同步场景。",
+      "modifieddate": "该行记录最后一次修改的日期时间。"
+    },
+    "assumptions_or_limits": [
+      "销售业绩汇总数据（salesytd、saleslastyear、costytd、costlastyear）的币种未在表结构中说明。",
+      "costytd 和 costlastyear 的示例值均为 0.0000，但无法确认是所有区域的实际值为零还是数据尚未填充。",
+      "国家或地区代码的枚举含义需参考 person.countryregion 表，本表未定义。",
+      "地理分组（group）的完整分类及含义未在本表定义，示例值仅供参考。",
+      "modifieddate 的示例值显示为 2019-04-30，但无法确认是否所有记录具有相同日期。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 395,
+          "prompt_tokens": 960,
+          "total_tokens": 1355,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 832
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3244
+    }
+  ],
+  "latency_ms": 5293
+}

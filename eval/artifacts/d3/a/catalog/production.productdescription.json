@@ -1,0 +1,50 @@
+{
+  "status": "ok",
+  "table": "production.productdescription",
+  "source_hash": "041284626d599a5a62839a1fd5f5dd4c776076282fcf24d9df400874fc694fd4",
+  "descriptions": {
+    "table_description": "该表用于存放 AdventureWorks 自行车业务中产品说明的文本内容，可供产品主档记录引用，属于生产模块下的产品说明资料表。每行代表一条产品说明。",
+    "column_descriptions": {
+      "productdescriptionid": "产品说明的唯一标识，是主键，用于区分不同产品说明记录。",
+      "description": "产品说明的文本内容，描述产品的材质、用途或特性等。",
+      "rowguid": "该产品说明行的全局唯一标识符，用于记录级唯一标识。",
+      "modifieddate": "该产品说明记录最后修改的日期时间。"
+    },
+    "assumptions_or_limits": [
+      "本表没有外键，无法从本表直接确认产品说明被哪些产品主档引用。",
+      "rowguid 为该行的唯一标识，其具体生成或使用规则未知。",
+      "modifieddate 的实际业务含义可能表示记录最后修改时间，但无额外说明佐证。",
+      "示例值中的日期时间只代表样本，不代表本表存在固定统计期间或时间范围。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 224,
+          "prompt_tokens": 675,
+          "total_tokens": 899,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 547
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2696
+    }
+  ],
+  "latency_ms": 4583
+}

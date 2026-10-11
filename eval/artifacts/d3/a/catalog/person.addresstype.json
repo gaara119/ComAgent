@@ -1,0 +1,49 @@
+{
+  "status": "ok",
+  "table": "person.addresstype",
+  "source_hash": "ad18171654e7d373a8213ccd6208725aed4415a6e41edef4b048e66d84f92414",
+  "descriptions": {
+    "table_description": "地址类型表（addresstype），属于 person 模式，用于定义地址的类别。每一行代表一种地址类型，供其他表中的地址记录引用以区分不同用途的地址。",
+    "column_descriptions": {
+      "addresstypeid": "地址类型主键，整数，唯一标识一种地址类型。",
+      "name": "地址类型名称，可变长度字符串，最长 50 个字符，例如 Archive、Billing、Home。",
+      "rowguid": "行全局唯一标识符（UUID），用于标识该行记录。",
+      "modifieddate": "该行记录最后修改的时间戳。"
+    },
+    "assumptions_or_limits": [
+      "示例值中仅出现 Archive、Billing、Home 三种 name，未提供完整枚举列表或各枚举的业务含义说明。",
+      "rowguid 的具体用途（如复制或外部系统同步）未在输入中说明。",
+      "modifieddate 的时区语义未在输入中说明。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 209,
+          "prompt_tokens": 645,
+          "total_tokens": 854,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 517
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2702
+    }
+  ],
+  "latency_ms": 4972
+}

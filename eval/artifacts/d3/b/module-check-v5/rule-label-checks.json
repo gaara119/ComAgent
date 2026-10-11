@@ -1,0 +1,511 @@
+{
+  "source": "eval/datasets/d3/clarify/dev.jsonl",
+  "source_sha256": "bda1a8dc8da9a805e75d156039db8517ea349c21f442d94fdaee99d0fd9ab967",
+  "dev_cases": 21,
+  "passed": 21,
+  "holdout_predictions": 0,
+  "pytest_exit_code": 0,
+  "checks": [
+    {
+      "id": "clarify-01",
+      "expected_level": "L0",
+      "actual_level": "L0",
+      "passed": true,
+      "issues": [],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-02",
+      "expected_level": "L0",
+      "actual_level": "L0",
+      "passed": true,
+      "issues": [],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-04",
+      "expected_level": "L0",
+      "actual_level": "L0",
+      "passed": true,
+      "issues": [],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-05",
+      "expected_level": "L0",
+      "actual_level": "L0",
+      "passed": true,
+      "issues": [],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-07",
+      "expected_level": "L0",
+      "actual_level": "L0",
+      "passed": true,
+      "issues": [],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-08",
+      "expected_level": "L0",
+      "actual_level": "L0",
+      "passed": true,
+      "issues": [],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-10",
+      "expected_level": "L0",
+      "actual_level": "L0",
+      "passed": true,
+      "issues": [],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-11",
+      "expected_level": "L1",
+      "actual_level": "L1",
+      "passed": true,
+      "issues": [],
+      "assumptions": [
+        "热门曲目按购买数量统计（已确认默认口径）。"
+      ],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-13",
+      "expected_level": "L1",
+      "actual_level": "L1",
+      "passed": true,
+      "issues": [],
+      "assumptions": [
+        "热门曲目按购买数量统计（已确认默认口径）。"
+      ],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-14",
+      "expected_level": "L1",
+      "actual_level": "L1",
+      "passed": true,
+      "issues": [],
+      "assumptions": [
+        "“客户谁买得最多”按发票金额统计（已确认对象专属口径）。"
+      ],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-16",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "missing:time_scope.current",
+          "question": "请明确当前比较期间。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "time_scope.current",
+          "options": [
+            {
+              "id": "year:2021",
+              "label": "2021年（该年有数据，不代表完整年度）",
+              "patch": {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2021-01-01",
+                    "end": "2022-01-01",
+                    "label": "2021年",
+                    "grain": "year"
+                  }
+                }
+              }
+            },
+            {
+              "id": "year:2022",
+              "label": "2022年（该年有数据，不代表完整年度）",
+              "patch": {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2022-01-01",
+                    "end": "2023-01-01",
+                    "label": "2022年",
+                    "grain": "year"
+                  }
+                }
+              }
+            },
+            {
+              "id": "year:2023",
+              "label": "2023年（该年有数据，不代表完整年度）",
+              "patch": {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2023-01-01",
+                    "end": "2024-01-01",
+                    "label": "2023年",
+                    "grain": "year"
+                  }
+                }
+              }
+            },
+            {
+              "id": "year:2024",
+              "label": "2024年（该年有数据，不代表完整年度）",
+              "patch": {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2024-01-01",
+                    "end": "2025-01-01",
+                    "label": "2024年",
+                    "grain": "year"
+                  }
+                }
+              }
+            },
+            {
+              "id": "year:2025",
+              "label": "2025年（该年有数据，不代表完整年度）",
+              "patch": {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2025-01-01",
+                    "end": "2026-01-01",
+                    "label": "2025年",
+                    "grain": "year"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-17",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "missing:metric",
+          "question": "请明确要计算的指标。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "metric",
+          "options": []
+        }
+      ],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-19",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "missing:denominator",
+          "question": "请明确分母范围。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "denominator",
+          "options": []
+        }
+      ],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-20",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "missing:numerator",
+          "question": "请明确分子范围。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "numerator",
+          "options": []
+        }
+      ],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-22",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "missing:metric",
+          "question": "请明确要计算的指标。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "metric",
+          "options": []
+        },
+        {
+          "id": "missing:rank_object",
+          "question": "请明确排名对象。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "rank_object",
+          "options": []
+        }
+      ],
+      "assumptions": [
+        "未指定排名条数，按总计划规则展示前 10 名。"
+      ],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-23",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "value:fixture-clarify-23",
+          "question": "“摇滚”具体指哪个对象？",
+          "reason": "候选关系获准不等于允许自动绑定；请明确本次筛选。",
+          "field": "filters",
+          "options": [
+            {
+              "id": "value:fixture-clarify-23:fixture-rock",
+              "label": "Rock（genre.name）",
+              "patch": {
+                "op": "resolve_value",
+                "mention_id": "fixture-clarify-23",
+                "candidate_id": "fixture-rock",
+                "column": "genre.name",
+                "value": "Rock"
+              }
+            },
+            {
+              "id": "value:fixture-clarify-23:fixture-roll",
+              "label": "Rock And Roll（genre.name）",
+              "patch": {
+                "op": "resolve_value",
+                "mention_id": "fixture-clarify-23",
+                "candidate_id": "fixture-roll",
+                "column": "genre.name",
+                "value": "Rock And Roll"
+              }
+            }
+          ]
+        }
+      ],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-25",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "missing:reference_scope",
+          "question": "“这批/这些”具体指哪些记录？",
+          "reason": "当前会话没有这批记录的范围依据，不能擅自按全库统计。",
+          "field": "scope_missing",
+          "options": []
+        }
+      ],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-26",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "missing:time_scope.current",
+          "question": "请明确统计期间。",
+          "reason": "已确认业务定义要求指定期间；不猜最近年度。",
+          "field": "time_scope.current",
+          "options": [
+            {
+              "id": "year:2021",
+              "label": "2021年（该年有数据，不代表完整年度）",
+              "patch": {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2021-01-01",
+                    "end": "2022-01-01",
+                    "label": "2021年",
+                    "grain": "year"
+                  }
+                }
+              }
+            },
+            {
+              "id": "year:2022",
+              "label": "2022年（该年有数据，不代表完整年度）",
+              "patch": {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2022-01-01",
+                    "end": "2023-01-01",
+                    "label": "2022年",
+                    "grain": "year"
+                  }
+                }
+              }
+            },
+            {
+              "id": "year:2023",
+              "label": "2023年（该年有数据，不代表完整年度）",
+              "patch": {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2023-01-01",
+                    "end": "2024-01-01",
+                    "label": "2023年",
+                    "grain": "year"
+                  }
+                }
+              }
+            },
+            {
+              "id": "year:2024",
+              "label": "2024年（该年有数据，不代表完整年度）",
+              "patch": {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2024-01-01",
+                    "end": "2025-01-01",
+                    "label": "2024年",
+                    "grain": "year"
+                  }
+                }
+              }
+            },
+            {
+              "id": "year:2025",
+              "label": "2025年（该年有数据，不代表完整年度）",
+              "patch": {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2025-01-01",
+                    "end": "2026-01-01",
+                    "label": "2025年",
+                    "grain": "year"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-27",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "missing:base_period",
+          "question": "请明确基期，或提供适用比较规则的当前月份。",
+          "reason": "当前范围无法唯一推导比较基期。",
+          "field": "time_scope.base",
+          "options": []
+        }
+      ],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-28",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "conflicting_conditions",
+          "question": "请确认冲突条件，保留哪一个？",
+          "reason": "2024年与2023年日期范围冲突",
+          "field": "conflicts",
+          "options": []
+        }
+      ],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    },
+    {
+      "id": "clarify-30",
+      "expected_level": "L2",
+      "actual_level": "L2",
+      "passed": true,
+      "issues": [
+        {
+          "id": "value:fixture-clarify-30",
+          "question": "“摇滚乐”具体指哪个对象？",
+          "reason": "候选关系获准不等于允许自动绑定；请明确本次筛选。",
+          "field": "filters",
+          "options": [
+            {
+              "id": "value:fixture-clarify-30:fixture-rock",
+              "label": "Rock（genre.name）",
+              "patch": {
+                "op": "resolve_value",
+                "mention_id": "fixture-clarify-30",
+                "candidate_id": "fixture-rock",
+                "column": "genre.name",
+                "value": "Rock"
+              }
+            },
+            {
+              "id": "value:fixture-clarify-30:fixture-roll",
+              "label": "Rock And Roll（genre.name）",
+              "patch": {
+                "op": "resolve_value",
+                "mention_id": "fixture-clarify-30",
+                "candidate_id": "fixture-roll",
+                "column": "genre.name",
+                "value": "Rock And Roll"
+              }
+            }
+          ]
+        }
+      ],
+      "assumptions": [],
+      "mode": "programmatic reference-semantics rule check; no model prediction"
+    }
+  ],
+  "human_review_status": "pending_human_review"
+}

@@ -1,0 +1,22 @@
+{
+  "measurement": "New observation of the already-saved actual API responses; original report and raw responses are unchanged.",
+  "judgments": [
+    {
+      "id": "valid-year-trusted-choice-result",
+      "evidence": "valid-year-after.json",
+      "actual_status": "SUCCEEDED",
+      "actual_level": "L0",
+      "judgment": "AI建议通过",
+      "reason": "The trusted 2024 button sets current 2024 and YoY base 2023, clears only the period ambiguity, and executes the actual USA invoice query. This case has no missing metric and completes."
+    },
+    {
+      "id": "missing-metric-trusted-choice-result",
+      "evidence": "missing-metric-after.json",
+      "actual_status": "NEEDS_CLARIFICATION",
+      "actual_level": "L2",
+      "judgment": "AI建议通过",
+      "reason": "The trusted 2024 button sets the real period and removes its ambiguity; the independently missing metric remains L2 and no SQL executes."
+    }
+  ],
+  "human_review_status": "pending_human_review"
+}

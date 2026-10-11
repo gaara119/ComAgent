@@ -1,0 +1,48 @@
+{
+  "status": "ok",
+  "table": "production.unitmeasure",
+  "source_hash": "652932f9f321b167a160c59c327b86cf91c1caec14e798f5262d26c18d837c1f",
+  "descriptions": {
+    "table_description": "AdventureWorks 自行车业务中的计量单位表，存储产品数量或包装所用的单位（如箱、瓶、罐）的代码和名称。",
+    "column_descriptions": {
+      "unitmeasurecode": "计量单位代码，固定 3 个字符，是该表的主键，用于唯一标识一个计量单位。",
+      "name": "计量单位的名称，例如 Boxes、Bottle、Canister。",
+      "modifieddate": "该行记录最后一次修改的日期和时间。"
+    },
+    "assumptions_or_limits": [
+      "示例值中的 'C  ' 代码未提供明确业务含义。",
+      "未说明 'unitmeasurecode' 与 'name' 之间是否存在其他业务约束。",
+      "未提供该表与其他业务表之间的外键关系信息。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 184,
+          "prompt_tokens": 535,
+          "total_tokens": 719,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 407
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2279
+    }
+  ],
+  "latency_ms": 3955
+}

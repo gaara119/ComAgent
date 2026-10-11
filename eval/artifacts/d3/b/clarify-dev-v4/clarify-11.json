@@ -1,0 +1,351 @@
+{
+  "id": "clarify-11",
+  "request": {
+    "session_id": "d3-dev-e6acdbfd-13c5-4509-9aed-a7fa2f932e91",
+    "message": "2024年最受欢迎的5首曲目是哪些？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "34e93920-afe0-4f89-a379-7dece6cb4ed3",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 5 行，详细数据见结果表。\n口径说明：热门曲目按购买数量统计（已确认默认口径）。",
+    "rewritten_question": null,
+    "sql": "SELECT t.\"track_id\", t.\"name\", SUM(il.\"quantity\") AS purchased_quantity FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.\"invoice_id\" = i.\"invoice_id\" JOIN \"public\".\"track\" AS t ON il.\"track_id\" = t.\"track_id\" WHERE i.\"invoice_date\" >= CAST('2024-01-01 00:00:00' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2025-01-01 00:00:00' AS TIMESTAMP) GROUP BY t.\"track_id\", t.\"name\" ORDER BY purchased_quantity DESC, t.\"track_id\" ASC LIMIT 5",
+    "table": [
+      {
+        "track_id": 3,
+        "name": "Fast As a Shark",
+        "purchased_quantity": 1
+      },
+      {
+        "track_id": 9,
+        "name": "Snowballed",
+        "purchased_quantity": 1
+      },
+      {
+        "track_id": 15,
+        "name": "Go Down",
+        "purchased_quantity": 1
+      },
+      {
+        "track_id": 21,
+        "name": "Hell Ain't A Bad Place To Be",
+        "purchased_quantity": 1
+      },
+      {
+        "track_id": 30,
+        "name": "Amazing",
+        "purchased_quantity": 1
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "ranking",
+      "metric": "purchased_quantity",
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        }
+      },
+      "filters": [],
+      "grouping": [],
+      "order": {
+        "rank_object": "track",
+        "top_n": 5
+      },
+      "assumptions": [
+        "热门曲目按购买数量统计（已确认默认口径）。"
+      ],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 34
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024年最受欢迎的5首曲目是哪些？"
+        },
+        "output_summary": {
+          "rewritten_question": "2024年最受欢迎的5首曲目是哪些？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L1",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [
+            "热门曲目按购买数量统计（已确认默认口径）。"
+          ],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3794
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/b2fa7e48e3864e758172ffd1778f244e.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 247,
+            "prompt_tokens": 5198,
+            "total_tokens": 5445,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4992
+            },
+            "prompt_cache_hit_tokens": 4992,
+            "prompt_cache_miss_tokens": 206
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2674
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024年最受欢迎的5首曲目是哪些？",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT t.\"track_id\", t.\"name\", SUM(il.\"quantity\") AS purchased_quantity FROM \"public\".\"invoice_line\" il JOIN \"public\".\"invoice\" i ON il.\"invoice_id\" = i.\"invoice_id\" JOIN \"public\".\"track\" t ON il.\"track_id\" = t.\"track_id\" WHERE i.\"invoice_date\" >= TIMESTAMP '2024-01-01 00:00:00' AND i.\"invoice_date\" < TIMESTAMP '2025-01-01 00:00:00' GROUP BY t.\"track_id\", t.\"name\" ORDER BY purchased_quantity DESC, t.\"track_id\" ASC LIMIT 5",
+          "explanation": "统计2024年各曲目的购买数量（invoice_line.quantity 之和），按购买数量降序取前5首；以 invoice_date 左闭右开区间限定 2024 自然年，并列时按 track_id 稳定排序。"
+        },
+        "latency_ms": 3737
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/a88e53d54af041e4924e64b8719f7989.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 245,
+            "prompt_tokens": 4865,
+            "total_tokens": 5110,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4608
+            },
+            "prompt_cache_hit_tokens": 4608,
+            "prompt_cache_miss_tokens": 257
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2560
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT t.\"track_id\", t.\"name\", SUM(il.\"quantity\") AS purchased_quantity FROM \"public\".\"invoice_line\" il JOIN \"public\".\"invoice\" i ON il.\"invoice_id\" = i.\"invoice_id\" JOIN \"public\".\"track\" t ON il.\"track_id\" = t.\"track_id\" WHERE i.\"invoice_date\" >= TIMESTAMP '2024-01-01 00:00:00' AND i.\"invoice_date\" < TIMESTAMP '2025-01-01 00:00:00' GROUP BY t.\"track_id\", t.\"name\" ORDER BY purchased_quantity DESC, t.\"track_id\" ASC LIMIT 5"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT t.\"track_id\", t.\"name\", SUM(il.\"quantity\") AS purchased_quantity FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.\"invoice_id\" = i.\"invoice_id\" JOIN \"public\".\"track\" AS t ON il.\"track_id\" = t.\"track_id\" WHERE i.\"invoice_date\" >= CAST('2024-01-01 00:00:00' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2025-01-01 00:00:00' AS TIMESTAMP) GROUP BY t.\"track_id\", t.\"name\" ORDER BY purchased_quantity DESC, t.\"track_id\" ASC LIMIT 5"
+        },
+        "latency_ms": 7
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT t.\"track_id\", t.\"name\", SUM(il.\"quantity\") AS purchased_quantity FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.\"invoice_id\" = i.\"invoice_id\" JOIN \"public\".\"track\" AS t ON il.\"track_id\" = t.\"track_id\" WHERE i.\"invoice_date\" >= CAST('2024-01-01 00:00:00' AS TIMESTAMP) AND i.\"invoice_date\" < CAST('2025-01-01 00:00:00' AS TIMESTAMP) GROUP BY t.\"track_id\", t.\"name\" ORDER BY purchased_quantity DESC, t.\"track_id\" ASC LIMIT 5",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 5,
+          "columns": [
+            "track_id",
+            "name",
+            "purchased_quantity"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 23
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 7600,
+      "nlu": {
+        "original_question": "2024年最受欢迎的5首曲目是哪些？",
+        "rewritten_question": "2024年最受欢迎的5首曲目是哪些？",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L1",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [
+          "热门曲目按购买数量统计（已确认默认口径）。"
+        ],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": {
+          "clarification_id": "52686329-a43b-40dc-a5c7-d88462588f07",
+          "intent_version": 1,
+          "level": "L1",
+          "options": [
+            {
+              "id": "by_quantity",
+              "label": "按购买数量"
+            },
+            {
+              "id": "by_revenue",
+              "label": "按销售额"
+            },
+            {
+              "id": "by_playlist",
+              "label": "按歌单收录次数"
+            }
+          ]
+        }
+      },
+      "result_columns": [
+        "track_id",
+        "name",
+        "purchased_quantity"
+      ],
+      "truncated": false
+    }
+  },
+  "error": null,
+  "latency_ms": 7607,
+  "created_at_utc": "2026-10-11T19:49:36.133614+00:00"
+}

@@ -1,0 +1,360 @@
+{
+  "started_at_utc": "2026-10-11T19:25:17.276791+00:00",
+  "finished_at_utc": "2026-10-11T19:25:24.861750+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d3-free-flow-a65c7467-f943-423b-a03f-2142b84bd056",
+    "message": "2024年",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    },
+    "clarification_id": "82d91dc6-f1e9-4818-bce8-a52442640753",
+    "intent_version": 1
+  },
+  "response": {
+    "trace_id": "3353fff1-1b4e-49be-aa28-37294c4363f9",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 1 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "WITH yearly AS (SELECT CASE WHEN \"invoice_date\" >= CAST('2024-01-01' AS DATE) AND \"invoice_date\" < CAST('2025-01-01' AS DATE) THEN 'current' WHEN \"invoice_date\" >= CAST('2023-01-01' AS DATE) AND \"invoice_date\" < CAST('2024-01-01' AS DATE) THEN 'base' END AS period, SUM(\"total\") AS revenue FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'USA' AND ((\"invoice_date\" >= CAST('2023-01-01' AS DATE) AND \"invoice_date\" < CAST('2024-01-01' AS DATE)) OR (\"invoice_date\" >= CAST('2024-01-01' AS DATE) AND \"invoice_date\" < CAST('2025-01-01' AS DATE))) GROUP BY 1) SELECT cur.revenue AS current_revenue, base.revenue AS base_revenue, CASE WHEN base.revenue IS NULL OR base.revenue = 0 THEN NULL ELSE ROUND((cur.revenue - base.revenue) / base.revenue, 4) END AS yoy_growth_rate FROM (SELECT revenue FROM yearly WHERE period = 'current') AS cur CROSS JOIN (SELECT revenue FROM yearly WHERE period = 'base') AS base LIMIT 200",
+    "table": [
+      {
+        "current_revenue": "127.98",
+        "base_revenue": "103.01",
+        "yoy_growth_rate": "0.2424"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 2,
+      "route": "sql",
+      "task_type": "growth",
+      "metric": "invoice_revenue",
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        },
+        "base": {
+          "start": "2023-01-01",
+          "end": "2024-01-01",
+          "derived_from": "explicit current period and yoy"
+        }
+      },
+      "filters": [
+        {
+          "column": "invoice.billing_country",
+          "operator": "=",
+          "value": "USA",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "v-ab7ca55351c9f4bae96b",
+          "source": "verified_value_index",
+          "scope_evidence": "explicit_user_country_scope"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_version_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "verified": true,
+          "intent_version": 1
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 24
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024年"
+        },
+        "output_summary": {
+          "rewritten_question": "2024年",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 2,
+          "issues": [],
+          "assumptions": [],
+          "derived": {
+            "time_scope.base": {
+              "start": "2023-01-01",
+              "end": "2024-01-01",
+              "derived_from": "explicit current period and yoy"
+            }
+          },
+          "invalidated": [
+            "derived_period",
+            "result"
+          ],
+          "resume_supported": true
+        },
+        "latency_ms": 2941
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/2691f85150c048678caf644469e95892.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 52,
+            "prompt_tokens": 1517,
+            "total_tokens": 1569,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 512
+            },
+            "prompt_cache_hit_tokens": 512,
+            "prompt_cache_miss_tokens": 1005
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1823
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "按账单国家统计USA的发票总额同比增长率是多少？\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"growth\", \"metric\": \"invoice_revenue\", \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}, \"base\": {\"start\": \"2023-01-01\", \"end\": \"2024-01-01\", \"derived_from\": \"explicit current period and yoy\"}}, \"comparison\": {\"type\": \"yoy\"}, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"invoice.billing_country\", \"filters\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"USA\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"v-ab7ca55351c9f4bae96b\", \"source\": \"verified_value_index\", \"scope_evidence\": \"explicit_user_country_scope\"}]}",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "WITH yearly AS (\n  SELECT\n    CASE\n      WHEN \"invoice_date\" >= DATE '2024-01-01' AND \"invoice_date\" < DATE '2025-01-01' THEN 'current'\n      WHEN \"invoice_date\" >= DATE '2023-01-01' AND \"invoice_date\" < DATE '2024-01-01' THEN 'base'\n    END AS period,\n    SUM(\"total\") AS revenue\n  FROM \"public\".\"invoice\"\n  WHERE \"billing_country\" = 'USA'\n    AND ((\"invoice_date\" >= DATE '2023-01-01' AND \"invoice_date\" < DATE '2024-01-01')\n      OR (\"invoice_date\" >= DATE '2024-01-01' AND \"invoice_date\" < DATE '2025-01-01'))\n  GROUP BY 1\n)\nSELECT\n  cur.revenue AS current_revenue,\n  base.revenue AS base_revenue,\n  CASE\n    WHEN base.revenue IS NULL OR base.revenue = 0 THEN NULL\n    ELSE ROUND((cur.revenue - base.revenue) / base.revenue, 4)\n  END AS yoy_growth_rate\nFROM (SELECT revenue FROM yearly WHERE period = 'current') cur\nCROSS JOIN (SELECT revenue FROM yearly WHERE period = 'base') base;",
+          "explanation": "按发票账单国家 billing_country='USA' 过滤，使用 invoice.total 汇总 2024 年（当前期）与 2023 年（同比基期）的发票总额，并计算同比增长率；基期为零或缺失时返回 NULL。使用发票头粒度避免明细重复求和。"
+        },
+        "latency_ms": 4579
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/970151bb64bd41b5b2cf36e0e223155b.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 390,
+            "prompt_tokens": 5314,
+            "total_tokens": 5704,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 5120
+            },
+            "prompt_cache_hit_tokens": 5120,
+            "prompt_cache_miss_tokens": 194
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3440
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "WITH yearly AS (\n  SELECT\n    CASE\n      WHEN \"invoice_date\" >= DATE '2024-01-01' AND \"invoice_date\" < DATE '2025-01-01' THEN 'current'\n      WHEN \"invoice_date\" >= DATE '2023-01-01' AND \"invoice_date\" < DATE '2024-01-01' THEN 'base'\n    END AS period,\n    SUM(\"total\") AS revenue\n  FROM \"public\".\"invoice\"\n  WHERE \"billing_country\" = 'USA'\n    AND ((\"invoice_date\" >= DATE '2023-01-01' AND \"invoice_date\" < DATE '2024-01-01')\n      OR (\"invoice_date\" >= DATE '2024-01-01' AND \"invoice_date\" < DATE '2025-01-01'))\n  GROUP BY 1\n)\nSELECT\n  cur.revenue AS current_revenue,\n  base.revenue AS base_revenue,\n  CASE\n    WHEN base.revenue IS NULL OR base.revenue = 0 THEN NULL\n    ELSE ROUND((cur.revenue - base.revenue) / base.revenue, 4)\n  END AS yoy_growth_rate\nFROM (SELECT revenue FROM yearly WHERE period = 'current') cur\nCROSS JOIN (SELECT revenue FROM yearly WHERE period = 'base') base;"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": true,
+          "sql": "WITH yearly AS (SELECT CASE WHEN \"invoice_date\" >= CAST('2024-01-01' AS DATE) AND \"invoice_date\" < CAST('2025-01-01' AS DATE) THEN 'current' WHEN \"invoice_date\" >= CAST('2023-01-01' AS DATE) AND \"invoice_date\" < CAST('2024-01-01' AS DATE) THEN 'base' END AS period, SUM(\"total\") AS revenue FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'USA' AND ((\"invoice_date\" >= CAST('2023-01-01' AS DATE) AND \"invoice_date\" < CAST('2024-01-01' AS DATE)) OR (\"invoice_date\" >= CAST('2024-01-01' AS DATE) AND \"invoice_date\" < CAST('2025-01-01' AS DATE))) GROUP BY 1) SELECT cur.revenue AS current_revenue, base.revenue AS base_revenue, CASE WHEN base.revenue IS NULL OR base.revenue = 0 THEN NULL ELSE ROUND((cur.revenue - base.revenue) / base.revenue, 4) END AS yoy_growth_rate FROM (SELECT revenue FROM yearly WHERE period = 'current') AS cur CROSS JOIN (SELECT revenue FROM yearly WHERE period = 'base') AS base LIMIT 200"
+        },
+        "latency_ms": 10
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "USA",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "v-ab7ca55351c9f4bae96b",
+              "source": "verified_value_index",
+              "scope_evidence": "explicit_user_country_scope"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "WITH yearly AS (SELECT CASE WHEN \"invoice_date\" >= CAST(%(qa_value_5)s AS DATE) AND \"invoice_date\" < CAST(%(qa_value_6)s AS DATE) THEN %(qa_value_2)s WHEN \"invoice_date\" >= CAST(%(qa_value_7)s AS DATE) AND \"invoice_date\" < CAST(%(qa_value_8)s AS DATE) THEN %(qa_value_3)s END AS period, SUM(\"total\") AS revenue FROM \"public\".\"invoice\" WHERE \"billing_country\" = %(qa_value_4)s AND ((\"invoice_date\" >= CAST(%(qa_value_9)s AS DATE) AND \"invoice_date\" < CAST(%(qa_value_10)s AS DATE)) OR (\"invoice_date\" >= CAST(%(qa_value_11)s AS DATE) AND \"invoice_date\" < CAST(%(qa_value_12)s AS DATE))) GROUP BY 1) SELECT cur.revenue AS current_revenue, base.revenue AS base_revenue, CASE WHEN base.revenue IS NULL OR base.revenue = 0 THEN NULL ELSE ROUND((cur.revenue - base.revenue) / base.revenue, 4) END AS yoy_growth_rate FROM (SELECT revenue FROM yearly WHERE period = %(qa_value_0)s) AS cur CROSS JOIN (SELECT revenue FROM yearly WHERE period = %(qa_value_1)s) AS base LIMIT 200",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "current_revenue",
+            "base_revenue",
+            "yoy_growth_rate"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 20
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 7584,
+      "nlu": {
+        "original_question": "2024年",
+        "rewritten_question": "2024年",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 2,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "derived": {
+          "time_scope.base": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "derived_from": "explicit current period and yoy"
+          }
+        },
+        "invalidated": [
+          "derived_period",
+          "result"
+        ],
+        "switch": null
+      },
+      "result_columns": [
+        "current_revenue",
+        "base_revenue",
+        "yoy_growth_rate"
+      ],
+      "truncated": false
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

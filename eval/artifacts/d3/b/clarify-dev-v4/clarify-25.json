@@ -1,0 +1,218 @@
+{
+  "id": "clarify-25",
+  "request": {
+    "session_id": "d3-dev-6348db4c-d902-4f29-bca6-c26c6ea80086",
+    "message": "这批曲目的平均时长是多少？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "b0479b05-3778-4cb7-96f4-696da392e0fa",
+    "status": "NEEDS_CLARIFICATION",
+    "answer": "“这批/这些”具体指哪些记录？",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [],
+    "clarification": {
+      "clarification_id": "ae52dda6-73e7-429f-8ec1-d41eec632064",
+      "intent_version": 1,
+      "level": "L2",
+      "question": "“这批/这些”具体指哪些记录？",
+      "reason": "当前会话没有这批记录的范围依据，不能擅自按全库统计。",
+      "issues": [
+        {
+          "id": "missing:reference_scope",
+          "question": "“这批/这些”具体指哪些记录？",
+          "reason": "当前会话没有这批记录的范围依据，不能擅自按全库统计。",
+          "field": "scope_missing",
+          "options": []
+        }
+      ],
+      "options": [],
+      "resume_supported": true
+    },
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "aggregation",
+      "metric": "average_track_duration",
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": [
+        {
+          "id": "missing:reference_scope",
+          "question": "“这批/这些”具体指哪些记录？",
+          "reason": "当前会话没有这批记录的范围依据，不能擅自按全库统计。",
+          "field": "scope_missing",
+          "options": []
+        }
+      ]
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 121
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "这批曲目的平均时长是多少？"
+        },
+        "output_summary": {
+          "rewritten_question": "这批曲目的平均时长是多少？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "warn",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L2",
+          "intent_version": 1,
+          "issues": [
+            {
+              "id": "missing:reference_scope",
+              "question": "“这批/这些”具体指哪些记录？",
+              "reason": "当前会话没有这批记录的范围依据，不能擅自按全库统计。",
+              "field": "scope_missing",
+              "options": []
+            }
+          ],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3425
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d3/provider-capture/ec043c92205b4318bb631ee879d4269f.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 128,
+            "prompt_tokens": 5193,
+            "total_tokens": 5321,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4992
+            },
+            "prompt_cache_hit_tokens": 4992,
+            "prompt_cache_miss_tokens": 201
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2288
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 3548,
+      "nlu": {
+        "original_question": "这批曲目的平均时长是多少？",
+        "rewritten_question": "这批曲目的平均时长是多少？",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L2",
+        "intent_version": 1,
+        "state": "WAITING_CLARIFICATION",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      }
+    }
+  },
+  "error": null,
+  "latency_ms": 3553,
+  "created_at_utc": "2026-10-11T19:50:13.272343+00:00"
+}

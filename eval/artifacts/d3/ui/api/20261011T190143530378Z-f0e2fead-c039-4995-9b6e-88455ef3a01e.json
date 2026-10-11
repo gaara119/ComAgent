@@ -1,0 +1,1047 @@
+{
+  "started_at_utc": "2026-10-11T19:01:40.041325+00:00",
+  "finished_at_utc": "2026-10-11T19:01:43.530378+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d3-aw-20261011T190132Z-aw-02",
+    "message": "采购订单一共有多少张？按采购订单头计数。",
+    "scope": {
+      "route": "sql",
+      "db_id": "adventureworks",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "a5cdc39a-9b68-4a12-84e0-3252d46c6143",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：4012。",
+    "rewritten_question": null,
+    "sql": "SELECT COUNT(*) AS purchase_order_count FROM \"purchasing\".\"purchaseorderheader\"",
+    "table": [
+      {
+        "purchase_order_count": 4012
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "adventureworks"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "table_count": 68,
+          "db_id": "adventureworks"
+        },
+        "latency_ms": 177
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "reason": "not_registered_for_db",
+          "bindings": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "采购订单一共有多少张？按采购订单头计数。"
+        },
+        "output_summary": {
+          "rewritten_question": "采购订单一共有多少张？按采购订单头计数。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 6
+      },
+      {
+        "name": "schema_link",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks",
+          "question": "采购订单一共有多少张？按采购订单头计数。"
+        },
+        "output_summary": {
+          "selected_tables": [
+            "production.product",
+            "production.transactionhistory",
+            "purchasing.productvendor",
+            "purchasing.purchaseorderdetail",
+            "purchasing.purchaseorderheader",
+            "purchasing.shipmethod",
+            "purchasing.vendor",
+            "sales.salesorderdetail",
+            "sales.salesorderheader",
+            "sales.salesorderheadersalesreason"
+          ],
+          "columns": {
+            "production.product": [
+              "productid",
+              "name",
+              "productnumber",
+              "makeflag",
+              "finishedgoodsflag",
+              "color",
+              "safetystocklevel",
+              "reorderpoint",
+              "standardcost",
+              "listprice",
+              "size",
+              "sizeunitmeasurecode",
+              "weightunitmeasurecode",
+              "weight",
+              "daystomanufacture",
+              "productline",
+              "class",
+              "style",
+              "productsubcategoryid",
+              "productmodelid",
+              "sellstartdate",
+              "sellenddate",
+              "discontinueddate",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.transactionhistory": [
+              "transactionid",
+              "productid",
+              "referenceorderid",
+              "referenceorderlineid",
+              "transactiondate",
+              "transactiontype",
+              "quantity",
+              "actualcost",
+              "modifieddate"
+            ],
+            "purchasing.productvendor": [
+              "productid",
+              "businessentityid",
+              "averageleadtime",
+              "standardprice",
+              "lastreceiptcost",
+              "lastreceiptdate",
+              "minorderqty",
+              "maxorderqty",
+              "onorderqty",
+              "unitmeasurecode",
+              "modifieddate"
+            ],
+            "purchasing.purchaseorderdetail": [
+              "purchaseorderid",
+              "purchaseorderdetailid",
+              "duedate",
+              "orderqty",
+              "productid",
+              "unitprice",
+              "receivedqty",
+              "rejectedqty",
+              "modifieddate"
+            ],
+            "purchasing.purchaseorderheader": [
+              "purchaseorderid",
+              "revisionnumber",
+              "status",
+              "employeeid",
+              "vendorid",
+              "shipmethodid",
+              "orderdate",
+              "shipdate",
+              "subtotal",
+              "taxamt",
+              "freight",
+              "modifieddate"
+            ],
+            "purchasing.shipmethod": [
+              "shipmethodid",
+              "name",
+              "shipbase",
+              "shiprate",
+              "rowguid",
+              "modifieddate"
+            ],
+            "purchasing.vendor": [
+              "businessentityid",
+              "accountnumber",
+              "name",
+              "creditrating",
+              "preferredvendorstatus",
+              "activeflag",
+              "purchasingwebserviceurl",
+              "modifieddate"
+            ],
+            "sales.salesorderdetail": [
+              "salesorderid",
+              "salesorderdetailid",
+              "carriertrackingnumber",
+              "orderqty",
+              "productid",
+              "specialofferid",
+              "unitprice",
+              "unitpricediscount",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesorderheader": [
+              "salesorderid",
+              "revisionnumber",
+              "orderdate",
+              "duedate",
+              "shipdate",
+              "status",
+              "onlineorderflag",
+              "purchaseordernumber",
+              "accountnumber",
+              "customerid",
+              "salespersonid",
+              "territoryid",
+              "billtoaddressid",
+              "shiptoaddressid",
+              "shipmethodid",
+              "creditcardid",
+              "creditcardapprovalcode",
+              "currencyrateid",
+              "subtotal",
+              "taxamt",
+              "freight",
+              "totaldue",
+              "comment",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesorderheadersalesreason": [
+              "salesorderid",
+              "salesreasonid",
+              "modifieddate"
+            ]
+          },
+          "join_paths": [
+            {
+              "source_table": "purchasing.productvendor",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "production.transactionhistory",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "purchasing.productvendor",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "purchasing.vendor",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "purchasing.purchaseorderdetail",
+              "source_columns": [
+                "purchaseorderid"
+              ],
+              "target_table": "purchasing.purchaseorderheader",
+              "target_columns": [
+                "purchaseorderid"
+              ]
+            },
+            {
+              "source_table": "purchasing.purchaseorderheader",
+              "source_columns": [
+                "shipmethodid"
+              ],
+              "target_table": "purchasing.shipmethod",
+              "target_columns": [
+                "shipmethodid"
+              ]
+            },
+            {
+              "source_table": "purchasing.purchaseorderheader",
+              "source_columns": [
+                "vendorid"
+              ],
+              "target_table": "purchasing.vendor",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "shipmethodid"
+              ],
+              "target_table": "purchasing.shipmethod",
+              "target_columns": [
+                "shipmethodid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderdetail",
+              "source_columns": [
+                "salesorderid"
+              ],
+              "target_table": "sales.salesorderheader",
+              "target_columns": [
+                "salesorderid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheadersalesreason",
+              "source_columns": [
+                "salesorderid"
+              ],
+              "target_table": "sales.salesorderheader",
+              "target_columns": [
+                "salesorderid"
+              ]
+            }
+          ],
+          "reasons": {
+            "production.product": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "production.transactionhistory": [
+              "表描述向量召回第 7 位"
+            ],
+            "purchasing.productvendor": [
+              "表描述向量召回第 3 位"
+            ],
+            "purchasing.purchaseorderdetail": [
+              "表描述向量召回第 2 位",
+              "列描述 Top-20 投票：8 列"
+            ],
+            "purchasing.purchaseorderheader": [
+              "表描述向量召回第 1 位",
+              "列描述 Top-20 投票：12 列"
+            ],
+            "purchasing.shipmethod": [
+              "表描述向量召回第 8 位"
+            ],
+            "purchasing.vendor": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "sales.salesorderdetail": [
+              "表描述向量召回第 5 位"
+            ],
+            "sales.salesorderheader": [
+              "表描述向量召回第 4 位"
+            ],
+            "sales.salesorderheadersalesreason": [
+              "表描述向量召回第 6 位"
+            ]
+          },
+          "table_recall": [
+            "purchasing.purchaseorderheader",
+            "purchasing.purchaseorderdetail",
+            "purchasing.productvendor",
+            "sales.salesorderheader",
+            "sales.salesorderdetail",
+            "sales.salesorderheadersalesreason",
+            "production.transactionhistory",
+            "purchasing.shipmethod"
+          ],
+          "column_recall": [
+            "purchasing.purchaseorderheader.revisionnumber",
+            "purchasing.purchaseorderheader.subtotal",
+            "purchasing.purchaseorderheader.freight",
+            "purchasing.purchaseorderheader.shipmethodid",
+            "purchasing.purchaseorderheader.taxamt",
+            "purchasing.purchaseorderheader.status",
+            "purchasing.purchaseorderheader.purchaseorderid",
+            "purchasing.purchaseorderheader.vendorid",
+            "purchasing.purchaseorderheader.employeeid",
+            "purchasing.purchaseorderheader.modifieddate",
+            "purchasing.purchaseorderdetail.receivedqty",
+            "purchasing.purchaseorderheader.orderdate",
+            "purchasing.purchaseorderheader.shipdate",
+            "purchasing.purchaseorderdetail.rejectedqty",
+            "purchasing.purchaseorderdetail.orderqty",
+            "purchasing.purchaseorderdetail.unitprice",
+            "purchasing.purchaseorderdetail.productid",
+            "purchasing.purchaseorderdetail.purchaseorderid",
+            "purchasing.purchaseorderdetail.modifieddate",
+            "purchasing.purchaseorderdetail.purchaseorderdetailid"
+          ],
+          "value_recall": [],
+          "terminal_tables": [
+            "purchasing.purchaseorderheader",
+            "purchasing.purchaseorderdetail",
+            "purchasing.productvendor",
+            "sales.salesorderheader",
+            "sales.salesorderdetail",
+            "sales.salesorderheadersalesreason",
+            "production.transactionhistory",
+            "purchasing.shipmethod"
+          ],
+          "bridge_tables": [
+            "production.product",
+            "purchasing.vendor"
+          ],
+          "disconnected_components": [
+            [
+              "production.transactionhistory",
+              "purchasing.productvendor",
+              "purchasing.purchaseorderdetail",
+              "purchasing.purchaseorderheader",
+              "purchasing.shipmethod",
+              "sales.salesorderdetail",
+              "sales.salesorderheader",
+              "sales.salesorderheadersalesreason"
+            ]
+          ],
+          "scores": {
+            "purchasing.purchaseorderheader": 0.03278688524590164,
+            "purchasing.purchaseorderdetail": 0.03225806451612903,
+            "purchasing.productvendor": 0.015873015873015872,
+            "sales.salesorderheader": 0.015625,
+            "sales.salesorderdetail": 0.015384615384615385,
+            "sales.salesorderheadersalesreason": 0.015151515151515152,
+            "production.transactionhistory": 0.014925373134328358,
+            "purchasing.shipmethod": 0.014705882352941176
+          },
+          "query_facets": [
+            "采购订单一共有多少张？按采购订单头计数。"
+          ],
+          "per_query_recall": [
+            {
+              "query": "采购订单一共有多少张？按采购订单头计数。",
+              "table_top": [
+                "purchasing.purchaseorderheader",
+                "purchasing.purchaseorderdetail",
+                "purchasing.productvendor",
+                "sales.salesorderheader",
+                "sales.salesorderdetail",
+                "sales.salesorderheadersalesreason",
+                "production.transactionhistory",
+                "purchasing.shipmethod"
+              ],
+              "column_top": [
+                "purchasing.purchaseorderheader.revisionnumber",
+                "purchasing.purchaseorderheader.subtotal",
+                "purchasing.purchaseorderheader.freight",
+                "purchasing.purchaseorderheader.shipmethodid",
+                "purchasing.purchaseorderheader.taxamt",
+                "purchasing.purchaseorderheader.status",
+                "purchasing.purchaseorderheader.purchaseorderid",
+                "purchasing.purchaseorderheader.vendorid",
+                "purchasing.purchaseorderheader.employeeid",
+                "purchasing.purchaseorderheader.modifieddate",
+                "purchasing.purchaseorderdetail.receivedqty",
+                "purchasing.purchaseorderheader.orderdate",
+                "purchasing.purchaseorderheader.shipdate",
+                "purchasing.purchaseorderdetail.rejectedqty",
+                "purchasing.purchaseorderdetail.orderqty",
+                "purchasing.purchaseorderdetail.unitprice",
+                "purchasing.purchaseorderdetail.productid",
+                "purchasing.purchaseorderdetail.purchaseorderid",
+                "purchasing.purchaseorderdetail.modifieddate",
+                "purchasing.purchaseorderdetail.purchaseorderdetailid"
+              ]
+            }
+          ]
+        },
+        "latency_ms": 33
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "采购订单一共有多少张？按采购订单头计数。",
+          "repair_attempt": 0,
+          "db_id": "adventureworks",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) AS purchase_order_count FROM \"purchasing\".\"purchaseorderheader\"",
+          "explanation": "统计 purchasing.purchaseorderheader 表中的行数，即采购订单头数量（每行代表一张采购订单）。"
+        },
+        "latency_ms": 3233
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 70,
+            "prompt_tokens": 9397,
+            "total_tokens": 9467,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 896
+            },
+            "prompt_cache_hit_tokens": 896,
+            "prompt_cache_miss_tokens": 8501
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2093
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS purchase_order_count FROM \"purchasing\".\"purchaseorderheader\""
+        },
+        "output_summary": {
+          "tables": [
+            "purchasing.purchaseorderheader"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) AS purchase_order_count FROM \"purchasing\".\"purchaseorderheader\""
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS purchase_order_count FROM \"purchasing\".\"purchaseorderheader\"",
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "purchase_order_count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 33
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "adventureworks",
+      "latency_ms": 3487,
+      "nlu": {
+        "original_question": "采购订单一共有多少张？按采购订单头计数。",
+        "rewritten_question": "采购订单一共有多少张？按采购订单头计数。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "not_registered_for_db"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "schema_linker": {
+        "selected_tables": [
+          "production.product",
+          "production.transactionhistory",
+          "purchasing.productvendor",
+          "purchasing.purchaseorderdetail",
+          "purchasing.purchaseorderheader",
+          "purchasing.shipmethod",
+          "purchasing.vendor",
+          "sales.salesorderdetail",
+          "sales.salesorderheader",
+          "sales.salesorderheadersalesreason"
+        ],
+        "columns": {
+          "production.product": [
+            "productid",
+            "name",
+            "productnumber",
+            "makeflag",
+            "finishedgoodsflag",
+            "color",
+            "safetystocklevel",
+            "reorderpoint",
+            "standardcost",
+            "listprice",
+            "size",
+            "sizeunitmeasurecode",
+            "weightunitmeasurecode",
+            "weight",
+            "daystomanufacture",
+            "productline",
+            "class",
+            "style",
+            "productsubcategoryid",
+            "productmodelid",
+            "sellstartdate",
+            "sellenddate",
+            "discontinueddate",
+            "rowguid",
+            "modifieddate"
+          ],
+          "production.transactionhistory": [
+            "transactionid",
+            "productid",
+            "referenceorderid",
+            "referenceorderlineid",
+            "transactiondate",
+            "transactiontype",
+            "quantity",
+            "actualcost",
+            "modifieddate"
+          ],
+          "purchasing.productvendor": [
+            "productid",
+            "businessentityid",
+            "averageleadtime",
+            "standardprice",
+            "lastreceiptcost",
+            "lastreceiptdate",
+            "minorderqty",
+            "maxorderqty",
+            "onorderqty",
+            "unitmeasurecode",
+            "modifieddate"
+          ],
+          "purchasing.purchaseorderdetail": [
+            "purchaseorderid",
+            "purchaseorderdetailid",
+            "duedate",
+            "orderqty",
+            "productid",
+            "unitprice",
+            "receivedqty",
+            "rejectedqty",
+            "modifieddate"
+          ],
+          "purchasing.purchaseorderheader": [
+            "purchaseorderid",
+            "revisionnumber",
+            "status",
+            "employeeid",
+            "vendorid",
+            "shipmethodid",
+            "orderdate",
+            "shipdate",
+            "subtotal",
+            "taxamt",
+            "freight",
+            "modifieddate"
+          ],
+          "purchasing.shipmethod": [
+            "shipmethodid",
+            "name",
+            "shipbase",
+            "shiprate",
+            "rowguid",
+            "modifieddate"
+          ],
+          "purchasing.vendor": [
+            "businessentityid",
+            "accountnumber",
+            "name",
+            "creditrating",
+            "preferredvendorstatus",
+            "activeflag",
+            "purchasingwebserviceurl",
+            "modifieddate"
+          ],
+          "sales.salesorderdetail": [
+            "salesorderid",
+            "salesorderdetailid",
+            "carriertrackingnumber",
+            "orderqty",
+            "productid",
+            "specialofferid",
+            "unitprice",
+            "unitpricediscount",
+            "rowguid",
+            "modifieddate"
+          ],
+          "sales.salesorderheader": [
+            "salesorderid",
+            "revisionnumber",
+            "orderdate",
+            "duedate",
+            "shipdate",
+            "status",
+            "onlineorderflag",
+            "purchaseordernumber",
+            "accountnumber",
+            "customerid",
+            "salespersonid",
+            "territoryid",
+            "billtoaddressid",
+            "shiptoaddressid",
+            "shipmethodid",
+            "creditcardid",
+            "creditcardapprovalcode",
+            "currencyrateid",
+            "subtotal",
+            "taxamt",
+            "freight",
+            "totaldue",
+            "comment",
+            "rowguid",
+            "modifieddate"
+          ],
+          "sales.salesorderheadersalesreason": [
+            "salesorderid",
+            "salesreasonid",
+            "modifieddate"
+          ]
+        },
+        "join_paths": [
+          {
+            "source_table": "purchasing.productvendor",
+            "source_columns": [
+              "productid"
+            ],
+            "target_table": "production.product",
+            "target_columns": [
+              "productid"
+            ]
+          },
+          {
+            "source_table": "production.transactionhistory",
+            "source_columns": [
+              "productid"
+            ],
+            "target_table": "production.product",
+            "target_columns": [
+              "productid"
+            ]
+          },
+          {
+            "source_table": "purchasing.productvendor",
+            "source_columns": [
+              "businessentityid"
+            ],
+            "target_table": "purchasing.vendor",
+            "target_columns": [
+              "businessentityid"
+            ]
+          },
+          {
+            "source_table": "purchasing.purchaseorderdetail",
+            "source_columns": [
+              "purchaseorderid"
+            ],
+            "target_table": "purchasing.purchaseorderheader",
+            "target_columns": [
+              "purchaseorderid"
+            ]
+          },
+          {
+            "source_table": "purchasing.purchaseorderheader",
+            "source_columns": [
+              "shipmethodid"
+            ],
+            "target_table": "purchasing.shipmethod",
+            "target_columns": [
+              "shipmethodid"
+            ]
+          },
+          {
+            "source_table": "purchasing.purchaseorderheader",
+            "source_columns": [
+              "vendorid"
+            ],
+            "target_table": "purchasing.vendor",
+            "target_columns": [
+              "businessentityid"
+            ]
+          },
+          {
+            "source_table": "sales.salesorderheader",
+            "source_columns": [
+              "shipmethodid"
+            ],
+            "target_table": "purchasing.shipmethod",
+            "target_columns": [
+              "shipmethodid"
+            ]
+          },
+          {
+            "source_table": "sales.salesorderdetail",
+            "source_columns": [
+              "salesorderid"
+            ],
+            "target_table": "sales.salesorderheader",
+            "target_columns": [
+              "salesorderid"
+            ]
+          },
+          {
+            "source_table": "sales.salesorderheadersalesreason",
+            "source_columns": [
+              "salesorderid"
+            ],
+            "target_table": "sales.salesorderheader",
+            "target_columns": [
+              "salesorderid"
+            ]
+          }
+        ],
+        "reasons": {
+          "production.product": [
+            "真实外键图 Steiner 补全的桥接表"
+          ],
+          "production.transactionhistory": [
+            "表描述向量召回第 7 位"
+          ],
+          "purchasing.productvendor": [
+            "表描述向量召回第 3 位"
+          ],
+          "purchasing.purchaseorderdetail": [
+            "表描述向量召回第 2 位",
+            "列描述 Top-20 投票：8 列"
+          ],
+          "purchasing.purchaseorderheader": [
+            "表描述向量召回第 1 位",
+            "列描述 Top-20 投票：12 列"
+          ],
+          "purchasing.shipmethod": [
+            "表描述向量召回第 8 位"
+          ],
+          "purchasing.vendor": [
+            "真实外键图 Steiner 补全的桥接表"
+          ],
+          "sales.salesorderdetail": [
+            "表描述向量召回第 5 位"
+          ],
+          "sales.salesorderheader": [
+            "表描述向量召回第 4 位"
+          ],
+          "sales.salesorderheadersalesreason": [
+            "表描述向量召回第 6 位"
+          ]
+        },
+        "table_recall": [
+          "purchasing.purchaseorderheader",
+          "purchasing.purchaseorderdetail",
+          "purchasing.productvendor",
+          "sales.salesorderheader",
+          "sales.salesorderdetail",
+          "sales.salesorderheadersalesreason",
+          "production.transactionhistory",
+          "purchasing.shipmethod"
+        ],
+        "column_recall": [
+          "purchasing.purchaseorderheader.revisionnumber",
+          "purchasing.purchaseorderheader.subtotal",
+          "purchasing.purchaseorderheader.freight",
+          "purchasing.purchaseorderheader.shipmethodid",
+          "purchasing.purchaseorderheader.taxamt",
+          "purchasing.purchaseorderheader.status",
+          "purchasing.purchaseorderheader.purchaseorderid",
+          "purchasing.purchaseorderheader.vendorid",
+          "purchasing.purchaseorderheader.employeeid",
+          "purchasing.purchaseorderheader.modifieddate",
+          "purchasing.purchaseorderdetail.receivedqty",
+          "purchasing.purchaseorderheader.orderdate",
+          "purchasing.purchaseorderheader.shipdate",
+          "purchasing.purchaseorderdetail.rejectedqty",
+          "purchasing.purchaseorderdetail.orderqty",
+          "purchasing.purchaseorderdetail.unitprice",
+          "purchasing.purchaseorderdetail.productid",
+          "purchasing.purchaseorderdetail.purchaseorderid",
+          "purchasing.purchaseorderdetail.modifieddate",
+          "purchasing.purchaseorderdetail.purchaseorderdetailid"
+        ],
+        "value_recall": [],
+        "terminal_tables": [
+          "purchasing.purchaseorderheader",
+          "purchasing.purchaseorderdetail",
+          "purchasing.productvendor",
+          "sales.salesorderheader",
+          "sales.salesorderdetail",
+          "sales.salesorderheadersalesreason",
+          "production.transactionhistory",
+          "purchasing.shipmethod"
+        ],
+        "bridge_tables": [
+          "production.product",
+          "purchasing.vendor"
+        ],
+        "disconnected_components": [
+          [
+            "production.transactionhistory",
+            "purchasing.productvendor",
+            "purchasing.purchaseorderdetail",
+            "purchasing.purchaseorderheader",
+            "purchasing.shipmethod",
+            "sales.salesorderdetail",
+            "sales.salesorderheader",
+            "sales.salesorderheadersalesreason"
+          ]
+        ],
+        "scores": {
+          "purchasing.purchaseorderheader": 0.03278688524590164,
+          "purchasing.purchaseorderdetail": 0.03225806451612903,
+          "purchasing.productvendor": 0.015873015873015872,
+          "sales.salesorderheader": 0.015625,
+          "sales.salesorderdetail": 0.015384615384615385,
+          "sales.salesorderheadersalesreason": 0.015151515151515152,
+          "production.transactionhistory": 0.014925373134328358,
+          "purchasing.shipmethod": 0.014705882352941176
+        },
+        "query_facets": [
+          "采购订单一共有多少张？按采购订单头计数。"
+        ],
+        "per_query_recall": [
+          {
+            "query": "采购订单一共有多少张？按采购订单头计数。",
+            "table_top": [
+              "purchasing.purchaseorderheader",
+              "purchasing.purchaseorderdetail",
+              "purchasing.productvendor",
+              "sales.salesorderheader",
+              "sales.salesorderdetail",
+              "sales.salesorderheadersalesreason",
+              "production.transactionhistory",
+              "purchasing.shipmethod"
+            ],
+            "column_top": [
+              "purchasing.purchaseorderheader.revisionnumber",
+              "purchasing.purchaseorderheader.subtotal",
+              "purchasing.purchaseorderheader.freight",
+              "purchasing.purchaseorderheader.shipmethodid",
+              "purchasing.purchaseorderheader.taxamt",
+              "purchasing.purchaseorderheader.status",
+              "purchasing.purchaseorderheader.purchaseorderid",
+              "purchasing.purchaseorderheader.vendorid",
+              "purchasing.purchaseorderheader.employeeid",
+              "purchasing.purchaseorderheader.modifieddate",
+              "purchasing.purchaseorderdetail.receivedqty",
+              "purchasing.purchaseorderheader.orderdate",
+              "purchasing.purchaseorderheader.shipdate",
+              "purchasing.purchaseorderdetail.rejectedqty",
+              "purchasing.purchaseorderdetail.orderqty",
+              "purchasing.purchaseorderdetail.unitprice",
+              "purchasing.purchaseorderdetail.productid",
+              "purchasing.purchaseorderdetail.purchaseorderid",
+              "purchasing.purchaseorderdetail.modifieddate",
+              "purchasing.purchaseorderdetail.purchaseorderdetailid"
+            ]
+          }
+        ]
+      },
+      "result_columns": [
+        "purchase_order_count"
+      ],
+      "truncated": false
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

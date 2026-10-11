@@ -1,0 +1,52 @@
+{
+  "status": "ok",
+  "table": "sales.salesterritoryhistory",
+  "source_hash": "ea71990b17e33dea2d0cd59213730257492dd482fda1497c3e6cde5cc977aaea",
+  "descriptions": {
+    "table_description": "销售区域历史表（sales.salesterritoryhistory），记录销售人员（businessentityid）被分配到某一销售区域（territoryid）的起止时间，用于追踪销售人员所属销售区域的历史变更。业务实体为销售人员，非客户或地址；区域为销售区域，与产品类别/子类别无关。",
+    "column_descriptions": {
+      "businessentityid": "销售人员业务实体标识，关联 sales.salesperson.businessentityid，标识被分配销售区域的销售人员。",
+      "territoryid": "销售区域标识，关联 sales.salesterritory.territoryid，标识销售人员被分配到的销售区域。",
+      "startdate": "该销售人员在此销售区域分配关系的开始日期时间。",
+      "enddate": "该销售人员在此销售区域分配关系的结束日期时间；为空时表示该分配关系尚未结束或当前有效。",
+      "rowguid": "行的全局唯一标识符（UUID），用于唯一标识该行记录。",
+      "modifieddate": "该行记录最后修改的日期时间。"
+    },
+    "assumptions_or_limits": [
+      "主键由 businessentityid、startdate、territoryid 组成，表示同一销售人员在同一天开始在同区域可能唯一，但同一区域可能在不同时间段被重复分配。",
+      "末次记录 enddate 为空可理解为该分配当前有效，但源数据未明确说明，仅按常见历史表模式推断。",
+      "未提供币种、统计期间或订单金额等信息；本表不包含订单、产品、客户地址或价格成本字段。",
+      "所有列均按字段名及外键关系描述，未使用示例值推断额外业务含义。"
+    ]
+  },
+  "human_review": "pending_human_review",
+  "trace": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 376,
+          "prompt_tokens": 902,
+          "total_tokens": 1278,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 128
+          },
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 774
+        },
+        "json_valid": true
+      },
+      "latency_ms": 3663
+    }
+  ],
+  "latency_ms": 5505
+}
