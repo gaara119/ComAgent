@@ -1,0 +1,107 @@
+{
+  "purpose": "Final offline document consistency and original-score preservation verification; no rescoring",
+  "commands": [
+    {
+      "command": [
+        "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+        "-B",
+        "eval\\experiments\\after_d2_01_03\\reports\\build_v2_task01_review.py",
+        "--version",
+        "V1",
+        "--final"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"review_state\": \"FINAL_ACTUAL_V1_REVIEW\",\n  \"reviewed_case_count\": 30,\n  \"raw_responses_read\": 30,\n  \"provider_records_read\": 44,\n  \"reference_ai_counts\": {\n    \"AI建议通过\": 16,\n    \"AI建议有条件通过\": 10,\n    \"AI发现错误\": 4\n  },\n  \"system_ai_counts\": {\n    \"AI建议通过\": 14,\n    \"AI建议有条件通过\": 7,\n    \"AI发现错误\": 5,\n    \"证据不足\": 4\n  },\n  \"original_score_sha256\": \"af319fde76d4a617c365c7772b564fd88cd3dd7191d7272664aa6017099178fb\",\n  \"materials_unchanged\": true\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+        "-B",
+        "eval\\experiments\\after_d2_01_03\\reports\\build_v2_task01_review.py",
+        "--version",
+        "V2",
+        "--final"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"review_state\": \"FINAL_ACTUAL_V2_REVIEW\",\n  \"reviewed_case_count\": 30,\n  \"raw_responses_read\": 30,\n  \"provider_records_read\": 43,\n  \"reference_ai_counts\": {\n    \"AI建议通过\": 16,\n    \"AI建议有条件通过\": 10,\n    \"AI发现错误\": 4\n  },\n  \"system_ai_counts\": {\n    \"AI建议通过\": 14,\n    \"AI建议有条件通过\": 6,\n    \"AI发现错误\": 6,\n    \"证据不足\": 4\n  },\n  \"original_score_sha256\": \"ecbd8cb3ce9d1dd1fc76290ddcbf145fb1a72c22c72c45b3ab8d037901039e91\",\n  \"materials_unchanged\": true\n}\n",
+      "stderr": ""
+    }
+  ],
+  "checks": {
+    "V1": {
+      "count30": true,
+      "unique_original30": true,
+      "all_pending": true,
+      "original_score_entries_exact": true,
+      "original_score_SHA_exact": true,
+      "all_provider_archived_and_trace": true,
+      "all_relative_MD_links_exist": true,
+      "MD_link_count": 115,
+      "ui_snapshot_coverage_not_misreported": true,
+      "unified_AI_normalizer_accepts30": true,
+      "AI_reference_counts": {
+        "AI建议通过": 16,
+        "AI建议有条件通过": 10,
+        "AI发现错误": 4
+      },
+      "AI_system_counts": {
+        "AI建议通过": 14,
+        "AI建议有条件通过": 7,
+        "AI发现错误": 5,
+        "证据不足": 4
+      },
+      "original_result": "14/26",
+      "provider_read": 44
+    },
+    "V2": {
+      "count30": true,
+      "unique_original30": true,
+      "all_pending": true,
+      "original_score_entries_exact": true,
+      "original_score_SHA_exact": true,
+      "all_provider_archived_and_trace": true,
+      "all_relative_MD_links_exist": true,
+      "MD_link_count": 114,
+      "ui_snapshot_coverage_not_misreported": true,
+      "unified_AI_normalizer_accepts30": true,
+      "AI_reference_counts": {
+        "AI建议通过": 16,
+        "AI建议有条件通过": 10,
+        "AI发现错误": 4
+      },
+      "AI_system_counts": {
+        "AI建议通过": 14,
+        "AI建议有条件通过": 6,
+        "AI发现错误": 6,
+        "证据不足": 4
+      },
+      "original_result": "13/26",
+      "provider_read": 43
+    }
+  },
+  "protected_before": {
+    "eval\\experiments\\after_d2_01_03\\data\\cases-v6-reviewed.jsonl": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+    "eval\\experiments\\after_d2_01_03\\runtime_eval\\runs\\V0-001-scores.json": "7f593311e7d4d1a6b3d3d01383b00e95e434d8c681ce029ed240bb8012516cab",
+    "eval\\experiments\\after_d2_01_03\\runtime_eval\\runs\\V1-001-scores.json": "af319fde76d4a617c365c7772b564fd88cd3dd7191d7272664aa6017099178fb",
+    "eval\\experiments\\after_d2_01_03\\runtime_eval\\runs\\V2-001-scores.json": "ecbd8cb3ce9d1dd1fc76290ddcbf145fb1a72c22c72c45b3ab8d037901039e91",
+    "qa_agent/pipeline.py": "ef083f1af00331c8b22cf14788a134d5fb95c6af5decefe6594e811ac4c0a407",
+    "qa_agent/sql/generator.py": "3bfe719356bca0a4d9c5fc28a94c9a03fdfb175598c96507c643da04bde99bbd",
+    "ui/app.py": "9dd56378c112f5b3b9c4058368ccfc8e8e602e5549e029459e0ea765dd1855e3"
+  },
+  "protected_after": {
+    "eval\\experiments\\after_d2_01_03\\data\\cases-v6-reviewed.jsonl": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+    "eval\\experiments\\after_d2_01_03\\runtime_eval\\runs\\V0-001-scores.json": "7f593311e7d4d1a6b3d3d01383b00e95e434d8c681ce029ed240bb8012516cab",
+    "eval\\experiments\\after_d2_01_03\\runtime_eval\\runs\\V1-001-scores.json": "af319fde76d4a617c365c7772b564fd88cd3dd7191d7272664aa6017099178fb",
+    "eval\\experiments\\after_d2_01_03\\runtime_eval\\runs\\V2-001-scores.json": "ecbd8cb3ce9d1dd1fc76290ddcbf145fb1a72c22c72c45b3ab8d037901039e91",
+    "qa_agent/pipeline.py": "ef083f1af00331c8b22cf14788a134d5fb95c6af5decefe6594e811ac4c0a407",
+    "qa_agent/sql/generator.py": "3bfe719356bca0a4d9c5fc28a94c9a03fdfb175598c96507c643da04bde99bbd",
+    "ui/app.py": "9dd56378c112f5b3b9c4058368ccfc8e8e602e5549e029459e0ea765dd1855e3"
+  },
+  "protected_unchanged": true,
+  "new_API_requests": 0,
+  "new_model_calls": 0,
+  "new_SQL_queries": 0,
+  "holdout_content_read": false,
+  "snapshot_coverage_correction": "Both V1/V2 omit ui/app.py key; missing is not unequal SHA and does not imply UI modification"
+}

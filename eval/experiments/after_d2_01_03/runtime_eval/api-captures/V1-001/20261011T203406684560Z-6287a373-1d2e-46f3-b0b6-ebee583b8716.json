@@ -1,0 +1,331 @@
+{
+  "started_at_utc": "2026-10-11T20:33:58.704130+00:00",
+  "finished_at_utc": "2026-10-11T20:34:06.684560+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "special-V1-03d1eab9-46c4-4f37-985d-2e2cd96f6ae0",
+    "message": "2009 年和 2010 年之间，哪首曲目最受欢迎？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "0908fad0-2eca-4ce7-b913-cd5088f9d6bc",
+    "status": "EMPTY_RESULT",
+    "answer": "按原问题条件未查到记录。\n口径说明：热门曲目按购买数量统计（已确认默认口径）。 未指定排名条数，按总计划规则展示前 10 名。",
+    "rewritten_question": null,
+    "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id WHERE i.invoice_date >= '2009-01-01' AND i.invoice_date < '2011-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10",
+    "table": [],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "ranking",
+      "metric": "purchased_quantity",
+      "time_scope": {
+        "current": {
+          "start": "2009-01-01",
+          "end": "2011-01-01",
+          "grain": "custom",
+          "label": "2009 年和 2010 年之间"
+        },
+        "base": null
+      },
+      "filters": [],
+      "grouping": [],
+      "order": {
+        "rank_object": "track",
+        "top_n": 10
+      },
+      "assumptions": [
+        "热门曲目按购买数量统计（已确认默认口径）。",
+        "未指定排名条数，按总计划规则展示前 10 名。"
+      ],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 29
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2009 年和 2010 年之间，哪首曲目最受欢迎？"
+        },
+        "output_summary": {
+          "rewritten_question": "2009 年和 2010 年之间，哪首曲目最受欢迎？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L1",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [
+            "热门曲目按购买数量统计（已确认默认口径）。",
+            "未指定排名条数，按总计划规则展示前 10 名。"
+          ],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3710
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/b880888ffc544f9caeae01aa92248e7d.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 178,
+            "prompt_tokens": 5204,
+            "total_tokens": 5382,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4992
+            },
+            "prompt_cache_hit_tokens": 4992,
+            "prompt_cache_miss_tokens": 212
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2568
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2009 年和 2010 年之间，哪首曲目最受欢迎？",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= '2009-01-01' AND i.invoice_date < '2011-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10",
+          "explanation": "统计 2009-01-01 至 2010-12-31（左闭右开区间）期间各曲目的销售数量，按购买数量降序取前 10 名。数量取自发票明细的 quantity，通过发票日期限定两年区间。"
+        },
+        "latency_ms": 4209
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/17fe08a7663341f5bc7d5ea4612588bd.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 201,
+            "prompt_tokens": 4901,
+            "total_tokens": 5102,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4608
+            },
+            "prompt_cache_hit_tokens": 4608,
+            "prompt_cache_miss_tokens": 293
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2978
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= '2009-01-01' AND i.invoice_date < '2011-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id WHERE i.invoice_date >= '2009-01-01' AND i.invoice_date < '2011-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10"
+        },
+        "latency_ms": 7
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id WHERE i.invoice_date >= '2009-01-01' AND i.invoice_date < '2011-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 0,
+          "columns": [
+            "track_id",
+            "track_name",
+            "purchased_quantity"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 20
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "EMPTY_RESULT",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 7979,
+      "nlu": {
+        "original_question": "2009 年和 2010 年之间，哪首曲目最受欢迎？",
+        "rewritten_question": "2009 年和 2010 年之间，哪首曲目最受欢迎？",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L1",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [
+          "热门曲目按购买数量统计（已确认默认口径）。",
+          "未指定排名条数，按总计划规则展示前 10 名。"
+        ],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": {
+          "clarification_id": "ff790118-a3e5-481d-a487-b03aa01c488e",
+          "intent_version": 1,
+          "level": "L1",
+          "options": [
+            {
+              "id": "by_quantity",
+              "label": "按购买数量"
+            },
+            {
+              "id": "by_revenue",
+              "label": "按销售额"
+            },
+            {
+              "id": "by_playlist",
+              "label": "按歌单收录次数"
+            }
+          ]
+        }
+      },
+      "result_columns": [
+        "track_id",
+        "track_name",
+        "purchased_quantity"
+      ],
+      "truncated": false
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

@@ -1,3 +1,17 @@
+## 本轮 D2 收尾、D3 与专项交付（2026-10-11）
+
+D2、D3 的实施和实际开发验收均已完成，人工待核事项及保留集按原计划保留。专项已生成60条synthetic dev（49可评分、11原标签待确认），实际运行V0/V1/V2各60条，固定评分均18/49。最终保留V1的条件补丁prompt修正；V2因误拒合法比例表达和多轮来源而撤回，全部试验证据保留，无V3。
+
+- [D2原清单九项验收](eval/reports/d2-final/D2原清单九项逐项验收与证据.html)。
+- [D3原清单八项验收](eval/reports/d3-acceptance/D3原清单八项逐项验收与证据.html)和[D3统一待人工审核表](eval/reports/d3-acceptance/D3统一待人工审核表.html)。
+- [专项十项验收](eval/experiments/after_d2_01_03/reports/acceptance/①③专项造题与提示词优化-逐项验收与证据.html)和[专项60条统一待人工审核表](eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.html)。
+- [实际采用及回退决定](eval/experiments/after_d2_01_03/reports/version-decisions.md)、[剩余问题](eval/experiments/after_d2_01_03/reports/remaining-feature-gaps.md)、[复现与恢复说明](eval/experiments/after_d2_01_03/reports/restore-instructions.md)。
+- [运行时system prompt原文清单](eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/inventory.json)：实际业务模板和已归档provider完整system消息分开，模型接口及JSON Schema动态约束按原请求保留。
+
+最终V1全模块实际415项通过。最终D2开发集实际回归77条：SQL35/35、鲁棒20/21；RAG金标Hit@5为20/20，实际19成功/1失败/1证据不足。详见[当前回归说明](eval/experiments/after_d2_01_03/reports/d2-final-regression-summary.md)。这些为开发集自动/AI探索结果；未作独立保留评测或补写人工签字。
+
+各阶段ZIP在项目父目录，完整解压后打开各验收HTML，其证据使用相对路径。真实.env、密钥、虚拟环境、模型权重及保留题不包含在附件中。
+
 # 赛题八：D1 / D2 / D3 问数问答项目
 
 当前沿用 Python 3.12.10、已验证的 deepseek-flash、FastAPI 与 Streamlit，同一系统已接入 Chinook 和完整 AdventureWorks。D1 历史验收证据保留；D2 收尾与 D3 的新证据使用独立目录。

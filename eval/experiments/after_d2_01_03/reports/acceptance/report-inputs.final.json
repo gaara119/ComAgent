@@ -1,0 +1,78 @@
+{
+  "selected_final_version": "V1",
+  "versions": [
+    {
+      "version": "V0",
+      "score": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-scores.json",
+      "run_manifest": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/run-manifest.json",
+      "code_snapshot": "eval/experiments/after_d2_01_03/runtime_eval/V0-code-snapshot.json",
+      "freeze": "eval/experiments/after_d2_01_03/runtime_eval/V0-freeze.json",
+      "restart_record": "eval/experiments/after_d2_01_03/runtime_eval/V0-restart-record.json",
+      "errors": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-classification/failure-classification.md",
+      "command": "eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V0-001/run-command-loopback.json",
+      "changes": "eval/experiments/after_d2_01_03/runtime_eval/V0-code-snapshot.json",
+      "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-provider-supplement-summary.json",
+      "semantic_review": "eval/experiments/after_d2_01_03/reports/v0-ai-review-index.md"
+    },
+    {
+      "version": "V1",
+      "score": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-scores.json",
+      "run_manifest": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001/run-manifest.json",
+      "code_snapshot": "eval/experiments/after_d2_01_03/runtime_eval/V1-code-snapshot.json",
+      "freeze": "eval/experiments/after_d2_01_03/runtime_eval/V1-freeze.json",
+      "restart_record": "eval/experiments/after_d2_01_03/runtime_eval/V1-restart-record.json",
+      "errors": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-classification/failure-classification.md",
+      "command": "eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V1-001/run-command-loopback.json",
+      "changes": "eval/experiments/after_d2_01_03/runtime_eval/version-changes/V1/change-record.json",
+      "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-provider-supplement-summary.json",
+      "semantic_review": "eval/experiments/after_d2_01_03/reports/v1-ai-review-index.md"
+    },
+    {
+      "version": "V2",
+      "score": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-scores.json",
+      "run_manifest": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/run-manifest.json",
+      "code_snapshot": "eval/experiments/after_d2_01_03/runtime_eval/V2-code-snapshot.json",
+      "freeze": "eval/experiments/after_d2_01_03/runtime_eval/V2-freeze.json",
+      "restart_record": "eval/experiments/after_d2_01_03/runtime_eval/V2-restart-record.json",
+      "errors": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-classification/failure-classification.md",
+      "command": "eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V2-001/run-command-loopback.json",
+      "changes": "eval/experiments/after_d2_01_03/runtime_eval/version-changes/V2/source-delta.json",
+      "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-provider-supplement-summary.json",
+      "semantic_review": "eval/experiments/after_d2_01_03/reports/v2-ai-review-index.md"
+    }
+  ],
+  "version_decisions": "eval/experiments/after_d2_01_03/reports/version-decisions.md",
+  "restore_instructions": "eval/experiments/after_d2_01_03/reports/restore-instructions.md",
+  "regression_summary": "eval/experiments/after_d2_01_03/reports/d2-final-regression-summary.md",
+  "regression": {
+    "sql": {
+      "dataset": "eval/artifacts/d2-final/review/sql-dev-v1.jsonl",
+      "report": "eval/experiments/after_d2_01_03/regression/final/V1-001/sql/report.json",
+      "command": "eval/experiments/after_d2_01_03/regression/final/V1-001/sql-command.json"
+    },
+    "robust": {
+      "dataset": "eval/artifacts/d2-final/review/robust-dev-v1.jsonl",
+      "report": "eval/experiments/after_d2_01_03/regression/final/V1-001/robust/report.json",
+      "command": "eval/experiments/after_d2_01_03/regression/final/V1-001/robust-command.json"
+    },
+    "rag": {
+      "dataset": "eval/artifacts/d2-final/review/rag-dev-view.jsonl",
+      "report": "eval/experiments/after_d2_01_03/regression/final/V1-001/rag/report.json",
+      "command": "eval/experiments/after_d2_01_03/regression/final/V1-001/rag-command.json"
+    }
+  },
+  "manual_review": "eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.html",
+  "feature_gaps": "eval/experiments/after_d2_01_03/reports/remaining-feature-gaps.md",
+  "zip_verification": "eval/experiments/after_d2_01_03/reports/acceptance/package-verification.json",
+  "extra_include": [
+    "scripts/archive_special_provider_evidence.py",
+    "scripts/check_special_ratio_live.py",
+    "scripts/restore_special_v2.py",
+    "scripts/run_special_d2_regression.py",
+    "scripts/run_d3_shared_regression.py",
+    "scripts/restart_services.ps1",
+    "scripts/d2_capture_api.py",
+    "scripts/check_special_report_layout.py"
+  ],
+  "exclude_prefixes": []
+}

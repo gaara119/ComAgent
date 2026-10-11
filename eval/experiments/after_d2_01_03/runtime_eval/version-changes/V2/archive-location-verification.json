@@ -1,0 +1,23 @@
+{
+  "created_at": "2026-10-11T20:47:52.821688+00:00",
+  "original_archive": "eval/experiments/after_d2_01_03/version-changes/V2",
+  "aligned_archive": "eval/experiments/after_d2_01_03/runtime_eval/version-changes/V2",
+  "method": "Byte-for-byte copy of before records originally saved before editing; conflicting destination archives are rejected.",
+  "v1_snapshot": "eval/experiments/after_d2_01_03/runtime_eval/V1-code-snapshot.json",
+  "proof": [
+    {
+      "path": "qa_agent/pipeline.py",
+      "before_sha256": "ef083f1af00331c8b22cf14788a134d5fb95c6af5decefe6594e811ac4c0a407",
+      "hash_present_in_v1_code_snapshot": true,
+      "v1_snapshot_path_sha256": "ef083f1af00331c8b22cf14788a134d5fb95c6af5decefe6594e811ac4c0a407",
+      "exact_path_and_hash_match": true
+    },
+    {
+      "path": "qa_agent/sql/validator.py",
+      "before_sha256": "ae2e252ddbd2df88c32c60161a851f55a8f190d2b83b4534bfffd00afdbe873a",
+      "hash_present_in_v1_code_snapshot": true,
+      "v1_snapshot_path_sha256": "ae2e252ddbd2df88c32c60161a851f55a8f190d2b83b4534bfffd00afdbe873a",
+      "exact_path_and_hash_match": true
+    }
+  ]
+}

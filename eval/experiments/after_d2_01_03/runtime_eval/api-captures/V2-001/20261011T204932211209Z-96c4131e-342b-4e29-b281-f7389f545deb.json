@@ -1,0 +1,388 @@
+{
+  "started_at_utc": "2026-10-11T20:49:29.040043+00:00",
+  "finished_at_utc": "2026-10-11T20:49:32.211209+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "special-V2-a7bfe79e-f150-4149-bc29-01e9ca216433",
+    "message": "法兰西共和国的发票一共开了多少张？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "0469ca4d-d6ee-4eb1-b584-5ef948011a5c",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：35。",
+    "rewritten_question": "France的发票一共开了多少张？",
+    "sql": "SELECT COUNT(*) FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'France'",
+    "table": [
+      {
+        "count": 35
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [
+        {
+          "column": "invoice.billing_country",
+          "operator": "=",
+          "value": "France",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "a-99f7789e108299a0",
+          "source": "verified_value_index"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 25
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "France",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-99f7789e108299a0",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "法兰西共和国"
+        },
+        "output_summary": {
+          "candidate_count": 1,
+          "candidate_ids": [
+            "v-da1995626f6b421035ba"
+          ],
+          "scores": [
+            1.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "ok",
+        "input_summary": {
+          "original_question": "法兰西共和国的发票一共开了多少张？"
+        },
+        "output_summary": {
+          "rewritten_question": "France的发票一共开了多少张？",
+          "patches": [
+            {
+              "start": 0,
+              "end": 6,
+              "original": "法兰西共和国",
+              "replacement": "France",
+              "method": "exact",
+              "evidence_ref": "a-99f7789e108299a0"
+            }
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 5
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "France的发票一共开了多少张？",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": false
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'France'",
+          "explanation": "统计账单国家为 France 的发票记录数"
+        },
+        "latency_ms": 3113
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/daa83c5a36244f949063b0c2a91d8ec9.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 49,
+            "prompt_tokens": 4440,
+            "total_tokens": 4489,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4224
+            },
+            "prompt_cache_hit_tokens": 4224,
+            "prompt_cache_miss_tokens": 216
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2009
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'France'"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'France'"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "France",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-99f7789e108299a0",
+              "source": "verified_value_index"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"invoice\" WHERE \"billing_country\" = %(qa_value_0)s",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 19
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 3170,
+      "nlu": {
+        "original_question": "法兰西共和国的发票一共开了多少张？",
+        "rewritten_question": "France的发票一共开了多少张？",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "法兰西共和国",
+            "span": [
+              0,
+              6
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "invoice.billing_country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-da1995626f6b421035ba",
+                "column": "invoice.billing_country",
+                "standard_value": "France",
+                "surface": "法兰西共和国",
+                "score": 1.0,
+                "source": "llm_draft:deepseek-flash",
+                "evidence_ref": "a-99f7789e108299a0",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": "v-da1995626f6b421035ba",
+            "match_method": "exact",
+            "evidence_ref": "a-99f7789e108299a0",
+            "canonical_value": "France",
+            "column": "invoice.billing_country",
+            "stages": [
+              {
+                "method": "exact",
+                "candidates": [
+                  {
+                    "candidate_id": "v-da1995626f6b421035ba",
+                    "column": "invoice.billing_country",
+                    "standard_value": "France",
+                    "surface": "法兰西共和国",
+                    "score": 1.0,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-99f7789e108299a0",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "France",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "a-99f7789e108299a0",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [
+          {
+            "start": 0,
+            "end": 6,
+            "original": "法兰西共和国",
+            "replacement": "France",
+            "method": "exact",
+            "evidence_ref": "a-99f7789e108299a0"
+          }
+        ],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "result_columns": [
+        "count"
+      ],
+      "truncated": false
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

@@ -1,0 +1,37 @@
+{
+  "cwd": "system",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "eval.run_eval",
+    "--suite",
+    "robust",
+    "--dataset",
+    "eval/artifacts/d2-final/review/robust-dev-v1.jsonl",
+    "--split",
+    "dev",
+    "--draft-gold",
+    "--run-id",
+    "special-final-V1-001-robust",
+    "--base-url",
+    "http://127.0.0.1:8000",
+    "--timeout",
+    "240",
+    "--output",
+    "eval/experiments/after_d2_01_03/regression/final/V1-001/robust"
+  ],
+  "started_at_utc": "2026-10-11T21:00:38.505854+00:00",
+  "dataset": {
+    "suite": "robust",
+    "count": 21,
+    "dataset": "eval/artifacts/d2-final/review/robust-dev-v1.jsonl",
+    "sha256": "1d6c7732b5196e7146e3b3f01fe4f9ccb24ad354c6b20776631192c605d213f7",
+    "actual_count": 21,
+    "actual_sha256": "1d6c7732b5196e7146e3b3f01fe4f9ccb24ad354c6b20776631192c605d213f7",
+    "split": "dev",
+    "human_review_not_changed": true
+  },
+  "draft_gold": true,
+  "split": "dev"
+}

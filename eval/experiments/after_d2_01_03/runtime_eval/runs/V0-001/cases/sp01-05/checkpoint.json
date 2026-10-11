@@ -1,0 +1,364 @@
+{
+  "id": "sp01-05",
+  "session_id": "special-V0-47ed1561-4c6c-4f12-b382-ffb240881637",
+  "started_at": "2026-10-11T20:15:54.174480+00:00",
+  "turns": [
+    {
+      "index": 0,
+      "phase": "initial",
+      "prepared_at": "2026-10-11T20:15:54.175480+00:00",
+      "request": {
+        "session_id": "special-V0-47ed1561-4c6c-4f12-b382-ffb240881637",
+        "message": "Metallcia 有多少张专辑？",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "300b313b-d7f3-428a-9930-7f1070585c72",
+        "status": "FAILED",
+        "answer": "SQL 未通过校验：该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+        "rewritten_question": null,
+        "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = LOWER('Metallcia')",
+        "table": null,
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 1,
+          "route": "sql",
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": null,
+          "filters": [],
+          "grouping": [],
+          "order": null,
+          "assumptions": [],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 24
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 11
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "Metallcia 有多少张专辑？"
+            },
+            "output_summary": {
+              "rewritten_question": "Metallcia 有多少张专辑？",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L0",
+              "intent_version": 1,
+              "issues": [],
+              "assumptions": [],
+              "derived": {},
+              "invalidated": [],
+              "resume_supported": true
+            },
+            "latency_ms": 8
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "Metallcia 有多少张专辑？",
+              "repair_attempt": 0,
+              "db_id": "chinook",
+              "allow_joins": false
+            },
+            "output_summary": {
+              "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE ar.\"name\" = 'Metallcia'",
+              "explanation": "统计名为 Metallcia 的艺术家的专辑数量"
+            },
+            "latency_ms": 3547
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/4346b559dd5141e3b66d897b24e5ae51.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 84,
+                "prompt_tokens": 4303,
+                "total_tokens": 4387,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 512
+                },
+                "prompt_cache_hit_tokens": 512,
+                "prompt_cache_miss_tokens": 3791
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2422
+          },
+          {
+            "name": "sql_validate",
+            "status": "error",
+            "input_summary": {
+              "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE ar.\"name\" = 'Metallcia'"
+            },
+            "output_summary": {
+              "error": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "sql_repair",
+            "status": "warn",
+            "input_summary": {
+              "attempt": 1
+            },
+            "output_summary": {
+              "reason": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+              "preserve_bindings": true
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "Metallcia 有多少张专辑？",
+              "repair_attempt": 1,
+              "db_id": "chinook",
+              "allow_joins": false
+            },
+            "output_summary": {
+              "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = LOWER('Metallcia')",
+              "explanation": "通过专辑与艺术家关联，统计艺术家名称为 Metallcia 的专辑数量。"
+            },
+            "latency_ms": 3690
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/0b9a859981c04fe580c54d892283391c.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 98,
+                "prompt_tokens": 4412,
+                "total_tokens": 4510,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4224
+                },
+                "prompt_cache_hit_tokens": 4224,
+                "prompt_cache_miss_tokens": 188
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2457
+          },
+          {
+            "name": "sql_validate",
+            "status": "error",
+            "input_summary": {
+              "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = LOWER('Metallcia')"
+            },
+            "output_summary": {
+              "error": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "sql_repair",
+            "status": "warn",
+            "input_summary": {
+              "attempt": 2
+            },
+            "output_summary": {
+              "reason": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+              "preserve_bindings": true
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "Metallcia 有多少张专辑？",
+              "repair_attempt": 2,
+              "db_id": "chinook",
+              "allow_joins": false
+            },
+            "output_summary": {
+              "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = LOWER('Metallcia')",
+              "explanation": "统计艺术家 Metallcia 名下的专辑数量。"
+            },
+            "latency_ms": 3213
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/fa1b4a7aaa1b4fc29efced7c79ff1c8f.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 87,
+                "prompt_tokens": 4418,
+                "total_tokens": 4505,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4224
+                },
+                "prompt_cache_hit_tokens": 4224,
+                "prompt_cache_miss_tokens": 194
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2073
+          },
+          {
+            "name": "sql_validate",
+            "status": "error",
+            "input_summary": {
+              "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = LOWER('Metallcia')"
+            },
+            "output_summary": {
+              "error": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+            },
+            "latency_ms": 3
+          }
+        ],
+        "error": {
+          "code": "sql_rejected",
+          "message": "SQL 未通过校验：该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+          "retryable": false
+        },
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 10502,
+          "nlu": {
+            "original_question": "Metallcia 有多少张专辑？",
+            "rewritten_question": "Metallcia 有多少张专辑？",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L0",
+            "intent_version": 1,
+            "state": "ANSWERED",
+            "assumptions": [],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [],
+            "switch": null
+          }
+        }
+      },
+      "latency_ms": 10511,
+      "http_status": 200,
+      "response_raw_file": "turns\\000\\response.raw.json",
+      "provider_attempts": 3,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    }
+  ],
+  "used_keys": [],
+  "clarification_count": 0,
+  "controller_events": [],
+  "outcome": "api_failed",
+  "finished_at": "2026-10-11T20:16:04.697840+00:00"
+}

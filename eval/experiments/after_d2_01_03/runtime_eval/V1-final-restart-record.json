@@ -1,0 +1,30 @@
+{
+  "restarted_at": "2026-10-11T20:57:06.363595+00:00",
+  "pid": 79516,
+  "ui_pid": 76440,
+  "health": {
+    "status": "ok",
+    "stage": "D3",
+    "database_ready": true,
+    "aw_database_ready": true,
+    "sql_prompt_sha256": {
+      "single_table_loaded": "e654d113a970693751744c295310c2edfb99b12898ad4368a02e25743956fe4a",
+      "multi_table_file": "1a907b8b5f2877b8565e6dc1aee0cea149aaef7a26fabb2e4ce873751d2ed205"
+    },
+    "llm_configured": true,
+    "model": "deepseek-flash",
+    "catalog_exists": true,
+    "statement_timeout_ms": 5000,
+    "max_rows": 200,
+    "llm_call_max_attempts": 3,
+    "llm_request_max_attempts": 12,
+    "aw_configured": true,
+    "aw_catalog_exists": true,
+    "aw_schema_index_exists": true
+  },
+  "files_sha256": "5c912836a700fa85e1aa65854024695a35b7d4a7b668f9cebddf8147a6b4369c",
+  "matches_actual_V1_runtime_files_and_safe_config": true,
+  "source_snapshot": "V1-final-code-snapshot.json",
+  "purpose": "Final selected V1 restored and loaded; subsequent D2 corrected DEV regression, not a fourth Special optimization",
+  "actual_command": "scripts/restart_services.ps1 -Capture -ArtifactDirectory eval/experiments/after_d2_01_03/regression/final/service-restart-V1-001 -CaptureDirectory eval/experiments/after_d2_01_03/regression/final/api-captures/V1-final-001"
+}

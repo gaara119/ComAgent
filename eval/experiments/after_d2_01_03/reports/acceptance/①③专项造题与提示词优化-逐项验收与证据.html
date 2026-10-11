@@ -1,0 +1,689 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>①③专项造题与提示词优化-逐项验收与证据</title><style>body{max-width:1120px;margin:32px auto;padding:0 24px;font:16px/1.75 "Microsoft YaHei",sans-serif;color:#253047}h2{margin-top:42px;border-bottom:2px solid #dce5f0;padding-bottom:8px}a{color:#145f9b;overflow-wrap:anywhere}code{background:#f1f5f8;padding:2px 5px}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid #d5deea;padding:9px;text-align:left;vertical-align:top}th{background:#eef3fa}@media print{body{font-size:11px;margin:0}h2{break-after:avoid}tr{break-inside:avoid}}</style><body><h1>①③专项造题与提示词优化-逐项验收与证据</h1>
+<p>本报告对应专项原文10个交付要求，读取保留的真实生成、审核与运行证据。没有运行或无法取得的材料如实标“未运行／证据不足”。全部人工审核状态为<code>pending_human_review</code>。</p>
+<p>候选60条，规范化题面58个，可评分49条、待确认11条；全部60条仍待人工核对。候选类别配额达到，合格可评分配额部分不足，两者分开报告。</p>
+<p>实际选择保留版本：<strong>V1</strong>。其他实际试验版本仍保留并逐轮报告，不把最后试验自动当作最终保留版本。</p>
+<p>结果定位：<strong>本轮合成开发集上的自动评测／AI预审结果</strong>，不称官方题、正式保留成绩或独立泛化证据。</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>原文交付要求</th>
+<th>当前判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>项目与数据核查说明：复用现有数据库、schema、已确认口径和别名，保护保留集</td>
+<td>已取得实际核查证据</td>
+</tr>
+<tr>
+<td>2</td>
+<td>①/③真实造题prompt及自动复核规则</td>
+<td>实际调用与审核证据已保存</td>
+</tr>
+<tr>
+<td>3</td>
+<td>生成脚本、类别配额、最终题库、参考依据与审核状态</td>
+<td>候选生成完成；可评分覆盖与人工状态有明确限制</td>
+</tr>
+<tr>
+<td>4</td>
+<td>V0真实基线原始输出、评分及错误清单</td>
+<td>真实基线已记录</td>
+</tr>
+<tr>
+<td>5</td>
+<td>实际采用V1/V2提示词/代码差异及原始结果；最多两轮优化</td>
+<td>实际版本记录已提供</td>
+</tr>
+<tr>
+<td>6</td>
+<td>修改前后对照与既有D2 SQL/鲁棒/RAG开发集回归</td>
+<td>三组真实开发回归已完成；结果EX/机械指标与语义审核分开</td>
+</tr>
+<tr>
+<td>7</td>
+<td>《①③专项造题与提示词优化-逐项验收与证据》</td>
+<td>已生成可审阅报告</td>
+</tr>
+<tr>
+<td>8</td>
+<td>可复现命令、真实路径、恢复说明及运行时prompt交付</td>
+<td>prompt原文合集已提取；运行与恢复以实际输入记录为准</td>
+</tr>
+<tr>
+<td>9</td>
+<td>待人工确认及未实现功能清单</td>
+<td>人工审核仍待完成</td>
+</tr>
+<tr>
+<td>10</td>
+<td>对应源码、原始结果、日志、prompt及截图打成本轮ZIP</td>
+<td>交付材料已整理；正式ZIP及最终验证同行交付</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 项目与数据核查说明：复用现有数据库、schema、已确认口径和别名，保护保留集</h2>
+<p><strong>实现情况</strong>：项目材料、真实只读源事实与出网内容都有独立manifest；本轮数据全部标为合成dev。</p>
+<p><strong>改动或关联文件</strong>：</p>
+<ul>
+<li><a href="../../scripts/prepare_data.py">eval/experiments/after_d2_01_03/scripts/prepare_data.py</a></li>
+</ul>
+<p><strong>测试方法与命令</strong>：</p>
+<ul>
+<li>既有qa_reader、只读事务及5000ms超时核对实际schema/实体/年份；程序和AI审查请求payload。</li>
+</ul>
+<p><strong>实际结果</strong>：</p>
+<ul>
+<li>合成候选60条，规范化题面58个；不宣称独立泛化。</li>
+<li>历史根上下文可能接触保留信息的限制已披露；本轮不读取保留内容、不生成保留预测。</li>
+</ul>
+<p><strong>证据位置</strong>：</p>
+<ul>
+<li><a href="../project-data-check.md">eval/experiments/after_d2_01_03/reports/project-data-check.md</a></li>
+<li><a href="../../materials/source_manifest.json">eval/experiments/after_d2_01_03/materials/source_manifest.json</a></li>
+<li><a href="../../materials/readonly_live_facts.json">eval/experiments/after_d2_01_03/materials/readonly_live_facts.json</a></li>
+<li><a href="../../materials/outbound_payload_audit.json">eval/experiments/after_d2_01_03/materials/outbound_payload_audit.json</a></li>
+</ul>
+<p><strong>未完成事项或限制</strong>：</p>
+<ul>
+<li>正式独立保留集由D5冻结后按总计划执行；AI不是人工审核。</li>
+</ul>
+<p><strong>判定</strong>：已取得实际核查证据；人工仍待核对。</p>
+<h2>2. ①/③真实造题prompt及自动复核规则</h2>
+<p><strong>实现情况</strong>：保留生成、修正、显式目标SQL标注及两遍独立审读prompt和实际request/response/trace。</p>
+<p><strong>改动或关联文件</strong>：</p>
+<ul>
+<li><a href="../../prompts/generate-01.txt">eval/experiments/after_d2_01_03/prompts/generate-01.txt</a></li>
+<li><a href="../../prompts/generate-03.txt">eval/experiments/after_d2_01_03/prompts/generate-03.txt</a></li>
+<li><a href="../../prompts/review-p1.txt">eval/experiments/after_d2_01_03/prompts/review-p1.txt</a></li>
+<li><a href="../../prompts/review-p2.txt">eval/experiments/after_d2_01_03/prompts/review-p2.txt</a></li>
+</ul>
+<p><strong>测试方法与命令</strong>：</p>
+<ul>
+<li>用同一已验证deepseek-flash适配调用；每logical call最多3次尝试；不同AI复核上下文独立读题。</li>
+</ul>
+<p><strong>实际结果</strong>：</p>
+<ul>
+<li>原始pilot提示词恢复有SHA证明；生成/审核不调用被测问答接口。</li>
+<li>双AI存在漏检及引用不存在后续turn的幻觉，原意见保留，来源守卫另记。</li>
+</ul>
+<p><strong>证据位置</strong>：</p>
+<ul>
+<li><a href="../../materials/original-prompt-recovery.json">eval/experiments/after_d2_01_03/materials/original-prompt-recovery.json</a></li>
+<li><a href="../../checks/ai-pass-1.json">eval/experiments/after_d2_01_03/checks/ai-pass-1.json</a></li>
+<li><a href="../../checks/ai-pass-2.json">eval/experiments/after_d2_01_03/checks/ai-pass-2.json</a></li>
+<li><a href="../../checks/ai-review-quality-notes.json">eval/experiments/after_d2_01_03/checks/ai-review-quality-notes.json</a></li>
+<li><a href="../preparation-stage-usage.json">eval/experiments/after_d2_01_03/reports/preparation-stage-usage.json</a></li>
+</ul>
+<p><strong>未完成事项或限制</strong>：</p>
+<ul>
+<li>49可评分与11待确认分开；两遍AI建议不能代替人工签字。</li>
+</ul>
+<p><strong>判定</strong>：实际调用与审核证据已保存；人工仍待核对。</p>
+<h2>3. 生成脚本、类别配额、最终题库、参考依据与审核状态</h2>
+<p><strong>实现情况</strong>：先20题pilot，再扩展40题；保留原始、失败、回收、格式修订、gold补齐及最终来源守卫。</p>
+<p><strong>改动或关联文件</strong>：</p>
+<ul>
+<li><a href="../../scripts/prepare_data.py">eval/experiments/after_d2_01_03/scripts/prepare_data.py</a></li>
+<li><a href="../../data/cases-v6-reviewed.jsonl">eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl</a></li>
+<li><a href="../../data/family-metadata.json">eval/experiments/after_d2_01_03/data/family-metadata.json</a></li>
+</ul>
+<p><strong>测试方法与命令</strong>：</p>
+<ul>
+<li>参考SQL只通过现有只读账号执行；先程序再独立AI两遍；重复与争议保留。</li>
+</ul>
+<p><strong>实际结果</strong>：</p>
+<ul>
+<li>候选60，可评分49，待确认11，全部人工待核60。</li>
+<li>候选①30/③30与目标类别吻合；合格可评分①26/③23，部分合格类别配额不足，不能写成60题全部验收通过。</li>
+</ul>
+<p><strong>证据位置</strong>：</p>
+<ul>
+<li><a href="../data-preparation-summary.json">eval/experiments/after_d2_01_03/reports/data-preparation-summary.json</a></li>
+<li><a href="../../checks/program-normalized-v4.json">eval/experiments/after_d2_01_03/checks/program-normalized-v4.json</a></li>
+<li><a href="../../checks/final-source-guards.json">eval/experiments/after_d2_01_03/checks/final-source-guards.json</a></li>
+<li><a href="../preparation-final-report.md">eval/experiments/after_d2_01_03/reports/preparation-final-report.md</a></li>
+<li><a href="../../checks/root-family-metadata.json">eval/experiments/after_d2_01_03/checks/root-family-metadata.json</a></li>
+</ul>
+<p><strong>未完成事项或限制</strong>：</p>
+<ul>
+<li>11个争议/重复/来源或分类冲突候选待人工决定；不在被测结果之后改标签刷分。</li>
+</ul>
+<p><strong>判定</strong>：候选生成完成；可评分覆盖与人工状态有明确限制；人工仍待核对。</p>
+<h2>4. V0真实基线原始输出、评分及错误清单</h2>
+<p><strong>实现情况</strong>：固定代码/prompt/配置/标签/评分协议；独立真实会话请求，只发送用户信息和当前询问对应的合法补充。</p>
+<p><strong>改动或关联文件</strong>：</p>
+<ul>
+<li><a href="../../runtime_eval/runner.py">eval/experiments/after_d2_01_03/runtime_eval/runner.py</a></li>
+<li><a href="../../runtime_eval/scorer.py">eval/experiments/after_d2_01_03/runtime_eval/scorer.py</a></li>
+<li><a href="../../runtime_eval/controller.py">eval/experiments/after_d2_01_03/runtime_eval/controller.py</a></li>
+</ul>
+<p><strong>测试方法与命令</strong>：</p>
+<ul>
+<li>eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V0-001/run-command-loopback.json</li>
+</ul>
+<p><strong>实际结果</strong>：</p>
+<ul>
+<li>V0：API实际请求81次；模型provider观测112次；原始token {&quot;prompt_tokens&quot;: 479534, &quot;completion_tokens&quot;: 14115, &quot;total_tokens&quot;: 493649}；缺usage 0次；API耗时之和393978ms（不等于墙钟时间）。</li>
+<li>V0 provider归档：原运行器自动归档0条；独立合法补充归档已核验112条；未核验0条。原始评分/检查点不改，补充归档不新增模型或API调用。</li>
+<li>all：自动确认正确18/49可评分；总题60；自动失败22；语义待AI复核9；标签待确认11。</li>
+<li>task:01：自动确认正确14/26可评分；总题30；自动失败8；语义待AI复核4；标签待确认4。</li>
+<li>task:03：自动确认正确4/23可评分；总题30；自动失败14；语义待AI复核5；标签待确认7。</li>
+</ul>
+<p><strong>证据位置</strong>：</p>
+<ul>
+<li><a href="../../runtime_eval/runs/V0-001-scores.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-scores.json</a></li>
+<li><a href="../../runtime_eval/runs/V0-001/run-manifest.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/run-manifest.json</a></li>
+<li><a href="../../runtime_eval/V0-code-snapshot.json">eval/experiments/after_d2_01_03/runtime_eval/V0-code-snapshot.json</a></li>
+<li><a href="../../runtime_eval/V0-freeze.json">eval/experiments/after_d2_01_03/runtime_eval/V0-freeze.json</a></li>
+<li><a href="../../runtime_eval/V0-restart-record.json">eval/experiments/after_d2_01_03/runtime_eval/V0-restart-record.json</a></li>
+<li><a href="../../runtime_eval/runs/V0-001-classification/failure-classification.md">eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-classification/failure-classification.md</a></li>
+<li><a href="../../runtime_eval/execution-logs/V0-001/run-command-loopback.json">eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V0-001/run-command-loopback.json</a></li>
+<li><a href="../../runtime_eval/V0-code-snapshot.json">eval/experiments/after_d2_01_03/runtime_eval/V0-code-snapshot.json</a></li>
+<li><a href="../../runtime_eval/runs/V0-001-provider-supplement-summary.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-provider-supplement-summary.json</a></li>
+<li><a href="../v0-ai-review-index.md">eval/experiments/after_d2_01_03/reports/v0-ai-review-index.md</a></li>
+</ul>
+<p><strong>未完成事项或限制</strong>：</p>
+<ul>
+<li>待确认标签无binary correctness；AST无法证明的等价SQL另记AI_pending；失败、超时及未实现不从分母删除。</li>
+</ul>
+<p><strong>判定</strong>：真实基线已记录；人工仍待核对。</p>
+<h2>5. 实际采用V1/V2提示词/代码差异及原始结果；最多两轮优化</h2>
+<p><strong>实现情况</strong>：V1仅提示词；V2按实际失败原因选择提示词修订或一项局部代码修复。实际保留版本为V1；试验轮次即使回退也保留原始结果，是否采用、保留或回退以版本决策及diff为准。</p>
+<p><strong>改动或关联文件</strong>：</p>
+<ul>
+<li><a href="../../../../../scripts/build_special_delivery.py">scripts/build_special_delivery.py</a></li>
+<li><a href="../../../../../qa_agent/sql/generator.py">qa_agent/sql/generator.py</a></li>
+<li><a href="../../../../../qa_agent/nlu/linker.py">qa_agent/nlu/linker.py</a></li>
+<li><a href="../../../../../qa_agent/rag/answer.py">qa_agent/rag/answer.py</a></li>
+<li><a href="../../../../../qa_agent/rag/service.py">qa_agent/rag/service.py</a></li>
+<li><a href="../../../../../qa_agent/sql/prompts/multi_table.txt">qa_agent/sql/prompts/multi_table.txt</a></li>
+<li><a href="../../../../../qa_agent/clarify/prompts/intent_extract.txt">qa_agent/clarify/prompts/intent_extract.txt</a></li>
+<li><a href="../../../../../qa_agent/clarify/prompts/intent_patch.txt">qa_agent/clarify/prompts/intent_patch.txt</a></li>
+</ul>
+<p><strong>测试方法与命令</strong>：</p>
+<ul>
+<li>eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V1-001/run-command-loopback.json</li>
+<li>eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V2-001/run-command-loopback.json</li>
+</ul>
+<p><strong>实际结果</strong>：</p>
+<ul>
+<li>V1：API实际请求83次；模型provider观测115次；原始token {&quot;prompt_tokens&quot;: 488418, &quot;completion_tokens&quot;: 13374, &quot;total_tokens&quot;: 501792}；缺usage 0次；API耗时之和426391ms（不等于墙钟时间）。</li>
+<li>V1 provider归档：原运行器自动归档0条；独立合法补充归档已核验115条；未核验0条。原始评分/检查点不改，补充归档不新增模型或API调用。</li>
+<li>all：自动确认正确18/49可评分；总题60；自动失败22；语义待AI复核9；标签待确认11。</li>
+<li>task:01：自动确认正确14/26可评分；总题30；自动失败7；语义待AI复核5；标签待确认4。</li>
+<li>task:03：自动确认正确4/23可评分；总题30；自动失败15；语义待AI复核4；标签待确认7。</li>
+<li>V2：API实际请求80次；模型provider观测117次；原始token {&quot;prompt_tokens&quot;: 503640, &quot;completion_tokens&quot;: 14707, &quot;total_tokens&quot;: 518347}；缺usage 0次；API耗时之和405196ms（不等于墙钟时间）。</li>
+<li>V2 provider归档：原运行器自动归档0条；独立合法补充归档已核验117条；未核验0条。原始评分/检查点不改，补充归档不新增模型或API调用。</li>
+<li>all：自动确认正确18/49可评分；总题60；自动失败23；语义待AI复核8；标签待确认11。</li>
+<li>task:01：自动确认正确13/26可评分；总题30；自动失败9；语义待AI复核4；标签待确认4。</li>
+<li>task:03：自动确认正确5/23可评分；总题30；自动失败14；语义待AI复核4；标签待确认7。</li>
+</ul>
+<p><strong>证据位置</strong>：</p>
+<ul>
+<li><a href="../version-decisions.md">eval/experiments/after_d2_01_03/reports/version-decisions.md</a></li>
+<li><a href="../../runtime_eval/runs/V1-001-scores.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-scores.json</a></li>
+<li><a href="../../runtime_eval/runs/V1-001/run-manifest.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001/run-manifest.json</a></li>
+<li><a href="../../runtime_eval/V1-code-snapshot.json">eval/experiments/after_d2_01_03/runtime_eval/V1-code-snapshot.json</a></li>
+<li><a href="../../runtime_eval/V1-freeze.json">eval/experiments/after_d2_01_03/runtime_eval/V1-freeze.json</a></li>
+<li><a href="../../runtime_eval/V1-restart-record.json">eval/experiments/after_d2_01_03/runtime_eval/V1-restart-record.json</a></li>
+<li><a href="../../runtime_eval/runs/V1-001-classification/failure-classification.md">eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-classification/failure-classification.md</a></li>
+<li><a href="../../runtime_eval/execution-logs/V1-001/run-command-loopback.json">eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V1-001/run-command-loopback.json</a></li>
+<li><a href="../../runtime_eval/version-changes/V1/change-record.json">eval/experiments/after_d2_01_03/runtime_eval/version-changes/V1/change-record.json</a></li>
+<li><a href="../../runtime_eval/runs/V1-001-provider-supplement-summary.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-provider-supplement-summary.json</a></li>
+<li><a href="../v1-ai-review-index.md">eval/experiments/after_d2_01_03/reports/v1-ai-review-index.md</a></li>
+<li><a href="../../runtime_eval/runs/V2-001-scores.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-scores.json</a></li>
+<li><a href="../../runtime_eval/runs/V2-001/run-manifest.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/run-manifest.json</a></li>
+<li><a href="../../runtime_eval/V2-code-snapshot.json">eval/experiments/after_d2_01_03/runtime_eval/V2-code-snapshot.json</a></li>
+<li><a href="../../runtime_eval/V2-freeze.json">eval/experiments/after_d2_01_03/runtime_eval/V2-freeze.json</a></li>
+<li><a href="../../runtime_eval/V2-restart-record.json">eval/experiments/after_d2_01_03/runtime_eval/V2-restart-record.json</a></li>
+<li><a href="../../runtime_eval/runs/V2-001-classification/failure-classification.md">eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-classification/failure-classification.md</a></li>
+<li><a href="../../runtime_eval/execution-logs/V2-001/run-command-loopback.json">eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V2-001/run-command-loopback.json</a></li>
+<li><a href="../../runtime_eval/version-changes/V2/source-delta.json">eval/experiments/after_d2_01_03/runtime_eval/version-changes/V2/source-delta.json</a></li>
+<li><a href="../../runtime_eval/runs/V2-001-provider-supplement-summary.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-provider-supplement-summary.json</a></li>
+<li><a href="../v2-ai-review-index.md">eval/experiments/after_d2_01_03/reports/v2-ai-review-index.md</a></li>
+</ul>
+<p><strong>未完成事项或限制</strong>：</p>
+<ul>
+<li>无V1/V2若有实际原因记录，不等于完成两轮优化；优化收益与局部代码修复分别说明。</li>
+</ul>
+<p><strong>判定</strong>：实际版本记录已提供；人工仍待核对。</p>
+<h2>6. 修改前后对照与既有D2 SQL/鲁棒/RAG开发集回归</h2>
+<p><strong>实现情况</strong>：复用原D2修正版独立开发视图与既有评分入口，原始D1/D2报告和标签不覆盖；保留集不运行。</p>
+<p><strong>改动或关联文件</strong>：</p>
+<ul>
+<li><a href="../../runtime_eval/scorer.py">eval/experiments/after_d2_01_03/runtime_eval/scorer.py</a></li>
+<li><a href="../../../../run_eval.py">eval/run_eval.py</a></li>
+<li><a href="../../../../dataset.py">eval/dataset.py</a></li>
+<li><a href="../../../../metrics.py">eval/metrics.py</a></li>
+<li><a href="../../../../d2_rag_eval.py">eval/d2_rag_eval.py</a></li>
+<li><a href="../../../../rag_dataset.py">eval/rag_dataset.py</a></li>
+<li><a href="../../../../rag_metrics.py">eval/rag_metrics.py</a></li>
+<li><a href="../../../../artifacts/d2-final/review/sql-dev-v1.jsonl">eval/artifacts/d2-final/review/sql-dev-v1.jsonl</a></li>
+<li><a href="../../../../artifacts/d2-final/review/robust-dev-v1.jsonl">eval/artifacts/d2-final/review/robust-dev-v1.jsonl</a></li>
+<li><a href="../../../../artifacts/d2-final/review/rag-dev-view.jsonl">eval/artifacts/d2-final/review/rag-dev-view.jsonl</a></li>
+</ul>
+<p><strong>测试方法与命令</strong>：</p>
+<ul>
+<li>三份修正版独立开发视图：SQL 35题、鲁棒21题、RAG 21题；显式 --dataset、--split dev、--draft-gold、唯一 --run-id 与新 --output。不得使用入口的默认混合题库。</li>
+<li>SQL/鲁棒沿用原D2结果EX：全局列映射、重复行保留，标签声明的有序结果保留顺序；连续数值按两位小数比较，整数列保持精确，NULL/零/空表区分。失败、超时和追问仍占所选题分母。</li>
+<li>RAG机械指标分开报告：20道可回答题的金标页/片段Hit@5和完整原文命中诊断，1道不可回答题的证据不足处理，以及21题引用所属文档/实际索引文字真实性；子串匹配不等同完整答案正确或语义忠实。</li>
+<li>专项评分使用其已冻结的精确Decimal及SQL语义合同；不把旧D2结果EX套作专项语义分数，也不以相同结果证明SQL业务含义正确。人工待核修正版仍是草稿探索回归。</li>
+<li>eval/experiments/after_d2_01_03/regression/final/V1-001/sql-command.json</li>
+<li>eval/experiments/after_d2_01_03/regression/final/V1-001/robust-command.json</li>
+<li>eval/experiments/after_d2_01_03/regression/final/V1-001/rag-command.json</li>
+</ul>
+<p><strong>实际结果</strong>：</p>
+<ul>
+<li>V0：API实际请求81次；模型provider观测112次；原始token {&quot;prompt_tokens&quot;: 479534, &quot;completion_tokens&quot;: 14115, &quot;total_tokens&quot;: 493649}；缺usage 0次；API耗时之和393978ms（不等于墙钟时间）。</li>
+<li>V0 provider归档：原运行器自动归档0条；独立合法补充归档已核验112条；未核验0条。原始评分/检查点不改，补充归档不新增模型或API调用。</li>
+<li>all：自动确认正确18/49可评分；总题60；自动失败22；语义待AI复核9；标签待确认11。</li>
+<li>task:01：自动确认正确14/26可评分；总题30；自动失败8；语义待AI复核4；标签待确认4。</li>
+<li>task:03：自动确认正确4/23可评分；总题30；自动失败14；语义待AI复核5；标签待确认7。</li>
+<li>V1：API实际请求83次；模型provider观测115次；原始token {&quot;prompt_tokens&quot;: 488418, &quot;completion_tokens&quot;: 13374, &quot;total_tokens&quot;: 501792}；缺usage 0次；API耗时之和426391ms（不等于墙钟时间）。</li>
+<li>V1 provider归档：原运行器自动归档0条；独立合法补充归档已核验115条；未核验0条。原始评分/检查点不改，补充归档不新增模型或API调用。</li>
+<li>all：自动确认正确18/49可评分；总题60；自动失败22；语义待AI复核9；标签待确认11。</li>
+<li>task:01：自动确认正确14/26可评分；总题30；自动失败7；语义待AI复核5；标签待确认4。</li>
+<li>task:03：自动确认正确4/23可评分；总题30；自动失败15；语义待AI复核4；标签待确认7。</li>
+<li>sql实际报告：{&quot;status&quot;: &quot;COMPLETED&quot;, &quot;split&quot;: &quot;dev&quot;, &quot;draft_gold&quot;: true, &quot;selected_count&quot;: 35, &quot;prediction_count&quot;: 35, &quot;holdout_prediction_count&quot;: 0, &quot;correct&quot;: 35, &quot;exploratory_ex&quot;: 1.0, &quot;gold_human_accepted_count&quot;: 34, &quot;error_types&quot;: {}, &quot;failure_categories&quot;: {}, &quot;segments&quot;: {&quot;d1_common&quot;: {&quot;correct&quot;: 21, &quot;denominator&quot;: 21}, &quot;new_dev&quot;: {&quot;correct&quot;: 14, &quot;denominator&quot;: 14}}, &quot;blockers&quot;: []}</li>
+<li>sql已完成且视图/分母匹配核验：{&quot;complete&quot;: true, &quot;checks&quot;: {&quot;status&quot;: true, &quot;suite&quot;: true, &quot;split&quot;: true, &quot;selected_count&quot;: true, &quot;prediction_count&quot;: true, &quot;holdout_prediction_count&quot;: true, &quot;dataset_sha256&quot;: true, &quot;draft_gold&quot;: true, &quot;command_file&quot;: true}, &quot;issues&quot;: [], &quot;expected&quot;: {&quot;dataset&quot;: &quot;eval/artifacts/d2-final/review/sql-dev-v1.jsonl&quot;, &quot;count&quot;: 35, &quot;suite&quot;: &quot;nl2sql&quot;, &quot;sha256&quot;: &quot;7b4c18f203ce0d88f38837f0c788cbcff142b559dc70d3f281990a2d47175f35&quot;}}</li>
+<li>robust实际报告：{&quot;status&quot;: &quot;COMPLETED&quot;, &quot;split&quot;: &quot;dev&quot;, &quot;draft_gold&quot;: true, &quot;selected_count&quot;: 21, &quot;prediction_count&quot;: 21, &quot;holdout_prediction_count&quot;: 0, &quot;correct&quot;: 20, &quot;exploratory_ex&quot;: 0.9523809523809523, &quot;gold_human_accepted_count&quot;: 20, &quot;error_types&quot;: {&quot;clarify_wrong&quot;: 1}, &quot;failure_categories&quot;: {&quot;needs_clarification&quot;: 1}, &quot;segments&quot;: {&quot;d1_common&quot;: {&quot;correct&quot;: 0, &quot;denominator&quot;: 0}, &quot;new_dev&quot;: {&quot;correct&quot;: 20, &quot;denominator&quot;: 21}}, &quot;blockers&quot;: []}</li>
+<li>robust已完成且视图/分母匹配核验：{&quot;complete&quot;: true, &quot;checks&quot;: {&quot;status&quot;: true, &quot;suite&quot;: true, &quot;split&quot;: true, &quot;selected_count&quot;: true, &quot;prediction_count&quot;: true, &quot;holdout_prediction_count&quot;: true, &quot;dataset_sha256&quot;: true, &quot;draft_gold&quot;: true, &quot;command_file&quot;: true}, &quot;issues&quot;: [], &quot;expected&quot;: {&quot;dataset&quot;: &quot;eval/artifacts/d2-final/review/robust-dev-v1.jsonl&quot;, &quot;count&quot;: 21, &quot;suite&quot;: &quot;robust&quot;, &quot;sha256&quot;: &quot;1d6c7732b5196e7146e3b3f01fe4f9ccb24ad354c6b20776631192c605d213f7&quot;}}</li>
+<li>rag实际报告：{&quot;status&quot;: &quot;COMPLETED&quot;, &quot;split&quot;: &quot;dev&quot;, &quot;selected_count&quot;: 21, &quot;prediction_count&quot;: 21, &quot;holdout_prediction_count&quot;: 0, &quot;hit_at_5&quot;: {&quot;passed&quot;: 20, &quot;denominator&quot;: 20}, &quot;exact_gold_quote_hit_at_5&quot;: {&quot;passed&quot;: 14, &quot;denominator&quot;: 20}, &quot;insufficient_handling&quot;: {&quot;passed&quot;: 1, &quot;denominator&quot;: 1}, &quot;mechanical_metrics&quot;: {&quot;status_succeeded&quot;: {&quot;passed&quot;: 19, &quot;denominator&quot;: 21}, &quot;evidence_in_selected_doc&quot;: {&quot;passed&quot;: 19, &quot;denominator&quot;: 21}, &quot;evidence_authentic_index_text&quot;: {&quot;passed&quot;: 19, &quot;denominator&quot;: 21}}, &quot;gold_human_accepted_count&quot;: 0, &quot;answer_human_review_count&quot;: 0, &quot;error_types&quot;: {&quot;unfaithful&quot;: 1}, &quot;api_status_counts&quot;: {&quot;SUCCEEDED&quot;: 19, &quot;FAILED&quot;: 1, &quot;EMPTY_RESULT&quot;: 1}, &quot;segments&quot;: {&quot;d1_common&quot;: {&quot;prediction_count&quot;: 14, &quot;hit_at_5_passed&quot;: 14, &quot;hit_at_5_denominator&quot;: 14, &quot;actual_status_counts&quot;: {&quot;SUCCEEDED&quot;: 13, &quot;FAILED&quot;: 1}, &quot;human_correctness_review_count&quot;: 0}, &quot;new_d2&quot;: {&quot;prediction_count&quot;: 7, &quot;hit_at_5_passed&quot;: 6, &quot;hit_at_5_denominator&quot;: 6, &quot;actual_status_counts&quot;: {&quot;SUCCEEDED&quot;: 6, &quot;EMPTY_RESULT&quot;: 1}, &quot;human_correctness_review_count&quot;: 0}}, &quot;blockers&quot;: []}</li>
+<li>rag已完成且视图/分母匹配核验：{&quot;complete&quot;: true, &quot;checks&quot;: {&quot;status&quot;: true, &quot;suite&quot;: true, &quot;split&quot;: true, &quot;selected_count&quot;: true, &quot;prediction_count&quot;: true, &quot;holdout_prediction_count&quot;: true, &quot;dataset_sha256&quot;: true, &quot;draft_gold&quot;: true, &quot;command_file&quot;: true}, &quot;issues&quot;: [], &quot;expected&quot;: {&quot;dataset&quot;: &quot;eval/artifacts/d2-final/review/rag-dev-view.jsonl&quot;, &quot;count&quot;: 21, &quot;suite&quot;: &quot;rag&quot;, &quot;sha256&quot;: &quot;12b8cc7de87ea73bc60a2e9b7d527d0721956ef1bf4256ccf6a70331a7f57f63&quot;}}</li>
+</ul>
+<p><strong>证据位置</strong>：</p>
+<ul>
+<li><a href="../d2-final-regression-summary.md">eval/experiments/after_d2_01_03/reports/d2-final-regression-summary.md</a></li>
+<li><a href="../version-decisions.md">eval/experiments/after_d2_01_03/reports/version-decisions.md</a></li>
+<li><a href="../d2-regression-cli-check.json">eval/experiments/after_d2_01_03/reports/d2-regression-cli-check.json</a></li>
+<li><a href="../d2-regression-cli-and-scoring.md">eval/experiments/after_d2_01_03/reports/d2-regression-cli-and-scoring.md</a></li>
+<li><a href="../../regression/final/V1-001/sql/report.json">eval/experiments/after_d2_01_03/regression/final/V1-001/sql/report.json</a></li>
+<li><a href="../../regression/final/V1-001/sql-command.json">eval/experiments/after_d2_01_03/regression/final/V1-001/sql-command.json</a></li>
+<li><a href="../../regression/final/V1-001/robust/report.json">eval/experiments/after_d2_01_03/regression/final/V1-001/robust/report.json</a></li>
+<li><a href="../../regression/final/V1-001/robust-command.json">eval/experiments/after_d2_01_03/regression/final/V1-001/robust-command.json</a></li>
+<li><a href="../../regression/final/V1-001/rag/report.json">eval/experiments/after_d2_01_03/regression/final/V1-001/rag/report.json</a></li>
+<li><a href="../../regression/final/V1-001/rag-command.json">eval/experiments/after_d2_01_03/regression/final/V1-001/rag-command.json</a></li>
+</ul>
+<p><strong>未完成事项或限制</strong>：</p>
+<ul>
+<li>自动成绩仅描述本轮合成dev；AI_pending/缺usage/原模块不足须保留；没有实际跑完的回归不得填通过。</li>
+</ul>
+<p><strong>判定</strong>：三组真实开发回归已完成；结果EX/机械指标与语义审核分开；人工仍待核对。</p>
+<h2>7. 《①③专项造题与提示词优化-逐项验收与证据》</h2>
+<p><strong>实现情况</strong>：本文件按原文10项分别给要求、实现、源码、方法、真实结果、证据与未完成事项。</p>
+<p><strong>改动或关联文件</strong>：</p>
+<ul>
+<li><a href="../../../../../scripts/build_special_delivery.py">scripts/build_special_delivery.py</a></li>
+</ul>
+<p><strong>测试方法与命令</strong>：</p>
+<ul>
+<li>仅读取明确路径的原始文件构建；不调用API、模型或DB。</li>
+</ul>
+<p><strong>实际结果</strong>：</p>
+<ul>
+<li>各版本分母/争议/失败/未运行与人工待核独立列出；报告自身不代替验收签字。</li>
+</ul>
+<p><strong>证据位置</strong>：</p>
+<ul>
+<li>当前没有对应实际证据文件。</li>
+</ul>
+<p><strong>未完成事项或限制</strong>：</p>
+<ul>
+<li>ZIP内链接另由打包校验器新解压核对。</li>
+</ul>
+<p><strong>判定</strong>：已生成可审阅报告；人工仍待核对。</p>
+<h2>8. 可复现命令、真实路径、恢复说明及运行时prompt交付</h2>
+<p><strong>实现情况</strong>：附实际运行命令、冻结与装载证明、代码SHA和恢复说明；AST提取嵌入源码的真实system字符串，直接复制文件型prompt。</p>
+<p><strong>改动或关联文件</strong>：</p>
+<ul>
+<li><a href="../../../../../scripts/build_special_delivery.py">scripts/build_special_delivery.py</a></li>
+<li><a href="../../runtime_eval/snapshot.py">eval/experiments/after_d2_01_03/runtime_eval/snapshot.py</a></li>
+<li><a href="../../runtime_eval/README.md">eval/experiments/after_d2_01_03/runtime_eval/README.md</a></li>
+</ul>
+<p><strong>测试方法与命令</strong>：</p>
+<ul>
+<li>AST静态提取，不导入业务模块、不执行prompt；抽取的字符和UTF-8字节逐项记录。</li>
+</ul>
+<p><strong>实际结果</strong>：</p>
+<ul>
+<li>业务system模板7份，共7746字符；真实已归档provider完整system消息10个去重版本（包含适配器JSON约束及动态Schema）；完整消息字符数范围{&quot;minimum&quot;: 1203, &quot;maximum&quot;: 4249}；未填充字数。</li>
+<li>RAG问题/检索证据、真实目录/候选和当前意图属于动态user payload；不冒称存在一个固定万能prompt。</li>
+</ul>
+<p><strong>证据位置</strong>：</p>
+<ul>
+<li><a href="../restore-instructions.md">eval/experiments/after_d2_01_03/reports/restore-instructions.md</a></li>
+<li><a href="../preparation-reproduction.md">eval/experiments/after_d2_01_03/reports/preparation-reproduction.md</a></li>
+<li><a href="../../runtime_eval/README.md">eval/experiments/after_d2_01_03/runtime_eval/README.md</a></li>
+<li><a href="runtime-system-prompts/inventory.json">eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/inventory.json</a></li>
+<li><a href="runtime-system-prompts/qa_agent__sql__generator.txt">eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__sql__generator.txt</a></li>
+<li><a href="runtime-system-prompts/qa_agent__nlu__linker.txt">eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__nlu__linker.txt</a></li>
+<li><a href="runtime-system-prompts/qa_agent__rag__answer.txt">eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__rag__answer.txt</a></li>
+<li><a href="runtime-system-prompts/qa_agent__rag__service.txt">eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__rag__service.txt</a></li>
+<li><a href="runtime-system-prompts/qa_agent__sql__prompts__multi_table.txt">eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__sql__prompts__multi_table.txt</a></li>
+<li><a href="runtime-system-prompts/qa_agent__clarify__prompts__intent_extract.txt">eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__clarify__prompts__intent_extract.txt</a></li>
+<li><a href="runtime-system-prompts/qa_agent__clarify__prompts__intent_patch.txt">eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__clarify__prompts__intent_patch.txt</a></li>
+</ul>
+<p><strong>未完成事项或限制</strong>：</p>
+<ul>
+<li>嵌入式prompt前版本字符SHA仅在源文件字节相同且匹配冻结快照时认定相同，否则提供模块SHA+实际diff，不猜旧字符串SHA。</li>
+</ul>
+<p><strong>判定</strong>：prompt原文合集已提取；运行与恢复以实际输入记录为准；人工仍待核对。</p>
+<h2>9. 待人工确认及未实现功能清单</h2>
+<p><strong>实现情况</strong>：保留全部人工状态，列明重复、口径、控制器冲突与AI漏检；运行时剩余问题由各版本错误清单与03功能差距报告提供。</p>
+<p><strong>改动或关联文件</strong>：</p>
+<ul>
+<li><a href="../../data/cases-v6-reviewed.jsonl">eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl</a></li>
+<li><a href="../../checks/final-source-guards.json">eval/experiments/after_d2_01_03/checks/final-source-guards.json</a></li>
+<li><a href="../../../../../scripts/build_special_review.py">scripts/build_special_review.py</a></li>
+</ul>
+<p><strong>测试方法与命令</strong>：</p>
+<ul>
+<li>先程序+AI两遍，最后留给用户统一核对；无A/B签名与人工日期；参考判断、实际回答、控制器和原评分分别展示。</li>
+</ul>
+<p><strong>实际结果</strong>：</p>
+<ul>
+<li>全部60个人工pending；11个原标签争议不能强制评分。</li>
+<li>统一表实际保留60个原编号、冻结49/11分组；新增参考争议9项、控制器/协议争议3项另列，未替换原自动分数。</li>
+</ul>
+<p><strong>证据位置</strong>：</p>
+<ul>
+<li><a href="../preparation-final-report.md">eval/experiments/after_d2_01_03/reports/preparation-final-report.md</a></li>
+<li><a href="../../checks/ai-review-quality-notes.json">eval/experiments/after_d2_01_03/checks/ai-review-quality-notes.json</a></li>
+<li><a href="../manual-review/%E2%91%A0%E2%91%A2%E4%B8%93%E9%A1%B9%E7%BB%9F%E4%B8%80%E5%BE%85%E4%BA%BA%E5%B7%A5%E5%AE%A1%E6%A0%B8%E8%A1%A8.html">eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.html</a></li>
+<li><a href="../remaining-feature-gaps.md">eval/experiments/after_d2_01_03/reports/remaining-feature-gaps.md</a></li>
+</ul>
+<p><strong>未完成事项或限制</strong>：</p>
+<ul>
+<li>待人工决定标签及别名/口径问题；当前任何AI评分都不是人工批准。</li>
+</ul>
+<p><strong>判定</strong>：人工审核仍待完成；人工仍待核对。</p>
+<h2>10. 对应源码、原始结果、日志、prompt及截图打成本轮ZIP</h2>
+<p><strong>实现情况</strong>：交付清单/源码/原始输出/可复现命令已整理，正式ZIP及最终打包验证作为本报告同行交付；本报告构建器不运行打包。</p>
+<p><strong>改动或关联文件</strong>：</p>
+<ul>
+<li><a href="../../../../../scripts/package_stage_delivery.py">scripts/package_stage_delivery.py</a></li>
+<li><a href="../../../../../scripts/build_special_delivery.py">scripts/build_special_delivery.py</a></li>
+</ul>
+<p><strong>测试方法与命令</strong>：</p>
+<ul>
+<li>主流程使用既有package_stage_delivery构建器实际执行敏感扫描、CRC、哈希、新目录解压和相对链接核验；实际命令与结果见同行交付的独立verification。</li>
+</ul>
+<p><strong>实际结果</strong>：</p>
+<ul>
+<li>本报告保存显式交付manifest；正式ZIP及其最终哈希/验证记录由主流程同行交付，ZIP SHA不写入自身内容。</li>
+</ul>
+<p><strong>证据位置</strong>：</p>
+<ul>
+<li>当前没有对应实际证据文件。</li>
+</ul>
+<p><strong>未完成事项或限制</strong>：</p>
+<ul>
+<li>真实.env、密钥/密码、数据库卷、模型权重、保留题与无关工作目录不附入。</li>
+</ul>
+<p><strong>判定</strong>：交付材料已整理；正式ZIP及最终验证同行交付；人工仍待核对。</p>
+<h2>运行版本与逐指标分母</h2>
+<h3>V0</h3>
+<ul>
+<li>V0：API实际请求81次；模型provider观测112次；原始token {&quot;prompt_tokens&quot;: 479534, &quot;completion_tokens&quot;: 14115, &quot;total_tokens&quot;: 493649}；缺usage 0次；API耗时之和393978ms（不等于墙钟时间）。</li>
+<li>V0 provider归档：原运行器自动归档0条；独立合法补充归档已核验112条；未核验0条。原始评分/检查点不改，补充归档不新增模型或API调用。</li>
+<li>all：自动确认正确18/49可评分；总题60；自动失败22；语义待AI复核9；标签待确认11。</li>
+<li>task:01：自动确认正确14/26可评分；总题30；自动失败8；语义待AI复核4；标签待确认4。</li>
+<li>task:03：自动确认正确4/23可评分；总题30；自动失败14；语义待AI复核5；标签待确认7。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>正向/适用题分母</th>
+<th>实观测分母</th>
+<th>未确定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>绑定正确</td>
+<td>15/26</td>
+<td>24</td>
+<td>2</td>
+</tr>
+<tr>
+<td>初始层级正确</td>
+<td>21/23</td>
+<td>23</td>
+<td>0</td>
+</tr>
+<tr>
+<td>必要澄清召回</td>
+<td>11/11</td>
+<td>11</td>
+<td>0</td>
+</tr>
+<tr>
+<td>误澄清</td>
+<td>2/12</td>
+<td>12</td>
+<td>0</td>
+</tr>
+<tr>
+<td>有效澄清</td>
+<td>0/11</td>
+<td>9</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SQL语义/条件保留</td>
+<td>19/49</td>
+<td>28</td>
+<td>21</td>
+</tr>
+<tr>
+<td>过度纠错</td>
+<td>1/26</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>L1默认切换</td>
+<td>1/3</td>
+<td>3</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>误澄清、过度纠错表中positive表示发生该错误，数值越小越好；其他指标positive按该指标定义。SQL结果相同但AST合同未证明的输出仍待AI复核，不强行通过。</p>
+<p>实际证据：<a href="../../runtime_eval/runs/V0-001-scores.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-scores.json</a>、<a href="../../runtime_eval/runs/V0-001/run-manifest.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/run-manifest.json</a>、<a href="../../runtime_eval/V0-code-snapshot.json">eval/experiments/after_d2_01_03/runtime_eval/V0-code-snapshot.json</a>、<a href="../../runtime_eval/V0-freeze.json">eval/experiments/after_d2_01_03/runtime_eval/V0-freeze.json</a>、<a href="../../runtime_eval/V0-restart-record.json">eval/experiments/after_d2_01_03/runtime_eval/V0-restart-record.json</a>、<a href="../../runtime_eval/runs/V0-001-classification/failure-classification.md">eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-classification/failure-classification.md</a>、<a href="../../runtime_eval/execution-logs/V0-001/run-command-loopback.json">eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V0-001/run-command-loopback.json</a>、<a href="../../runtime_eval/V0-code-snapshot.json">eval/experiments/after_d2_01_03/runtime_eval/V0-code-snapshot.json</a>、<a href="../../runtime_eval/runs/V0-001-provider-supplement-summary.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-provider-supplement-summary.json</a>、<a href="../v0-ai-review-index.md">eval/experiments/after_d2_01_03/reports/v0-ai-review-index.md</a></p>
+<h3>V1</h3>
+<ul>
+<li>V1：API实际请求83次；模型provider观测115次；原始token {&quot;prompt_tokens&quot;: 488418, &quot;completion_tokens&quot;: 13374, &quot;total_tokens&quot;: 501792}；缺usage 0次；API耗时之和426391ms（不等于墙钟时间）。</li>
+<li>V1 provider归档：原运行器自动归档0条；独立合法补充归档已核验115条；未核验0条。原始评分/检查点不改，补充归档不新增模型或API调用。</li>
+<li>all：自动确认正确18/49可评分；总题60；自动失败22；语义待AI复核9；标签待确认11。</li>
+<li>task:01：自动确认正确14/26可评分；总题30；自动失败7；语义待AI复核5；标签待确认4。</li>
+<li>task:03：自动确认正确4/23可评分；总题30；自动失败15；语义待AI复核4；标签待确认7。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>正向/适用题分母</th>
+<th>实观测分母</th>
+<th>未确定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>绑定正确</td>
+<td>15/26</td>
+<td>24</td>
+<td>2</td>
+</tr>
+<tr>
+<td>初始层级正确</td>
+<td>20/23</td>
+<td>23</td>
+<td>0</td>
+</tr>
+<tr>
+<td>必要澄清召回</td>
+<td>11/11</td>
+<td>11</td>
+<td>0</td>
+</tr>
+<tr>
+<td>误澄清</td>
+<td>3/12</td>
+<td>12</td>
+<td>0</td>
+</tr>
+<tr>
+<td>有效澄清</td>
+<td>0/11</td>
+<td>9</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SQL语义/条件保留</td>
+<td>18/49</td>
+<td>29</td>
+<td>20</td>
+</tr>
+<tr>
+<td>过度纠错</td>
+<td>1/26</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>L1默认切换</td>
+<td>1/3</td>
+<td>3</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>误澄清、过度纠错表中positive表示发生该错误，数值越小越好；其他指标positive按该指标定义。SQL结果相同但AST合同未证明的输出仍待AI复核，不强行通过。</p>
+<p>实际证据：<a href="../../runtime_eval/runs/V1-001-scores.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-scores.json</a>、<a href="../../runtime_eval/runs/V1-001/run-manifest.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001/run-manifest.json</a>、<a href="../../runtime_eval/V1-code-snapshot.json">eval/experiments/after_d2_01_03/runtime_eval/V1-code-snapshot.json</a>、<a href="../../runtime_eval/V1-freeze.json">eval/experiments/after_d2_01_03/runtime_eval/V1-freeze.json</a>、<a href="../../runtime_eval/V1-restart-record.json">eval/experiments/after_d2_01_03/runtime_eval/V1-restart-record.json</a>、<a href="../../runtime_eval/runs/V1-001-classification/failure-classification.md">eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-classification/failure-classification.md</a>、<a href="../../runtime_eval/execution-logs/V1-001/run-command-loopback.json">eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V1-001/run-command-loopback.json</a>、<a href="../../runtime_eval/version-changes/V1/change-record.json">eval/experiments/after_d2_01_03/runtime_eval/version-changes/V1/change-record.json</a>、<a href="../../runtime_eval/runs/V1-001-provider-supplement-summary.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-provider-supplement-summary.json</a>、<a href="../v1-ai-review-index.md">eval/experiments/after_d2_01_03/reports/v1-ai-review-index.md</a></p>
+<h3>V2</h3>
+<ul>
+<li>V2：API实际请求80次；模型provider观测117次；原始token {&quot;prompt_tokens&quot;: 503640, &quot;completion_tokens&quot;: 14707, &quot;total_tokens&quot;: 518347}；缺usage 0次；API耗时之和405196ms（不等于墙钟时间）。</li>
+<li>V2 provider归档：原运行器自动归档0条；独立合法补充归档已核验117条；未核验0条。原始评分/检查点不改，补充归档不新增模型或API调用。</li>
+<li>all：自动确认正确18/49可评分；总题60；自动失败23；语义待AI复核8；标签待确认11。</li>
+<li>task:01：自动确认正确13/26可评分；总题30；自动失败9；语义待AI复核4；标签待确认4。</li>
+<li>task:03：自动确认正确5/23可评分；总题30；自动失败14；语义待AI复核4；标签待确认7。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>正向/适用题分母</th>
+<th>实观测分母</th>
+<th>未确定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>绑定正确</td>
+<td>16/26</td>
+<td>25</td>
+<td>1</td>
+</tr>
+<tr>
+<td>初始层级正确</td>
+<td>20/23</td>
+<td>23</td>
+<td>0</td>
+</tr>
+<tr>
+<td>必要澄清召回</td>
+<td>11/11</td>
+<td>11</td>
+<td>0</td>
+</tr>
+<tr>
+<td>误澄清</td>
+<td>2/12</td>
+<td>12</td>
+<td>0</td>
+</tr>
+<tr>
+<td>有效澄清</td>
+<td>0/11</td>
+<td>9</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SQL语义/条件保留</td>
+<td>20/49</td>
+<td>31</td>
+<td>18</td>
+</tr>
+<tr>
+<td>过度纠错</td>
+<td>1/26</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>L1默认切换</td>
+<td>1/3</td>
+<td>3</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>误澄清、过度纠错表中positive表示发生该错误，数值越小越好；其他指标positive按该指标定义。SQL结果相同但AST合同未证明的输出仍待AI复核，不强行通过。</p>
+<p>实际证据：<a href="../../runtime_eval/runs/V2-001-scores.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-scores.json</a>、<a href="../../runtime_eval/runs/V2-001/run-manifest.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/run-manifest.json</a>、<a href="../../runtime_eval/V2-code-snapshot.json">eval/experiments/after_d2_01_03/runtime_eval/V2-code-snapshot.json</a>、<a href="../../runtime_eval/V2-freeze.json">eval/experiments/after_d2_01_03/runtime_eval/V2-freeze.json</a>、<a href="../../runtime_eval/V2-restart-record.json">eval/experiments/after_d2_01_03/runtime_eval/V2-restart-record.json</a>、<a href="../../runtime_eval/runs/V2-001-classification/failure-classification.md">eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-classification/failure-classification.md</a>、<a href="../../runtime_eval/execution-logs/V2-001/run-command-loopback.json">eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V2-001/run-command-loopback.json</a>、<a href="../../runtime_eval/version-changes/V2/source-delta.json">eval/experiments/after_d2_01_03/runtime_eval/version-changes/V2/source-delta.json</a>、<a href="../../runtime_eval/runs/V2-001-provider-supplement-summary.json">eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-provider-supplement-summary.json</a>、<a href="../v2-ai-review-index.md">eval/experiments/after_d2_01_03/reports/v2-ai-review-index.md</a></p>
+<h2>运行时system prompt清单</h2>
+<table>
+<thead>
+<tr>
+<th>文件与实际调用职责</th>
+<th style="text-align:right">字符数</th>
+<th>提取方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="runtime-system-prompts/qa_agent__sql__generator.txt">qa_agent/sql/generator.py</a>：SQL单表生成及技术修复</td>
+<td style="text-align:right">940</td>
+<td>Python AST literal; exact string value, no model invocation</td>
+</tr>
+<tr>
+<td><a href="runtime-system-prompts/qa_agent__nlu__linker.txt">qa_agent/nlu/linker.py</a>：有限合法候选值链接裁决</td>
+<td style="text-align:right">281</td>
+<td>Python AST literal; exact string value, no model invocation</td>
+</tr>
+<tr>
+<td><a href="runtime-system-prompts/qa_agent__rag__answer.txt">qa_agent/rag/answer.py</a>：仅以实际检索证据作答并附编号引用</td>
+<td style="text-align:right">629</td>
+<td>Python AST literal; exact string value, no model invocation</td>
+</tr>
+<tr>
+<td><a href="runtime-system-prompts/qa_agent__rag__service.txt">qa_agent/rag/service.py</a>：中文问题在英文文档范围内的检索翻译</td>
+<td style="text-align:right">59</td>
+<td>Python AST literal; exact string value, no model invocation</td>
+</tr>
+<tr>
+<td><a href="runtime-system-prompts/qa_agent__sql__prompts__multi_table.txt">qa_agent/sql/prompts/multi_table.txt</a>：AW多表SQL生成及技术修复</td>
+<td style="text-align:right">1776</td>
+<td>Exact runtime prompt file bytes</td>
+</tr>
+<tr>
+<td><a href="runtime-system-prompts/qa_agent__clarify__prompts__intent_extract.txt">qa_agent/clarify/prompts/intent_extract.txt</a>：语义条件和L0/L1/L2判断所需的意图抽取</td>
+<td style="text-align:right">2040</td>
+<td>Exact runtime prompt file bytes</td>
+</tr>
+<tr>
+<td><a href="runtime-system-prompts/qa_agent__clarify__prompts__intent_patch.txt">qa_agent/clarify/prompts/intent_patch.txt</a>：显式用户补充和后续修改对应的条件补丁</td>
+<td style="text-align:right">2021</td>
+<td>Exact runtime prompt file bytes</td>
+</tr>
+</tbody>
+</table>
+<p>以上是业务模板。JsonLLM实际拼接统一JSON约束及response_model的动态JSON Schema后才发送；有限候选裁决Schema包含当次合法ID边界。源文件、调用位置、模板字符数、前后源码SHA以及已归档provider完整system内容、完整字符数与SHA见<a href="runtime-system-prompts/inventory.json">eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/inventory.json</a>。完整system消息按实际capture去重保存，不由题库标签重构。动态user payload没有伪装成固定prompt。</p>
+<p>生成/标注/AI复核用量与被测API运行用量分开。准备阶段真实40个logical call、45个provider请求及token分项见<a href="../preparation-stage-usage.json">eval/experiments/after_d2_01_03/reports/preparation-stage-usage.json</a>；这些不计入系统预测次数。金额未取得，不按猜测价格推算。</p>
+<p>完整解压本轮ZIP后打开HTML；源码、JSON和日志链接全部为相对路径。原始尝试与失败保留，不覆盖D1/D2验收证据。</p>
+<p>机器报告：<a href="%E2%91%A0%E2%91%A2%E4%B8%93%E9%A1%B9%E9%80%A0%E9%A2%98%E4%B8%8E%E6%8F%90%E7%A4%BA%E8%AF%8D%E4%BC%98%E5%8C%96-%E9%80%90%E9%A1%B9%E9%AA%8C%E6%94%B6%E4%B8%8E%E8%AF%81%E6%8D%AE.json">eval/experiments/after_d2_01_03/reports/acceptance/①③专项造题与提示词优化-逐项验收与证据.json</a></p>
+</body></html>

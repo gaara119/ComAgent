@@ -1,0 +1,739 @@
+{
+  "id": "sp03-07",
+  "session_id": "special-V1-c5a67a7b-0f45-47fe-9dbf-bab201dfa7ad",
+  "started_at": "2026-10-11T20:31:42.428127+00:00",
+  "turns": [
+    {
+      "index": 0,
+      "phase": "initial",
+      "prepared_at": "2026-10-11T20:31:42.429116+00:00",
+      "request": {
+        "session_id": "special-V1-c5a67a7b-0f45-47fe-9dbf-bab201dfa7ad",
+        "message": "2024年账单国是美国的发票销售额占比是多少？",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "e0ceefbe-f62e-4799-89c7-58017e449ee7",
+        "status": "NEEDS_CLARIFICATION",
+        "answer": "国家按客户所在地还是发票账单国家？ 请明确分母范围。",
+        "rewritten_question": "2024年账单国是USA的发票销售额占比是多少？",
+        "sql": null,
+        "table": null,
+        "evidences": [],
+        "clarification": {
+          "clarification_id": "ccb84326-2930-4e37-9a9c-088fdf5470c9",
+          "intent_version": 1,
+          "level": "L2",
+          "question": "国家按客户所在地还是发票账单国家？ 请明确分母范围。",
+          "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。 该任务缺少必需条件，未登记可直接代填的默认值。",
+          "issues": [
+            {
+              "id": "region_scope",
+              "question": "国家按客户所在地还是发票账单国家？",
+              "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+              "field": "region_scope",
+              "options": [
+                {
+                  "id": "billing_country",
+                  "label": "按发票账单国家"
+                },
+                {
+                  "id": "customer_country",
+                  "label": "按客户所在地国家"
+                }
+              ]
+            },
+            {
+              "id": "missing:denominator",
+              "question": "请明确分母范围。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "denominator",
+              "options": []
+            }
+          ],
+          "options": [
+            {
+              "id": "billing_country",
+              "label": "按发票账单国家"
+            },
+            {
+              "id": "customer_country",
+              "label": "按客户所在地国家"
+            }
+          ],
+          "resume_supported": true
+        },
+        "intent": {
+          "intent_version": 1,
+          "route": "sql",
+          "task_type": "ratio",
+          "metric": "invoice_revenue",
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01",
+              "label": "2024年",
+              "grain": "year"
+            }
+          },
+          "filters": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "USA",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-dca9d898c8a31e37",
+              "source": "verified_value_index"
+            }
+          ],
+          "grouping": [],
+          "order": null,
+          "assumptions": [],
+          "unresolved": [
+            {
+              "id": "region_scope",
+              "question": "国家按客户所在地还是发票账单国家？",
+              "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+              "field": "region_scope",
+              "options": [
+                {
+                  "id": "billing_country",
+                  "label": "按发票账单国家"
+                },
+                {
+                  "id": "customer_country",
+                  "label": "按客户所在地国家"
+                }
+              ]
+            },
+            {
+              "id": "missing:denominator",
+              "question": "请明确分母范围。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "denominator",
+              "options": []
+            }
+          ]
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 28
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 1,
+              "bindings": [
+                {
+                  "column": "invoice.billing_country",
+                  "operator": "=",
+                  "value": "USA",
+                  "mention_id": "mention-1",
+                  "method": "exact",
+                  "evidence_ref": "a-dca9d898c8a31e37",
+                  "source": "verified_value_index"
+                }
+              ],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "value_link_exact",
+            "status": "ok",
+            "input_summary": {
+              "mention_id": "mention-1",
+              "original_text": "美国"
+            },
+            "output_summary": {
+              "candidate_count": 1,
+              "candidate_ids": [
+                "v-ab7ca55351c9f4bae96b"
+              ],
+              "scores": [
+                1.0
+              ]
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "rewrite",
+            "status": "ok",
+            "input_summary": {
+              "original_question": "2024年账单国是美国的发票销售额占比是多少？"
+            },
+            "output_summary": {
+              "rewritten_question": "2024年账单国是USA的发票销售额占比是多少？",
+              "patches": [
+                {
+                  "start": 9,
+                  "end": 11,
+                  "original": "美国",
+                  "replacement": "USA",
+                  "method": "exact",
+                  "evidence_ref": "a-dca9d898c8a31e37"
+                }
+              ]
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "warn",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L2",
+              "intent_version": 1,
+              "issues": [
+                {
+                  "id": "region_scope",
+                  "question": "国家按客户所在地还是发票账单国家？",
+                  "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+                  "field": "region_scope",
+                  "options": [
+                    {
+                      "id": "billing_country",
+                      "label": "按发票账单国家"
+                    },
+                    {
+                      "id": "customer_country",
+                      "label": "按客户所在地国家"
+                    }
+                  ]
+                },
+                {
+                  "id": "missing:denominator",
+                  "question": "请明确分母范围。",
+                  "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+                  "field": "denominator",
+                  "options": []
+                }
+              ],
+              "assumptions": [],
+              "derived": {},
+              "invalidated": [],
+              "resume_supported": true
+            },
+            "latency_ms": 4366
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/c39a35dc98a44de995522a8f17568eac.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 203,
+                "prompt_tokens": 5263,
+                "total_tokens": 5466,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 5120
+                },
+                "prompt_cache_hit_tokens": 5120,
+                "prompt_cache_miss_tokens": 143
+              },
+              "json_valid": true
+            },
+            "latency_ms": 3233
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 4397,
+          "nlu": {
+            "original_question": "2024年账单国是美国的发票销售额占比是多少？",
+            "rewritten_question": "2024年账单国是USA的发票销售额占比是多少？",
+            "mentions": [
+              {
+                "mention_id": "mention-1",
+                "original_text": "美国",
+                "span": [
+                  9,
+                  11
+                ],
+                "status": "resolved",
+                "field_candidates": [
+                  "invoice.billing_country"
+                ],
+                "candidates": [
+                  {
+                    "candidate_id": "v-ab7ca55351c9f4bae96b",
+                    "column": "invoice.billing_country",
+                    "standard_value": "USA",
+                    "surface": "美国",
+                    "score": 1.0,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-dca9d898c8a31e37",
+                    "binding_policy": "direct"
+                  }
+                ],
+                "selected_candidate_id": "v-ab7ca55351c9f4bae96b",
+                "match_method": "exact",
+                "evidence_ref": "a-dca9d898c8a31e37",
+                "canonical_value": "USA",
+                "column": "invoice.billing_country",
+                "stages": [
+                  {
+                    "method": "exact",
+                    "candidates": [
+                      {
+                        "candidate_id": "v-ab7ca55351c9f4bae96b",
+                        "column": "invoice.billing_country",
+                        "standard_value": "USA",
+                        "surface": "美国",
+                        "score": 1.0,
+                        "source": "llm_draft:deepseek-flash",
+                        "evidence_ref": "a-dca9d898c8a31e37",
+                        "binding_policy": "direct"
+                      }
+                    ]
+                  }
+                ],
+                "guard_source": null
+              }
+            ],
+            "bindings": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "USA",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-dca9d898c8a31e37",
+                "source": "verified_value_index"
+              }
+            ],
+            "patches": [
+              {
+                "start": 9,
+                "end": 11,
+                "original": "美国",
+                "replacement": "USA",
+                "method": "exact",
+                "evidence_ref": "a-dca9d898c8a31e37"
+              }
+            ],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L2",
+            "intent_version": 1,
+            "state": "WAITING_CLARIFICATION",
+            "assumptions": [],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [],
+            "switch": null
+          }
+        }
+      },
+      "latency_ms": 4402,
+      "http_status": 200,
+      "response_raw_file": "turns\\000\\response.raw.json",
+      "provider_attempts": 1,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    },
+    {
+      "index": 1,
+      "phase": "clarification",
+      "prepared_at": "2026-10-11T20:31:46.839473+00:00",
+      "request": {
+        "session_id": "special-V1-c5a67a7b-0f45-47fe-9dbf-bab201dfa7ad",
+        "message": "占2024年全球总销售额。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "ccb84326-2930-4e37-9a9c-088fdf5470c9",
+        "intent_version": 1
+      },
+      "asked_key": "denominator",
+      "supplement_key": "denominator",
+      "response": {
+        "trace_id": "c8ce5fcd-7845-415d-b7ff-a913176a7962",
+        "status": "NEEDS_CLARIFICATION",
+        "answer": "国家按客户所在地还是发票账单国家？",
+        "rewritten_question": null,
+        "sql": null,
+        "table": null,
+        "evidences": [],
+        "clarification": {
+          "clarification_id": "051fb695-7fd2-46e0-92ea-fcea3176159f",
+          "intent_version": 2,
+          "level": "L2",
+          "question": "国家按客户所在地还是发票账单国家？",
+          "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+          "issues": [
+            {
+              "id": "region_scope",
+              "question": "国家按客户所在地还是发票账单国家？",
+              "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+              "field": "region_scope",
+              "options": [
+                {
+                  "id": "billing_country",
+                  "label": "按发票账单国家"
+                },
+                {
+                  "id": "customer_country",
+                  "label": "按客户所在地国家"
+                }
+              ]
+            }
+          ],
+          "options": [
+            {
+              "id": "billing_country",
+              "label": "按发票账单国家"
+            },
+            {
+              "id": "customer_country",
+              "label": "按客户所在地国家"
+            }
+          ],
+          "resume_supported": true
+        },
+        "intent": {
+          "intent_version": 2,
+          "route": "sql",
+          "task_type": "ratio",
+          "metric": "invoice_revenue",
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01",
+              "label": "2024年",
+              "grain": "year"
+            }
+          },
+          "filters": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "USA",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-dca9d898c8a31e37",
+              "source": "verified_value_index"
+            }
+          ],
+          "grouping": [],
+          "order": null,
+          "assumptions": [],
+          "unresolved": [
+            {
+              "id": "region_scope",
+              "question": "国家按客户所在地还是发票账单国家？",
+              "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+              "field": "region_scope",
+              "options": [
+                {
+                  "id": "billing_country",
+                  "label": "按发票账单国家"
+                },
+                {
+                  "id": "customer_country",
+                  "label": "按客户所在地国家"
+                }
+              ]
+            }
+          ]
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_version_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "verified": true,
+              "intent_version": 1
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 115
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 14
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "占2024年全球总销售额。"
+            },
+            "output_summary": {
+              "rewritten_question": "占2024年全球总销售额。",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "warn",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L2",
+              "intent_version": 2,
+              "issues": [
+                {
+                  "id": "region_scope",
+                  "question": "国家按客户所在地还是发票账单国家？",
+                  "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+                  "field": "region_scope",
+                  "options": [
+                    {
+                      "id": "billing_country",
+                      "label": "按发票账单国家"
+                    },
+                    {
+                      "id": "customer_country",
+                      "label": "按客户所在地国家"
+                    }
+                  ]
+                }
+              ],
+              "assumptions": [],
+              "derived": {},
+              "invalidated": [
+                "derived_period",
+                "result"
+              ],
+              "resume_supported": true
+            },
+            "latency_ms": 3230
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/4742c0c1a6544ef3986a467708c24cba.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 39,
+                "prompt_tokens": 1692,
+                "total_tokens": 1731,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 0
+                },
+                "prompt_cache_hit_tokens": 0,
+                "prompt_cache_miss_tokens": 1692
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2088
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 3360,
+          "nlu": {
+            "original_question": "占2024年全球总销售额。",
+            "rewritten_question": "占2024年全球总销售额。",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L2",
+            "intent_version": 2,
+            "state": "WAITING_CLARIFICATION",
+            "assumptions": [],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [
+              "derived_period",
+              "result"
+            ],
+            "switch": null
+          }
+        }
+      },
+      "latency_ms": 3367,
+      "http_status": 200,
+      "response_raw_file": "turns\\001\\response.raw.json",
+      "provider_attempts": 1,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    }
+  ],
+  "used_keys": [
+    "denominator"
+  ],
+  "clarification_count": 1,
+  "controller_events": [
+    {
+      "after_turn": 0,
+      "outcome": "answer",
+      "request": {
+        "session_id": "special-V1-c5a67a7b-0f45-47fe-9dbf-bab201dfa7ad",
+        "message": "占2024年全球总销售额。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "ccb84326-2930-4e37-9a9c-088fdf5470c9",
+        "intent_version": 1
+      },
+      "asked_key": "denominator",
+      "supplement_key": "denominator",
+      "reason": ""
+    },
+    {
+      "after_turn": 1,
+      "outcome": "controller_unanswered",
+      "request": null,
+      "asked_key": null,
+      "supplement_key": null,
+      "reason": "Unknown/unsupported asks, no allowed supplement, or a repeated unresolved key"
+    }
+  ],
+  "outcome": "controller_unanswered"
+}

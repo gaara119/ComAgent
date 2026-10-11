@@ -1,0 +1,19 @@
+{
+  "scope": "one customer-country ratio binding guard class only",
+  "before_files": [
+    {
+      "path": "qa_agent/sql/validator.py",
+      "sha256": "ae2e252ddbd2df88c32c60161a851f55a8f190d2b83b4534bfffd00afdbe873a",
+      "before_copy": "eval/experiments/after_d2_01_03/version-changes/V2/before/qa_agent/sql/validator.py"
+    },
+    {
+      "path": "qa_agent/pipeline.py",
+      "sha256": "ef083f1af00331c8b22cf14788a134d5fb95c6af5decefe6594e811ac4c0a407",
+      "before_copy": "eval/experiments/after_d2_01_03/version-changes/V2/before/qa_agent/pipeline.py"
+    }
+  ],
+  "new_files": [
+    "qa_agent/sql/ratio_guard.py"
+  ],
+  "business_had_no_ratio_guard_py": true
+}

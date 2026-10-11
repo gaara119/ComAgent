@@ -1,0 +1,641 @@
+{
+  "started_at_utc": "2026-10-11T20:50:35.189063+00:00",
+  "finished_at_utc": "2026-10-11T20:50:41.950223+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "special-V2-474d5043-af87-4212-9180-3639544aee5a",
+    "message": "统计 invoice_date 在 2030-01-01 到 2030-12-31（左闭右开）之间的发票张数；如果那段时间没有发票，就按这个时间范围查询并报告没有记录。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "163ed66e-755e-4f29-b87c-5f46bd9c4925",
+    "status": "NEEDS_CLARIFICATION",
+    "answer": "“之间”具体指哪个对象？",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [],
+    "clarification": {
+      "clarification_id": "66945dec-65f1-4b89-aae5-389311194b96",
+      "intent_version": 1,
+      "level": "L2",
+      "question": "“之间”具体指哪个对象？",
+      "reason": "候选关系获准不等于允许自动绑定；请明确本次筛选。",
+      "issues": [
+        {
+          "id": "value:issue-85e24ea7ac8016e9",
+          "question": "“之间”具体指哪个对象？",
+          "reason": "候选关系获准不等于允许自动绑定；请明确本次筛选。",
+          "field": "filters",
+          "options": [
+            {
+              "id": "value:issue-85e24ea7ac8016e9:v-be5c0e3f456509e86b50",
+              "label": "Argentina（invoice.billing_country）"
+            },
+            {
+              "id": "value:issue-85e24ea7ac8016e9:v-30a35165311e0978a54c",
+              "label": "Australia（invoice.billing_country）"
+            },
+            {
+              "id": "value:issue-85e24ea7ac8016e9:v-36b46ab9d6d2427d5c8f",
+              "label": "Austria（invoice.billing_country）"
+            },
+            {
+              "id": "value:issue-85e24ea7ac8016e9:v-a1e7e7214229ebf9909b",
+              "label": "Belgium（invoice.billing_country）"
+            },
+            {
+              "id": "value:issue-85e24ea7ac8016e9:v-035a5fa9bd5fc4b4175e",
+              "label": "Brazil（invoice.billing_country）"
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "id": "value:issue-85e24ea7ac8016e9:v-be5c0e3f456509e86b50",
+          "label": "Argentina（invoice.billing_country）"
+        },
+        {
+          "id": "value:issue-85e24ea7ac8016e9:v-30a35165311e0978a54c",
+          "label": "Australia（invoice.billing_country）"
+        },
+        {
+          "id": "value:issue-85e24ea7ac8016e9:v-36b46ab9d6d2427d5c8f",
+          "label": "Austria（invoice.billing_country）"
+        },
+        {
+          "id": "value:issue-85e24ea7ac8016e9:v-a1e7e7214229ebf9909b",
+          "label": "Belgium（invoice.billing_country）"
+        },
+        {
+          "id": "value:issue-85e24ea7ac8016e9:v-035a5fa9bd5fc4b4175e",
+          "label": "Brazil（invoice.billing_country）"
+        }
+      ],
+      "resume_supported": true
+    },
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "aggregation",
+      "metric": "record_count",
+      "time_scope": {
+        "current": {
+          "start": "2030-01-01",
+          "end": "2031-01-01",
+          "grain": "custom",
+          "label": "2030-01-01 到 2030-12-31"
+        }
+      },
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": [
+        {
+          "id": "value:issue-85e24ea7ac8016e9",
+          "question": "“之间”具体指哪个对象？",
+          "reason": "候选关系获准不等于允许自动绑定；请明确本次筛选。",
+          "field": "filters",
+          "options": [
+            {
+              "id": "value:issue-85e24ea7ac8016e9:v-be5c0e3f456509e86b50",
+              "label": "Argentina（invoice.billing_country）"
+            },
+            {
+              "id": "value:issue-85e24ea7ac8016e9:v-30a35165311e0978a54c",
+              "label": "Australia（invoice.billing_country）"
+            },
+            {
+              "id": "value:issue-85e24ea7ac8016e9:v-36b46ab9d6d2427d5c8f",
+              "label": "Austria（invoice.billing_country）"
+            },
+            {
+              "id": "value:issue-85e24ea7ac8016e9:v-a1e7e7214229ebf9909b",
+              "label": "Belgium（invoice.billing_country）"
+            },
+            {
+              "id": "value:issue-85e24ea7ac8016e9:v-035a5fa9bd5fc4b4175e",
+              "label": "Brazil（invoice.billing_country）"
+            }
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 29
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [],
+          "ambiguous_count": 1,
+          "index_status": "ready"
+        },
+        "latency_ms": 2911
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "之间"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_pinyin",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "之间"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_fuzzy",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "之间"
+        },
+        "output_summary": {
+          "candidate_count": 5,
+          "candidate_ids": [
+            "v-be5c0e3f456509e86b50",
+            "v-30a35165311e0978a54c",
+            "v-36b46ab9d6d2427d5c8f",
+            "v-a1e7e7214229ebf9909b",
+            "v-035a5fa9bd5fc4b4175e"
+          ],
+          "scores": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_vector",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "之间"
+        },
+        "output_summary": {
+          "candidate_count": 5,
+          "candidate_ids": [
+            "v-9b20c6c3e4caad1de69a",
+            "v-475210ef4e08328852ec",
+            "v-ab7ca55351c9f4bae96b",
+            "v-da1995626f6b421035ba",
+            "v-ed13ace46d49a0165890"
+          ],
+          "scores": [
+            0.355798,
+            0.354675,
+            0.351074,
+            0.347387,
+            0.341806
+          ]
+        },
+        "latency_ms": 19
+      },
+      {
+        "name": "value_link_llm",
+        "status": "ok",
+        "input_summary": {
+          "mention_count": 1
+        },
+        "output_summary": {
+          "resolved_count": 0,
+          "ambiguous_count": 1
+        },
+        "latency_ms": 2887
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/82e7d7cedbd04de5b00f79ae96c0a1e1.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 23,
+            "prompt_tokens": 2169,
+            "total_tokens": 2192,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1920
+            },
+            "prompt_cache_hit_tokens": 1920,
+            "prompt_cache_miss_tokens": 249
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1640
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "统计 invoice_date 在 2030-01-01 到 2030-12-31（左闭右开）之间的发票张数；如果那段时间没有发票，就按这个时间范围查询并报告没有记录。"
+        },
+        "output_summary": {
+          "rewritten_question": "统计 invoice_date 在 2030-01-01 到 2030-12-31（左闭右开）之间的发票张数；如果那段时间没有发票，就按这个时间范围查询并报告没有记录。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "warn",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L2",
+          "intent_version": 1,
+          "issues": [
+            {
+              "id": "value:issue-85e24ea7ac8016e9",
+              "question": "“之间”具体指哪个对象？",
+              "reason": "候选关系获准不等于允许自动绑定；请明确本次筛选。",
+              "field": "filters",
+              "options": [
+                {
+                  "id": "value:issue-85e24ea7ac8016e9:v-be5c0e3f456509e86b50",
+                  "label": "Argentina（invoice.billing_country）"
+                },
+                {
+                  "id": "value:issue-85e24ea7ac8016e9:v-30a35165311e0978a54c",
+                  "label": "Australia（invoice.billing_country）"
+                },
+                {
+                  "id": "value:issue-85e24ea7ac8016e9:v-36b46ab9d6d2427d5c8f",
+                  "label": "Austria（invoice.billing_country）"
+                },
+                {
+                  "id": "value:issue-85e24ea7ac8016e9:v-a1e7e7214229ebf9909b",
+                  "label": "Belgium（invoice.billing_country）"
+                },
+                {
+                  "id": "value:issue-85e24ea7ac8016e9:v-035a5fa9bd5fc4b4175e",
+                  "label": "Brazil（invoice.billing_country）"
+                }
+              ]
+            }
+          ],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3820
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/ea2bf027b3364aa6a4d4299a465a4701.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 352,
+            "prompt_tokens": 5235,
+            "total_tokens": 5587,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4992
+            },
+            "prompt_cache_hit_tokens": 4992,
+            "prompt_cache_miss_tokens": 243
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2678
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 6760,
+      "nlu": {
+        "original_question": "统计 invoice_date 在 2030-01-01 到 2030-12-31（左闭右开）之间的发票张数；如果那段时间没有发票，就按这个时间范围查询并报告没有记录。",
+        "rewritten_question": "统计 invoice_date 在 2030-01-01 到 2030-12-31（左闭右开）之间的发票张数；如果那段时间没有发票，就按这个时间范围查询并报告没有记录。",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "之间",
+            "span": [
+              47,
+              49
+            ],
+            "status": "ambiguous",
+            "field_candidates": [
+              "invoice.billing_country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-be5c0e3f456509e86b50",
+                "column": "invoice.billing_country",
+                "standard_value": "Argentina",
+                "surface": "Argentina",
+                "score": 0.0,
+                "source": "catalog:invoice.billing_country",
+                "evidence_ref": "v-be5c0e3f456509e86b50",
+                "binding_policy": "direct",
+                "stage_scores": {
+                  "fuzzy": 0.0
+                }
+              },
+              {
+                "candidate_id": "v-30a35165311e0978a54c",
+                "column": "invoice.billing_country",
+                "standard_value": "Australia",
+                "surface": "澳大利亚",
+                "score": 0.0,
+                "source": "llm_draft:deepseek-flash",
+                "evidence_ref": "a-4c5e26e87ffb2aa2",
+                "binding_policy": "direct",
+                "stage_scores": {
+                  "fuzzy": 0.0
+                }
+              },
+              {
+                "candidate_id": "v-36b46ab9d6d2427d5c8f",
+                "column": "invoice.billing_country",
+                "standard_value": "Austria",
+                "surface": "Austria",
+                "score": 0.0,
+                "source": "catalog:invoice.billing_country",
+                "evidence_ref": "v-36b46ab9d6d2427d5c8f",
+                "binding_policy": "direct",
+                "stage_scores": {
+                  "fuzzy": 0.0
+                }
+              },
+              {
+                "candidate_id": "v-a1e7e7214229ebf9909b",
+                "column": "invoice.billing_country",
+                "standard_value": "Belgium",
+                "surface": "Belgium",
+                "score": 0.0,
+                "source": "catalog:invoice.billing_country",
+                "evidence_ref": "v-a1e7e7214229ebf9909b",
+                "binding_policy": "direct",
+                "stage_scores": {
+                  "fuzzy": 0.0
+                }
+              },
+              {
+                "candidate_id": "v-035a5fa9bd5fc4b4175e",
+                "column": "invoice.billing_country",
+                "standard_value": "Brazil",
+                "surface": "巴西",
+                "score": 0.0,
+                "source": "llm_draft:deepseek-flash",
+                "evidence_ref": "a-bfc3cf35431dcceb",
+                "binding_policy": "direct",
+                "stage_scores": {
+                  "fuzzy": 0.0
+                }
+              }
+            ],
+            "selected_candidate_id": null,
+            "match_method": "llm",
+            "evidence_ref": null,
+            "canonical_value": null,
+            "column": null,
+            "stages": [
+              {
+                "method": "exact",
+                "candidates": []
+              },
+              {
+                "method": "pinyin",
+                "candidates": []
+              },
+              {
+                "method": "fuzzy",
+                "candidates": [
+                  {
+                    "candidate_id": "v-be5c0e3f456509e86b50",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Argentina",
+                    "surface": "Argentina",
+                    "score": 0.0,
+                    "source": "catalog:invoice.billing_country",
+                    "evidence_ref": "v-be5c0e3f456509e86b50",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-30a35165311e0978a54c",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Australia",
+                    "surface": "澳大利亚",
+                    "score": 0.0,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-4c5e26e87ffb2aa2",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-36b46ab9d6d2427d5c8f",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Austria",
+                    "surface": "Austria",
+                    "score": 0.0,
+                    "source": "catalog:invoice.billing_country",
+                    "evidence_ref": "v-36b46ab9d6d2427d5c8f",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-a1e7e7214229ebf9909b",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Belgium",
+                    "surface": "Belgium",
+                    "score": 0.0,
+                    "source": "catalog:invoice.billing_country",
+                    "evidence_ref": "v-a1e7e7214229ebf9909b",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-035a5fa9bd5fc4b4175e",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Brazil",
+                    "surface": "巴西",
+                    "score": 0.0,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-bfc3cf35431dcceb",
+                    "binding_policy": "direct"
+                  }
+                ]
+              },
+              {
+                "method": "vector",
+                "candidates": [
+                  {
+                    "candidate_id": "v-9b20c6c3e4caad1de69a",
+                    "column": "invoice.billing_country",
+                    "standard_value": "United Kingdom",
+                    "surface": "英国",
+                    "score": 0.355798,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-a51a0dfa5111c6b0",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-475210ef4e08328852ec",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Germany",
+                    "surface": "德国",
+                    "score": 0.354675,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-3414db81951a6279",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-ab7ca55351c9f4bae96b",
+                    "column": "invoice.billing_country",
+                    "standard_value": "USA",
+                    "surface": "美国",
+                    "score": 0.351074,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-dca9d898c8a31e37",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-da1995626f6b421035ba",
+                    "column": "invoice.billing_country",
+                    "standard_value": "France",
+                    "surface": "法兰西",
+                    "score": 0.347387,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-9eb72fa09563fb7e",
+                    "binding_policy": "candidate_only"
+                  },
+                  {
+                    "candidate_id": "v-ed13ace46d49a0165890",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Canada",
+                    "surface": "加拿大",
+                    "score": 0.341806,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-b33ce127772f748d",
+                    "binding_policy": "direct"
+                  }
+                ]
+              },
+              {
+                "method": "llm",
+                "status": "ambiguous",
+                "selected_candidate_id": null
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L2",
+        "intent_version": 1,
+        "state": "WAITING_CLARIFICATION",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

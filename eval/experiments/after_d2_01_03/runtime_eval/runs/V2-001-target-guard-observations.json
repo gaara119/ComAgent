@@ -1,0 +1,575 @@
+{
+  "created_at": "2026-10-11T20:57:36.544520+00:00",
+  "claim": "真实target证据，不重算score、不声称未经执行的SQL等价或未执行post已改善",
+  "final_selection": "V1",
+  "V2_sp03_27_prior_numerator_user_evidence_present": true,
+  "V2_sp03_27_SQL_global_country_filter_present": false,
+  "V2_sp03_27_denominator_guard_rejected": true,
+  "V2_sp03_26_ordinary_posts_executed": false,
+  "targets": [
+    {
+      "id": "sp03-22",
+      "outcome": "api_failed",
+      "complete": false,
+      "turns": [
+        {
+          "index": 0,
+          "phase": "initial",
+          "message": "2024年法国居住客户的销售额占比是多少？",
+          "asked_key": null,
+          "supplement_key": null,
+          "trace_id": "664f3fc9-2b0c-4ddd-9547-a874d5b7cc55",
+          "status": "NEEDS_CLARIFICATION",
+          "sql": null,
+          "error": null,
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/000/request.json",
+          "request_sha256": "fd4ffcec9dc80c16598fa0b7e9b29b746119b7fb36ec7611c90ba748736606db",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/000/response.raw.json",
+          "response_sha256": "1f38edf5dd37958c0f7f443ea1a051e4d67f585246a7400ca8f18ead1ec0a04a",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/000/provider-evidence-supplement.json",
+          "providers": [
+            {
+              "case_id": "sp03-22",
+              "turn": 0,
+              "step": 8,
+              "trace_id": "664f3fc9-2b0c-4ddd-9547-a874d5b7cc55",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/a5337b3b6e14458e9f59fde1df7952a2.json",
+              "status": "supplement_archived",
+              "source_sha256": "d562bd155cb57240a107891730985bc9bcf6898d251d6cc940e39bea8ba7934e",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/000/provider/a5337b3b6e14458e9f59fde1df7952a2.json",
+              "copy_sha256": "d562bd155cb57240a107891730985bc9bcf6898d251d6cc940e39bea8ba7934e"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "phase": "clarification",
+          "message": "分母就用2024年所有发票销售额。",
+          "asked_key": "denominator",
+          "supplement_key": "denominator",
+          "trace_id": "ca591fb2-21bf-4fc4-993d-022ce27832e4",
+          "status": "FAILED",
+          "sql": "SELECT CASE WHEN SUM(i.\"total\") = 0 THEN NULL ELSE ROUND(SUM(CASE WHEN c.\"country\" = 'France' THEN i.\"total\" ELSE 0 END) / SUM(i.\"total\") * 100, 2) END AS ratio FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.\"customer_id\" = c.\"customer_id\" WHERE i.\"invoice_date\" >= '2024-01-01' AND i.\"invoice_date\" < '2025-01-01'",
+          "error": {
+            "code": "sql_rejected",
+            "message": "SQL 未通过校验：客户国家比例作用域未获证明：必须为条件SUM与SUM(total)的比例；修复仅可调整技术等价SQL，不能把分子国家加到全局WHERE或改变分母范围。",
+            "retryable": false
+          },
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/001/request.json",
+          "request_sha256": "8637f13f64f5b6e9bae5dd2008793d2e4c56568b5928996d28fa5d223b887802",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/001/response.raw.json",
+          "response_sha256": "f6604c092cf58f61798cbc133252b4706a7f55a610b1e065bd8618a0e9734e6e",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/001/provider-evidence-supplement.json",
+          "providers": [
+            {
+              "case_id": "sp03-22",
+              "turn": 1,
+              "step": 8,
+              "trace_id": "ca591fb2-21bf-4fc4-993d-022ce27832e4",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/2ce2681aa4a5474cb7e5634bf5f0fcc6.json",
+              "status": "supplement_archived",
+              "source_sha256": "8cd8b3a71b373377f902bfed8bb96c02f1fa516ee1fc8b08c4bdd97c403064f2",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/001/provider/2ce2681aa4a5474cb7e5634bf5f0fcc6.json",
+              "copy_sha256": "8cd8b3a71b373377f902bfed8bb96c02f1fa516ee1fc8b08c4bdd97c403064f2"
+            },
+            {
+              "case_id": "sp03-22",
+              "turn": 1,
+              "step": 10,
+              "trace_id": "ca591fb2-21bf-4fc4-993d-022ce27832e4",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/cba30d135b99471b8a16b6df4bfadfac.json",
+              "status": "supplement_archived",
+              "source_sha256": "1d7f0abfde74aa17b085ab1bd7dd08596192c8ed3e0a6c5c89a53c136022a23b",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/001/provider/cba30d135b99471b8a16b6df4bfadfac.json",
+              "copy_sha256": "1d7f0abfde74aa17b085ab1bd7dd08596192c8ed3e0a6c5c89a53c136022a23b"
+            },
+            {
+              "case_id": "sp03-22",
+              "turn": 1,
+              "step": 15,
+              "trace_id": "ca591fb2-21bf-4fc4-993d-022ce27832e4",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/8859f523cba14ee7ae8e75d12b0388f9.json",
+              "status": "supplement_archived",
+              "source_sha256": "61580427a03fcc1980e3052ab748ea40e94c3f30c995e68a6c4389400ac36baf",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/001/provider/8859f523cba14ee7ae8e75d12b0388f9.json",
+              "copy_sha256": "61580427a03fcc1980e3052ab748ea40e94c3f30c995e68a6c4389400ac36baf"
+            },
+            {
+              "case_id": "sp03-22",
+              "turn": 1,
+              "step": 20,
+              "trace_id": "ca591fb2-21bf-4fc4-993d-022ce27832e4",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/7e007faff956462cb0db57a9e01718cb.json",
+              "status": "supplement_archived",
+              "source_sha256": "df3f2a1337dbcf47615be8bab14d0308967f44cde81fff002d4005fafad84f18",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/001/provider/7e007faff956462cb0db57a9e01718cb.json",
+              "copy_sha256": "df3f2a1337dbcf47615be8bab14d0308967f44cde81fff002d4005fafad84f18"
+            }
+          ]
+        }
+      ],
+      "controller_events": [
+        {
+          "after_turn": 0,
+          "outcome": "answer",
+          "request": {
+            "session_id": "special-V2-00d00d92-e651-46f2-ad81-1cf310a8e155",
+            "message": "分母就用2024年所有发票销售额。",
+            "scope": {
+              "route": "sql",
+              "db_id": "chinook",
+              "doc_ids": []
+            },
+            "clarification_id": "4aa2936d-1667-4677-b36f-11b0c1b70952",
+            "intent_version": 1
+          },
+          "asked_key": "denominator",
+          "supplement_key": "denominator",
+          "reason": ""
+        }
+      ],
+      "executed_ordinary_post_count": 0
+    },
+    {
+      "id": "sp03-26",
+      "outcome": "controller_unanswered",
+      "complete": false,
+      "turns": [
+        {
+          "index": 0,
+          "phase": "initial",
+          "message": "同比增长多少？",
+          "asked_key": null,
+          "supplement_key": null,
+          "trace_id": "55e389bf-b4e8-4b01-aac4-5adab27d35cc",
+          "status": "NEEDS_CLARIFICATION",
+          "sql": null,
+          "error": null,
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/000/request.json",
+          "request_sha256": "9434936ea1913b48f679f4867b37ec6d9a2f9cf7beb3984be1013c9ef14556ac",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/000/response.raw.json",
+          "response_sha256": "1c10a30c8485adb397b71d76fac459e6101a3ca023be7fa2b225f82f8a06e46f",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/000/provider-evidence-supplement.json",
+          "providers": [
+            {
+              "case_id": "sp03-26",
+              "turn": 0,
+              "step": 7,
+              "trace_id": "55e389bf-b4e8-4b01-aac4-5adab27d35cc",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/c0838a81207f403d990b62463b5efa29.json",
+              "status": "supplement_archived",
+              "source_sha256": "a5e027a2afd70cafad63ab495485c4fea5a09fee2abacb10f58b6197b0d4a52f",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/000/provider/c0838a81207f403d990b62463b5efa29.json",
+              "copy_sha256": "a5e027a2afd70cafad63ab495485c4fea5a09fee2abacb10f58b6197b0d4a52f"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "phase": "clarification",
+          "message": "2024年全年。",
+          "asked_key": "time_ambiguous",
+          "supplement_key": "time_scope.current",
+          "trace_id": "84a32417-1bd3-4f31-84d8-87c0ac14d11b",
+          "status": "NEEDS_CLARIFICATION",
+          "sql": null,
+          "error": null,
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/001/request.json",
+          "request_sha256": "b2861d1661bead34f9a189cf1010d9d62be4b214ee48ff4060c214c67239e91e",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/001/response.raw.json",
+          "response_sha256": "34ec8570d32f65e9d637e693f73ff855a2398fee25f5875d2d307add49feea6d",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/001/provider-evidence-supplement.json",
+          "providers": [
+            {
+              "case_id": "sp03-26",
+              "turn": 1,
+              "step": 8,
+              "trace_id": "84a32417-1bd3-4f31-84d8-87c0ac14d11b",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/3fbf0b1f7aa341ee870882fda53c86af.json",
+              "status": "supplement_archived",
+              "source_sha256": "707fd14f798da0625199a6311f4dc73a33acff1ce8f69e33c9d7323572d94d95",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/001/provider/3fbf0b1f7aa341ee870882fda53c86af.json",
+              "copy_sha256": "707fd14f798da0625199a6311f4dc73a33acff1ce8f69e33c9d7323572d94d95"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "phase": "clarification",
+          "message": "按发票销售额算。",
+          "asked_key": "metric",
+          "supplement_key": "metric",
+          "trace_id": "cdf95fdd-e989-4c96-a56a-081727dfb8e0",
+          "status": "NEEDS_CLARIFICATION",
+          "sql": null,
+          "error": null,
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/002/request.json",
+          "request_sha256": "06515e141371b4f4dd5ff9297a357aa8c875ad4487e4b58e6d3ff64359d4c300",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/002/response.raw.json",
+          "response_sha256": "878f42b9a71a3942a1a5d038c6969872e2e36946853867928e40c4cd89be292d",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/002/provider-evidence-supplement.json",
+          "providers": [
+            {
+              "case_id": "sp03-26",
+              "turn": 2,
+              "step": 8,
+              "trace_id": "cdf95fdd-e989-4c96-a56a-081727dfb8e0",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/2eca380343cf4f4283702b7fa1c12118.json",
+              "status": "supplement_archived",
+              "source_sha256": "c6114f371e5cbe3ccc2a44a13114bb4a73445b8c8d5fa0404e5fddd4c899b895",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/002/provider/2eca380343cf4f4283702b7fa1c12118.json",
+              "copy_sha256": "c6114f371e5cbe3ccc2a44a13114bb4a73445b8c8d5fa0404e5fddd4c899b895"
+            }
+          ]
+        }
+      ],
+      "controller_events": [
+        {
+          "after_turn": 0,
+          "outcome": "answer",
+          "request": {
+            "session_id": "special-V2-ffe54f45-9907-442a-9b03-5ff2abe00406",
+            "message": "2024年全年。",
+            "scope": {
+              "route": "sql",
+              "db_id": "chinook",
+              "doc_ids": []
+            },
+            "clarification_id": "3244b4e1-16ce-4111-a537-0f6ad5a55d7e",
+            "intent_version": 1
+          },
+          "asked_key": "time_ambiguous",
+          "supplement_key": "time_scope.current",
+          "reason": ""
+        },
+        {
+          "after_turn": 1,
+          "outcome": "answer",
+          "request": {
+            "session_id": "special-V2-ffe54f45-9907-442a-9b03-5ff2abe00406",
+            "message": "按发票销售额算。",
+            "scope": {
+              "route": "sql",
+              "db_id": "chinook",
+              "doc_ids": []
+            },
+            "clarification_id": "925e21ce-ab0a-4ebd-8200-216733cdf652",
+            "intent_version": 2
+          },
+          "asked_key": "metric",
+          "supplement_key": "metric",
+          "reason": ""
+        },
+        {
+          "after_turn": 2,
+          "outcome": "controller_unanswered",
+          "request": null,
+          "asked_key": null,
+          "supplement_key": null,
+          "reason": "Unknown/unsupported asks, no allowed supplement, or a repeated unresolved key"
+        }
+      ],
+      "executed_ordinary_post_count": 0
+    },
+    {
+      "id": "sp03-27",
+      "outcome": "api_failed",
+      "complete": false,
+      "turns": [
+        {
+          "index": 0,
+          "phase": "initial",
+          "message": "2023年销售额占比是多少？",
+          "asked_key": null,
+          "supplement_key": null,
+          "trace_id": "456ac6ab-0b5a-42b9-a3db-05d8d16e3d7c",
+          "status": "NEEDS_CLARIFICATION",
+          "sql": null,
+          "error": null,
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/000/request.json",
+          "request_sha256": "60ced5b78888fc0043722b0e6e543d7942345d1e389522ab1fe99ee760f3f294",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/000/response.raw.json",
+          "response_sha256": "1f136538917a5de4662343f5ea1f95786a98a45cf4043de686970589e0f45602",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/000/provider-evidence-supplement.json",
+          "providers": [
+            {
+              "case_id": "sp03-27",
+              "turn": 0,
+              "step": 7,
+              "trace_id": "456ac6ab-0b5a-42b9-a3db-05d8d16e3d7c",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/d10671c74d454c25927a9cabb171b8d1.json",
+              "status": "supplement_archived",
+              "source_sha256": "214e1a13e0a9c60c4236a6c4303ddfcce292bdd453640215166902821c80c90b",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/000/provider/d10671c74d454c25927a9cabb171b8d1.json",
+              "copy_sha256": "214e1a13e0a9c60c4236a6c4303ddfcce292bdd453640215166902821c80c90b"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "phase": "clarification",
+          "message": "巴西居住客户的销售额。",
+          "asked_key": "numerator",
+          "supplement_key": "numerator",
+          "trace_id": "48e44fd8-6255-44ad-a982-f4a4c865442b",
+          "status": "NEEDS_CLARIFICATION",
+          "sql": null,
+          "error": null,
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/001/request.json",
+          "request_sha256": "c26dcf332f046ccd311c1d9bc944d216a870e1fb8316c585611f57755fabf7cf",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/001/response.raw.json",
+          "response_sha256": "92785f1bbb853af3d8828e3a15a1cb9f7e3459f88f0b529eb78e07a9cef072a7",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/001/provider-evidence-supplement.json",
+          "providers": [
+            {
+              "case_id": "sp03-27",
+              "turn": 1,
+              "step": 9,
+              "trace_id": "48e44fd8-6255-44ad-a982-f4a4c865442b",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/791bbdf0fce644e1b0287000a6e08273.json",
+              "status": "supplement_archived",
+              "source_sha256": "27c281e22b78c1345faeace2e562af598497dedf6f7602810ae5a772a51a4267",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/001/provider/791bbdf0fce644e1b0287000a6e08273.json",
+              "copy_sha256": "27c281e22b78c1345faeace2e562af598497dedf6f7602810ae5a772a51a4267"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "phase": "clarification",
+          "message": "分母是2023年全库的发票总销售额。",
+          "asked_key": "denominator",
+          "supplement_key": "denominator",
+          "trace_id": "7a2840d0-ecab-4f95-834e-6249eaa65ac3",
+          "status": "FAILED",
+          "sql": "SELECT CASE WHEN SUM(i.total) = 0 THEN NULL ELSE SUM(CASE WHEN c.country = 'Brazil' THEN i.total ELSE 0 END) / SUM(i.total) END AS ratio FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'",
+          "error": {
+            "code": "sql_rejected",
+            "message": "SQL 未通过校验：客户国家比例作用域未获证明：分子客户归属没有实际用户原文证据；修复仅可调整技术等价SQL，不能把分子国家加到全局WHERE或改变分母范围。",
+            "retryable": false
+          },
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/002/request.json",
+          "request_sha256": "0be90394477e5ea2aacb6e6d0ac097830200d6c3a76771c34caca6e39ad35acd",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/002/response.raw.json",
+          "response_sha256": "6c6fb535169332112ae5d21e2099d0f00afa293f2c29160729249cdcc0dbc720",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/002/provider-evidence-supplement.json",
+          "providers": [
+            {
+              "case_id": "sp03-27",
+              "turn": 2,
+              "step": 11,
+              "trace_id": "7a2840d0-ecab-4f95-834e-6249eaa65ac3",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/7f380fea516541eb87c89c0311ad545a.json",
+              "status": "supplement_archived",
+              "source_sha256": "dfa3e056b6a3984d3b223cb854cdb0929bc6fd4548a885d721d106dd1f169d21",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/002/provider/7f380fea516541eb87c89c0311ad545a.json",
+              "copy_sha256": "dfa3e056b6a3984d3b223cb854cdb0929bc6fd4548a885d721d106dd1f169d21"
+            },
+            {
+              "case_id": "sp03-27",
+              "turn": 2,
+              "step": 14,
+              "trace_id": "7a2840d0-ecab-4f95-834e-6249eaa65ac3",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/8e3dd585051e40aaba32f27fb309a28f.json",
+              "status": "supplement_archived",
+              "source_sha256": "ef00286a9d3d9d08ae795b615b8cfea719eeb43e89d28e996d8494a66f608314",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/002/provider/8e3dd585051e40aaba32f27fb309a28f.json",
+              "copy_sha256": "ef00286a9d3d9d08ae795b615b8cfea719eeb43e89d28e996d8494a66f608314"
+            },
+            {
+              "case_id": "sp03-27",
+              "turn": 2,
+              "step": 16,
+              "trace_id": "7a2840d0-ecab-4f95-834e-6249eaa65ac3",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/7ebd46eeb5124ad5aff798ff0d7b5969.json",
+              "status": "supplement_archived",
+              "source_sha256": "c38c7a3345c0d9f573a9f2bb97c17999ad0e92b70ebe380a982e3e2da2ec6d91",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/002/provider/7ebd46eeb5124ad5aff798ff0d7b5969.json",
+              "copy_sha256": "c38c7a3345c0d9f573a9f2bb97c17999ad0e92b70ebe380a982e3e2da2ec6d91"
+            },
+            {
+              "case_id": "sp03-27",
+              "turn": 2,
+              "step": 21,
+              "trace_id": "7a2840d0-ecab-4f95-834e-6249eaa65ac3",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/179ef75cc176407d98cc887500f14359.json",
+              "status": "supplement_archived",
+              "source_sha256": "5ed051b3a9ed09152ce88aab39ad40538b78e26d10258e06c90603d6dfe6b2e7",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/002/provider/179ef75cc176407d98cc887500f14359.json",
+              "copy_sha256": "5ed051b3a9ed09152ce88aab39ad40538b78e26d10258e06c90603d6dfe6b2e7"
+            },
+            {
+              "case_id": "sp03-27",
+              "turn": 2,
+              "step": 26,
+              "trace_id": "7a2840d0-ecab-4f95-834e-6249eaa65ac3",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/230e641d5d384f139e671d3448285b61.json",
+              "status": "supplement_archived",
+              "source_sha256": "8a767a9f542fa1407ddf48a532bd6632fa330345439ad4805f40a43e34a0e92a",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/002/provider/230e641d5d384f139e671d3448285b61.json",
+              "copy_sha256": "8a767a9f542fa1407ddf48a532bd6632fa330345439ad4805f40a43e34a0e92a"
+            }
+          ]
+        }
+      ],
+      "controller_events": [
+        {
+          "after_turn": 0,
+          "outcome": "answer",
+          "request": {
+            "session_id": "special-V2-2a70e351-f1e6-4360-a709-639648132b49",
+            "message": "巴西居住客户的销售额。",
+            "scope": {
+              "route": "sql",
+              "db_id": "chinook",
+              "doc_ids": []
+            },
+            "clarification_id": "296ac217-1d7a-4065-9c70-624ab3594f3d",
+            "intent_version": 1
+          },
+          "asked_key": "numerator",
+          "supplement_key": "numerator",
+          "reason": ""
+        },
+        {
+          "after_turn": 1,
+          "outcome": "answer",
+          "request": {
+            "session_id": "special-V2-2a70e351-f1e6-4360-a709-639648132b49",
+            "message": "分母是2023年全库的发票总销售额。",
+            "scope": {
+              "route": "sql",
+              "db_id": "chinook",
+              "doc_ids": []
+            },
+            "clarification_id": "dc92d41e-fd47-4ede-87c8-9641a9170b09",
+            "intent_version": 2
+          },
+          "asked_key": "denominator",
+          "supplement_key": "denominator",
+          "reason": ""
+        }
+      ],
+      "executed_ordinary_post_count": 0
+    },
+    {
+      "id": "sp03-28",
+      "outcome": "post_completion_incomplete",
+      "complete": false,
+      "turns": [
+        {
+          "index": 0,
+          "phase": "initial",
+          "message": "2022年金属乐队的销售额是多少？",
+          "asked_key": null,
+          "supplement_key": null,
+          "trace_id": "e204b789-c5bc-4546-9533-1f2ffb3307f3",
+          "status": "NEEDS_CLARIFICATION",
+          "sql": null,
+          "error": null,
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/000/request.json",
+          "request_sha256": "c8656254eb99c1197c2a6e9aef83bb6437447f9eceff4b6ef4036ca4098380bf",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/000/response.raw.json",
+          "response_sha256": "75f08b11aee10267078c5f702ca2245084d4ceb260f804714a411370c4b5eebc",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/000/provider-evidence-supplement.json",
+          "providers": []
+        },
+        {
+          "index": 1,
+          "phase": "clarification",
+          "message": "Metallica（artist.name）",
+          "asked_key": "filters",
+          "supplement_key": "object",
+          "trace_id": "22afde99-fc45-406e-ade1-20204209c496",
+          "status": "SUCCEEDED",
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS sales_amount FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS inv ON inv.invoice_id = il.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"album\" AS al ON al.album_id = t.album_id JOIN \"public\".\"artist\" AS ar ON ar.artist_id = al.artist_id WHERE ar.name = 'Metallica' AND inv.invoice_date >= '2022-01-01' AND inv.invoice_date < '2023-01-01'",
+          "error": null,
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/001/request.json",
+          "request_sha256": "5927773f62b66f166e9df85f428674378516847d8e3e167faadecc47384585e7",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/001/response.raw.json",
+          "response_sha256": "d13de956d5cebead6f7b0d59ce4ea8162f56d9372b07b0bc520c64c7ca293094",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/001/provider-evidence-supplement.json",
+          "providers": [
+            {
+              "case_id": "sp03-28",
+              "turn": 1,
+              "step": 9,
+              "trace_id": "22afde99-fc45-406e-ade1-20204209c496",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/1b1136b3d3f54ce38292c92ee3f03cd9.json",
+              "status": "supplement_archived",
+              "source_sha256": "604b03f40806245fc3b2205716ebcf59a13c9a46e47cbaef14790fc74b807258",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/001/provider/1b1136b3d3f54ce38292c92ee3f03cd9.json",
+              "copy_sha256": "604b03f40806245fc3b2205716ebcf59a13c9a46e47cbaef14790fc74b807258"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "phase": "post_completion",
+          "message": "改成流派 Metal。",
+          "asked_key": null,
+          "supplement_key": null,
+          "trace_id": "4d7fac99-d896-4eaf-b0f7-a346ba02ad0d",
+          "status": "FAILED",
+          "sql": null,
+          "error": {
+            "code": "clarification_conflict",
+            "message": "替换筛选时丢失了未被用户修改的其它条件；删除条件需要明确 remove 补丁。",
+            "retryable": false
+          },
+          "request": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/002/request.json",
+          "request_sha256": "de20fe11be0944471cc880cfd74199c76920aa75c2abbbc1c9fe764684e9e747",
+          "response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/002/response.raw.json",
+          "response_sha256": "d4b7a0fd81657d1b753f7487d20f1c69b017396db9561c8c57eaee5aaf978b2f",
+          "provider_supplement": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/002/provider-evidence-supplement.json",
+          "providers": [
+            {
+              "case_id": "sp03-28",
+              "turn": 2,
+              "step": 11,
+              "trace_id": "4d7fac99-d896-4eaf-b0f7-a346ba02ad0d",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/f75e2c5372b447358c8541ac53e7104d.json",
+              "status": "supplement_archived",
+              "source_sha256": "20943bccceafd964ad98e7a1333b2500e0977a606c78c03437647d5ce39cbb76",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/002/provider/f75e2c5372b447358c8541ac53e7104d.json",
+              "copy_sha256": "20943bccceafd964ad98e7a1333b2500e0977a606c78c03437647d5ce39cbb76"
+            },
+            {
+              "case_id": "sp03-28",
+              "turn": 2,
+              "step": 14,
+              "trace_id": "4d7fac99-d896-4eaf-b0f7-a346ba02ad0d",
+              "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/dc612b04e76443aeb2f9b1e7b69dbf67.json",
+              "status": "supplement_archived",
+              "source_sha256": "ed6c0d5e71e377fd78cd65b67b1f337bd4bc0b3511f1905f70f732a27ad59947",
+              "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/002/provider/dc612b04e76443aeb2f9b1e7b69dbf67.json",
+              "copy_sha256": "ed6c0d5e71e377fd78cd65b67b1f337bd4bc0b3511f1905f70f732a27ad59947"
+            }
+          ]
+        }
+      ],
+      "controller_events": [
+        {
+          "after_turn": 0,
+          "outcome": "answer",
+          "request": {
+            "session_id": "special-V2-03f7bd1f-cace-40b3-9c08-d84c36e0cbe4",
+            "message": "Metallica（artist.name）",
+            "scope": {
+              "route": "sql",
+              "db_id": "chinook",
+              "doc_ids": []
+            },
+            "clarification_id": "439fe0c2-8810-4422-8a88-fd7fa62a61d7",
+            "intent_version": 1,
+            "choice_id": "value:issue-346fcbfe5011f2f9:v-8cfcf0e35bfb7532e28a"
+          },
+          "asked_key": "filters",
+          "supplement_key": "object",
+          "reason": ""
+        }
+      ],
+      "executed_ordinary_post_count": 1
+    }
+  ]
+}

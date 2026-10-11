@@ -1,0 +1,518 @@
+{
+  "report_kind": "最终交付决策与证据独立只读核对；不是业务修复或人工签字",
+  "created_at_utc": "2026-10-11T21:10:16.458110+00:00",
+  "selected_final_version": "V1",
+  "rejected_trial": "V2",
+  "overall_advice": "AI建议有条件通过：最终决策报告事实准确，单位人审及最终ZIP/D2回归另有边界",
+  "summary": {
+    "checks": 14,
+    "verdict_counts": {
+      "AI建议通过": 12,
+      "AI建议有条件通过": 2
+    },
+    "new_unresolved_factual_errors": 0,
+    "documentation_findings_resolved_before_final_read": 3,
+    "business_or_human_approval_implied": false,
+    "original_scores_modified": false,
+    "new_api_requests": 0,
+    "new_database_queries": 0,
+    "runtime_or_prompt_mutations": 0,
+    "human_review_record_mutations": 0,
+    "original_target_observation_preserved": true
+  },
+  "role_disclosure": "审读者曾实现D3澄清及V2候选；本报告独立交叉核对root决策报告与原始证据，不冒充未参与实现的盲审。root另有源码/模块第二遍核验。",
+  "checks": [
+    {
+      "id": "FC-01",
+      "audit_object": "材料访问与本次核验范围",
+      "verdict": "AI建议通过",
+      "reason": "实际读取三份最终决策报告、术语勘误、三轮score/comparison、target原始请求响应和provider、实际恢复/重启/模块记录、两版task03逐条审核及引用的Final V1 task01原始响应。没有仅凭条目标题或HTML展开按钮判断。未读取真实.env或保留题。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/version-decisions.md",
+          "location": "全文",
+          "sha256": "0b8d25a75dc6960aeb1031159eb76bf4b1e204a78d13646b953f08fd8cf8aef7"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/remaining-feature-gaps.md",
+          "location": "全文",
+          "sha256": "29e6aaa85f11694edaea785809a8fe6b59deb29b64a5e46b30606a81e7ceee47"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/restore-instructions.md",
+          "location": "全文",
+          "sha256": "c9a35208838f7bd33c74a24eae732864ff3a2c3ad9b7524e6e0743f725a8b329"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-target-guard-observations.json",
+          "location": "targets；11个turn/18条provider source+copy核验",
+          "sha256": "bf9d34fdb1a602046b1d33e6a329d4f0c87c37e2d019eb7185d1b8f685cc265f"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-02",
+      "audit_object": "冻结题库及三版本评分依据",
+      "verdict": "AI建议通过",
+      "reason": "三轮均60个原编号、49可评分/11原标注待确认；题库SHA一致，score的labels_sha256与当前固定文件一致；三份评分文件SHA相同。新增参考争议没有静默改变原49分母。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+          "location": "60条；scorable/human_review_status",
+          "sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-scores.json",
+          "location": "labels_sha256/scoring_files_sha256",
+          "sha256": "7f593311e7d4d1a6b3d3d01383b00e95e434d8c681ce029ed240bb8012516cab"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-scores.json",
+          "location": "labels_sha256/scoring_files_sha256",
+          "sha256": "af319fde76d4a617c365c7772b564fd88cd3dd7191d7272664aa6017099178fb"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-scores.json",
+          "location": "labels_sha256/scoring_files_sha256",
+          "sha256": "ecbd8cb3ce9d1dd1fc76290ddcbf145fb1a72c22c72c45b3ab8d037901039e91"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-03",
+      "audit_object": "三轮确认完成和失败数字",
+      "verdict": "AI建议通过",
+      "reason": "V0/V1均18/49（总候选18/60）、自动失败22、整题语义待核验9；V2为18/49、失败23、语义待核验8。03分项V0/V1为4/23、V2为5/23。比较JSON完整groups与三份原score相同，三个score字节SHA匹配。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-V1-V2-frozen-score-comparison.json",
+          "location": "groups/score_sha256",
+          "sha256": "3810ac0a9dca9ba1879a4dd9bba3c93c1723c8d747bf9b6a1128eeeb9d7d7ef6"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/version-decisions.md",
+          "location": "版本结果表",
+          "sha256": "0b8d25a75dc6960aeb1031159eb76bf4b1e204a78d13646b953f08fd8cf8aef7"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-04",
+      "audit_object": "unknown、分母和计量边界",
+      "verdict": "AI建议通过",
+      "reason": "comparison保留原各指标适用/观察分母及unresolved数；整题AI_pending与原11标注争议分别记录。Final V1必要澄清召回11/11与完整L2完成0/11分开；费用未估算，未把置信区间当泛化或显著性证明。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-scores.json",
+          "location": "summary.groups.all.metrics / task:03.metrics",
+          "sha256": "af319fde76d4a617c365c7772b564fd88cd3dd7191d7272664aa6017099178fb"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/remaining-feature-gaps.md",
+          "location": "完整L2完成与初始召回段",
+          "sha256": "29e6aaa85f11694edaea785809a8fe6b59deb29b64a5e46b30606a81e7ceee47"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/version-decisions.md",
+          "location": "评分与审核边界",
+          "sha256": "0b8d25a75dc6960aeb1031159eb76bf4b1e204a78d13646b953f08fd8cf8aef7"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-05",
+      "audit_object": "调用数、token及额外诊断口径",
+      "verdict": "AI建议通过",
+      "reason": "81+83+80=244个POST；112+115+117=344次provider尝试；493649+501792+518347=1513788预测token。额外诊断、造题/标签核验及D2回归不混入60题cohort。原自动provider归档0与后补112/115/117记录分开，没有把后补归档写成新调用。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-V1-V2-frozen-score-comparison.json",
+          "location": "API_cohort_observations/supplement_provider_verified/root_separate_diagnostics_included",
+          "sha256": "3810ac0a9dca9ba1879a4dd9bba3c93c1723c8d747bf9b6a1128eeeb9d7d7ef6"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/version-decisions.md",
+          "location": "末段",
+          "sha256": "0b8d25a75dc6960aeb1031159eb76bf4b1e204a78d13646b953f08fd8cf8aef7"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/restore-instructions.md",
+          "location": "独立观察归档补充",
+          "sha256": "c9a35208838f7bd33c74a24eae732864ff3a2c3ad9b7524e6e0743f725a8b329"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-06",
+      "audit_object": "V1实际范围和局部效果",
+      "verdict": "AI建议通过",
+      "reason": "V0→V1 runtime manifest唯一变化是intent_patch.txt；safe_config相同，准确文本1406→2021字符。sp03-27被问numerator的实际中文补充正确仅写分子；随后真实SQL计算2023分子/全库分母fraction0.04216533923932024362，但后续改分子仍丢条件。报告正确写局部改善、整题未完成、总体原分数未提升。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/V0-code-snapshot.json",
+          "location": "files/safe_config",
+          "sha256": "2ccf11827645f0c01c692997c9ef2934a5d08eb9cc76d50679cd22dfb124e280"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/V1-code-snapshot.json",
+          "location": "files/safe_config",
+          "sha256": "13c8063f2c04e8762128aba22480088f2d4e96676e075f1a81ab89a1a8a9a7e8"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/version-changes/V1/intent_patch.before.txt",
+          "location": "全文字符数1406",
+          "sha256": "5c357f5db954a9cc658a7410421538079b779d9a05fa83f63ce6916100613620"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/version-changes/V1/intent_patch.after.txt",
+          "location": "全文字符数2021",
+          "sha256": "cba09e1277f52573a53fce77157b9d7d22efba58de49e013612b43fbd0bc02ec"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/v1-task03-semantic-review.json",
+          "location": "cases[id=sp03-27]",
+          "sha256": "16b61f7717e4bd1dcb47514f63abfcca323e384b2df048c42ba6a2c356ada1b5"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-07",
+      "audit_object": "V2拒绝事实及失败归因",
+      "verdict": "AI建议通过",
+      "reason": "sp03-22最终SQL国家仅在CASE分子、WHERE仅2024期间；(条件SUM/SUM总额)*100再ROUND是合法百分比表达，FAILED/table=null为guard表达式覆盖不足，未写成分母业务错误或SQL已实跑。sp03-27真实中文分子证据先前存在；下一轮丢surface导致来源拒绝，而非用户未给分子或分母被国家缩窄。原target顶层旧denominator字段名的偏差以新增勘误处理，未覆盖原记录。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-target-guard-observations.json",
+          "location": "targets[id=sp03-22,sp03-27]",
+          "sha256": "bf9d34fdb1a602046b1d33e6a329d4f0c87c37e2d019eb7185d1b8f685cc265f"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/V2-target-guard-terminology-clarification.md",
+          "location": "全文",
+          "sha256": "6ac13096ac8862452bfa3a8cf6420169216f765b43cc2794f3cae6887eab9cc3"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/v2-task03-semantic-review.json",
+          "location": "cases[id=sp03-22,sp03-27]",
+          "sha256": "ac7e6d636c2e35402620af855b2354bf362843b95691827995e0474fab581af5"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-08",
+      "audit_object": "采用V1/实际撤回V2",
+      "verdict": "AI建议通过",
+      "reason": "已实际将pipeline/validator恢复精确V1字节，移除仅V2新增helper/active测试；原试验档案保留。独立重算73个当前runtime/assets SHA，全部匹配V1-final与V1快照；safe_config相同。不是仅写回退建议，也没有宣称保留失败V2或第三轮优化。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/version-changes/V2/actual-restore-to-V1.json",
+          "location": "restored_files/removed_self_owned_files",
+          "sha256": "2b769b9ad1da2745e18af1051c4355cee511b63574271ca02c19358aeaf0ec05"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/V1-final-code-snapshot.json",
+          "location": "全部73项files/safe_config",
+          "sha256": "d39155969c4903059aced4aaf197a79f8d175c7453daabf83515f81617f5203c"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/V1-code-snapshot.json",
+          "location": "files/safe_config",
+          "sha256": "13c8063f2c04e8762128aba22480088f2d4e96676e075f1a81ab89a1a8a9a7e8"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-09",
+      "audit_object": "Final装载记录与模块结果",
+      "verdict": "AI建议通过",
+      "reason": "实际恢复后Final模块exit0，stdout为415passed14.76s；与V2的72targeted/462全模块结果区分。V1-final重启记录API79516/UI76440、health模型deepseek-flash、调用3/请求12、DB超时5000ms，files_sha256匹配Final快照。本次只核对原重启记录，没有重新发health/API请求或把mock模块当真实EX。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/regression/final/modules-final-V1-001/command.json",
+          "location": "exit_code/source_sha256/measurement",
+          "sha256": "a130c6c05cd6e0f0867dbe161cee0bfd2156b40e3ad18471f5230bb6bc7e3195"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/regression/final/modules-final-V1-001/pytest.stdout.txt",
+          "location": "末行415passed14.76s",
+          "sha256": "9c269011b0b9a63fc1d2c56458cd3205907aad0d9987d127fa1c9898c8eed1cb"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/V1-final-restart-record.json",
+          "location": "health/files_sha256/pid/ui_pid",
+          "sha256": "555ada1a2e0eb002c5d45fb2174ced50c2b6f1fbd94b2f94d5c5a832424b2a89"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-10",
+      "audit_object": "人工状态与参考/预测分离",
+      "verdict": "AI建议通过",
+      "reason": "题库全部60条仍pending_human_review；V1/V2两个task03逐项报告各30条也全部pending，未代填A/B签字或人工日期。参考、实际回答、controller限制和原冻结分数分别记录；AI通过数没有充当新的18/49或正式EX。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+          "location": "human_review_status",
+          "sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/v1-task03-semantic-review.json",
+          "location": "30条reference_review/actual_system_review/controller_review",
+          "sha256": "16b61f7717e4bd1dcb47514f63abfcca323e384b2df048c42ba6a2c356ada1b5"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/v2-task03-semantic-review.json",
+          "location": "30条human_review_status",
+          "sha256": "ac7e6d636c2e35402620af855b2354bf362843b95691827995e0474fab581af5"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-11",
+      "audit_object": "剩余问题报告的实际对应",
+      "verdict": "AI建议通过",
+      "reason": "已用Final V1原始响应独立核对France两题无rewrite、artist题repair改album.title；task03全部30条原始/provider已逐条读过。gaps保留每年误判、明确分子漏提取、两年SQL与一年intent错位、fresh route丢条件、替换筛选conflict、中文rank_object绕过期间及比例守卫问题，不把可运行SQL或同值当完整业务通过。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/remaining-feature-gaps.md",
+          "location": "①/③及参考控制器段",
+          "sha256": "29e6aaa85f11694edaea785809a8fe6b59deb29b64a5e46b30606a81e7ceee47"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-04/checkpoint.json",
+          "location": "turns[0].response",
+          "sha256": "2dd9eff015669a94d3ea078a6015fe783d38823e42e925cd202ababe201e6a4e"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-17/checkpoint.json",
+          "location": "turns[0].response",
+          "sha256": "1855085a031b2f192b33012da4e3b491a120ccfdce096a01c657be8a0f28e30d"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-05/checkpoint.json",
+          "location": "turns[0].response",
+          "sha256": "10729d516f8383183fa734f2911ed8de743a10f9f1ba8e1d665ec08a58fcbcad"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-18/checkpoint.json",
+          "location": "turns[0].response",
+          "sha256": "9535f185e628219e3c2123bab4a63a6c029c6f9eebc381b85dc2ff4acaf857ea"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/v1-task03-semantic-review.json",
+          "location": "cases[14,18,22,26,27,28,30]按原编号",
+          "sha256": "16b61f7717e4bd1dcb47514f63abfcca323e384b2df048c42ba6a2c356ada1b5"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-12",
+      "audit_object": "相对证据链接与本轮报告勘误",
+      "verdict": "AI建议通过",
+      "reason": "四份MD共17个Markdown本地链接均存在且在项目内；统一人审HTML存在。恢复说明已明确runtime_eval相对EXP、qa_agent/scripts相对system，并补真实已恢复入口。初读发现的路径歧义、旧字段术语和14/22漏列均由root补充，最终版本已读回，保留target原字节。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/restore-instructions.md",
+          "location": "路径基准和实际恢复入口",
+          "sha256": "c9a35208838f7bd33c74a24eae732864ff3a2c3ad9b7524e6e0743f725a8b329"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/V2-target-guard-terminology-clarification.md",
+          "location": "旧字段名勘误",
+          "sha256": "6ac13096ac8862452bfa3a8cf6420169216f765b43cc2794f3cae6887eab9cc3"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/remaining-feature-gaps.md",
+          "location": "③首条",
+          "sha256": "29e6aaa85f11694edaea785809a8fe6b59deb29b64a5e46b30606a81e7ceee47"
+        }
+      ],
+      "remaining_human_or_external_check": []
+    },
+    {
+      "id": "FC-13",
+      "audit_object": "比例单位及独立只读金额记录",
+      "verdict": "AI建议有条件通过",
+      "reason": "主报告明确V1为fraction、V2-22为ROUND后的percent；没有用数字裸值或同列名混为相同单位。独立诊断API实际NEEDS_CLARIFICATION/noSQL；France36.66、全库477.53和fraction0.07677004586099302662来自另存只读标准查询，未冒作被测系统完成。本次没有再执行DB。统一输出单位/四舍五入规范仍需人审，未擅自添加百分数默认。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/regression/final/ratio-live-001/request.json",
+          "location": "明确2024居住客户/全库范围",
+          "sha256": "f3c290961d9b6147e7ada1ff79ea9e9f20eb40be981504debcd69e300d73544c"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/regression/final/ratio-live-001/response.raw.json",
+          "location": "status/intent/sql/table",
+          "sha256": "bb32e01885002377772983c8b68a4c8282f26f219421c247ade15c1f838c5a0c"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/regression/final/ratio-live-001/report.json",
+          "location": "只读核验记录",
+          "sha256": "e1683fc1126bd2c06ccbe6860347701e6547bdb1c81a8b050ea67acdc273655a"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/version-decisions.md",
+          "location": "V1 fraction及V2 percent段",
+          "sha256": "0b8d25a75dc6960aeb1031159eb76bf4b1e204a78d13646b953f08fd8cf8aef7"
+        }
+      ],
+      "remaining_human_or_external_check": [
+        "核对fraction与percent的产品显示格式及舍入规则；本审不替团队确定单位默认。"
+      ]
+    },
+    {
+      "id": "FC-14",
+      "audit_object": "保留集、Final D2回归及ZIP边界",
+      "verdict": "AI建议有条件通过",
+      "reason": "本轮三个cohort只有固定60条合成开发题，score原编号/数据来源一致；没有保留预测。报告注明D2保留33/D3保留18留到D5。本次未调用API/DB，也未验尚未交付的ZIP或另行运行的D2最终回归；不能从本审17链接存在或73文件一致推断压缩包已无敏感配置/保留题或D2Final成绩。",
+      "evidence": [
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/restore-instructions.md",
+          "location": "人工审核与保留集",
+          "sha256": "c9a35208838f7bd33c74a24eae732864ff3a2c3ad9b7524e6e0743f725a8b329"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/reports/version-decisions.md",
+          "location": "Final D2回归另存",
+          "sha256": "0b8d25a75dc6960aeb1031159eb76bf4b1e204a78d13646b953f08fd8cf8aef7"
+        },
+        {
+          "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-V1-V2-frozen-score-comparison.json",
+          "location": "固定cohort",
+          "sha256": "3810ac0a9dca9ba1879a4dd9bba3c93c1723c8d747bf9b6a1128eeeb9d7d7ef6"
+        }
+      ],
+      "remaining_human_or_external_check": [
+        "由最终交付生成器保存ZIP成员/敏感材料排除核验，并引用D2Final真实回归结果；本审不预填。"
+      ]
+    }
+  ],
+  "numerical_reconciliation": {
+    "V0": {
+      "total_tasks": 60,
+      "scorable_tasks": 49,
+      "pending_annotation": 11,
+      "confirmed_correct": 18,
+      "automatic_failed": 22,
+      "semantic_AI_pending": 9,
+      "api_post_requests": 81,
+      "provider_attempts": 112,
+      "tokens": 493649,
+      "api_ambiguous_delivery_requests": 0,
+      "prepared_requests_without_response": 0,
+      "task03_automatic": "4/23",
+      "l2_complete": "0/11"
+    },
+    "V1": {
+      "total_tasks": 60,
+      "scorable_tasks": 49,
+      "pending_annotation": 11,
+      "confirmed_correct": 18,
+      "automatic_failed": 22,
+      "semantic_AI_pending": 9,
+      "api_post_requests": 83,
+      "provider_attempts": 115,
+      "tokens": 501792,
+      "api_ambiguous_delivery_requests": 0,
+      "prepared_requests_without_response": 0,
+      "task03_automatic": "4/23",
+      "l2_complete": "0/11"
+    },
+    "V2": {
+      "total_tasks": 60,
+      "scorable_tasks": 49,
+      "pending_annotation": 11,
+      "confirmed_correct": 18,
+      "automatic_failed": 23,
+      "semantic_AI_pending": 8,
+      "api_post_requests": 80,
+      "provider_attempts": 117,
+      "tokens": 518347,
+      "api_ambiguous_delivery_requests": 0,
+      "prepared_requests_without_response": 0,
+      "task03_automatic": "5/23",
+      "l2_complete": "0/11"
+    }
+  },
+  "measurement_totals": {
+    "POST": 244,
+    "provider_attempts": 344,
+    "prediction_tokens": 1513788
+  },
+  "unknowns": {
+    "V0": {
+      "pending_annotation": 11,
+      "semantic_AI_pending": 9,
+      "metric_unresolved": {
+        "binding_correctness": 2,
+        "initial_level_correct": 0,
+        "necessary_clarification_recall": 0,
+        "false_clarification": 0,
+        "clarification_effectiveness": 2,
+        "condition_preservation": 21,
+        "overcorrection": 13,
+        "l1_default_switch_behavior": 0
+      },
+      "fee": "not estimated"
+    },
+    "V1": {
+      "pending_annotation": 11,
+      "semantic_AI_pending": 9,
+      "metric_unresolved": {
+        "binding_correctness": 2,
+        "initial_level_correct": 0,
+        "necessary_clarification_recall": 0,
+        "false_clarification": 0,
+        "clarification_effectiveness": 2,
+        "condition_preservation": 20,
+        "overcorrection": 13,
+        "l1_default_switch_behavior": 0
+      },
+      "fee": "not estimated"
+    },
+    "V2": {
+      "pending_annotation": 11,
+      "semantic_AI_pending": 8,
+      "metric_unresolved": {
+        "binding_correctness": 1,
+        "initial_level_correct": 0,
+        "necessary_clarification_recall": 0,
+        "false_clarification": 0,
+        "clarification_effectiveness": 2,
+        "condition_preservation": 18,
+        "overcorrection": 13,
+        "l1_default_switch_behavior": 0
+      },
+      "fee": "not estimated"
+    }
+  },
+  "evidence_check": {
+    "path": "eval/experiments/after_d2_01_03/reports/final-decision-evidence-check.json",
+    "sha256": "b8a1758ff222e61daa71bb4f763fd1969e42bbddbc7c380beceeae8a9703fc7e",
+    "runtime_files_checked": 73,
+    "runtime_hash_mismatches": 0,
+    "markdown_links_checked": 17,
+    "missing_links": 0,
+    "target_turns_checked": 11,
+    "target_provider_entries_checked": 18,
+    "target_hash_or_content_mismatches": 0
+  },
+  "human_review_status": "pending_human_review",
+  "limits": [
+    "No current HTTP health check or new query was performed; service claim is historical restart evidence.",
+    "ZIP has not been inspected by this audit; packaging/secret/held-content checks belong to the delivery builder.",
+    "D2 Final regression completion is not inferred; report at this audit time treats it separately.",
+    "Auditor implemented D3/V2; this is independent final decision/document cross-check, not a blind implementer-independent code audit."
+  ]
+}

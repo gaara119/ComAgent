@@ -1,0 +1,360 @@
+{
+  "started_at_utc": "2026-10-11T20:33:47.786825+00:00",
+  "finished_at_utc": "2026-10-11T20:33:51.554764+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "special-V1-7d0ccc82-08ef-4bfe-9e75-1bc7822187d7",
+    "message": "What was the total invoice revenue for Canada in 2024?",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "a4d06843-84bc-4197-9762-cce10bad2d4a",
+    "status": "NEEDS_CLARIFICATION",
+    "answer": "国家按客户所在地还是发票账单国家？",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [],
+    "clarification": {
+      "clarification_id": "4f2eb2c4-a0ee-4d01-8c36-2e43787ce331",
+      "intent_version": 1,
+      "level": "L2",
+      "question": "国家按客户所在地还是发票账单国家？",
+      "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+      "issues": [
+        {
+          "id": "region_scope",
+          "question": "国家按客户所在地还是发票账单国家？",
+          "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+          "field": "region_scope",
+          "options": [
+            {
+              "id": "billing_country",
+              "label": "按发票账单国家"
+            },
+            {
+              "id": "customer_country",
+              "label": "按客户所在地国家"
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "id": "billing_country",
+          "label": "按发票账单国家"
+        },
+        {
+          "id": "customer_country",
+          "label": "按客户所在地国家"
+        }
+      ],
+      "resume_supported": true
+    },
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "aggregation",
+      "metric": "invoice_revenue",
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "grain": "year",
+          "label": "2024"
+        },
+        "base": null
+      },
+      "filters": [
+        {
+          "column": "invoice.billing_country",
+          "operator": "=",
+          "value": "Canada",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "v-ed13ace46d49a0165890",
+          "source": "verified_value_index"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": [
+        {
+          "id": "region_scope",
+          "question": "国家按客户所在地还是发票账单国家？",
+          "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+          "field": "region_scope",
+          "options": [
+            {
+              "id": "billing_country",
+              "label": "按发票账单国家"
+            },
+            {
+              "id": "customer_country",
+              "label": "按客户所在地国家"
+            }
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 26
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "Canada",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "v-ed13ace46d49a0165890",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "Canada"
+        },
+        "output_summary": {
+          "candidate_count": 1,
+          "candidate_ids": [
+            "v-ed13ace46d49a0165890"
+          ],
+          "scores": [
+            1.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "What was the total invoice revenue for Canada in 2024?"
+        },
+        "output_summary": {
+          "rewritten_question": "What was the total invoice revenue for Canada in 2024?",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "warn",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L2",
+          "intent_version": 1,
+          "issues": [
+            {
+              "id": "region_scope",
+              "question": "国家按客户所在地还是发票账单国家？",
+              "reason": "这两个字段业务含义不同，不能因当前结果相同而合并。",
+              "field": "region_scope",
+              "options": [
+                {
+                  "id": "billing_country",
+                  "label": "按发票账单国家"
+                },
+                {
+                  "id": "customer_country",
+                  "label": "按客户所在地国家"
+                }
+              ]
+            }
+          ],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3736
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/d6cef0430da34631be8c63cc1c42a22a.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 184,
+            "prompt_tokens": 5262,
+            "total_tokens": 5446,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 5120
+            },
+            "prompt_cache_hit_tokens": 5120,
+            "prompt_cache_miss_tokens": 142
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2610
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 3766,
+      "nlu": {
+        "original_question": "What was the total invoice revenue for Canada in 2024?",
+        "rewritten_question": "What was the total invoice revenue for Canada in 2024?",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "Canada",
+            "span": [
+              39,
+              45
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "invoice.billing_country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-ed13ace46d49a0165890",
+                "column": "invoice.billing_country",
+                "standard_value": "Canada",
+                "surface": "Canada",
+                "score": 1.0,
+                "source": "catalog:invoice.billing_country",
+                "evidence_ref": "v-ed13ace46d49a0165890",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": "v-ed13ace46d49a0165890",
+            "match_method": "exact",
+            "evidence_ref": "v-ed13ace46d49a0165890",
+            "canonical_value": "Canada",
+            "column": "invoice.billing_country",
+            "stages": [
+              {
+                "method": "exact",
+                "candidates": [
+                  {
+                    "candidate_id": "v-ed13ace46d49a0165890",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Canada",
+                    "surface": "Canada",
+                    "score": 1.0,
+                    "source": "catalog:invoice.billing_country",
+                    "evidence_ref": "v-ed13ace46d49a0165890",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Canada",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-ed13ace46d49a0165890",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L2",
+        "intent_version": 1,
+        "state": "WAITING_CLARIFICATION",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

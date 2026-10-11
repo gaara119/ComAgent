@@ -22,9 +22,27 @@ TITLE = "①③专项造题与提示词优化-逐项验收与证据"
 OUT = ROOT / EXP / "reports" / "acceptance"
 PROTECTED = ["eval/datasets/sql_holdout", "eval/datasets/robust_holdout",
              "eval/datasets/rag_holdout", "eval/datasets/d3/clarify/protected_holdout/",
+             "eval/datasets/nl2sql_chinook.jsonl", "eval/datasets/nl2sql_chinook_d2.jsonl",
+             "eval/datasets/robust.jsonl", "eval/datasets/rag_single.jsonl", "eval/datasets/rag_ohr.jsonl",
              "eval/artifacts/d3/a/gold/holdout/", "eval/datasets/d3/aw_schema_link.holdout.jsonl",
              "eval/datasets/d3/aw_schema_link.jsonl", "eval/datasets/d3/aw_schema_link.v2.jsonl",
              "scripts/build_d3_aw_dataset.py", "scripts/build_d3_clarify_cases.py"]
+D2_REGRESSION = {
+    'sql': {'dataset': 'eval/artifacts/d2-final/review/sql-dev-v1.jsonl', 'count': 35,
+            'suite': 'nl2sql', 'sha256': '7b4c18f203ce0d88f38837f0c788cbcff142b559dc70d3f281990a2d47175f35'},
+    'robust': {'dataset': 'eval/artifacts/d2-final/review/robust-dev-v1.jsonl', 'count': 21,
+               'suite': 'robust', 'sha256': '1d6c7732b5196e7146e3b3f01fe4f9ccb24ad354c6b20776631192c605d213f7'},
+    'rag': {'dataset': 'eval/artifacts/d2-final/review/rag-dev-view.jsonl', 'count': 21,
+            'suite': 'rag', 'sha256': '12b8cc7de87ea73bc60a2e9b7d527d0721956ef1bf4256ccf6a70331a7f57f63'},
+}
+D2_EVALUATION_SOURCES = ['eval/run_eval.py', 'eval/dataset.py', 'eval/metrics.py',
+                         'eval/d2_rag_eval.py', 'eval/rag_dataset.py', 'eval/rag_metrics.py']
+D2_REGRESSION_METHOD = [
+    '三份修正版独立开发视图：SQL 35题、鲁棒21题、RAG 21题；显式 --dataset、--split dev、--draft-gold、唯一 --run-id 与新 --output。不得使用入口的默认混合题库。',
+    'SQL/鲁棒沿用原D2结果EX：全局列映射、重复行保留，标签声明的有序结果保留顺序；连续数值按两位小数比较，整数列保持精确，NULL/零/空表区分。失败、超时和追问仍占所选题分母。',
+    'RAG机械指标分开报告：20道可回答题的金标页/片段Hit@5和完整原文命中诊断，1道不可回答题的证据不足处理，以及21题引用所属文档/实际索引文字真实性；子串匹配不等同完整答案正确或语义忠实。',
+    '专项评分使用其已冻结的精确Decimal及SQL语义合同；不把旧D2结果EX套作专项语义分数，也不以相同结果证明SQL业务含义正确。人工待核修正版仍是草稿探索回归。',
+]
 
 
 def local(name: str) -> Path:
@@ -166,8 +184,8 @@ def load_versions(inputs):
         if name not in {'V0', 'V1', 'V2'} or name in seen:
             raise ValueError('Only one actual run per supplied V0/V1/V2 version is allowed')
         seen.add(name)
-        paths = {key: entry.get(key) for key in ('score', 'run_manifest', 'code_snapshot', 'freeze', 'restart_record', 'errors', 'command', 'changes')}
-        actual = {key: read(path) if path and local(path).is_file() and key in ('score', 'run_manifest', 'code_snapshot', 'freeze', 'restart_record') else None for key, path in paths.items()}
+        paths = {key: entry.get(key) for key in ('score', 'run_manifest', 'code_snapshot', 'freeze', 'restart_record', 'errors', 'command', 'changes', 'provider_supplement', 'semantic_review')}
+        actual = {key: read(path) if path and local(path).is_file() and key in ('score', 'run_manifest', 'code_snapshot', 'freeze', 'restart_record', 'provider_supplement') else None for key, path in paths.items()}
         score = actual['score']
         if score:
             if score.get('version') != name:
@@ -180,7 +198,16 @@ def load_versions(inputs):
             finished = bool(len(score.get('cases', [])) == 60 and not any(s in {'not_started', 'running'} for s in statuses))
         else:
             summary, completion, finished = None, None, False
+        supplement = actual.get('provider_supplement')
+        archive = {'original_automatic_archive_count': summary.get('provider_captures_archived') if summary else None,
+                   'verified_supplement_capture_count': supplement.get('verified_captures') if supplement else None,
+                   'unverified_supplement_capture_count': supplement.get('unverified_captures') if supplement else None,
+                   'protected_original_evidence_unchanged': supplement.get('protected_evidence_unchanged') if supplement else None,
+                   'supplement_model_calls': supplement.get('model_calls') if supplement else None,
+                   'supplement_api_calls': supplement.get('api_calls') if supplement else None,
+                   'note': 'Original run/checkpoint/score remains unchanged; exact original provider requests copied only after trace, path and SHA verification. This does not add predictions or change the score.'}
         versions.append({'version': name, 'paths': paths, 'artifacts': actual, 'summary': summary,
+                         'provider_archive': archive,
                          'completion': completion, 'actual_run_complete': finished,
                          'status': '实际运行并评分' if score else '未运行或缺少实际评分证据'})
     if not versions or versions[0]['version'] != 'V0':
@@ -190,22 +217,73 @@ def load_versions(inputs):
     return versions
 
 
+def regression_check(group, entry):
+    """Verify completed developer-only results, without generating predictions."""
+    expected = D2_REGRESSION[group]
+    issues = []
+    dataset = entry.get('dataset') or expected['dataset']
+    if not local(expected['dataset']).is_file():
+        issues.append('immutable developer-view file missing')
+    elif digest(expected['dataset']) != expected['sha256']:
+        issues.append('immutable developer-view SHA mismatch')
+    if dataset != expected['dataset']:
+        issues.append('immutable developer-view path/SHA mismatch')
+    path = entry.get('report')
+    if not path or not local(path).is_file():
+        return {'complete': False, 'issues': issues + ['actual report missing'], 'expected': expected}
+    report = read(path)
+    provenance = report.get('provenance') or {}
+    checks = {
+        'status': report.get('status') == 'COMPLETED',
+        'suite': report.get('suite') == expected['suite'],
+        'split': report.get('split') == 'dev',
+        'selected_count': report.get('selected_count') == expected['count'],
+        'prediction_count': report.get('prediction_count') == expected['count'],
+        'holdout_prediction_count': report.get('holdout_prediction_count') == 0,
+        'dataset_sha256': provenance.get('dataset_sha256') == expected['sha256'],
+        'draft_gold': provenance.get('gold_review') == 'draft',
+        'command_file': bool(entry.get('command') and local(entry['command']).is_file()),
+    }
+    issues += ['failed actual evidence check: ' + key for key, passed in checks.items() if not passed]
+    return {'complete': not issues, 'checks': checks, 'issues': issues, 'expected': expected}
+
+
 def readiness(inputs):
     missing = []
     for index, entry in enumerate(inputs.get('versions', [])):
         for field in ('score', 'run_manifest', 'code_snapshot', 'freeze', 'restart_record', 'command', 'errors'):
             if not entry.get(field) or not local(entry[field]).is_file():
                 missing.append(f"versions[{index}].{field}")
+        if entry.get('score') and local(entry['score']).is_file():
+            score = read(entry['score'])
+            cases = score.get('cases', [])
+            if len(cases) != 60 or any(case.get('outcome', '') in {'not_started', 'running'} for case in cases):
+                missing.append(f"versions[{index}].completed_60_case_score")
+            observed = score.get('summary', {}).get('provider_attempts_observed_in_api_steps', 0)
+            archived = score.get('summary', {}).get('provider_captures_archived', 0)
+            if observed > archived:
+                supplement_path = entry.get('provider_supplement')
+                supplement = read(supplement_path) if supplement_path and local(supplement_path).is_file() else {}
+                if not (supplement.get('verified_captures') == observed
+                        and supplement.get('unverified_captures') == 0
+                        and supplement.get('protected_evidence_unchanged') is True
+                        and supplement.get('dry_run') is False
+                        and supplement.get('model_calls') == 0
+                        and supplement.get('api_calls') == 0):
+                    missing.append(f"versions[{index}].verified_original_provider_supplement")
     if not inputs.get('versions'):
         missing.append('versions[V0]')
-    for field in ('version_decisions', 'restore_instructions', 'regression_summary'):
+    for field in ('version_decisions', 'restore_instructions', 'regression_summary', 'manual_review'):
         if not inputs.get(field) or not local(inputs[field]).is_file():
             missing.append(field)
+    regression_checks = {}
     for group in ('sql', 'robust', 'rag'):
         entry = inputs.get('regression', {}).get(group, {})
-        if not entry.get('report') or not local(entry['report']).is_file():
-            missing.append('regression.' + group + '.report')
-    return {'ready': not missing, 'missing_actual_evidence': missing, 'prediction_calls': 0}
+        regression_checks[group] = regression_check(group, entry)
+        if not regression_checks[group]['complete']:
+            missing.append('regression.' + group + '.completed_dev_report_and_command')
+    return {'ready': not missing, 'missing_actual_evidence': missing,
+            'regression_evidence_checks': regression_checks, 'prediction_calls': 0}
 
 
 def metric_table(version):
@@ -213,6 +291,8 @@ def metric_table(version):
     if not summary:
         return [f"{version['version']}：未运行或未取得原始评分文件；无实测分数。"]
     lines = [f"{version['version']}：API实际请求{summary['api_post_requests']}次；模型provider观测{summary['provider_attempts_observed_in_api_steps']}次；原始token {json.dumps(summary['provider_token_usage_observed'], ensure_ascii=False)}；缺usage {summary['provider_attempts_without_usage']}次；API耗时之和{summary['api_latency_ms_observed']}ms（不等于墙钟时间）。"]
+    archive = version['provider_archive']
+    lines.append(f"{version['version']} provider归档：原运行器自动归档{archive['original_automatic_archive_count']}条；独立合法补充归档已核验{archive['verified_supplement_capture_count'] if archive['verified_supplement_capture_count'] is not None else '未取得补充证据'}条；未核验{archive['unverified_supplement_capture_count'] if archive['unverified_supplement_capture_count'] is not None else '未知'}条。原始评分/检查点不改，补充归档不新增模型或API调用。")
     for group in ('all', 'task:01', 'task:03'):
         current = summary['groups'].get(group)
         if current:
@@ -249,12 +329,15 @@ def build(inputs):
                'after_source_sha256': after.get('files', {}).get('qa_agent/llm.py'),
                'schema_is_dynamic': True,
                'retry_note': 'Format-validation retry appends a user-role correction message; original system content remains intact.'}
+    provider_character_range = ({'minimum': min(p['character_count'] for p in actual_system),
+                                 'maximum': max(p['character_count'] for p in actual_system)} if actual_system else None)
     save('runtime-system-prompts/inventory.json', {'created_at_utc': datetime.now(timezone.utc).isoformat(),
          'purpose': 'Actual project DeepSeek system instructions; not Codex hidden system instructions',
          'prompts': prompts, 'fixed_business_system_template_count': len(prompts),
          'total_characters_of_business_templates': sum(p['character_count'] for p in prompts),
          'json_adapter': adapter, 'actual_provider_system_messages': actual_system,
          'exact_observed_system_variants': len(actual_system),
+         'actual_provider_system_character_range': provider_character_range,
          'dynamic_payload_note': 'RAG question/evidence, catalog, legal candidates, current intent/state, and repair feedback are assembled at runtime. These are not one universal static system prompt.',
          'minimum_length_required': False, 'model_calls': 0})
     records = []
@@ -263,6 +346,18 @@ def build(inputs):
     def exists(paths):
         return [p for p in paths if p and local(p).is_file()]
     labels = exp('data/cases-v6-reviewed.jsonl')
+    manual_stats = None
+    manual_path = inputs.get('manual_review')
+    if manual_path and local(manual_path).is_file():
+        manual_json = manual_path if manual_path.endswith('.json') else str(Path(manual_path).with_suffix('.json')).replace('\\', '/')
+        if local(manual_json).is_file():
+            manual = read(manual_json)
+            if (manual.get('labels_sha256') != digest(labels)
+                    or len(manual.get('cases', [])) != 60
+                    or manual.get('selected_final_version') != selected_name
+                    or any(case.get('human_review', {}).get('status') != 'pending_human_review' for case in manual['cases'])):
+                raise ValueError('Unified manual review must preserve all60 pending-human cases, frozen labels, and the actual selected final version')
+            manual_stats = manual['summary']
     all_runtime = [p for v in versions for p in v['paths'].values() if p and local(p).is_file()]
     runtime_methods = [v['paths']['command'] for v in versions if v['paths']['command'] and local(v['paths']['command']).is_file()]
     ready = readiness(inputs)
@@ -305,18 +400,21 @@ def build(inputs):
         file = item.get('report')
         if file and local(file).is_file():
             report = read(file)
-            observed = {key: report[key] for key in ('status', 'total', 'prediction_count', 'correct', 'exploratory_ex', 'passed', 'successful', 'answer_correct', 'citation_correct', 'usage', 'metrics', 'summary') if key in report}
+            observed = {key: report[key] for key in ('status', 'split', 'draft_gold', 'selected_count', 'total', 'prediction_count', 'holdout_prediction_count', 'correct', 'exploratory_ex', 'ex', 'passed', 'successful', 'answer_correct', 'citation_correct', 'hit_at_5', 'exact_gold_quote_hit_at_5', 'insufficient_handling', 'mechanical_metrics', 'gold_human_accepted_count', 'answer_human_review_count', 'error_types', 'failure_categories', 'api_status_counts', 'segments', 'usage', 'metrics', 'summary', 'blockers') if key in report}
             reg_results.append(group + '实际报告：' + (json.dumps(observed, ensure_ascii=False) if observed else '报告存在但统计字段未被本构建器识别；请读原报告，不能推断分数或通过状态。'))
+            check = ready['regression_evidence_checks'][group]
+            reg_results.append(group + '已完成且视图/分母匹配核验：' + json.dumps(check, ensure_ascii=False))
             reg_evidence.append(file)
             reg_evidence += exists([item.get('command')])
         else:
             reg_results.append(group + '开发集回归未运行或实际报告缺失。')
-    records.append(record(6, '修改前后对照与既有D2 SQL/鲁棒/RAG开发集回归', '使用原D2开发标签验证，原始D1/D2报告不覆盖；保留集不运行。',
-        [exp('runtime_eval/scorer.py')], [r.get('command') for r in regressions.values() if r.get('command')] or ['未取得实际回归命令。'],
+    records.append(record(6, '修改前后对照与既有D2 SQL/鲁棒/RAG开发集回归', '复用原D2修正版独立开发视图与既有评分入口，原始D1/D2报告和标签不覆盖；保留集不运行。',
+        [exp('runtime_eval/scorer.py')] + D2_EVALUATION_SOURCES + [r['dataset'] for r in D2_REGRESSION.values()],
+        D2_REGRESSION_METHOD + ([r.get('command') for r in regressions.values() if r.get('command')] or ['未取得实际回归命令。']),
         metric_table(baseline) + metric_table(final) + reg_results,
-        exists([inputs.get('regression_summary'), decisions]) + reg_evidence,
+        exists([inputs.get('regression_summary'), decisions, exp('reports/d2-regression-cli-check.json'), exp('reports/d2-regression-cli-and-scoring.md')]) + reg_evidence,
         ['自动成绩仅描述本轮合成dev；AI_pending/缺usage/原模块不足须保留；没有实际跑完的回归不得填通过。'],
-        '真实回归报告已提供' if len([r for r in regressions.values() if r.get('report') and local(r['report']).is_file()]) == 3 else '回归证据不完整'))
+        '三组真实开发回归已完成；结果EX/机械指标与语义审核分开' if all(r['complete'] for r in ready['regression_evidence_checks'].values()) else '回归未完成或视图/计数/原始命令证据不完整'))
     report_name = (OUT / (TITLE + '.json')).relative_to(ROOT).as_posix()
     records.append(record(7, '《①③专项造题与提示词优化-逐项验收与证据》', '本文件按原文10项分别给要求、实现、源码、方法、真实结果、证据与未完成事项。',
         ['scripts/build_special_delivery.py'], ['仅读取明确路径的原始文件构建；不调用API、模型或DB。'],
@@ -325,12 +423,13 @@ def build(inputs):
         '附实际运行命令、冻结与装载证明、代码SHA和恢复说明；AST提取嵌入源码的真实system字符串，直接复制文件型prompt。',
         ['scripts/build_special_delivery.py', exp('runtime_eval/snapshot.py'), exp('runtime_eval/README.md')],
         ['AST静态提取，不导入业务模块、不执行prompt；抽取的字符和UTF-8字节逐项记录。'],
-        [f"业务system模板{len(prompts)}份，共{sum(p['character_count'] for p in prompts)}字符；真实已归档provider完整system消息{len(actual_system)}个去重版本（包含适配器JSON约束及动态Schema）；未填充字数。", 'RAG问题/检索证据、真实目录/候选和当前意图属于动态user payload；不冒称存在一个固定万能prompt。'],
+        [f"业务system模板{len(prompts)}份，共{sum(p['character_count'] for p in prompts)}字符；真实已归档provider完整system消息{len(actual_system)}个去重版本（包含适配器JSON约束及动态Schema）；完整消息字符数范围{json.dumps(provider_character_range, ensure_ascii=False) if provider_character_range else '未取得实际SYSTEM capture，不能推算'}；未填充字数。", 'RAG问题/检索证据、真实目录/候选和当前意图属于动态user payload；不冒称存在一个固定万能prompt。'],
         exists([inputs.get('restore_instructions')]) + [exp('reports/preparation-reproduction.md'), exp('runtime_eval/README.md'), exp('reports/acceptance/runtime-system-prompts/inventory.json')] + [p['delivery_file'] for p in prompts],
         ['嵌入式prompt前版本字符SHA仅在源文件字节相同且匹配冻结快照时认定相同，否则提供模块SHA+实际diff，不猜旧字符串SHA。'], 'prompt原文合集已提取；运行与恢复以实际输入记录为准'))
     records.append(record(9, '待人工确认及未实现功能清单', '保留全部人工状态，列明重复、口径、控制器冲突与AI漏检；运行时剩余问题由各版本错误清单与03功能差距报告提供。',
-        [labels, exp('checks/final-source-guards.json')], ['先程序+AI两遍，最后留给用户统一核对；无A/B签名与人工日期。'],
-        [f"全部{prep['all_human_pending']}个人工pending；{prep['pending_confirmation']}个标签争议不能强制评分。"],
+        [labels, exp('checks/final-source-guards.json'), 'scripts/build_special_review.py'], ['先程序+AI两遍，最后留给用户统一核对；无A/B签名与人工日期；参考判断、实际回答、控制器和原评分分别展示。'],
+        [f"全部{prep['all_human_pending']}个人工pending；{prep['pending_confirmation']}个原标签争议不能强制评分。"]
+        + ([f"统一表实际保留{manual_stats['original_cases']}个原编号、冻结{manual_stats['frozen_scorable']}/{manual_stats['original_annotation_pending']}分组；新增参考争议{len(manual_stats['new_reference_disputes_beyond_original11'])}项、控制器/协议争议{len(manual_stats['new_controller_or_protocol_disputes'])}项另列，未替换原自动分数。"] if manual_stats else ['统一逐题表未取得完整JSON核验材料，不能宣称已核对全部条目。']),
         [exp('reports/preparation-final-report.md'), exp('checks/ai-review-quality-notes.json')] + exists([inputs.get('manual_review'), inputs.get('feature_gaps')]),
         ['待人工决定标签及别名/口径问题；当前任何AI评分都不是人工批准。'], '人工审核仍待完成'))
     records.append(record(10, '对应源码、原始结果、日志、prompt及截图打成本轮ZIP',
@@ -346,6 +445,7 @@ def build(inputs):
                'selected_final_version': selected_name,
                'preparation_usage': usage, 'runtime_system_prompts': prompts, 'system_json_adapter': adapter,
                'actual_provider_system_messages': actual_system,
+               'actual_provider_system_character_range': provider_character_range,
                'input_readiness': ready, 'human_review_status': 'pending_human_review',
                'prediction_calls_by_report_builder': 0, 'holdout_prediction_calls': 0,
                'input_sha256': {path: digest(path) for path in all_runtime + exists([decisions, inputs.get('regression_summary'), inputs.get('restore_instructions')])}}
@@ -390,8 +490,10 @@ def build(inputs):
     body = MarkdownIt('commonmark').enable('table').render(content)
     css = 'body{max-width:1120px;margin:32px auto;padding:0 24px;font:16px/1.75 "Microsoft YaHei",sans-serif;color:#253047}h2{margin-top:42px;border-bottom:2px solid #dce5f0;padding-bottom:8px}a{color:#145f9b;overflow-wrap:anywhere}code{background:#f1f5f8;padding:2px 5px}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid #d5deea;padding:9px;text-align:left;vertical-align:top}th{background:#eef3fa}@media print{body{font-size:11px;margin:0}h2{break-after:avoid}tr{break-inside:avoid}}'
     (OUT / (TITLE + '.html')).write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html.escape(TITLE)+'</title><style>'+css+'</style><body>'+body+'</body></html>', encoding='utf-8')
-    include = [EXP, 'qa_agent', 'api', 'ui', 'requirements.txt', '.env.example', 'README.md', 'scripts/build_special_delivery.py', 'scripts/package_stage_delivery.py', 'eval/metrics.py',
+    include = [EXP, 'qa_agent', 'api', 'ui', 'requirements.txt', '.env.example', 'README.md', 'scripts/build_special_delivery.py', 'scripts/build_special_review.py', 'scripts/run_special_d2_regression.py', 'scripts/package_stage_delivery.py',
                'data/catalog/chinook.yaml', 'data/aliases/aliases-d2-reviewed.csv', 'data/rules/metric_definitions.json', 'notes/references/d3-and-special/专项造题.txt']
+    include += D2_EVALUATION_SOURCES + [r['dataset'] for r in D2_REGRESSION.values()]
+    include += ['eval/artifacts/d2-final/review/user-attestation-and-revisions.json']
     include += all_runtime + [p for row in records for p in row['evidence']] + inputs.get('extra_include', [])
     for value in regressions.values():
         if value.get('report'):

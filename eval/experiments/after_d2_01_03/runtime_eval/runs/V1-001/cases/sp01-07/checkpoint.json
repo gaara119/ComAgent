@@ -1,0 +1,364 @@
+{
+  "id": "sp01-07",
+  "session_id": "special-V1-00008aa7-55fc-4954-96c6-d809d2948934",
+  "started_at": "2026-10-11T20:30:35.812960+00:00",
+  "turns": [
+    {
+      "index": 0,
+      "phase": "initial",
+      "prepared_at": "2026-10-11T20:30:35.814473+00:00",
+      "request": {
+        "session_id": "special-V1-00008aa7-55fc-4954-96c6-d809d2948934",
+        "message": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "c72d7f8c-e297-45bc-90c6-db14b439df11",
+        "status": "FAILED",
+        "answer": "SQL 未通过校验：该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+        "rewritten_question": null,
+        "sql": "SELECT COUNT(*) FROM \"public\".\"track\" WHERE \"media_type_id\" = (SELECT \"media_type_id\" FROM \"public\".\"media_type\" WHERE \"name\" = 'Protected AAC audio file')",
+        "table": null,
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 1,
+          "route": "sql",
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": null,
+          "filters": [],
+          "grouping": [],
+          "order": null,
+          "assumptions": [],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 1
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 32
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？"
+            },
+            "output_summary": {
+              "rewritten_question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L0",
+              "intent_version": 1,
+              "issues": [],
+              "assumptions": [],
+              "derived": {},
+              "invalidated": [],
+              "resume_supported": true
+            },
+            "latency_ms": 7
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+              "repair_attempt": 0,
+              "db_id": "chinook",
+              "allow_joins": false
+            },
+            "output_summary": {
+              "sql": "SELECT COUNT(*) FROM \"public\".\"track\" INNER JOIN \"public\".\"media_type\" ON \"track\".\"media_type_id\" = \"media_type\".\"media_type_id\" WHERE \"media_type\".\"name\" = 'Protected AAC audio file'",
+              "explanation": "统计媒体格式为 Protected AAC audio file 的曲目数量"
+            },
+            "latency_ms": 3783
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/1d33411bd36e4cb6bdd792fedb95be1a.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 96,
+                "prompt_tokens": 4313,
+                "total_tokens": 4409,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4096
+                },
+                "prompt_cache_hit_tokens": 4096,
+                "prompt_cache_miss_tokens": 217
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2535
+          },
+          {
+            "name": "sql_validate",
+            "status": "error",
+            "input_summary": {
+              "sql": "SELECT COUNT(*) FROM \"public\".\"track\" INNER JOIN \"public\".\"media_type\" ON \"track\".\"media_type_id\" = \"media_type\".\"media_type_id\" WHERE \"media_type\".\"name\" = 'Protected AAC audio file'"
+            },
+            "output_summary": {
+              "error": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+            },
+            "latency_ms": 1
+          },
+          {
+            "name": "sql_repair",
+            "status": "warn",
+            "input_summary": {
+              "attempt": 1
+            },
+            "output_summary": {
+              "reason": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+              "preserve_bindings": true
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+              "repair_attempt": 1,
+              "db_id": "chinook",
+              "allow_joins": false
+            },
+            "output_summary": {
+              "sql": "SELECT COUNT(*) FROM \"public\".\"track\" WHERE \"media_type_id\" = (SELECT \"media_type_id\" FROM \"public\".\"media_type\" WHERE \"name\" = 'Protected AAC audio file')",
+              "explanation": "统计媒体格式为 Protected AAC audio file 的曲目数量。"
+            },
+            "latency_ms": 3546
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/b8b9294ce14f4f799634d95af75c5fa7.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 79,
+                "prompt_tokens": 4429,
+                "total_tokens": 4508,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4224
+                },
+                "prompt_cache_hit_tokens": 4224,
+                "prompt_cache_miss_tokens": 205
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2425
+          },
+          {
+            "name": "sql_validate",
+            "status": "error",
+            "input_summary": {
+              "sql": "SELECT COUNT(*) FROM \"public\".\"track\" WHERE \"media_type_id\" = (SELECT \"media_type_id\" FROM \"public\".\"media_type\" WHERE \"name\" = 'Protected AAC audio file')"
+            },
+            "output_summary": {
+              "error": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "sql_repair",
+            "status": "warn",
+            "input_summary": {
+              "attempt": 2
+            },
+            "output_summary": {
+              "reason": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+              "preserve_bindings": true
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+              "repair_attempt": 2,
+              "db_id": "chinook",
+              "allow_joins": false
+            },
+            "output_summary": {
+              "sql": "SELECT COUNT(*) FROM \"public\".\"track\" WHERE \"media_type_id\" = (SELECT \"media_type_id\" FROM \"public\".\"media_type\" WHERE \"name\" = 'Protected AAC audio file')",
+              "explanation": "统计媒体格式为 Protected AAC audio file 的曲目数量。"
+            },
+            "latency_ms": 3564
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/c3d943e3c55346899c803c6ec49b6cb3.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 81,
+                "prompt_tokens": 4415,
+                "total_tokens": 4496,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4224
+                },
+                "prompt_cache_hit_tokens": 4224,
+                "prompt_cache_miss_tokens": 191
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2392
+          },
+          {
+            "name": "sql_validate",
+            "status": "error",
+            "input_summary": {
+              "sql": "SELECT COUNT(*) FROM \"public\".\"track\" WHERE \"media_type_id\" = (SELECT \"media_type_id\" FROM \"public\".\"media_type\" WHERE \"name\" = 'Protected AAC audio file')"
+            },
+            "output_summary": {
+              "error": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+            },
+            "latency_ms": 2
+          }
+        ],
+        "error": {
+          "code": "sql_rejected",
+          "message": "SQL 未通过校验：该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+          "retryable": false
+        },
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 10941,
+          "nlu": {
+            "original_question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+            "rewritten_question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L0",
+            "intent_version": 1,
+            "state": "ANSWERED",
+            "assumptions": [],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [],
+            "switch": null
+          }
+        }
+      },
+      "latency_ms": 10948,
+      "http_status": 200,
+      "response_raw_file": "turns\\000\\response.raw.json",
+      "provider_attempts": 3,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    }
+  ],
+  "used_keys": [],
+  "clarification_count": 0,
+  "controller_events": [],
+  "outcome": "api_failed",
+  "finished_at": "2026-10-11T20:30:46.771572+00:00"
+}

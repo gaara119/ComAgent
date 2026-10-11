@@ -1,0 +1,479 @@
+{
+  "created_at_utc": "2026-10-11T20:22:18.972411+00:00",
+  "purpose": "Independent read-only V0 observation of three already completed developer cases; V0 full run still in progress at observation time",
+  "scope": [
+    "sp01-05",
+    "sp01-07",
+    "sp01-10"
+  ],
+  "new_api_requests": 0,
+  "new_model_calls": 0,
+  "new_database_queries": 0,
+  "holdout_content_read": false,
+  "business_code_changed": false,
+  "gold_changed": false,
+  "actual_v0_source_matches_snapshot": {
+    "qa_agent/pipeline.py": true,
+    "qa_agent/sql/generator.py": true,
+    "data/catalog/chinook.yaml": true
+  },
+  "allow_joins_source": {
+    "file": "qa_agent/pipeline.py",
+    "line": 197,
+    "expression": "db_id == 'adventureworks' or intent.task_type in {'ranking', 'growth', 'ratio'} or len(binding_tables) > 1 or (gate.state.analysis.region_scope == 'customer.country' and any((word in gate.state.original_question for word in ('发票', 'invoice', '账单')))) or any((item.get('column', '').startswith(('artist.', 'genre.', 'media_type.')) for item in bindings))",
+    "actual_runtime_values": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "generator_source": {
+    "file": "qa_agent/sql/generator.py",
+    "line": 61,
+    "single_table_selected_when_allow_joins_false": true
+  },
+  "guard_source": {
+    "file": "qa_agent/pipeline.py",
+    "line": 218,
+    "behavior": "Reject >1 referenced business tables when allow_joins false, before SQL execution"
+  },
+  "summary": {
+    "completed_cases_inspected": 3,
+    "sql_attempts_inspected": 9,
+    "original_automatic_provider_archive_count": 0,
+    "provider_original_capture_sql_messages_readonly_verified": 9,
+    "sql_execution_count": 0,
+    "actual_failures": 3,
+    "reference_AI_suggested_pass": 2,
+    "reference_AI_conditional": 1,
+    "human_review_status": "pending_human_review"
+  },
+  "cases": [
+    {
+      "id": "sp01-05",
+      "question": "Metallcia 有多少张专辑？",
+      "task": "01",
+      "category": "typo",
+      "reference_answer_ai_judgment": "AI建议有条件通过",
+      "reference_human_review_status": "pending_human_review",
+      "frozen_gold_sql": "SELECT COUNT(*) AS album_count FROM public.album a JOIN public.artist ar ON a.artist_id = ar.artist_id WHERE ar.name = 'Metallica';",
+      "frozen_gold_result": {
+        "columns": [
+          "album_count"
+        ],
+        "rows": [
+          [
+            10
+          ]
+        ],
+        "table": [
+          {
+            "album_count": 10
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "actual_system_judgment": "AI发现错误",
+      "actual_outcome": "api_failed",
+      "actual_status": "FAILED",
+      "actual_intent_task_type": "lookup",
+      "actual_mentions": [],
+      "actual_bindings": [],
+      "allow_joins_by_attempt": [
+        false,
+        false,
+        false
+      ],
+      "guard_errors": [
+        "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+        "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+        "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+      ],
+      "sql_execute_step_count": 0,
+      "actual_table": null,
+      "actual_required_foreign_key": {
+        "source_table": "album",
+        "columns": [
+          "artist_id"
+        ],
+        "references": {
+          "schema": "public",
+          "table": "artist",
+          "columns": [
+            "artist_id"
+          ]
+        }
+      },
+      "provider_sql_attempts": [
+        {
+          "file": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/4346b559dd5141e3b66d897b24e5ae51.json",
+          "sha256": "54190dd1ac3c66162680a556168b30e4e43c194c7fe247aaef17308ace405708",
+          "trace_id_verified": true,
+          "actual_system_sha256": "8612107ef13df4f1e7cda634b949ac61dd1a95f61fc5219b664ce2751b02a37d",
+          "actual_system_character_count": 1359,
+          "actual_single_table_instruction": true,
+          "input_question": "Metallcia 有多少张专辑？",
+          "actual_verified_bindings": [],
+          "repair_feedback": null,
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE ar.\"name\" = 'Metallcia'",
+          "tables_used": [
+            "public.album",
+            "public.artist"
+          ],
+          "catalog_contains_required_foreign_key": true
+        },
+        {
+          "file": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/0b9a859981c04fe580c54d892283391c.json",
+          "sha256": "b48f24b2bbcd399d448c55ce1de36b9b64bd107fc16b8855de0100db6b178989",
+          "trace_id_verified": true,
+          "actual_system_sha256": "8612107ef13df4f1e7cda634b949ac61dd1a95f61fc5219b664ce2751b02a37d",
+          "actual_system_character_count": 1359,
+          "actual_single_table_instruction": true,
+          "input_question": "Metallcia 有多少张专辑？",
+          "actual_verified_bindings": [],
+          "repair_feedback": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = LOWER('Metallcia')",
+          "tables_used": [
+            "public.album",
+            "public.artist"
+          ],
+          "catalog_contains_required_foreign_key": true
+        },
+        {
+          "file": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/fa1b4a7aaa1b4fc29efced7c79ff1c8f.json",
+          "sha256": "b26ccdf6a0f1df52e3bacf25e6cda092ae70744a6cac1d72de6e88a593d61f41",
+          "trace_id_verified": true,
+          "actual_system_sha256": "8612107ef13df4f1e7cda634b949ac61dd1a95f61fc5219b664ce2751b02a37d",
+          "actual_system_character_count": 1359,
+          "actual_single_table_instruction": true,
+          "input_question": "Metallcia 有多少张专辑？",
+          "actual_verified_bindings": [],
+          "repair_feedback": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = LOWER('Metallcia')",
+          "tables_used": [
+            "album",
+            "artist"
+          ],
+          "catalog_contains_required_foreign_key": true
+        }
+      ],
+      "original_runner_provider_archived_count": 0,
+      "original_runner_capture_status_counts": {
+        "capture_path_rejected": 3
+      },
+      "reason": "专辑表只有artist_id，名称在artist.name；按真实PK/FK关联再COUNT专辑不会因该维度连接重复计数。当前实体识别没有产出Metallica绑定，模型三次仍过滤Metallcia，所以即使放行关联也不足以证明修复该题。参考拼写恢复仍按冻结标签、程序和两遍AI候选依据，人工未签字。",
+      "suggested_handling": "V0整轮结束后以通用真实目录/业务关系推导关联需求；局部修复需单独版本、两遍审读及原D2回归，不按这些case编号硬编码，也不改冻结gold。拼写漏识别与关联模式判断分别追踪。",
+      "evidence_files": {
+        "checkpoint": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-05/checkpoint.json",
+        "raw_response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-05/turns/000/response.raw.json",
+        "original_provider_evidence": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-05/turns/000/provider-evidence.json",
+        "frozen_labels": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+        "catalog": "data/catalog/chinook.yaml",
+        "source_facts": "eval/experiments/after_d2_01_03/materials/readonly_live_facts.json"
+      }
+    },
+    {
+      "id": "sp01-07",
+      "question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+      "task": "01",
+      "category": "mixed_language",
+      "reference_answer_ai_judgment": "AI建议通过",
+      "reference_human_review_status": "pending_human_review",
+      "frozen_gold_sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.media_type mt ON t.media_type_id = mt.media_type_id WHERE mt.name = 'Protected AAC audio file';",
+      "frozen_gold_result": {
+        "columns": [
+          "track_count"
+        ],
+        "rows": [
+          [
+            237
+          ]
+        ],
+        "table": [
+          {
+            "track_count": 237
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "actual_system_judgment": "AI发现错误",
+      "actual_outcome": "api_failed",
+      "actual_status": "FAILED",
+      "actual_intent_task_type": "lookup",
+      "actual_mentions": [],
+      "actual_bindings": [],
+      "allow_joins_by_attempt": [
+        false,
+        false,
+        false
+      ],
+      "guard_errors": [
+        "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+        "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+        "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+      ],
+      "sql_execute_step_count": 0,
+      "actual_table": null,
+      "actual_required_foreign_key": {
+        "source_table": "track",
+        "columns": [
+          "media_type_id"
+        ],
+        "references": {
+          "schema": "public",
+          "table": "media_type",
+          "columns": [
+            "media_type_id"
+          ]
+        }
+      },
+      "provider_sql_attempts": [
+        {
+          "file": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/cca2ab7396244837a8ddf8ea7d0a47ff.json",
+          "sha256": "5119bedf2378ec15e9e1df7fd9904ce49c72627a898588c0ec3370e1d439f09f",
+          "trace_id_verified": true,
+          "actual_system_sha256": "8612107ef13df4f1e7cda634b949ac61dd1a95f61fc5219b664ce2751b02a37d",
+          "actual_system_character_count": 1359,
+          "actual_single_table_instruction": true,
+          "input_question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+          "actual_verified_bindings": [],
+          "repair_feedback": null,
+          "sql": "SELECT COUNT(*) FROM \"public\".\"track\" t JOIN \"public\".\"media_type\" mt ON mt.\"media_type_id\" = t.\"media_type_id\" WHERE mt.\"name\" = 'Protected AAC audio file'",
+          "tables_used": [
+            "public.track",
+            "public.media_type"
+          ],
+          "catalog_contains_required_foreign_key": true
+        },
+        {
+          "file": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/e00b4b02d3a04b8f87f444136c48c325.json",
+          "sha256": "77d1d53ca1fdf39a6c48ed747823d80e9e4cb4c2014ec622d54d146b5e85840d",
+          "trace_id_verified": true,
+          "actual_system_sha256": "8612107ef13df4f1e7cda634b949ac61dd1a95f61fc5219b664ce2751b02a37d",
+          "actual_system_character_count": 1359,
+          "actual_single_table_instruction": true,
+          "input_question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+          "actual_verified_bindings": [],
+          "repair_feedback": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+          "sql": "SELECT COUNT(*) AS track_count FROM \"public\".\"media_type\" AS mt JOIN \"public\".\"track\" AS t ON t.\"media_type_id\" = mt.\"media_type_id\" WHERE mt.\"name\" = 'Protected AAC audio file'",
+          "tables_used": [
+            "media_type",
+            "track"
+          ],
+          "catalog_contains_required_foreign_key": true
+        },
+        {
+          "file": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/0562181de4954732b774b0d6d047faf1.json",
+          "sha256": "7c8d60cdf3c98e9795fc403563a3d050cb09108edbb5a2bc04cadec5b22e5a65",
+          "trace_id_verified": true,
+          "actual_system_sha256": "8612107ef13df4f1e7cda634b949ac61dd1a95f61fc5219b664ce2751b02a37d",
+          "actual_system_character_count": 1359,
+          "actual_single_table_instruction": true,
+          "input_question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+          "actual_verified_bindings": [],
+          "repair_feedback": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+          "sql": "SELECT COUNT(*) AS track_count FROM \"public\".\"track\" AS t JOIN \"public\".\"media_type\" AS mt ON t.\"media_type_id\" = mt.\"media_type_id\" WHERE mt.\"name\" = 'Protected AAC audio file'",
+          "tables_used": [
+            "public.track",
+            "public.media_type"
+          ],
+          "catalog_contains_required_foreign_key": true
+        }
+      ],
+      "original_runner_provider_archived_count": 0,
+      "original_runner_capture_status_counts": {
+        "capture_path_rejected": 3
+      },
+      "reason": "用户明确查询Protected AAC audio file格式的曲目数量；track存media_type_id而名称在media_type.name。5条原只读媒体记录给出唯一实际ID=2；gold按真实FK关联、名称等值、COUNT曲目，字段/对象一致。三次候选SQL保持该值和FK，不新增期间或聚合口径；当前在执行前被跨表策略拦截，不能把未执行SQL记为正确回答。",
+      "suggested_handling": "V0整轮结束后以通用真实目录/业务关系推导关联需求；局部修复需单独版本、两遍审读及原D2回归，不按这些case编号硬编码，也不改冻结gold。拼写漏识别与关联模式判断分别追踪。",
+      "evidence_files": {
+        "checkpoint": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-07/checkpoint.json",
+        "raw_response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-07/turns/000/response.raw.json",
+        "original_provider_evidence": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-07/turns/000/provider-evidence.json",
+        "frozen_labels": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+        "catalog": "data/catalog/chinook.yaml",
+        "source_facts": "eval/experiments/after_d2_01_03/materials/readonly_live_facts.json"
+      }
+    },
+    {
+      "id": "sp01-10",
+      "question": "查询 genre 为 Vaporwave 的曲目数量；如果数据库里根本没有这个流派，请直接报告没有记录。",
+      "task": "01",
+      "category": "explicit_absent",
+      "reference_answer_ai_judgment": "AI建议通过",
+      "reference_human_review_status": "pending_human_review",
+      "frozen_gold_sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Vaporwave';",
+      "frozen_gold_result": {
+        "columns": [
+          "track_count"
+        ],
+        "rows": [
+          [
+            0
+          ]
+        ],
+        "table": [
+          {
+            "track_count": 0
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "actual_system_judgment": "AI发现错误",
+      "actual_outcome": "api_failed",
+      "actual_status": "FAILED",
+      "actual_intent_task_type": "lookup",
+      "actual_mentions": [
+        {
+          "original_text": "Vaporwave",
+          "status": "unmatched",
+          "field_candidates": [
+            "genre.name"
+          ]
+        },
+        {
+          "original_text": "数据库里根本没有",
+          "status": "unmatched",
+          "field_candidates": [
+            "genre.name"
+          ]
+        }
+      ],
+      "actual_bindings": [],
+      "allow_joins_by_attempt": [
+        false,
+        false,
+        false
+      ],
+      "guard_errors": [
+        "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+        "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+        "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+      ],
+      "sql_execute_step_count": 0,
+      "actual_table": null,
+      "actual_required_foreign_key": {
+        "source_table": "track",
+        "columns": [
+          "genre_id"
+        ],
+        "references": {
+          "schema": "public",
+          "table": "genre",
+          "columns": [
+            "genre_id"
+          ]
+        }
+      },
+      "provider_sql_attempts": [
+        {
+          "file": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/fed00224f20b4285adec985dbb28abcf.json",
+          "sha256": "83fe7e546508bab6dac610986c37681610c064863f8685d385e4eb9a23aa7f93",
+          "trace_id_verified": true,
+          "actual_system_sha256": "8612107ef13df4f1e7cda634b949ac61dd1a95f61fc5219b664ce2751b02a37d",
+          "actual_system_character_count": 1359,
+          "actual_single_table_instruction": true,
+          "input_question": "查询 genre 为 Vaporwave 的曲目数量；如果数据库里根本没有这个流派，请直接报告没有记录。",
+          "actual_verified_bindings": [],
+          "repair_feedback": null,
+          "sql": "SELECT COUNT(*) AS track_count FROM \"public\".\"track\" t JOIN \"public\".\"genre\" g ON t.\"genre_id\" = g.\"genre_id\" WHERE g.\"name\" = 'Vaporwave'",
+          "tables_used": [
+            "public.track",
+            "public.genre"
+          ],
+          "catalog_contains_required_foreign_key": true
+        },
+        {
+          "file": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/b54055942eeb484e9bb0844cec0761b2.json",
+          "sha256": "5c334b9b57a30ff7a5c960987cf81d2d86f77af92b9503d13237b8bbb6c04a1d",
+          "trace_id_verified": true,
+          "actual_system_sha256": "8612107ef13df4f1e7cda634b949ac61dd1a95f61fc5219b664ce2751b02a37d",
+          "actual_system_character_count": 1359,
+          "actual_single_table_instruction": true,
+          "input_question": "查询 genre 为 Vaporwave 的曲目数量；如果数据库里根本没有这个流派，请直接报告没有记录。",
+          "actual_verified_bindings": [],
+          "repair_feedback": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+          "sql": "SELECT COUNT(*) AS track_count FROM \"public\".\"track\" AS t JOIN \"public\".\"genre\" AS g ON t.\"genre_id\" = g.\"genre_id\" WHERE g.\"name\" = 'Vaporwave'",
+          "tables_used": [
+            "track",
+            "genre"
+          ],
+          "catalog_contains_required_foreign_key": true
+        },
+        {
+          "file": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/2149524392eb4bc7bd058c9ccd042941.json",
+          "sha256": "cc4844df571dbbc9e6647caabb0124b2d1b51180b1aa53b2eecbf5aef22632e8",
+          "trace_id_verified": true,
+          "actual_system_sha256": "8612107ef13df4f1e7cda634b949ac61dd1a95f61fc5219b664ce2751b02a37d",
+          "actual_system_character_count": 1359,
+          "actual_single_table_instruction": true,
+          "input_question": "查询 genre 为 Vaporwave 的曲目数量；如果数据库里根本没有这个流派，请直接报告没有记录。",
+          "actual_verified_bindings": [],
+          "repair_feedback": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+          "sql": "SELECT COUNT(*) AS track_count FROM \"public\".\"genre\" AS g JOIN \"public\".\"track\" AS t ON t.\"genre_id\" = g.\"genre_id\" WHERE g.\"name\" = 'Vaporwave'",
+          "tables_used": [
+            "public.genre",
+            "public.track"
+          ],
+          "catalog_contains_required_foreign_key": true
+        }
+      ],
+      "original_runner_provider_archived_count": 0,
+      "original_runner_capture_status_counts": {
+        "capture_path_rejected": 4
+      },
+      "reason": "用户明确按不存在的Vaporwave字面查、无记录即报告，不允许替换相近流派；完整25个genre原只读值没有Vaporwave。track.genre_id与genre的真实主键关联后按名称精确COUNT应保留零结果。当前实体状态unmatched且无绑定，候选SQL没有偷换成附近流派，但三次在执行前被关联策略拦截。",
+      "suggested_handling": "V0整轮结束后以通用真实目录/业务关系推导关联需求；局部修复需单独版本、两遍审读及原D2回归，不按这些case编号硬编码，也不改冻结gold。拼写漏识别与关联模式判断分别追踪。",
+      "evidence_files": {
+        "checkpoint": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-10/checkpoint.json",
+        "raw_response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-10/turns/000/response.raw.json",
+        "original_provider_evidence": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-10/turns/000/provider-evidence.json",
+        "frozen_labels": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+        "catalog": "data/catalog/chinook.yaml",
+        "source_facts": "eval/experiments/after_d2_01_03/materials/readonly_live_facts.json"
+      }
+    }
+  ],
+  "evidence_sha256": {
+    "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+    "eval/experiments/after_d2_01_03/materials/readonly_live_facts.json": "391487ffea9c12f21f5444369dd2b87b48897ac363a032a6ea107e5507df7b8f",
+    "data/catalog/chinook.yaml": "4d97a3f7fdfd0c684b544f162e20d2253c4f9c0cd572ba1fcaf40fe439a391b8",
+    "eval/experiments/after_d2_01_03/runtime_eval/V0-code-snapshot.json": "2ccf11827645f0c01c692997c9ef2934a5d08eb9cc76d50679cd22dfb124e280",
+    "qa_agent/pipeline.py": "ef083f1af00331c8b22cf14788a134d5fb95c6af5decefe6594e811ac4c0a407",
+    "qa_agent/sql/generator.py": "3bfe719356bca0a4d9c5fc28a94c9a03fdfb175598c96507c643da04bde99bbd",
+    "qa_agent/sql/validator.py": "ae2e252ddbd2df88c32c60161a851f55a8f190d2b83b4534bfffd00afdbe873a",
+    "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/4346b559dd5141e3b66d897b24e5ae51.json": "54190dd1ac3c66162680a556168b30e4e43c194c7fe247aaef17308ace405708",
+    "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/0b9a859981c04fe580c54d892283391c.json": "b48f24b2bbcd399d448c55ce1de36b9b64bd107fc16b8855de0100db6b178989",
+    "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/fa1b4a7aaa1b4fc29efced7c79ff1c8f.json": "b26ccdf6a0f1df52e3bacf25e6cda092ae70744a6cac1d72de6e88a593d61f41",
+    "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-05/checkpoint.json": "195f3e2d431d8cd586df46b8d3c2fb7da1dcfea0aa9d94e9c0c6d9175b2404d7",
+    "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-05/turns/000/response.raw.json": "7c85ac96ed0fece4e8c7b816bf874846fc1f6704977202ee4e6c83755da66607",
+    "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-05/turns/000/provider-evidence.json": "63cc90fb7115f2852199e0d4cfcbed8d369ded0139391523d193c83bf133a5ba",
+    "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/cca2ab7396244837a8ddf8ea7d0a47ff.json": "5119bedf2378ec15e9e1df7fd9904ce49c72627a898588c0ec3370e1d439f09f",
+    "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/e00b4b02d3a04b8f87f444136c48c325.json": "77d1d53ca1fdf39a6c48ed747823d80e9e4cb4c2014ec622d54d146b5e85840d",
+    "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/0562181de4954732b774b0d6d047faf1.json": "7c8d60cdf3c98e9795fc403563a3d050cb09108edbb5a2bc04cadec5b22e5a65",
+    "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-07/checkpoint.json": "0921270a456ca4f707d9c29ee43bc12f6a1b4aca5972aa2b623040dc4e77ee46",
+    "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-07/turns/000/response.raw.json": "3f28dd6d2380bb0d53576d4c166ce913f1854d9345501109e24daf8d90f562a5",
+    "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-07/turns/000/provider-evidence.json": "5f5c8ed53a62eb1858bec675504d72a5214259848a15b645b83022673383408a",
+    "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/fed00224f20b4285adec985dbb28abcf.json": "83fe7e546508bab6dac610986c37681610c064863f8685d385e4eb9a23aa7f93",
+    "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/b54055942eeb484e9bb0844cec0761b2.json": "5c334b9b57a30ff7a5c960987cf81d2d86f77af92b9503d13237b8bbb6c04a1d",
+    "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/2149524392eb4bc7bd058c9ccd042941.json": "cc4844df571dbbc9e6647caabb0124b2d1b51180b1aa53b2eecbf5aef22632e8",
+    "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-10/checkpoint.json": "7024237902ee0007dc27732c15788f6053267b3f1213670188c90e7b36c8ba27",
+    "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-10/turns/000/response.raw.json": "1f9e37dcac01984e29dac01e47ca4be04ff432c0a5f8945163c540b1b98281ff",
+    "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-10/turns/000/provider-evidence.json": "2c4435b88476397ccfe7188c4a8fcf0d1fd7b763afc3ab59e75b4b033e4beffe"
+  },
+  "limitations": [
+    "This is not the final V0 score; no incomplete cases are labeled complete.",
+    "No SQL was re-executed by this observation. Existing reference outputs remain frozen candidate labels.",
+    "Source/AST/PK/FK and object-filter checks are separate from execution-result equality.",
+    "Original capture_path_rejected records are unchanged. Root will independently verify and archive exact original provider captures; supplementary archive results must be counted separately."
+  ]
+}

@@ -1,0 +1,1575 @@
+{
+  "id": "sp03-29",
+  "session_id": "special-V2-f60260a4-ffa0-4dc8-9e7a-7e1f30b84a16",
+  "started_at": "2026-10-11T20:53:16.628431+00:00",
+  "turns": [
+    {
+      "index": 0,
+      "phase": "initial",
+      "prepared_at": "2026-10-11T20:53:16.629430+00:00",
+      "request": {
+        "session_id": "special-V2-f60260a4-ffa0-4dc8-9e7a-7e1f30b84a16",
+        "message": "最受欢迎的10首曲目是哪些？",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "e14d8241-4159-43f3-8390-c25f2b264b66",
+        "status": "NEEDS_CLARIFICATION",
+        "answer": "请明确统计期间。",
+        "rewritten_question": null,
+        "sql": null,
+        "table": null,
+        "evidences": [],
+        "clarification": {
+          "clarification_id": "b5872d81-2af7-4f73-94d2-0787990e1ade",
+          "intent_version": 1,
+          "level": "L2",
+          "question": "请明确统计期间。",
+          "reason": "已确认业务定义要求指定期间；不猜最近年度。",
+          "issues": [
+            {
+              "id": "missing:time_scope.current",
+              "question": "请明确统计期间。",
+              "reason": "已确认业务定义要求指定期间；不猜最近年度。",
+              "field": "time_scope.current",
+              "options": [
+                {
+                  "id": "year:2021",
+                  "label": "2021年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2022",
+                  "label": "2022年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2023",
+                  "label": "2023年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2024",
+                  "label": "2024年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2025",
+                  "label": "2025年（该年有数据，不代表完整年度）"
+                }
+              ]
+            }
+          ],
+          "options": [
+            {
+              "id": "year:2021",
+              "label": "2021年（该年有数据，不代表完整年度）"
+            },
+            {
+              "id": "year:2022",
+              "label": "2022年（该年有数据，不代表完整年度）"
+            },
+            {
+              "id": "year:2023",
+              "label": "2023年（该年有数据，不代表完整年度）"
+            },
+            {
+              "id": "year:2024",
+              "label": "2024年（该年有数据，不代表完整年度）"
+            },
+            {
+              "id": "year:2025",
+              "label": "2025年（该年有数据，不代表完整年度）"
+            }
+          ],
+          "resume_supported": true
+        },
+        "intent": {
+          "intent_version": 1,
+          "route": "sql",
+          "task_type": "ranking",
+          "metric": "purchased_quantity",
+          "time_scope": null,
+          "filters": [],
+          "grouping": [],
+          "order": {
+            "rank_object": "track",
+            "top_n": 10
+          },
+          "assumptions": [
+            "热门曲目按购买数量统计（已确认默认口径）。"
+          ],
+          "unresolved": [
+            {
+              "id": "missing:time_scope.current",
+              "question": "请明确统计期间。",
+              "reason": "已确认业务定义要求指定期间；不猜最近年度。",
+              "field": "time_scope.current",
+              "options": [
+                {
+                  "id": "year:2021",
+                  "label": "2021年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2022",
+                  "label": "2022年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2023",
+                  "label": "2023年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2024",
+                  "label": "2024年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2025",
+                  "label": "2025年（该年有数据，不代表完整年度）"
+                }
+              ]
+            }
+          ]
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 26
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "最受欢迎的10首曲目是哪些？"
+            },
+            "output_summary": {
+              "rewritten_question": "最受欢迎的10首曲目是哪些？",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "warn",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L2",
+              "intent_version": 1,
+              "issues": [
+                {
+                  "id": "missing:time_scope.current",
+                  "question": "请明确统计期间。",
+                  "reason": "已确认业务定义要求指定期间；不猜最近年度。",
+                  "field": "time_scope.current",
+                  "options": [
+                    {
+                      "id": "year:2021",
+                      "label": "2021年（该年有数据，不代表完整年度）"
+                    },
+                    {
+                      "id": "year:2022",
+                      "label": "2022年（该年有数据，不代表完整年度）"
+                    },
+                    {
+                      "id": "year:2023",
+                      "label": "2023年（该年有数据，不代表完整年度）"
+                    },
+                    {
+                      "id": "year:2024",
+                      "label": "2024年（该年有数据，不代表完整年度）"
+                    },
+                    {
+                      "id": "year:2025",
+                      "label": "2025年（该年有数据，不代表完整年度）"
+                    }
+                  ]
+                }
+              ],
+              "assumptions": [
+                "热门曲目按购买数量统计（已确认默认口径）。"
+              ],
+              "derived": {},
+              "invalidated": [],
+              "resume_supported": true
+            },
+            "latency_ms": 3641
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/6be8fcdd76c4415d9422c49b35ece604.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 171,
+                "prompt_tokens": 5195,
+                "total_tokens": 5366,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4992
+                },
+                "prompt_cache_hit_tokens": 4992,
+                "prompt_cache_miss_tokens": 203
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2471
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 3669,
+          "nlu": {
+            "original_question": "最受欢迎的10首曲目是哪些？",
+            "rewritten_question": "最受欢迎的10首曲目是哪些？",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L2",
+            "intent_version": 1,
+            "state": "WAITING_CLARIFICATION",
+            "assumptions": [
+              "热门曲目按购买数量统计（已确认默认口径）。"
+            ],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [],
+            "switch": null
+          }
+        }
+      },
+      "latency_ms": 3676,
+      "http_status": 200,
+      "response_raw_file": "turns\\000\\response.raw.json",
+      "provider_attempts": 1,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    },
+    {
+      "index": 1,
+      "phase": "clarification",
+      "prepared_at": "2026-10-11T20:53:20.314391+00:00",
+      "request": {
+        "session_id": "special-V2-f60260a4-ffa0-4dc8-9e7a-7e1f30b84a16",
+        "message": "2023年（该年有数据，不代表完整年度）",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "b5872d81-2af7-4f73-94d2-0787990e1ade",
+        "intent_version": 1,
+        "choice_id": "year:2023"
+      },
+      "asked_key": "time_scope.current",
+      "supplement_key": "time_scope",
+      "response": {
+        "trace_id": "fab04521-766b-4b0e-a195-c444e2428086",
+        "status": "SUCCEEDED",
+        "answer": "查询返回 10 行，详细数据见结果表。\n口径说明：热门曲目按购买数量统计（已确认默认口径）。",
+        "rewritten_question": null,
+        "sql": "SELECT t.track_id, t.name, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON i.invoice_id = il.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10",
+        "table": [
+          {
+            "track_id": 2,
+            "name": "Balls to the Wall",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 8,
+            "name": "Inject The Venom",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 14,
+            "name": "Spellbound",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 20,
+            "name": "Overdose",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 26,
+            "name": "What It Takes",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 32,
+            "name": "Deuces Are Wild",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 38,
+            "name": "All I Really Want",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 44,
+            "name": "You Learn",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 53,
+            "name": "Sea Of Sorrow",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 62,
+            "name": "Real Thing",
+            "purchased_quantity": 1
+          }
+        ],
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 2,
+          "route": "sql",
+          "task_type": "ranking",
+          "metric": "purchased_quantity",
+          "time_scope": {
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01",
+              "label": "2023年",
+              "grain": "year"
+            }
+          },
+          "filters": [],
+          "grouping": [],
+          "order": {
+            "rank_object": "track",
+            "top_n": 10
+          },
+          "assumptions": [
+            "热门曲目按购买数量统计（已确认默认口径）。"
+          ],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_version_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "verified": true,
+              "intent_version": 1
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 23
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "skipped",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "reason": "explicit_card_choice",
+              "bindings": []
+            },
+            "latency_ms": 1
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "2023年（该年有数据，不代表完整年度）"
+            },
+            "output_summary": {
+              "rewritten_question": "2023年（该年有数据，不代表完整年度）",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L1",
+              "intent_version": 2,
+              "issues": [],
+              "assumptions": [
+                "热门曲目按购买数量统计（已确认默认口径）。"
+              ],
+              "derived": {},
+              "invalidated": [
+                "derived_period",
+                "result"
+              ],
+              "resume_supported": true
+            },
+            "latency_ms": 4
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "最受欢迎的10首曲目是哪些？\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"ranking\", \"metric\": \"purchased_quantity\", \"time_scope\": {\"current\": {\"start\": \"2023-01-01\", \"end\": \"2024-01-01\", \"label\": \"2023年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": \"track\", \"top_n\": 10, \"order\": null, \"region_scope\": null, \"filters\": []}",
+              "repair_attempt": 0,
+              "db_id": "chinook",
+              "allow_joins": true
+            },
+            "output_summary": {
+              "sql": "SELECT t.track_id, t.name, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10",
+              "explanation": "统计2023年（2023-01-01至2023-12-31，左闭右开）各曲目的购买数量（invoice_line.quantity求和），按购买量降序取前10名曲目，并用track_id稳定并列排序。"
+            },
+            "latency_ms": 3869
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/28ec67031ef04fa98778e43c3d4aa11d.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 196,
+                "prompt_tokens": 4998,
+                "total_tokens": 5194,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4864
+                },
+                "prompt_cache_hit_tokens": 4864,
+                "prompt_cache_miss_tokens": 134
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2744
+          },
+          {
+            "name": "sql_validate",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT t.track_id, t.name, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10"
+            },
+            "output_summary": {
+              "tables": [
+                "invoice",
+                "invoice_line",
+                "track"
+              ],
+              "default_limit_added": false,
+              "sql": "SELECT t.track_id, t.name, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON i.invoice_id = il.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10"
+            },
+            "latency_ms": 6
+          },
+          {
+            "name": "sql_period_validate",
+            "status": "ok",
+            "input_summary": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              },
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "verified": true,
+              "mode": "qualified_invoice_where_period",
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "sql_binding_validate",
+            "status": "ok",
+            "input_summary": {
+              "binding_count": 0
+            },
+            "output_summary": {
+              "verified": true,
+              "bindings": [],
+              "mode": "qualified_ast_mandatory_filters"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_exec",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT t.track_id, t.name, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON i.invoice_id = il.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10",
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "row_count": 10,
+              "columns": [
+                "track_id",
+                "name",
+                "purchased_quantity"
+              ],
+              "truncated": false
+            },
+            "latency_ms": 21
+          },
+          {
+            "name": "answer",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "summary_source": "database_result_template"
+            },
+            "latency_ms": 0
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 3928,
+          "nlu": {
+            "original_question": "2023年（该年有数据，不代表完整年度）",
+            "rewritten_question": "2023年（该年有数据，不代表完整年度）",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "explicit_card_choice"
+          },
+          "clarify": {
+            "level": "L1",
+            "intent_version": 2,
+            "state": "ANSWERED",
+            "assumptions": [
+              "热门曲目按购买数量统计（已确认默认口径）。"
+            ],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [
+              "derived_period",
+              "result"
+            ],
+            "switch": {
+              "clarification_id": "e8db4f82-a2df-429a-9957-87f3a1d0e8bb",
+              "intent_version": 2,
+              "level": "L1",
+              "options": [
+                {
+                  "id": "by_quantity",
+                  "label": "按购买数量"
+                },
+                {
+                  "id": "by_revenue",
+                  "label": "按销售额"
+                },
+                {
+                  "id": "by_playlist",
+                  "label": "按歌单收录次数"
+                }
+              ]
+            }
+          },
+          "result_columns": [
+            "track_id",
+            "name",
+            "purchased_quantity"
+          ],
+          "truncated": false
+        }
+      },
+      "latency_ms": 3935,
+      "http_status": 200,
+      "response_raw_file": "turns\\001\\response.raw.json",
+      "provider_attempts": 1,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    },
+    {
+      "index": 2,
+      "phase": "post_completion",
+      "prepared_at": "2026-10-11T20:53:24.257660+00:00",
+      "request": {
+        "session_id": "special-V2-f60260a4-ffa0-4dc8-9e7a-7e1f30b84a16",
+        "message": "改成2024年。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "9ad5cdbd-7d5f-4d51-a772-fc2dfa33eab4",
+        "status": "SUCCEEDED",
+        "answer": "查询返回 10 行，详细数据见结果表。\n口径说明：热门曲目按购买数量统计（已确认默认口径）。",
+        "rewritten_question": null,
+        "sql": "SELECT t.\"track_id\", t.\"name\", SUM(il.\"quantity\") AS purchased_quantity FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON i.\"invoice_id\" = il.\"invoice_id\" JOIN \"public\".\"track\" AS t ON t.\"track_id\" = il.\"track_id\" WHERE i.\"invoice_date\" >= '2024-01-01' AND i.\"invoice_date\" < '2025-01-01' GROUP BY t.\"track_id\", t.\"name\" ORDER BY purchased_quantity DESC, t.\"track_id\" ASC LIMIT 10",
+        "table": [
+          {
+            "track_id": 3,
+            "name": "Fast As a Shark",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 9,
+            "name": "Snowballed",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 15,
+            "name": "Go Down",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 21,
+            "name": "Hell Ain't A Bad Place To Be",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 30,
+            "name": "Amazing",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 39,
+            "name": "You Oughta Know",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 48,
+            "name": "Not The Doctor",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 57,
+            "name": "It Ain't Like That",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 66,
+            "name": "Por Causa De Você",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 75,
+            "name": "O Boto (Bôto)",
+            "purchased_quantity": 1
+          }
+        ],
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 3,
+          "route": "sql",
+          "task_type": "ranking",
+          "metric": "purchased_quantity",
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01",
+              "label": "2024年",
+              "grain": "year"
+            }
+          },
+          "filters": [],
+          "grouping": [],
+          "order": {
+            "rank_object": "track",
+            "top_n": 10
+          },
+          "assumptions": [
+            "热门曲目按购买数量统计（已确认默认口径）。"
+          ],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 25
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 1
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "改成2024年。"
+            },
+            "output_summary": {
+              "rewritten_question": "改成2024年。",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L1",
+              "intent_version": 3,
+              "issues": [],
+              "assumptions": [
+                "热门曲目按购买数量统计（已确认默认口径）。"
+              ],
+              "derived": {},
+              "invalidated": [
+                "derived_period",
+                "result"
+              ],
+              "resume_supported": true
+            },
+            "latency_ms": 2943
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/63ca1828e8db49f797f28936c556f3f5.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 53,
+                "prompt_tokens": 1430,
+                "total_tokens": 1483,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 1152
+                },
+                "prompt_cache_hit_tokens": 1152,
+                "prompt_cache_miss_tokens": 278
+              },
+              "json_valid": true
+            },
+            "latency_ms": 1777
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "最受欢迎的10首曲目是哪些？\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"ranking\", \"metric\": \"purchased_quantity\", \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": \"track\", \"top_n\": 10, \"order\": null, \"region_scope\": null, \"filters\": []}",
+              "repair_attempt": 0,
+              "db_id": "chinook",
+              "allow_joins": true
+            },
+            "output_summary": {
+              "sql": "SELECT t.\"track_id\", t.\"name\", SUM(il.\"quantity\") AS purchased_quantity FROM \"public\".\"invoice_line\" il JOIN \"public\".\"invoice\" i ON i.\"invoice_id\" = il.\"invoice_id\" JOIN \"public\".\"track\" t ON t.\"track_id\" = il.\"track_id\" WHERE i.\"invoice_date\" >= '2024-01-01' AND i.\"invoice_date\" < '2025-01-01' GROUP BY t.\"track_id\", t.\"name\" ORDER BY purchased_quantity DESC, t.\"track_id\" ASC LIMIT 10",
+              "explanation": "在2024年（左闭右开区间 [2024-01-01, 2025-01-01)）的发票中，按 invoice_line.quantity 汇总各曲目的购买数量，取前10名，购买数量相同时按 track_id 保证稳定排序。"
+            },
+            "latency_ms": 3997
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/12491b11df94404381dccf6e07edf9e5.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 237,
+                "prompt_tokens": 4998,
+                "total_tokens": 5235,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4864
+                },
+                "prompt_cache_hit_tokens": 4864,
+                "prompt_cache_miss_tokens": 134
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2846
+          },
+          {
+            "name": "sql_validate",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT t.\"track_id\", t.\"name\", SUM(il.\"quantity\") AS purchased_quantity FROM \"public\".\"invoice_line\" il JOIN \"public\".\"invoice\" i ON i.\"invoice_id\" = il.\"invoice_id\" JOIN \"public\".\"track\" t ON t.\"track_id\" = il.\"track_id\" WHERE i.\"invoice_date\" >= '2024-01-01' AND i.\"invoice_date\" < '2025-01-01' GROUP BY t.\"track_id\", t.\"name\" ORDER BY purchased_quantity DESC, t.\"track_id\" ASC LIMIT 10"
+            },
+            "output_summary": {
+              "tables": [
+                "invoice",
+                "invoice_line",
+                "track"
+              ],
+              "default_limit_added": false,
+              "sql": "SELECT t.\"track_id\", t.\"name\", SUM(il.\"quantity\") AS purchased_quantity FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON i.\"invoice_id\" = il.\"invoice_id\" JOIN \"public\".\"track\" AS t ON t.\"track_id\" = il.\"track_id\" WHERE i.\"invoice_date\" >= '2024-01-01' AND i.\"invoice_date\" < '2025-01-01' GROUP BY t.\"track_id\", t.\"name\" ORDER BY purchased_quantity DESC, t.\"track_id\" ASC LIMIT 10"
+            },
+            "latency_ms": 3
+          },
+          {
+            "name": "sql_period_validate",
+            "status": "ok",
+            "input_summary": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              },
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "verified": true,
+              "mode": "qualified_invoice_where_period",
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "sql_binding_validate",
+            "status": "ok",
+            "input_summary": {
+              "binding_count": 0
+            },
+            "output_summary": {
+              "verified": true,
+              "bindings": [],
+              "mode": "qualified_ast_mandatory_filters"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_exec",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT t.\"track_id\", t.\"name\", SUM(il.\"quantity\") AS purchased_quantity FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON i.\"invoice_id\" = il.\"invoice_id\" JOIN \"public\".\"track\" AS t ON t.\"track_id\" = il.\"track_id\" WHERE i.\"invoice_date\" >= '2024-01-01' AND i.\"invoice_date\" < '2025-01-01' GROUP BY t.\"track_id\", t.\"name\" ORDER BY purchased_quantity DESC, t.\"track_id\" ASC LIMIT 10",
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "row_count": 10,
+              "columns": [
+                "track_id",
+                "name",
+                "purchased_quantity"
+              ],
+              "truncated": false
+            },
+            "latency_ms": 20
+          },
+          {
+            "name": "answer",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "summary_source": "database_result_template"
+            },
+            "latency_ms": 0
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 6993,
+          "nlu": {
+            "original_question": "改成2024年。",
+            "rewritten_question": "改成2024年。",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L1",
+            "intent_version": 3,
+            "state": "ANSWERED",
+            "assumptions": [
+              "热门曲目按购买数量统计（已确认默认口径）。"
+            ],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [
+              "derived_period",
+              "result"
+            ],
+            "switch": {
+              "clarification_id": "71c1b0af-60da-4dd5-9fec-ab2f64e80260",
+              "intent_version": 3,
+              "level": "L1",
+              "options": [
+                {
+                  "id": "by_quantity",
+                  "label": "按购买数量"
+                },
+                {
+                  "id": "by_revenue",
+                  "label": "按销售额"
+                },
+                {
+                  "id": "by_playlist",
+                  "label": "按歌单收录次数"
+                }
+              ]
+            }
+          },
+          "result_columns": [
+            "track_id",
+            "name",
+            "purchased_quantity"
+          ],
+          "truncated": false
+        }
+      },
+      "latency_ms": 7000,
+      "http_status": 200,
+      "response_raw_file": "turns\\002\\response.raw.json",
+      "provider_attempts": 2,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    },
+    {
+      "index": 3,
+      "phase": "post_completion",
+      "prepared_at": "2026-10-11T20:53:31.269654+00:00",
+      "request": {
+        "session_id": "special-V2-f60260a4-ffa0-4dc8-9e7a-7e1f30b84a16",
+        "message": "换成按销售额算热门。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "18c1792d-36f8-4ebf-9e33-dbcf24f3d258",
+        "status": "SUCCEEDED",
+        "answer": "查询返回 10 行，详细数据见结果表。",
+        "rewritten_question": null,
+        "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.unit_price * il.quantity) AS revenue FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY t.track_id, t.name ORDER BY revenue DESC NULLS LAST, t.track_id ASC LIMIT 10",
+        "table": [
+          {
+            "track_id": 2822,
+            "track_name": "Exodus, Pt. 2",
+            "revenue": "1.99"
+          },
+          {
+            "track_id": 2828,
+            "track_name": "The Passage",
+            "revenue": "1.99"
+          },
+          {
+            "track_id": 2837,
+            "track_name": "Crossroads, Pt. 1",
+            "revenue": "1.99"
+          },
+          {
+            "track_id": 2846,
+            "track_name": "Seven Minutes to Midnight",
+            "revenue": "1.99"
+          },
+          {
+            "track_id": 2855,
+            "track_name": "Company Man",
+            "revenue": "1.99"
+          },
+          {
+            "track_id": 2864,
+            "track_name": "Orientation",
+            "revenue": "1.99"
+          },
+          {
+            "track_id": 2873,
+            "track_name": "House of the Rising Sun",
+            "revenue": "1.99"
+          },
+          {
+            "track_id": 2882,
+            "track_name": "Lost Survival Guide",
+            "revenue": "1.99"
+          },
+          {
+            "track_id": 2891,
+            "track_name": "Enter 77",
+            "revenue": "1.99"
+          },
+          {
+            "track_id": 2900,
+            "track_name": "Exposé",
+            "revenue": "1.99"
+          }
+        ],
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 4,
+          "route": "sql",
+          "task_type": "ranking",
+          "metric": "detail_revenue",
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01",
+              "label": "2024年",
+              "grain": "year"
+            }
+          },
+          "filters": [],
+          "grouping": [],
+          "order": {
+            "rank_object": "track",
+            "top_n": 10
+          },
+          "assumptions": [],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 30
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 1
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "换成按销售额算热门。"
+            },
+            "output_summary": {
+              "rewritten_question": "换成按销售额算热门。",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L0",
+              "intent_version": 4,
+              "issues": [],
+              "assumptions": [],
+              "derived": {},
+              "invalidated": [
+                "aggregation",
+                "fields",
+                "grain",
+                "result",
+                "schema"
+              ],
+              "resume_supported": true
+            },
+            "latency_ms": 2869
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/c96b2e3e472a4190997eec4d5305339d.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 26,
+                "prompt_tokens": 1429,
+                "total_tokens": 1455,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 1152
+                },
+                "prompt_cache_hit_tokens": 1152,
+                "prompt_cache_miss_tokens": 277
+              },
+              "json_valid": true
+            },
+            "latency_ms": 1675
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "最受欢迎的10首曲目是哪些？\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"ranking\", \"metric\": \"detail_revenue\", \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": \"track\", \"top_n\": 10, \"order\": null, \"region_scope\": null, \"filters\": []}",
+              "repair_attempt": 0,
+              "db_id": "chinook",
+              "allow_joins": true
+            },
+            "output_summary": {
+              "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.unit_price * il.quantity) AS revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY t.track_id, t.name ORDER BY revenue DESC NULLS LAST, t.track_id ASC LIMIT 10",
+              "explanation": "按 2024 年发票期间，将发票明细的成交单价乘数量汇总到每首曲目，按销售额降序取前 10 首最受欢迎曲目；发票头金额不参与求和以避免明细重复。"
+            },
+            "latency_ms": 4635
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/eb5271072a6248dba5ce711154027958.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 197,
+                "prompt_tokens": 4980,
+                "total_tokens": 5177,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4736
+                },
+                "prompt_cache_hit_tokens": 4736,
+                "prompt_cache_miss_tokens": 244
+              },
+              "json_valid": true
+            },
+            "latency_ms": 3490
+          },
+          {
+            "name": "sql_validate",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.unit_price * il.quantity) AS revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY t.track_id, t.name ORDER BY revenue DESC NULLS LAST, t.track_id ASC LIMIT 10"
+            },
+            "output_summary": {
+              "tables": [
+                "invoice",
+                "invoice_line",
+                "track"
+              ],
+              "default_limit_added": false,
+              "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.unit_price * il.quantity) AS revenue FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY t.track_id, t.name ORDER BY revenue DESC NULLS LAST, t.track_id ASC LIMIT 10"
+            },
+            "latency_ms": 5
+          },
+          {
+            "name": "sql_period_validate",
+            "status": "ok",
+            "input_summary": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              },
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "verified": true,
+              "mode": "qualified_invoice_where_period",
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "latency_ms": 3
+          },
+          {
+            "name": "sql_binding_validate",
+            "status": "ok",
+            "input_summary": {
+              "binding_count": 0
+            },
+            "output_summary": {
+              "verified": true,
+              "bindings": [],
+              "mode": "qualified_ast_mandatory_filters"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_exec",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.unit_price * il.quantity) AS revenue FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY t.track_id, t.name ORDER BY revenue DESC NULLS LAST, t.track_id ASC LIMIT 10",
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "row_count": 10,
+              "columns": [
+                "track_id",
+                "track_name",
+                "revenue"
+              ],
+              "truncated": false
+            },
+            "latency_ms": 23
+          },
+          {
+            "name": "answer",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "summary_source": "database_result_template"
+            },
+            "latency_ms": 0
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 7568,
+          "nlu": {
+            "original_question": "换成按销售额算热门。",
+            "rewritten_question": "换成按销售额算热门。",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L0",
+            "intent_version": 4,
+            "state": "ANSWERED",
+            "assumptions": [],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [
+              "aggregation",
+              "fields",
+              "grain",
+              "result",
+              "schema"
+            ],
+            "switch": {
+              "clarification_id": "210d6433-6b77-4001-91cd-50b24382692c",
+              "intent_version": 4,
+              "level": "L0",
+              "options": [
+                {
+                  "id": "by_quantity",
+                  "label": "按购买数量"
+                },
+                {
+                  "id": "by_revenue",
+                  "label": "按销售额"
+                },
+                {
+                  "id": "by_playlist",
+                  "label": "按歌单收录次数"
+                }
+              ]
+            }
+          },
+          "result_columns": [
+            "track_id",
+            "track_name",
+            "revenue"
+          ],
+          "truncated": false
+        }
+      },
+      "latency_ms": 7576,
+      "http_status": 200,
+      "response_raw_file": "turns\\003\\response.raw.json",
+      "provider_attempts": 2,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    }
+  ],
+  "used_keys": [
+    "time_scope.current"
+  ],
+  "clarification_count": 1,
+  "controller_events": [
+    {
+      "after_turn": 0,
+      "outcome": "answer",
+      "request": {
+        "session_id": "special-V2-f60260a4-ffa0-4dc8-9e7a-7e1f30b84a16",
+        "message": "2023年（该年有数据，不代表完整年度）",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "b5872d81-2af7-4f73-94d2-0787990e1ade",
+        "intent_version": 1,
+        "choice_id": "year:2023"
+      },
+      "asked_key": "time_scope.current",
+      "supplement_key": "time_scope",
+      "reason": ""
+    }
+  ],
+  "outcome": "finished",
+  "finished_at": "2026-10-11T20:53:38.857188+00:00"
+}

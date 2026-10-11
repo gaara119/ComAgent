@@ -1,0 +1,51 @@
+{
+  "created_at_utc": "2026-10-11T21:06:48.902156+00:00",
+  "purpose": "Actual visual inspection of three screenshots after real Edge headless capture",
+  "source_script": "scripts/check_special_report_layout.py",
+  "source_script_sha256": "d69434ac3f1d0d737421fcc7e352b358bd8c7cf7df68ec6cc057d0e3bdf6a081",
+  "status": "PASS",
+  "screenshots": [
+    {
+      "file": "eval/experiments/after_d2_01_03/reports/layout-check/review-v2/first-view.png",
+      "sha256_actual": "40cf99cc5fc4a2d921e34666cf039dcc748bd50fb4ba931bf6c1020b67154fdb",
+      "sha256_matches_capture_record": true,
+      "actually_viewed_with_view_image": true,
+      "visual_result": "PASS",
+      "observations": "Chinese title, selected final V1, pending-human limits, readable summary/table and source links render without overlap or horizontal cropping.",
+      "scope": "Actual saved 1440x1080 viewport screenshot only; not all expanded evidence or QA system functional testing"
+    },
+    {
+      "file": "eval/experiments/after_d2_01_03/reports/layout-check/review-v2/filtered-sp03-27.png",
+      "sha256_actual": "ac3c53b3e2b9ef471eb8443346b2ff1017ba2493d2f9d9c60e57b191377e8909",
+      "sha256_matches_capture_record": true,
+      "actually_viewed_with_view_image": true,
+      "visual_result": "PASS",
+      "observations": "Chinese text, original case ID sp03-27, collapsed evidence sections, distinct V0/V1/V2 outcomes and blank human correction fields are visible without overlap or horizontal cropping.",
+      "scope": "Actual saved 1440x1080 viewport screenshot only; not all expanded evidence or QA system functional testing"
+    },
+    {
+      "file": "eval/experiments/after_d2_01_03/reports/layout-check/acceptance-v1/first-view.png",
+      "sha256_actual": "adeaf95c0cb8767be92794ff7e83c732266e53e92f089e432ac9a84e7550ce9e",
+      "sha256_matches_capture_record": true,
+      "actually_viewed_with_view_image": true,
+      "visual_result": "PASS",
+      "observations": "Chinese title, selected final V1, pending-human limits, readable summary/table and source links render without overlap or horizontal cropping.",
+      "scope": "Actual saved 1440x1080 viewport screenshot only; not all expanded evidence or QA system functional testing"
+    }
+  ],
+  "static_and_browser_reports": [
+    "eval/experiments/after_d2_01_03/reports/layout-check/review-v2/report.json",
+    "eval/experiments/after_d2_01_03/reports/layout-check/acceptance-v1/report.json"
+  ],
+  "first_attempt_unfinished_preserved": "eval/experiments/after_d2_01_03/reports/layout-check/review-v1/aborted.json",
+  "new_API_requests": 0,
+  "new_model_calls": 0,
+  "new_SQL_queries": 0,
+  "business_or_report_content_modified": false,
+  "human_review_status": "pending_human_review",
+  "limits": [
+    "Layout and link evidence only; does not establish correct answers or approve human review.",
+    "Static links were checked in this working project; final ZIP extraction reachability is verified by the separate package validator.",
+    "The interrupted first default-permission browser startup is preserved; successful actual Edge capture uses the separate review-v2 directory."
+  ]
+}

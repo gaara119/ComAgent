@@ -1,0 +1,42 @@
+{
+  "recorded_at": "2026-10-11T20:47:24.488259+00:00",
+  "status": "terminated_after_observed_hang",
+  "session_id": 34519,
+  "exit_code_after_termination": 1,
+  "processes_verified_by_exact_test_argument_markers": [
+    {
+      "pid": 74844,
+      "parent": 82704
+    },
+    {
+      "pid": 79300,
+      "parent": 74844
+    },
+    {
+      "pid": 81284,
+      "parent": 79300
+    },
+    {
+      "pid": 75772,
+      "parent": 81284
+    }
+  ],
+  "creation_time": "2026-10-11T15:43:03-05:00",
+  "args": [
+    ".venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "tests/test_special_v2_ratio_scope.py",
+    "tests/test_d3_ratio_binding.py",
+    "tests/test_api_pipeline.py",
+    "tests/test_d3_clarify.py",
+    "-q"
+  ],
+  "observed_output": "No output returned before termination. Wrapper captured output internally and was terminated before it could save child pytest buffers.",
+  "reason": "Targeted run did not complete while API/database tests were included. Cause not proven by a returned traceback; no module pass claimed for this run. Parent owns validated full-suite execution.",
+  "termination": "Only exact-command matching, previously verified self-owned process IDs stopped; no API/UI service processes touched.",
+  "completed_isolated_guard_run": "guard-module-command.json",
+  "completed_isolated_guard_result": "72 passed in 0.51s (exit 0)",
+  "earlier_invalid_path_attempt": "targeted-command.json; missing tests/test_pipeline.py retained as original failure",
+  "full_suite_parent_evidence": "../../regression/final/modules-001 (parent actual execution)"
+}

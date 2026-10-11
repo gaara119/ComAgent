@@ -1,0 +1,13 @@
+--- before/qa_agent/sql/validator.py
++++ after/qa_agent/sql/validator.py
+@@ -299,6 +299,10 @@
+     """
+     if not bindings:
+         return
++    if ratio_context is not None:
++        from qa_agent.sql.ratio_guard import validate_customer_invoice_ratio_binding
++        if validate_customer_invoice_ratio_binding(sql,catalog,bindings,ratio_context):
++            return
+     if ratio_context is not None and _validate_invoice_ratio_binding(sql,catalog,bindings,ratio_context):
+         return
+     expression = normalize_identifiers(sqlglot.parse_one(sql, read="postgres"), dialect="postgres")

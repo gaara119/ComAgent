@@ -1,0 +1,1657 @@
+{
+  "started_at_utc": "2026-10-11T21:02:17.966068+00:00",
+  "finished_at_utc": "2026-10-11T21:02:21.404831+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d2-rag-special-final-V1-001-rag-rag-07",
+    "message": "What is the thickness range of the Shale Grit in the southern part of the Sheet?",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "ohr-textbook-geology"
+      ]
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "7a26163b-fbbd-481a-84ef-67c2ae4caf46",
+    "status": "SUCCEEDED",
+    "answer": "The Shale Grit in the southern part of the Sheet is 450 to 550 feet thick. [E1]",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [
+      {
+        "evidence_id": "E1",
+        "doc_id": "ohr-textbook-geology",
+        "doc_title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+        "page": 14,
+        "section_path": [],
+        "text": "GENERAL STRATIGRAPHY\nThe Shale Grit forms a wide spread on the moors in the\nsouthern part of the Sheet, where it is 450 to 550 feet'thick.It is\nalso cxposed in the valleys of the Etherow and Tame. In the\nsouth it consists of grits and sandstones with frcquent thin sandy\nshale beds and less frequent thicker shale beds; in Longdendale\nthe exposed part of the series consists of thicker and more massivc\ngrits, but theexposures in the Tame valley show the beds to be more\nlike those in the south.",
+        "bbox": [
+          59.0,
+          271.5,
+          375.0,
+          381.0
+        ]
+      }
+    ],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-textbook-geology"
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "evidence_count": 1
+        },
+        "latency_ms": 3437
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-textbook-geology"
+        },
+        "output_summary": {
+          "doc_id": "ohr-textbook-geology",
+          "title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+          "content_hash": "e7be7af7c911cccf6d391934ef062db94d10b1496659828d649af36201616612"
+        },
+        "latency_ms": 9
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-textbook-geology",
+          "question": "What is the thickness range of the Shale Grit in the southern part of the Sheet?",
+          "query": "What is the thickness range of the Shale Grit in the southern part of the Sheet?"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 151,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "863c33752b9f2fd9817057f5",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 8.98979015
+              },
+              {
+                "rank": 2,
+                "chunk_id": "70f3558442b7b2519d6f208d",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 7.53424306
+              },
+              {
+                "rank": 3,
+                "chunk_id": "2cdd086686755f4abf8d0880",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 7.09200249
+              },
+              {
+                "rank": 4,
+                "chunk_id": "7e10cab7f37298860a68d497",
+                "doc_id": "ohr-textbook-geology",
+                "page": 3,
+                "section_path": [],
+                "score": 7.08642301
+              },
+              {
+                "rank": 5,
+                "chunk_id": "b0670de4445bdd735805baef",
+                "doc_id": "ohr-textbook-geology",
+                "page": 13,
+                "section_path": [],
+                "score": 5.67606999
+              },
+              {
+                "rank": 6,
+                "chunk_id": "01666bee88a0e9c45644633d",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 4.97530378
+              },
+              {
+                "rank": 7,
+                "chunk_id": "56db47618809fac18bb40110",
+                "doc_id": "ohr-textbook-geology",
+                "page": 1,
+                "section_path": [],
+                "score": 4.83911878
+              },
+              {
+                "rank": 8,
+                "chunk_id": "d7ce871d3d3ceabdadb84d3f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 10,
+                "section_path": [],
+                "score": 4.7092483
+              },
+              {
+                "rank": 9,
+                "chunk_id": "410867fd57a7bb9f68efa0cf",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 4.63713875
+              },
+              {
+                "rank": 10,
+                "chunk_id": "7b8fd5bf2b4f8b919aee6ad8",
+                "doc_id": "ohr-textbook-geology",
+                "page": 13,
+                "section_path": [],
+                "score": 4.04993148
+              },
+              {
+                "rank": 11,
+                "chunk_id": "f7e49d24bcea8aa7fe24282e",
+                "doc_id": "ohr-textbook-geology",
+                "page": 13,
+                "section_path": [],
+                "score": 3.80189626
+              },
+              {
+                "rank": 12,
+                "chunk_id": "c4957c51a9c8c8b5b895e53c",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [],
+                "score": 3.76400901
+              },
+              {
+                "rank": 13,
+                "chunk_id": "d66918b00a13f248830877d4",
+                "doc_id": "ohr-textbook-geology",
+                "page": 1,
+                "section_path": [],
+                "score": 3.56533671
+              },
+              {
+                "rank": 14,
+                "chunk_id": "c893ecacc622d6e8b38335f7",
+                "doc_id": "ohr-textbook-geology",
+                "page": 19,
+                "section_path": [],
+                "score": 3.43862446
+              },
+              {
+                "rank": 15,
+                "chunk_id": "1d840575b9e0970f59e38887",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [],
+                "score": 3.4046192
+              },
+              {
+                "rank": 16,
+                "chunk_id": "c3f0a9675581a2a9e64d975f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 20,
+                "section_path": [],
+                "score": 3.33310502
+              },
+              {
+                "rank": 17,
+                "chunk_id": "3fc69012a6fafe5e15d86e1a",
+                "doc_id": "ohr-textbook-geology",
+                "page": 11,
+                "section_path": [],
+                "score": 3.29298581
+              },
+              {
+                "rank": 18,
+                "chunk_id": "0cb61cc74e7748c10fa99d32",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [],
+                "score": 3.28101529
+              },
+              {
+                "rank": 19,
+                "chunk_id": "83d6af75fc971d9b4d7f452c",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 3.0025313
+              },
+              {
+                "rank": 20,
+                "chunk_id": "6c8c19295600766f865b1d81",
+                "doc_id": "ohr-textbook-geology",
+                "page": 18,
+                "section_path": [],
+                "score": 3.00021726
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "863c33752b9f2fd9817057f5",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.71823812
+              },
+              {
+                "rank": 2,
+                "chunk_id": "1d840575b9e0970f59e38887",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [],
+                "score": 0.56495434
+              },
+              {
+                "rank": 3,
+                "chunk_id": "4f4a5372d1e375ac2639ac6a",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.56337607
+              },
+              {
+                "rank": 4,
+                "chunk_id": "cc45f63ffb18ce22e7f77f48",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [],
+                "score": 0.55916375
+              },
+              {
+                "rank": 5,
+                "chunk_id": "2f3242e77f10740161873b11",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 0.55559975
+              },
+              {
+                "rank": 6,
+                "chunk_id": "e3a5b280596f9baac6b91f61",
+                "doc_id": "ohr-textbook-geology",
+                "page": 4,
+                "section_path": [],
+                "score": 0.54539996
+              },
+              {
+                "rank": 7,
+                "chunk_id": "e4ce0f6a9f12f291d74611fc",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [],
+                "score": 0.5446254
+              },
+              {
+                "rank": 8,
+                "chunk_id": "d7ce871d3d3ceabdadb84d3f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 10,
+                "section_path": [],
+                "score": 0.54423749
+              },
+              {
+                "rank": 9,
+                "chunk_id": "2d57581ca50e97c79fb5fce0",
+                "doc_id": "ohr-textbook-geology",
+                "page": 8,
+                "section_path": [],
+                "score": 0.53750837
+              },
+              {
+                "rank": 10,
+                "chunk_id": "c63475403d150b746ee08422",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 0.53660125
+              },
+              {
+                "rank": 11,
+                "chunk_id": "8758b731aa261116b7f08d8b",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.53141224
+              },
+              {
+                "rank": 12,
+                "chunk_id": "b0670de4445bdd735805baef",
+                "doc_id": "ohr-textbook-geology",
+                "page": 13,
+                "section_path": [],
+                "score": 0.53001976
+              },
+              {
+                "rank": 13,
+                "chunk_id": "d158c54c2d2a419d34ff1b6d",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 0.52290821
+              },
+              {
+                "rank": 14,
+                "chunk_id": "7b8fd5bf2b4f8b919aee6ad8",
+                "doc_id": "ohr-textbook-geology",
+                "page": 13,
+                "section_path": [],
+                "score": 0.52206123
+              },
+              {
+                "rank": 15,
+                "chunk_id": "808c82ce6147377b5f309a4b",
+                "doc_id": "ohr-textbook-geology",
+                "page": 12,
+                "section_path": [],
+                "score": 0.5207293
+              },
+              {
+                "rank": 16,
+                "chunk_id": "66f9d4f025eeb3e524278636",
+                "doc_id": "ohr-textbook-geology",
+                "page": 9,
+                "section_path": [],
+                "score": 0.51874518
+              },
+              {
+                "rank": 17,
+                "chunk_id": "0cb61cc74e7748c10fa99d32",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [],
+                "score": 0.51388246
+              },
+              {
+                "rank": 18,
+                "chunk_id": "62b5be8059edc7102f5c04f8",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.50992739
+              },
+              {
+                "rank": 19,
+                "chunk_id": "d911d1c6efc4bf42b1c1341a",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 0.50954086
+              },
+              {
+                "rank": 20,
+                "chunk_id": "466b8c3408eb0dd729e83c2e",
+                "doc_id": "ohr-textbook-geology",
+                "page": 12,
+                "section_path": [],
+                "score": 0.50937104
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "863c33752b9f2fd9817057f5",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.03278689
+              },
+              {
+                "rank": 2,
+                "chunk_id": "1d840575b9e0970f59e38887",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [],
+                "score": 0.02946237
+              },
+              {
+                "rank": 3,
+                "chunk_id": "d7ce871d3d3ceabdadb84d3f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 10,
+                "section_path": [],
+                "score": 0.02941176
+              },
+              {
+                "rank": 4,
+                "chunk_id": "b0670de4445bdd735805baef",
+                "doc_id": "ohr-textbook-geology",
+                "page": 13,
+                "section_path": [],
+                "score": 0.0292735
+              },
+              {
+                "rank": 5,
+                "chunk_id": "7b8fd5bf2b4f8b919aee6ad8",
+                "doc_id": "ohr-textbook-geology",
+                "page": 13,
+                "section_path": [],
+                "score": 0.02779923
+              },
+              {
+                "rank": 6,
+                "chunk_id": "0cb61cc74e7748c10fa99d32",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [],
+                "score": 0.02580753
+              },
+              {
+                "rank": 7,
+                "chunk_id": "70f3558442b7b2519d6f208d",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 0.01612903
+              },
+              {
+                "rank": 8,
+                "chunk_id": "2cdd086686755f4abf8d0880",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 0.01587302
+              },
+              {
+                "rank": 9,
+                "chunk_id": "4f4a5372d1e375ac2639ac6a",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.01587302
+              },
+              {
+                "rank": 10,
+                "chunk_id": "7e10cab7f37298860a68d497",
+                "doc_id": "ohr-textbook-geology",
+                "page": 3,
+                "section_path": [],
+                "score": 0.015625
+              },
+              {
+                "rank": 11,
+                "chunk_id": "cc45f63ffb18ce22e7f77f48",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [],
+                "score": 0.015625
+              },
+              {
+                "rank": 12,
+                "chunk_id": "2f3242e77f10740161873b11",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 0.01538462
+              },
+              {
+                "rank": 13,
+                "chunk_id": "01666bee88a0e9c45644633d",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.01515152
+              },
+              {
+                "rank": 14,
+                "chunk_id": "e3a5b280596f9baac6b91f61",
+                "doc_id": "ohr-textbook-geology",
+                "page": 4,
+                "section_path": [],
+                "score": 0.01515152
+              },
+              {
+                "rank": 15,
+                "chunk_id": "56db47618809fac18bb40110",
+                "doc_id": "ohr-textbook-geology",
+                "page": 1,
+                "section_path": [],
+                "score": 0.01492537
+              },
+              {
+                "rank": 16,
+                "chunk_id": "e4ce0f6a9f12f291d74611fc",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [],
+                "score": 0.01492537
+              },
+              {
+                "rank": 17,
+                "chunk_id": "2d57581ca50e97c79fb5fce0",
+                "doc_id": "ohr-textbook-geology",
+                "page": 8,
+                "section_path": [],
+                "score": 0.01449275
+              },
+              {
+                "rank": 18,
+                "chunk_id": "410867fd57a7bb9f68efa0cf",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.01449275
+              },
+              {
+                "rank": 19,
+                "chunk_id": "c63475403d150b746ee08422",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 0.01428571
+              },
+              {
+                "rank": 20,
+                "chunk_id": "8758b731aa261116b7f08d8b",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.01408451
+              },
+              {
+                "rank": 21,
+                "chunk_id": "f7e49d24bcea8aa7fe24282e",
+                "doc_id": "ohr-textbook-geology",
+                "page": 13,
+                "section_path": [],
+                "score": 0.01408451
+              },
+              {
+                "rank": 22,
+                "chunk_id": "c4957c51a9c8c8b5b895e53c",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [],
+                "score": 0.01388889
+              },
+              {
+                "rank": 23,
+                "chunk_id": "d158c54c2d2a419d34ff1b6d",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 0.01369863
+              },
+              {
+                "rank": 24,
+                "chunk_id": "d66918b00a13f248830877d4",
+                "doc_id": "ohr-textbook-geology",
+                "page": 1,
+                "section_path": [],
+                "score": 0.01369863
+              },
+              {
+                "rank": 25,
+                "chunk_id": "c893ecacc622d6e8b38335f7",
+                "doc_id": "ohr-textbook-geology",
+                "page": 19,
+                "section_path": [],
+                "score": 0.01351351
+              },
+              {
+                "rank": 26,
+                "chunk_id": "808c82ce6147377b5f309a4b",
+                "doc_id": "ohr-textbook-geology",
+                "page": 12,
+                "section_path": [],
+                "score": 0.01333333
+              },
+              {
+                "rank": 27,
+                "chunk_id": "66f9d4f025eeb3e524278636",
+                "doc_id": "ohr-textbook-geology",
+                "page": 9,
+                "section_path": [],
+                "score": 0.01315789
+              },
+              {
+                "rank": 28,
+                "chunk_id": "c3f0a9675581a2a9e64d975f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 20,
+                "section_path": [],
+                "score": 0.01315789
+              },
+              {
+                "rank": 29,
+                "chunk_id": "3fc69012a6fafe5e15d86e1a",
+                "doc_id": "ohr-textbook-geology",
+                "page": 11,
+                "section_path": [],
+                "score": 0.01298701
+              },
+              {
+                "rank": 30,
+                "chunk_id": "62b5be8059edc7102f5c04f8",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.01282051
+              },
+              {
+                "rank": 31,
+                "chunk_id": "83d6af75fc971d9b4d7f452c",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [],
+                "score": 0.01265823
+              },
+              {
+                "rank": 32,
+                "chunk_id": "d911d1c6efc4bf42b1c1341a",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [],
+                "score": 0.01265823
+              },
+              {
+                "rank": 33,
+                "chunk_id": "466b8c3408eb0dd729e83c2e",
+                "doc_id": "ohr-textbook-geology",
+                "page": 12,
+                "section_path": [],
+                "score": 0.0125
+              },
+              {
+                "rank": 34,
+                "chunk_id": "6c8c19295600766f865b1d81",
+                "doc_id": "ohr-textbook-geology",
+                "page": 18,
+                "section_path": [],
+                "score": 0.0125
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "863c33752b9f2fd9817057f5",
+            "1d840575b9e0970f59e38887",
+            "d7ce871d3d3ceabdadb84d3f",
+            "b0670de4445bdd735805baef",
+            "7b8fd5bf2b4f8b919aee6ad8"
+          ],
+          "retrieved_count": 8,
+          "index_created_at": "2026-10-11T18:31:51.088865+00:00",
+          "index_chunks_sha256": "f21416522546616317c9b08f2c5c5f9d0b17dab8f5f2a0995f280bf3c8f9461c",
+          "query": "What is the thickness range of the Shale Grit in the southern part of the Sheet?",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "863c33752b9f2fd9817057f5",
+              "evidence_id": "E1",
+              "doc_id": "ohr-textbook-geology",
+              "page": 14,
+              "section_path": [],
+              "score": 0.03278689
+            },
+            {
+              "chunk_id": "1d840575b9e0970f59e38887",
+              "evidence_id": "E2",
+              "doc_id": "ohr-textbook-geology",
+              "page": 15,
+              "section_path": [],
+              "score": 0.02946237
+            },
+            {
+              "chunk_id": "d7ce871d3d3ceabdadb84d3f",
+              "evidence_id": "E3",
+              "doc_id": "ohr-textbook-geology",
+              "page": 10,
+              "section_path": [],
+              "score": 0.02941176
+            },
+            {
+              "chunk_id": "b0670de4445bdd735805baef",
+              "evidence_id": "E4",
+              "doc_id": "ohr-textbook-geology",
+              "page": 13,
+              "section_path": [],
+              "score": 0.0292735
+            },
+            {
+              "chunk_id": "7b8fd5bf2b4f8b919aee6ad8",
+              "evidence_id": "E5",
+              "doc_id": "ohr-textbook-geology",
+              "page": 13,
+              "section_path": [],
+              "score": 0.02779923
+            },
+            {
+              "chunk_id": "0cb61cc74e7748c10fa99d32",
+              "evidence_id": "E6",
+              "doc_id": "ohr-textbook-geology",
+              "page": 15,
+              "section_path": [],
+              "score": 0.02580753
+            },
+            {
+              "chunk_id": "70f3558442b7b2519d6f208d",
+              "evidence_id": "E7",
+              "doc_id": "ohr-textbook-geology",
+              "page": 17,
+              "section_path": [],
+              "score": 0.01612903
+            },
+            {
+              "chunk_id": "2cdd086686755f4abf8d0880",
+              "evidence_id": "E8",
+              "doc_id": "ohr-textbook-geology",
+              "page": 17,
+              "section_path": [],
+              "score": 0.01587302
+            }
+          ]
+        },
+        "latency_ms": 268
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1"
+          ]
+        },
+        "latency_ms": 3160
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "citation_ids": [
+            "E1"
+          ]
+        },
+        "latency_ms": 3160
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/experiments/after_d2_01_03/regression/final/provider-captures/V1-final-001/84698053bb8d4b3d972a739428753218.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 48,
+            "prompt_tokens": 2042,
+            "total_tokens": 2090,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1792
+            },
+            "prompt_cache_hit_tokens": 1792,
+            "prompt_cache_miss_tokens": 250
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1994
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers",
+            "explicit_research_attributions"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1"
+          ],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "potential_uncited_statements": [],
+            "mode": "heuristic_warning_only",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "ohr-textbook-geology",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 151,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "863c33752b9f2fd9817057f5",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 8.98979015
+          },
+          {
+            "rank": 2,
+            "chunk_id": "70f3558442b7b2519d6f208d",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 7.53424306
+          },
+          {
+            "rank": 3,
+            "chunk_id": "2cdd086686755f4abf8d0880",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 7.09200249
+          },
+          {
+            "rank": 4,
+            "chunk_id": "7e10cab7f37298860a68d497",
+            "doc_id": "ohr-textbook-geology",
+            "page": 3,
+            "section_path": [],
+            "score": 7.08642301
+          },
+          {
+            "rank": 5,
+            "chunk_id": "b0670de4445bdd735805baef",
+            "doc_id": "ohr-textbook-geology",
+            "page": 13,
+            "section_path": [],
+            "score": 5.67606999
+          },
+          {
+            "rank": 6,
+            "chunk_id": "01666bee88a0e9c45644633d",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 4.97530378
+          },
+          {
+            "rank": 7,
+            "chunk_id": "56db47618809fac18bb40110",
+            "doc_id": "ohr-textbook-geology",
+            "page": 1,
+            "section_path": [],
+            "score": 4.83911878
+          },
+          {
+            "rank": 8,
+            "chunk_id": "d7ce871d3d3ceabdadb84d3f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 10,
+            "section_path": [],
+            "score": 4.7092483
+          },
+          {
+            "rank": 9,
+            "chunk_id": "410867fd57a7bb9f68efa0cf",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 4.63713875
+          },
+          {
+            "rank": 10,
+            "chunk_id": "7b8fd5bf2b4f8b919aee6ad8",
+            "doc_id": "ohr-textbook-geology",
+            "page": 13,
+            "section_path": [],
+            "score": 4.04993148
+          },
+          {
+            "rank": 11,
+            "chunk_id": "f7e49d24bcea8aa7fe24282e",
+            "doc_id": "ohr-textbook-geology",
+            "page": 13,
+            "section_path": [],
+            "score": 3.80189626
+          },
+          {
+            "rank": 12,
+            "chunk_id": "c4957c51a9c8c8b5b895e53c",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [],
+            "score": 3.76400901
+          },
+          {
+            "rank": 13,
+            "chunk_id": "d66918b00a13f248830877d4",
+            "doc_id": "ohr-textbook-geology",
+            "page": 1,
+            "section_path": [],
+            "score": 3.56533671
+          },
+          {
+            "rank": 14,
+            "chunk_id": "c893ecacc622d6e8b38335f7",
+            "doc_id": "ohr-textbook-geology",
+            "page": 19,
+            "section_path": [],
+            "score": 3.43862446
+          },
+          {
+            "rank": 15,
+            "chunk_id": "1d840575b9e0970f59e38887",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [],
+            "score": 3.4046192
+          },
+          {
+            "rank": 16,
+            "chunk_id": "c3f0a9675581a2a9e64d975f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 20,
+            "section_path": [],
+            "score": 3.33310502
+          },
+          {
+            "rank": 17,
+            "chunk_id": "3fc69012a6fafe5e15d86e1a",
+            "doc_id": "ohr-textbook-geology",
+            "page": 11,
+            "section_path": [],
+            "score": 3.29298581
+          },
+          {
+            "rank": 18,
+            "chunk_id": "0cb61cc74e7748c10fa99d32",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [],
+            "score": 3.28101529
+          },
+          {
+            "rank": 19,
+            "chunk_id": "83d6af75fc971d9b4d7f452c",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 3.0025313
+          },
+          {
+            "rank": 20,
+            "chunk_id": "6c8c19295600766f865b1d81",
+            "doc_id": "ohr-textbook-geology",
+            "page": 18,
+            "section_path": [],
+            "score": 3.00021726
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "863c33752b9f2fd9817057f5",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.71823812
+          },
+          {
+            "rank": 2,
+            "chunk_id": "1d840575b9e0970f59e38887",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [],
+            "score": 0.56495434
+          },
+          {
+            "rank": 3,
+            "chunk_id": "4f4a5372d1e375ac2639ac6a",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.56337607
+          },
+          {
+            "rank": 4,
+            "chunk_id": "cc45f63ffb18ce22e7f77f48",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [],
+            "score": 0.55916375
+          },
+          {
+            "rank": 5,
+            "chunk_id": "2f3242e77f10740161873b11",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 0.55559975
+          },
+          {
+            "rank": 6,
+            "chunk_id": "e3a5b280596f9baac6b91f61",
+            "doc_id": "ohr-textbook-geology",
+            "page": 4,
+            "section_path": [],
+            "score": 0.54539996
+          },
+          {
+            "rank": 7,
+            "chunk_id": "e4ce0f6a9f12f291d74611fc",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [],
+            "score": 0.5446254
+          },
+          {
+            "rank": 8,
+            "chunk_id": "d7ce871d3d3ceabdadb84d3f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 10,
+            "section_path": [],
+            "score": 0.54423749
+          },
+          {
+            "rank": 9,
+            "chunk_id": "2d57581ca50e97c79fb5fce0",
+            "doc_id": "ohr-textbook-geology",
+            "page": 8,
+            "section_path": [],
+            "score": 0.53750837
+          },
+          {
+            "rank": 10,
+            "chunk_id": "c63475403d150b746ee08422",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 0.53660125
+          },
+          {
+            "rank": 11,
+            "chunk_id": "8758b731aa261116b7f08d8b",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.53141224
+          },
+          {
+            "rank": 12,
+            "chunk_id": "b0670de4445bdd735805baef",
+            "doc_id": "ohr-textbook-geology",
+            "page": 13,
+            "section_path": [],
+            "score": 0.53001976
+          },
+          {
+            "rank": 13,
+            "chunk_id": "d158c54c2d2a419d34ff1b6d",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 0.52290821
+          },
+          {
+            "rank": 14,
+            "chunk_id": "7b8fd5bf2b4f8b919aee6ad8",
+            "doc_id": "ohr-textbook-geology",
+            "page": 13,
+            "section_path": [],
+            "score": 0.52206123
+          },
+          {
+            "rank": 15,
+            "chunk_id": "808c82ce6147377b5f309a4b",
+            "doc_id": "ohr-textbook-geology",
+            "page": 12,
+            "section_path": [],
+            "score": 0.5207293
+          },
+          {
+            "rank": 16,
+            "chunk_id": "66f9d4f025eeb3e524278636",
+            "doc_id": "ohr-textbook-geology",
+            "page": 9,
+            "section_path": [],
+            "score": 0.51874518
+          },
+          {
+            "rank": 17,
+            "chunk_id": "0cb61cc74e7748c10fa99d32",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [],
+            "score": 0.51388246
+          },
+          {
+            "rank": 18,
+            "chunk_id": "62b5be8059edc7102f5c04f8",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.50992739
+          },
+          {
+            "rank": 19,
+            "chunk_id": "d911d1c6efc4bf42b1c1341a",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 0.50954086
+          },
+          {
+            "rank": 20,
+            "chunk_id": "466b8c3408eb0dd729e83c2e",
+            "doc_id": "ohr-textbook-geology",
+            "page": 12,
+            "section_path": [],
+            "score": 0.50937104
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "863c33752b9f2fd9817057f5",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.03278689
+          },
+          {
+            "rank": 2,
+            "chunk_id": "1d840575b9e0970f59e38887",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [],
+            "score": 0.02946237
+          },
+          {
+            "rank": 3,
+            "chunk_id": "d7ce871d3d3ceabdadb84d3f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 10,
+            "section_path": [],
+            "score": 0.02941176
+          },
+          {
+            "rank": 4,
+            "chunk_id": "b0670de4445bdd735805baef",
+            "doc_id": "ohr-textbook-geology",
+            "page": 13,
+            "section_path": [],
+            "score": 0.0292735
+          },
+          {
+            "rank": 5,
+            "chunk_id": "7b8fd5bf2b4f8b919aee6ad8",
+            "doc_id": "ohr-textbook-geology",
+            "page": 13,
+            "section_path": [],
+            "score": 0.02779923
+          },
+          {
+            "rank": 6,
+            "chunk_id": "0cb61cc74e7748c10fa99d32",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [],
+            "score": 0.02580753
+          },
+          {
+            "rank": 7,
+            "chunk_id": "70f3558442b7b2519d6f208d",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 0.01612903
+          },
+          {
+            "rank": 8,
+            "chunk_id": "2cdd086686755f4abf8d0880",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 0.01587302
+          },
+          {
+            "rank": 9,
+            "chunk_id": "4f4a5372d1e375ac2639ac6a",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.01587302
+          },
+          {
+            "rank": 10,
+            "chunk_id": "7e10cab7f37298860a68d497",
+            "doc_id": "ohr-textbook-geology",
+            "page": 3,
+            "section_path": [],
+            "score": 0.015625
+          },
+          {
+            "rank": 11,
+            "chunk_id": "cc45f63ffb18ce22e7f77f48",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [],
+            "score": 0.015625
+          },
+          {
+            "rank": 12,
+            "chunk_id": "2f3242e77f10740161873b11",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 0.01538462
+          },
+          {
+            "rank": 13,
+            "chunk_id": "01666bee88a0e9c45644633d",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.01515152
+          },
+          {
+            "rank": 14,
+            "chunk_id": "e3a5b280596f9baac6b91f61",
+            "doc_id": "ohr-textbook-geology",
+            "page": 4,
+            "section_path": [],
+            "score": 0.01515152
+          },
+          {
+            "rank": 15,
+            "chunk_id": "56db47618809fac18bb40110",
+            "doc_id": "ohr-textbook-geology",
+            "page": 1,
+            "section_path": [],
+            "score": 0.01492537
+          },
+          {
+            "rank": 16,
+            "chunk_id": "e4ce0f6a9f12f291d74611fc",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [],
+            "score": 0.01492537
+          },
+          {
+            "rank": 17,
+            "chunk_id": "2d57581ca50e97c79fb5fce0",
+            "doc_id": "ohr-textbook-geology",
+            "page": 8,
+            "section_path": [],
+            "score": 0.01449275
+          },
+          {
+            "rank": 18,
+            "chunk_id": "410867fd57a7bb9f68efa0cf",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.01449275
+          },
+          {
+            "rank": 19,
+            "chunk_id": "c63475403d150b746ee08422",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 0.01428571
+          },
+          {
+            "rank": 20,
+            "chunk_id": "8758b731aa261116b7f08d8b",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.01408451
+          },
+          {
+            "rank": 21,
+            "chunk_id": "f7e49d24bcea8aa7fe24282e",
+            "doc_id": "ohr-textbook-geology",
+            "page": 13,
+            "section_path": [],
+            "score": 0.01408451
+          },
+          {
+            "rank": 22,
+            "chunk_id": "c4957c51a9c8c8b5b895e53c",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [],
+            "score": 0.01388889
+          },
+          {
+            "rank": 23,
+            "chunk_id": "d158c54c2d2a419d34ff1b6d",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 0.01369863
+          },
+          {
+            "rank": 24,
+            "chunk_id": "d66918b00a13f248830877d4",
+            "doc_id": "ohr-textbook-geology",
+            "page": 1,
+            "section_path": [],
+            "score": 0.01369863
+          },
+          {
+            "rank": 25,
+            "chunk_id": "c893ecacc622d6e8b38335f7",
+            "doc_id": "ohr-textbook-geology",
+            "page": 19,
+            "section_path": [],
+            "score": 0.01351351
+          },
+          {
+            "rank": 26,
+            "chunk_id": "808c82ce6147377b5f309a4b",
+            "doc_id": "ohr-textbook-geology",
+            "page": 12,
+            "section_path": [],
+            "score": 0.01333333
+          },
+          {
+            "rank": 27,
+            "chunk_id": "66f9d4f025eeb3e524278636",
+            "doc_id": "ohr-textbook-geology",
+            "page": 9,
+            "section_path": [],
+            "score": 0.01315789
+          },
+          {
+            "rank": 28,
+            "chunk_id": "c3f0a9675581a2a9e64d975f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 20,
+            "section_path": [],
+            "score": 0.01315789
+          },
+          {
+            "rank": 29,
+            "chunk_id": "3fc69012a6fafe5e15d86e1a",
+            "doc_id": "ohr-textbook-geology",
+            "page": 11,
+            "section_path": [],
+            "score": 0.01298701
+          },
+          {
+            "rank": 30,
+            "chunk_id": "62b5be8059edc7102f5c04f8",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.01282051
+          },
+          {
+            "rank": 31,
+            "chunk_id": "83d6af75fc971d9b4d7f452c",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [],
+            "score": 0.01265823
+          },
+          {
+            "rank": 32,
+            "chunk_id": "d911d1c6efc4bf42b1c1341a",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [],
+            "score": 0.01265823
+          },
+          {
+            "rank": 33,
+            "chunk_id": "466b8c3408eb0dd729e83c2e",
+            "doc_id": "ohr-textbook-geology",
+            "page": 12,
+            "section_path": [],
+            "score": 0.0125
+          },
+          {
+            "rank": 34,
+            "chunk_id": "6c8c19295600766f865b1d81",
+            "doc_id": "ohr-textbook-geology",
+            "page": 18,
+            "section_path": [],
+            "score": 0.0125
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "863c33752b9f2fd9817057f5",
+        "1d840575b9e0970f59e38887",
+        "d7ce871d3d3ceabdadb84d3f",
+        "b0670de4445bdd735805baef",
+        "7b8fd5bf2b4f8b919aee6ad8"
+      ],
+      "retrieved_count": 8,
+      "index_created_at": "2026-10-11T18:31:51.088865+00:00",
+      "index_chunks_sha256": "f21416522546616317c9b08f2c5c5f9d0b17dab8f5f2a0995f280bf3c8f9461c",
+      "query": "What is the thickness range of the Shale Grit in the southern part of the Sheet?",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 14,
+          "chunk_id": "863c33752b9f2fd9817057f5",
+          "section_path": [],
+          "bbox": [
+            59.0,
+            271.5,
+            375.0,
+            381.0
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 15,
+          "chunk_id": "1d840575b9e0970f59e38887",
+          "section_path": [],
+          "bbox": [
+            25.5,
+            197.5,
+            342.0,
+            271.5
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E2"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 10,
+          "chunk_id": "d7ce871d3d3ceabdadb84d3f",
+          "section_path": [],
+          "bbox": [
+            57.0,
+            36.5,
+            373.0,
+            260.5
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E3"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 13,
+          "chunk_id": "b0670de4445bdd735805baef",
+          "section_path": [],
+          "bbox": [
+            15.0,
+            42.5,
+            339.5,
+            519.5
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E4"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 13,
+          "chunk_id": "7b8fd5bf2b4f8b919aee6ad8",
+          "section_path": [],
+          "bbox": [
+            37.0,
+            202.5,
+            339.0,
+            391.0
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E5"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 15,
+          "chunk_id": "0cb61cc74e7748c10fa99d32",
+          "section_path": [],
+          "bbox": [
+            25.5,
+            258.5,
+            341.5,
+            349.0
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E6"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 17,
+          "chunk_id": "70f3558442b7b2519d6f208d",
+          "section_path": [],
+          "bbox": [
+            24.5,
+            43.0,
+            340.5,
+            146.5
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E7"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 17,
+          "chunk_id": "2cdd086686755f4abf8d0880",
+          "section_path": [],
+          "bbox": [
+            25.5,
+            113.0,
+            340.5,
+            204.5
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E8"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "potential_uncited_statements": [],
+        "mode": "heuristic_warning_only",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [
+        "E1"
+      ],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 3438,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

@@ -1,0 +1,394 @@
+{
+  "started_at_utc": "2026-10-11T20:32:30.462771+00:00",
+  "finished_at_utc": "2026-10-11T20:32:41.498871+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "special-V1-4fdbb1b7-a4f8-415c-968f-48413cda11b8",
+    "message": "Led Zepelin 有多少张专辑？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "a51c8fc5-d364-474f-b76a-1270309b8371",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：0。",
+    "rewritten_question": null,
+    "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a WHERE LOWER(a.\"title\") LIKE '%led zepelin%'",
+    "table": [
+      {
+        "album_count": 0
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 24
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 10
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "Led Zepelin 有多少张专辑？"
+        },
+        "output_summary": {
+          "rewritten_question": "Led Zepelin 有多少张专辑？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 6
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "Led Zepelin 有多少张专辑？",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": false
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" a JOIN \"public\".\"artist\" ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = 'led zepelin'",
+          "explanation": "统计 Led Zepelin 的专辑数量"
+        },
+        "latency_ms": 3686
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/eef318054ca1466f91c5cf30b229e3f3.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 87,
+            "prompt_tokens": 4304,
+            "total_tokens": 4391,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4096
+            },
+            "prompt_cache_hit_tokens": 4096,
+            "prompt_cache_miss_tokens": 208
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2566
+      },
+      {
+        "name": "sql_validate",
+        "status": "error",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" a JOIN \"public\".\"artist\" ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = 'led zepelin'"
+        },
+        "output_summary": {
+          "error": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_repair",
+        "status": "warn",
+        "input_summary": {
+          "attempt": 1
+        },
+        "output_summary": {
+          "reason": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+          "preserve_bindings": true
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "Led Zepelin 有多少张专辑？",
+          "repair_attempt": 1,
+          "db_id": "chinook",
+          "allow_joins": false
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = 'led zepelin'",
+          "explanation": "统计名为 Led Zepelin 的艺术家的专辑数量。"
+        },
+        "latency_ms": 3716
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/c4e3d09df5f94c9d8c26761297899897.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 92,
+            "prompt_tokens": 4418,
+            "total_tokens": 4510,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4224
+            },
+            "prompt_cache_hit_tokens": 4224,
+            "prompt_cache_miss_tokens": 194
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2577
+      },
+      {
+        "name": "sql_validate",
+        "status": "error",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a JOIN \"public\".\"artist\" AS ar ON a.\"artist_id\" = ar.\"artist_id\" WHERE LOWER(ar.\"name\") = 'led zepelin'"
+        },
+        "output_summary": {
+          "error": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_repair",
+        "status": "warn",
+        "input_summary": {
+          "attempt": 2
+        },
+        "output_summary": {
+          "reason": "该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。",
+          "preserve_bindings": true
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "Led Zepelin 有多少张专辑？",
+          "repair_attempt": 2,
+          "db_id": "chinook",
+          "allow_joins": false
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a WHERE LOWER(a.\"title\") LIKE '%led zepelin%'",
+          "explanation": "统计专辑标题中包含 Led Zepelin 的专辑数量。"
+        },
+        "latency_ms": 3567
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/c87e7d3b246747b29656d536b1b27507.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 63,
+            "prompt_tokens": 4418,
+            "total_tokens": 4481,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4224
+            },
+            "prompt_cache_hit_tokens": 4224,
+            "prompt_cache_miss_tokens": 194
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2426
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a WHERE LOWER(a.\"title\") LIKE '%led zepelin%'"
+        },
+        "output_summary": {
+          "tables": [
+            "album"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a WHERE LOWER(a.\"title\") LIKE '%led zepelin%'"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS album_count FROM \"public\".\"album\" AS a WHERE LOWER(a.\"title\") LIKE '%led zepelin%'",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "album_count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 16
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 11033,
+      "nlu": {
+        "original_question": "Led Zepelin 有多少张专辑？",
+        "rewritten_question": "Led Zepelin 有多少张专辑？",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "result_columns": [
+        "album_count"
+      ],
+      "truncated": false
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

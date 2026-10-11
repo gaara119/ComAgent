@@ -1,0 +1,1763 @@
+{
+  "id": "sp03-30",
+  "session_id": "special-V1-6728f87e-eb85-410d-96c0-e784dda0443d",
+  "started_at": "2026-10-11T20:36:39.143540+00:00",
+  "turns": [
+    {
+      "index": 0,
+      "phase": "initial",
+      "prepared_at": "2026-10-11T20:36:39.145542+00:00",
+      "request": {
+        "session_id": "special-V1-6728f87e-eb85-410d-96c0-e784dda0443d",
+        "message": "谁买得最多？",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "94aacddf-f486-4666-a83b-ba191cb5b5b6",
+        "status": "NEEDS_CLARIFICATION",
+        "answer": "请明确要计算的指标。 请明确排名对象。",
+        "rewritten_question": null,
+        "sql": null,
+        "table": null,
+        "evidences": [],
+        "clarification": {
+          "clarification_id": "28c45b2c-7574-4616-9361-5eae2340dd2f",
+          "intent_version": 1,
+          "level": "L2",
+          "question": "请明确要计算的指标。 请明确排名对象。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。 该任务缺少必需条件，未登记可直接代填的默认值。",
+          "issues": [
+            {
+              "id": "missing:metric",
+              "question": "请明确要计算的指标。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "metric",
+              "options": []
+            },
+            {
+              "id": "missing:rank_object",
+              "question": "请明确排名对象。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "rank_object",
+              "options": []
+            }
+          ],
+          "options": [],
+          "resume_supported": true
+        },
+        "intent": {
+          "intent_version": 1,
+          "route": "sql",
+          "task_type": "ranking",
+          "metric": null,
+          "time_scope": null,
+          "filters": [],
+          "grouping": [],
+          "order": {
+            "rank_object": null,
+            "top_n": 10
+          },
+          "assumptions": [
+            "未指定排名条数，按总计划规则展示前 10 名。"
+          ],
+          "unresolved": [
+            {
+              "id": "missing:metric",
+              "question": "请明确要计算的指标。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "metric",
+              "options": []
+            },
+            {
+              "id": "missing:rank_object",
+              "question": "请明确排名对象。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "rank_object",
+              "options": []
+            }
+          ]
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 35
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 1
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "谁买得最多？"
+            },
+            "output_summary": {
+              "rewritten_question": "谁买得最多？",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "warn",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L2",
+              "intent_version": 1,
+              "issues": [
+                {
+                  "id": "missing:metric",
+                  "question": "请明确要计算的指标。",
+                  "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+                  "field": "metric",
+                  "options": []
+                },
+                {
+                  "id": "missing:rank_object",
+                  "question": "请明确排名对象。",
+                  "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+                  "field": "rank_object",
+                  "options": []
+                }
+              ],
+              "assumptions": [
+                "未指定排名条数，按总计划规则展示前 10 名。"
+              ],
+              "derived": {},
+              "invalidated": [],
+              "resume_supported": true
+            },
+            "latency_ms": 3575
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/094e84e5beb841038ad714277a5a6d69.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 135,
+                "prompt_tokens": 5191,
+                "total_tokens": 5326,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4992
+                },
+                "prompt_cache_hit_tokens": 4992,
+                "prompt_cache_miss_tokens": 199
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2441
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 3612,
+          "nlu": {
+            "original_question": "谁买得最多？",
+            "rewritten_question": "谁买得最多？",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L2",
+            "intent_version": 1,
+            "state": "WAITING_CLARIFICATION",
+            "assumptions": [
+              "未指定排名条数，按总计划规则展示前 10 名。"
+            ],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [],
+            "switch": null
+          }
+        }
+      },
+      "latency_ms": 3619,
+      "http_status": 200,
+      "response_raw_file": "turns\\000\\response.raw.json",
+      "provider_attempts": 1,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    },
+    {
+      "index": 1,
+      "phase": "clarification",
+      "prepared_at": "2026-10-11T20:36:42.770247+00:00",
+      "request": {
+        "session_id": "special-V1-6728f87e-eb85-410d-96c0-e784dda0443d",
+        "message": "按发票金额。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "28c45b2c-7574-4616-9361-5eae2340dd2f",
+        "intent_version": 1
+      },
+      "asked_key": "metric",
+      "supplement_key": "metric",
+      "response": {
+        "trace_id": "74a634a0-4aee-46d6-bd88-faddd54439dc",
+        "status": "NEEDS_CLARIFICATION",
+        "answer": "请明确排名对象。",
+        "rewritten_question": null,
+        "sql": null,
+        "table": null,
+        "evidences": [],
+        "clarification": {
+          "clarification_id": "4444af72-4c6c-4df9-9cd7-5f425e01c2c9",
+          "intent_version": 2,
+          "level": "L2",
+          "question": "请明确排名对象。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "issues": [
+            {
+              "id": "missing:rank_object",
+              "question": "请明确排名对象。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "rank_object",
+              "options": []
+            }
+          ],
+          "options": [],
+          "resume_supported": true
+        },
+        "intent": {
+          "intent_version": 2,
+          "route": "sql",
+          "task_type": "ranking",
+          "metric": "invoice_revenue",
+          "time_scope": null,
+          "filters": [],
+          "grouping": [],
+          "order": {
+            "rank_object": null,
+            "top_n": 10
+          },
+          "assumptions": [
+            "未指定排名条数，按总计划规则展示前 10 名。"
+          ],
+          "unresolved": [
+            {
+              "id": "missing:rank_object",
+              "question": "请明确排名对象。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "rank_object",
+              "options": []
+            }
+          ]
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_version_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "verified": true,
+              "intent_version": 1
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 24
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "按发票金额。"
+            },
+            "output_summary": {
+              "rewritten_question": "按发票金额。",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "warn",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L2",
+              "intent_version": 2,
+              "issues": [
+                {
+                  "id": "missing:rank_object",
+                  "question": "请明确排名对象。",
+                  "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+                  "field": "rank_object",
+                  "options": []
+                }
+              ],
+              "assumptions": [
+                "未指定排名条数，按总计划规则展示前 10 名。"
+              ],
+              "derived": {},
+              "invalidated": [
+                "aggregation",
+                "fields",
+                "grain",
+                "result",
+                "schema"
+              ],
+              "resume_supported": true
+            },
+            "latency_ms": 2812
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/59fd8d7e64574cf5b59c10a70746398e.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 27,
+                "prompt_tokens": 1489,
+                "total_tokens": 1516,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 896
+                },
+                "prompt_cache_hit_tokens": 896,
+                "prompt_cache_miss_tokens": 593
+              },
+              "json_valid": true
+            },
+            "latency_ms": 1729
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 2838,
+          "nlu": {
+            "original_question": "按发票金额。",
+            "rewritten_question": "按发票金额。",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L2",
+            "intent_version": 2,
+            "state": "WAITING_CLARIFICATION",
+            "assumptions": [
+              "未指定排名条数，按总计划规则展示前 10 名。"
+            ],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [
+              "aggregation",
+              "fields",
+              "grain",
+              "result",
+              "schema"
+            ],
+            "switch": null
+          }
+        }
+      },
+      "latency_ms": 2843,
+      "http_status": 200,
+      "response_raw_file": "turns\\001\\response.raw.json",
+      "provider_attempts": 1,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    },
+    {
+      "index": 2,
+      "phase": "clarification",
+      "prepared_at": "2026-10-11T20:36:45.621756+00:00",
+      "request": {
+        "session_id": "special-V1-6728f87e-eb85-410d-96c0-e784dda0443d",
+        "message": "客户。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "4444af72-4c6c-4df9-9cd7-5f425e01c2c9",
+        "intent_version": 2
+      },
+      "asked_key": "rank_object",
+      "supplement_key": "rank_object",
+      "response": {
+        "trace_id": "b6baeeb3-7f09-4237-887b-bd3b44a9b68b",
+        "status": "SUCCEEDED",
+        "answer": "查询返回 10 行，详细数据见结果表。\n口径说明：未指定排名条数，按总计划规则展示前 10 名。",
+        "rewritten_question": null,
+        "sql": "SELECT c.customer_id, c.first_name, c.last_name, SUM(i.total) AS invoice_revenue FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id GROUP BY c.customer_id, c.first_name, c.last_name ORDER BY invoice_revenue DESC NULLS LAST, c.customer_id ASC LIMIT 10",
+        "table": [
+          {
+            "customer_id": 6,
+            "first_name": "Helena",
+            "last_name": "Holý",
+            "invoice_revenue": "49.62"
+          },
+          {
+            "customer_id": 26,
+            "first_name": "Richard",
+            "last_name": "Cunningham",
+            "invoice_revenue": "47.62"
+          },
+          {
+            "customer_id": 57,
+            "first_name": "Luis",
+            "last_name": "Rojas",
+            "invoice_revenue": "46.62"
+          },
+          {
+            "customer_id": 45,
+            "first_name": "Ladislav",
+            "last_name": "Kovács",
+            "invoice_revenue": "45.62"
+          },
+          {
+            "customer_id": 46,
+            "first_name": "Hugh",
+            "last_name": "O'Reilly",
+            "invoice_revenue": "45.62"
+          },
+          {
+            "customer_id": 24,
+            "first_name": "Frank",
+            "last_name": "Ralston",
+            "invoice_revenue": "43.62"
+          },
+          {
+            "customer_id": 28,
+            "first_name": "Julia",
+            "last_name": "Barnett",
+            "invoice_revenue": "43.62"
+          },
+          {
+            "customer_id": 37,
+            "first_name": "Fynn",
+            "last_name": "Zimmermann",
+            "invoice_revenue": "43.62"
+          },
+          {
+            "customer_id": 7,
+            "first_name": "Astrid",
+            "last_name": "Gruber",
+            "invoice_revenue": "42.62"
+          },
+          {
+            "customer_id": 25,
+            "first_name": "Victor",
+            "last_name": "Stevens",
+            "invoice_revenue": "42.62"
+          }
+        ],
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 3,
+          "route": "sql",
+          "task_type": "ranking",
+          "metric": "invoice_revenue",
+          "time_scope": null,
+          "filters": [],
+          "grouping": [],
+          "order": {
+            "rank_object": "客户",
+            "top_n": 10
+          },
+          "assumptions": [
+            "未指定排名条数，按总计划规则展示前 10 名。"
+          ],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_version_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "verified": true,
+              "intent_version": 2
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 30
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "客户。"
+            },
+            "output_summary": {
+              "rewritten_question": "客户。",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L1",
+              "intent_version": 3,
+              "issues": [],
+              "assumptions": [
+                "未指定排名条数，按总计划规则展示前 10 名。"
+              ],
+              "derived": {},
+              "invalidated": [
+                "fields",
+                "grain",
+                "result",
+                "schema"
+              ],
+              "resume_supported": true
+            },
+            "latency_ms": 2924
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/38e2b2a4f6504aaeaaf4c151fa121811.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 24,
+                "prompt_tokens": 1420,
+                "total_tokens": 1444,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 896
+                },
+                "prompt_cache_hit_tokens": 896,
+                "prompt_cache_miss_tokens": 524
+              },
+              "json_valid": true
+            },
+            "latency_ms": 1709
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "谁买得最多？\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"ranking\", \"metric\": \"invoice_revenue\", \"time_scope\": null, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": \"客户\", \"top_n\": 10, \"order\": null, \"region_scope\": null, \"filters\": []}",
+              "repair_attempt": 0,
+              "db_id": "chinook",
+              "allow_joins": true
+            },
+            "output_summary": {
+              "sql": "SELECT c.customer_id, c.first_name, c.last_name, SUM(i.total) AS invoice_revenue FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id GROUP BY c.customer_id, c.first_name, c.last_name ORDER BY invoice_revenue DESC NULLS LAST, c.customer_id ASC LIMIT 10",
+              "explanation": "按客户汇总发票总额（invoice.total）作为收入指标，降序取前 10 名。使用发票头表的 total 列避免明细 JOIN 导致重复求和。"
+            },
+            "latency_ms": 3667
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/fe120f3610e146a599db83e8df1de67d.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 139,
+                "prompt_tokens": 4914,
+                "total_tokens": 5053,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 1024
+                },
+                "prompt_cache_hit_tokens": 1024,
+                "prompt_cache_miss_tokens": 3890
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2530
+          },
+          {
+            "name": "sql_validate",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT c.customer_id, c.first_name, c.last_name, SUM(i.total) AS invoice_revenue FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id GROUP BY c.customer_id, c.first_name, c.last_name ORDER BY invoice_revenue DESC NULLS LAST, c.customer_id ASC LIMIT 10"
+            },
+            "output_summary": {
+              "tables": [
+                "customer",
+                "invoice"
+              ],
+              "default_limit_added": false,
+              "sql": "SELECT c.customer_id, c.first_name, c.last_name, SUM(i.total) AS invoice_revenue FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id GROUP BY c.customer_id, c.first_name, c.last_name ORDER BY invoice_revenue DESC NULLS LAST, c.customer_id ASC LIMIT 10"
+            },
+            "latency_ms": 5
+          },
+          {
+            "name": "sql_binding_validate",
+            "status": "ok",
+            "input_summary": {
+              "binding_count": 0
+            },
+            "output_summary": {
+              "verified": true,
+              "bindings": [],
+              "mode": "qualified_ast_mandatory_filters"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_exec",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT c.customer_id, c.first_name, c.last_name, SUM(i.total) AS invoice_revenue FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id GROUP BY c.customer_id, c.first_name, c.last_name ORDER BY invoice_revenue DESC NULLS LAST, c.customer_id ASC LIMIT 10",
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "row_count": 10,
+              "columns": [
+                "customer_id",
+                "first_name",
+                "last_name",
+                "invoice_revenue"
+              ],
+              "truncated": false
+            },
+            "latency_ms": 17
+          },
+          {
+            "name": "answer",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "summary_source": "database_result_template"
+            },
+            "latency_ms": 0
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 6647,
+          "nlu": {
+            "original_question": "客户。",
+            "rewritten_question": "客户。",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L1",
+            "intent_version": 3,
+            "state": "ANSWERED",
+            "assumptions": [
+              "未指定排名条数，按总计划规则展示前 10 名。"
+            ],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [
+              "fields",
+              "grain",
+              "result",
+              "schema"
+            ],
+            "switch": null
+          },
+          "result_columns": [
+            "customer_id",
+            "first_name",
+            "last_name",
+            "invoice_revenue"
+          ],
+          "truncated": false
+        }
+      },
+      "latency_ms": 6654,
+      "http_status": 200,
+      "response_raw_file": "turns\\002\\response.raw.json",
+      "provider_attempts": 2,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    },
+    {
+      "index": 3,
+      "phase": "post_completion",
+      "prepared_at": "2026-10-11T20:36:52.285746+00:00",
+      "request": {
+        "session_id": "special-V1-6728f87e-eb85-410d-96c0-e784dda0443d",
+        "message": "改成2024年。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "7c5eeaad-242e-4859-a365-b91befce8be1",
+        "status": "SUCCEEDED",
+        "answer": "查询返回 10 行，详细数据见结果表。\n口径说明：未指定排名条数，按总计划规则展示前 10 名。",
+        "rewritten_question": null,
+        "sql": "SELECT c.customer_id, c.first_name, c.last_name, SUM(i.total) AS revenue FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY c.customer_id, c.first_name, c.last_name ORDER BY revenue DESC NULLS LAST, c.customer_id LIMIT 10",
+        "table": [
+          {
+            "customer_id": 26,
+            "first_name": "Richard",
+            "last_name": "Cunningham",
+            "revenue": "25.84"
+          },
+          {
+            "customer_id": 34,
+            "first_name": "João",
+            "last_name": "Fernandes",
+            "revenue": "24.77"
+          },
+          {
+            "customer_id": 13,
+            "first_name": "Fernanda",
+            "last_name": "Ramos",
+            "revenue": "24.75"
+          },
+          {
+            "customer_id": 51,
+            "first_name": "Joakim",
+            "last_name": "Johansson",
+            "revenue": "24.75"
+          },
+          {
+            "customer_id": 55,
+            "first_name": "Mark",
+            "last_name": "Taylor",
+            "revenue": "22.77"
+          },
+          {
+            "customer_id": 5,
+            "first_name": "František",
+            "last_name": "Wichterlová",
+            "revenue": "18.84"
+          },
+          {
+            "customer_id": 43,
+            "first_name": "Isabelle",
+            "last_name": "Mercier",
+            "revenue": "18.84"
+          },
+          {
+            "customer_id": 28,
+            "first_name": "Julia",
+            "last_name": "Barnett",
+            "revenue": "17.88"
+          },
+          {
+            "customer_id": 22,
+            "first_name": "Heather",
+            "last_name": "Leacock",
+            "revenue": "17.84"
+          },
+          {
+            "customer_id": 24,
+            "first_name": "Frank",
+            "last_name": "Ralston",
+            "revenue": "15.88"
+          }
+        ],
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 4,
+          "route": "sql",
+          "task_type": "ranking",
+          "metric": "invoice_revenue",
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01",
+              "label": "2024年",
+              "grain": "year"
+            }
+          },
+          "filters": [],
+          "grouping": [],
+          "order": {
+            "rank_object": "客户",
+            "top_n": 10
+          },
+          "assumptions": [
+            "未指定排名条数，按总计划规则展示前 10 名。"
+          ],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 23
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 1
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "改成2024年。"
+            },
+            "output_summary": {
+              "rewritten_question": "改成2024年。",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L1",
+              "intent_version": 4,
+              "issues": [],
+              "assumptions": [
+                "未指定排名条数，按总计划规则展示前 10 名。"
+              ],
+              "derived": {},
+              "invalidated": [
+                "derived_period",
+                "result"
+              ],
+              "resume_supported": true
+            },
+            "latency_ms": 3131
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/69c427d5be0e4ac782a2379f055f469c.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 53,
+                "prompt_tokens": 1278,
+                "total_tokens": 1331,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 896
+                },
+                "prompt_cache_hit_tokens": 896,
+                "prompt_cache_miss_tokens": 382
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2019
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "谁买得最多？\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"ranking\", \"metric\": \"invoice_revenue\", \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": \"客户\", \"top_n\": 10, \"order\": null, \"region_scope\": null, \"filters\": []}",
+              "repair_attempt": 0,
+              "db_id": "chinook",
+              "allow_joins": true
+            },
+            "output_summary": {
+              "sql": "SELECT c.customer_id, c.first_name, c.last_name, SUM(i.total) AS revenue FROM \"public\".\"invoice\" i JOIN \"public\".\"customer\" c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY c.customer_id, c.first_name, c.last_name ORDER BY revenue DESC NULLS LAST, c.customer_id LIMIT 10",
+              "explanation": "按 2024 年发票总额汇总每位客户的收入，降序取前 10 名。使用发票头 total 避免明细 JOIN 重复求和，非空金额直接求和。"
+            },
+            "latency_ms": 3681
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/d92d5f76ece345909f0752988f749034.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 173,
+                "prompt_tokens": 4994,
+                "total_tokens": 5167,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 1024
+                },
+                "prompt_cache_hit_tokens": 1024,
+                "prompt_cache_miss_tokens": 3970
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2566
+          },
+          {
+            "name": "sql_validate",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT c.customer_id, c.first_name, c.last_name, SUM(i.total) AS revenue FROM \"public\".\"invoice\" i JOIN \"public\".\"customer\" c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY c.customer_id, c.first_name, c.last_name ORDER BY revenue DESC NULLS LAST, c.customer_id LIMIT 10"
+            },
+            "output_summary": {
+              "tables": [
+                "customer",
+                "invoice"
+              ],
+              "default_limit_added": false,
+              "sql": "SELECT c.customer_id, c.first_name, c.last_name, SUM(i.total) AS revenue FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY c.customer_id, c.first_name, c.last_name ORDER BY revenue DESC NULLS LAST, c.customer_id LIMIT 10"
+            },
+            "latency_ms": 6
+          },
+          {
+            "name": "sql_period_validate",
+            "status": "ok",
+            "input_summary": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              },
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "verified": true,
+              "mode": "qualified_invoice_where_period",
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "latency_ms": 5
+          },
+          {
+            "name": "sql_binding_validate",
+            "status": "ok",
+            "input_summary": {
+              "binding_count": 0
+            },
+            "output_summary": {
+              "verified": true,
+              "bindings": [],
+              "mode": "qualified_ast_mandatory_filters"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_exec",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT c.customer_id, c.first_name, c.last_name, SUM(i.total) AS revenue FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY c.customer_id, c.first_name, c.last_name ORDER BY revenue DESC NULLS LAST, c.customer_id LIMIT 10",
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "row_count": 10,
+              "columns": [
+                "customer_id",
+                "first_name",
+                "last_name",
+                "revenue"
+              ],
+              "truncated": false
+            },
+            "latency_ms": 39
+          },
+          {
+            "name": "answer",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "summary_source": "database_result_template"
+            },
+            "latency_ms": 0
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 6888,
+          "nlu": {
+            "original_question": "改成2024年。",
+            "rewritten_question": "改成2024年。",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L1",
+            "intent_version": 4,
+            "state": "ANSWERED",
+            "assumptions": [
+              "未指定排名条数，按总计划规则展示前 10 名。"
+            ],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [
+              "derived_period",
+              "result"
+            ],
+            "switch": null
+          },
+          "result_columns": [
+            "customer_id",
+            "first_name",
+            "last_name",
+            "revenue"
+          ],
+          "truncated": false
+        }
+      },
+      "latency_ms": 6893,
+      "http_status": 200,
+      "response_raw_file": "turns\\003\\response.raw.json",
+      "provider_attempts": 2,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    },
+    {
+      "index": 4,
+      "phase": "post_completion",
+      "prepared_at": "2026-10-11T20:36:59.189937+00:00",
+      "request": {
+        "session_id": "special-V1-6728f87e-eb85-410d-96c0-e784dda0443d",
+        "message": "改成曲目，按购买数量。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "5142a0a7-abe8-47ac-b6d3-2529d04fe669",
+        "status": "SUCCEEDED",
+        "answer": "查询返回 10 行，详细数据见结果表。\n口径说明：未指定排名条数，按总计划规则展示前 10 名。",
+        "rewritten_question": null,
+        "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS purchased_quantity FROM public.invoice AS i JOIN public.invoice_line AS il ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10",
+        "table": [
+          {
+            "track_id": 3,
+            "track_name": "Fast As a Shark",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 9,
+            "track_name": "Snowballed",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 15,
+            "track_name": "Go Down",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 21,
+            "track_name": "Hell Ain't A Bad Place To Be",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 30,
+            "track_name": "Amazing",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 39,
+            "track_name": "You Oughta Know",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 48,
+            "track_name": "Not The Doctor",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 57,
+            "track_name": "It Ain't Like That",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 66,
+            "track_name": "Por Causa De Você",
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 75,
+            "track_name": "O Boto (Bôto)",
+            "purchased_quantity": 1
+          }
+        ],
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 5,
+          "route": "sql",
+          "task_type": "ranking",
+          "metric": "purchased_quantity",
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01",
+              "label": "2024年",
+              "grain": "year"
+            }
+          },
+          "filters": [],
+          "grouping": [],
+          "order": {
+            "rank_object": "曲目",
+            "top_n": 10
+          },
+          "assumptions": [
+            "未指定排名条数，按总计划规则展示前 10 名。"
+          ],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 37
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "改成曲目，按购买数量。"
+            },
+            "output_summary": {
+              "rewritten_question": "改成曲目，按购买数量。",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L1",
+              "intent_version": 5,
+              "issues": [],
+              "assumptions": [
+                "未指定排名条数，按总计划规则展示前 10 名。"
+              ],
+              "derived": {},
+              "invalidated": [
+                "aggregation",
+                "fields",
+                "grain",
+                "result",
+                "schema"
+              ],
+              "resume_supported": true
+            },
+            "latency_ms": 3135
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/c559f8652d684079940c792584535a76.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 50,
+                "prompt_tokens": 1320,
+                "total_tokens": 1370,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 896
+                },
+                "prompt_cache_hit_tokens": 896,
+                "prompt_cache_miss_tokens": 424
+              },
+              "json_valid": true
+            },
+            "latency_ms": 1999
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "谁买得最多？\n用户已确认的当前条件（替代被改动的旧条件，其余条件保留）：{\"task_type\": \"ranking\", \"metric\": \"purchased_quantity\", \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": \"曲目\", \"top_n\": 10, \"order\": null, \"region_scope\": null, \"filters\": []}",
+              "repair_attempt": 0,
+              "db_id": "chinook",
+              "allow_joins": true
+            },
+            "output_summary": {
+              "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS purchased_quantity FROM public.invoice AS i JOIN public.invoice_line AS il ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10",
+              "explanation": "按 2024 年（[2024-01-01, 2025-01-01)）发票范围，将发票明细与曲目关联，按曲目汇总购买数量（SUM(quantity)），降序取前 10 名，并以 track_id 作为并列时的稳定次序。"
+            },
+            "latency_ms": 3835
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/a1b4180cef6043db90af9014245bcf76.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 215,
+                "prompt_tokens": 5000,
+                "total_tokens": 5215,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 1024
+                },
+                "prompt_cache_hit_tokens": 1024,
+                "prompt_cache_miss_tokens": 3976
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2584
+          },
+          {
+            "name": "sql_validate",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS purchased_quantity FROM public.invoice AS i JOIN public.invoice_line AS il ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10"
+            },
+            "output_summary": {
+              "tables": [
+                "invoice",
+                "invoice_line",
+                "track"
+              ],
+              "default_limit_added": false,
+              "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS purchased_quantity FROM public.invoice AS i JOIN public.invoice_line AS il ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10"
+            },
+            "latency_ms": 6
+          },
+          {
+            "name": "sql_period_validate",
+            "status": "ok",
+            "input_summary": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              },
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "verified": true,
+              "mode": "qualified_invoice_where_period",
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "sql_binding_validate",
+            "status": "ok",
+            "input_summary": {
+              "binding_count": 0
+            },
+            "output_summary": {
+              "verified": true,
+              "bindings": [],
+              "mode": "qualified_ast_mandatory_filters"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_exec",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT t.track_id, t.name AS track_name, SUM(il.quantity) AS purchased_quantity FROM public.invoice AS i JOIN public.invoice_line AS il ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10",
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "row_count": 10,
+              "columns": [
+                "track_id",
+                "track_name",
+                "purchased_quantity"
+              ],
+              "truncated": false
+            },
+            "latency_ms": 23
+          },
+          {
+            "name": "answer",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "summary_source": "database_result_template"
+            },
+            "latency_ms": 0
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 7042,
+          "nlu": {
+            "original_question": "改成曲目，按购买数量。",
+            "rewritten_question": "改成曲目，按购买数量。",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L1",
+            "intent_version": 5,
+            "state": "ANSWERED",
+            "assumptions": [
+              "未指定排名条数，按总计划规则展示前 10 名。"
+            ],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [
+              "aggregation",
+              "fields",
+              "grain",
+              "result",
+              "schema"
+            ],
+            "switch": null
+          },
+          "result_columns": [
+            "track_id",
+            "track_name",
+            "purchased_quantity"
+          ],
+          "truncated": false
+        }
+      },
+      "latency_ms": 7048,
+      "http_status": 200,
+      "response_raw_file": "turns\\004\\response.raw.json",
+      "provider_attempts": 2,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    }
+  ],
+  "used_keys": [
+    "metric",
+    "rank_object"
+  ],
+  "clarification_count": 2,
+  "controller_events": [
+    {
+      "after_turn": 0,
+      "outcome": "answer",
+      "request": {
+        "session_id": "special-V1-6728f87e-eb85-410d-96c0-e784dda0443d",
+        "message": "按发票金额。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "28c45b2c-7574-4616-9361-5eae2340dd2f",
+        "intent_version": 1
+      },
+      "asked_key": "metric",
+      "supplement_key": "metric",
+      "reason": ""
+    },
+    {
+      "after_turn": 1,
+      "outcome": "answer",
+      "request": {
+        "session_id": "special-V1-6728f87e-eb85-410d-96c0-e784dda0443d",
+        "message": "客户。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "4444af72-4c6c-4df9-9cd7-5f425e01c2c9",
+        "intent_version": 2
+      },
+      "asked_key": "rank_object",
+      "supplement_key": "rank_object",
+      "reason": ""
+    }
+  ],
+  "outcome": "finished",
+  "finished_at": "2026-10-11T20:37:06.250008+00:00"
+}

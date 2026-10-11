@@ -1,0 +1,373 @@
+{
+  "id": "sp03-20",
+  "session_id": "special-V2-4dee78c1-d5f6-404a-9041-16af2440526f",
+  "started_at": "2026-10-11T20:51:35.254142+00:00",
+  "turns": [
+    {
+      "index": 0,
+      "phase": "initial",
+      "prepared_at": "2026-10-11T20:51:35.261148+00:00",
+      "request": {
+        "session_id": "special-V2-4dee78c1-d5f6-404a-9041-16af2440526f",
+        "message": "2023年按销售额排名最高的艺术家，取前10名。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "c81668ef-ad79-41ca-b1d0-8dacac8afc57",
+        "status": "SUCCEEDED",
+        "answer": "查询返回 10 行，详细数据见结果表。",
+        "rewritten_question": null,
+        "sql": "SELECT a.artist_id, a.name, SUM(il.unit_price * il.quantity) AS revenue FROM \"public\".\"invoice\" AS i JOIN \"public\".\"invoice_line\" AS il ON il.invoice_id = i.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"album\" AS al ON al.album_id = t.album_id JOIN \"public\".\"artist\" AS a ON a.artist_id = al.artist_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY a.artist_id, a.name ORDER BY revenue DESC NULLS LAST, a.artist_id ASC LIMIT 10",
+        "table": [
+          {
+            "artist_id": 150,
+            "name": "U2",
+            "revenue": "26.73"
+          },
+          {
+            "artist_id": 149,
+            "name": "Lost",
+            "revenue": "21.89"
+          },
+          {
+            "artist_id": 158,
+            "name": "Battlestar Galactica (Classic)",
+            "revenue": "17.91"
+          },
+          {
+            "artist_id": 81,
+            "name": "Eric Clapton",
+            "revenue": "13.86"
+          },
+          {
+            "artist_id": 124,
+            "name": "R.E.M.",
+            "revenue": "12.87"
+          },
+          {
+            "artist_id": 113,
+            "name": "Os Paralamas Do Sucesso",
+            "revenue": "11.88"
+          },
+          {
+            "artist_id": 51,
+            "name": "Queen",
+            "revenue": "10.89"
+          },
+          {
+            "artist_id": 252,
+            "name": "Amy Winehouse",
+            "revenue": "10.89"
+          },
+          {
+            "artist_id": 156,
+            "name": "The Office",
+            "revenue": "9.95"
+          },
+          {
+            "artist_id": 58,
+            "name": "Deep Purple",
+            "revenue": "9.90"
+          }
+        ],
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 1,
+          "route": "sql",
+          "task_type": "ranking",
+          "metric": "detail_revenue",
+          "time_scope": {
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01",
+              "label": "2023年",
+              "grain": "year"
+            }
+          },
+          "filters": [],
+          "grouping": [],
+          "order": {
+            "rank_object": "artist",
+            "top_n": 10
+          },
+          "assumptions": [],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 28
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 0,
+              "bindings": [],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "2023年按销售额排名最高的艺术家，取前10名。"
+            },
+            "output_summary": {
+              "rewritten_question": "2023年按销售额排名最高的艺术家，取前10名。",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L0",
+              "intent_version": 1,
+              "issues": [],
+              "assumptions": [],
+              "derived": {},
+              "invalidated": [],
+              "resume_supported": true
+            },
+            "latency_ms": 3657
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/f12e6396b89648989d3c9ff72a3db15e.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 235,
+                "prompt_tokens": 5200,
+                "total_tokens": 5435,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4992
+                },
+                "prompt_cache_hit_tokens": 4992,
+                "prompt_cache_miss_tokens": 208
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2549
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "2023年按销售额排名最高的艺术家，取前10名。",
+              "repair_attempt": 0,
+              "db_id": "chinook",
+              "allow_joins": true
+            },
+            "output_summary": {
+              "sql": "SELECT a.artist_id, a.name, SUM(il.unit_price * il.quantity) AS revenue FROM \"public\".\"invoice\" i JOIN \"public\".\"invoice_line\" il ON il.invoice_id = i.invoice_id JOIN \"public\".\"track\" t ON t.track_id = il.track_id JOIN \"public\".\"album\" al ON al.album_id = t.album_id JOIN \"public\".\"artist\" a ON a.artist_id = al.artist_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY a.artist_id, a.name ORDER BY revenue DESC NULLS LAST, a.artist_id ASC LIMIT 10",
+              "explanation": "按 2023 年发票明细的单价×数量汇总各艺术家销售额，降序取前 10 名；以明细金额为口径，未使用发票头总额。"
+            },
+            "latency_ms": 4091
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V2-001/a917216502ff4a0697bd430b358d8717.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 243,
+                "prompt_tokens": 4851,
+                "total_tokens": 5094,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 4608
+                },
+                "prompt_cache_hit_tokens": 4608,
+                "prompt_cache_miss_tokens": 243
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2905
+          },
+          {
+            "name": "sql_validate",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT a.artist_id, a.name, SUM(il.unit_price * il.quantity) AS revenue FROM \"public\".\"invoice\" i JOIN \"public\".\"invoice_line\" il ON il.invoice_id = i.invoice_id JOIN \"public\".\"track\" t ON t.track_id = il.track_id JOIN \"public\".\"album\" al ON al.album_id = t.album_id JOIN \"public\".\"artist\" a ON a.artist_id = al.artist_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY a.artist_id, a.name ORDER BY revenue DESC NULLS LAST, a.artist_id ASC LIMIT 10"
+            },
+            "output_summary": {
+              "tables": [
+                "album",
+                "artist",
+                "invoice",
+                "invoice_line",
+                "track"
+              ],
+              "default_limit_added": false,
+              "sql": "SELECT a.artist_id, a.name, SUM(il.unit_price * il.quantity) AS revenue FROM \"public\".\"invoice\" AS i JOIN \"public\".\"invoice_line\" AS il ON il.invoice_id = i.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"album\" AS al ON al.album_id = t.album_id JOIN \"public\".\"artist\" AS a ON a.artist_id = al.artist_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY a.artist_id, a.name ORDER BY revenue DESC NULLS LAST, a.artist_id ASC LIMIT 10"
+            },
+            "latency_ms": 7
+          },
+          {
+            "name": "sql_binding_validate",
+            "status": "ok",
+            "input_summary": {
+              "binding_count": 0
+            },
+            "output_summary": {
+              "verified": true,
+              "bindings": [],
+              "mode": "qualified_ast_mandatory_filters"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "sql_exec",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT a.artist_id, a.name, SUM(il.unit_price * il.quantity) AS revenue FROM \"public\".\"invoice\" AS i JOIN \"public\".\"invoice_line\" AS il ON il.invoice_id = i.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"album\" AS al ON al.album_id = t.album_id JOIN \"public\".\"artist\" AS a ON a.artist_id = al.artist_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY a.artist_id, a.name ORDER BY revenue DESC NULLS LAST, a.artist_id ASC LIMIT 10",
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "row_count": 10,
+              "columns": [
+                "artist_id",
+                "name",
+                "revenue"
+              ],
+              "truncated": false
+            },
+            "latency_ms": 36
+          },
+          {
+            "name": "answer",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "summary_source": "database_result_template"
+            },
+            "latency_ms": 0
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 7823,
+          "nlu": {
+            "original_question": "2023年按销售额排名最高的艺术家，取前10名。",
+            "rewritten_question": "2023年按销售额排名最高的艺术家，取前10名。",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L0",
+            "intent_version": 1,
+            "state": "ANSWERED",
+            "assumptions": [],
+            "region_scope": null,
+            "derived": {},
+            "invalidated": [],
+            "switch": null
+          },
+          "result_columns": [
+            "artist_id",
+            "name",
+            "revenue"
+          ],
+          "truncated": false
+        }
+      },
+      "latency_ms": 7830,
+      "http_status": 200,
+      "response_raw_file": "turns\\000\\response.raw.json",
+      "provider_attempts": 2,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    }
+  ],
+  "used_keys": [],
+  "clarification_count": 0,
+  "controller_events": [],
+  "outcome": "finished",
+  "finished_at": "2026-10-11T20:51:43.105778+00:00"
+}

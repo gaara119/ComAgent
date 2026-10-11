@@ -1,0 +1,735 @@
+{
+  "purpose": "Local HTML link and browser layout evidence only; not a question-answering functional/API test",
+  "created_at_utc": "2026-10-11T21:06:11.719372+00:00",
+  "document": "eval/experiments/after_d2_01_03/reports/acceptance/①③专项造题与提示词优化-逐项验收与证据.html",
+  "kind": "acceptance",
+  "document_sha256_before": "ab2f18124470065d7e66b9424a8e91d2961456e883077aae80bd225368a1ee34",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "-B",
+    "scripts/check_special_report_layout.py",
+    "--document",
+    "eval/experiments/after_d2_01_03/reports/acceptance/①③专项造题与提示词优化-逐项验收与证据.html",
+    "--output",
+    "eval/experiments/after_d2_01_03/reports/layout-check/acceptance-v1",
+    "--kind",
+    "acceptance"
+  ],
+  "cwd": "system",
+  "href_occurrences": 148,
+  "distinct_href_files": 97,
+  "actual_article_count": 0,
+  "article_ids": [],
+  "static_checks": {
+    "all_href_relative": true,
+    "all_href_files_exist_inside_project": true
+  },
+  "links": [
+    {
+      "href": "%E2%91%A0%E2%91%A2%E4%B8%93%E9%A1%B9%E9%80%A0%E9%A2%98%E4%B8%8E%E6%8F%90%E7%A4%BA%E8%AF%8D%E4%BC%98%E5%8C%96-%E9%80%90%E9%A1%B9%E9%AA%8C%E6%94%B6%E4%B8%8E%E8%AF%81%E6%8D%AE.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/acceptance/①③专项造题与提示词优化-逐项验收与证据.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../../qa_agent/clarify/prompts/intent_extract.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "qa_agent/clarify/prompts/intent_extract.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../../qa_agent/clarify/prompts/intent_patch.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "qa_agent/clarify/prompts/intent_patch.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../../qa_agent/nlu/linker.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "qa_agent/nlu/linker.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../../qa_agent/rag/answer.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "qa_agent/rag/answer.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../../qa_agent/rag/service.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "qa_agent/rag/service.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../../qa_agent/sql/generator.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "qa_agent/sql/generator.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../../qa_agent/sql/prompts/multi_table.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "qa_agent/sql/prompts/multi_table.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../../scripts/build_special_delivery.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "scripts/build_special_delivery.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../../scripts/build_special_review.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "scripts/build_special_review.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../../scripts/package_stage_delivery.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "scripts/package_stage_delivery.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../artifacts/d2-final/review/rag-dev-view.jsonl",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/artifacts/d2-final/review/rag-dev-view.jsonl",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../artifacts/d2-final/review/robust-dev-v1.jsonl",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/artifacts/d2-final/review/robust-dev-v1.jsonl",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../artifacts/d2-final/review/sql-dev-v1.jsonl",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/artifacts/d2-final/review/sql-dev-v1.jsonl",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../d2_rag_eval.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/d2_rag_eval.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../dataset.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/dataset.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../metrics.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/metrics.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../rag_dataset.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/rag_dataset.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../rag_metrics.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/rag_metrics.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../../../run_eval.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/run_eval.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../checks/ai-pass-1.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/checks/ai-pass-1.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../checks/ai-pass-2.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/checks/ai-pass-2.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../checks/ai-review-quality-notes.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/checks/ai-review-quality-notes.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../checks/final-source-guards.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/checks/final-source-guards.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../checks/program-normalized-v4.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/checks/program-normalized-v4.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../checks/root-family-metadata.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/checks/root-family-metadata.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../data/cases-v6-reviewed.jsonl",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../data/family-metadata.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/data/family-metadata.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../materials/original-prompt-recovery.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/materials/original-prompt-recovery.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../materials/outbound_payload_audit.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/materials/outbound_payload_audit.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../materials/readonly_live_facts.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/materials/readonly_live_facts.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../materials/source_manifest.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/materials/source_manifest.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../prompts/generate-01.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/prompts/generate-01.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../prompts/generate-03.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/prompts/generate-03.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../prompts/review-p1.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/prompts/review-p1.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../prompts/review-p2.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/prompts/review-p2.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../regression/final/V1-001/rag-command.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/regression/final/V1-001/rag-command.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../regression/final/V1-001/rag/report.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/regression/final/V1-001/rag/report.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../regression/final/V1-001/robust-command.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/regression/final/V1-001/robust-command.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../regression/final/V1-001/robust/report.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/regression/final/V1-001/robust/report.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../regression/final/V1-001/sql-command.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/regression/final/V1-001/sql-command.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../regression/final/V1-001/sql/report.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/regression/final/V1-001/sql/report.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/README.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/README.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/V0-code-snapshot.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/V0-code-snapshot.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/V0-freeze.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/V0-freeze.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/V0-restart-record.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/V0-restart-record.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/V1-code-snapshot.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/V1-code-snapshot.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/V1-freeze.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/V1-freeze.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/V1-restart-record.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/V1-restart-record.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/V2-code-snapshot.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/V2-code-snapshot.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/V2-freeze.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/V2-freeze.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/V2-restart-record.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/V2-restart-record.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/controller.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/controller.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/execution-logs/V0-001/run-command-loopback.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V0-001/run-command-loopback.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/execution-logs/V1-001/run-command-loopback.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V1-001/run-command-loopback.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/execution-logs/V2-001/run-command-loopback.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/execution-logs/V2-001/run-command-loopback.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runner.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runner.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V0-001-classification/failure-classification.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-classification/failure-classification.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V0-001-provider-supplement-summary.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-provider-supplement-summary.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V0-001-scores.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001-scores.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V0-001/run-manifest.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/run-manifest.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V1-001-classification/failure-classification.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-classification/failure-classification.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V1-001-provider-supplement-summary.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-provider-supplement-summary.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V1-001-scores.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001-scores.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V1-001/run-manifest.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001/run-manifest.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V2-001-classification/failure-classification.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-classification/failure-classification.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V2-001-provider-supplement-summary.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-provider-supplement-summary.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V2-001-scores.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001-scores.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/runs/V2-001/run-manifest.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/runs/V2-001/run-manifest.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/scorer.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/scorer.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/snapshot.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/snapshot.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/version-changes/V1/change-record.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/version-changes/V1/change-record.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../runtime_eval/version-changes/V2/source-delta.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/runtime_eval/version-changes/V2/source-delta.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../../scripts/prepare_data.py",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/scripts/prepare_data.py",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../d2-final-regression-summary.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/d2-final-regression-summary.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../d2-regression-cli-and-scoring.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/d2-regression-cli-and-scoring.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../d2-regression-cli-check.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/d2-regression-cli-check.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../data-preparation-summary.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/data-preparation-summary.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../manual-review/%E2%91%A0%E2%91%A2%E4%B8%93%E9%A1%B9%E7%BB%9F%E4%B8%80%E5%BE%85%E4%BA%BA%E5%B7%A5%E5%AE%A1%E6%A0%B8%E8%A1%A8.html",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.html",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../preparation-final-report.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/preparation-final-report.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../preparation-reproduction.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/preparation-reproduction.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../preparation-stage-usage.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/preparation-stage-usage.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../project-data-check.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/project-data-check.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../remaining-feature-gaps.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/remaining-feature-gaps.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../restore-instructions.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/restore-instructions.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../v0-ai-review-index.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/v0-ai-review-index.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../v1-ai-review-index.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/v1-ai-review-index.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../v2-ai-review-index.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/v2-ai-review-index.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "../version-decisions.md",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/version-decisions.md",
+      "actual_file_exists": true
+    },
+    {
+      "href": "runtime-system-prompts/inventory.json",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/inventory.json",
+      "actual_file_exists": true
+    },
+    {
+      "href": "runtime-system-prompts/qa_agent__clarify__prompts__intent_extract.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__clarify__prompts__intent_extract.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "runtime-system-prompts/qa_agent__clarify__prompts__intent_patch.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__clarify__prompts__intent_patch.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "runtime-system-prompts/qa_agent__nlu__linker.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__nlu__linker.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "runtime-system-prompts/qa_agent__rag__answer.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__rag__answer.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "runtime-system-prompts/qa_agent__rag__service.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__rag__service.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "runtime-system-prompts/qa_agent__sql__generator.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__sql__generator.txt",
+      "actual_file_exists": true
+    },
+    {
+      "href": "runtime-system-prompts/qa_agent__sql__prompts__multi_table.txt",
+      "relative": true,
+      "target_inside_project": true,
+      "target": "eval/experiments/after_d2_01_03/reports/acceptance/runtime-system-prompts/qa_agent__sql__prompts__multi_table.txt",
+      "actual_file_exists": true
+    }
+  ],
+  "browser_state": "ACTUAL_EDGE_HEADLESS_COMPLETED",
+  "page_errors": [],
+  "console_errors": [],
+  "blocked_network_requests": [],
+  "browser_requests": [
+    "file:///E:/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%AD%90%E6%9D%AF-%E8%B5%9B%E9%A2%98%E5%85%AB/system/eval/experiments/after_d2_01_03/reports/acceptance/%E2%91%A0%E2%91%A2%E4%B8%93%E9%A1%B9%E9%80%A0%E9%A2%98%E4%B8%8E%E6%8F%90%E7%A4%BA%E8%AF%8D%E4%BC%98%E5%8C%96-%E9%80%90%E9%A1%B9%E9%AA%8C%E6%94%B6%E4%B8%8E%E8%AF%81%E6%8D%AE.html"
+  ],
+  "screenshots": [
+    {
+      "file": "eval/experiments/after_d2_01_03/reports/layout-check/acceptance-v1/first-view.png",
+      "sha256": "adeaf95c0cb8767be92794ff7e83c732266e53e92f089e432ac9a84e7550ce9e",
+      "state": "Actual local first viewport"
+    }
+  ],
+  "new_API_requests": 0,
+  "new_model_calls": 0,
+  "new_SQL_queries": 0,
+  "human_review_status": "pending_human_review",
+  "document_sha256_after": "ab2f18124470065d7e66b9424a8e91d2961456e883077aae80bd225368a1ee34",
+  "document_unchanged": true,
+  "actual_browser_version": "155.0.4283.45",
+  "actual_title": "①③专项造题与提示词优化-逐项验收与证据",
+  "first_view_layout_metrics": {
+    "innerWidth": 1440,
+    "scrollWidth": 1440
+  },
+  "status": "PASS"
+}

@@ -1,0 +1,190 @@
+{
+  "case_id": "sp03-03",
+  "run": "V0-001",
+  "scope": "Single completed synthetic developer case; read-only independent AI observation, not score revision or full-run conclusion",
+  "original_input": "2024年巴西的销售额同比2023年增长了多少？",
+  "frozen_reference": {
+    "category": "L0",
+    "expected_behavior": "execute",
+    "reference_region_column": "customer.country",
+    "expected_binding": {
+      "column": "customer.country",
+      "operator": "=",
+      "value": "Brazil"
+    },
+    "missing_conditions": [],
+    "controller": null,
+    "human_review_status": "pending_human_review"
+  },
+  "actual_initial_response": {
+    "trace_id": "e714819b-b5b0-48d4-a3ee-0668800bc6c5",
+    "status": "NEEDS_CLARIFICATION",
+    "level": "L2",
+    "asked_field": "region_scope",
+    "question": "国家按客户所在地还是发票账单国家？",
+    "sql": null,
+    "current_period": [
+      "2024-01-01",
+      "2025-01-01"
+    ],
+    "base_period": [
+      "2023-01-01",
+      "2024-01-01"
+    ],
+    "value_link_mention_count": 0,
+    "value_link_bindings": [],
+    "provider_attempts": 1,
+    "controller_outcome": "controller_unanswered",
+    "actual_case_api_requests": 1
+  },
+  "actual_intent_extract_provider": {
+    "path": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/4b3903bd79964cbaafb76637f2d4254e.json",
+    "actual_model": "deepseek-flash",
+    "json_valid": true,
+    "input_verified_value_bindings": [],
+    "system_region_instruction": "发票账单国家 invoice.billing_country 与客户所在地 customer.country 不是一回事。发票销售额+国家但未明确归属时 region_ambiguous=true、region_scope=null；明确“账单国家”或“客户所在国”时标明对应字段。单纯客户数量的国家是 customer.country，不制造额外歧义。",
+    "returned_region_scope": null,
+    "returned_region_ambiguous": true,
+    "returned_metric": "invoice_revenue",
+    "returned_comparison": {
+      "type": "yoy"
+    },
+    "returned_time_ambiguous": false,
+    "returned_filters": [
+      {
+        "field": "country",
+        "value": "Brazil",
+        "note": "国家归属未明确，billing_country 或 customer.country 均可"
+      }
+    ],
+    "program_filters_after_grounding": [],
+    "usage": {
+      "prompt_tokens": 5199,
+      "completion_tokens": 269,
+      "total_tokens": 5468
+    }
+  },
+  "judgments": [
+    {
+      "object": "模型是否凭空选定地区字段或补造澄清依据",
+      "judgment": "AI建议通过",
+      "finding": "没有凭空填customer.country或invoice.billing_country：实际region_scope=null、region_ambiguous=true。原question没有地区归属词，实际system要求该情况保持歧义，catalog确有两个不同语义字段。",
+      "limit": "此判断只针对本次地区澄清是否有依据，不代表全部模型字段或完整答案通过。"
+    },
+    {
+      "object": "本题实际地区澄清是否为合法业务歧义",
+      "judgment": "AI建议有条件通过",
+      "finding": "在现有已确认材料下，巴西销售额可以按客户所在地或账单国家筛选；发票粒度SUM(invoice.total)并不自动决定国家来源。general.region明确两者不同，未登记‘泛称国家销售額默认客户所在地’。当前快照结果相同也不能合并语义。",
+      "condition": "最终由团队确认泛称‘某国销售额’是否有已明确授权的固定归属；在没有该规则或显式文字前，暂停选择是合理的。"
+    },
+    {
+      "object": "固定标签L0/execute和唯一customer.country的参考依据",
+      "judgment": "AI发现错误",
+      "finding": "L0要求必要条件齐全且没有歧义，但本题input/history没有客户所在地限定；reference_intent/allowed_interpretations直接装入customer.country。已确认销售额指标定义、可推导同比基期和‘巴西→Brazil’字段别名关系，均不能单独证明这次业务地区应唯一选择客户字段。两遍原AI标签预审只解释基期完整，遗漏了这个独立地区自由度。",
+      "conditional_sql_judgment": "AI建议有条件通过：在明确采用customer.country后，所存gold_sql的2024/2023半开期间、发票SUM、客户JOIN、NULLIF分母结构与该解释一致；本轮未连接DB重新运行gold，不把既有1.7结果写成本轮实测。",
+      "handling": "保留V0固定分数与原标签；将该标签归属依据问题独立列待人工审，不为系统通过修改或剔除标签。"
+    },
+    {
+      "object": "controller_unanswered的性质",
+      "judgment": "AI建议通过",
+      "finding": "该题controller=null，没有任何allowed_user_supplements。控制器虽然支持region_scope选项匹配，也必须先有固定允许补充；不从gold/reference_intent偷取customer.country作模拟用户选择是合规行为。",
+      "handling": "这是本题固定L0/controller=null与合理实际归属提问不相容，并非控制器region_scope能力或代码错误。不得在运行中补controller或重算旧分。"
+    },
+    {
+      "object": "本案provider归档观察",
+      "judgment": "AI发现错误",
+      "finding": "turns/000/provider-evidence.json记capture_path_rejected，checkpoint记provider_captures_archived=0；但同trace的原始provider文件实际存在且本次已直接读取，含真实system/user/response。",
+      "handling": "该问题属于归档路径观察限制，独立于本题语义和score。交付必须保留原provider文件及hash；修归档观察或追加证据时不把未成功归档的旧事件改写成成功。"
+    }
+  ],
+  "additional_coverage_note": "实际ValueLinker没有提取mention或绑定；P2识别了原文Brazil但返回未选归属的泛country字段，extract_intent使用verified bindings覆盖后filters为空。当前未执行SQL，不能把这种L2暂停写成实际金额/筛选通过。未来若经真实用户选择地区，国家值的保留需要另行实际核验；本轮没有生成该预测。",
+  "conditional_next_steps": [
+    "V0完整完成前不改prompt、code、标签、score或controller；本报告只附独立单案例观察。",
+    "如果目标确是L0同比完整题，下一版独立改写应显式写‘按客户所在地国家’或‘按账单国家’，保留原V0标签和结果版本，不在本轮替换。",
+    "如果目标是地区歧义题，未来独立版本可标L2并为地区单独提供合法模拟用户补充；不能运行中让controller从gold推断归属。",
+    "只有团队事先确认泛称地区的对象限定默认后，才评估该默认及prompt表达；不能为修一个分数直接取消现有地区澄清规则。",
+    "暂不能判断prompt-only V1能修复本案；标签依据和字段绑定程序覆盖需要分别归因。"
+  ],
+  "human_review_status": "pending_human_review",
+  "original_scores_changed": false,
+  "prediction_calls_by_this_review": 0,
+  "database_queries_by_this_review": 0,
+  "held_content_reads": 0,
+  "business_prompt_code_label_controller_mutations": 0,
+  "created_at_utc": "2026-10-11T20:21:00.800323+00:00",
+  "evidence": [
+    {
+      "path": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+      "position": "line 13; id=sp03-03; input/category/expected_bindings/reference_intent/controller",
+      "sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+      "actual_file_read": true
+    },
+    {
+      "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-03/checkpoint.json",
+      "position": "turns[0].response; controller_events; outcome",
+      "sha256": "ac9a5b4a4e0e569de261e8de4c4b03e094cf693824ba139a91fafba93506745d",
+      "actual_file_read": true
+    },
+    {
+      "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-03/turns/000/request.json",
+      "position": "request.message/request.scope",
+      "sha256": "d8e8bffa1d259da72235b2bbfd9c88696d86eeefdeacb8a473563e4fb315f8ba",
+      "actual_file_read": true
+    },
+    {
+      "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-03/turns/000/response.raw.json",
+      "position": "JSON-decoded body.intent/body.metadata/body.clarification/body.steps",
+      "sha256": "00d730ab57d7e90293075edf1fbda0ddb894716f44677a320bbdbc91de5d05a7",
+      "actual_file_read": true
+    },
+    {
+      "path": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-03/turns/000/provider-evidence.json",
+      "position": "records[0].status=capture_path_rejected",
+      "sha256": "f47e71ffe2320285a13fc661a3e6d198f4321420843c127ddda01dcbe1f29da7",
+      "actual_file_read": true
+    },
+    {
+      "path": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/4b3903bd79964cbaafb76637f2d4254e.json",
+      "position": "request.messages[0].content / JSON request.messages[1].content / JSON response.choices[0].message.content",
+      "sha256": "4880c7d1a554957d3504ca44a3f03d01c9d00f85aac0b4ce9f05eaf31541c4ae",
+      "actual_file_read": true
+    },
+    {
+      "path": "data/rules/metric_definitions.json",
+      "position": "general.region/metrics[sales_revenue]/human_confirmation.scope",
+      "sha256": "2a0df8d29a4fb5401fd0a5b33a0f44932e00ab005bc674eaaa8b8a33f1df5efc",
+      "actual_file_read": true
+    },
+    {
+      "path": "eval/experiments/after_d2_01_03/materials/generation_materials.json",
+      "position": "confirmed_business_rules.general.region/total_plan_semantic_gate",
+      "sha256": "8bb7b1b403972e6b2ae910823842ac3480079e291e5d1b35b24e3dc7de856cf0",
+      "actual_file_read": true
+    },
+    {
+      "path": "data/aliases/aliases-d2-reviewed.csv",
+      "position": "lines 16-17; ids a-cf1b483ec6900d1a/a-48667df2696e251c",
+      "sha256": "aa699e8ef59f5185a0626ed2a9aefb36a1e292bfa2e3c0efd4b0ba5b1ddaef04",
+      "actual_file_read": true
+    },
+    {
+      "path": "qa_agent/clarify/prompts/intent_extract.txt",
+      "position": "region instruction",
+      "sha256": "3992c613133ab5e1d258740ce349c7cf3c59b5f312bdebcfefe34fd1e88d6a21",
+      "actual_file_read": true
+    },
+    {
+      "path": "qa_agent/clarify/rules.py",
+      "position": "RuleEngine.decide region_ambiguous and region_scope is None",
+      "sha256": "0680480918bf8d0f9448f95a0a0a11481ea3ead2fa04026b37ee9b6f3035ab29",
+      "actual_file_read": true
+    },
+    {
+      "path": "eval/experiments/after_d2_01_03/runtime_eval/controller.py",
+      "position": "next_answer: allowed_user_supplements and supplement_key gate",
+      "sha256": "04e098fab978fc44c10e560e75b765211653fcc96f10cc679c504202af180fc0",
+      "actual_file_read": true
+    }
+  ],
+  "label_still_matches_v0_freeze": true
+}

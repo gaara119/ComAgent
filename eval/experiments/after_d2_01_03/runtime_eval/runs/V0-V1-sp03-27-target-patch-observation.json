@@ -1,0 +1,88 @@
+{
+  "created_at": "2026-10-11T20:40:18.856748+00:00",
+  "claim": "目标被问numerator的patch局部正确性观察改善，非整题通过、非全组因果收益",
+  "same_actual_supplement": true,
+  "V1_target_field_only_patch": true,
+  "V1_2023_time_preserved": true,
+  "V1_missing_denominator_only": true,
+  "V1_whole_case_complete": false,
+  "original_score_modified": false,
+  "records": [
+    {
+      "version": "V0",
+      "initial_user": "2023年销售额占比是多少？",
+      "actual_supplement": "巴西居住客户的销售额。",
+      "asked_key": "numerator",
+      "patches": [
+        {
+          "op": "set",
+          "path": "region_scope",
+          "value": "customer.country",
+          "evidence": "巴西居住客户"
+        },
+        {
+          "op": "add",
+          "path": "filters",
+          "value": {
+            "field": "customer.country",
+            "op": "=",
+            "value": "Brazil"
+          },
+          "evidence": "巴西居住客户"
+        }
+      ],
+      "status": "FAILED",
+      "error": {
+        "code": "clarification_conflict",
+        "message": "地区字段修改没有本次用户明确的账单国家或客户所在地原文依据。",
+        "retryable": false
+      },
+      "time_preserved": false,
+      "remaining_asked_fields": [],
+      "provider": {
+        "case_id": "sp03-27",
+        "turn": 1,
+        "step": 9,
+        "trace_id": "669c4003-c08d-439e-9d36-285023991418",
+        "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V0-001/434e7099872f4d48b4e967476d1722d1.json",
+        "status": "supplement_archived",
+        "source_sha256": "27c7571074e9967b10dbf9e4184aa95389d6c62274a514527c71c5b40be534ce",
+        "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-27/turns/001/provider/434e7099872f4d48b4e967476d1722d1.json",
+        "copy_sha256": "27c7571074e9967b10dbf9e4184aa95389d6c62274a514527c71c5b40be534ce"
+      },
+      "raw_response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-27/turns/001/response.raw.json"
+    },
+    {
+      "version": "V1",
+      "initial_user": "2023年销售额占比是多少？",
+      "actual_supplement": "巴西居住客户的销售额。",
+      "asked_key": "numerator",
+      "patches": [
+        {
+          "op": "set",
+          "path": "numerator",
+          "value": "巴西居住客户的销售额",
+          "evidence": "巴西居住客户的销售额"
+        }
+      ],
+      "status": "NEEDS_CLARIFICATION",
+      "error": null,
+      "time_preserved": true,
+      "remaining_asked_fields": [
+        "denominator"
+      ],
+      "provider": {
+        "case_id": "sp03-27",
+        "turn": 1,
+        "step": 9,
+        "trace_id": "560602ff-01f1-4acd-8d90-b56b47a2d085",
+        "source": "eval/experiments/after_d2_01_03/runtime_eval/provider-captures/V1-001/101c6d82f1424605956744ffdd5f05dc.json",
+        "status": "supplement_archived",
+        "source_sha256": "9b709c380a62259fd16462ef2e8b57f0f3be063de8b1553d1a20103daa7ea317",
+        "copy": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-27/turns/001/provider/101c6d82f1424605956744ffdd5f05dc.json",
+        "copy_sha256": "9b709c380a62259fd16462ef2e8b57f0f3be063de8b1553d1a20103daa7ea317"
+      },
+      "raw_response": "eval/experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-27/turns/001/response.raw.json"
+    }
+  ]
+}
