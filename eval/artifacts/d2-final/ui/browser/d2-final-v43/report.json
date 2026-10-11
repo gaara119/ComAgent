@@ -1,0 +1,210 @@
+{
+  "started_at_utc": "2026-10-11T18:35:20.244108+00:00",
+  "command": "scripts/capture_d2_demo.py --api-records eval/artifacts/d2-final/ui/api --output-dir eval/artifacts/d2-final/ui/browser --screenshots eval/artifacts/d2-final/ui/screenshots --run-id d2-final-v43",
+  "ui_url": "http://127.0.0.1:8501",
+  "api_url": "http://127.0.0.1:8000",
+  "method": "real Edge/Playwright + same-project real API",
+  "status": "PASSED",
+  "human_review_count": 0,
+  "cases": [
+    {
+      "id": "sql",
+      "question": "客户表一共有多少位客户？",
+      "expected_statuses": [
+        "SUCCEEDED"
+      ],
+      "checks": {
+        "ui_api_trace_id_matches": true,
+        "ui_api_status_matches": true,
+        "request_question_matches": true,
+        "actual_status_expected": true,
+        "three_panels": true,
+        "actual_step_statuses_valid": true,
+        "sql_and_table_rendered": true,
+        "step_details_rendered": true,
+        "rerun_no_new_api_post": true,
+        "rerun_keeps_trace_id": true
+      },
+      "status": "PASSED",
+      "rendered_status": "SUCCEEDED",
+      "trace_id": "db42786f-786e-4114-8429-dbcaf6276fac",
+      "actual_status": "SUCCEEDED",
+      "actual_api_record": "eval/artifacts/d2-final/ui/api/20261011T183535216240Z-3a074d0f-aeb1-4289-a855-37fa521e9da4.json",
+      "raw_response": "eval/artifacts/d2-final/ui/browser/d2-final-v43/sql-raw.json",
+      "rerun_verification": {
+        "session_id": "327fb50c-8a71-4600-99cc-6088797d12cb",
+        "api_posts_before_toggle": 1,
+        "api_posts_after_toggle": 1,
+        "source": "actual API middleware records filtered to this browser session",
+        "trace_id_after_toggle": "db42786f-786e-4114-8429-dbcaf6276fac"
+      },
+      "screenshot": "eval/artifacts/d2-final/ui/screenshots/D2-d2-final-v43-sql.png"
+    },
+    {
+      "id": "rewrite",
+      "question": "来自 brazill 的客户有多少位？",
+      "expected_statuses": [
+        "SUCCEEDED"
+      ],
+      "checks": {
+        "ui_api_trace_id_matches": true,
+        "ui_api_status_matches": true,
+        "request_question_matches": true,
+        "actual_status_expected": true,
+        "three_panels": true,
+        "actual_step_statuses_valid": true,
+        "sql_and_table_rendered": true,
+        "actual_rewrite_patches": true,
+        "rewrite_diff_rendered": true,
+        "step_details_rendered": true,
+        "rerun_no_new_api_post": true,
+        "rerun_keeps_trace_id": true
+      },
+      "status": "PASSED",
+      "rendered_status": "SUCCEEDED",
+      "trace_id": "6303aa9b-5e84-4da9-ab57-5ed911c14b50",
+      "actual_status": "SUCCEEDED",
+      "actual_api_record": "eval/artifacts/d2-final/ui/api/20261011T183547013140Z-b81e69fd-d4cf-4c7d-ab74-f9bc3c954710.json",
+      "raw_response": "eval/artifacts/d2-final/ui/browser/d2-final-v43/rewrite-raw.json",
+      "rerun_verification": {
+        "session_id": "be69aae1-50b5-4119-afe5-224fcb81ffc9",
+        "api_posts_before_toggle": 1,
+        "api_posts_after_toggle": 1,
+        "source": "actual API middleware records filtered to this browser session",
+        "trace_id_after_toggle": "6303aa9b-5e84-4da9-ab57-5ed911c14b50"
+      },
+      "screenshot": "eval/artifacts/d2-final/ui/screenshots/D2-d2-final-v43-rewrite.png"
+    },
+    {
+      "id": "rag-ocr",
+      "question": "Led Zeppelin（齐柏林飞船）是哪一年、在哪座城市成立的？",
+      "expected_statuses": [
+        "SUCCEEDED"
+      ],
+      "checks": {
+        "ui_api_trace_id_matches": true,
+        "ui_api_status_matches": true,
+        "request_question_matches": true,
+        "actual_status_expected": true,
+        "three_panels": true,
+        "actual_step_statuses_valid": true,
+        "citations_within_selected_document": true,
+        "honest_image_location": true,
+        "original_png_rendered": true,
+        "step_details_rendered": true,
+        "rerun_no_new_api_post": true,
+        "rerun_keeps_trace_id": true
+      },
+      "status": "PASSED",
+      "rendered_status": "SUCCEEDED",
+      "trace_id": "7d02e84d-4480-4650-898c-72950f111225",
+      "actual_status": "SUCCEEDED",
+      "actual_api_record": "eval/artifacts/d2-final/ui/api/20261011T183558858626Z-73e89659-ce77-4455-b8e7-435d429e6f12.json",
+      "raw_response": "eval/artifacts/d2-final/ui/browser/d2-final-v43/rag-ocr-raw.json",
+      "rerun_verification": {
+        "session_id": "84d3c7b3-d42c-4ce4-8e92-12b31841ba61",
+        "api_posts_before_toggle": 1,
+        "api_posts_after_toggle": 1,
+        "source": "actual API middleware records filtered to this browser session",
+        "trace_id_after_toggle": "7d02e84d-4480-4650-898c-72950f111225"
+      },
+      "screenshot": "eval/artifacts/d2-final/ui/screenshots/D2-d2-final-v43-rag-ocr.png"
+    },
+    {
+      "id": "insufficient",
+      "question": "这份文档能提供 Led Zeppelin 在2099年的全年巡演总收入和纳税申报金额吗？",
+      "expected_statuses": [
+        "EMPTY_RESULT",
+        "UNSUPPORTED"
+      ],
+      "checks": {
+        "ui_api_trace_id_matches": true,
+        "ui_api_status_matches": true,
+        "request_question_matches": true,
+        "actual_status_expected": true,
+        "three_panels": true,
+        "actual_step_statuses_valid": true,
+        "no_false_succeeded": true,
+        "step_details_rendered": true,
+        "rerun_no_new_api_post": true,
+        "rerun_keeps_trace_id": true
+      },
+      "status": "PASSED",
+      "rendered_status": "EMPTY_RESULT",
+      "trace_id": "45f4cceb-0c1c-4de4-8bce-8d579522e798",
+      "actual_status": "EMPTY_RESULT",
+      "actual_api_record": "eval/artifacts/d2-final/ui/api/20261011T183614103651Z-afa33e21-81c6-4357-80b1-4159f449697c.json",
+      "raw_response": "eval/artifacts/d2-final/ui/browser/d2-final-v43/insufficient-raw.json",
+      "rerun_verification": {
+        "session_id": "fa98598c-529d-4a8a-b7f3-37da425f6ae4",
+        "api_posts_before_toggle": 1,
+        "api_posts_after_toggle": 1,
+        "source": "actual API middleware records filtered to this browser session",
+        "trace_id_after_toggle": "45f4cceb-0c1c-4de4-8bce-8d579522e798"
+      },
+      "screenshot": "eval/artifacts/d2-final/ui/screenshots/D2-d2-final-v43-insufficient.png"
+    },
+    {
+      "id": "failure",
+      "question": "请仅查询数据库中明确不存在的 d2_nonexistent_table_20261010 表，列出前5行。不得换成customer或其他现有表，不得猜测结果；无法执行就如实失败。",
+      "expected_statuses": [
+        "FAILED",
+        "UNSUPPORTED"
+      ],
+      "checks": {
+        "ui_api_trace_id_matches": true,
+        "ui_api_status_matches": true,
+        "request_question_matches": true,
+        "actual_status_expected": true,
+        "three_panels": true,
+        "actual_step_statuses_valid": true,
+        "no_false_succeeded": true,
+        "step_details_rendered": true,
+        "rerun_no_new_api_post": true,
+        "rerun_keeps_trace_id": true
+      },
+      "status": "PASSED",
+      "rendered_status": "FAILED",
+      "trace_id": "0ce00e04-ba6b-4445-8d3f-456dc0e04117",
+      "actual_status": "FAILED",
+      "actual_api_record": "eval/artifacts/d2-final/ui/api/20261011T183619016824Z-8ebaedd5-a6ce-4b78-80bc-b7c50badee57.json",
+      "raw_response": "eval/artifacts/d2-final/ui/browser/d2-final-v43/failure-raw.json",
+      "rerun_verification": {
+        "session_id": "e31c056a-7979-422c-87f2-ac892f24e88a",
+        "api_posts_before_toggle": 1,
+        "api_posts_after_toggle": 1,
+        "source": "actual API middleware records filtered to this browser session",
+        "trace_id_after_toggle": "0ce00e04-ba6b-4445-8d3f-456dc0e04117"
+      },
+      "screenshot": "eval/artifacts/d2-final/ui/screenshots/D2-d2-final-v43-failure.png"
+    }
+  ],
+  "browser_errors": [],
+  "holdout_prediction_count": 0,
+  "screenshots": [
+    "eval/artifacts/d2-final/ui/screenshots/D2-d2-final-v43-sql.png",
+    "eval/artifacts/d2-final/ui/screenshots/D2-d2-final-v43-rewrite.png",
+    "eval/artifacts/d2-final/ui/screenshots/D2-d2-final-v43-rag-ocr.png",
+    "eval/artifacts/d2-final/ui/screenshots/D2-d2-final-v43-insufficient.png",
+    "eval/artifacts/d2-final/ui/screenshots/D2-d2-final-v43-failure.png"
+  ],
+  "api_only_cases": [
+    {
+      "id": "legal-unknown-value",
+      "human_review": "pending",
+      "actual_status": "SUCCEEDED",
+      "raw_response": "eval/artifacts/d2-final/ui/browser/d2-final-v43/legal-unknown-value-raw.json",
+      "trace_id": "f6fcea8a-7415-4603-b1fe-17d02f541935",
+      "passed": true
+    },
+    {
+      "id": "scan-ocr",
+      "human_review": "pending",
+      "actual_status": "SUCCEEDED",
+      "raw_response": "eval/artifacts/d2-final/ui/browser/d2-final-v43/scan-ocr-raw.json",
+      "trace_id": "e7b195a9-50ab-4125-994b-5c1314380bc6",
+      "passed": true
+    }
+  ],
+  "finished_at_utc": "2026-10-11T18:36:29.639507+00:00"
+}

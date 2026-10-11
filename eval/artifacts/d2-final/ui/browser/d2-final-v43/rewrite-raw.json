@@ -1,0 +1,476 @@
+{
+  "started_at_utc": "2026-10-11T18:35:43.266773+00:00",
+  "finished_at_utc": "2026-10-11T18:35:47.013140+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "be69aae1-50b5-4119-afe5-224fcb81ffc9",
+    "message": "来自 brazill 的客户有多少位？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "6303aa9b-5e84-4da9-ab57-5ed911c14b50",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：5。",
+    "rewritten_question": "来自 Brazil 的客户有多少位？",
+    "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Brazil'",
+    "table": [
+      {
+        "count": 5
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "Brazil",
+          "mention_id": "mention-1",
+          "method": "fuzzy",
+          "evidence_ref": "v-95ff10c443473368bada",
+          "source": "verified_value_index"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11
+        },
+        "latency_ms": 126
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [
+            {
+              "column": "customer.country",
+              "operator": "=",
+              "value": "Brazil",
+              "mention_id": "mention-1",
+              "method": "fuzzy",
+              "evidence_ref": "v-95ff10c443473368bada",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "brazill"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_pinyin",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "brazill"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_fuzzy",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "brazill"
+        },
+        "output_summary": {
+          "candidate_count": 5,
+          "candidate_ids": [
+            "v-95ff10c443473368bada",
+            "v-6178e1aaabc32f2c41c7",
+            "v-08ebc61e3f77af84be3d",
+            "v-02499e1738e7e7c4d635",
+            "v-ec3f5c892a21c72c35e1"
+          ],
+          "scores": [
+            0.923077,
+            0.4,
+            0.375,
+            0.333333,
+            0.333333
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "ok",
+        "input_summary": {
+          "original_question": "来自 brazill 的客户有多少位？"
+        },
+        "output_summary": {
+          "rewritten_question": "来自 Brazil 的客户有多少位？",
+          "patches": [
+            {
+              "start": 3,
+              "end": 10,
+              "original": "brazill",
+              "replacement": "Brazil",
+              "method": "fuzzy",
+              "evidence_ref": "v-95ff10c443473368bada"
+            }
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "来自 Brazil 的客户有多少位？",
+          "repair_attempt": 0
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Brazil'",
+          "explanation": "统计 customer 表中 country 为 Brazil 的客户记录数。"
+        },
+        "latency_ms": 3585
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 55,
+            "prompt_tokens": 4436,
+            "total_tokens": 4491,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4096
+            },
+            "prompt_cache_hit_tokens": 4096,
+            "prompt_cache_miss_tokens": 340
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2420
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Brazil'"
+        },
+        "output_summary": {
+          "tables": [
+            "customer"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Brazil'"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "customer.country",
+              "operator": "=",
+              "value": "Brazil",
+              "mention_id": "mention-1",
+              "method": "fuzzy",
+              "evidence_ref": "v-95ff10c443473368bada",
+              "source": "verified_value_index"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = %(qa_value_0)s",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 27
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "result_columns": [
+        "count"
+      ],
+      "truncated": false,
+      "latency_ms": 3744,
+      "nlu": {
+        "original_question": "来自 brazill 的客户有多少位？",
+        "rewritten_question": "来自 Brazil 的客户有多少位？",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "brazill",
+            "span": [
+              3,
+              10
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "customer.country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-95ff10c443473368bada",
+                "column": "customer.country",
+                "standard_value": "Brazil",
+                "surface": "Brazil",
+                "score": 0.923077,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-95ff10c443473368bada",
+                "binding_policy": "direct"
+              },
+              {
+                "candidate_id": "v-6178e1aaabc32f2c41c7",
+                "column": "customer.country",
+                "standard_value": "Portugal",
+                "surface": "Portugal",
+                "score": 0.4,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-6178e1aaabc32f2c41c7",
+                "binding_policy": "direct"
+              },
+              {
+                "candidate_id": "v-08ebc61e3f77af84be3d",
+                "column": "customer.country",
+                "standard_value": "Australia",
+                "surface": "Australia",
+                "score": 0.375,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-08ebc61e3f77af84be3d",
+                "binding_policy": "direct"
+              },
+              {
+                "candidate_id": "v-02499e1738e7e7c4d635",
+                "column": "customer.country",
+                "standard_value": "Chile",
+                "surface": "Chile",
+                "score": 0.333333,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-02499e1738e7e7c4d635",
+                "binding_policy": "direct"
+              },
+              {
+                "candidate_id": "v-ec3f5c892a21c72c35e1",
+                "column": "customer.country",
+                "standard_value": "Italy",
+                "surface": "Italy",
+                "score": 0.333333,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-ec3f5c892a21c72c35e1",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": "v-95ff10c443473368bada",
+            "match_method": "fuzzy",
+            "evidence_ref": "v-95ff10c443473368bada",
+            "canonical_value": "Brazil",
+            "column": "customer.country",
+            "stages": [
+              {
+                "method": "exact",
+                "candidates": []
+              },
+              {
+                "method": "pinyin",
+                "candidates": []
+              },
+              {
+                "method": "fuzzy",
+                "candidates": [
+                  {
+                    "candidate_id": "v-95ff10c443473368bada",
+                    "column": "customer.country",
+                    "standard_value": "Brazil",
+                    "surface": "Brazil",
+                    "score": 0.923077,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-95ff10c443473368bada",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-6178e1aaabc32f2c41c7",
+                    "column": "customer.country",
+                    "standard_value": "Portugal",
+                    "surface": "Portugal",
+                    "score": 0.4,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-6178e1aaabc32f2c41c7",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-08ebc61e3f77af84be3d",
+                    "column": "customer.country",
+                    "standard_value": "Australia",
+                    "surface": "Australia",
+                    "score": 0.375,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-08ebc61e3f77af84be3d",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-02499e1738e7e7c4d635",
+                    "column": "customer.country",
+                    "standard_value": "Chile",
+                    "surface": "Chile",
+                    "score": 0.333333,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-02499e1738e7e7c4d635",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-ec3f5c892a21c72c35e1",
+                    "column": "customer.country",
+                    "standard_value": "Italy",
+                    "surface": "Italy",
+                    "score": 0.333333,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-ec3f5c892a21c72c35e1",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "fuzzy",
+            "evidence_ref": "v-95ff10c443473368bada",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [
+          {
+            "start": 3,
+            "end": 10,
+            "original": "brazill",
+            "replacement": "Brazil",
+            "method": "fuzzy",
+            "evidence_ref": "v-95ff10c443473368bada"
+          }
+        ],
+        "index_status": "ready"
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

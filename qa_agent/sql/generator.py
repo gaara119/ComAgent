@@ -25,6 +25,7 @@ SQL_SYSTEM_PROMPT = """你是 PostgreSQL 单表问数助手。根据用户问题
    “数据中的最近一年”等相对表述才依据目录真实日期范围。字符串单引号，表列双引号保持真实大小写。
 5. COUNT(*) 统计记录数；SUM/AVG 不应先截取输入行。无匹配的 COUNT 为 0，SUM 可为 NULL。
 6. Top-N 保留用户要求的 N；需要稳定次序时用问题指定的第二排序键，否则用真实主键打破并列。
+   可空数值的最大/最小或大小排名不能把未知 NULL 当成极值；没有要求空值优先时使用 NULLS LAST。
 7. 常用允许函数：COUNT/SUM/AVG/MIN/MAX/ROUND/ABS/CEIL/FLOOR/COALESCE/NULLIF/
    LOWER/UPPER/LENGTH/TRIM/SUBSTRING/EXTRACT/DATE_TRUNC/CAST；允许 CASE 和基本运算。
 8. 返回严格 JSON，不使用 Markdown。explanation 只描述查询用途，不输出隐藏思考过程。

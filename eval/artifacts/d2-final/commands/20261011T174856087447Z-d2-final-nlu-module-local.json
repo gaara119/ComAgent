@@ -1,0 +1,18 @@
+{
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "pytest",
+    "tests/test_d2_nlu.py",
+    "tests/test_d2_final_nlu.py",
+    "-q",
+    "--basetemp",
+    ".runtime/pytest-d2-final-nlu"
+  ],
+  "cwd": ".",
+  "started_at_utc": "20261011T174856087447Z",
+  "elapsed_seconds": 3.765,
+  "exit_code": 0,
+  "output": "eval/artifacts/d2-final/commands/20261011T174856087447Z-d2-final-nlu-module-local.txt"
+}

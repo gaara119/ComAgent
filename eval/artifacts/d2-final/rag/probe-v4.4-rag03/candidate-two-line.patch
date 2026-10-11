@@ -1,0 +1,5 @@
+--- qa_agent/rag/answer.py (tested v4.3)
++++ qa_agent/rag/answer.py (candidate v4.4 probe only)
+@@ prompt after name/classification rule @@
++问题只要求数量或期限时，直接给出所问数量、期限与必要的起算限定，不主动复述题干中的法律编号、条例编号或年份。
++若确有必要复述编号或年份，该事实句的实际引用必须包含这些编号或年份，不能借题干补足。

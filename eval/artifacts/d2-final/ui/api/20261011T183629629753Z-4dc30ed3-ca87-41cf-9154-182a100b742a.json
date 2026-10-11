@@ -1,0 +1,1527 @@
+{
+  "started_at_utc": "2026-10-11T18:36:26.332406+00:00",
+  "finished_at_utc": "2026-10-11T18:36:29.629753+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d2-e2e-scan-ocr-02d8e8ac-69bc-4a0a-9a97-31b678260538",
+    "message": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "ohr-manual-endoscope-scan"
+      ]
+    }
+  },
+  "response": {
+    "trace_id": "e7b195a9-50ab-4125-994b-5c1314380bc6",
+    "status": "SUCCEEDED",
+    "answer": "InnoView GMBH Endoscopes come with a 2 year minimum warranty. [E4][E7]",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [
+      {
+        "evidence_id": "E4",
+        "doc_id": "ohr-manual-endoscope-scan",
+        "doc_title": "Rigid Endoscope User Manual 扫描派生件",
+        "page": 2,
+        "section_path": [],
+        "text": "result in severe damage to the\ndeposits on the optical surfaces.\nyearminimumwarranty.\nEndoscope.\nFluidinvasionWITHOUTmechanical damage.",
+        "bbox": [
+          215.5,
+          276.5,
+          768.5,
+          297.0
+        ]
+      },
+      {
+        "evidence_id": "E7",
+        "doc_id": "ohr-manual-endoscope-scan",
+        "doc_title": "Rigid Endoscope User Manual 扫描派生件",
+        "page": 2,
+        "section_path": [],
+        "text": "autoclaved,make sure that all optical\nsurfaces are without anyforeign\nNOTE\n11. Warranty\nNOTE\nThis is NOTpart of your routine cleaning.Use the\nparticles and the Endoscopes are\nNevercleanand sterilize Endoscopestogether\nwaterbasedMineral Fluid only if theimage is\nthoroughly cleaned.Lack of\nwith otherinstruments unlessthey are\ncloudy dueto\ncleanlinessbefore autoclaving can\nInnoViewGMBHEndoscopes comewitha2\nindividuallysecuredinonecontainer.",
+        "bbox": [
+          25.5,
+          230.0,
+          764.5,
+          286.5
+        ]
+      }
+    ],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-manual-endoscope-scan"
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "evidence_count": 2
+        },
+        "latency_ms": 3296
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-manual-endoscope-scan"
+        },
+        "output_summary": {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "title": "Rigid Endoscope User Manual 扫描派生件",
+          "content_hash": "41cd29980e7d5ba0f86b8f0c41bcba930f5d39bb99707185b414d408839a8b62"
+        },
+        "latency_ms": 7
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "question": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?",
+          "query": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 28,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "c0f1c0c84f460bb74b49e60c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 7.04200873
+              },
+              {
+                "rank": 2,
+                "chunk_id": "9f08d9c69725a4625056b12c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 5.1589878
+              },
+              {
+                "rank": 3,
+                "chunk_id": "1c149e67009db698ec4b216a",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 4.72669326
+              },
+              {
+                "rank": 4,
+                "chunk_id": "dbc13d1fded2055bf7b21509",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 4.35943424
+              },
+              {
+                "rank": 5,
+                "chunk_id": "9ab750efd18223dc14aa1099",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 3.23941444
+              },
+              {
+                "rank": 6,
+                "chunk_id": "8128eba3df1e455fe47e780d",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 3.18434197
+              },
+              {
+                "rank": 7,
+                "chunk_id": "f7b6803e2dbc49c6731f4558",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 2.94058721
+              },
+              {
+                "rank": 8,
+                "chunk_id": "bf070a2bf84ebb6b8e51d6e1",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 2.80566328
+              },
+              {
+                "rank": 9,
+                "chunk_id": "1949f61329f8b8d767a4dca6",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 2.55566347
+              },
+              {
+                "rank": 10,
+                "chunk_id": "1409246a0d3d313a1256728c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 2.04626328
+              },
+              {
+                "rank": 11,
+                "chunk_id": "c296de0765271e8356116905",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 1.90413459
+              },
+              {
+                "rank": 12,
+                "chunk_id": "0a8b4715ed1d86c51495c6f9",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 1.74817127
+              },
+              {
+                "rank": 13,
+                "chunk_id": "56d98e1bf135611e9fd06ca9",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 1.74142696
+              },
+              {
+                "rank": 14,
+                "chunk_id": "696015cdbd15dad4d2b3a69f",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 1.72010266
+              },
+              {
+                "rank": 15,
+                "chunk_id": "16ae4d0663e7ee5f946a036c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 1.71783058
+              },
+              {
+                "rank": 16,
+                "chunk_id": "2176f4162c1377ba016a2006",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 1.58981828
+              },
+              {
+                "rank": 17,
+                "chunk_id": "092f6d8066a34d3b47c56dd8",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 1.55813023
+              },
+              {
+                "rank": 18,
+                "chunk_id": "ae562102ebd20e4c86c8d156",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 1.556361
+              },
+              {
+                "rank": 19,
+                "chunk_id": "9c8e1a027aacaf7b3ea6ba73",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 1.54696126
+              },
+              {
+                "rank": 20,
+                "chunk_id": "2bd4b585047fc25fb2b1b9cc",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 1.52511009
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "9f08d9c69725a4625056b12c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.60252708
+              },
+              {
+                "rank": 2,
+                "chunk_id": "c296de0765271e8356116905",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.60238695
+              },
+              {
+                "rank": 3,
+                "chunk_id": "8128eba3df1e455fe47e780d",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.59700388
+              },
+              {
+                "rank": 4,
+                "chunk_id": "1949f61329f8b8d767a4dca6",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.57451516
+              },
+              {
+                "rank": 5,
+                "chunk_id": "c0f1c0c84f460bb74b49e60c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.57326829
+              },
+              {
+                "rank": 6,
+                "chunk_id": "0e72a11690c5d6f2acff1830",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.56519395
+              },
+              {
+                "rank": 7,
+                "chunk_id": "414024deed9266607a30747d",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.55975157
+              },
+              {
+                "rank": 8,
+                "chunk_id": "84500c3807edaaba865132d4",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.55313313
+              },
+              {
+                "rank": 9,
+                "chunk_id": "0a8b4715ed1d86c51495c6f9",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.54599828
+              },
+              {
+                "rank": 10,
+                "chunk_id": "9ab750efd18223dc14aa1099",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.52737147
+              },
+              {
+                "rank": 11,
+                "chunk_id": "bf070a2bf84ebb6b8e51d6e1",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.52385718
+              },
+              {
+                "rank": 12,
+                "chunk_id": "9c8e1a027aacaf7b3ea6ba73",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.51813841
+              },
+              {
+                "rank": 13,
+                "chunk_id": "1c149e67009db698ec4b216a",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.51698846
+              },
+              {
+                "rank": 14,
+                "chunk_id": "092f6d8066a34d3b47c56dd8",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.51680189
+              },
+              {
+                "rank": 15,
+                "chunk_id": "547dbe5ff5b1f34b4697122f",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.50705981
+              },
+              {
+                "rank": 16,
+                "chunk_id": "f7b6803e2dbc49c6731f4558",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.50701594
+              },
+              {
+                "rank": 17,
+                "chunk_id": "de775621c1e413122f20fd55",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.49866268
+              },
+              {
+                "rank": 18,
+                "chunk_id": "1409246a0d3d313a1256728c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.49815279
+              },
+              {
+                "rank": 19,
+                "chunk_id": "56d98e1bf135611e9fd06ca9",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.48951507
+              },
+              {
+                "rank": 20,
+                "chunk_id": "dbc13d1fded2055bf7b21509",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.48813188
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "9f08d9c69725a4625056b12c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.03252247
+              },
+              {
+                "rank": 2,
+                "chunk_id": "c0f1c0c84f460bb74b49e60c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.03177806
+              },
+              {
+                "rank": 3,
+                "chunk_id": "8128eba3df1e455fe47e780d",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.03102453
+              },
+              {
+                "rank": 4,
+                "chunk_id": "c296de0765271e8356116905",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.03021354
+              },
+              {
+                "rank": 5,
+                "chunk_id": "1949f61329f8b8d767a4dca6",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.03011775
+              },
+              {
+                "rank": 6,
+                "chunk_id": "9ab750efd18223dc14aa1099",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.02967033
+              },
+              {
+                "rank": 7,
+                "chunk_id": "1c149e67009db698ec4b216a",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.02957165
+              },
+              {
+                "rank": 8,
+                "chunk_id": "bf070a2bf84ebb6b8e51d6e1",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.02879039
+              },
+              {
+                "rank": 9,
+                "chunk_id": "0a8b4715ed1d86c51495c6f9",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.02838164
+              },
+              {
+                "rank": 10,
+                "chunk_id": "dbc13d1fded2055bf7b21509",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.028125
+              },
+              {
+                "rank": 11,
+                "chunk_id": "f7b6803e2dbc49c6731f4558",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.02808327
+              },
+              {
+                "rank": 12,
+                "chunk_id": "1409246a0d3d313a1256728c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.02710623
+              },
+              {
+                "rank": 13,
+                "chunk_id": "9c8e1a027aacaf7b3ea6ba73",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.02654712
+              },
+              {
+                "rank": 14,
+                "chunk_id": "092f6d8066a34d3b47c56dd8",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.02650053
+              },
+              {
+                "rank": 15,
+                "chunk_id": "56d98e1bf135611e9fd06ca9",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.02635686
+              },
+              {
+                "rank": 16,
+                "chunk_id": "0e72a11690c5d6f2acff1830",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.01515152
+              },
+              {
+                "rank": 17,
+                "chunk_id": "414024deed9266607a30747d",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.01492537
+              },
+              {
+                "rank": 18,
+                "chunk_id": "84500c3807edaaba865132d4",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.01470588
+              },
+              {
+                "rank": 19,
+                "chunk_id": "696015cdbd15dad4d2b3a69f",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.01351351
+              },
+              {
+                "rank": 20,
+                "chunk_id": "16ae4d0663e7ee5f946a036c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.01333333
+              },
+              {
+                "rank": 21,
+                "chunk_id": "547dbe5ff5b1f34b4697122f",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.01333333
+              },
+              {
+                "rank": 22,
+                "chunk_id": "2176f4162c1377ba016a2006",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.01315789
+              },
+              {
+                "rank": 23,
+                "chunk_id": "de775621c1e413122f20fd55",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.01298701
+              },
+              {
+                "rank": 24,
+                "chunk_id": "ae562102ebd20e4c86c8d156",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [],
+                "score": 0.01282051
+              },
+              {
+                "rank": 25,
+                "chunk_id": "2bd4b585047fc25fb2b1b9cc",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.0125
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "9f08d9c69725a4625056b12c",
+            "c0f1c0c84f460bb74b49e60c",
+            "8128eba3df1e455fe47e780d",
+            "c296de0765271e8356116905",
+            "1949f61329f8b8d767a4dca6"
+          ],
+          "retrieved_count": 8,
+          "index_created_at": "2026-10-11T18:31:51.088865+00:00",
+          "index_chunks_sha256": "f21416522546616317c9b08f2c5c5f9d0b17dab8f5f2a0995f280bf3c8f9461c",
+          "query": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "9f08d9c69725a4625056b12c",
+              "evidence_id": "E1",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [],
+              "score": 0.03252247
+            },
+            {
+              "chunk_id": "c0f1c0c84f460bb74b49e60c",
+              "evidence_id": "E2",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [],
+              "score": 0.03177806
+            },
+            {
+              "chunk_id": "8128eba3df1e455fe47e780d",
+              "evidence_id": "E3",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 1,
+              "section_path": [],
+              "score": 0.03102453
+            },
+            {
+              "chunk_id": "c296de0765271e8356116905",
+              "evidence_id": "E4",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [],
+              "score": 0.03021354
+            },
+            {
+              "chunk_id": "1949f61329f8b8d767a4dca6",
+              "evidence_id": "E5",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [],
+              "score": 0.03011775
+            },
+            {
+              "chunk_id": "9ab750efd18223dc14aa1099",
+              "evidence_id": "E6",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [],
+              "score": 0.02967033
+            },
+            {
+              "chunk_id": "1c149e67009db698ec4b216a",
+              "evidence_id": "E7",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [],
+              "score": 0.02957165
+            },
+            {
+              "chunk_id": "bf070a2bf84ebb6b8e51d6e1",
+              "evidence_id": "E8",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [],
+              "score": 0.02879039
+            }
+          ]
+        },
+        "latency_ms": 273
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E4",
+            "E7"
+          ]
+        },
+        "latency_ms": 3017
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "citation_ids": [
+            "E4",
+            "E7"
+          ]
+        },
+        "latency_ms": 3016
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 52,
+            "prompt_tokens": 1861,
+            "total_tokens": 1913,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 256
+            },
+            "prompt_cache_hit_tokens": 256,
+            "prompt_cache_miss_tokens": 1605
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1886
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers",
+            "explicit_research_attributions"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E4",
+            "E7"
+          ],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "potential_uncited_statements": [],
+            "mode": "heuristic_warning_only",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "ohr-manual-endoscope-scan",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 28,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "c0f1c0c84f460bb74b49e60c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 7.04200873
+          },
+          {
+            "rank": 2,
+            "chunk_id": "9f08d9c69725a4625056b12c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 5.1589878
+          },
+          {
+            "rank": 3,
+            "chunk_id": "1c149e67009db698ec4b216a",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 4.72669326
+          },
+          {
+            "rank": 4,
+            "chunk_id": "dbc13d1fded2055bf7b21509",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 4.35943424
+          },
+          {
+            "rank": 5,
+            "chunk_id": "9ab750efd18223dc14aa1099",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 3.23941444
+          },
+          {
+            "rank": 6,
+            "chunk_id": "8128eba3df1e455fe47e780d",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 3.18434197
+          },
+          {
+            "rank": 7,
+            "chunk_id": "f7b6803e2dbc49c6731f4558",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 2.94058721
+          },
+          {
+            "rank": 8,
+            "chunk_id": "bf070a2bf84ebb6b8e51d6e1",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 2.80566328
+          },
+          {
+            "rank": 9,
+            "chunk_id": "1949f61329f8b8d767a4dca6",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 2.55566347
+          },
+          {
+            "rank": 10,
+            "chunk_id": "1409246a0d3d313a1256728c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 2.04626328
+          },
+          {
+            "rank": 11,
+            "chunk_id": "c296de0765271e8356116905",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 1.90413459
+          },
+          {
+            "rank": 12,
+            "chunk_id": "0a8b4715ed1d86c51495c6f9",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 1.74817127
+          },
+          {
+            "rank": 13,
+            "chunk_id": "56d98e1bf135611e9fd06ca9",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 1.74142696
+          },
+          {
+            "rank": 14,
+            "chunk_id": "696015cdbd15dad4d2b3a69f",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 1.72010266
+          },
+          {
+            "rank": 15,
+            "chunk_id": "16ae4d0663e7ee5f946a036c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 1.71783058
+          },
+          {
+            "rank": 16,
+            "chunk_id": "2176f4162c1377ba016a2006",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 1.58981828
+          },
+          {
+            "rank": 17,
+            "chunk_id": "092f6d8066a34d3b47c56dd8",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 1.55813023
+          },
+          {
+            "rank": 18,
+            "chunk_id": "ae562102ebd20e4c86c8d156",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 1.556361
+          },
+          {
+            "rank": 19,
+            "chunk_id": "9c8e1a027aacaf7b3ea6ba73",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 1.54696126
+          },
+          {
+            "rank": 20,
+            "chunk_id": "2bd4b585047fc25fb2b1b9cc",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 1.52511009
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "9f08d9c69725a4625056b12c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.60252708
+          },
+          {
+            "rank": 2,
+            "chunk_id": "c296de0765271e8356116905",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.60238695
+          },
+          {
+            "rank": 3,
+            "chunk_id": "8128eba3df1e455fe47e780d",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.59700388
+          },
+          {
+            "rank": 4,
+            "chunk_id": "1949f61329f8b8d767a4dca6",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.57451516
+          },
+          {
+            "rank": 5,
+            "chunk_id": "c0f1c0c84f460bb74b49e60c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.57326829
+          },
+          {
+            "rank": 6,
+            "chunk_id": "0e72a11690c5d6f2acff1830",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.56519395
+          },
+          {
+            "rank": 7,
+            "chunk_id": "414024deed9266607a30747d",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.55975157
+          },
+          {
+            "rank": 8,
+            "chunk_id": "84500c3807edaaba865132d4",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.55313313
+          },
+          {
+            "rank": 9,
+            "chunk_id": "0a8b4715ed1d86c51495c6f9",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.54599828
+          },
+          {
+            "rank": 10,
+            "chunk_id": "9ab750efd18223dc14aa1099",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.52737147
+          },
+          {
+            "rank": 11,
+            "chunk_id": "bf070a2bf84ebb6b8e51d6e1",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.52385718
+          },
+          {
+            "rank": 12,
+            "chunk_id": "9c8e1a027aacaf7b3ea6ba73",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.51813841
+          },
+          {
+            "rank": 13,
+            "chunk_id": "1c149e67009db698ec4b216a",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.51698846
+          },
+          {
+            "rank": 14,
+            "chunk_id": "092f6d8066a34d3b47c56dd8",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.51680189
+          },
+          {
+            "rank": 15,
+            "chunk_id": "547dbe5ff5b1f34b4697122f",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.50705981
+          },
+          {
+            "rank": 16,
+            "chunk_id": "f7b6803e2dbc49c6731f4558",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.50701594
+          },
+          {
+            "rank": 17,
+            "chunk_id": "de775621c1e413122f20fd55",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.49866268
+          },
+          {
+            "rank": 18,
+            "chunk_id": "1409246a0d3d313a1256728c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.49815279
+          },
+          {
+            "rank": 19,
+            "chunk_id": "56d98e1bf135611e9fd06ca9",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.48951507
+          },
+          {
+            "rank": 20,
+            "chunk_id": "dbc13d1fded2055bf7b21509",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.48813188
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "9f08d9c69725a4625056b12c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.03252247
+          },
+          {
+            "rank": 2,
+            "chunk_id": "c0f1c0c84f460bb74b49e60c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.03177806
+          },
+          {
+            "rank": 3,
+            "chunk_id": "8128eba3df1e455fe47e780d",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.03102453
+          },
+          {
+            "rank": 4,
+            "chunk_id": "c296de0765271e8356116905",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.03021354
+          },
+          {
+            "rank": 5,
+            "chunk_id": "1949f61329f8b8d767a4dca6",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.03011775
+          },
+          {
+            "rank": 6,
+            "chunk_id": "9ab750efd18223dc14aa1099",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.02967033
+          },
+          {
+            "rank": 7,
+            "chunk_id": "1c149e67009db698ec4b216a",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.02957165
+          },
+          {
+            "rank": 8,
+            "chunk_id": "bf070a2bf84ebb6b8e51d6e1",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.02879039
+          },
+          {
+            "rank": 9,
+            "chunk_id": "0a8b4715ed1d86c51495c6f9",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.02838164
+          },
+          {
+            "rank": 10,
+            "chunk_id": "dbc13d1fded2055bf7b21509",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.028125
+          },
+          {
+            "rank": 11,
+            "chunk_id": "f7b6803e2dbc49c6731f4558",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.02808327
+          },
+          {
+            "rank": 12,
+            "chunk_id": "1409246a0d3d313a1256728c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.02710623
+          },
+          {
+            "rank": 13,
+            "chunk_id": "9c8e1a027aacaf7b3ea6ba73",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.02654712
+          },
+          {
+            "rank": 14,
+            "chunk_id": "092f6d8066a34d3b47c56dd8",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.02650053
+          },
+          {
+            "rank": 15,
+            "chunk_id": "56d98e1bf135611e9fd06ca9",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.02635686
+          },
+          {
+            "rank": 16,
+            "chunk_id": "0e72a11690c5d6f2acff1830",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.01515152
+          },
+          {
+            "rank": 17,
+            "chunk_id": "414024deed9266607a30747d",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.01492537
+          },
+          {
+            "rank": 18,
+            "chunk_id": "84500c3807edaaba865132d4",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.01470588
+          },
+          {
+            "rank": 19,
+            "chunk_id": "696015cdbd15dad4d2b3a69f",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.01351351
+          },
+          {
+            "rank": 20,
+            "chunk_id": "16ae4d0663e7ee5f946a036c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.01333333
+          },
+          {
+            "rank": 21,
+            "chunk_id": "547dbe5ff5b1f34b4697122f",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.01333333
+          },
+          {
+            "rank": 22,
+            "chunk_id": "2176f4162c1377ba016a2006",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.01315789
+          },
+          {
+            "rank": 23,
+            "chunk_id": "de775621c1e413122f20fd55",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.01298701
+          },
+          {
+            "rank": 24,
+            "chunk_id": "ae562102ebd20e4c86c8d156",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [],
+            "score": 0.01282051
+          },
+          {
+            "rank": 25,
+            "chunk_id": "2bd4b585047fc25fb2b1b9cc",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.0125
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "9f08d9c69725a4625056b12c",
+        "c0f1c0c84f460bb74b49e60c",
+        "8128eba3df1e455fe47e780d",
+        "c296de0765271e8356116905",
+        "1949f61329f8b8d767a4dca6"
+      ],
+      "retrieved_count": 8,
+      "index_created_at": "2026-10-11T18:31:51.088865+00:00",
+      "index_chunks_sha256": "f21416522546616317c9b08f2c5c5f9d0b17dab8f5f2a0995f280bf3c8f9461c",
+      "query": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "9f08d9c69725a4625056b12c",
+          "section_path": [],
+          "bbox": [
+            25.5,
+            354.5,
+            685.5,
+            414.0
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "c0f1c0c84f460bb74b49e60c",
+          "section_path": [],
+          "bbox": [
+            61.5,
+            123.0,
+            765.0,
+            166.0
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E2"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 1,
+          "chunk_id": "8128eba3df1e455fe47e780d",
+          "section_path": [],
+          "bbox": [
+            25.5,
+            93.5,
+            771.0,
+            152.0
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E3"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "c296de0765271e8356116905",
+          "section_path": [],
+          "bbox": [
+            215.5,
+            276.5,
+            768.5,
+            297.0
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E4"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "1949f61329f8b8d767a4dca6",
+          "section_path": [],
+          "bbox": [
+            25.5,
+            290.0,
+            762.5,
+            328.0
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E5"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "9ab750efd18223dc14aa1099",
+          "section_path": [],
+          "bbox": [
+            44.5,
+            35.0,
+            769.0,
+            67.0
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E6"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "1c149e67009db698ec4b216a",
+          "section_path": [],
+          "bbox": [
+            25.5,
+            230.0,
+            764.5,
+            286.5
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E7"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "bf070a2bf84ebb6b8e51d6e1",
+          "section_path": [],
+          "bbox": [
+            25.0,
+            200.0,
+            774.5,
+            257.5
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E8"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "potential_uncited_statements": [],
+        "mode": "heuristic_warning_only",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [
+        "E4",
+        "E7"
+      ],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 3296,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

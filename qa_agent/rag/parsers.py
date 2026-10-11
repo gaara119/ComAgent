@@ -67,7 +67,99 @@ def load_documents(manifest_path=None, project_root=None) -> list[dict]:
         raise DocumentError(str(exc), "document_manifest_invalid") from exc
 
 
-def parse_pdf(document: dict) -> list[dict]:
+def _native_regions(page) -> list[dict]:
+    """Use the same text engine for source text and its physical rectangles.
+
+    Rectangles are in the *visible CropBox*, in unrotated PDF points. A block
+    is the smallest claimed layout region; we never union adjacent columns to
+    make a paragraph. Headings are restricted to source typography and the
+    same column on this physical page. Cross-page headings remain unknown.
+    """
+    layout = page.get_text("dict", sort=False)
+    source = []
+    for number, block in enumerate(layout.get("blocks", [])):
+        if block.get("type") != 0:
+            continue
+        # PyMuPDF may group same-height lines from separate columns into one
+        # block. Separate observed line starts before claiming its rectangle.
+        groups = []
+        for line in block.get("lines", []):
+            if not any(s.get("text", "").strip() for s in line.get("spans", [])):
+                continue
+            x0 = float(line["bbox"][0])
+            group = next((g for g in groups if abs(g[0]["bbox"][0]-x0) < page.rect.width*.10), None)
+            if group is None:
+                groups.append([line])
+            else:
+                group.append(line)
+        for group_number, lines in enumerate(groups):
+            text = "\n".join("".join(s.get("text", "") for s in line["spans"]) for line in lines).strip()
+            spans = [s for line in lines for s in line["spans"] if s.get("text", "").strip()]
+            boxes = [line["bbox"] for line in lines]
+            source.append({"block_id": f"{number}-{group_number}", "text": text,
+                           "bbox": [round(float(v), 2) for v in
+                                    (min(b[0] for b in boxes), min(b[1] for b in boxes),
+                                     max(b[2] for b in boxes), max(b[3] for b in boxes))],
+                           "max_font_size": max((float(s.get("size", 0)) for s in spans), default=0),
+                           "bold": bool(spans) and sum(bool(s.get("flags", 0) & 16) for s in spans) >= len(spans)/2,
+                           "heading_lines": [{"text": "".join(s.get("text", "") for s in line["spans"]).strip(),
+                                              # Superscript trademark/copyright marks may
+                                              # use a regular face inside a real bold title.
+                                              # Weight emphasis by observed text characters,
+                                              # rather than requiring every span to be bold.
+                                              "bold": sum(len(s.get("text", "").strip()) for s in line["spans"] if s.get("flags", 0) & 16)
+                                              >= .9 * sum(len(s.get("text", "").strip()) for s in line["spans"]),
+                                              "size": max((float(s.get("size", 0)) for s in line["spans"]),default=0)}
+                                             for line in lines],
+                           "sizes": [float(s.get("size", 0)) for s in spans]})
+    body_size = median([size for b in source for size in b.pop("sizes")]) if source else 0
+    headings = []
+    for block in source:
+        text, bbox = block["text"], block["bbox"]
+        prefix = []
+        for line in block.pop("heading_lines"):
+            if line["bold"] or line["size"] >= body_size*1.18:
+                prefix.append(line["text"])
+            else:
+                break
+        # Scientific PDFs often put a section number, title and its first
+        # paragraph in one source block. Only its emphasized leading lines can
+        # name the section; the paragraph must never become part of the label.
+        heading_text = " ".join(prefix) if prefix else text
+        # A numbered instruction is prose, even when it appears on a line by
+        # itself. A heading must have genuine emphasis and no sentence stop.
+        structural = is_heading_candidate(heading_text)
+        emphasized = block["max_font_size"] >= body_size*1.18 or (block["bold"] and structural)
+        if (body_size and (emphasized or bool(prefix)) and is_heading_candidate(heading_text, require_pattern=False)
+                and not re.search(r"[.!?。！？]\s*$", heading_text)
+                and (bbox[1] > page.rect.height*.06 or structural)):
+            headings.append({**block,"heading_text":heading_text})
+    records = []
+    for block in source:
+        x0, y0, x1, _ = block["bbox"]
+        # Restrict section inheritance to a heading that starts in this column
+        # and actually precedes this block. Margin headings from another column
+        # and preceding physical pages cannot label the source.
+        possible = [h for h in headings if h["bbox"][1] <= y0+1
+                    and abs(h["bbox"][0]-x0) <= page.rect.width*.08
+                    and h["bbox"][2] <= x1+page.rect.width*.15]
+        heading = max(possible, key=lambda h: h["bbox"][1]) if possible else None
+        records.append({"text": block["text"], "record_id": f"native-block-{block['block_id']}",
+                        "section_path": [heading["heading_text"]] if heading else [],
+                        "section_location_status": "same_column_heading" if heading else "unknown",
+                        "blocks": [{**block, "char_start": 0, "char_end": len(block["text"])}]})
+    return records
+
+
+def _scan_image_coverage(page) -> float:
+    """Detect scanned pages even if they contain a long hidden OCR layer."""
+    import pymupdf
+    area = page.rect.get_area()
+    return max(((pymupdf.Rect(item["bbox"]) & page.rect).get_area() / area
+                for item in page.get_image_info() if item.get("bbox")), default=0.0) if area else 0.0
+
+
+def parse_pdf(document: dict, *, rendered_ocr_cache: dict[int,dict] | None = None) -> list[dict]:
     import pdfplumber
     import pymupdf
 
@@ -83,6 +175,11 @@ def parse_pdf(document: dict) -> list[dict]:
             if not pdf.pages:
                 raise DocumentError("PDF 中没有可解析页面。", "empty_document")
             for number, page in enumerate(pdf.pages, start=1):
+                if rendered_ocr_cache and number in rendered_ocr_cache:
+                    # Offline ingestion supplies a source-hash/fingerprint
+                    # checked cache. Runtime ingestion does not pass a cache.
+                    pages.append(rendered_ocr_cache[number])
+                    continue
                 # Keep lines/table cells in reading order; never merge physical pages.
                 text = (page.extract_text(layout=False, x_tolerance=2, y_tolerance=3) or "").strip()
                 words = page.extract_words(x_tolerance=2, y_tolerance=3) if text else []
@@ -92,29 +189,52 @@ def parse_pdf(document: dict) -> list[dict]:
                             round(min(w["top"] for w in words), 2),
                             round(max(w["x1"] for w in words), 2),
                             round(max(w["bottom"] for w in words), 2)]
-                layout = layout_pdf[number - 1].get_text("dict", sort=True)
-                blocks, heading_candidates = _attach_layout(text, layout)
+                physical = layout_pdf[number - 1]
+                original_rotation = physical.rotation
+                # The source contract uses unrotated physical PDF points. OCR
+                # must render that same coordinate space before converting px.
+                if original_rotation:
+                    physical.set_rotation(0)
+                # PyMuPDF gives coordinates relative to the visible CropBox;
+                # pdfplumber's top/left offsets can instead include MediaBox.
+                # Text and rectangles therefore come from one engine below.
+                regions = _native_regions(physical)
+                text = "\n\n".join(record["text"] for record in regions)
+                blocks, heading_candidates = [], []
                 warnings = []
                 parser = "pdfplumber+PyMuPDF"
                 # Blank covers are allowed. OCR only pages without a usable text
                 # layer and with an actual raster image; no synthetic text.
-                if len(text.strip()) < 30 and layout_pdf[number - 1].get_images():
-                    pixmap = layout_pdf[number - 1].get_pixmap(matrix=pymupdf.Matrix(2, 2), alpha=False)
+                image_coverage = _scan_image_coverage(physical)
+                if (len(text.strip()) < 30 and physical.get_images()) or image_coverage >= .80:
+                    pixmap = physical.get_pixmap(matrix=pymupdf.Matrix(2, 2), alpha=False)
                     import numpy as np
                     image = np.frombuffer(pixmap.samples, dtype=np.uint8).reshape(pixmap.height, pixmap.width, pixmap.n)
-                    text, blocks, warnings = _ocr_text(image, scale_x=page.width/pixmap.width,
-                                                       scale_y=page.height/pixmap.height)
+                    text, blocks, warnings = _ocr_text(image, scale_x=physical.rect.width/pixmap.width,
+                                                       scale_y=physical.rect.height/pixmap.height)
                     bbox = _union_bbox(blocks)
                     heading_candidates = []
                     parser = "RapidOCR"
+                    # The observed OCR boxes correspond to the rendered page,
+                    # whereas the old hidden layer has not been validated.
+                    regions = [{"text": text, "blocks": blocks, "record_id": "rendered-ocr",
+                                "section_path": [], "section_location_status": "unknown"}]
+                    warnings.append("Rendered-page OCR used; hidden text-layer geometry is not trusted")
+                else:
+                    bbox = _union_bbox([b for region in regions for b in region["blocks"]])
                 pages.append({"doc_id": document["doc_id"], "doc_title": document["title"],
                               "page": number, "text": text, "bbox": bbox,
-                              "width": float(page.width), "height": float(page.height),
+                              "width": float(physical.rect.width), "height": float(physical.rect.height),
                               "blocks": blocks, "heading_candidates": heading_candidates,
-                              "layout_parser": "PyMuPDF.get_text(dict)",
+                              "regions": regions, "raster_image_coverage": image_coverage,
+                              "layout_parser": "PyMuPDF source blocks / rendered RapidOCR",
                               "parser": parser, "warnings": warnings,
                               "source_url": document.get("source_url", ""),
-                              "coordinate_system": "PDF points; top-left origin"})
+                              "rotation": original_rotation,
+                              "cropbox": list(physical.cropbox), "mediabox": list(physical.mediabox),
+                              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated"})
+                if original_rotation:
+                    physical.set_rotation(original_rotation)
     except DocumentError:
         raise
     except Exception as exc:

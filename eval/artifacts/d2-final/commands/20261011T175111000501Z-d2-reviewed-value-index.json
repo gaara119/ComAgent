@@ -1,0 +1,18 @@
+{
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-B",
+    "scripts/build_value_index.py",
+    "--output",
+    "data/indexes/values-d2-reviewed",
+    "--aliases",
+    "data/aliases/aliases-d2-reviewed.csv",
+    "--audit",
+    "eval/artifacts/d2-final/value-index-build.json"
+  ],
+  "cwd": ".",
+  "started_at_utc": "20261011T175111000501Z",
+  "elapsed_seconds": 98.445,
+  "exit_code": 0,
+  "output": "eval/artifacts/d2-final/commands/20261011T175111000501Z-d2-reviewed-value-index.txt"
+}

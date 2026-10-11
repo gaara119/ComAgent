@@ -1,0 +1,3390 @@
+{
+  "title": "D2原清单九项逐项验收与证据",
+  "revision": "user-audit-closeout",
+  "created_at_utc": "2026-10-11T18:46:08.167335+00:00",
+  "baseline_commit": "b76e0fd016abc2805f88aa11a395e5286d62461a",
+  "working_tree_dirty": true,
+  "python": "3.12.10",
+  "model": "deepseek-flash",
+  "status": "IMPLEMENTED_AND_TESTED_WITH_EXPLICIT_REVIEW_LIMITS",
+  "sql": {
+    "correct": 35,
+    "count": 35
+  },
+  "robust": {
+    "correct": 20,
+    "count": 21,
+    "uncompleted_id": "robust-06",
+    "reason": "approved candidate requires user confirmation"
+  },
+  "rag": {
+    "report": {
+      "status": "COMPLETED",
+      "suite": "rag",
+      "split": "dev",
+      "run_id": "d2-final-v4.3-final",
+      "selected_count": 21,
+      "prediction_count": 21,
+      "holdout_prediction_count": 0,
+      "gold_human_accepted_count": 0,
+      "answer_human_review_count": 0,
+      "blockers": [],
+      "provenance": {
+        "created_at_utc": "2026-10-11T18:34:48.118286+00:00",
+        "git_commit": "b76e0fd016abc2805f88aa11a395e5286d62461a",
+        "working_tree_dirty": true,
+        "configured_model": "deepseek-flash",
+        "actual_models": [
+          "deepseek-flash"
+        ],
+        "dataset": "eval/datasets/rag_single.jsonl",
+        "dataset_sha256": "8387615e3c65a8ffca4928cceb59f6f601b7f826d2870a6be792e3c4a5ea72c4",
+        "index_path": "data/indexes/docs-d2-final-v4.3",
+        "index_meta_sha256": "bdbf9c842e7b412310cc28d35acb071fef3c08e173e45d15c6ac3fd303b2d478",
+        "gold_review": "draft",
+        "gold_not_sent_to_online_api": true
+      },
+      "hit_at_5": {
+        "passed": 20,
+        "denominator": 20
+      },
+      "exact_gold_quote_hit_at_5": {
+        "passed": 14,
+        "denominator": 20
+      },
+      "insufficient_handling": {
+        "passed": 1,
+        "denominator": 1
+      },
+      "mechanical_metrics": {
+        "status_succeeded": {
+          "passed": 19,
+          "denominator": 21
+        },
+        "evidence_in_selected_doc": {
+          "passed": 19,
+          "denominator": 21
+        },
+        "evidence_authentic_index_text": {
+          "passed": 19,
+          "denominator": 21
+        }
+      },
+      "error_types": {
+        "unfaithful": 1
+      },
+      "mean_latency_ms": 4335.597619047619,
+      "api_status_counts": {
+        "SUCCEEDED": 19,
+        "FAILED": 1,
+        "EMPTY_RESULT": 1
+      },
+      "segments": {
+        "d1_common": {
+          "prediction_count": 14,
+          "hit_at_5_passed": 14,
+          "hit_at_5_denominator": 14,
+          "actual_status_counts": {
+            "SUCCEEDED": 13,
+            "FAILED": 1
+          },
+          "human_correctness_review_count": 0
+        },
+        "new_d2": {
+          "prediction_count": 7,
+          "hit_at_5_passed": 6,
+          "hit_at_5_denominator": 6,
+          "actual_status_counts": {
+            "SUCCEEDED": 6,
+            "EMPTY_RESULT": 1
+          },
+          "human_correctness_review_count": 0
+        }
+      }
+    },
+    "first_review": {
+      "title": "D2 RAG 最终 v4.3 开发集第一遍 AI 原文与引用核验",
+      "ai_reviewer": "/root/d2_rag_finish",
+      "ai_review_utc": "2026-10-11T18:40:07.774532+00:00",
+      "scope": "21道开发题；原文来源、参考答案、系统实际回答分开；本轮未读保留题题意或答案，未运行保留题。",
+      "human_review_unchanged": true,
+      "holdout_predictions": 0,
+      "raw_response_sha256": "34fabf1d4a918d0aa57abcce9ee6954c66f39b9947a202ed4e1438265534d880",
+      "index_meta_sha256": "bdbf9c842e7b412310cc28d35acb071fef3c08e173e45d15c6ac3fd303b2d478",
+      "counts": {
+        "reference_status": {
+          "AI建议通过": 21
+        },
+        "actual_status": {
+          "AI建议通过": 19,
+          "AI发现错误": 1,
+          "AI建议有条件通过": 1
+        },
+        "core_answer_correctness_status": {
+          "AI建议通过": 20,
+          "AI发现错误": 1
+        },
+        "citation_support_status": {
+          "AI建议通过": 19,
+          "AI发现错误": 1,
+          "AI建议有条件通过": 1
+        },
+        "citation_location_status": {
+          "AI建议有条件通过": 8,
+          "证据不足": 1,
+          "AI建议通过": 12
+        }
+      },
+      "citation_counts": {
+        "total": 23,
+        "pdf": 15,
+        "non_pdf": 8,
+        "actual_index_membership_verified": 23,
+        "pdf_bbox_inside_visible_cropbox": 15,
+        "source_region_visual_or_original_text_supported": 23,
+        "unknown_sections": 9
+      },
+      "limitations": [
+        "物理页与块框核验不等于逐字高亮；未知章节单独标记证据不足。",
+        "显式归属字面门禁只覆盖部分英文结构，rag15被动归属未触发，不能称全量语义校验。",
+        "rag03真实失败来自本句缺少已检索E1引用，不能用旧轮成功替代当前失败。",
+        "原人审字段、签名、日期保持历史状态，所有新结论为AI建议。"
+      ],
+      "rows": [
+        {
+          "review_id": "rag:rag-02",
+          "id": "rag-02",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "2868c76b-7a94-4483-a8ce-122009b12bc9",
+          "question": "How many days after the end of the first fiscal quarter of Physician Sales & Service, Inc. must the financial results of post-Merger combined operations be published?",
+          "reference_answer": "45 days",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR问题和45 days答案精确相同。原PDF物理第1页第2条先限定PSS与GSMS合并经营财务结果，再约定在包含所需合并经营期间的PSS首个财政季度结束后45天内发布；不是从合并日直接起算45天。题问天数，gold对象、起算期间和单位均正确。",
+          "actual_answer": "Within 45 days after the end of the first fiscal quarter of PSS containing the required period of post-Merger combined operations. [E1]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议有条件通过",
+          "reason": "45天、特定首个财季结束后的起算限制与合并经营结果对象均被实际片段支持，物理第1页实框包含正文。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 1
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/law/GULFSOUTHMEDICALSUPPLYINC_12_24_1997-EX-4-AFFILIATE AGREEMENT.pdf",
+                "page": 1,
+                "section": "2. Initial Restriction on Disposition",
+                "sourcequote": "PSS agrees that it will publish such results as promptly as practicable following the Merger ... within 45 days after the end of the first fiscal quarter of PSS containing the required period of post-Merger combined operations",
+                "source_sha256": "a4a646e9e36567c91424c29b05790d04b780df57f05342758f4a63e2b2bdbeef",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-law-affiliate-physical-p1.txt",
+                "page": 1,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-law-affiliate-physical-p1.png",
+                "page": 1,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=2868c76b-7a94-4483-a8ce-122009b12bc9",
+                "sourcequote": "questions=How many days after the end of the first fiscal quarter of Physician Sales & Service, Inc. must the financial results of post-Merger combined operations be published? | answers=45 days | evidence_page_no=0",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 2,
+                "section": "rag-02 / dev",
+                "sourcequote": "How many days after the end of the first fiscal quarter of Physician Sales & Service, Inc. must the financial results of post-Merger combined operations be published? | gold=45 days"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 1,
+                "section": "rag-02 / dev / response",
+                "sourcequote": "SUCCEEDED | PSS must publish the financial results of post-Merger combined operations within 45 days after the end of the first fiscal quarter of PSS containing the required period of post-Merger combined operations. [E1]"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-02",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-02",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-02-E1-cropbox-outline.png",
+                "page": 1,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-02"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "a1d304c5f5729f94100d84eb",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "text": "understands that ASR 130 and 135 relate to publication of financial results of\npost-Merger combined operations of PSS and GSMS. PSS agrees that it will publish\nsuch results as promptly as practicable following the Merger in the sole\ndiscretion of PSS, but in any event within 45 days after the end of the first\nfiscal quarter of PSS containing the required period of post-Merger combined\noperations and that it will notify the undersigned promptly following such\npublication.",
+              "bbox": [
+                13.44,
+                389.46,
+                357.14,
+                496.86
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "unknown",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "     2.  Initial Restriction on Disposition.  The undersigned agrees that he\n         ----------------------------------\nwill not sell, transfer, or otherwise dispose of his interests in, or reduce his\nrisk relative to, any of the shares of PSS Common Stock into which his shares of\nGSMS Common Stock are converted upon consummation of the Merger until such time\nas PSS notifies the undersigned that the requirements of SEC Accounting Series\nRelease Nos. 130 and 135 (\"ASR 130 and 135\") have been met. The undersigned\nunderstands that ASR 130 and 135 relate to publication of financial results of\npost-Merger combined operations of PSS and GSMS. PSS agrees that it will publish\nsuch results as promptly as practicable following the Merger in the sole\ndiscretion of PSS, but in any event within 45 days after the end of the first\nfiscal quarter of PSS containing the required period of post-Merger combined\noperations and that it will notify the undersigned promptly following such\npublication.",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-02-E1-p1.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "30ec060c1f9cc7d2f0d7a56cf76c403a327d8feafe27dcb1e29affb91b7dd1b7",
+              "section_review": "证据不足",
+              "section_reason": "未知章节保持空，不计作精确章节定位通过。"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-03",
+          "id": "rag-03",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "28805c5d-ad1b-4f60-89e4-dab20edc6d2b",
+          "question": "For how many years after the effective date of the Merger does PSS agree to file all reports required by Section 13 of the Securities Exchange Act of 1934?",
+          "reference_answer": "three years",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR question/answer和本题精确一致。原PDF物理第2页第6条规定PSS在Merger effective date后为期three years及时提交1934年法案Section 13要求的报告；gold三年对应报告义务期限，不是股票限制交易的另一期限。",
+          "actual_answer": "答案中的数字、正负号、百分比、币种或显式单位不能在该句引用的证据中核实。",
+          "actual_run_status": "FAILED",
+          "actual_status": "AI发现错误",
+          "answer_correctness_status": "AI发现错误",
+          "core_answer_correctness_status": "AI发现错误",
+          "citation_support_status": "AI发现错误",
+          "citation_location_status": "证据不足",
+          "reason": "最终状态为FAILED/rag_number_invalid。模型两次仅引E6（只含three years），却重复Section13与1934；本句缺E1支持。参考答案three years仍由原第2页第6条支持；不得把门禁拒绝当成正确系统回答。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 2
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/law/GULFSOUTHMEDICALSUPPLYINC_12_24_1997-EX-4-AFFILIATE AGREEMENT.pdf",
+                "page": 2,
+                "section": "6. Filing of Reports by PSS",
+                "sourcequote": "6. Filing of Reports by PSS. PSS agrees, for a period of three years ... after the effective date of the Merger, to file on a timely basis all reports ... pursuant to Section 13 of the Securities Exchange Act of 1934",
+                "source_sha256": "a4a646e9e36567c91424c29b05790d04b780df57f05342758f4a63e2b2bdbeef",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-law-affiliate-physical-p2.txt",
+                "page": 2,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-law-affiliate-physical-p2.png",
+                "page": 2,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=28805c5d-ad1b-4f60-89e4-dab20edc6d2b",
+                "sourcequote": "questions=For how many years after the effective date of the Merger does PSS agree to file all reports required by Section 13 of the Securities Exchange Act of 1934? | answers=three years | evidence_page_no=1",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 3,
+                "section": "rag-03 / dev",
+                "sourcequote": "For how many years after the effective date of the Merger does PSS agree to file all reports required by Section 13 of the Securities Exchange Act of 1934? | gold=three years"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 2,
+                "section": "rag-03 / dev / response",
+                "sourcequote": "SUCCEEDED | PSS agrees to file all reports required by Section 13 of the Securities Exchange Act of 1934 for a period of three years after the effective date of the Merger [E1][E5]."
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-03",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-03",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-03-E1-cropbox-outline.png",
+                "page": 2,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-03-E5-cropbox-outline.png",
+                "page": 2,
+                "section": "E5 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-03"
+            }
+          },
+          "citations": [],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "优先核对模型仅引E6却复述Section13/1934的失败，保留严格拒绝与真实失败，不改gold。"
+        },
+        {
+          "review_id": "rag:rag-05",
+          "id": "rag-05",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "9c546b13-f581-4c4c-bdb3-784510aac204",
+          "question": "Which rivers drain the western side of the primary watershed in the area around Holmfirth and Glossop?",
+          "reference_answer": "Tame and Etherow",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR问题、Tame and Etherow答案和物理页转换均匹配。完整第1页先定义North Sea与Irish Sea之间的primary watershed，再说明该线西侧经Tame、Etherow流入Mersey；东侧Calder、Don等及南侧Trent另有说明，不能混为答案。",
+          "actual_answer": "On the western side of the primary watershed, the drainage is to the Mersey by the rivers Tame and Etherow [E2]。",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议有条件通过",
+          "reason": "原扫描第1页框内明确写西侧流域经Tame与Etherow流向Mersey；真实渲染OCR坐标取代隐藏OCR假定位。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 3
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+                "page": 1,
+                "section": "CHAPTER I / INTRODUCTION",
+                "sourcequote": "On the western side of this line the drainage is to the Mersey by the rivers Tame and Etherow",
+                "source_sha256": "e7be7af7c911cccf6d391934ef062db94d10b1496659828d649af36201616612",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-textbook-geology-physical-p1.txt",
+                "page": 1,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-textbook-geology-physical-p1.png",
+                "page": 1,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=9c546b13-f581-4c4c-bdb3-784510aac204",
+                "sourcequote": "questions=Which rivers drain the western side of the primary watershed in the area around Holmfirth and Glossop? | answers=Tame and Etherow | evidence_page_no=0",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 5,
+                "section": "rag-05 / dev",
+                "sourcequote": "Which rivers drain the western side of the primary watershed in the area around Holmfirth and Glossop? | gold=Tame and Etherow"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 3,
+                "section": "rag-05 / dev / response",
+                "sourcequote": "SUCCEEDED | On the western side of the primary watershed, the drainage is to the Mersey by the rivers Tame and Etherow [E1]."
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-05",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-05",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-05-E1-cropbox-outline.png",
+                "page": 1,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "原地质扫描PDF隐藏文字层的bbox=[22.92,516.71,233.1,577.03]可裁出西侧河流文字，但Poppler真实可视页红框落在更低的Don/Derwent及南侧分水岭段落，不覆盖可视Tame/Etherow原句。原页MediaBox=CropBox且无旋转，不能用裁切原点偏移解释。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-05"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E2",
+              "chunk_id": "653ed8f787caa3947d383113",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "text": "On the western side of this line the drainage is to the Mersey\nby the rivers Tame and Etherow; the basin of the latter forms a\nsalient projecting some seven miles east of the general run of\nthe North Sea-Irish Sea divide (see map, Fig. 1).",
+              "bbox": [
+                31.5,
+                443.5,
+                349.0,
+                491.5
+              ],
+              "parser": "RapidOCR",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "unknown",
+              "ocr_confidence_min": 0.951755,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": " far as Wessenden Head Moor, and from Black Hill to Wike\nead by the county boundary between Yorkshire and Cheshire.\nom Wike Head to Featherbed Moss the watershed runs in a\n ntle curve,  not coinciding with any boundary shown on the\nap,  but  then bends westward and  is  followed by a  parish\n undary  past Swains Head, where  it  crosses  the Yorkshire-\nerbyshire boundary at right angles, to Bleaklow. Head (2,061\n  b     O' D )  H       it  t      h     l      th   iid  t k",
+              "native_clip_exact_text_support": null,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-05-E2-p1.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "cf8def9e019f0d95b785bd8a0c0dceadbe59829ec40505196d7306f9156b575f",
+              "section_review": "证据不足",
+              "section_reason": "未知章节保持空，不计作精确章节定位通过。"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-06",
+          "id": "rag-06",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "9c6725b2-7765-4a0a-95a6-ee8b3ced1be5",
+          "question": "What are the most satisfactory arable crops grown in the soils of the Coal Measures?",
+          "reference_answer": "Wheat, oats, and potatoes",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR题答精确对应。完整物理第8页首段以Coal Measures的土壤为对象，明确列Wheat、oats、potatoes为perhaps the most satisfactory arable crops，并说明swedes和turnips可能受病害；gold三种作物正确，未混入另述的树种或不适宜作物。",
+          "actual_answer": "Wheat, oats and potatoes are perhaps the most satisfactory arable crops in the soils of the Coal Measures [E1].",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议有条件通过",
+          "reason": "扫描第8页上方正文明确列Wheat、oats、potatoes，并保留perhaps限定；对象是Coal Measures土壤，非随后岩层表。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 4
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+                "page": 8,
+                "section": "物理第8页首段 / Coal Measures soils",
+                "sourcequote": "The soils of the Coal Measures are on the whole better ... Wheat, oats and potatoes are perhaps the-most satisfactory arable crops; swedes and turnips are apt to suffer ... unless liming is liberal.",
+                "source_sha256": "e7be7af7c911cccf6d391934ef062db94d10b1496659828d649af36201616612",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-textbook-geology-physical-p8.txt",
+                "page": 8,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-textbook-geology-physical-p8.png",
+                "page": 8,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=9c6725b2-7765-4a0a-95a6-ee8b3ced1be5",
+                "sourcequote": "questions=What are the most satisfactory arable crops grown in the soils of the Coal Measures? | answers=Wheat, oats, and potatoes | evidence_page_no=7",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 6,
+                "section": "rag-06 / dev",
+                "sourcequote": "What are the most satisfactory arable crops grown in the soils of the Coal Measures? | gold=Wheat, oats, and potatoes"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 4,
+                "section": "rag-06 / dev / response",
+                "sourcequote": "SUCCEEDED | Wheat, oats and potatoes are perhaps the most satisfactory arable crops grown in the soils of the Coal Measures [E1]."
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-06",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-06",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-06-E1-cropbox-outline.png",
+                "page": 8,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "bbox=[36.12,245.41,246.9,381.44]在隐藏文字层能取出作物段，真实扫描页红框却落在Table of Formations说明段，不覆盖页面上方Coal Measures作物原句。文字层命中不等于视觉坐标准确。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-06"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "3a5de5f37e5dcaf2a798c3b5",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "text": "Wheat,\noats and potatoes are perhaps the·most satisfactory arable crops ;\nswedes and turnips are apt to suffer from ‘ finger and toe ′ disease,\nunless liming is liberal.f\nTheCoalMeasures arebetterwooded\nthan the Milistone Grits, oak and elm being prevalent instead of\nbirch,and the fields are often divided by hedgerows, in contrast\nwith thie dry stone walls of the Grits.On the latter the older\nbuildings are of local gritstone, roofed with the more fissile fag-",
+              "bbox": [
+                52.5,
+                83.5,
+                368.5,
+                175.0
+              ],
+              "parser": "RapidOCR",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "unknown",
+              "ocr_confidence_min": 0.946349,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "",
+              "native_clip_exact_text_support": null,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-06-E1-p8.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "d5571b0d0e70a0ce636e3fee2ef6419318bc1f933e2d321a190c84015bad8434",
+              "section_review": "证据不足",
+              "section_reason": "未知章节保持空，不计作精确章节定位通过。"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-07",
+          "id": "rag-07",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "9c7b49ee-0599-4b64-890a-58b48b8f0f0d",
+          "question": "What is the thickness range of the Shale Grit in the southern part of the Sheet?",
+          "reference_answer": "450 to 550 feet",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR question/answer精确一致。完整物理第14页General Stratigraphy段规定Shale Grit在Sheet南部的moors厚450 to 550 feet；后句另谈Etherow/Tame河谷暴露。gold保留地层、南部空间范围及feet单位，正确。",
+          "actual_answer": "The Shale Grit in the southern part of the Sheet is 450 to 550 feet thick. [E1]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议有条件通过",
+          "reason": "扫描第14页GENERAL STRATIGRAPHY正文中的南部Shale Grit厚度为450至550feet，单位与区域范围均正确。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 5
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+                "page": 14,
+                "section": "General Stratigraphy / The Shale Grit",
+                "sourcequote": "The Shale Grit forms a wide spread on the moors in the southern part of the Sheet, where it is 450 to 550 feet thick.",
+                "source_sha256": "e7be7af7c911cccf6d391934ef062db94d10b1496659828d649af36201616612",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-textbook-geology-physical-p14.txt",
+                "page": 14,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-textbook-geology-physical-p14.png",
+                "page": 14,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=9c7b49ee-0599-4b64-890a-58b48b8f0f0d",
+                "sourcequote": "questions=What is the thickness range of the Shale Grit in the southern part of the Sheet? | answers=450 to 550 feet | evidence_page_no=13",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 7,
+                "section": "rag-07 / dev",
+                "sourcequote": "What is the thickness range of the Shale Grit in the southern part of the Sheet? | gold=450 to 550 feet"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 5,
+                "section": "rag-07 / dev / response",
+                "sourcequote": "SUCCEEDED | The Shale Grit is 450 to 550 feet thick in the southern part of the Sheet. [E1]"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-07",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-07",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-07-E1-cropbox-outline.png",
+                "page": 14,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "bbox=[40.68,403.4,250.62,475.17]在隐藏文字层能取出450至550 feet句，真实扫描页红框位于更低的砂岩特征/Grindslow Shales段，不覆盖可视Shale Grit厚度句。原页和答案正确，但框选定位错位。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-07"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "863c33752b9f2fd9817057f5",
+              "doc_id": "ohr-textbook-geology",
+              "page": 14,
+              "section_path": [],
+              "text": "GENERAL STRATIGRAPHY\nThe Shale Grit forms a wide spread on the moors in the\nsouthern part of the Sheet, where it is 450 to 550 feet'thick.It is\nalso cxposed in the valleys of the Etherow and Tame. In the\nsouth it consists of grits and sandstones with frcquent thin sandy\nshale beds and less frequent thicker shale beds; in Longdendale\nthe exposed part of the series consists of thicker and more massivc\ngrits, but theexposures in the Tame valley show the beds to be more\nlike those in the south.",
+              "bbox": [
+                59.0,
+                271.5,
+                375.0,
+                381.0
+              ],
+              "parser": "RapidOCR",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "unknown",
+              "ocr_confidence_min": 0.924246,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "he recent work of Mr. Bisat on the Carboniferous goniatites''\nmade  possible  the  detailed  correlation  of  Millstone  Grit\nopments in different parts of the Pennines, and the Limestone\n s are shown to be the equivalents of the main part of the\nen Shales of the Pendle region.  Dr. Jackson, in a detailed\niption of these beds in the Edale district,^ just south of the\nhere described, shows that they contain in ascending order\n iddle and upper part of the Eumorphoceras Zone, the  I lomo-\n Zone, and the lowest part of the Reticuloceras Zone.  Thus\n hale Grit  is of later date than the true Pendle Grit, which\n gs to the Eumorphoceras Zone. It is at the same horizon as the\ner Todmorden Grit of the upper Calder, as shown by Messrs.\nd and Stephens.® The Geological Survey have now extended\nase of the Millstone Grits down to the faunal break below the\n of the Sabden Shales® so that all the beds between the Shale",
+              "native_clip_exact_text_support": null,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-07-E1-p14.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "c182a979c1b362b072b7bd272e58340cde91360dea20d7f2664674a0f781dcda",
+              "section_review": "证据不足",
+              "section_reason": "未知章节保持空，不计作精确章节定位通过。"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-08",
+          "id": "rag-08",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "9c6a4f19-6165-4ec6-b91d-55c727357c1d",
+          "question": "In the Millstone Grits, what are the four main groups of grits and sandstones distinguished by color on the map?",
+          "reference_answer": "The Rough Rock Series, the Middle Grits, the Kinderscout Grits, and the Shale Grit",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR题答精确一致。原物理第8页Table of Formations前说明Millstone Grits中的shales统一着色，而grits和sandstones按四主组着色，随后逐项列Rough Rock Series、Middle Grits、Kinderscout Grits、Shale Grit；gold四项齐全且未把shales加入。",
+          "actual_answer": "The four main groups distinguished by colour on the map are the Rough Rock Series, the Middle Grits, the Kinderscout Grits and the Shale Grit. [E1]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议有条件通过",
+          "reason": "扫描第8页地层表前正文明确列四组、四色，四组名称齐全；框是实际区域外包框，并非四个词的精确高亮。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 6
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+                "page": 8,
+                "section": "Table of Formations前说明段",
+                "sourcequote": "In the Millstone Grits the shales are coloured uniformly throughout, but the grits and sandstones are shown by four colours for the main groups, viz., The Rough Rock Series, the Middle Grits, the Kinderscout Grits and the Shale Grit.",
+                "source_sha256": "e7be7af7c911cccf6d391934ef062db94d10b1496659828d649af36201616612",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-textbook-geology-physical-p8.txt",
+                "page": 8,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-textbook-geology-physical-p8.png",
+                "page": 8,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=9c6a4f19-6165-4ec6-b91d-55c727357c1d",
+                "sourcequote": "questions=In the Millstone Grits, what are the four main groups of grits and sandstones distinguished by color on the map? | answers=The Rough Rock Series, the Middle Grits, the Kinderscout Grits, and the Shale Grit | evidence_page_no=7",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 8,
+                "section": "rag-08 / dev",
+                "sourcequote": "In the Millstone Grits, what are the four main groups of grits and sandstones distinguished by color on the map? | gold=The Rough Rock Series, the Middle Grits, the Kinderscout Grits, and the Shale Grit"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 6,
+                "section": "rag-08 / dev / response",
+                "sourcequote": "SUCCEEDED | In the Millstone Grits, the grits and sandstones are shown by four colours for the main groups, namely: The Rough Rock Series, the Middle Grits, the Kinderscout Grits and the Shale Grit [E1]。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-08",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-08",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-08-E1-cropbox-outline.png",
+                "page": 8,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "bbox=[37.68,383.95,247.98,534.78]在隐藏文字层能取出四组图例说明，真实扫描页红框却位于Superficial/Solid Formations表，不覆盖上方可视四组列举句。原文字层与图像坐标不齐。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-08"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "2d57581ca50e97c79fb5fce0",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "text": "In the Millstone Grits the shales are coloured uniformly\nthroughout, but the grits and sandstones are shown by four\ncolours for the main groups, vis., The Rough Rock Series, the\nMiddle Grits,the Kinderscout Grits and the Shale Grit.These\nagain are individually distinguished by letters.\nSUPERFICIAL FORMATIONS\nAlluvium\nRecent:-\nPeat\nlGravel\nPleistocene :-\nSand and Gravel\nBoulder Clay\nSOLID FORMATIONS\nUpper Carboniferous:\nMiddle Coal Measures :(top of division not prcsent).",
+              "bbox": [
+                54.0,
+                322.0,
+                370.0,
+                467.5
+              ],
+              "parser": "RapidOCR",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "unknown",
+              "ocr_confidence_min": 0.918318,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "                               y    g\n the dry stone walls of the Grits.  On the  latter the older\n ings are of local gritstone, roofed with the more fissile flag¬\n s; on the former fine examples of timber construction may\n times be seen, the barn at Gunthwaite being famous.  Present-\nconstruction of brick, concrete, asbestos, etc., though possibly\n sary for economic reasons, is apt to produce eyesores, though\n s been pointed out that these can largely be avoided by a\nble choice of colours.®\n\n               Table of Formations\n he following table summarizes the geological formations and\n subdivisions which are represented on the map.  The thick¬\n s are generalized from data collected in various parts of the\n  On the map the shales and sandstones of the Lower and\ndle Coal Measures are distinguished by colour, and the more\n rtant sandstones and  coals are  individually  indicated by\n s.   In the Millstone Grits the shales are coloured uniformly\nughout,  but  the  grits and  sandstones  are shown by  four\nurs for the main groups, viz., The Rough Rock Series, the\ndle Grits, the Kinderscout Grits and the Shale Grit.  These",
+              "native_clip_exact_text_support": null,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-08-E1-p8.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "16f42f5e0d47424a6bf4d0d06e9e56786f2d0cabca7444e897dd0836e59bc495",
+              "section_review": "证据不足",
+              "section_reason": "未知章节保持空，不计作精确章节定位通过。"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-10",
+          "id": "rag-10",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "3ff0b97a-a1f9-4f23-ae4e-8052329d0a1d",
+          "question": "What type of digital device classification is specified for the equipment in accordance with the FCC rules?",
+          "reference_answer": "Class B",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR题答相同，原页索引64转换为物理第65页正确。原页左栏Radio and Television Interference段确写Class B digital device与Part 15 FCC rules。reference_text的Part 1 5是排版/OCR空格差异，不影响Class B答案。",
+          "actual_answer": "The equipment is classified as a Class B digital device in accordance with Part 15 of the FCC rules. [E1]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "第65页Radio and Television Interference左栏正文为ClassB/Part15；框与原文一致，正文与章节均可核验。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 7
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/manual/Macbook_air.pdf",
+                "page": 65,
+                "section": "Regulatory Compliance Information / Radio and Television Interference（左栏）",
+                "sourcequote": "This equipment has been tested and found to comply with the limits for a Class B digital device in accordance with the specifications in Part 15 of FCC rules.",
+                "source_sha256": "d99de99131b4d8a5471d3e3d96befaa1e6152560d12a93f854c5dd95e54225aa",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-manual-macbook-air-physical-p65.txt",
+                "page": 65,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-manual-macbook-air-physical-p65.png",
+                "page": 65,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=3ff0b97a-a1f9-4f23-ae4e-8052329d0a1d",
+                "sourcequote": "questions=What type of digital device classification is specified for the equipment in accordance with the FCC rules? | answers=Class B | evidence_page_no=64",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 10,
+                "section": "rag-10 / dev",
+                "sourcequote": "What type of digital device classification is specified for the equipment in accordance with the FCC rules? | gold=Class B"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 7,
+                "section": "rag-10 / dev / response",
+                "sourcequote": "SUCCEEDED | The equipment is specified as a Class B digital device in accordance with the specifications in Part 15 of FCC rules [E1]."
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-10",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-10",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-10"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "06621d235469b7d1be20d1da",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "Radio and Television Interference"
+              ],
+              "text": "This equipment has been tested and found to comply \nwith the limits for a Class B digital device in accordance \nwith the specifications in Part 15 of FCC rules. These \nspecifications are designed to provide reasonable \nprotection against such interference in a residential \ninstallation. However, there is no guarantee that \ninterference will not occur in a particular installation.",
+              "bbox": [
+                39.84,
+                211.19,
+                176.2,
+                265.19
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "same_column_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "This equipment has been tested and found to comply\nwith the limits for a Class B digital device in accordance\nwith the specifications in Part 15 of FCC rules. These\nspecifications are designed to provide reasonable\nprotection against such interference in a residential\ninstallation. However, there is no guarantee that\ninterference will not occur in a particular installation.",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-10-E1-p65.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "fb04a5ce337697812422e1ac18b2f13dced87a5205a94e618b53ff2df0bab3cb",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-11",
+          "id": "rag-11",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "401f8134-c3e5-4827-82bc-0550dfeddf7e",
+          "question": "Which application allows you to create and share movies in minutes?",
+          "reference_answer": "iMovie",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR question/answer和物理第3页对应。reference_text本身只有Create and share movies in minutes描述，需通过原页空间关系确认应用名；已完整渲染查看，左上iMovie标签下直接排列该描述，右上iPhoto描述为照片，gold iMovie正确。",
+          "actual_answer": "iMovie allows you to create and share movies in minutes. [E1]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "第3页左上iMovie卡片在实际可见CropBox中，create/share movies文字位于红框内；不存在旧的129/219原点偏移。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 8
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/manual/Macbook_air.pdf",
+                "page": 3,
+                "section": "物理第3页左上iMovie应用卡片",
+                "sourcequote": "iMovie / Collect all your video in one library. Create and share movies in minutes.",
+                "source_sha256": "d99de99131b4d8a5471d3e3d96befaa1e6152560d12a93f854c5dd95e54225aa",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-manual-macbook-air-physical-p3.txt",
+                "page": 3,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-manual-macbook-air-physical-p3.png",
+                "page": 3,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=401f8134-c3e5-4827-82bc-0550dfeddf7e",
+                "sourcequote": "questions=Which application allows you to create and share movies in minutes? | answers=iMovie | evidence_page_no=2",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 11,
+                "section": "rag-11 / dev",
+                "sourcequote": "Which application allows you to create and share movies in minutes? | gold=iMovie"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 8,
+                "section": "rag-11 / dev / response",
+                "sourcequote": "SUCCEEDED | iMovie allows you to create and share movies in minutes. [E1]"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-11",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-11",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-11-E1-cropbox-outline.png",
+                "page": 3,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "E1 bbox=[27.21,99.39,325.38,117.81]；考虑原PDF CropBox偏移(129,219)后，仅框到iMovie/iPhoto网址与Help行，未覆盖Create and share movies in minutes描述。section_path=[]只是未登记章节，本身不判错。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-11"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "ed685ef489425c5fee8423f6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie"
+              ],
+              "text": "iMovie\nCollect all your video in \none library. Create and \nshare movies in minutes.",
+              "bbox": [
+                27.04,
+                60.72,
+                103.24,
+                95.21
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "same_column_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "iMovie\nCollect all your video in\none library. Create and\nshare movies in minutes.",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-11-E1-p3.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "02ca373abac6659bd3585557443be506d69c8102e61ce9bc5c647aed7426ced4",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-12",
+          "id": "rag-12",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "406b40fe-fcde-40fe-bf9f-52c728a96c64",
+          "question": "What is the primary goal of the ENERGY STAR program in which Apple participates?",
+          "reference_answer": "To promote energy-efficient products.",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR题答完全匹配。物理第67页ENERGY STAR Compliance段明确该计划是与电子设备制造商合作以promote energy-efficient products；gold目标正确，不能误当仅指默认休眠10分钟。",
+          "actual_answer": "The ENERGY STAR® program is a partnership with electronic equipment manufacturers to promote energy-efficient products, and reducing energy consumption of products saves money and helps conserve valuable resources [E1].",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "第67页ENERGY STAR Compliance段明确推广节能产品，并写减少能耗可省钱和节约资源；混合强调商标标题已核验，未沿用上方USBModem标题。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 9
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/manual/Macbook_air.pdf",
+                "page": 67,
+                "section": "ENERGY STAR Compliance（左栏）",
+                "sourcequote": "As an ENERGY STAR partner, Apple has determined that standard configurations of this product meet the ENERGY STAR guidelines ... The ENERGY STAR program is a partnership with electronic equipment manufacturers to promote energy-efficient products. Reducing energy consumption of products saves money and helps conserve valuable resources.",
+                "source_sha256": "d99de99131b4d8a5471d3e3d96befaa1e6152560d12a93f854c5dd95e54225aa",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-manual-macbook-air-physical-p67.txt",
+                "page": 67,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-manual-macbook-air-physical-p67.png",
+                "page": 67,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=406b40fe-fcde-40fe-bf9f-52c728a96c64",
+                "sourcequote": "questions=What is the primary goal of the ENERGY STAR program in which Apple participates? | answers=To promote energy-efficient products. | evidence_page_no=66",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 12,
+                "section": "rag-12 / dev",
+                "sourcequote": "What is the primary goal of the ENERGY STAR program in which Apple participates? | gold=To promote energy-efficient products."
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 9,
+                "section": "rag-12 / dev / response",
+                "sourcequote": "SUCCEEDED | The ENERGY STAR program is a partnership with electronic equipment manufacturers to promote energy-efficient products; reducing energy consumption of products saves money and helps conserve valuable resources [E1]. As an ENERGY STAR partner, Apple has determined that standard configurations of this product meet the ENERGY STAR guidelines for energy efficiency [E2]."
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-12",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-12",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-12-E1-cropbox-outline.png",
+                "page": 67,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-12-E2-cropbox-outline.png",
+                "page": 67,
+                "section": "E2 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-12"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "f6f2e05365abe94c6100d990",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 67,
+              "section_path": [
+                "ENERGY STAR® Compliance"
+              ],
+              "text": "As an ENERGY STAR® partner, Apple has determined \nthat standard configurations of this product meet the \nENERGY STAR® guidelines for energy efficiency. The \nENERGY STAR® program is a partnership with electronic \nequipment manufacturers to promote energy-efficient \nproducts. Reducing energy consumption of products \nsaves money and helps conserve valuable resources.",
+              "bbox": [
+                39.83,
+                199.29,
+                175.93,
+                253.29
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "same_column_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "As an ENERGY STAR® partner, Apple has determined\nthat standard configurations of this product meet the\nENERGY STAR® guidelines for energy efficiency. The\nENERGY STAR® program is a partnership with electronic\nequipment manufacturers to promote energy-efficient\nproducts. Reducing energy consumption of products\nsaves money and helps conserve valuable resources.",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-12-E1-p67.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "01a737d7d91e4ffbfaacbdbdfe86b461d49200eb770d1d24a562bcc90066b08b",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-13",
+          "id": "rag-13",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "410616bd-66bf-45f8-9cbe-3e7a74e0da1e",
+          "question": "Which device can be used to share one IP address among multiple computers?",
+          "reference_answer": "AirPort Base Station",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR question/answer和物理页号相符。完整物理第52页条件是多电脑共享网络且ISP仅给一个IP地址，原文明确AirPort Base Station可用于共享；gold设备名称正确。",
+          "actual_answer": "You can use an AirPort Base Station to share one IP address among multiple computers. [E1][E2]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议有条件通过",
+          "reason": "第52页NAT独立正文明确AirPortBaseStation共享一个IP给多台电脑；两个片段来自同一真实段落框。程序To use与第4步均不再作为其章节，章节未知被明示。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 10
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/manual/Macbook_air.pdf",
+                "page": 52,
+                "section": "Chapter 3 Problem, Meet Solution / Internet connection共享段",
+                "sourcequote": "If only one IP address is provided, then you must have a router capable of sharing the connection ... You can use an AirPort Base Station to share one IP address among multiple computers.",
+                "source_sha256": "d99de99131b4d8a5471d3e3d96befaa1e6152560d12a93f854c5dd95e54225aa",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-manual-macbook-air-physical-p52.txt",
+                "page": 52,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-manual-macbook-air-physical-p52.png",
+                "page": 52,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=410616bd-66bf-45f8-9cbe-3e7a74e0da1e",
+                "sourcequote": "questions=Which device can be used to share one IP address among multiple computers? | answers=AirPort Base Station | evidence_page_no=51",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 13,
+                "section": "rag-13 / dev",
+                "sourcequote": "Which device can be used to share one IP address among multiple computers? | gold=AirPort Base Station"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 10,
+                "section": "rag-13 / dev / response",
+                "sourcequote": "SUCCEEDED | You can use an AirPort Base Station to share one IP address among multiple computers. A router capable of sharing the connection, also known as network address translation (NAT) or \"IP masquerading,\" is required if the ISP provides only one IP address. [E1][E2]"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-13",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-13",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-13-E1-cropbox-outline.png",
+                "page": 52,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "“4 Follow the onscreen instructions.”是Network Diagnostics步骤4，而非共享IP段落的章节标题；字段把步骤文本误登记为章节。PDF物理第52页正确，CropBox偏移后bbox能包含支持句，不据MediaBox未平移裁切结果误判坐标。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-13-E2-cropbox-outline.png",
+                "page": 52,
+                "section": "E2 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "“4 Follow the onscreen instructions.”是Network Diagnostics步骤4，而非共享IP段落的章节标题；字段把步骤文本误登记为章节。PDF物理第52页正确，CropBox偏移后bbox能包含支持句，不据MediaBox未平移裁切结果误判坐标。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-13"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "d9aa914ee1a37daead6d0c40",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 52,
+              "section_path": [],
+              "text": "If only one IP address is provided, then you must have a router capable of sharing the \nconnection, also known as network address translation (NAT) or “IP masquerading.” \nFor setup information, check the documentation provided with your router or ask the \nperson who set up your network. You can use an AirPort Base Station to share one \nIP address among multiple computers.",
+              "bbox": [
+                39.84,
+                170.98,
+                319.07,
+                244.98
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "unknown",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "If only one IP address is provided, then you must have a router capable of sharing the\nconnection, also known as network address translation (NAT) or “IP masquerading.”\nFor setup information, check the documentation provided with your router or ask the\nperson who set up your network. You can use an AirPort Base Station to share one\nIP address among multiple computers. For information about using an AirPort Base\nStation, check Mac Help or visit the Apple AirPort website at\nwww.apple.com/support/airport.",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-13-E1-p52.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "08871fc41f4ce36600c527ad253e4f348fbf8d31e5341f2e2d8abd7615473683",
+              "section_review": "证据不足",
+              "section_reason": "未知章节保持空，不计作精确章节定位通过。"
+            },
+            {
+              "evidence_id": "E2",
+              "chunk_id": "53256ed3a4e3468cd4e2a8d2",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 52,
+              "section_path": [],
+              "text": "You can use an AirPort Base Station to share one \nIP address among multiple computers. For information about using an AirPort Base \nStation, check Mac Help or visit the Apple AirPort website at \nwww.apple.com/support/airport.",
+              "bbox": [
+                39.84,
+                170.98,
+                319.07,
+                244.98
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "unknown",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "If only one IP address is provided, then you must have a router capable of sharing the\nconnection, also known as network address translation (NAT) or “IP masquerading.”\nFor setup information, check the documentation provided with your router or ask the\nperson who set up your network. You can use an AirPort Base Station to share one\nIP address among multiple computers. For information about using an AirPort Base\nStation, check Mac Help or visit the Apple AirPort website at\nwww.apple.com/support/airport.",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-13-E2-p52.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "08871fc41f4ce36600c527ad253e4f348fbf8d31e5341f2e2d8abd7615473683",
+              "section_review": "证据不足",
+              "section_reason": "未知章节保持空，不计作精确章节定位通过。"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-15",
+          "id": "rag-15",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "864962b3-e99e-4364-a7da-a98e470a03a9",
+          "question": "What are the five fundamental capabilities identified by ASQ and Forbes Insights as essential for building a successful organizational culture?",
+          "reference_answer": "leadership,culture,strategy execution,management practices,robust process improvement",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR题答、doc_entry和物理第10页精确对应。原页Leading for Excellence首段署明ASQ/Forbes Insights研究，ELEMENTS OF SUCCESS段列五能力；完整第11页红色重述亦列相同五项。gold完整且管理实践/稳健流程改进未漏。",
+          "actual_answer": "The five fundamental capabilities identified by ASQ and Forbes Insights are: leadership, culture, strategy execution, management practices, and robust process improvement [E2][E4].",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议有条件通过",
+          "answer_correctness_status": "AI建议有条件通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议有条件通过",
+          "citation_location_status": "AI建议有条件通过",
+          "reason": "五种能力与完整原文均正确；实际只引第11页能力摘要E2与第10页ELEMENTS OF SUCCESS列表E4。ASQ/Forbes归属虽在同一原文第10页左侧正文，但不在当前所引片段中，因此完整引用语义仅有条件通过。题干和文档其他未引用段落不能替代本句引用。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 11
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/news/DUDE_62ba680b413005aa9f018454c4ab4c43.pdf",
+                "page": 10,
+                "section": "Leading for Excellence / ELEMENTS OF SUCCESS",
+                "sourcequote": "Success boils down to five not-so-simple but fundamental capabilities—leadership, culture, strategy execution, management practices, and robust process improvement.",
+                "source_sha256": "48981bbfdaf170bfc2ffceae813f17b49e528cb3cde75bac3b48b532b30e4274",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-news-executive-insight-physical-p10.txt",
+                "page": 10,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-news-executive-insight-physical-p10.png",
+                "page": 10,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=864962b3-e99e-4364-a7da-a98e470a03a9",
+                "sourcequote": "questions=What are the five fundamental capabilities identified by ASQ and Forbes Insights as essential for building a successful organizational culture? | answers=leadership,culture,strategy execution,management practices,robust process improvement | evidence_page_no=9",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 15,
+                "section": "rag-15 / dev",
+                "sourcequote": "What are the five fundamental capabilities identified by ASQ and Forbes Insights as essential for building a successful organizational culture? | gold=leadership,culture,strategy execution,management practices,robust process improvement"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 11,
+                "section": "rag-15 / dev / response",
+                "sourcequote": "SUCCEEDED | ASQ and Forbes Insights identified five fundamental capabilities essential for building a successful organizational culture: leadership, culture, strategy execution, management practices, and robust process improvement [E1][E3]."
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-15",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-15",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-15-E1-cropbox-outline.png",
+                "page": 11,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "E1 bbox=[432.28,50.71,534.6,66.45]在原第11页只框到EYE ON QUALITY页眉，不覆盖五能力正文。E3第10页物理页/Elements of Success定位正确，故回答语义仍可获充分支持。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-15"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E2",
+              "chunk_id": "4f9ac68a548001b811647c86",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [],
+              "text": "Success boils down to five not-so-sim-\nple but fundamental capabilities—\nleadership, culture, strategy execution, \nmanagement practices, and robust pro-\ncess improvement.",
+              "bbox": [
+                36.0,
+                77.2,
+                279.91,
+                164.56
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "unknown",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "Success boils down to five not-so-sim-\nple but fundamental capabilities—\nleadership, culture, strategy execution,\nmanagement practices, and robust pro-\ncess improvement.",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-15-E2-p11.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "e8915ec8e46d1d68c27d4221b407513b7e964841a565c5ff90fca7b9ec0177e6",
+              "section_review": "证据不足",
+              "section_reason": "未知章节保持空，不计作精确章节定位通过。"
+            },
+            {
+              "evidence_id": "E4",
+              "chunk_id": "215957ca2e3dfb968ba52904",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 10,
+              "section_path": [
+                "ELEMENTS OF SUCCESS"
+              ],
+              "text": "ELEMENTS OF SUCCESS\nSuccess boils down to five not-so-simple but \nfundamental capabilities—leadership, culture, \nstrategy execution, management practices, and \nrobust process improvement.",
+              "bbox": [
+                239.62,
+                244.42,
+                420.33,
+                307.52
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "same_column_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "ELEMENTS OF SUCCESS\nSuccess boils down to five not-so-simple but\nfundamental capabilities—leadership, culture,\nstrategy execution, management practices, and\nrobust process improvement.\n        d   b        d           d",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-15-E4-p10.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "c3d771d3ef4948561491ac7227dbd1be296f978a4938d70ed1fc641adfba5e6b",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "归属句需要补实际检索到的E1引用或删去未由当前引用支持的归属；现字面门禁未覆盖所有被动表达，保留有条件状态。"
+        },
+        {
+          "review_id": "rag:rag-16",
+          "id": "rag-16",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "864cce95-3e97-4b9e-a362-bc243927e72b",
+          "question": "What percentage of senior leaders rate their quality programs as world class or advanced according to the research?",
+          "reference_answer": "71%",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR题答精确匹配。物理第11页RANKINGS OF QUALITY PROGRAMS段明确71% of senior leaders评价world class or at least advanced；同页交代调查1,010 senior leaders与1,281 quality professionals。后述60%是另一受访组对average/below average的评价，不能替代本题71%。",
+          "actual_answer": "According to the research, 71% of senior leaders rate their quality programs as world class or at least advanced. [E1]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "第11页左栏RANKINGS段写71%seniorleaders/worldclassoratleastadvanced，未误用60%质量专业人士群体或右栏文化章节。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 12
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/news/DUDE_62ba680b413005aa9f018454c4ab4c43.pdf",
+                "page": 11,
+                "section": "RANKINGS OF QUALITY PROGRAMS（左栏）；研究样本说明",
+                "sourcequote": "The research draws on the responses of 1,010 senior leaders and 1,281 quality professionals worldwide. ... According to the research, 71% of senior leaders rate their quality programs as world class or at least advanced.",
+                "source_sha256": "48981bbfdaf170bfc2ffceae813f17b49e528cb3cde75bac3b48b532b30e4274",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-news-executive-insight-physical-p11.txt",
+                "page": 11,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-news-executive-insight-physical-p11.png",
+                "page": 11,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=864cce95-3e97-4b9e-a362-bc243927e72b",
+                "sourcequote": "questions=What percentage of senior leaders rate their quality programs as world class or advanced according to the research? | answers=71% | evidence_page_no=10",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 16,
+                "section": "rag-16 / dev",
+                "sourcequote": "What percentage of senior leaders rate their quality programs as world class or advanced according to the research? | gold=71%"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 12,
+                "section": "rag-16 / dev / response",
+                "sourcequote": "SUCCEEDED | According to the research, 71% of senior leaders rate their quality programs as world class or at least advanced. [E1]"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-16",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-16",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-16"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "162c7f0bb2957b512017ce27",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "RANKINGS OF QUALITY PROGRAMS"
+              ],
+              "text": "RANKINGS OF QUALITY PROGRAMS \nAccording to the research, 71% of senior leaders rate their qual-\nity programs as world class or at least advanced. In comparison, \n60% of quality professional respondents instead rank their quality \nprogram as average or below average. This conclusion would not \nsurprise Mark Chassin, MD, president and CEO of The Joint Com-\nmission and co-author of recent analysis of why healthcare organi-\nzations have failed to break through and close the high reliability \ngap.",
+              "bbox": [
+                36.0,
+                556.42,
+                282.3,
+                715.52
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "same_column_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "RANKINGS OF QUALITY PROGRAMS\nAccording to the research, 71% of senior leaders rate their qual-\nity programs as world class or at least advanced. In comparison,\n60% of quality professional respondents instead rank their quality\nprogram as average or below average. This conclusion would not\nsurprise Mark Chassin, MD, president and CEO of The Joint Com-\nmission and co-author of recent analysis of why healthcare organi-\nzations have failed to break through and close the high reliability\ngap. Dr. Chassin and co-author Jerod Loeb analyzed the evidence\nin healthcare and came to very similar conclusions as ASQ and\nForbes, looking at other industries. A critical issue here is the wide\ngap between the C-suite and the frontline and their disparate per-\nspectives on the problem and what to do about it. It comes back",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-16-E1-p11.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "883d3204b9a31d63c7b274c883ecb592e9ecd708b4eb0e90cfb113e44058bb48",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-18",
+          "id": "rag-18",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "5710c060-2ea2-4ca2-9fda-de0ea9b0a8ae",
+          "question": "What is the correlation between attention distributions on label words and the model's final prediction quantified by?",
+          "reference_answer": "AUCROC score",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR问题、AUCROC score答案和物理第12页对应。原页Appendix E给出把目标位置label-word注意力当分类器预测、相对于模型实际输出计算AUC-ROC的定义；物理第5页2.3.1与2.3.2也一致。gold量化指标正确。",
+          "actual_answer": "The correlation is quantified using the AUC-ROC score, denoted AUCROC_l [E3].",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议有条件通过",
+          "reason": "第12页右栏AppendixE续文明确使用AUCROC量化指定注意分布与最终输出相关性；当前答案只答量化指标，不额外给无条件范围的0.8。跨栏章节与跨页标题留空。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 13
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/academic/2305.14160v4.pdf",
+                "page": 12,
+                "section": "E. Details for the Calculation of AUCROC（原第12页左栏开始、右栏续文）",
+                "sourcequote": "We use the AUC-ROC score to quantify this correlation. ... compute the AUC-ROC value of this prediction relative to the actual model output.",
+                "source_sha256": "035b1659c5305a0c8157594cf41446fe72ade8d48efa99eb036dfa522d3431c4",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "data/docs/raw/academic/2305.14160v4.pdf",
+                "source_sha256": "035b1659c5305a0c8157594cf41446fe72ade8d48efa99eb036dfa522d3431c4",
+                "verified_from": "原始PDF完整物理页提取及视觉检查",
+                "page": 5,
+                "section": "2.3.1 Experiments / 2.3.2 Results and Analysis / Figure 5",
+                "sourcequote": "Figures 5a and 5b delineate correlation metrics for GPT2-XL and GPT-J, averaged across four datasets. The AUCROC for deep layers approaches 0.8."
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-academic-label-words-physical-p5.txt",
+                "page": 5,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-academic-label-words-physical-p5.png",
+                "page": 5,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-academic-label-words-physical-p12.txt",
+                "page": 12,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-academic-label-words-physical-p12.png",
+                "page": 12,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=5710c060-2ea2-4ca2-9fda-de0ea9b0a8ae",
+                "sourcequote": "questions=What is the correlation between attention distributions on label words and the model's final prediction quantified by? | answers=AUCROC score | evidence_page_no=11",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 18,
+                "section": "rag-18 / dev",
+                "sourcequote": "What is the correlation between attention distributions on label words and the model's final prediction quantified by? | gold=AUCROC score"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 13,
+                "section": "rag-18 / dev / response",
+                "sourcequote": "SUCCEEDED | The correlation between attention distributions on the label words of the target position and the model's final prediction is quantified using the AUC-ROC score. [E2] The AUCROC for deep layers approaches 0.8, illustrating a strong correlation between the attention distributions on label words of the target position and the model's final prediction. [E4]"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-18",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-18",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-18"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E3",
+              "chunk_id": "576cb6a51d7502cf953a80cd",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "text": "tween the attention distributions on the label words\nof the target position (Al(q, p1), ..., Al(q, pC)) and\nthe model’s final prediction. We use the AUC-\nROC score to quantify this correlation. We re-\ngard (Al(q, p1), ..., Al(q, pC)) as a classifier’s pre-\ndiction for the model output label (that is, Al(q, pi)\nis equivalent to the probability of model outputting\nlabel i), and compute the AUC-ROC value of this\nprediction relative to the actual model output. We\ndenote this as AUCROCl.",
+              "bbox": [
+                306.14,
+                195.82,
+                526.22,
+                356.57
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "unknown",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "tween the attention distributions on the label words\nof the target position (Al(q, p1), ..., Al(q, pC)) and\nthe model’s final prediction. We use the AUC-\nROC score to quantify this correlation. We re-\ngard (Al(q, p1), ..., Al(q, pC)) as a classifier’s pre-\ndiction for the model output label (that is, Al(q, pi)\nis equivalent to the probability of model outputting\nlabel i), and compute the AUC-ROC value of this\nprediction relative to the actual model output. We\ndenote this as AUCROCl. For the case with more\ndemonstrations (Appendix F.1), we simply sum up\nall Al(q, p) of the same class.",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-18-E3-p12.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "3250221623ec2c48dff19b3ed18d57a0b0eaed1bf79c89dbadd1adc1dd67353b",
+              "section_review": "证据不足",
+              "section_reason": "未知章节保持空，不计作精确章节定位通过。"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-19",
+          "id": "rag-19",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "OHR原题",
+          "source_document_type": "OHR原始PDF",
+          "source_qa_id": "571aa4f6-40a2-4015-8a40-a3799a1ab357",
+          "question": "Which datasets showed significant performance enhancement with the proposed anchor reweighting method?",
+          "reference_answer": "SST-2 and EmoC",
+          "reference_status": "AI建议通过",
+          "reference_reason": "原OHR问答、SST-2 and EmoC与物理第6页对应。完整第6页3.1.3明确particularly on the SST-2 and EmoC datasets，第7页Table 1说明Anchor Re-weighting整体结果。gold是在作者特别强调的数据集层次回答，未错误声称其他数据集完全无提升。",
+          "actual_answer": "The proposed anchor re-weighting method significantly enhanced ICL performance particularly on the SST-2 and EmoC datasets [E2].",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "第6页右栏3.1.3Results明确SST2与EmoC；当前只答所问数据集，不添加跨shot或基线不明的提升百分比；框未落在左栏公式。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 14
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/academic/2305.14160v4.pdf",
+                "page": 6,
+                "section": "3.1.2 Experiments / 3.1.3 Results",
+                "sourcequote": "As Table 1 shows, the proposed anchor re-weighting significantly enhances ICL performance, particularly on the SST-2 and EmoC datasets.",
+                "source_sha256": "035b1659c5305a0c8157594cf41446fe72ade8d48efa99eb036dfa522d3431c4",
+                "verified_from": "原始文件完整页面文本提取及完整页面视觉检查"
+              },
+              {
+                "path": "data/docs/raw/academic/2305.14160v4.pdf",
+                "source_sha256": "035b1659c5305a0c8157594cf41446fe72ade8d48efa99eb036dfa522d3431c4",
+                "verified_from": "原始PDF完整物理页提取及视觉检查",
+                "page": 7,
+                "section": "Table 1 / Method × Dataset",
+                "sourcequote": "Vanilla In-Context Learning (1-shot per class): SST-2 61.28, EmoC 15.44; Vanilla In-Context Learning (5-shot per class): SST-2 64.75, EmoC 9.80; Anchor Re-weighting (1-shot per class): SST-2 90.07, EmoC 41.64."
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-academic-label-words-physical-p6.txt",
+                "page": 6,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-academic-label-words-physical-p6.png",
+                "page": 6,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-academic-label-words-physical-p7.txt",
+                "page": 7,
+                "section": "完整物理页文本（pdfplumber）",
+                "sourcequote": "完整上下文在该文本文件；正文核验语句见上面的原始文件引用。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/raw-pages/ohr-academic-label-words-physical-p7.png",
+                "page": 7,
+                "section": "完整物理页Poppler渲染；已视觉检查",
+                "sourcequote": "页面标题、表格/栏位、脚注和有关句子均在完整页图内。"
+              },
+              {
+                "path": "data/raw/ohr/qas_v2.json",
+                "section": "ID=571aa4f6-40a2-4015-8a40-a3799a1ab357",
+                "sourcequote": "questions=Which datasets showed significant performance enhancement with the proposed anchor reweighting method? | answers=SST-2 and EmoC | evidence_page_no=5",
+                "qa_array_item_identified_by": "ID"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 19,
+                "section": "rag-19 / dev",
+                "sourcequote": "Which datasets showed significant performance enhancement with the proposed anchor reweighting method? | gold=SST-2 and EmoC"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 14,
+                "section": "rag-19 / dev / response",
+                "sourcequote": "SUCCEEDED | 根据表1，所提出的锚点重加权方法在SST-2和EmoC数据集上显著提升了ICL性能，尤其在SST-2（从64.75提升至90.07）和EmoC（从15.44提升至41.64）数据集上表现突出 [E1][E5]。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-19",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-19",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-19-E1-cropbox-outline.png",
+                "page": 6,
+                "section": "E1 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "E1 bbox=[70.87,486.56,152.06,499.36]在原第6页裁到左栏“In this equation, βi”方程说明，不覆盖右栏3.1.3核心支持句。E5章节路径“0 role that anchors play in ICL.”是前页续句/公式残片，原文位置是第7页Table 1。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-19-E5-cropbox-outline.png",
+                "page": 7,
+                "section": "E5 / 原始完整物理页及实际bbox红框（已视觉核对）",
+                "sourcequote": "E1 bbox=[70.87,486.56,152.06,499.36]在原第6页裁到左栏“In this equation, βi”方程说明，不覆盖右栏3.1.3核心支持句。E5章节路径“0 role that anchors play in ICL.”是前页续句/公式残片，原文位置是第7页Table 1。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-19"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E2",
+              "chunk_id": "3d91ce681679730bd0621a13",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.3 Results"
+              ],
+              "text": "3.1.3\nResults\nAs Table 1 shows, the proposed anchor re-\nweighting significantly enhances ICL performance,\nparticularly on the SST-2 and EmoC datasets. Be-\nsides, adding more demonstrations for vanilla ICL\nmay not bring a stable accuracy boost due to the po-\ntential noise introduced, as discussed in Zhao et al.\n(2021). Different from vanilla ICL which utilizes\nthe extra examples to form a demonstration, we\ntrain a re-weighting vector β to modulate label an-\nchor contributions.",
+              "bbox": [
+                305.75,
+                427.67,
+                526.32,
+                657.92
+              ],
+              "parser": "pdfplumber+PyMuPDF",
+              "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+              "section_location_status": "same_column_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "native_clip_text": "3.1.3  Results\nAs Table 1 shows,  the proposed anchor  re-\nweighting significantly enhances ICL performance,\nparticularly on the SST-2 and EmoC datasets. Be-\nsides, adding more demonstrations for vanilla ICL\nmay not bring a stable accuracy boost due to the po-\ntential noise introduced, as discussed in Zhao et al.\n(2021). Different from vanilla ICL which utilizes\nthe extra examples to form a demonstration, we\ntrain a re-weighting vector β to modulate label an-\nchor contributions. This shortens the input context\nand thus brings (almost) no extra cost to the infer-\nence speed. The consistent improvements of our\nmethod suggest that the re-weighting mechanism\ncould be a better alternative to utilize demonstra-\ntion examples. Furthermore, it reiterates the crucial\nrole that anchors play in ICL.",
+              "native_clip_exact_text_support": true,
+              "bbox_within_visible_cropbox": true,
+              "rendered_source": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-19-E2-p6.png",
+              "visual_reason": "已读取原文页面/来源并核对实际来源区域；bbox只表示块/行外包框，不证明逐句精确高亮。",
+              "rendered_source_sha256": "4c2e7af838553eb404476a33f5d6d382aebce22e3aa971a38fa7623c271e2f50",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-21",
+          "id": "rag-21",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "自编",
+          "source_document_type": "百科条目中文翻译改写的项目简介",
+          "source_qa_id": null,
+          "question": "根据这份简介，Iron Maiden 是哪一年在什么地方组建的？",
+          "reference_answer": "1975年，英国伦敦东部的 Leyton。",
+          "reference_status": "AI建议通过",
+          "reference_reason": "这是基于项目中文改写简介的自编题，没有OHR source_qa_id，不能标成OHR原题。已读完整Iron Maiden HTML，公开背景首段明确1975年、伦敦东部Leyton，gold年/地点正确；成立地未混同专辑1980/1982发行时间。",
+          "actual_answer": "Iron Maiden（铁娘子乐队）于1975年在伦敦东部的 Leyton 组建。[E1]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "已读取原HTML简介，原文1975年、伦敦东部Leyton支持答案；按简介问答而非外部百科补全。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 15
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/d2/iron-maiden.html",
+                "page": null,
+                "section": "Iron Maiden 铁娘子乐队公开简介 / 公开背景（首段）",
+                "sourcequote": "Iron Maiden（铁娘子乐队）是英国重金属乐队，由贝斯手及主要创作者 Steve Harris 于1975年在伦敦东部的 Leyton 组建。",
+                "source_sha256": "4f071c465c5417f5867e8571fb4ea37098dd8829d86b9b253ac26184a145b270",
+                "verified_from": "原始文件全文读取"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 21,
+                "section": "rag-21 / dev",
+                "sourcequote": "根据这份简介，Iron Maiden 是哪一年在什么地方组建的？ | gold=1975年，英国伦敦东部的 Leyton。"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 15,
+                "section": "rag-21 / dev / response",
+                "sourcequote": "SUCCEEDED | Iron Maiden（铁娘子乐队）由贝斯手及主要创作者 Steve Harris 于1975年在伦敦东部的 Leyton 组建。[E1]"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-21",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-21",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-21"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "1954ca3e92aa9467282b5de6",
+              "doc_id": "artist-iron-maiden",
+              "page": null,
+              "section_path": [
+                "Iron Maiden 铁娘子乐队公开简介",
+                "公开背景"
+              ],
+              "text": "公开背景\nIron Maiden（铁娘子乐队）是英国重金属乐队，由贝斯手及主要创作者 Steve Harris 于1975年在伦敦东部的 Leyton 组建。\n乐队是英国重金属新浪潮的重要代表。其音乐和歌词涉及历史、文学、战争、神话及科幻等题材。\n同名首张录音室专辑于1980年发行；1982年的 The Number of the Beast 是其早期重要作品。这里介绍的是公开音乐背景，不包含 Chinook 销售排名或当代巡演收入。",
+              "bbox": null,
+              "parser": "BeautifulSoup",
+              "coordinate_system": null,
+              "section_location_status": "source_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "visual_reason": "已读取对应原HTML、DOCX、Markdown全文或原PNG；章节/图片来源正确，未伪造PDF页码。",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-22",
+          "id": "rag-22",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "自编",
+          "source_document_type": "百科条目中文翻译改写的项目简介",
+          "source_qa_id": null,
+          "question": "只根据 U2 简介，U2 于哪一年在哪座城市成立？",
+          "reference_answer": "1976年在都柏林成立。",
+          "reference_status": "AI建议通过",
+          "reference_reason": "自编题基于U2项目中文简介，不含OHR原题ID。完整HTML公开背景首段明确于1976年在都柏林成立；1980/1983年是作品发行日期。gold年份和城市与限定文档一致。",
+          "actual_answer": "U2 于 1976 年在都柏林成立。[E1]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "已读取原HTML简介，1976年和都柏林均为该简介原文。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 16
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/d2/u2.html",
+                "page": null,
+                "section": "U2 乐队公开简介 / 公开背景（首段）",
+                "sourcequote": "U2是爱尔兰摇滚乐队，于1976年在都柏林成立。",
+                "source_sha256": "b2390ce8d232a9030e6dea5a7f43650b843108be0e26c876ed2d9572a653757e",
+                "verified_from": "原始文件全文读取"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 22,
+                "section": "rag-22 / dev",
+                "sourcequote": "只根据 U2 简介，U2 于哪一年在哪座城市成立？ | gold=1976年在都柏林成立。"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 16,
+                "section": "rag-22 / dev / response",
+                "sourcequote": "SUCCEEDED | U2 于1976年在都柏林成立。[E1]"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-22",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-22",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-22"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "b5744c42490f3405a8b916dd",
+              "doc_id": "artist-u2",
+              "page": null,
+              "section_path": [
+                "U2 乐队公开简介",
+                "公开背景"
+              ],
+              "text": "公开背景\nU2是爱尔兰摇滚乐队，于1976年在都柏林成立。其四位核心成员为 Bono、The Edge、Adam Clayton 和 Larry Mullen Jr.。\n乐队的音乐以摇滚为基础，也探索过电子音乐等风格。人权及社会议题常出现在其创作与公共活动中。\nU2于1980年发行首张录音室专辑 Boy，1983年发行 War。这份背景简介不提供未来演出合同、客户数据或实时销售信息。",
+              "bbox": null,
+              "parser": "BeautifulSoup",
+              "coordinate_system": null,
+              "section_location_status": "source_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "visual_reason": "已读取对应原HTML、DOCX、Markdown全文或原PNG；章节/图片来源正确，未伪造PDF页码。",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-24",
+          "id": "rag-24",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "自编",
+          "source_document_type": "百科条目中文翻译改写的项目简介",
+          "source_qa_id": null,
+          "question": "根据这张简介图片，Led Zeppelin 于哪一年在哪座城市成立？",
+          "reference_answer": "1968年在伦敦成立。",
+          "reference_status": "AI建议通过",
+          "reference_reason": "自编题引用Led Zeppelin简介PNG。直接打开完整原PNG视觉阅读，公开背景首段清晰写1968年在伦敦成立；后文1969/1971是专辑年份。登记PNG哈希与manifest一致，派生HTML内容一致；gold年/城市正确。",
+          "actual_answer": "Led Zeppelin（齐柏林飞船）于1968年在伦敦成立。[E1]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "已视觉读取原PNG：1968年伦敦成立。该图明确为项目改写排版，非维基百科原站截图；框使用原图像素，不能称为PDF点。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 17
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/d2/led-zeppelin.png",
+                "page": null,
+                "section": "图片上部 / 公开背景首段",
+                "sourcequote": "Led Zeppelin（齐柏林飞船）是英国摇滚乐队，1968年在伦敦成立。",
+                "source_sha256": "950e7d66df1a0ca64bb7770420f919a3665a254ee0429c7fe8d9194d8a97ec19",
+                "verified_from": "原始PNG直接完整视觉检查"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 24,
+                "section": "rag-24 / dev",
+                "sourcequote": "根据这张简介图片，Led Zeppelin 于哪一年在哪座城市成立？ | gold=1968年在伦敦成立。"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 17,
+                "section": "rag-24 / dev / response",
+                "sourcequote": "SUCCEEDED | Led Zeppelin（齐柏林飞船）于1968年在伦敦成立。[E1]"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-24",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-24",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-24"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "0b74392566b4204cc0e56ef5",
+              "doc_id": "artist-led-zeppelin",
+              "page": null,
+              "section_path": [
+                "图像 OCR"
+              ],
+              "text": "Led Zeppelin齐柏林飞船乐队公开简介\n公开背景\nLed Zeppelin（齐柏林飞船）是英国摇滚乐队，1968年在伦敦成立。乐队成员包括吉他手\nJimmy Page、主唱 Robert Plant、贝斯兼键盘手 John Paul Jones 和鼓手 John Bonham。\n其早期音乐扎根于蓝调摇滚与迷幻摇滚，也与硬摇滚和重金属的发展密切相关。\n首张同名专辑于1969年发行，1971年的第四张专辑收录了StairwaytoHeaven。此网页是带出\n处的简短项目改写，不是维基百科原站页面截图。\n资料来源与处理说明\n由项目根据公开百科条目改写为中文简介。用于研究检索和来源定位，不声称它是原站完整页\n面。\n百科原文作者为对应维基百科条目贡献者；本文进行了精简、中文改写与排版，按CCBY-SA4.0\n共享。未复制外部照片。\n来源\nhttps://zh.wikipedia.0rg/wiki/%E9%BD%90%E6%9F%8F%E6%9E%97%E9%A3%9E%E8%88%B9%E4%B9%90%E9%98%9F",
+              "bbox": [
+                127.0,
+                57.0,
+                1067.0,
+                832.0
+              ],
+              "parser": "RapidOCR",
+              "coordinate_system": "image pixels; top-left origin",
+              "section_location_status": "source_heading",
+              "ocr_confidence_min": 0.976358,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "visual_reason": "已读取对应原HTML、DOCX、Markdown全文或原PNG；章节/图片来源正确，未伪造PDF页码。",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-25",
+          "id": "rag-25",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "自编",
+          "source_document_type": "项目自编口径/数据字典",
+          "source_qa_id": null,
+          "question": "根据口径手册，曲目最受欢迎的默认口径是什么，对应哪个汇总表达式？",
+          "reference_answer": "默认按购买数量，使用 SUM(invoice_line.quantity)；销售额与歌单收录数是明确的备选口径。",
+          "reference_status": "AI建议通过",
+          "reference_reason": "项目口径手册自编题。以python-docx读取原DOCX正文和表格完整顺序；四项指标/热门曲目段明确默认购买数量SUM(invoice_line.quantity)，销售额/歌单收录数是备选。gold主表达式和备选说明均有原文依据，无发票金额或全局默认混用。",
+          "actual_answer": "曲目最受欢迎的默认口径是沿用总计划的购买数量默认，即 SUM(invoice_line.quantity) [E1][E2]。热门曲目的核心表达式为 SUM(invoice_line.quantity) [E2]。",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "已读取口径DOCX正文及表，默认购买数量与SUM(invoice_line.quantity)相符；金额与歌单数仅为明确备选，不混换。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 18
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/d2/Chinook业务指标口径手册.docx",
+                "page": null,
+                "section": "四项指标的定义与限制 / 热门曲目；指标对应关系表",
+                "sourcequote": "曲目最受欢迎沿用总计划的购买数量默认，即 SUM(invoice_line.quantity)。按销售额或按歌单收录数属于明确的备选口径，不能凭当前排名相同而互换。",
+                "source_sha256": "b50f5683e735baa3ca6fe08bde3b437377d810732357e2a4898d6820b0456a9a",
+                "verified_from": "原始DOCX用python-docx完整正文及表格读取"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 25,
+                "section": "rag-25 / dev",
+                "sourcequote": "根据口径手册，曲目最受欢迎的默认口径是什么，对应哪个汇总表达式？ | gold=默认按购买数量，使用 SUM(invoice_line.quantity)；销售额与歌单收录数是明确的备选口径。"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 18,
+                "section": "rag-25 / dev / response",
+                "sourcequote": "SUCCEEDED | 曲目最受欢迎的默认口径是沿用总计划的购买数量默认，即 SUM(invoice_line.quantity) [E1]。汇总表达式中，热门曲目（统计粒度为期间内曲目）的核心表达式为 SUM(invoice_line.quantity) [E2]。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-25",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-25",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-25"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "fca7d491dcd70e8d2e1e89ea",
+              "doc_id": "project-metric-manual",
+              "page": null,
+              "section_path": [
+                "四项指标的定义与限制",
+                "热门曲目"
+              ],
+              "text": "热门曲目\n曲目最受欢迎沿用总计划的购买数量默认，即 SUM(invoice_line.quantity)。按销售额或按歌单收录数属于明确的备选口径，不能凭当前排名相同而互换。\n附录中的客户谁买得最多保留金额口径；没有查询对象的短语不套同一个全局默认。并列时以 track_id 升序稳定排序。D2登记口径，不提前实现 D3 完整澄清分级或口径切换。",
+              "bbox": null,
+              "parser": "python-docx",
+              "coordinate_system": null,
+              "section_location_status": "source_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "visual_reason": "已读取对应原HTML、DOCX、Markdown全文或原PNG；章节/图片来源正确，未伪造PDF页码。",
+              "section_review": "AI建议通过"
+            },
+            {
+              "evidence_id": "E2",
+              "chunk_id": "f30c353e1a987c914288e786",
+              "doc_id": "project-metric-manual",
+              "page": null,
+              "section_path": [
+                "指标对应关系"
+              ],
+              "text": "指标对应关系\n指标全名 | 统计粒度 | 核心表达式\n发票销售额 | 发票 | SUM(invoice.total)\n平均每张发票金额 | 发票 | AVG(invoice.total)\n期间内复购客户数 | 期间内客户 | 发票数至少2张的客户数\n热门曲目 | 期间内曲目 | SUM(invoice_line.quantity)\n机器可读规则保存在 data/rules/metric_definitions.json。口径审核与每一道评测题的 gold 人工审核分别记录，互不替代。",
+              "bbox": null,
+              "parser": "python-docx",
+              "coordinate_system": null,
+              "section_location_status": "source_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "visual_reason": "已读取对应原HTML、DOCX、Markdown全文或原PNG；章节/图片来源正确，未伪造PDF页码。",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-26",
+          "id": "rag-26",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "自编",
+          "source_document_type": "项目自编口径/数据字典",
+          "source_qa_id": null,
+          "question": "按口径手册，客单价的主口径全名是什么，对应哪个 SQL 表达式？",
+          "reference_answer": "平均每张发票金额，AVG(invoice.total)。",
+          "reference_status": "AI建议通过",
+          "reference_reason": "项目口径手册自编题。原DOCX平均每张发票金额段及表格定义客单价主口径全名为平均每张发票金额，AVG(invoice.total)，每张发票同权；下一段明确每位购买客户平均金额另命名。gold全名和SQL表达式准确。",
+          "actual_answer": "客单价的主口径全名为“平均每张发票金额”，对应 SQL 表达式为 AVG(invoice.total)。[E2]",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "已读取口径DOCX：主口径平均每张发票金额、AVG(invoice.total)，每发票等权；非平均每位客户金额。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 19
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/d2/Chinook业务指标口径手册.docx",
+                "page": null,
+                "section": "四项指标的定义与限制 / 平均每张发票金额；指标对应关系表",
+                "sourcequote": "本项目将客单价主口径写全为平均每张发票金额，表达式 AVG(invoice.total)，每张发票权重相同。",
+                "source_sha256": "b50f5683e735baa3ca6fe08bde3b437377d810732357e2a4898d6820b0456a9a",
+                "verified_from": "原始DOCX用python-docx完整正文及表格读取"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 26,
+                "section": "rag-26 / dev",
+                "sourcequote": "按口径手册，客单价的主口径全名是什么，对应哪个 SQL 表达式？ | gold=平均每张发票金额，AVG(invoice.total)。"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 19,
+                "section": "rag-26 / dev / response",
+                "sourcequote": "SUCCEEDED | 客单价的主口径全名为「平均每张发票金额」，对应 SQL 表达式为 AVG(invoice.total)，每张发票权重相同。[E1][E2]"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-26",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-26",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-26"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E2",
+              "chunk_id": "ca07b3c089c99383c97a3600",
+              "doc_id": "project-metric-manual",
+              "page": null,
+              "section_path": [
+                "四项指标的定义与限制",
+                "平均每张发票金额"
+              ],
+              "text": "平均每张发票金额\n本项目将客单价主口径写全为平均每张发票金额，表达式 AVG(invoice.total)，每张发票权重相同。\n平均每位购买客户金额另命名为 SUM(invoice.total) / COUNT(DISTINCT invoice.customer_id)，不与每张发票平均金额混用。无发票或零分母时保留 NULL。",
+              "bbox": null,
+              "parser": "python-docx",
+              "coordinate_system": null,
+              "section_location_status": "source_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "visual_reason": "已读取对应原HTML、DOCX、Markdown全文或原PNG；章节/图片来源正确，未伪造PDF页码。",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-27",
+          "id": "rag-27",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "自编",
+          "source_document_type": "项目自编口径/数据字典",
+          "source_qa_id": null,
+          "question": "根据中文数据字典，customer.country 和 invoice.billing_country 分别表示什么？",
+          "reference_answer": "customer.country 是客户所在地国家；invoice.billing_country 是发票账单地址国家，两个业务含义应分别保留。",
+          "reference_status": "AI建议通过",
+          "reference_reason": "项目中文数据字典自编题。直接读取完整原MD，地区字段含义段分别定义customer.country为客户所在地国家、invoice.billing_country为发票账单地址国家；两表字段说明重复确认。原文指出当前快照值相等不改变业务口径，gold两义正确。",
+          "actual_answer": "customer.country 表示客户所在地国家[E1]；invoice.billing_country 表示发票账单地址国家[E1]。两者是不同字段，不可直接互换[E1][E2]。",
+          "actual_run_status": "SUCCEEDED",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "已读取中文数据字典全文：customer.country客户所在地、invoice.billing_country账单地址国家，实际回答保留不同含义；现快照相等不能授权互换。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 20
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/d2/chinook-dictionary-zh.md",
+                "page": null,
+                "section": "Chinook 数据字典 中文 / 地区字段含义；表与字段/customer、invoice",
+                "sourcequote": "customer.country 表示客户所在地国家。invoice.billing_country 表示发票账单地址国家。两列在当前快照中相等，不能据此将两种业务含义混为同一口径。",
+                "source_sha256": "c1a36da359cef886099ffd59e355716a28d0aaaba044834002ee76d49942d2c7",
+                "verified_from": "原始文件全文读取"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 27,
+                "section": "rag-27 / dev",
+                "sourcequote": "根据中文数据字典，customer.country 和 invoice.billing_country 分别表示什么？ | gold=customer.country 是客户所在地国家；invoice.billing_country 是发票账单地址国家，两个业务含义应分别保留。"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 20,
+                "section": "rag-27 / dev / response",
+                "sourcequote": "SUCCEEDED | customer.country 表示客户所在地国家 [E1][E8]；invoice.billing_country 表示发票账单地址国家 [E1][E2]。两者是不同字段，不可直接互换 [E2]。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-27",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-27",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-27"
+            }
+          },
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "chunk_id": "d30d592c7fafadffdeef1b82",
+              "doc_id": "project-chinook-dictionary",
+              "page": null,
+              "section_path": [
+                "Chinook 数据字典 中文",
+                "地区字段含义"
+              ],
+              "text": "## 地区字段含义\ncustomer.country 表示客户所在地国家。invoice.billing_country 表示发票账单地址国家。两列在当前快照中相等，不能据此将两种业务含义混为同一口径。",
+              "bbox": null,
+              "parser": "markdown-headings",
+              "coordinate_system": null,
+              "section_location_status": "source_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "visual_reason": "已读取对应原HTML、DOCX、Markdown全文或原PNG；章节/图片来源正确，未伪造PDF页码。",
+              "section_review": "AI建议通过"
+            },
+            {
+              "evidence_id": "E2",
+              "chunk_id": "07e3eca969a63efaaa84f5bb",
+              "doc_id": "project-chinook-dictionary",
+              "page": null,
+              "section_path": [
+                "Chinook 数据字典 中文",
+                "表与字段",
+                "invoice"
+              ],
+              "text": "### invoice\n销售发票，含客户、开票时间、账单地址及发票总额\n| 字段 | 数据类型 | 可为空 | 中文说明 |\n|---|---|---|---|\n| invoice_id | integer | 否 | 发票编号 |\n| customer_id | integer | 否 | 客户编号 |\n| invoice_date | timestamp without time zone | 否 | 开票时间，不是客户创建时间 |\n| billing_address | character varying(70) | 是 | 发票账单街道地址 |\n| billing_city | character varying(40) | 是 | 发票账单城市 |\n| billing_state | character varying(40) | 是 | 发票账单州或省，可为空 |\n| billing_country | character varying(40) | 是 | 发票账单地址国家，与 customer.country 是不同字段，不可直接互换 |",
+              "bbox": null,
+              "parser": "markdown-headings",
+              "coordinate_system": null,
+              "section_location_status": "source_heading",
+              "ocr_confidence_min": null,
+              "index_membership": true,
+              "visual_review": "AI建议通过",
+              "visual_reason": "已读取对应原HTML、DOCX、Markdown全文或原PNG；章节/图片来源正确，未伪造PDF页码。",
+              "section_review": "AI建议通过"
+            }
+          ],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        },
+        {
+          "review_id": "rag:rag-28",
+          "id": "rag-28",
+          "group": "rag",
+          "split": "dev",
+          "source_question_type": "自编",
+          "source_document_type": "百科条目中文翻译改写的项目简介",
+          "source_qa_id": null,
+          "question": "只依据这份 Iron Maiden 简介，列出该乐队2026年在中国每场演出的门票收入。",
+          "reference_answer": "当前指定简介不包含所问的逐场中国演出票务收入，证据不足，应明确说明不能据此回答。",
+          "reference_status": "AI建议通过",
+          "reference_reason": "自编证据不足题。已读完整Iron Maiden HTML全部公开背景、资料处理说明、footer；仅有组建/作品/音乐背景，且明确不包含当代巡演收入，没有2026中国逐场演出、票数、单价或票务收入数据。gold answerable=false及EMPTY_RESULT正确；缺少正向gold_evidence并非漏证据，须以完整文档边界核验。",
+          "actual_answer": "所选文档未提供足以直接支持此问题的证据，当前无法核实。",
+          "actual_run_status": "EMPTY_RESULT",
+          "actual_status": "AI建议通过",
+          "answer_correctness_status": "AI建议通过",
+          "core_answer_correctness_status": "AI建议通过",
+          "citation_support_status": "AI建议通过",
+          "citation_location_status": "AI建议通过",
+          "reason": "已读取指定IronMaiden简介全文，其中没有2026年中国逐场门票收入；实际EMPTY_RESULT明确不能核实、无伪造引用。",
+          "evidence": {
+            "current_response": {
+              "path": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl",
+              "line": 21
+            },
+            "source_reference_material": [
+              {
+                "path": "data/docs/raw/d2/iron-maiden.html",
+                "page": null,
+                "section": "Iron Maiden 铁娘子乐队公开简介 / 公开背景（完整文档检查）",
+                "sourcequote": "这里介绍的是公开音乐背景，不包含 Chinook 销售排名或当代巡演收入。",
+                "source_sha256": "4f071c465c5417f5867e8571fb4ea37098dd8829d86b9b253ac26184a145b270",
+                "verified_from": "原始文件全文读取"
+              },
+              {
+                "path": "eval/datasets/rag_single.jsonl",
+                "line": 28,
+                "section": "rag-28 / dev",
+                "sourcequote": "只依据这份 Iron Maiden 简介，列出该乐队2026年在中国每场演出的门票收入。 | gold=当前指定简介不包含所问的逐场中国演出票务收入，证据不足，应明确说明不能据此回答。"
+              },
+              {
+                "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+                "line": 21,
+                "section": "rag-28 / dev / response",
+                "sourcequote": "EMPTY_RESULT | 所选文档未提供足以直接支持此问题的证据，当前无法核实。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-index-dev-audit.json",
+                "section": "rag:rag-28",
+                "sourcequote": "actual evidence逐条doc_id、physical page、section_path、text精确匹配docs-final/chunks.jsonl；记录含原索引行号和chunk_id。"
+              },
+              {
+                "path": "eval/artifacts/d2-ai-preaudit/rag/citation-location-dev-audit.json",
+                "section": "rag:rag-28",
+                "sourcequote": "索引机械一致性与原文真实章节/可视bbox定位分开判定；本题逐条定位判断见对应记录。"
+              }
+            ],
+            "citation_location": {
+              "path": "eval/artifacts/d2-final/rag/location-check-v4.3/citation-location-check.json",
+              "row_id": "rag-28"
+            }
+          },
+          "citations": [],
+          "human_confirmation": "请核对当前原文、参考题意与实际系统输出；AI判断不代替人工签字。",
+          "human_review": "pending_human_review",
+          "suggestion": "保留当前已核验答案与来源；未知章节需人审或继续保持未知。"
+        }
+      ],
+      "post_regression_probe": {
+        "scope": "仅rag03，增加通用数量期限提示后的最后限定probe；未运行v4.4全套",
+        "path": "eval/artifacts/d2-final/rag/probe-v4.4-rag03/response.json",
+        "status": "FAILED",
+        "reason": "数字门禁正确拒绝：复述题干编号/年份但未引用支持它们的E1",
+        "prompt_changed_after_full_regression": true,
+        "reference_gold_unchanged": true,
+        "candidate_two_line_prompt_reverted": true,
+        "restored_code_state": "最终v4.3全套已实跑源码；只回退候选两行，保留其余修正"
+      },
+      "current_rag_source_sha256": {
+        "parsers.py": "5f2bdbd5fe47b524000ff6bbd6d573eaa623ba27dbb14cbe04ffca5081318444",
+        "chunker.py": "0833c0fad689c0311fd62c6ce183e3f5bc604c365baa0de6ae428ebea6b95b24",
+        "index.py": "7a2c1f21c947b28d12e9859a984e31b8d0959b5a72af8d8ab3e060ff83105091",
+        "service.py": "ae0ba23972345a780701e686d582c7e8de5f8c6907487671849569ed09f096c3",
+        "answer.py": "542804b2351ae1a3c495ddaaafbb8f04434c3e8e63231773e94496b0a1728c99"
+      }
+    },
+    "second_review": {
+      "created_at_utc": "2026-10-11T18:45:37.810876+00:00",
+      "version": "v4.3",
+      "reviewer": "root AI independent second source review",
+      "reviewed_dev_count": 21,
+      "reference_verdicts": {
+        "AI建议通过": 21
+      },
+      "answer_verdicts": {
+        "AI建议通过": 19,
+        "AI发现错误": 1,
+        "AI建议有条件通过": 1
+      },
+      "citation_semantic_verdicts": {
+        "AI建议通过": 19,
+        "未生成可审核成功引用": 1,
+        "AI建议有条件通过": 1
+      },
+      "physical_citation_count": 23,
+      "unknown_section_citation_count": 9,
+      "holdout_predictions": 0,
+      "human_signatures_added": false,
+      "source_method": "Read all final questions/references/answers/citations; visually inspected original PDF source pages and PNG; read entire local HTML/MD/DOCX paragraphs/tables. Root reasoning, no external common knowledge.",
+      "responses_sha256": "34fabf1d4a918d0aa57abcce9ee6954c66f39b9947a202ed4e1438265534d880",
+      "locations_sha256": "993d61a74d5ba4a48399585a4b35730f1f4c78fbdfed45881eb3ab5aa459c72b",
+      "rows": [
+        {
+          "id": "rag-02",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看原PDF物理页1条款2整段：45天从PSS包含合并后共同经营期间的第一财政季度结束起算，不是合并日起算。",
+          "actual_answer": "Within 45 days after the end of the first fiscal quarter of PSS containing the required period of post-Merger combined operations. [E1]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:1",
+          "trace_id": "7765a12b-10a8-4f3e-bdf3-340924a50d73",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "bbox": [
+                13.44,
+                389.46,
+                357.14,
+                496.86
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [],
+              "section_review": "证据不足：章节未知，未填写",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-02-E1-p1.png",
+              "source_text": "understands that ASR 130 and 135 relate to publication of financial results of\npost-Merger combined operations of PSS and GSMS. PSS agrees that it will publish\nsuch results as promptly as practicable following the Merger in the sole\ndiscretion of PSS, but in any event within 45 days after the end of the first\nfiscal quarter of PSS containing the required period of post-Merger combined\noperations and that it will notify the undersigned promptly following such\npublication."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-03",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI发现错误",
+          "citation_semantic_verdict": "未生成可审核成功引用",
+          "source_observation": "已看原PDF物理页2条款6完整上下文：合并生效后three years；Section13及1934位于紧接正文。三年与法律编号分开，不能只引期限片段却复述其它数字。",
+          "actual_answer": "答案中的数字、正负号、百分比、币种或显式单位不能在该句引用的证据中核实。",
+          "status": "FAILED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:2",
+          "trace_id": "beb9d1a8-a8c5-47a5-b37d-7671422cdceb",
+          "citations": [],
+          "problems_and_suggestions": [
+            "实际请求失败保留原trace/错误；参考答案正确不等于系统答对，不选用旧轮成功替换。"
+          ],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-05",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看扫描原页1INTRODUCTION：分水岭西侧经Tame/Etherow流入Mersey，未把东侧河流混入。",
+          "actual_answer": "On the western side of the primary watershed, the drainage is to the Mersey by the rivers Tame and Etherow [E2]。",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:3",
+          "trace_id": "2ab08c3b-510d-4c69-bcea-f0a7c7a1e76d",
+          "citations": [
+            {
+              "evidence_id": "E2",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "bbox": [
+                31.5,
+                443.5,
+                349.0,
+                491.5
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [],
+              "section_review": "证据不足：章节未知，未填写",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-05-E2-p1.png",
+              "source_text": "On the western side of this line the drainage is to the Mersey\nby the rivers Tame and Etherow; the basin of the latter forms a\nsalient projecting some seven miles east of the general run of\nthe North Sea-Irish Sea divide (see map, Fig. 1)."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-06",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看扫描原页8首段：Coal Measures土壤背景下wheat/oats/potatoes，swedes/turnips的病害不是所问三种最满意作物。",
+          "actual_answer": "Wheat, oats and potatoes are perhaps the most satisfactory arable crops in the soils of the Coal Measures [E1].",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:4",
+          "trace_id": "eafc38cd-26af-4eeb-830d-ffa9a9538c0d",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "bbox": [
+                52.5,
+                83.5,
+                368.5,
+                175.0
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [],
+              "section_review": "证据不足：章节未知，未填写",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-06-E1-p8.png",
+              "source_text": "Wheat,\noats and potatoes are perhaps the·most satisfactory arable crops ;\nswedes and turnips are apt to suffer from ‘ finger and toe ′ disease,\nunless liming is liberal.f\nTheCoalMeasures arebetterwooded\nthan the Milistone Grits, oak and elm being prevalent instead of\nbirch,and the fields are often divided by hedgerows, in contrast\nwith thie dry stone walls of the Grits.On the latter the older\nbuildings are of local gritstone, roofed with the more fissile fag-"
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-07",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看扫描原页14GENERAL STRATIGRAPHY：南部Sheet的Shale Grit厚450—550 feet，保留英尺。",
+          "actual_answer": "The Shale Grit in the southern part of the Sheet is 450 to 550 feet thick. [E1]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:5",
+          "trace_id": "ea463ca0-e734-4506-bcfe-34fa314a721c",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "ohr-textbook-geology",
+              "page": 14,
+              "bbox": [
+                59.0,
+                271.5,
+                375.0,
+                381.0
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [],
+              "section_review": "证据不足：章节未知，未填写",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-07-E1-p14.png",
+              "source_text": "GENERAL STRATIGRAPHY\nThe Shale Grit forms a wide spread on the moors in the\nsouthern part of the Sheet, where it is 450 to 550 feet'thick.It is\nalso cxposed in the valleys of the Etherow and Tame. In the\nsouth it consists of grits and sandstones with frcquent thin sandy\nshale beds and less frequent thicker shale beds; in Longdendale\nthe exposed part of the series consists of thicker and more massivc\ngrits, but theexposures in the Tame valley show the beds to be more\nlike those in the south."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-08",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看扫描原页8TABLE OF FORMATIONS正文：四颜色对应Rough Rock/Middle/Kinderscout/Shale四组，未用后续地层表替代。",
+          "actual_answer": "The four main groups distinguished by colour on the map are the Rough Rock Series, the Middle Grits, the Kinderscout Grits and the Shale Grit. [E1]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:6",
+          "trace_id": "8ed7a016-fa06-40b6-80bc-3026a4de9098",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "bbox": [
+                54.0,
+                322.0,
+                370.0,
+                467.5
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [],
+              "section_review": "证据不足：章节未知，未填写",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-08-E1-p8.png",
+              "source_text": "In the Millstone Grits the shales are coloured uniformly\nthroughout, but the grits and sandstones are shown by four\ncolours for the main groups, vis., The Rough Rock Series, the\nMiddle Grits,the Kinderscout Grits and the Shale Grit.These\nagain are individually distinguished by letters.\nSUPERFICIAL FORMATIONS\nAlluvium\nRecent:-\nPeat\nlGravel\nPleistocene :-\nSand and Gravel\nBoulder Clay\nSOLID FORMATIONS\nUpper Carboniferous:\nMiddle Coal Measures :(top of division not prcsent)."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-10",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看原页65左栏Radio and Television Interference的FCC正文：Class B、Part15同段；不是右栏未授权改装信息。",
+          "actual_answer": "The equipment is classified as a Class B digital device in accordance with Part 15 of the FCC rules. [E1]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:7",
+          "trace_id": "0c974449-9deb-4d1b-a1bd-7b8c9587571a",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "bbox": [
+                39.84,
+                211.19,
+                176.2,
+                265.19
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "Radio and Television Interference"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-10-E1-p65.png",
+              "source_text": "This equipment has been tested and found to comply \nwith the limits for a Class B digital device in accordance \nwith the specifications in Part 15 of FCC rules. These \nspecifications are designed to provide reasonable \nprotection against such interference in a residential \ninstallation. However, there is no guarantee that \ninterference will not occur in a particular installation."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-11",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看原页3iMovie图文卡：collect/library与create/share movies in minutes；CropBox可见坐标框位于真实该卡。",
+          "actual_answer": "iMovie allows you to create and share movies in minutes. [E1]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:8",
+          "trace_id": "6ae9a616-176a-49c4-a97f-6da4b55427e8",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "bbox": [
+                27.04,
+                60.72,
+                103.24,
+                95.21
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "iMovie"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-11-E1-p3.png",
+              "source_text": "iMovie\nCollect all your video in \none library. Create and \nshare movies in minutes."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-12",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看原页67左栏ENERGY STAR® Compliance及完整正文：promote energy-efficient products；®混合字体不改变标题。",
+          "actual_answer": "The ENERGY STAR® program is a partnership with electronic equipment manufacturers to promote energy-efficient products, and reducing energy consumption of products saves money and helps conserve valuable resources [E1].",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:9",
+          "trace_id": "d05ab29e-bf41-4ded-9691-887daf0c7e6d",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 67,
+              "bbox": [
+                39.83,
+                199.29,
+                175.93,
+                253.29
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "ENERGY STAR® Compliance"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-12-E1-p67.png",
+              "source_text": "As an ENERGY STAR® partner, Apple has determined \nthat standard configurations of this product meet the \nENERGY STAR® guidelines for energy efficiency. The \nENERGY STAR® program is a partnership with electronic \nequipment manufacturers to promote energy-efficient \nproducts. Reducing energy consumption of products \nsaves money and helps conserve valuable resources."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-13",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看原页52完整页面：AirPort Base Station在NAT说明段。页首To use Network Diagnostics仅操作引导，后文不能继承该标题；未知章节应空。",
+          "actual_answer": "You can use an AirPort Base Station to share one IP address among multiple computers. [E1][E2]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:10",
+          "trace_id": "e6389fff-ba7d-4437-8cce-f574c4173f06",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 52,
+              "bbox": [
+                39.84,
+                170.98,
+                319.07,
+                244.98
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [],
+              "section_review": "证据不足：章节未知，未填写",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-13-E1-p52.png",
+              "source_text": "If only one IP address is provided, then you must have a router capable of sharing the \nconnection, also known as network address translation (NAT) or “IP masquerading.” \nFor setup information, check the documentation provided with your router or ask the \nperson who set up your network. You can use an AirPort Base Station to share one \nIP address among multiple computers."
+            },
+            {
+              "evidence_id": "E2",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 52,
+              "bbox": [
+                39.84,
+                170.98,
+                319.07,
+                244.98
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [],
+              "section_review": "证据不足：章节未知，未填写",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-13-E2-p52.png",
+              "source_text": "You can use an AirPort Base Station to share one \nIP address among multiple computers. For information about using an AirPort Base \nStation, check Mac Help or visit the Apple AirPort website at \nwww.apple.com/support/airport."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-15",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议有条件通过",
+          "citation_semantic_verdict": "AI建议有条件通过",
+          "source_observation": "已看原页10两栏和11左栏：五能力为leadership/culture/strategy execution/management practices/robust process improvement；ASQ/Forbes归属在页10左栏，页10右栏/页11引文只支撑列表。",
+          "actual_answer": "The five fundamental capabilities identified by ASQ and Forbes Insights are: leadership, culture, strategy execution, management practices, and robust process improvement [E2][E4].",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:11",
+          "trace_id": "b3d80787-3e50-4e93-b812-7cafe5affa92",
+          "citations": [
+            {
+              "evidence_id": "E2",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "bbox": [
+                36.0,
+                77.2,
+                279.91,
+                164.56
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [],
+              "section_review": "证据不足：章节未知，未填写",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-15-E2-p11.png",
+              "source_text": "Success boils down to five not-so-sim-\nple but fundamental capabilities—\nleadership, culture, strategy execution, \nmanagement practices, and robust pro-\ncess improvement."
+            },
+            {
+              "evidence_id": "E4",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 10,
+              "bbox": [
+                239.62,
+                244.42,
+                420.33,
+                307.52
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "ELEMENTS OF SUCCESS"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-15-E4-p10.png",
+              "source_text": "ELEMENTS OF SUCCESS\nSuccess boils down to five not-so-simple but \nfundamental capabilities—leadership, culture, \nstrategy execution, management practices, and \nrobust process improvement."
+            }
+          ],
+          "problems_and_suggestions": [
+            "五能力与原文一致，但实际所引片段未含ASQ/Forbes归属句；建议删无支持归属或引已检索的真实归属片段。窄字面门禁不保证全部被动句变体。"
+          ],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-16",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看原页11左栏RANKINGS OF QUALITY PROGRAMS：71% senior leaders world class/advanced，不能换成60% quality professional average/below。",
+          "actual_answer": "According to the research, 71% of senior leaders rate their quality programs as world class or at least advanced. [E1]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:12",
+          "trace_id": "8a900a2e-3648-4af1-98a5-e8d01d51f4d9",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "bbox": [
+                36.0,
+                556.42,
+                282.3,
+                715.52
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "RANKINGS OF QUALITY PROGRAMS"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-16-E1-p11.png",
+              "source_text": "RANKINGS OF QUALITY PROGRAMS \nAccording to the research, 71% of senior leaders rate their qual-\nity programs as world class or at least advanced. In comparison, \n60% of quality professional respondents instead rank their quality \nprogram as average or below average. This conclusion would not \nsurprise Mark Chassin, MD, president and CEO of The Joint Com-\nmission and co-author of recent analysis of why healthcare organi-\nzations have failed to break through and close the high reliability \ngap."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-18",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看原页12右栏附录E续文与页5实验上下文：AUC-ROC衡量attention distributions与final prediction关联；当前框不是左栏或Limitations。",
+          "actual_answer": "The correlation is quantified using the AUC-ROC score, denoted AUCROC_l [E3].",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:13",
+          "trace_id": "a06aaa66-0159-4f90-ad1b-aed88836a18b",
+          "citations": [
+            {
+              "evidence_id": "E3",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "bbox": [
+                306.14,
+                195.82,
+                526.22,
+                356.57
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [],
+              "section_review": "证据不足：章节未知，未填写",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-18-E3-p12.png",
+              "source_text": "tween the attention distributions on the label words\nof the target position (Al(q, p1), ..., Al(q, pC)) and\nthe model’s final prediction. We use the AUC-\nROC score to quantify this correlation. We re-\ngard (Al(q, p1), ..., Al(q, pC)) as a classifier’s pre-\ndiction for the model output label (that is, Al(q, pi)\nis equivalent to the probability of model outputting\nlabel i), and compute the AUC-ROC value of this\nprediction relative to the actual model output. We\ndenote this as AUCROCl."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-19",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "已看原页6右栏3.1.3 Results与页7Table1：明确特别SST-2/EmoC；若附加比较值必须分清shot/基线，不能无基线计算提升。",
+          "actual_answer": "The proposed anchor re-weighting method significantly enhanced ICL performance particularly on the SST-2 and EmoC datasets [E2].",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:14",
+          "trace_id": "b912d3bd-51f9-4f56-a767-ccf6dd1c3dfc",
+          "citations": [
+            {
+              "evidence_id": "E2",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "bbox": [
+                305.75,
+                427.67,
+                526.32,
+                657.92
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "3.1.3 Results"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": "eval/artifacts/d2-final/rag/location-check-v4.3/rag-19-E2-p6.png",
+              "source_text": "3.1.3\nResults\nAs Table 1 shows, the proposed anchor re-\nweighting significantly enhances ICL performance,\nparticularly on the SST-2 and EmoC datasets. Be-\nsides, adding more demonstrations for vanilla ICL\nmay not bring a stable accuracy boost due to the po-\ntential noise introduced, as discussed in Zhao et al.\n(2021). Different from vanilla ICL which utilizes\nthe extra examples to form a demonstration, we\ntrain a re-weighting vector β to modulate label an-\nchor contributions."
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-21",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "完整读取Iron Maiden本地署名改写HTML：1975/Leyton/east London，文档没有数据库排名因果信息。",
+          "actual_answer": "Iron Maiden（铁娘子乐队）于1975年在伦敦东部的 Leyton 组建。[E1]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:15",
+          "trace_id": "9f308295-98b3-421b-949f-41895f6f5731",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "artist-iron-maiden",
+              "page": null,
+              "bbox": null,
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "Iron Maiden 铁娘子乐队公开简介",
+                "公开背景"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": null,
+              "source_text": "公开背景\nIron Maiden（铁娘子乐队）是英国重金属乐队，由贝斯手及主要创作者 Steve Harris 于1975年在伦敦东部的 Leyton 组建。\n乐队是英国重金属新浪潮的重要代表。其音乐和歌词涉及历史、文学、战争、神话及科幻等题材。\n同名首张录音室专辑于1980年发行；1982年的 The Number of the Beast 是其早期重要作品。这里介绍的是公开音乐背景，不包含 Chinook 销售排名或当代巡演收入。"
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-22",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "完整读取U2本地HTML：1976/Dublin，未用创始成员名字或专辑年份代替成立时间。",
+          "actual_answer": "U2 于 1976 年在都柏林成立。[E1]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:16",
+          "trace_id": "5f048b41-faca-48d0-8f46-48b8043aaef9",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "artist-u2",
+              "page": null,
+              "bbox": null,
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "U2 乐队公开简介",
+                "公开背景"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": null,
+              "source_text": "公开背景\nU2是爱尔兰摇滚乐队，于1976年在都柏林成立。其四位核心成员为 Bono、The Edge、Adam Clayton 和 Larry Mullen Jr.。\n乐队的音乐以摇滚为基础，也探索过电子音乐等风格。人权及社会议题常出现在其创作与公共活动中。\nU2于1980年发行首张录音室专辑 Boy，1983年发行 War。这份背景简介不提供未来演出合同、客户数据或实时销售信息。"
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-24",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "实际查看Led Zeppelin原PNG及OCR：1968/London；是项目简介网页截图，不冒充维基原站页面；非PDF不填物理页。",
+          "actual_answer": "Led Zeppelin（齐柏林飞船）于1968年在伦敦成立。[E1]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:17",
+          "trace_id": "ee17636e-6545-455a-b3a7-940accbd251c",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "artist-led-zeppelin",
+              "page": null,
+              "bbox": [
+                127.0,
+                57.0,
+                1067.0,
+                832.0
+              ],
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "图像 OCR"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": null,
+              "source_text": "Led Zeppelin齐柏林飞船乐队公开简介\n公开背景\nLed Zeppelin（齐柏林飞船）是英国摇滚乐队，1968年在伦敦成立。乐队成员包括吉他手\nJimmy Page、主唱 Robert Plant、贝斯兼键盘手 John Paul Jones 和鼓手 John Bonham。\n其早期音乐扎根于蓝调摇滚与迷幻摇滚，也与硬摇滚和重金属的发展密切相关。\n首张同名专辑于1969年发行，1971年的第四张专辑收录了StairwaytoHeaven。此网页是带出\n处的简短项目改写，不是维基百科原站页面截图。\n资料来源与处理说明\n由项目根据公开百科条目改写为中文简介。用于研究检索和来源定位，不声称它是原站完整页\n面。\n百科原文作者为对应维基百科条目贡献者；本文进行了精简、中文改写与排版，按CCBY-SA4.0\n共享。未复制外部照片。\n来源\nhttps://zh.wikipedia.0rg/wiki/%E9%BD%90%E6%9F%8F%E6%9E%97%E9%A3%9E%E8%88%B9%E4%B9%90%E9%98%9F"
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-25",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "完整读取实际DOCX段落和表格：热门曲目默认购买数量SUM(invoice_line.quantity)，其它口径是明确备选，题目只问默认与表达式。",
+          "actual_answer": "曲目最受欢迎的默认口径是沿用总计划的购买数量默认，即 SUM(invoice_line.quantity) [E1][E2]。热门曲目的核心表达式为 SUM(invoice_line.quantity) [E2]。",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:18",
+          "trace_id": "44df6ef4-0692-4113-aaf3-367c59dfcf54",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "project-metric-manual",
+              "page": null,
+              "bbox": null,
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "四项指标的定义与限制",
+                "热门曲目"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": null,
+              "source_text": "热门曲目\n曲目最受欢迎沿用总计划的购买数量默认，即 SUM(invoice_line.quantity)。按销售额或按歌单收录数属于明确的备选口径，不能凭当前排名相同而互换。\n附录中的客户谁买得最多保留金额口径；没有查询对象的短语不套同一个全局默认。并列时以 track_id 升序稳定排序。D2登记口径，不提前实现 D3 完整澄清分级或口径切换。"
+            },
+            {
+              "evidence_id": "E2",
+              "doc_id": "project-metric-manual",
+              "page": null,
+              "bbox": null,
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "指标对应关系"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": null,
+              "source_text": "指标对应关系\n指标全名 | 统计粒度 | 核心表达式\n发票销售额 | 发票 | SUM(invoice.total)\n平均每张发票金额 | 发票 | AVG(invoice.total)\n期间内复购客户数 | 期间内客户 | 发票数至少2张的客户数\n热门曲目 | 期间内曲目 | SUM(invoice_line.quantity)\n机器可读规则保存在 data/rules/metric_definitions.json。口径审核与每一道评测题的 gold 人工审核分别记录，互不替代。"
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-26",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "完整读取指标DOCX：客单价主口径写全平均每张发票金额AVG(invoice.total)，不是平均每购买客户；NULL/零分母边界在手册。",
+          "actual_answer": "客单价的主口径全名为“平均每张发票金额”，对应 SQL 表达式为 AVG(invoice.total)。[E2]",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:19",
+          "trace_id": "fb0e9e54-c113-4ac8-8822-b43a902eb32d",
+          "citations": [
+            {
+              "evidence_id": "E2",
+              "doc_id": "project-metric-manual",
+              "page": null,
+              "bbox": null,
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "四项指标的定义与限制",
+                "平均每张发票金额"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": null,
+              "source_text": "平均每张发票金额\n本项目将客单价主口径写全为平均每张发票金额，表达式 AVG(invoice.total)，每张发票权重相同。\n平均每位购买客户金额另命名为 SUM(invoice.total) / COUNT(DISTINCT invoice.customer_id)，不与每张发票平均金额混用。无发票或零分母时保留 NULL。"
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-27",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "完整读取实际MD与表定义：customer.country客户所在地、invoice.billing_country账单地址，两者当前相等不允许交换含义。",
+          "actual_answer": "customer.country 表示客户所在地国家[E1]；invoice.billing_country 表示发票账单地址国家[E1]。两者是不同字段，不可直接互换[E1][E2]。",
+          "status": "SUCCEEDED",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:20",
+          "trace_id": "ec590784-83d9-465c-9257-740eda22daaa",
+          "citations": [
+            {
+              "evidence_id": "E1",
+              "doc_id": "project-chinook-dictionary",
+              "page": null,
+              "bbox": null,
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "Chinook 数据字典 中文",
+                "地区字段含义"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": null,
+              "source_text": "## 地区字段含义\ncustomer.country 表示客户所在地国家。invoice.billing_country 表示发票账单地址国家。两列在当前快照中相等，不能据此将两种业务含义混为同一口径。"
+            },
+            {
+              "evidence_id": "E2",
+              "doc_id": "project-chinook-dictionary",
+              "page": null,
+              "bbox": null,
+              "source_membership": true,
+              "physical_source_location": "AI建议通过",
+              "section_path": [
+                "Chinook 数据字典 中文",
+                "表与字段",
+                "invoice"
+              ],
+              "section_review": "AI建议通过",
+              "evidence_file": null,
+              "source_text": "### invoice\n销售发票，含客户、开票时间、账单地址及发票总额\n| 字段 | 数据类型 | 可为空 | 中文说明 |\n|---|---|---|---|\n| invoice_id | integer | 否 | 发票编号 |\n| customer_id | integer | 否 | 客户编号 |\n| invoice_date | timestamp without time zone | 否 | 开票时间，不是客户创建时间 |\n| billing_address | character varying(70) | 是 | 发票账单街道地址 |\n| billing_city | character varying(40) | 是 | 发票账单城市 |\n| billing_state | character varying(40) | 是 | 发票账单州或省，可为空 |\n| billing_country | character varying(40) | 是 | 发票账单地址国家，与 customer.country 是不同字段，不可直接互换 |"
+            }
+          ],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        },
+        {
+          "id": "rag-28",
+          "group": "RAG/dev",
+          "review_object": "reference / actual answer / citation / source location",
+          "reference_verdict": "AI建议通过",
+          "answer_verdict": "AI建议通过",
+          "citation_semantic_verdict": "AI建议通过",
+          "source_observation": "完整读取指定Iron Maiden HTML的信息边界，未见2026中国逐场票务收入；正确动作证据不足而非外部常识补数据。",
+          "actual_answer": "所选文档未提供足以直接支持此问题的证据，当前无法核实。",
+          "status": "EMPTY_RESULT",
+          "raw_evidence": "eval/artifacts/d2-final/rag/regression-v4.3/responses.jsonl:21",
+          "trace_id": "514d5058-f744-477e-9bee-29920e811248",
+          "citations": [],
+          "problems_and_suggestions": [],
+          "human_review": "pending_human_review"
+        }
+      ]
+    }
+  },
+  "module": {
+    "passed": 296,
+    "seconds": 13.85,
+    "output": "eval/artifacts/d2-final/commands/20261011T183517212748Z-d2-final-module-final.txt"
+  },
+  "ui": {
+    "status": "PASSED",
+    "cases": 5,
+    "api_probes": 2
+  },
+  "protection": {
+    "checked_at_utc": "2026-10-11T18:46:08.148519+00:00",
+    "original_file_count": 573,
+    "changed_paths": [],
+    "status": "PASS",
+    "holdout_predictions_this_stage": 0,
+    "operation": "hash only; no heldout question content"
+  },
+  "alias_policy": {
+    "approved": 54,
+    "approved_candidate": 25,
+    "pending": 2
+  },
+  "review": {
+    "user_attestation": "agreed with prior D2 AI audit conclusions",
+    "new_gold_revisions_pending": [
+      "sql-38",
+      "robust-23"
+    ],
+    "A_B_signatures_added": false,
+    "rag_current_predictions_human_signed": false
+  },
+  "final_dev_benchmark_usage_only": {
+    "api_requests": 77,
+    "llm_steps": 81,
+    "prompt_tokens": 282115,
+    "completion_tokens": 4878,
+    "total_tokens": 286993
+  },
+  "holdout_prediction_count": 0
+}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-B",
+    "eval/run_eval.py",
+    "--suite",
+    "robust",
+    "--dataset",
+    "eval/artifacts/d2-final/review/robust-dev-v1.jsonl",
+    "--draft-gold",
+    "--run-id",
+    "d2-user-audit-v1",
+    "--output",
+    "eval/artifacts/d2-final/robust/v1"
+  ],
+  "cwd": ".",
+  "started_at_utc": "20261011T175357432005Z",
+  "elapsed_seconds": 85.878,
+  "exit_code": 0,
+  "output": "eval/artifacts/d2-final/commands/20261011T175357432005Z-d2-final-robust-dev.txt"
+}

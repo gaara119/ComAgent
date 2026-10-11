@@ -20,6 +20,12 @@ def is_heading_candidate(line: str, *, require_pattern: bool = True) -> bool:
         return False
     if re.match(r"^(?:[$€£]|(?:19|20)\d{2}(?:\s|$))", line):
         return False
+    if re.match(r"^\d+[.)]?\s+(?:Follow|Click|Choose|Select|Open|Close|Press|Enter|Type|Drag|Turn|Connect|Use|Check|Install)\b", line, re.I):
+        return False
+    # A local procedure introduction names its following steps, not all
+    # independent explanatory paragraphs later on the physical page.
+    if re.match(r"^To\s+[A-Za-z][^\n]*:\s*$", line, re.I):
+        return False
     if not require_pattern:
         return True
     return bool(re.match(r"^\d+(?:\.\d+)*[.\s]+[A-Za-z\u4e00-\u9fff]", line)
@@ -126,10 +132,15 @@ def _chunk_records(pages: list[dict], max_chars: int = 500, overlap: int = 80) -
                                "bbox": bbox, "bbox_scope": "union_of_text_blocks" if bbox else None,
                                "source_blocks": [{k: b[k] for k in ("block_id", "bbox", "char_start", "char_end")}
                                                  for b in source_blocks],
+                               "ocr_confidence_min": min((b["ocr_confidence"] for b in source_blocks if "ocr_confidence" in b), default=None),
                                "page_bbox": page.get("bbox"),
                                "char_start": page.get("source_offset", 0)+start,
                                "char_end": page.get("source_offset", 0)+visible_end,
                                "source_record_id": page.get("record_id"), "parser": page.get("parser"),
+                               "coordinate_system": page.get("coordinate_system"),
+                               "location_status": "source_block_geometry" if bbox else "page_or_section_only",
+                               "section_location_status": page.get("section_location_status", "source_heading" if sections[doc_id] else "unknown"),
+                               "rotation": page.get("rotation"), "cropbox": page.get("cropbox"),
                                "warnings": page.get("warnings", []), "source_url": page.get("source_url", ""),
                                "content_hash": content_hash, "boundary_start": start_kind, "boundary_end": end_kind,
                                "incomplete_sentence_start": start_kind.startswith("forced_"),
@@ -159,6 +170,13 @@ def chunk_pages(pages: list[dict], max_chars: int = 500, overlap: int = 80) -> l
     records = []
     inherited: dict[str, list[str]] = {}
     for page in pages:
+        if "regions" in page:
+            # Parser-confirmed native block boundaries prevent a chunk from
+            # borrowing another column's geometry or section label. OCR regions
+            # retain actual rendered-line boxes and explicitly unknown headings.
+            records.extend({**{key: value for key, value in page.items() if key != "regions"},
+                            **region} for region in page["regions"] if region["text"].strip())
+            continue
         if "section_path" in page:
             records.append(page)
             inherited[page["doc_id"]] = list(page["section_path"])

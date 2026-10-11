@@ -10,7 +10,7 @@ from qa_agent.config import get_settings
 from qa_agent.rag.chunker import chunk_pages
 from qa_agent.rag.parsers import DocumentError, load_documents, parse_pdf, parse_document
 
-INDEX_VERSION = 3
+INDEX_VERSION = 4
 
 
 def _write(path: Path, data: bytes) -> None:
@@ -60,7 +60,10 @@ def build_index(manifest_path=None, index_path=None, *, settings=None) -> dict:
                 "chunks_sha256": hashlib.sha256(data).hexdigest(),
                 "parsing": {"text": "pdfplumber/PyMuPDF + RapidOCR + python-docx + BeautifulSoup + Markdown",
                             "layout": "actual physical PDF/image coordinates; section paths for other formats",
-                            "bbox_scope": "union_of_text_blocks", "coordinate_system": "PDF points; top-left origin"},
+                            "bbox_scope": "union_of_text_blocks within one source region",
+                            "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+                            "scanned_page_policy": "rendered OCR when raster covers >=80% including long hidden OCR layers",
+                            "section_policy": "same-column native typography on current page, otherwise unknown"},
                 "chunking": {"max_chars": getattr(settings, "rag_chunk_chars", 500),
                              "overlap": getattr(settings, "rag_chunk_overlap", 80), "cross_page": False, "cross_section": False,
                              "boundary_policy": "complete_sentence_or_table_line",
@@ -104,7 +107,7 @@ def load_index(index_path=None, *, settings=None, verify_sources: bool = True) -
         raw = (target / "chunks.jsonl").read_bytes()
     except (OSError, ValueError) as exc:
         raise DocumentError("文档索引尚未建立或无法读取，请运行 scripts/ingest_docs.py。", "rag_index_missing") from exc
-    if metadata.get("index_version") not in {2, INDEX_VERSION} or hashlib.sha256(raw).hexdigest() != metadata.get("chunks_sha256"):
+    if metadata.get("index_version") not in {2, 3, INDEX_VERSION} or hashlib.sha256(raw).hexdigest() != metadata.get("chunks_sha256"):
         raise DocumentError("文档索引内容不完整或已修改，请重新建索引。", "rag_index_corrupt")
     if verify_sources:
         docs = load_documents(settings.rag_manifest_path)

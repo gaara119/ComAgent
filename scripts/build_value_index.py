@@ -71,7 +71,7 @@ def load_reviewed_aliases(path: Path, values: list[ValueRecord]) -> tuple[list[V
         rows = list(csv.DictReader(stream))
     seen = set()
     for number, item in enumerate(rows, 2):
-        if item.get("review_status") != "approved" or not item.get("reviewer", "").strip():
+        if item.get("review_status") not in {"approved", "approved_candidate"} or not item.get("reviewer", "").strip():
             excluded += 1
             continue
         key = (item.get("column", ""), item.get("standard_value", ""))
@@ -84,9 +84,13 @@ def load_reviewed_aliases(path: Path, values: list[ValueRecord]) -> tuple[list[V
         seen.add(identity)
         value = standard[key]
         accepted.append(ValueRecord(value.candidate_id, value.column, value.standard_value, item["alias"],
-                                    item.get("source", "") or f"alias-row:{number}", "alias",
+                                    item.get("source", "") or f"alias-row:{number}",
+                                    "conditional_alias" if item["review_status"] == "approved_candidate" else "alias",
                                     item.get("alias_id") or f"alias-row:{number}"))
-    return accepted, {"accepted_count": len(accepted), "excluded_count": excluded, "invalid": invalid,
+    return accepted, {"accepted_count": len(accepted),
+                      "direct_count": sum(item.kind == "alias" for item in accepted),
+                      "candidate_only_count": sum(item.kind == "conditional_alias" for item in accepted),
+                      "excluded_count": excluded, "invalid": invalid,
                       "input_sha256": sha256(path.read_bytes()).hexdigest()}
 
 

@@ -49,6 +49,9 @@ def run_doc_qa(*, question: str, doc_id: str, trace_id: str, intent: IntentContr
             metadata.update(retrieved_evidence_ids=[c["evidence_id"] for c in chunks],
                             retrieved_pages=[{"doc_id": c["doc_id"], "page": c["page"], "chunk_id": c["chunk_id"],
                                               "section_path": c["section_path"], "bbox": c.get("bbox"),
+                                              "coordinate_system": c.get("coordinate_system"),
+                                              "location_status": c.get("location_status", "legacy_not_verified"),
+                                              "section_location_status": c.get("section_location_status", "legacy_not_verified"),
                                               "evidence_id": c["evidence_id"]} for c in chunks])
             step.output_summary = {**retrieval_metadata, "chunks": [
                 {k: c[k] for k in ("chunk_id", "evidence_id", "doc_id", "page", "section_path", "score")} for c in chunks]}

@@ -1,0 +1,16 @@
+{
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-B",
+    "scripts/check_d2_preflight.py",
+    "--output",
+    "eval/artifacts/d2-final/preflight-final.json",
+    "--verify-d1",
+    "eval/artifacts/d2/preflight-initial.json"
+  ],
+  "cwd": ".",
+  "started_at_utc": "20261011T182152240504Z",
+  "elapsed_seconds": 1.217,
+  "exit_code": 0,
+  "output": "eval/artifacts/d2-final/commands/20261011T182152240504Z-d2-final-protection-preflight.txt"
+}

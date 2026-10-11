@@ -216,7 +216,7 @@ def extract_mentions(question: str, index: ValueIndex) -> list[Mention]:
     if any(name.endswith((".country", ".billing_country")) for name in fields):
         for match in re.finditer(r"(?P<value>[A-Za-z][A-Za-z \-]{1,24}|[\u4e00-\u9fff]{2,18})\s*(?:的)?(?:客户|顾客|发票|账单)", question):
             raw = match.group("value")
-            text = re.sub(r"^(?:请问|麻烦|请帮我|帮我|请|查询|统计|列出|查看|看看|这个|我想知道|我想查询|来自|位于|住在)+", "", raw)
+            text = re.sub(r"^(?:你好[，,\s]*|请问|麻烦|请帮我|帮忙|帮我|查一下|查一查|请|查询|统计|列出|查看|看看|这个|我想知道|我想查询|来自|位于|住在|\s)+", "", raw)
             text = re.sub(r"(?:的|有多少|共有多少|有几位|多少|共有|全部|所有|有几张|有哪些|有)$", "", text).strip()
             if (_is_value_phrase(text) and text not in {"多少", "总共", "共有", "所有", "全部", "每个国家", "各个国家", "各国", "全部国家", "不同国家", "每个", "全部的", "统计一下", "按国家", "按账单国家", "最近一年"}
                     and not text.isdigit() and not any(word in text for word in ("按", "统计", "数量", "日期", "时间", "平均", "金额", "总计", "总数", "最多", "最少", "不同", "为空", "没有", "最早", "最后"))):
@@ -255,6 +255,7 @@ class ValueLinker:
                 "standard_value": item.standard_value, "surface": item.surface,
                 "score": round(float(score), 6), "source": item.source,
                 "evidence_ref": item.alias_id or item.candidate_id,
+                "binding_policy": "candidate_only" if item.kind == "conditional_alias" else "direct",
             }
             if len(candidates) >= limit:
                 break
@@ -275,6 +276,12 @@ class ValueLinker:
 
     @staticmethod
     def _select(result: LinkedMention, candidate: dict, method: str):
+        # Human acceptance of a candidate relationship never authorizes an
+        # automatic unique binding, including fuzzy/vector/LLM selections.
+        if candidate.get("binding_policy") == "candidate_only":
+            result.status, result.match_method = "ambiguous", method
+            result.guard_source = "reviewed_conditional_alias"
+            return
         result.status = "resolved"
         result.selected_candidate_id = candidate["candidate_id"]
         result.canonical_value = candidate["standard_value"]
