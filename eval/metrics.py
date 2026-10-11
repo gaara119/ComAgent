@@ -90,6 +90,7 @@ def compare_results(
     monetary_columns: Iterable[int | str] = (), numeric_columns: Iterable[int | str] = (),
     temporal_columns: Iterable[int | str] = (), expected_columns: Sequence[str] | None = None,
     actual_columns: Sequence[str] | None = None,
+    round_numeric_columns: Iterable[int | str] = (),
 ) -> ComparisonResult:
     """Compare rows under a global column permutation, preserving multiplicity.
 
@@ -108,7 +109,9 @@ def compare_results(
         if len(names) != len(actual_names):
             return ComparisonResult(False, "column_count_mismatch")
         width = len(names)
-        money = _indices(monetary_columns, names)
+        # D2 applies the plan's two-decimal comparison to continuous quantities.
+        # Explicit integer/count/key columns stay exact; D1 defaults are retained.
+        money = _indices(monetary_columns, names) | _indices(round_numeric_columns, names)
         numeric = _indices(numeric_columns, names) | money
         temporal = _indices(temporal_columns, names)
         for index in range(width):

@@ -1,0 +1,532 @@
+{
+  "started_at_utc": "2026-10-10T18:10:44.123153+00:00",
+  "finished_at_utc": "2026-10-10T18:10:50.940981+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "eval-20261010T180931257567Z-robust-21",
+    "message": "咱们客户表一共有几个人？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "fdb6cf76-668d-4ab4-a305-fbe07c84be49",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：59。",
+    "rewritten_question": null,
+    "sql": "SELECT COUNT(*) AS customer_count FROM \"public\".\"customer\"",
+    "table": [
+      {
+        "customer_count": 59
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11
+        },
+        "latency_ms": 24
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 3136
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "咱们"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_pinyin",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "咱们"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_fuzzy",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "咱们"
+        },
+        "output_summary": {
+          "candidate_count": 5,
+          "candidate_ids": [
+            "v-8573965124706adb0e81",
+            "v-08ebc61e3f77af84be3d",
+            "v-da88488f064b80132b62",
+            "v-b6a5b6e524f2de9c3088",
+            "v-95ff10c443473368bada"
+          ],
+          "scores": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_vector",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "咱们"
+        },
+        "output_summary": {
+          "candidate_count": 5,
+          "candidate_ids": [
+            "v-5d60ecf4270e9f86054a",
+            "v-dd6e56a2d90b730fa247",
+            "v-ab0ca67796ef4a666592",
+            "v-5d7a3cd6809395578682",
+            "v-ec3f5c892a21c72c35e1"
+          ],
+          "scores": [
+            0.389824,
+            0.372674,
+            0.361434,
+            0.353192,
+            0.347935
+          ]
+        },
+        "latency_ms": 13
+      },
+      {
+        "name": "value_link_llm",
+        "status": "ok",
+        "input_summary": {
+          "mention_count": 1
+        },
+        "output_summary": {
+          "resolved_count": 0,
+          "ambiguous_count": 0
+        },
+        "latency_ms": 3120
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 29,
+            "prompt_tokens": 1915,
+            "total_tokens": 1944,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 256
+            },
+            "prompt_cache_hit_tokens": 256,
+            "prompt_cache_miss_tokens": 1659
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1643
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "咱们客户表一共有几个人？"
+        },
+        "output_summary": {
+          "rewritten_question": "咱们客户表一共有几个人？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "咱们客户表一共有几个人？",
+          "repair_attempt": 0
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) AS customer_count FROM \"public\".\"customer\"",
+          "explanation": "统计 customer 表中的客户记录总数。"
+        },
+        "latency_ms": 3636
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 41,
+            "prompt_tokens": 4271,
+            "total_tokens": 4312,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4096
+            },
+            "prompt_cache_hit_tokens": 4096,
+            "prompt_cache_miss_tokens": 175
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2114
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS customer_count FROM \"public\".\"customer\""
+        },
+        "output_summary": {
+          "tables": [
+            "customer"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) AS customer_count FROM \"public\".\"customer\""
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS customer_count FROM \"public\".\"customer\"",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "customer_count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 18
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "result_columns": [
+        "customer_count"
+      ],
+      "truncated": false,
+      "latency_ms": 6816,
+      "nlu": {
+        "original_question": "咱们客户表一共有几个人？",
+        "rewritten_question": "咱们客户表一共有几个人？",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "咱们",
+            "span": [
+              0,
+              2
+            ],
+            "status": "unmatched",
+            "field_candidates": [
+              "customer.country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-8573965124706adb0e81",
+                "column": "customer.country",
+                "standard_value": "Argentina",
+                "surface": "Argentina",
+                "score": 0.0,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-8573965124706adb0e81",
+                "stage_scores": {
+                  "fuzzy": 0.0
+                }
+              },
+              {
+                "candidate_id": "v-08ebc61e3f77af84be3d",
+                "column": "customer.country",
+                "standard_value": "Australia",
+                "surface": "Australia",
+                "score": 0.0,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-08ebc61e3f77af84be3d",
+                "stage_scores": {
+                  "fuzzy": 0.0
+                }
+              },
+              {
+                "candidate_id": "v-da88488f064b80132b62",
+                "column": "customer.country",
+                "standard_value": "Austria",
+                "surface": "Austria",
+                "score": 0.0,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-da88488f064b80132b62",
+                "stage_scores": {
+                  "fuzzy": 0.0
+                }
+              },
+              {
+                "candidate_id": "v-b6a5b6e524f2de9c3088",
+                "column": "customer.country",
+                "standard_value": "Belgium",
+                "surface": "Belgium",
+                "score": 0.0,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-b6a5b6e524f2de9c3088",
+                "stage_scores": {
+                  "fuzzy": 0.0
+                }
+              },
+              {
+                "candidate_id": "v-95ff10c443473368bada",
+                "column": "customer.country",
+                "standard_value": "Brazil",
+                "surface": "Brazil",
+                "score": 0.0,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-95ff10c443473368bada",
+                "stage_scores": {
+                  "fuzzy": 0.0
+                }
+              }
+            ],
+            "selected_candidate_id": null,
+            "match_method": "llm",
+            "evidence_ref": null,
+            "canonical_value": null,
+            "column": null,
+            "stages": [
+              {
+                "method": "exact",
+                "candidates": []
+              },
+              {
+                "method": "pinyin",
+                "candidates": []
+              },
+              {
+                "method": "fuzzy",
+                "candidates": [
+                  {
+                    "candidate_id": "v-8573965124706adb0e81",
+                    "column": "customer.country",
+                    "standard_value": "Argentina",
+                    "surface": "Argentina",
+                    "score": 0.0,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-8573965124706adb0e81"
+                  },
+                  {
+                    "candidate_id": "v-08ebc61e3f77af84be3d",
+                    "column": "customer.country",
+                    "standard_value": "Australia",
+                    "surface": "Australia",
+                    "score": 0.0,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-08ebc61e3f77af84be3d"
+                  },
+                  {
+                    "candidate_id": "v-da88488f064b80132b62",
+                    "column": "customer.country",
+                    "standard_value": "Austria",
+                    "surface": "Austria",
+                    "score": 0.0,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-da88488f064b80132b62"
+                  },
+                  {
+                    "candidate_id": "v-b6a5b6e524f2de9c3088",
+                    "column": "customer.country",
+                    "standard_value": "Belgium",
+                    "surface": "Belgium",
+                    "score": 0.0,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-b6a5b6e524f2de9c3088"
+                  },
+                  {
+                    "candidate_id": "v-95ff10c443473368bada",
+                    "column": "customer.country",
+                    "standard_value": "Brazil",
+                    "surface": "Brazil",
+                    "score": 0.0,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-95ff10c443473368bada"
+                  }
+                ]
+              },
+              {
+                "method": "vector",
+                "candidates": [
+                  {
+                    "candidate_id": "v-5d60ecf4270e9f86054a",
+                    "column": "customer.country",
+                    "standard_value": "USA",
+                    "surface": "USA",
+                    "score": 0.389824,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-5d60ecf4270e9f86054a"
+                  },
+                  {
+                    "candidate_id": "v-dd6e56a2d90b730fa247",
+                    "column": "customer.country",
+                    "standard_value": "Norway",
+                    "surface": "Norway",
+                    "score": 0.372674,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-dd6e56a2d90b730fa247"
+                  },
+                  {
+                    "candidate_id": "v-ab0ca67796ef4a666592",
+                    "column": "customer.country",
+                    "standard_value": "United Kingdom",
+                    "surface": "United Kingdom",
+                    "score": 0.361434,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-ab0ca67796ef4a666592"
+                  },
+                  {
+                    "candidate_id": "v-5d7a3cd6809395578682",
+                    "column": "customer.country",
+                    "standard_value": "Germany",
+                    "surface": "Germany",
+                    "score": 0.353192,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-5d7a3cd6809395578682"
+                  },
+                  {
+                    "candidate_id": "v-ec3f5c892a21c72c35e1",
+                    "column": "customer.country",
+                    "standard_value": "Italy",
+                    "surface": "Italy",
+                    "score": 0.347935,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-ec3f5c892a21c72c35e1"
+                  }
+                ]
+              },
+              {
+                "method": "llm",
+                "status": "unmatched",
+                "selected_candidate_id": null
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

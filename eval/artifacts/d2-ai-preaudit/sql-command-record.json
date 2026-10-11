@@ -1,0 +1,37 @@
+{
+  "purpose": "Only re-execute existing DEV gold/actual SELECT statements and supplement audit evidence; never request new system predictions",
+  "workdir": "E:\\中国电子杯-赛题八\\system",
+  "shell": "PowerShell 7.6",
+  "command": ".\\.venv\\Scripts\\python.exe -B eval/artifacts/d2-ai-preaudit/verify_sql.py",
+  "argv": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-B",
+    "eval/artifacts/d2-ai-preaudit/verify_sql.py"
+  ],
+  "sandbox_permissions": "require_escalated",
+  "reason": "Sandbox local socket restricted; local configured qa_reader SELECT only",
+  "exit_code": 0,
+  "started_at_utc": "2026-10-11T03:24:37.426241+00:00",
+  "finished_at_utc": "2026-10-11T03:24:37.586670+00:00",
+  "statement_configuration": [
+    "SET TRANSACTION READ ONLY",
+    "SET LOCAL statement_timeout = '5000ms'",
+    "rollback after all SELECT evidence"
+  ],
+  "identity": {
+    "role": "qa_reader",
+    "transaction_read_only": "on",
+    "statement_timeout": "5s"
+  },
+  "select_count": 130,
+  "expected_gold_actual_select_count": 112,
+  "metric_sql_select_count": 6,
+  "supplemental_select_count": 11,
+  "identity_select_count": 1,
+  "output_files": [
+    "eval/artifacts/d2-ai-preaudit/sql-verification.jsonl",
+    "eval/artifacts/d2-ai-preaudit/sql-verification-summary.json"
+  ],
+  "script_sha256": "563d68deef64cd2b83c569a4e7911317de0c33a951f12e66c531da45a4bf36b3",
+  "report_command": ".\\.venv\\Scripts\\python.exe -B eval/artifacts/d2-ai-preaudit/build_sql_review.py"
+}

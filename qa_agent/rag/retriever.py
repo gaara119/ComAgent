@@ -45,11 +45,19 @@ def retrieve(question: str, doc_id: str, *, settings=None, query: str | None = N
     query_tokens = tokenize(query or question)
     lexical_scores = BM25Okapi(corpus, epsilon=0.25).get_scores(query_tokens)
     lexical_order = sorted(range(len(selected)), key=lambda i: (-float(lexical_scores[i]), selected[i][1]["chunk_id"]))
-    lexical_order = [i for i in lexical_order if float(lexical_scores[i]) > 0]
-    ranking = {i: 1 / (60 + rank) for rank, i in enumerate(lexical_order, 1)}
+    # BM25Okapi can produce zero/negative scores for a term appearing in every
+    # passage. Such a term still matches; only true token-disjoint passages
+    # are excluded, rather than silently dropping the whole lexical channel.
+    query_set = set(query_tokens)
+    lexical_order = [i for i in lexical_order if query_set.intersection(corpus[i])]
+    candidate_k = getattr(settings, "rag_candidate_k", 20)
+    rrf_k = getattr(settings, "rag_rrf_k", 60)
+    lexical_order = lexical_order[:candidate_k]
+    ranking = {i: 1 / (rrf_k + rank) for rank, i in enumerate(lexical_order, 1)}
     dense_scores = None
     dense_config = metadata.get("dense_embedding", {})
     method = "bm25"
+    dense_order = []
     if dense_config.get("enabled"):
         import numpy as np
         from qa_agent.rag.embeddings import get_embedder
@@ -65,7 +73,7 @@ def retrieve(question: str, doc_id: str, *, settings=None, query: str | None = N
             if key in dense_config and active_meta.get(key) != dense_config[key]:
                 raise DocumentError("当前 dense 模型与建索引时不同，请重新建索引。", "embedding_model_mismatch")
         all_vectors = np.load(path, allow_pickle=False)
-        q = np.asarray(embedder.encode([question]), dtype=np.float32)
+        q = np.asarray(embedder.encode([query or question]), dtype=np.float32)
         if all_vectors.ndim != 2 or all_vectors.shape[0] != len(chunks) or q.shape != (1, all_vectors.shape[1]):
             raise DocumentError("dense 向量维度与 chunk 不匹配。", "embedding_invalid")
         vectors = all_vectors[[i for i, _ in selected]]
@@ -73,11 +81,12 @@ def retrieve(question: str, doc_id: str, *, settings=None, query: str | None = N
         dense_scores = (vectors @ q[0]) / denominator
         if not np.isfinite(dense_scores).all():
             raise DocumentError("dense 相似度出现非有限值。", "embedding_invalid")
-        dense_order = sorted(range(len(selected)), key=lambda i: (-float(dense_scores[i]), selected[i][1]["chunk_id"]))
+        dense_order = sorted(range(len(selected)), key=lambda i: (-float(dense_scores[i]), selected[i][1]["chunk_id"]))[:candidate_k]
         for rank, i in enumerate(dense_order, 1):
-            ranking[i] = ranking.get(i, 0) + 1 / (60 + rank)
+            ranking[i] = ranking.get(i, 0) + 1 / (rrf_k + rank)
         method = "bm25+bge-m3_dense_rrf"
-    ordered = sorted(ranking, key=lambda i: (-ranking[i], selected[i][1]["chunk_id"]))[:settings.rag_top_k]
+    fused_order = sorted(ranking, key=lambda i: (-ranking[i], selected[i][1]["chunk_id"]))
+    ordered = fused_order[:settings.rag_top_k]
     results = []
     for position, i in enumerate(ordered, 1):
         item = dict(selected[i][1])
@@ -86,7 +95,16 @@ def retrieve(question: str, doc_id: str, *, settings=None, query: str | None = N
         if dense_scores is not None:
             item["dense_score"] = round(float(dense_scores[i]), 6)
         results.append(item)
+    def ranking_records(order, scores):
+        return [{"rank": rank, "chunk_id": selected[i][1]["chunk_id"], "doc_id": selected[i][1]["doc_id"],
+                 "page": selected[i][1]["page"], "section_path": selected[i][1]["section_path"],
+                 "score": round(float(scores[i]), 8)} for rank, i in enumerate(order, 1)]
     return results, {"retrieval_method": method, "candidate_count": len(selected), "top_k": settings.rag_top_k,
+                     "candidate_k_per_channel": candidate_k, "rrf_k": rrf_k, "rank_starts_at": 1,
+                     "rankings": {"bm25": ranking_records(lexical_order, lexical_scores),
+                                  "dense": ranking_records(dense_order, dense_scores) if dense_scores is not None else [],
+                                  "rrf": ranking_records(fused_order, ranking)},
+                     "hit_at_5_scope": [selected[i][1]["chunk_id"] for i in fused_order[:5]],
                      "retrieved_count": len(results), "index_created_at": metadata["created_at"],
                      "index_chunks_sha256": metadata["chunks_sha256"],
                      "query": query or question, "dense_enabled": dense_scores is not None}

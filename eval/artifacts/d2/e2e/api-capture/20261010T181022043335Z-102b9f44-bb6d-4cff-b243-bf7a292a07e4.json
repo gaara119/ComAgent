@@ -1,0 +1,617 @@
+{
+  "started_at_utc": "2026-10-10T18:10:15.243003+00:00",
+  "finished_at_utc": "2026-10-10T18:10:22.043335+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "eval-20261010T180931257567Z-robust-12",
+    "message": "客户所在国家为 yi da li 的客户有多少位？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "7b432a80-e7dc-44d2-a2de-f301492e85fc",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：1。",
+    "rewritten_question": "客户所在国家为 Italy 的客户有多少位？",
+    "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Italy'",
+    "table": [
+      {
+        "count": 1
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "Italy",
+          "mention_id": "mention-1",
+          "method": "llm",
+          "evidence_ref": "v-ec3f5c892a21c72c35e1",
+          "source": "verified_value_index"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11
+        },
+        "latency_ms": 27
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [
+            {
+              "column": "customer.country",
+              "operator": "=",
+              "value": "Italy",
+              "mention_id": "mention-1",
+              "method": "llm",
+              "evidence_ref": "v-ec3f5c892a21c72c35e1",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 3078
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "yi da li"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_pinyin",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "yi da li"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_fuzzy",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "yi da li"
+        },
+        "output_summary": {
+          "candidate_count": 5,
+          "candidate_ids": [
+            "v-ab913411df755fcf0331",
+            "v-ec3f5c892a21c72c35e1",
+            "v-ab0ca67796ef4a666592",
+            "v-08ebc61e3f77af84be3d",
+            "v-02499e1738e7e7c4d635"
+          ],
+          "scores": [
+            0.461538,
+            0.461538,
+            0.363636,
+            0.352941,
+            0.307692
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_vector",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "yi da li"
+        },
+        "output_summary": {
+          "candidate_count": 5,
+          "candidate_ids": [
+            "v-5d60ecf4270e9f86054a",
+            "v-ab0ca67796ef4a666592",
+            "v-ec3f5c892a21c72c35e1",
+            "v-ab913411df755fcf0331",
+            "v-5d7a3cd6809395578682"
+          ],
+          "scores": [
+            0.47674,
+            0.444047,
+            0.443706,
+            0.42897,
+            0.403764
+          ]
+        },
+        "latency_ms": 18
+      },
+      {
+        "name": "value_link_llm",
+        "status": "ok",
+        "input_summary": {
+          "mention_count": 1
+        },
+        "output_summary": {
+          "resolved_count": 1,
+          "ambiguous_count": 0
+        },
+        "latency_ms": 3057
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 40,
+            "prompt_tokens": 2197,
+            "total_tokens": 2237,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 0
+            },
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 2197
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1717
+      },
+      {
+        "name": "rewrite",
+        "status": "ok",
+        "input_summary": {
+          "original_question": "客户所在国家为 yi da li 的客户有多少位？"
+        },
+        "output_summary": {
+          "rewritten_question": "客户所在国家为 Italy 的客户有多少位？",
+          "patches": [
+            {
+              "start": 8,
+              "end": 16,
+              "original": "yi da li",
+              "replacement": "Italy",
+              "method": "llm",
+              "evidence_ref": "v-ec3f5c892a21c72c35e1"
+            }
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "客户所在国家为 Italy 的客户有多少位？",
+          "repair_attempt": 0
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Italy'",
+          "explanation": "统计所在国家为 Italy 的客户数量。"
+        },
+        "latency_ms": 3664
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 51,
+            "prompt_tokens": 4419,
+            "total_tokens": 4470,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4224
+            },
+            "prompt_cache_hit_tokens": 4224,
+            "prompt_cache_miss_tokens": 195
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2021
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Italy'"
+        },
+        "output_summary": {
+          "tables": [
+            "customer"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Italy'"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "customer.country",
+              "operator": "=",
+              "value": "Italy",
+              "mention_id": "mention-1",
+              "method": "llm",
+              "evidence_ref": "v-ec3f5c892a21c72c35e1",
+              "source": "verified_value_index"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = %(qa_value_0)s",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 27
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "result_columns": [
+        "count"
+      ],
+      "truncated": false,
+      "latency_ms": 6798,
+      "nlu": {
+        "original_question": "客户所在国家为 yi da li 的客户有多少位？",
+        "rewritten_question": "客户所在国家为 Italy 的客户有多少位？",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "yi da li",
+            "span": [
+              8,
+              16
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "customer.country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-5d60ecf4270e9f86054a",
+                "column": "customer.country",
+                "standard_value": "USA",
+                "surface": "USA",
+                "score": 0.47674,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-5d60ecf4270e9f86054a",
+                "stage_scores": {
+                  "vector": 0.47674
+                }
+              },
+              {
+                "candidate_id": "v-ab0ca67796ef4a666592",
+                "column": "customer.country",
+                "standard_value": "United Kingdom",
+                "surface": "United Kingdom",
+                "score": 0.444047,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-ab0ca67796ef4a666592",
+                "stage_scores": {
+                  "vector": 0.444047,
+                  "fuzzy": 0.363636
+                }
+              },
+              {
+                "candidate_id": "v-ec3f5c892a21c72c35e1",
+                "column": "customer.country",
+                "standard_value": "Italy",
+                "surface": "Italy",
+                "score": 0.443706,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-ec3f5c892a21c72c35e1",
+                "stage_scores": {
+                  "vector": 0.443706,
+                  "fuzzy": 0.461538
+                }
+              },
+              {
+                "candidate_id": "v-ab913411df755fcf0331",
+                "column": "customer.country",
+                "standard_value": "India",
+                "surface": "India",
+                "score": 0.42897,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-ab913411df755fcf0331",
+                "stage_scores": {
+                  "vector": 0.42897,
+                  "fuzzy": 0.461538
+                }
+              },
+              {
+                "candidate_id": "v-5d7a3cd6809395578682",
+                "column": "customer.country",
+                "standard_value": "Germany",
+                "surface": "Germany",
+                "score": 0.403764,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-5d7a3cd6809395578682",
+                "stage_scores": {
+                  "vector": 0.403764
+                }
+              },
+              {
+                "candidate_id": "v-08ebc61e3f77af84be3d",
+                "column": "customer.country",
+                "standard_value": "Australia",
+                "surface": "Australia",
+                "score": 0.352941,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-08ebc61e3f77af84be3d",
+                "stage_scores": {
+                  "fuzzy": 0.352941
+                }
+              },
+              {
+                "candidate_id": "v-02499e1738e7e7c4d635",
+                "column": "customer.country",
+                "standard_value": "Chile",
+                "surface": "Chile",
+                "score": 0.307692,
+                "source": "catalog:customer.country",
+                "evidence_ref": "v-02499e1738e7e7c4d635",
+                "stage_scores": {
+                  "fuzzy": 0.307692
+                }
+              }
+            ],
+            "selected_candidate_id": "v-ec3f5c892a21c72c35e1",
+            "match_method": "llm",
+            "evidence_ref": "v-ec3f5c892a21c72c35e1",
+            "canonical_value": "Italy",
+            "column": "customer.country",
+            "stages": [
+              {
+                "method": "exact",
+                "candidates": []
+              },
+              {
+                "method": "pinyin",
+                "candidates": []
+              },
+              {
+                "method": "fuzzy",
+                "candidates": [
+                  {
+                    "candidate_id": "v-ab913411df755fcf0331",
+                    "column": "customer.country",
+                    "standard_value": "India",
+                    "surface": "India",
+                    "score": 0.461538,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-ab913411df755fcf0331"
+                  },
+                  {
+                    "candidate_id": "v-ec3f5c892a21c72c35e1",
+                    "column": "customer.country",
+                    "standard_value": "Italy",
+                    "surface": "Italy",
+                    "score": 0.461538,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-ec3f5c892a21c72c35e1"
+                  },
+                  {
+                    "candidate_id": "v-ab0ca67796ef4a666592",
+                    "column": "customer.country",
+                    "standard_value": "United Kingdom",
+                    "surface": "United Kingdom",
+                    "score": 0.363636,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-ab0ca67796ef4a666592"
+                  },
+                  {
+                    "candidate_id": "v-08ebc61e3f77af84be3d",
+                    "column": "customer.country",
+                    "standard_value": "Australia",
+                    "surface": "Australia",
+                    "score": 0.352941,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-08ebc61e3f77af84be3d"
+                  },
+                  {
+                    "candidate_id": "v-02499e1738e7e7c4d635",
+                    "column": "customer.country",
+                    "standard_value": "Chile",
+                    "surface": "Chile",
+                    "score": 0.307692,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-02499e1738e7e7c4d635"
+                  }
+                ]
+              },
+              {
+                "method": "vector",
+                "candidates": [
+                  {
+                    "candidate_id": "v-5d60ecf4270e9f86054a",
+                    "column": "customer.country",
+                    "standard_value": "USA",
+                    "surface": "USA",
+                    "score": 0.47674,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-5d60ecf4270e9f86054a"
+                  },
+                  {
+                    "candidate_id": "v-ab0ca67796ef4a666592",
+                    "column": "customer.country",
+                    "standard_value": "United Kingdom",
+                    "surface": "United Kingdom",
+                    "score": 0.444047,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-ab0ca67796ef4a666592"
+                  },
+                  {
+                    "candidate_id": "v-ec3f5c892a21c72c35e1",
+                    "column": "customer.country",
+                    "standard_value": "Italy",
+                    "surface": "Italy",
+                    "score": 0.443706,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-ec3f5c892a21c72c35e1"
+                  },
+                  {
+                    "candidate_id": "v-ab913411df755fcf0331",
+                    "column": "customer.country",
+                    "standard_value": "India",
+                    "surface": "India",
+                    "score": 0.42897,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-ab913411df755fcf0331"
+                  },
+                  {
+                    "candidate_id": "v-5d7a3cd6809395578682",
+                    "column": "customer.country",
+                    "standard_value": "Germany",
+                    "surface": "Germany",
+                    "score": 0.403764,
+                    "source": "catalog:customer.country",
+                    "evidence_ref": "v-5d7a3cd6809395578682"
+                  }
+                ]
+              },
+              {
+                "method": "llm",
+                "status": "resolved",
+                "selected_candidate_id": "v-ec3f5c892a21c72c35e1"
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Italy",
+            "mention_id": "mention-1",
+            "method": "llm",
+            "evidence_ref": "v-ec3f5c892a21c72c35e1",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [
+          {
+            "start": 8,
+            "end": 16,
+            "original": "yi da li",
+            "replacement": "Italy",
+            "method": "llm",
+            "evidence_ref": "v-ec3f5c892a21c72c35e1"
+          }
+        ],
+        "index_status": "ready"
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

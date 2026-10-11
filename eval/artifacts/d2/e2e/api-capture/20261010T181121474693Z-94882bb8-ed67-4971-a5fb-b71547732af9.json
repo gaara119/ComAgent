@@ -1,0 +1,234 @@
+{
+  "started_at_utc": "2026-10-10T18:11:18.468555+00:00",
+  "finished_at_utc": "2026-10-10T18:11:21.474693+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "eval-20261010T180931256567Z-sql-38",
+    "message": "找出文件字节数最大的 3 首曲目，返回编号、名称和字节数；按字节数降序，并列按曲目编号升序。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "1e6d1383-7e83-4997-a6e3-045501bbd398",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 3 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT \"track_id\", \"name\", \"bytes\" FROM \"public\".\"track\" ORDER BY \"bytes\" DESC, \"track_id\" ASC LIMIT 3",
+    "table": [
+      {
+        "track_id": 3224,
+        "name": "Through a Looking Glass",
+        "bytes": 1059546140
+      },
+      {
+        "track_id": 2820,
+        "name": "Occupation / Precipice",
+        "bytes": 1054423946
+      },
+      {
+        "track_id": 3236,
+        "name": "The Young Lords",
+        "bytes": 587051735
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11
+        },
+        "latency_ms": 19
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "找出文件字节数最大的 3 首曲目，返回编号、名称和字节数；按字节数降序，并列按曲目编号升序。"
+        },
+        "output_summary": {
+          "rewritten_question": "找出文件字节数最大的 3 首曲目，返回编号、名称和字节数；按字节数降序，并列按曲目编号升序。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "找出文件字节数最大的 3 首曲目，返回编号、名称和字节数；按字节数降序，并列按曲目编号升序。",
+          "repair_attempt": 0
+        },
+        "output_summary": {
+          "sql": "SELECT \"track_id\", \"name\", \"bytes\" FROM \"public\".\"track\" ORDER BY \"bytes\" DESC, \"track_id\" ASC LIMIT 3",
+          "explanation": "查询文件字节数最大的 3 首曲目，返回曲目编号、名称和字节数，按字节数降序、曲目编号升序排列。"
+        },
+        "latency_ms": 2970
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 92,
+            "prompt_tokens": 4299,
+            "total_tokens": 4391,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4096
+            },
+            "prompt_cache_hit_tokens": 4096,
+            "prompt_cache_miss_tokens": 203
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2032
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"track_id\", \"name\", \"bytes\" FROM \"public\".\"track\" ORDER BY \"bytes\" DESC, \"track_id\" ASC LIMIT 3"
+        },
+        "output_summary": {
+          "tables": [
+            "track"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT \"track_id\", \"name\", \"bytes\" FROM \"public\".\"track\" ORDER BY \"bytes\" DESC, \"track_id\" ASC LIMIT 3"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"track_id\", \"name\", \"bytes\" FROM \"public\".\"track\" ORDER BY \"bytes\" DESC, \"track_id\" ASC LIMIT 3",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 3,
+          "columns": [
+            "track_id",
+            "name",
+            "bytes"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 13
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "result_columns": [
+        "track_id",
+        "name",
+        "bytes"
+      ],
+      "truncated": false,
+      "latency_ms": 3005,
+      "nlu": {
+        "original_question": "找出文件字节数最大的 3 首曲目，返回编号、名称和字节数；按字节数降序，并列按曲目编号升序。",
+        "rewritten_question": "找出文件字节数最大的 3 首曲目，返回编号、名称和字节数；按字节数降序，并列按曲目编号升序。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

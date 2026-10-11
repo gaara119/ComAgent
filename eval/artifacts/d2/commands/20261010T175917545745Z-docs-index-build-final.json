@@ -1,0 +1,17 @@
+{
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "scripts\\ingest_docs.py",
+    "--manifest",
+    "data/docs/manifest.csv",
+    "--output-dir",
+    "data/indexes/docs-final",
+    "--audit-output",
+    "eval/artifacts/d2/docs-audit-final.json"
+  ],
+  "cwd": ".",
+  "started_at_utc": "20261010T175917545745Z",
+  "elapsed_seconds": 230.956,
+  "exit_code": 0,
+  "output": "eval/artifacts/d2/commands/20261010T175917545745Z-docs-index-build-final.txt"
+}

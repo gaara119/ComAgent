@@ -1,0 +1,1933 @@
+{
+  "started_at_utc": "2026-10-10T18:10:05.333757+00:00",
+  "finished_at_utc": "2026-10-10T18:10:08.772373+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d2-rag-d2-rag-final-rag-12",
+    "message": "What is the primary goal of the ENERGY STAR program in which Apple participates?",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "ohr-manual-macbook-air"
+      ]
+    }
+  },
+  "response": {
+    "trace_id": "d0caa4bc-b2e4-4061-9e97-a6ce13e664c0",
+    "status": "SUCCEEDED",
+    "answer": "The ENERGY STAR program is a partnership with electronic equipment manufacturers to promote energy-efficient products; reducing energy consumption of products saves money and helps conserve valuable resources [E1]. As an ENERGY STAR partner, Apple has determined that standard configurations of this product meet the ENERGY STAR guidelines for energy efficiency [E2].",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [
+      {
+        "evidence_id": "E1",
+        "doc_id": "ohr-manual-macbook-air",
+        "doc_title": "MacBook Air User Guide (archival edition)",
+        "page": 67,
+        "section_path": [
+          "Regulatory Compliance Information"
+        ],
+        "text": "The\nENERGY STAR® program is a partnership with electronic\nequipment manufacturers to promote energy-efficient\nproducts. Reducing energy consumption of products\nsaves money and helps conserve valuable resources.\nThis computer is shipped with power management\nenabled with the computer set to sleep after 10 minutes\nof user inactivity. To wake your computer, click the\nmouse or trackpad button or press any key on the\nkeyboard.\nFor more information about ENERGY STAR®, visit:\nwww.energystar.gov\n67",
+        "bbox": [
+          39.83,
+          199.29,
+          335.98,
+          337.25
+        ]
+      },
+      {
+        "evidence_id": "E2",
+        "doc_id": "ohr-manual-macbook-air",
+        "doc_title": "MacBook Air User Guide (archival edition)",
+        "page": 67,
+        "section_path": [
+          "Regulatory Compliance Information"
+        ],
+        "text": "VCCI Class B Statement\nExternal USB Modem Information\nWhen connecting your MacBook Air to the phone line\nusing an external USB modem, refer to the\ntelecommunications agency information in the\ndocumentation that came with your modem.\nENERGY STAR® Compliance\nAs an ENERGY STAR® partner, Apple has determined\nthat standard configurations of this product meet the\nENERGY STAR® guidelines for energy efficiency.",
+        "bbox": [
+          39.83,
+          29.09,
+          175.93,
+          253.29
+        ]
+      }
+    ],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-manual-macbook-air"
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "evidence_count": 2
+        },
+        "latency_ms": 3437
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-manual-macbook-air"
+        },
+        "output_summary": {
+          "doc_id": "ohr-manual-macbook-air",
+          "title": "MacBook Air User Guide (archival edition)",
+          "content_hash": "d99de99131b4d8a5471d3e3d96befaa1e6152560d12a93f854c5dd95e54225aa"
+        },
+        "latency_ms": 11
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-manual-macbook-air",
+          "question": "What is the primary goal of the ENERGY STAR program in which Apple participates?",
+          "query": "What is the primary goal of the ENERGY STAR program in which Apple participates?"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 280,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "4f3aaae6347d7feb2b223c78",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 67,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 15.10303058
+              },
+              {
+                "rank": 2,
+                "chunk_id": "70398d201f0fb40703961094",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 67,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 13.64250212
+              },
+              {
+                "rank": 3,
+                "chunk_id": "d943685b6c5fbf5b6fcb8bdd",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 75,
+                "section_path": [
+                  "1 Infinite Loop"
+                ],
+                "score": 8.31349091
+              },
+              {
+                "rank": 4,
+                "chunk_id": "dcfec750774357dd5ce5ac49",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 68,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 5.91178081
+              },
+              {
+                "rank": 5,
+                "chunk_id": "8c192595594a3b7fa9f6ff89",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 65,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 4.91596321
+              },
+              {
+                "rank": 6,
+                "chunk_id": "95956c518c54a2bc0a84e019",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 35,
+                "section_path": [
+                  "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+                ],
+                "score": 4.09839127
+              },
+              {
+                "rank": 7,
+                "chunk_id": "7ab650cb2c649ecd546f1f41",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 22,
+                "section_path": [
+                  "4 On your MacBook Air, use the disc as you normally would once it becomes available."
+                ],
+                "score": 4.01336392
+              },
+              {
+                "rank": 8,
+                "chunk_id": "3d16279bcb4270db6378954b",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 43,
+                "section_path": [
+                  "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+                ],
+                "score": 3.02379556
+              },
+              {
+                "rank": 9,
+                "chunk_id": "df5054e7c5ae014588da54cf",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 66,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 3.02379556
+              },
+              {
+                "rank": 10,
+                "chunk_id": "18d83385dacb8f318b60d846",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 35,
+                "section_path": [
+                  "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+                ],
+                "score": 2.76259634
+              },
+              {
+                "rank": 11,
+                "chunk_id": "e5c6772163a81bf0d5cfba7b",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 43,
+                "section_path": [
+                  "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+                ],
+                "score": 2.65822333
+              },
+              {
+                "rank": 12,
+                "chunk_id": "072dc9e4b0479efb989d34ab",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 72,
+                "section_path": [
+                  "70 Looking for Something?"
+                ],
+                "score": 2.5429345
+              },
+              {
+                "rank": 13,
+                "chunk_id": "3c09cab26a96a1704b2bebed",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 37,
+                "section_path": [
+                  "More Information\nFor more information about using your MacBook Air, see the following:"
+                ],
+                "score": 2.11399871
+              },
+              {
+                "rank": 14,
+                "chunk_id": "e68cf16f9effa2bef84d0d96",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 6,
+                "section_path": [
+                  "64 Apple and the Environment"
+                ],
+                "score": 2.03296847
+              },
+              {
+                "rank": 15,
+                "chunk_id": "d30a45499abef91c8fa3668f",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 52,
+                "section_path": [
+                  "1 Choose Apple () > System Preferences."
+                ],
+                "score": 1.96628926
+              },
+              {
+                "rank": 16,
+                "chunk_id": "558c46cba327d0e743d312b8",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 55,
+                "section_path": [
+                  "2 Click the Software Update icon and follow the instructions on the screen."
+                ],
+                "score": 1.96548069
+              },
+              {
+                "rank": 17,
+                "chunk_id": "8bfe24c4a244f4f81ce98662",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 5,
+                "section_path": [
+                  "44 Using Apple Hardware Test"
+                ],
+                "score": 1.93456344
+              },
+              {
+                "rank": 18,
+                "chunk_id": "f7e2e3df9612c74f7ea026c1",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 44,
+                "section_path": [
+                  "6 If Apple Hardware Test detects a problem, it displays an error code. Make a note of the"
+                ],
+                "score": 1.89838696
+              },
+              {
+                "rank": 19,
+                "chunk_id": "62bdfdedec52ba238d699935",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 53,
+                "section_path": [
+                  "2 Click the Software Update icon and follow the instructions on the screen."
+                ],
+                "score": 1.86879801
+              },
+              {
+                "rank": 20,
+                "chunk_id": "f303f534aee18a37acecee21",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 75,
+                "section_path": [
+                  "USB"
+                ],
+                "score": 1.85044065
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "4f3aaae6347d7feb2b223c78",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 67,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 0.64646947
+              },
+              {
+                "rank": 2,
+                "chunk_id": "d943685b6c5fbf5b6fcb8bdd",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 75,
+                "section_path": [
+                  "1 Infinite Loop"
+                ],
+                "score": 0.55061024
+              },
+              {
+                "rank": 3,
+                "chunk_id": "70398d201f0fb40703961094",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 67,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 0.52006966
+              },
+              {
+                "rank": 4,
+                "chunk_id": "b0cb452ec018e509ba9e29d6",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 75,
+                "section_path": [
+                  "1 Infinite Loop"
+                ],
+                "score": 0.47154599
+              },
+              {
+                "rank": 5,
+                "chunk_id": "ece6919339efabcb666462ca",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 10,
+                "section_path": [
+                  "What’s in the Box"
+                ],
+                "score": 0.465509
+              },
+              {
+                "rank": 6,
+                "chunk_id": "44b3efb889012953692cefba",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 11,
+                "section_path": [
+                  "What’s in the Box"
+                ],
+                "score": 0.46431834
+              },
+              {
+                "rank": 7,
+                "chunk_id": "7a082af8b2c5c2b5e107e47b",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 34,
+                "section_path": [
+                  "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+                ],
+                "score": 0.46185285
+              },
+              {
+                "rank": 8,
+                "chunk_id": "5dbfe99804b9231f29529386",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 47,
+                "section_path": [
+                  "9 If you chose AirPort as your network in step 5, when you see the AirPort status icon"
+                ],
+                "score": 0.46062925
+              },
+              {
+                "rank": 9,
+                "chunk_id": "eb887ab455b2022a885a3d00",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 34,
+                "section_path": [
+                  "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+                ],
+                "score": 0.45679957
+              },
+              {
+                "rank": 10,
+                "chunk_id": "57a39668e4d09d70f7ebd075",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 64,
+                "section_path": [
+                  "Understanding Ergonomics\nHere are some tips for setting up a healthy work environment."
+                ],
+                "score": 0.45654839
+              },
+              {
+                "rank": 11,
+                "chunk_id": "0090b3ecd8c74ae1217b0bb2",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 42,
+                "section_path": [
+                  "2 Click Force Quit."
+                ],
+                "score": 0.45181355
+              },
+              {
+                "rank": 12,
+                "chunk_id": "e5c6772163a81bf0d5cfba7b",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 43,
+                "section_path": [
+                  "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+                ],
+                "score": 0.44962958
+              },
+              {
+                "rank": 13,
+                "chunk_id": "95956c518c54a2bc0a84e019",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 35,
+                "section_path": [
+                  "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+                ],
+                "score": 0.44897071
+              },
+              {
+                "rank": 14,
+                "chunk_id": "55671b4ec8d40a45ac4ee6b6",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 68,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 0.44840038
+              },
+              {
+                "rank": 15,
+                "chunk_id": "18d83385dacb8f318b60d846",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 35,
+                "section_path": [
+                  "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+                ],
+                "score": 0.44826499
+              },
+              {
+                "rank": 16,
+                "chunk_id": "9c27ea4ed10c1d1072fbc1ff",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 75,
+                "section_path": [
+                  "1 Infinite Loop"
+                ],
+                "score": 0.44406456
+              },
+              {
+                "rank": 17,
+                "chunk_id": "b49c0347e7e5d1053732d51b",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 41,
+                "section_path": [
+                  "2 Click Force Quit."
+                ],
+                "score": 0.44386795
+              },
+              {
+                "rank": 18,
+                "chunk_id": "cd156d8ec312813608c17528",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 50,
+                "section_path": [
+                  "2 Double-click “Install Mac OS X and Bundled Software.” To install just applications, select"
+                ],
+                "score": 0.44312871
+              },
+              {
+                "rank": 19,
+                "chunk_id": "3d16279bcb4270db6378954b",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 43,
+                "section_path": [
+                  "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+                ],
+                "score": 0.44142491
+              },
+              {
+                "rank": 20,
+                "chunk_id": "dcfec750774357dd5ce5ac49",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 68,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 0.4407807
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "4f3aaae6347d7feb2b223c78",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 67,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 0.03278689
+              },
+              {
+                "rank": 2,
+                "chunk_id": "70398d201f0fb40703961094",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 67,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 0.03200205
+              },
+              {
+                "rank": 3,
+                "chunk_id": "d943685b6c5fbf5b6fcb8bdd",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 75,
+                "section_path": [
+                  "1 Infinite Loop"
+                ],
+                "score": 0.03200205
+              },
+              {
+                "rank": 4,
+                "chunk_id": "95956c518c54a2bc0a84e019",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 35,
+                "section_path": [
+                  "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+                ],
+                "score": 0.02885015
+              },
+              {
+                "rank": 5,
+                "chunk_id": "dcfec750774357dd5ce5ac49",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 68,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 0.028125
+              },
+              {
+                "rank": 6,
+                "chunk_id": "e5c6772163a81bf0d5cfba7b",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 43,
+                "section_path": [
+                  "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+                ],
+                "score": 0.0279734
+              },
+              {
+                "rank": 7,
+                "chunk_id": "18d83385dacb8f318b60d846",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 35,
+                "section_path": [
+                  "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+                ],
+                "score": 0.02761905
+              },
+              {
+                "rank": 8,
+                "chunk_id": "3d16279bcb4270db6378954b",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 43,
+                "section_path": [
+                  "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+                ],
+                "score": 0.02736411
+              },
+              {
+                "rank": 9,
+                "chunk_id": "b0cb452ec018e509ba9e29d6",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 75,
+                "section_path": [
+                  "1 Infinite Loop"
+                ],
+                "score": 0.015625
+              },
+              {
+                "rank": 10,
+                "chunk_id": "8c192595594a3b7fa9f6ff89",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 65,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 0.01538462
+              },
+              {
+                "rank": 11,
+                "chunk_id": "ece6919339efabcb666462ca",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 10,
+                "section_path": [
+                  "What’s in the Box"
+                ],
+                "score": 0.01538462
+              },
+              {
+                "rank": 12,
+                "chunk_id": "44b3efb889012953692cefba",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 11,
+                "section_path": [
+                  "What’s in the Box"
+                ],
+                "score": 0.01515152
+              },
+              {
+                "rank": 13,
+                "chunk_id": "7a082af8b2c5c2b5e107e47b",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 34,
+                "section_path": [
+                  "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+                ],
+                "score": 0.01492537
+              },
+              {
+                "rank": 14,
+                "chunk_id": "7ab650cb2c649ecd546f1f41",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 22,
+                "section_path": [
+                  "4 On your MacBook Air, use the disc as you normally would once it becomes available."
+                ],
+                "score": 0.01492537
+              },
+              {
+                "rank": 15,
+                "chunk_id": "5dbfe99804b9231f29529386",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 47,
+                "section_path": [
+                  "9 If you chose AirPort as your network in step 5, when you see the AirPort status icon"
+                ],
+                "score": 0.01470588
+              },
+              {
+                "rank": 16,
+                "chunk_id": "df5054e7c5ae014588da54cf",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 66,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 0.01449275
+              },
+              {
+                "rank": 17,
+                "chunk_id": "eb887ab455b2022a885a3d00",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 34,
+                "section_path": [
+                  "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+                ],
+                "score": 0.01449275
+              },
+              {
+                "rank": 18,
+                "chunk_id": "57a39668e4d09d70f7ebd075",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 64,
+                "section_path": [
+                  "Understanding Ergonomics\nHere are some tips for setting up a healthy work environment."
+                ],
+                "score": 0.01428571
+              },
+              {
+                "rank": 19,
+                "chunk_id": "0090b3ecd8c74ae1217b0bb2",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 42,
+                "section_path": [
+                  "2 Click Force Quit."
+                ],
+                "score": 0.01408451
+              },
+              {
+                "rank": 20,
+                "chunk_id": "072dc9e4b0479efb989d34ab",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 72,
+                "section_path": [
+                  "70 Looking for Something?"
+                ],
+                "score": 0.01388889
+              },
+              {
+                "rank": 21,
+                "chunk_id": "3c09cab26a96a1704b2bebed",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 37,
+                "section_path": [
+                  "More Information\nFor more information about using your MacBook Air, see the following:"
+                ],
+                "score": 0.01369863
+              },
+              {
+                "rank": 22,
+                "chunk_id": "55671b4ec8d40a45ac4ee6b6",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 68,
+                "section_path": [
+                  "Regulatory Compliance Information"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 23,
+                "chunk_id": "e68cf16f9effa2bef84d0d96",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 6,
+                "section_path": [
+                  "64 Apple and the Environment"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 24,
+                "chunk_id": "d30a45499abef91c8fa3668f",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 52,
+                "section_path": [
+                  "1 Choose Apple () > System Preferences."
+                ],
+                "score": 0.01333333
+              },
+              {
+                "rank": 25,
+                "chunk_id": "558c46cba327d0e743d312b8",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 55,
+                "section_path": [
+                  "2 Click the Software Update icon and follow the instructions on the screen."
+                ],
+                "score": 0.01315789
+              },
+              {
+                "rank": 26,
+                "chunk_id": "9c27ea4ed10c1d1072fbc1ff",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 75,
+                "section_path": [
+                  "1 Infinite Loop"
+                ],
+                "score": 0.01315789
+              },
+              {
+                "rank": 27,
+                "chunk_id": "8bfe24c4a244f4f81ce98662",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 5,
+                "section_path": [
+                  "44 Using Apple Hardware Test"
+                ],
+                "score": 0.01298701
+              },
+              {
+                "rank": 28,
+                "chunk_id": "b49c0347e7e5d1053732d51b",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 41,
+                "section_path": [
+                  "2 Click Force Quit."
+                ],
+                "score": 0.01298701
+              },
+              {
+                "rank": 29,
+                "chunk_id": "cd156d8ec312813608c17528",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 50,
+                "section_path": [
+                  "2 Double-click “Install Mac OS X and Bundled Software.” To install just applications, select"
+                ],
+                "score": 0.01282051
+              },
+              {
+                "rank": 30,
+                "chunk_id": "f7e2e3df9612c74f7ea026c1",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 44,
+                "section_path": [
+                  "6 If Apple Hardware Test detects a problem, it displays an error code. Make a note of the"
+                ],
+                "score": 0.01282051
+              },
+              {
+                "rank": 31,
+                "chunk_id": "62bdfdedec52ba238d699935",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 53,
+                "section_path": [
+                  "2 Click the Software Update icon and follow the instructions on the screen."
+                ],
+                "score": 0.01265823
+              },
+              {
+                "rank": 32,
+                "chunk_id": "f303f534aee18a37acecee21",
+                "doc_id": "ohr-manual-macbook-air",
+                "page": 75,
+                "section_path": [
+                  "USB"
+                ],
+                "score": 0.0125
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "4f3aaae6347d7feb2b223c78",
+            "70398d201f0fb40703961094",
+            "d943685b6c5fbf5b6fcb8bdd",
+            "95956c518c54a2bc0a84e019",
+            "dcfec750774357dd5ce5ac49"
+          ],
+          "retrieved_count": 8,
+          "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+          "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+          "query": "What is the primary goal of the ENERGY STAR program in which Apple participates?",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "4f3aaae6347d7feb2b223c78",
+              "evidence_id": "E1",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 67,
+              "section_path": [
+                "Regulatory Compliance Information"
+              ],
+              "score": 0.03278689
+            },
+            {
+              "chunk_id": "70398d201f0fb40703961094",
+              "evidence_id": "E2",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 67,
+              "section_path": [
+                "Regulatory Compliance Information"
+              ],
+              "score": 0.03200205
+            },
+            {
+              "chunk_id": "d943685b6c5fbf5b6fcb8bdd",
+              "evidence_id": "E3",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 75,
+              "section_path": [
+                "1 Infinite Loop"
+              ],
+              "score": 0.03200205
+            },
+            {
+              "chunk_id": "95956c518c54a2bc0a84e019",
+              "evidence_id": "E4",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 35,
+              "section_path": [
+                "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+              ],
+              "score": 0.02885015
+            },
+            {
+              "chunk_id": "dcfec750774357dd5ce5ac49",
+              "evidence_id": "E5",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 68,
+              "section_path": [
+                "Regulatory Compliance Information"
+              ],
+              "score": 0.028125
+            },
+            {
+              "chunk_id": "e5c6772163a81bf0d5cfba7b",
+              "evidence_id": "E6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 43,
+              "section_path": [
+                "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+              ],
+              "score": 0.0279734
+            },
+            {
+              "chunk_id": "18d83385dacb8f318b60d846",
+              "evidence_id": "E7",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 35,
+              "section_path": [
+                "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+              ],
+              "score": 0.02761905
+            },
+            {
+              "chunk_id": "3d16279bcb4270db6378954b",
+              "evidence_id": "E8",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 43,
+              "section_path": [
+                "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+              ],
+              "score": 0.02736411
+            }
+          ]
+        },
+        "latency_ms": 112
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1",
+            "E2"
+          ]
+        },
+        "latency_ms": 3314
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "citation_ids": [
+            "E1",
+            "E2"
+          ]
+        },
+        "latency_ms": 3314
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 91,
+            "prompt_tokens": 1623,
+            "total_tokens": 1714,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1408
+            },
+            "prompt_cache_hit_tokens": 1408,
+            "prompt_cache_miss_tokens": 215
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1819
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1",
+            "E2"
+          ],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "potential_uncited_statements": [],
+            "mode": "heuristic_warning_only",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "ohr-manual-macbook-air",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 280,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "4f3aaae6347d7feb2b223c78",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 67,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 15.10303058
+          },
+          {
+            "rank": 2,
+            "chunk_id": "70398d201f0fb40703961094",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 67,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 13.64250212
+          },
+          {
+            "rank": 3,
+            "chunk_id": "d943685b6c5fbf5b6fcb8bdd",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 75,
+            "section_path": [
+              "1 Infinite Loop"
+            ],
+            "score": 8.31349091
+          },
+          {
+            "rank": 4,
+            "chunk_id": "dcfec750774357dd5ce5ac49",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 68,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 5.91178081
+          },
+          {
+            "rank": 5,
+            "chunk_id": "8c192595594a3b7fa9f6ff89",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 65,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 4.91596321
+          },
+          {
+            "rank": 6,
+            "chunk_id": "95956c518c54a2bc0a84e019",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 35,
+            "section_path": [
+              "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+            ],
+            "score": 4.09839127
+          },
+          {
+            "rank": 7,
+            "chunk_id": "7ab650cb2c649ecd546f1f41",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 22,
+            "section_path": [
+              "4 On your MacBook Air, use the disc as you normally would once it becomes available."
+            ],
+            "score": 4.01336392
+          },
+          {
+            "rank": 8,
+            "chunk_id": "3d16279bcb4270db6378954b",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 43,
+            "section_path": [
+              "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+            ],
+            "score": 3.02379556
+          },
+          {
+            "rank": 9,
+            "chunk_id": "df5054e7c5ae014588da54cf",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 66,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 3.02379556
+          },
+          {
+            "rank": 10,
+            "chunk_id": "18d83385dacb8f318b60d846",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 35,
+            "section_path": [
+              "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+            ],
+            "score": 2.76259634
+          },
+          {
+            "rank": 11,
+            "chunk_id": "e5c6772163a81bf0d5cfba7b",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 43,
+            "section_path": [
+              "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+            ],
+            "score": 2.65822333
+          },
+          {
+            "rank": 12,
+            "chunk_id": "072dc9e4b0479efb989d34ab",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 72,
+            "section_path": [
+              "70 Looking for Something?"
+            ],
+            "score": 2.5429345
+          },
+          {
+            "rank": 13,
+            "chunk_id": "3c09cab26a96a1704b2bebed",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 37,
+            "section_path": [
+              "More Information\nFor more information about using your MacBook Air, see the following:"
+            ],
+            "score": 2.11399871
+          },
+          {
+            "rank": 14,
+            "chunk_id": "e68cf16f9effa2bef84d0d96",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 6,
+            "section_path": [
+              "64 Apple and the Environment"
+            ],
+            "score": 2.03296847
+          },
+          {
+            "rank": 15,
+            "chunk_id": "d30a45499abef91c8fa3668f",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 52,
+            "section_path": [
+              "1 Choose Apple () > System Preferences."
+            ],
+            "score": 1.96628926
+          },
+          {
+            "rank": 16,
+            "chunk_id": "558c46cba327d0e743d312b8",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 55,
+            "section_path": [
+              "2 Click the Software Update icon and follow the instructions on the screen."
+            ],
+            "score": 1.96548069
+          },
+          {
+            "rank": 17,
+            "chunk_id": "8bfe24c4a244f4f81ce98662",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 5,
+            "section_path": [
+              "44 Using Apple Hardware Test"
+            ],
+            "score": 1.93456344
+          },
+          {
+            "rank": 18,
+            "chunk_id": "f7e2e3df9612c74f7ea026c1",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 44,
+            "section_path": [
+              "6 If Apple Hardware Test detects a problem, it displays an error code. Make a note of the"
+            ],
+            "score": 1.89838696
+          },
+          {
+            "rank": 19,
+            "chunk_id": "62bdfdedec52ba238d699935",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 53,
+            "section_path": [
+              "2 Click the Software Update icon and follow the instructions on the screen."
+            ],
+            "score": 1.86879801
+          },
+          {
+            "rank": 20,
+            "chunk_id": "f303f534aee18a37acecee21",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 75,
+            "section_path": [
+              "USB"
+            ],
+            "score": 1.85044065
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "4f3aaae6347d7feb2b223c78",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 67,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 0.64646947
+          },
+          {
+            "rank": 2,
+            "chunk_id": "d943685b6c5fbf5b6fcb8bdd",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 75,
+            "section_path": [
+              "1 Infinite Loop"
+            ],
+            "score": 0.55061024
+          },
+          {
+            "rank": 3,
+            "chunk_id": "70398d201f0fb40703961094",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 67,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 0.52006966
+          },
+          {
+            "rank": 4,
+            "chunk_id": "b0cb452ec018e509ba9e29d6",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 75,
+            "section_path": [
+              "1 Infinite Loop"
+            ],
+            "score": 0.47154599
+          },
+          {
+            "rank": 5,
+            "chunk_id": "ece6919339efabcb666462ca",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 10,
+            "section_path": [
+              "What’s in the Box"
+            ],
+            "score": 0.465509
+          },
+          {
+            "rank": 6,
+            "chunk_id": "44b3efb889012953692cefba",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 11,
+            "section_path": [
+              "What’s in the Box"
+            ],
+            "score": 0.46431834
+          },
+          {
+            "rank": 7,
+            "chunk_id": "7a082af8b2c5c2b5e107e47b",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 34,
+            "section_path": [
+              "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+            ],
+            "score": 0.46185285
+          },
+          {
+            "rank": 8,
+            "chunk_id": "5dbfe99804b9231f29529386",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 47,
+            "section_path": [
+              "9 If you chose AirPort as your network in step 5, when you see the AirPort status icon"
+            ],
+            "score": 0.46062925
+          },
+          {
+            "rank": 9,
+            "chunk_id": "eb887ab455b2022a885a3d00",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 34,
+            "section_path": [
+              "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+            ],
+            "score": 0.45679957
+          },
+          {
+            "rank": 10,
+            "chunk_id": "57a39668e4d09d70f7ebd075",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 64,
+            "section_path": [
+              "Understanding Ergonomics\nHere are some tips for setting up a healthy work environment."
+            ],
+            "score": 0.45654839
+          },
+          {
+            "rank": 11,
+            "chunk_id": "0090b3ecd8c74ae1217b0bb2",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 42,
+            "section_path": [
+              "2 Click Force Quit."
+            ],
+            "score": 0.45181355
+          },
+          {
+            "rank": 12,
+            "chunk_id": "e5c6772163a81bf0d5cfba7b",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 43,
+            "section_path": [
+              "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+            ],
+            "score": 0.44962958
+          },
+          {
+            "rank": 13,
+            "chunk_id": "95956c518c54a2bc0a84e019",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 35,
+            "section_path": [
+              "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+            ],
+            "score": 0.44897071
+          },
+          {
+            "rank": 14,
+            "chunk_id": "55671b4ec8d40a45ac4ee6b6",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 68,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 0.44840038
+          },
+          {
+            "rank": 15,
+            "chunk_id": "18d83385dacb8f318b60d846",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 35,
+            "section_path": [
+              "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+            ],
+            "score": 0.44826499
+          },
+          {
+            "rank": 16,
+            "chunk_id": "9c27ea4ed10c1d1072fbc1ff",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 75,
+            "section_path": [
+              "1 Infinite Loop"
+            ],
+            "score": 0.44406456
+          },
+          {
+            "rank": 17,
+            "chunk_id": "b49c0347e7e5d1053732d51b",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 41,
+            "section_path": [
+              "2 Click Force Quit."
+            ],
+            "score": 0.44386795
+          },
+          {
+            "rank": 18,
+            "chunk_id": "cd156d8ec312813608c17528",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 50,
+            "section_path": [
+              "2 Double-click “Install Mac OS X and Bundled Software.” To install just applications, select"
+            ],
+            "score": 0.44312871
+          },
+          {
+            "rank": 19,
+            "chunk_id": "3d16279bcb4270db6378954b",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 43,
+            "section_path": [
+              "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+            ],
+            "score": 0.44142491
+          },
+          {
+            "rank": 20,
+            "chunk_id": "dcfec750774357dd5ce5ac49",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 68,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 0.4407807
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "4f3aaae6347d7feb2b223c78",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 67,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 0.03278689
+          },
+          {
+            "rank": 2,
+            "chunk_id": "70398d201f0fb40703961094",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 67,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 0.03200205
+          },
+          {
+            "rank": 3,
+            "chunk_id": "d943685b6c5fbf5b6fcb8bdd",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 75,
+            "section_path": [
+              "1 Infinite Loop"
+            ],
+            "score": 0.03200205
+          },
+          {
+            "rank": 4,
+            "chunk_id": "95956c518c54a2bc0a84e019",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 35,
+            "section_path": [
+              "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+            ],
+            "score": 0.02885015
+          },
+          {
+            "rank": 5,
+            "chunk_id": "dcfec750774357dd5ce5ac49",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 68,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 0.028125
+          },
+          {
+            "rank": 6,
+            "chunk_id": "e5c6772163a81bf0d5cfba7b",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 43,
+            "section_path": [
+              "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+            ],
+            "score": 0.0279734
+          },
+          {
+            "rank": 7,
+            "chunk_id": "18d83385dacb8f318b60d846",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 35,
+            "section_path": [
+              "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+            ],
+            "score": 0.02761905
+          },
+          {
+            "rank": 8,
+            "chunk_id": "3d16279bcb4270db6378954b",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 43,
+            "section_path": [
+              "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+            ],
+            "score": 0.02736411
+          },
+          {
+            "rank": 9,
+            "chunk_id": "b0cb452ec018e509ba9e29d6",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 75,
+            "section_path": [
+              "1 Infinite Loop"
+            ],
+            "score": 0.015625
+          },
+          {
+            "rank": 10,
+            "chunk_id": "8c192595594a3b7fa9f6ff89",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 65,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 0.01538462
+          },
+          {
+            "rank": 11,
+            "chunk_id": "ece6919339efabcb666462ca",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 10,
+            "section_path": [
+              "What’s in the Box"
+            ],
+            "score": 0.01538462
+          },
+          {
+            "rank": 12,
+            "chunk_id": "44b3efb889012953692cefba",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 11,
+            "section_path": [
+              "What’s in the Box"
+            ],
+            "score": 0.01515152
+          },
+          {
+            "rank": 13,
+            "chunk_id": "7a082af8b2c5c2b5e107e47b",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 34,
+            "section_path": [
+              "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+            ],
+            "score": 0.01492537
+          },
+          {
+            "rank": 14,
+            "chunk_id": "7ab650cb2c649ecd546f1f41",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 22,
+            "section_path": [
+              "4 On your MacBook Air, use the disc as you normally would once it becomes available."
+            ],
+            "score": 0.01492537
+          },
+          {
+            "rank": 15,
+            "chunk_id": "5dbfe99804b9231f29529386",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 47,
+            "section_path": [
+              "9 If you chose AirPort as your network in step 5, when you see the AirPort status icon"
+            ],
+            "score": 0.01470588
+          },
+          {
+            "rank": 16,
+            "chunk_id": "df5054e7c5ae014588da54cf",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 66,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 0.01449275
+          },
+          {
+            "rank": 17,
+            "chunk_id": "eb887ab455b2022a885a3d00",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 34,
+            "section_path": [
+              "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+            ],
+            "score": 0.01449275
+          },
+          {
+            "rank": 18,
+            "chunk_id": "57a39668e4d09d70f7ebd075",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 64,
+            "section_path": [
+              "Understanding Ergonomics\nHere are some tips for setting up a healthy work environment."
+            ],
+            "score": 0.01428571
+          },
+          {
+            "rank": 19,
+            "chunk_id": "0090b3ecd8c74ae1217b0bb2",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 42,
+            "section_path": [
+              "2 Click Force Quit."
+            ],
+            "score": 0.01408451
+          },
+          {
+            "rank": 20,
+            "chunk_id": "072dc9e4b0479efb989d34ab",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 72,
+            "section_path": [
+              "70 Looking for Something?"
+            ],
+            "score": 0.01388889
+          },
+          {
+            "rank": 21,
+            "chunk_id": "3c09cab26a96a1704b2bebed",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 37,
+            "section_path": [
+              "More Information\nFor more information about using your MacBook Air, see the following:"
+            ],
+            "score": 0.01369863
+          },
+          {
+            "rank": 22,
+            "chunk_id": "55671b4ec8d40a45ac4ee6b6",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 68,
+            "section_path": [
+              "Regulatory Compliance Information"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 23,
+            "chunk_id": "e68cf16f9effa2bef84d0d96",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 6,
+            "section_path": [
+              "64 Apple and the Environment"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 24,
+            "chunk_id": "d30a45499abef91c8fa3668f",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 52,
+            "section_path": [
+              "1 Choose Apple () > System Preferences."
+            ],
+            "score": 0.01333333
+          },
+          {
+            "rank": 25,
+            "chunk_id": "558c46cba327d0e743d312b8",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 55,
+            "section_path": [
+              "2 Click the Software Update icon and follow the instructions on the screen."
+            ],
+            "score": 0.01315789
+          },
+          {
+            "rank": 26,
+            "chunk_id": "9c27ea4ed10c1d1072fbc1ff",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 75,
+            "section_path": [
+              "1 Infinite Loop"
+            ],
+            "score": 0.01315789
+          },
+          {
+            "rank": 27,
+            "chunk_id": "8bfe24c4a244f4f81ce98662",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 5,
+            "section_path": [
+              "44 Using Apple Hardware Test"
+            ],
+            "score": 0.01298701
+          },
+          {
+            "rank": 28,
+            "chunk_id": "b49c0347e7e5d1053732d51b",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 41,
+            "section_path": [
+              "2 Click Force Quit."
+            ],
+            "score": 0.01298701
+          },
+          {
+            "rank": 29,
+            "chunk_id": "cd156d8ec312813608c17528",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 50,
+            "section_path": [
+              "2 Double-click “Install Mac OS X and Bundled Software.” To install just applications, select"
+            ],
+            "score": 0.01282051
+          },
+          {
+            "rank": 30,
+            "chunk_id": "f7e2e3df9612c74f7ea026c1",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 44,
+            "section_path": [
+              "6 If Apple Hardware Test detects a problem, it displays an error code. Make a note of the"
+            ],
+            "score": 0.01282051
+          },
+          {
+            "rank": 31,
+            "chunk_id": "62bdfdedec52ba238d699935",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 53,
+            "section_path": [
+              "2 Click the Software Update icon and follow the instructions on the screen."
+            ],
+            "score": 0.01265823
+          },
+          {
+            "rank": 32,
+            "chunk_id": "f303f534aee18a37acecee21",
+            "doc_id": "ohr-manual-macbook-air",
+            "page": 75,
+            "section_path": [
+              "USB"
+            ],
+            "score": 0.0125
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "4f3aaae6347d7feb2b223c78",
+        "70398d201f0fb40703961094",
+        "d943685b6c5fbf5b6fcb8bdd",
+        "95956c518c54a2bc0a84e019",
+        "dcfec750774357dd5ce5ac49"
+      ],
+      "retrieved_count": 8,
+      "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+      "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+      "query": "What is the primary goal of the ENERGY STAR program in which Apple participates?",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 67,
+          "chunk_id": "4f3aaae6347d7feb2b223c78",
+          "section_path": [
+            "Regulatory Compliance Information"
+          ],
+          "bbox": [
+            39.83,
+            199.29,
+            335.98,
+            337.25
+          ],
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 67,
+          "chunk_id": "70398d201f0fb40703961094",
+          "section_path": [
+            "Regulatory Compliance Information"
+          ],
+          "bbox": [
+            39.83,
+            29.09,
+            175.93,
+            253.29
+          ],
+          "evidence_id": "E2"
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 75,
+          "chunk_id": "d943685b6c5fbf5b6fcb8bdd",
+          "section_path": [
+            "1 Infinite Loop"
+          ],
+          "bbox": [
+            39.84,
+            223.19,
+            149.09,
+            229.19
+          ],
+          "evidence_id": "E3"
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 35,
+          "chunk_id": "95956c518c54a2bc0a84e019",
+          "section_path": [
+            "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+          ],
+          "bbox": [
+            31.68,
+            77.98,
+            323.53,
+            200.48
+          ],
+          "evidence_id": "E4"
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 68,
+          "chunk_id": "dcfec750774357dd5ce5ac49",
+          "section_path": [
+            "Regulatory Compliance Information"
+          ],
+          "bbox": null,
+          "evidence_id": "E5"
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 43,
+          "chunk_id": "e5c6772163a81bf0d5cfba7b",
+          "section_path": [
+            "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+          ],
+          "bbox": [
+            39.84,
+            164.48,
+            317.44,
+            253.98
+          ],
+          "evidence_id": "E6"
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 35,
+          "chunk_id": "18d83385dacb8f318b60d846",
+          "section_path": [
+            "¯ MagSafe power port\nPlug in the included 45W MagSafe Power Adapter to recharge the MacBook Air battery."
+          ],
+          "bbox": [
+            39.71,
+            28.98,
+            323.82,
+            107.98
+          ],
+          "evidence_id": "E7"
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 43,
+          "chunk_id": "3d16279bcb4270db6378954b",
+          "section_path": [
+            "3 Let the battery charge to at least 10 percent before plugging in any external devices"
+          ],
+          "bbox": [
+            31.68,
+            116.48,
+            318.09,
+            172.48
+          ],
+          "evidence_id": "E8"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "potential_uncited_statements": [],
+        "mode": "heuristic_warning_only",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 3437,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

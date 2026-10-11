@@ -1,0 +1,13 @@
+{"stage": "ui_case_start", "id": "sql"}
+{"stage": "ui_case_complete", "id": "sql", "status": "FAILED", "actual_status": "SUCCEEDED", "trace_id": "c570269a-ee26-45e7-b54e-0e62846de78e"}
+{"stage": "ui_case_start", "id": "rewrite"}
+{"stage": "ui_case_complete", "id": "rewrite", "status": "PASSED", "actual_status": "SUCCEEDED", "trace_id": "d4da3ef3-4fc4-4667-a243-1c7ca578acd6"}
+{"stage": "ui_case_start", "id": "rag-ocr"}
+{"stage": "ui_case_complete", "id": "rag-ocr", "status": "PASSED", "actual_status": "SUCCEEDED", "trace_id": "40bd2c2c-2aee-4c7b-8ad9-aab3276c850c"}
+{"stage": "ui_case_start", "id": "insufficient"}
+{"stage": "ui_case_complete", "id": "insufficient", "status": "PASSED", "actual_status": "EMPTY_RESULT", "trace_id": "bf20f7ff-ae29-47d7-9816-5134619aec9d"}
+{"stage": "ui_case_start", "id": "failure"}
+{"stage": "ui_case_complete", "id": "failure", "status": "FAILED", "actual_status": "EMPTY_RESULT", "trace_id": "d50a6740-cee9-422b-a656-f64adda1c6f6"}
+{"stage": "api_probe_complete", "id": "legal-unknown-value", "human_review": "pending", "actual_status": "SUCCEEDED", "raw_response": "eval/artifacts/d2/e2e/browser/d2-live-v1/legal-unknown-value-raw.json", "trace_id": "04ed4642-cf5e-4a64-8118-bf060490ba01", "passed": true}
+{"stage": "api_probe_complete", "id": "scan-ocr", "human_review": "pending", "actual_status": "SUCCEEDED", "raw_response": "eval/artifacts/d2/e2e/browser/d2-live-v1/scan-ocr-raw.json", "trace_id": "9ce5fc18-8ba6-462c-bb0a-7691223d5b6d", "passed": true}
+{"stage": "complete", "status": "PARTIAL_OR_FAILED", "report": "eval/artifacts/d2/e2e/browser/d2-live-v1/report.json", "screenshots": ["notes/screenshots/D2-d2-live-v1-sql.png", "notes/screenshots/D2-d2-live-v1-rewrite.png", "notes/screenshots/D2-d2-live-v1-rag-ocr.png", "notes/screenshots/D2-d2-live-v1-insufficient.png", "notes/screenshots/D2-d2-live-v1-failure.png"]}

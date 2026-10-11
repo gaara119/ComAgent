@@ -1,0 +1,1846 @@
+{
+  "started_at_utc": "2026-10-10T18:17:15.833288+00:00",
+  "finished_at_utc": "2026-10-10T18:17:18.745933+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d2-e2e-scan-ocr-514980a9-5d92-4025-978a-bb9b755f8837",
+    "message": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "ohr-manual-endoscope-scan"
+      ]
+    }
+  },
+  "response": {
+    "trace_id": "7eee462a-c95d-481f-a34c-017879414b92",
+    "status": "SUCCEEDED",
+    "answer": "According to the manual, InnoView GMBH Endoscopes come with a 2 year minimum warranty. [E1]",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [
+      {
+        "evidence_id": "E1",
+        "doc_id": "ohr-manual-endoscope-scan",
+        "doc_title": "Rigid Endoscope User Manual 扫描派生件",
+        "page": 2,
+        "section_path": [
+          "NOTE"
+        ],
+        "text": "NOTE\nThis is NOTpart of your routine cleaning.Use the\nparticles and the Endoscopes are\nNevercleanand sterilize Endoscopestogether\nwaterbasedMineral Fluid only if theimage is\nthoroughly cleaned.Lack of\nwith otherinstruments unlessthey are\ncloudy dueto\ncleanlinessbefore autoclaving can\nInnoViewGMBHEndoscopes comewitha2\nindividuallysecuredinonecontainer.\nresult in severe damage to the\ndeposits on the optical surfaces.\nyearminimumwarranty.\nEndoscope.\nFluidinvasionWITHOUTmechanical damage.",
+        "bbox": [
+          25.5,
+          249.0,
+          768.5,
+          297.0
+        ]
+      }
+    ],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-manual-endoscope-scan"
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "evidence_count": 1
+        },
+        "latency_ms": 2911
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-manual-endoscope-scan"
+        },
+        "output_summary": {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "title": "Rigid Endoscope User Manual 扫描派生件",
+          "content_hash": "41cd29980e7d5ba0f86b8f0c41bcba930f5d39bb99707185b414d408839a8b62"
+        },
+        "latency_ms": 7
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "question": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?",
+          "query": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 43,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "e6952bd74d5c884333b42a63",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "INNOVIEW"
+                ],
+                "score": 7.05032449
+              },
+              {
+                "rank": 2,
+                "chunk_id": "dd173dee7d5c3d7e265a7847",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "9.RepairExchangeProgram"
+                ],
+                "score": 7.03913352
+              },
+              {
+                "rank": 3,
+                "chunk_id": "4c215f9e08b6f2a3adb3bda8",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "11. Warranty"
+                ],
+                "score": 5.62597483
+              },
+              {
+                "rank": 4,
+                "chunk_id": "c9be6d7fd663668a56e4328c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 4.41115567
+              },
+              {
+                "rank": 5,
+                "chunk_id": "b8142156812651f9f735994f",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 3.77610912
+              },
+              {
+                "rank": 6,
+                "chunk_id": "28e564e9a0b1c497584bbf89",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "1.ChemicalSterilization andSterisTM"
+                ],
+                "score": 3.77190267
+              },
+              {
+                "rank": 7,
+                "chunk_id": "58b42cd67705188a5589b4cd",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "CHANNEL-USERINFORMATION"
+                ],
+                "score": 3.52722722
+              },
+              {
+                "rank": 8,
+                "chunk_id": "3025ce698553d70dae998606",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 3.46166305
+              },
+              {
+                "rank": 9,
+                "chunk_id": "237c05d9b190fa83b38db7f6",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 2.96463506
+              },
+              {
+                "rank": 10,
+                "chunk_id": "a749a23e57f7c759823d56b4",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "ENDOSCOPE-RIGIDWITHOUTWORKING"
+                ],
+                "score": 2.38965568
+              },
+              {
+                "rank": 11,
+                "chunk_id": "03a938ce6e5eb13b75b46d7b",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "7. Autoclavable Endoscopes"
+                ],
+                "score": 2.2326106
+              },
+              {
+                "rank": 12,
+                "chunk_id": "1c0c79fc3dbece2b1e459aa1",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 2.16170158
+              },
+              {
+                "rank": 13,
+                "chunk_id": "b724a836058ea1be130a3618",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "9.RepairExchangeProgram"
+                ],
+                "score": 2.0788819
+              },
+              {
+                "rank": 14,
+                "chunk_id": "84498fb2d36a36f1d8949f53",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "ENDOSCOPY."
+                ],
+                "score": 2.02523282
+              },
+              {
+                "rank": 15,
+                "chunk_id": "43d671daecf7211c4b4b4493",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "ENDOSCOPICPROCEDURESBY"
+                ],
+                "score": 1.98758578
+              },
+              {
+                "rank": 16,
+                "chunk_id": "869f30c2de45995eb571286c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 1.98758578
+              },
+              {
+                "rank": 17,
+                "chunk_id": "9bc74f62a7344a8af1e95499",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "DEVICEISUSEDINAPPROVED"
+                ],
+                "score": 1.98758578
+              },
+              {
+                "rank": 18,
+                "chunk_id": "9bad08a551963779197cf9d1",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "COMPONENTS,LLC"
+                ],
+                "score": 1.92981016
+              },
+              {
+                "rank": 19,
+                "chunk_id": "cdae3b26dd11e33bf0c9b808",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "1. Indicationsforuse"
+                ],
+                "score": 1.92981016
+              },
+              {
+                "rank": 20,
+                "chunk_id": "d3cd8127d4b007ad0614158b",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "8.Storing"
+                ],
+                "score": 1.92981016
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "b8142156812651f9f735994f",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 0.60469657
+              },
+              {
+                "rank": 2,
+                "chunk_id": "58b42cd67705188a5589b4cd",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "CHANNEL-USERINFORMATION"
+                ],
+                "score": 0.59644049
+              },
+              {
+                "rank": 3,
+                "chunk_id": "237c05d9b190fa83b38db7f6",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 0.58645725
+              },
+              {
+                "rank": 4,
+                "chunk_id": "dd173dee7d5c3d7e265a7847",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "9.RepairExchangeProgram"
+                ],
+                "score": 0.57243562
+              },
+              {
+                "rank": 5,
+                "chunk_id": "03946717ec37356ed0468253",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "2.CautionsandWarnings"
+                ],
+                "score": 0.56507289
+              },
+              {
+                "rank": 6,
+                "chunk_id": "3025ce698553d70dae998606",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 0.56318706
+              },
+              {
+                "rank": 7,
+                "chunk_id": "9e615f6c99b313a368b5437c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "CHANNEL-USERINFORMATION"
+                ],
+                "score": 0.55917066
+              },
+              {
+                "rank": 8,
+                "chunk_id": "e6952bd74d5c884333b42a63",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "INNOVIEW"
+                ],
+                "score": 0.54924816
+              },
+              {
+                "rank": 9,
+                "chunk_id": "28e564e9a0b1c497584bbf89",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "1.ChemicalSterilization andSterisTM"
+                ],
+                "score": 0.54892129
+              },
+              {
+                "rank": 10,
+                "chunk_id": "3d1c824504548b947e85051e",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "1.ChemicalSterilization andSterisTM"
+                ],
+                "score": 0.54706067
+              },
+              {
+                "rank": 11,
+                "chunk_id": "84498fb2d36a36f1d8949f53",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "ENDOSCOPY."
+                ],
+                "score": 0.53738505
+              },
+              {
+                "rank": 12,
+                "chunk_id": "c9be6d7fd663668a56e4328c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 0.50880349
+              },
+              {
+                "rank": 13,
+                "chunk_id": "46c3513ba3228397d1b77526",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "2.CautionsandWarnings"
+                ],
+                "score": 0.49758261
+              },
+              {
+                "rank": 14,
+                "chunk_id": "31ffffee2a5f283ec70442bc",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "2.CautionsandWarnings"
+                ],
+                "score": 0.49365351
+              },
+              {
+                "rank": 15,
+                "chunk_id": "1c0c79fc3dbece2b1e459aa1",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.49139783
+              },
+              {
+                "rank": 16,
+                "chunk_id": "4b76fc4687acd0083187726a",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "10.Conformity"
+                ],
+                "score": 0.49098179
+              },
+              {
+                "rank": 17,
+                "chunk_id": "148868556cfc920491bfd197",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "2.CautionsandWarnings"
+                ],
+                "score": 0.49002972
+              },
+              {
+                "rank": 18,
+                "chunk_id": "65ba8f4fa5a49c793fe6b393",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "USA"
+                ],
+                "score": 0.48388478
+              },
+              {
+                "rank": 19,
+                "chunk_id": "4c215f9e08b6f2a3adb3bda8",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "11. Warranty"
+                ],
+                "score": 0.48354653
+              },
+              {
+                "rank": 20,
+                "chunk_id": "2864eb563270ed2c92dfb734",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "USA"
+                ],
+                "score": 0.48338696
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "b8142156812651f9f735994f",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 0.03177806
+              },
+              {
+                "rank": 2,
+                "chunk_id": "dd173dee7d5c3d7e265a7847",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "9.RepairExchangeProgram"
+                ],
+                "score": 0.03175403
+              },
+              {
+                "rank": 3,
+                "chunk_id": "e6952bd74d5c884333b42a63",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "INNOVIEW"
+                ],
+                "score": 0.03109932
+              },
+              {
+                "rank": 4,
+                "chunk_id": "58b42cd67705188a5589b4cd",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "CHANNEL-USERINFORMATION"
+                ],
+                "score": 0.03105441
+              },
+              {
+                "rank": 5,
+                "chunk_id": "237c05d9b190fa83b38db7f6",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 0.03036577
+              },
+              {
+                "rank": 6,
+                "chunk_id": "3025ce698553d70dae998606",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 0.0298574
+              },
+              {
+                "rank": 7,
+                "chunk_id": "28e564e9a0b1c497584bbf89",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "1.ChemicalSterilization andSterisTM"
+                ],
+                "score": 0.02964427
+              },
+              {
+                "rank": 8,
+                "chunk_id": "c9be6d7fd663668a56e4328c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 0.02951389
+              },
+              {
+                "rank": 9,
+                "chunk_id": "4c215f9e08b6f2a3adb3bda8",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "11. Warranty"
+                ],
+                "score": 0.02853124
+              },
+              {
+                "rank": 10,
+                "chunk_id": "84498fb2d36a36f1d8949f53",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "ENDOSCOPY."
+                ],
+                "score": 0.02759802
+              },
+              {
+                "rank": 11,
+                "chunk_id": "1c0c79fc3dbece2b1e459aa1",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [],
+                "score": 0.02722222
+              },
+              {
+                "rank": 12,
+                "chunk_id": "03946717ec37356ed0468253",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "2.CautionsandWarnings"
+                ],
+                "score": 0.01538462
+              },
+              {
+                "rank": 13,
+                "chunk_id": "9e615f6c99b313a368b5437c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "CHANNEL-USERINFORMATION"
+                ],
+                "score": 0.01492537
+              },
+              {
+                "rank": 14,
+                "chunk_id": "3d1c824504548b947e85051e",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "1.ChemicalSterilization andSterisTM"
+                ],
+                "score": 0.01428571
+              },
+              {
+                "rank": 15,
+                "chunk_id": "a749a23e57f7c759823d56b4",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "ENDOSCOPE-RIGIDWITHOUTWORKING"
+                ],
+                "score": 0.01428571
+              },
+              {
+                "rank": 16,
+                "chunk_id": "03a938ce6e5eb13b75b46d7b",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "7. Autoclavable Endoscopes"
+                ],
+                "score": 0.01408451
+              },
+              {
+                "rank": 17,
+                "chunk_id": "46c3513ba3228397d1b77526",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "2.CautionsandWarnings"
+                ],
+                "score": 0.01369863
+              },
+              {
+                "rank": 18,
+                "chunk_id": "b724a836058ea1be130a3618",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "9.RepairExchangeProgram"
+                ],
+                "score": 0.01369863
+              },
+              {
+                "rank": 19,
+                "chunk_id": "31ffffee2a5f283ec70442bc",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "2.CautionsandWarnings"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 20,
+                "chunk_id": "43d671daecf7211c4b4b4493",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "ENDOSCOPICPROCEDURESBY"
+                ],
+                "score": 0.01333333
+              },
+              {
+                "rank": 21,
+                "chunk_id": "4b76fc4687acd0083187726a",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "10.Conformity"
+                ],
+                "score": 0.01315789
+              },
+              {
+                "rank": 22,
+                "chunk_id": "869f30c2de45995eb571286c",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "NOTE"
+                ],
+                "score": 0.01315789
+              },
+              {
+                "rank": 23,
+                "chunk_id": "148868556cfc920491bfd197",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "2.CautionsandWarnings"
+                ],
+                "score": 0.01298701
+              },
+              {
+                "rank": 24,
+                "chunk_id": "9bc74f62a7344a8af1e95499",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "DEVICEISUSEDINAPPROVED"
+                ],
+                "score": 0.01298701
+              },
+              {
+                "rank": 25,
+                "chunk_id": "65ba8f4fa5a49c793fe6b393",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "USA"
+                ],
+                "score": 0.01282051
+              },
+              {
+                "rank": 26,
+                "chunk_id": "9bad08a551963779197cf9d1",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "COMPONENTS,LLC"
+                ],
+                "score": 0.01282051
+              },
+              {
+                "rank": 27,
+                "chunk_id": "cdae3b26dd11e33bf0c9b808",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 1,
+                "section_path": [
+                  "1. Indicationsforuse"
+                ],
+                "score": 0.01265823
+              },
+              {
+                "rank": 28,
+                "chunk_id": "2864eb563270ed2c92dfb734",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "USA"
+                ],
+                "score": 0.0125
+              },
+              {
+                "rank": 29,
+                "chunk_id": "d3cd8127d4b007ad0614158b",
+                "doc_id": "ohr-manual-endoscope-scan",
+                "page": 2,
+                "section_path": [
+                  "8.Storing"
+                ],
+                "score": 0.0125
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "b8142156812651f9f735994f",
+            "dd173dee7d5c3d7e265a7847",
+            "e6952bd74d5c884333b42a63",
+            "58b42cd67705188a5589b4cd",
+            "237c05d9b190fa83b38db7f6"
+          ],
+          "retrieved_count": 8,
+          "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+          "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+          "query": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "b8142156812651f9f735994f",
+              "evidence_id": "E1",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [
+                "NOTE"
+              ],
+              "score": 0.03177806
+            },
+            {
+              "chunk_id": "dd173dee7d5c3d7e265a7847",
+              "evidence_id": "E2",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [
+                "9.RepairExchangeProgram"
+              ],
+              "score": 0.03175403
+            },
+            {
+              "chunk_id": "e6952bd74d5c884333b42a63",
+              "evidence_id": "E3",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [
+                "INNOVIEW"
+              ],
+              "score": 0.03109932
+            },
+            {
+              "chunk_id": "58b42cd67705188a5589b4cd",
+              "evidence_id": "E4",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 1,
+              "section_path": [
+                "CHANNEL-USERINFORMATION"
+              ],
+              "score": 0.03105441
+            },
+            {
+              "chunk_id": "237c05d9b190fa83b38db7f6",
+              "evidence_id": "E5",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [
+                "NOTE"
+              ],
+              "score": 0.03036577
+            },
+            {
+              "chunk_id": "3025ce698553d70dae998606",
+              "evidence_id": "E6",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [
+                "NOTE"
+              ],
+              "score": 0.0298574
+            },
+            {
+              "chunk_id": "28e564e9a0b1c497584bbf89",
+              "evidence_id": "E7",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [
+                "1.ChemicalSterilization andSterisTM"
+              ],
+              "score": 0.02964427
+            },
+            {
+              "chunk_id": "c9be6d7fd663668a56e4328c",
+              "evidence_id": "E8",
+              "doc_id": "ohr-manual-endoscope-scan",
+              "page": 2,
+              "section_path": [
+                "NOTE"
+              ],
+              "score": 0.02951389
+            }
+          ]
+        },
+        "latency_ms": 89
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1"
+          ]
+        },
+        "latency_ms": 2815
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "citation_ids": [
+            "E1"
+          ]
+        },
+        "latency_ms": 2815
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 50,
+            "prompt_tokens": 1749,
+            "total_tokens": 1799,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1536
+            },
+            "prompt_cache_hit_tokens": 1536,
+            "prompt_cache_miss_tokens": 213
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1839
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1"
+          ],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "potential_uncited_statements": [],
+            "mode": "heuristic_warning_only",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "ohr-manual-endoscope-scan",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 43,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "e6952bd74d5c884333b42a63",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "INNOVIEW"
+            ],
+            "score": 7.05032449
+          },
+          {
+            "rank": 2,
+            "chunk_id": "dd173dee7d5c3d7e265a7847",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "9.RepairExchangeProgram"
+            ],
+            "score": 7.03913352
+          },
+          {
+            "rank": 3,
+            "chunk_id": "4c215f9e08b6f2a3adb3bda8",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "11. Warranty"
+            ],
+            "score": 5.62597483
+          },
+          {
+            "rank": 4,
+            "chunk_id": "c9be6d7fd663668a56e4328c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 4.41115567
+          },
+          {
+            "rank": 5,
+            "chunk_id": "b8142156812651f9f735994f",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 3.77610912
+          },
+          {
+            "rank": 6,
+            "chunk_id": "28e564e9a0b1c497584bbf89",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "1.ChemicalSterilization andSterisTM"
+            ],
+            "score": 3.77190267
+          },
+          {
+            "rank": 7,
+            "chunk_id": "58b42cd67705188a5589b4cd",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "CHANNEL-USERINFORMATION"
+            ],
+            "score": 3.52722722
+          },
+          {
+            "rank": 8,
+            "chunk_id": "3025ce698553d70dae998606",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 3.46166305
+          },
+          {
+            "rank": 9,
+            "chunk_id": "237c05d9b190fa83b38db7f6",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 2.96463506
+          },
+          {
+            "rank": 10,
+            "chunk_id": "a749a23e57f7c759823d56b4",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "ENDOSCOPE-RIGIDWITHOUTWORKING"
+            ],
+            "score": 2.38965568
+          },
+          {
+            "rank": 11,
+            "chunk_id": "03a938ce6e5eb13b75b46d7b",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "7. Autoclavable Endoscopes"
+            ],
+            "score": 2.2326106
+          },
+          {
+            "rank": 12,
+            "chunk_id": "1c0c79fc3dbece2b1e459aa1",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 2.16170158
+          },
+          {
+            "rank": 13,
+            "chunk_id": "b724a836058ea1be130a3618",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "9.RepairExchangeProgram"
+            ],
+            "score": 2.0788819
+          },
+          {
+            "rank": 14,
+            "chunk_id": "84498fb2d36a36f1d8949f53",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "ENDOSCOPY."
+            ],
+            "score": 2.02523282
+          },
+          {
+            "rank": 15,
+            "chunk_id": "43d671daecf7211c4b4b4493",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "ENDOSCOPICPROCEDURESBY"
+            ],
+            "score": 1.98758578
+          },
+          {
+            "rank": 16,
+            "chunk_id": "869f30c2de45995eb571286c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 1.98758578
+          },
+          {
+            "rank": 17,
+            "chunk_id": "9bc74f62a7344a8af1e95499",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "DEVICEISUSEDINAPPROVED"
+            ],
+            "score": 1.98758578
+          },
+          {
+            "rank": 18,
+            "chunk_id": "9bad08a551963779197cf9d1",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "COMPONENTS,LLC"
+            ],
+            "score": 1.92981016
+          },
+          {
+            "rank": 19,
+            "chunk_id": "cdae3b26dd11e33bf0c9b808",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "1. Indicationsforuse"
+            ],
+            "score": 1.92981016
+          },
+          {
+            "rank": 20,
+            "chunk_id": "d3cd8127d4b007ad0614158b",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "8.Storing"
+            ],
+            "score": 1.92981016
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "b8142156812651f9f735994f",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 0.60469657
+          },
+          {
+            "rank": 2,
+            "chunk_id": "58b42cd67705188a5589b4cd",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "CHANNEL-USERINFORMATION"
+            ],
+            "score": 0.59644049
+          },
+          {
+            "rank": 3,
+            "chunk_id": "237c05d9b190fa83b38db7f6",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 0.58645725
+          },
+          {
+            "rank": 4,
+            "chunk_id": "dd173dee7d5c3d7e265a7847",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "9.RepairExchangeProgram"
+            ],
+            "score": 0.57243562
+          },
+          {
+            "rank": 5,
+            "chunk_id": "03946717ec37356ed0468253",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "2.CautionsandWarnings"
+            ],
+            "score": 0.56507289
+          },
+          {
+            "rank": 6,
+            "chunk_id": "3025ce698553d70dae998606",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 0.56318706
+          },
+          {
+            "rank": 7,
+            "chunk_id": "9e615f6c99b313a368b5437c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "CHANNEL-USERINFORMATION"
+            ],
+            "score": 0.55917066
+          },
+          {
+            "rank": 8,
+            "chunk_id": "e6952bd74d5c884333b42a63",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "INNOVIEW"
+            ],
+            "score": 0.54924816
+          },
+          {
+            "rank": 9,
+            "chunk_id": "28e564e9a0b1c497584bbf89",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "1.ChemicalSterilization andSterisTM"
+            ],
+            "score": 0.54892129
+          },
+          {
+            "rank": 10,
+            "chunk_id": "3d1c824504548b947e85051e",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "1.ChemicalSterilization andSterisTM"
+            ],
+            "score": 0.54706067
+          },
+          {
+            "rank": 11,
+            "chunk_id": "84498fb2d36a36f1d8949f53",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "ENDOSCOPY."
+            ],
+            "score": 0.53738505
+          },
+          {
+            "rank": 12,
+            "chunk_id": "c9be6d7fd663668a56e4328c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 0.50880349
+          },
+          {
+            "rank": 13,
+            "chunk_id": "46c3513ba3228397d1b77526",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "2.CautionsandWarnings"
+            ],
+            "score": 0.49758261
+          },
+          {
+            "rank": 14,
+            "chunk_id": "31ffffee2a5f283ec70442bc",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "2.CautionsandWarnings"
+            ],
+            "score": 0.49365351
+          },
+          {
+            "rank": 15,
+            "chunk_id": "1c0c79fc3dbece2b1e459aa1",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.49139783
+          },
+          {
+            "rank": 16,
+            "chunk_id": "4b76fc4687acd0083187726a",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "10.Conformity"
+            ],
+            "score": 0.49098179
+          },
+          {
+            "rank": 17,
+            "chunk_id": "148868556cfc920491bfd197",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "2.CautionsandWarnings"
+            ],
+            "score": 0.49002972
+          },
+          {
+            "rank": 18,
+            "chunk_id": "65ba8f4fa5a49c793fe6b393",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "USA"
+            ],
+            "score": 0.48388478
+          },
+          {
+            "rank": 19,
+            "chunk_id": "4c215f9e08b6f2a3adb3bda8",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "11. Warranty"
+            ],
+            "score": 0.48354653
+          },
+          {
+            "rank": 20,
+            "chunk_id": "2864eb563270ed2c92dfb734",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "USA"
+            ],
+            "score": 0.48338696
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "b8142156812651f9f735994f",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 0.03177806
+          },
+          {
+            "rank": 2,
+            "chunk_id": "dd173dee7d5c3d7e265a7847",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "9.RepairExchangeProgram"
+            ],
+            "score": 0.03175403
+          },
+          {
+            "rank": 3,
+            "chunk_id": "e6952bd74d5c884333b42a63",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "INNOVIEW"
+            ],
+            "score": 0.03109932
+          },
+          {
+            "rank": 4,
+            "chunk_id": "58b42cd67705188a5589b4cd",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "CHANNEL-USERINFORMATION"
+            ],
+            "score": 0.03105441
+          },
+          {
+            "rank": 5,
+            "chunk_id": "237c05d9b190fa83b38db7f6",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 0.03036577
+          },
+          {
+            "rank": 6,
+            "chunk_id": "3025ce698553d70dae998606",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 0.0298574
+          },
+          {
+            "rank": 7,
+            "chunk_id": "28e564e9a0b1c497584bbf89",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "1.ChemicalSterilization andSterisTM"
+            ],
+            "score": 0.02964427
+          },
+          {
+            "rank": 8,
+            "chunk_id": "c9be6d7fd663668a56e4328c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 0.02951389
+          },
+          {
+            "rank": 9,
+            "chunk_id": "4c215f9e08b6f2a3adb3bda8",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "11. Warranty"
+            ],
+            "score": 0.02853124
+          },
+          {
+            "rank": 10,
+            "chunk_id": "84498fb2d36a36f1d8949f53",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "ENDOSCOPY."
+            ],
+            "score": 0.02759802
+          },
+          {
+            "rank": 11,
+            "chunk_id": "1c0c79fc3dbece2b1e459aa1",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [],
+            "score": 0.02722222
+          },
+          {
+            "rank": 12,
+            "chunk_id": "03946717ec37356ed0468253",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "2.CautionsandWarnings"
+            ],
+            "score": 0.01538462
+          },
+          {
+            "rank": 13,
+            "chunk_id": "9e615f6c99b313a368b5437c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "CHANNEL-USERINFORMATION"
+            ],
+            "score": 0.01492537
+          },
+          {
+            "rank": 14,
+            "chunk_id": "3d1c824504548b947e85051e",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "1.ChemicalSterilization andSterisTM"
+            ],
+            "score": 0.01428571
+          },
+          {
+            "rank": 15,
+            "chunk_id": "a749a23e57f7c759823d56b4",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "ENDOSCOPE-RIGIDWITHOUTWORKING"
+            ],
+            "score": 0.01428571
+          },
+          {
+            "rank": 16,
+            "chunk_id": "03a938ce6e5eb13b75b46d7b",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "7. Autoclavable Endoscopes"
+            ],
+            "score": 0.01408451
+          },
+          {
+            "rank": 17,
+            "chunk_id": "46c3513ba3228397d1b77526",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "2.CautionsandWarnings"
+            ],
+            "score": 0.01369863
+          },
+          {
+            "rank": 18,
+            "chunk_id": "b724a836058ea1be130a3618",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "9.RepairExchangeProgram"
+            ],
+            "score": 0.01369863
+          },
+          {
+            "rank": 19,
+            "chunk_id": "31ffffee2a5f283ec70442bc",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "2.CautionsandWarnings"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 20,
+            "chunk_id": "43d671daecf7211c4b4b4493",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "ENDOSCOPICPROCEDURESBY"
+            ],
+            "score": 0.01333333
+          },
+          {
+            "rank": 21,
+            "chunk_id": "4b76fc4687acd0083187726a",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "10.Conformity"
+            ],
+            "score": 0.01315789
+          },
+          {
+            "rank": 22,
+            "chunk_id": "869f30c2de45995eb571286c",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "NOTE"
+            ],
+            "score": 0.01315789
+          },
+          {
+            "rank": 23,
+            "chunk_id": "148868556cfc920491bfd197",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "2.CautionsandWarnings"
+            ],
+            "score": 0.01298701
+          },
+          {
+            "rank": 24,
+            "chunk_id": "9bc74f62a7344a8af1e95499",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "DEVICEISUSEDINAPPROVED"
+            ],
+            "score": 0.01298701
+          },
+          {
+            "rank": 25,
+            "chunk_id": "65ba8f4fa5a49c793fe6b393",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "USA"
+            ],
+            "score": 0.01282051
+          },
+          {
+            "rank": 26,
+            "chunk_id": "9bad08a551963779197cf9d1",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "COMPONENTS,LLC"
+            ],
+            "score": 0.01282051
+          },
+          {
+            "rank": 27,
+            "chunk_id": "cdae3b26dd11e33bf0c9b808",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 1,
+            "section_path": [
+              "1. Indicationsforuse"
+            ],
+            "score": 0.01265823
+          },
+          {
+            "rank": 28,
+            "chunk_id": "2864eb563270ed2c92dfb734",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "USA"
+            ],
+            "score": 0.0125
+          },
+          {
+            "rank": 29,
+            "chunk_id": "d3cd8127d4b007ad0614158b",
+            "doc_id": "ohr-manual-endoscope-scan",
+            "page": 2,
+            "section_path": [
+              "8.Storing"
+            ],
+            "score": 0.0125
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "b8142156812651f9f735994f",
+        "dd173dee7d5c3d7e265a7847",
+        "e6952bd74d5c884333b42a63",
+        "58b42cd67705188a5589b4cd",
+        "237c05d9b190fa83b38db7f6"
+      ],
+      "retrieved_count": 8,
+      "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+      "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+      "query": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "b8142156812651f9f735994f",
+          "section_path": [
+            "NOTE"
+          ],
+          "bbox": [
+            25.5,
+            249.0,
+            768.5,
+            297.0
+          ],
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "dd173dee7d5c3d7e265a7847",
+          "section_path": [
+            "9.RepairExchangeProgram"
+          ],
+          "bbox": [
+            61.5,
+            114.0,
+            765.0,
+            166.0
+          ],
+          "evidence_id": "E2"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "e6952bd74d5c884333b42a63",
+          "section_path": [
+            "INNOVIEW"
+          ],
+          "bbox": [
+            25.5,
+            402.0,
+            702.5,
+            457.0
+          ],
+          "evidence_id": "E3"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 1,
+          "chunk_id": "58b42cd67705188a5589b4cd",
+          "section_path": [
+            "CHANNEL-USERINFORMATION"
+          ],
+          "bbox": [
+            25.5,
+            93.5,
+            771.0,
+            142.5
+          ],
+          "evidence_id": "E4"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "237c05d9b190fa83b38db7f6",
+          "section_path": [
+            "NOTE"
+          ],
+          "bbox": [
+            25.5,
+            290.0,
+            762.5,
+            328.0
+          ],
+          "evidence_id": "E5"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "3025ce698553d70dae998606",
+          "section_path": [
+            "NOTE"
+          ],
+          "bbox": [
+            25.5,
+            354.5,
+            661.5,
+            414.0
+          ],
+          "evidence_id": "E6"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "28e564e9a0b1c497584bbf89",
+          "section_path": [
+            "1.ChemicalSterilization andSterisTM"
+          ],
+          "bbox": [
+            44.5,
+            35.0,
+            769.0,
+            67.0
+          ],
+          "evidence_id": "E7"
+        },
+        {
+          "doc_id": "ohr-manual-endoscope-scan",
+          "page": 2,
+          "chunk_id": "c9be6d7fd663668a56e4328c",
+          "section_path": [
+            "NOTE"
+          ],
+          "bbox": [
+            25.0,
+            326.0,
+            752.5,
+            368.5
+          ],
+          "evidence_id": "E8"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "potential_uncited_statements": [],
+        "mode": "heuristic_warning_only",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [
+        "E1"
+      ],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 2911,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

@@ -1,0 +1,117 @@
+{
+  "created_at_utc": "2026-10-10T18:25:57.160311+00:00",
+  "title": "D2 原清单九项逐项验收与证据",
+  "status": "ENGINEERING_PASS_HUMAN_REVIEW_PENDING",
+  "python": "3.12.10",
+  "model": "deepseek-flash",
+  "sql": {
+    "correct": 35,
+    "count": 35,
+    "exploratory_ex": 1.0,
+    "segments": {
+      "d1_common": {
+        "correct": 21,
+        "denominator": 21
+      },
+      "new_dev": {
+        "correct": 14,
+        "denominator": 14
+      }
+    }
+  },
+  "robust": {
+    "correct": 21,
+    "count": 21,
+    "exploratory_ex": 1.0,
+    "paired_original_ex": 1.0,
+    "decline_percentage_points": 0.0
+  },
+  "rag": {
+    "prediction_count": 21,
+    "hit_at_5": {
+      "passed": 20,
+      "denominator": 20
+    },
+    "insufficient_handling": {
+      "passed": 1,
+      "denominator": 1
+    },
+    "complete_gold_quote_hit_at_5": {
+      "passed": 14,
+      "denominator": 20
+    },
+    "auxiliary_judge_correct": 21,
+    "auxiliary_judge_supported": 21,
+    "auxiliary_judge_count": 21,
+    "human_review_count": 0
+  },
+  "modules": {
+    "passed": 281,
+    "seconds": 9.99,
+    "command_record": "eval/artifacts/d2/commands/20261010T181619630632Z-all-modules-source-guard-final.json"
+  },
+  "engineering": {
+    "passed": 58,
+    "total": 58
+  },
+  "ui": {
+    "case_count": 5,
+    "status": "PASSED",
+    "browser_errors": []
+  },
+  "corpus": {
+    "documents": 13,
+    "chunks": 2193,
+    "vector_shape": [
+      2193,
+      1024
+    ]
+  },
+  "review": {
+    "total_rows": 195,
+    "pending_rows": 191,
+    "previously_approved_metrics": 4,
+    "by_group": {
+      "metric": 4,
+      "alias": 81,
+      "nl2sql": 50,
+      "robust": 30,
+      "rag": 30
+    },
+    "gold_cases": 110,
+    "human_gold_accepted": 0,
+    "actual_dev_predictions": 77,
+    "human_actual_predictions_accepted": 0,
+    "holdout_cases": 33,
+    "holdout_predictions": 0
+  },
+  "holdout_prediction_count": 0,
+  "model_usage_final_benchmark_only": {
+    "api_requests": 77,
+    "llm_steps": 87,
+    "prompt_tokens": 295509,
+    "completion_tokens": 5434,
+    "total_tokens": 300943
+  },
+  "scope": "D2 only; formal EX and human semantic/faithfulness acceptance are pending; all holdout predictions reserved for D5"
+}
+{
+  "created_at_utc": "2026-10-10T18:26:00.560617+00:00",
+  "zip": "D2原清单九项验收与证据.zip",
+  "zip_sha256": "c07e87f25e2d1cb13098fca79aac9ccfeeb322993582fc765bcd068943cf5b59",
+  "bytes": 52987880,
+  "files": 626,
+  "zip_crc": "PASS",
+  "all_attachment_sha256": "PASS",
+  "configured_credential_matches": 0,
+  "evidence_links": 534,
+  "missing_links": [],
+  "excludes": [
+    "real .env and credentials",
+    "virtual environment",
+    "model weights",
+    "database volumes",
+    "Git metadata"
+  ],
+  "note": "Package audit is stored outside the ZIP to avoid a self-referential ZIP hash; per-file manifest is inside the ZIP"
+}

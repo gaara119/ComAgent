@@ -1,0 +1,70 @@
+{
+  "version": "d2-proposal-1",
+  "review_status": "approved",
+  "runtime_defaults_enabled": false,
+  "reviewer_a": "A via explicit user attestation",
+  "reviewer_b": "B via explicit user attestation",
+  "reviewed_at_utc": "2026-10-10T17:50:08.519114+00:00",
+  "source": "Project-authored proposal based on D2 plan; not external company policy",
+  "general": {
+    "date_field": "invoice.invoice_date",
+    "period": "Half-open [start_date, end_date); no missing period is silently filled",
+    "region": "customer.country is customer residence; invoice.billing_country is invoice billing address; equality in current snapshot does not merge meanings",
+    "unit": "Database amount unit; no inferred USD/CNY or payment status",
+    "zero_denominator": "Return null and explain unavailable denominator"
+  },
+  "metrics": [
+    {
+      "id": "sales_revenue",
+      "name": "发票销售额",
+      "grain": "invoice",
+      "expression": "SUM(invoice.total)",
+      "empty_behavior": "Aggregate SUM yields NULL; presentation may say no available sales records but must not silently replace with zero",
+      "alternative": "For track/artist analysis use SUM(invoice_line.unit_price * invoice_line.quantity), with invoice date filtering and no repeated SUM(invoice.total) after joining lines"
+    },
+    {
+      "id": "average_invoice_amount",
+      "name": "平均每张发票金额",
+      "short_label_proposal": "客单价",
+      "grain": "invoice",
+      "expression": "AVG(invoice.total)",
+      "empty_behavior": "NULL when no invoices",
+      "alternative": "平均每位购买客户金额 = SUM(invoice.total) / COUNT(DISTINCT invoice.customer_id), kept as a separately named metric"
+    },
+    {
+      "id": "repeat_customer_count",
+      "name": "期间内复购客户数",
+      "grain": "customer within explicitly given period",
+      "expression": "COUNT of customers with COUNT(invoice_id) >= 2 in period",
+      "empty_behavior": "0 when no qualifying customers",
+      "limitation": "Invoice records are not evidence of successful payment; crossing period bounds is not inferred"
+    },
+    {
+      "id": "popular_tracks",
+      "name": "热门曲目",
+      "grain": "track within explicitly given period",
+      "expression": "SUM(invoice_line.quantity)",
+      "default_from_total_plan": true,
+      "alternatives": [
+        "SUM(invoice_line.unit_price * invoice_line.quantity)",
+        "COUNT of playlist_track memberships"
+      ],
+      "tie_breaker": "track_id ascending",
+      "distinct_object_rule_proposal": "曲目最受欢迎 follows purchased quantity; 客户谁买得最多 follows appendix amount definition. Generic subject-free 谁买得最多 remains unresolved; no global default is installed in D2"
+    }
+  ],
+  "sql_examples": {
+    "revenue_invoice": "SELECT SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+    "average_invoice": "SELECT ROUND(AVG(total), 2) AS average_invoice_amount FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+    "repeat_customers": "SELECT COUNT(*) AS repeat_customer_count FROM (SELECT customer_id FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' GROUP BY customer_id HAVING COUNT(*) >= 2) AS repeat_customers;",
+    "popular_tracks": "SELECT track_id, SUM(quantity) AS purchased_quantity FROM public.invoice_line WHERE invoice_id IN (SELECT invoice_id FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01') GROUP BY track_id ORDER BY purchased_quantity DESC, track_id ASC LIMIT 5;",
+    "revenue_reconciliation": "SELECT (SELECT SUM(total) FROM public.invoice) AS invoice_revenue, (SELECT SUM(unit_price * quantity) FROM public.invoice_line) AS detail_revenue, (SELECT SUM(total) FROM public.invoice) - (SELECT SUM(unit_price * quantity) FROM public.invoice_line) AS difference;",
+    "available_dates": "SELECT MIN(invoice_date) AS first_date, MAX(invoice_date) AS last_date FROM public.invoice;"
+  },
+  "human_confirmation": {
+    "method": "explicit_user_reply",
+    "statement": "A、B已共同核对同意四项口径",
+    "scope": "four business definitions and distinct query-object rule only; does not approve evaluation gold or aliases",
+    "proposal_sha256": "ab52f7a03866528fbfaa4e45c98193fd8ce9bce297c84b31e243c9e66254ea1e"
+  }
+}

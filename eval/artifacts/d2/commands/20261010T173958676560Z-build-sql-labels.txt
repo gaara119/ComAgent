@@ -1,0 +1,10 @@
+
+[stderr]
+Traceback (most recent call last):
+  File "E:\中国电子杯-赛题八\system\eval\build_d2_sql_datasets.py", line 170, in <module>
+    print(json.dumps(build(p.parse_args().output_dir),ensure_ascii=False,indent=2))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\中国电子杯-赛题八\system\eval\build_d2_sql_datasets.py", line 139, in build
+    assert len(variants) == 30 and Counter(i["split"] for i in variants) == {"dev":21,"holdout":9}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

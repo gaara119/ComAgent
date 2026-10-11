@@ -1,0 +1,134 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>D2 原清单九项逐项验收与证据</title><style>body{max-width:1100px;margin:32px auto;padding:0 20px;font:16px/1.75 system-ui,Microsoft YaHei,sans-serif;color:#202830}h1{font-size:30px}h2{font-size:23px;margin-top:36px}a{color:#075eb1;overflow-wrap:anywhere}table{width:100%;border-collapse:collapse}th,td{padding:10px;border:1px solid #ccd3da;text-align:left;vertical-align:top}th{background:#f2f5f8}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f5f7;padding:16px}code{font-family:Consolas,monospace;font-size:14px}</style><body><h1>D2 原清单九项逐项验收与证据</h1>
+<p><strong>结论：九项工程功能已接入现有 D1 项目并完成实际测试；人工审核按用户要求集中留到末尾。正式成绩尚未发布。</strong></p>
+<p>执行日期：2026-10-10；原计划 D2 日期为 10/11。所有命令和原始日志保留真实 UTC 时间。沿用 Python 3.12.10、已验证的 DeepSeek <code>deepseek-flash</code>、原 Chinook PostgreSQL 与只读 <code>qa_reader</code>。</p>
+<table>
+<thead>
+<tr>
+<th>实测项目</th>
+<th>最终结果</th>
+<th>成绩性质</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单表 SQL 开发集</td>
+<td>35/35，100.00%</td>
+<td>gold 待审的探索 EX；D1 同题21/21、新增14/14</td>
+</tr>
+<tr>
+<td>鲁棒开发集</td>
+<td>21/21，100.00%；相对同源原题下降 0.00 个百分点</td>
+<td>六类扰动全部计入；gold 待审</td>
+</tr>
+<tr>
+<td>RAG 开发集</td>
+<td>21 次真实请求；可答题 Hit@5 20/20；不足题 1/1</td>
+<td>PDF 金标页或非 PDF 金标片段命中；不足题不计命中率分母</td>
+</tr>
+<tr>
+<td>RAG 辅助模型复核</td>
+<td>答案一致 21/21；断言支持 21/21</td>
+<td>同厂商模型辅助判分；人工正确性、忠实度仍待审核</td>
+</tr>
+<tr>
+<td>模块与工程验收</td>
+<td>281 passed，9.99秒；工程 58/58</td>
+<td>真实命令及原始输出均保存</td>
+</tr>
+<tr>
+<td>页面联调</td>
+<td>5个实际场景通过，0浏览器错误；步骤展开前后同会话API请求数不变</td>
+<td>Edge浏览器操作、真实trace与截图</td>
+</tr>
+<tr>
+<td>保留集</td>
+<td>SQL15＋鲁棒9＋RAG9，共33题，预测0</td>
+<td>D5冻结后运行</td>
+</tr>
+</tbody>
+</table>
+<p>RAG 的更严格“完整 gold 引文位于 Top5 单片段”诊断为 14/20，另行保存；它与原计划按证据页/片段定义的 Hit@5 区分，不能用页命中冒称完整引文或语义审核通过。</p>
+<p>开始开发时 Git HEAD 为 <code>be79386147942e068b36ce7eb53cc4f95e200422</code>。实际开发评测运行时工作区有 D2 增量，原报告明确记录 <code>working_tree_dirty=true</code>。77题最终跑批后，页面联调发现并修复显式未知表问题，另存受影响的真实正反例回归；没有把此前77题改称在修复后重新运行。</p>
+<h2>原清单覆盖与 D1 复用</h2>
+<p>A4项、B5项与实施说明 D2-01至D2-09完整对应。<a href="../../../notes/d2-execution-checklist.md">覆盖核对与差异处理</a>列明开发/保留划分、13份目标、来源范围纠正、协议页码和不提前实现D3的边界。<a href="../../../notes/references/d2/%E6%96%B9%E6%A1%88.md">总计划</a>与<a href="../../../notes/references/d2/D2-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88.md">具体实施说明</a>原样保留。</p>
+<p>D1 保留证据87份、原 SQL/RAG 题库、共享 <code>schemas.py</code> 均通过前后SHA核对；原BGE索引三个文件未改，数据库11张表内容哈希未变。此次只读查询和构建本机索引，没有重建或重复导入数据库。证据：<a href="../../artifacts/d2/preflight-final.json">eval/artifacts/d2/preflight-final.json</a>、<a href="../../artifacts/d2/d1-index-preservation.json">eval/artifacts/d2/d1-index-preservation.json</a>。</p>
+<p>题库中的exposure字段是创建时的历史快照；本轮当前实际预测次数另存 <a href="../../artifacts/d2/exposure-ledger-final.json">eval/artifacts/d2/exposure-ledger-final.json</a>，不得把初始 <code>d2_model_exposed=false</code> 误读为开发题从未实跑。已运行的全部题仍属开发集，33保留题预测0。</p>
+<h2>D2-01 / A1</h2>
+<p><strong>要求：</strong> 写 build_value_index.py：值索引、别名初稿（LLM生成后人工审核）、拼音、向量。</p>
+<p><strong>实现情况：</strong> 已对全部34个低基数文本列建立5528条字段值记录、拼音索引及5528×1024真实BGE向量。81条别名保留模型草稿与建议审核取舍；已接受0、排除81，待审别名未进入运行索引。</p>
+<p><strong>改动文件：</strong> <a href="../../../scripts/build_value_index.py">scripts/build_value_index.py</a>、<a href="../../../qa_agent/nlu/value_index.py">qa_agent/nlu/value_index.py</a>、<a href="../../../data/aliases/aliases.csv">data/aliases/aliases.csv</a>。</p>
+<p><strong>测试方法与实际结果：</strong> 真实qa_reader DISTINCT取值＋真实BGE编码＋索引SHA/形状/有限值/归一化检查。所有列&lt;5000 distinct，构建无失败列；一次编码耗时54.447秒。</p>
+<p><strong>证据位置：</strong> <a href="../../artifacts/d2/index-audit.json">eval/artifacts/d2/index-audit.json</a>、<a href="../../artifacts/d2/aliases-74-model-draft.csv">eval/artifacts/d2/aliases-74-model-draft.csv</a>、<a href="../../../notes/d2-alias-review.md">notes/d2-alias-review.md</a>。</p>
+<p><strong>未完成事项 / 口径限制：</strong> 工程完成；81条别名人工审核待完成。审核通过后按具体批准条目重新构建值索引，不能直接启用整份草稿。</p>
+<h2>D2-02 / A2</h2>
+<p><strong>要求：</strong> 写五级linker和补丁rewrite；值绑定作为硬约束传给SQL生成。</p>
+<p><strong>实现情况：</strong> 精确→拼音→字符近似→向量Top5→受限LLM裁决已接入/api/chat。保留字符Top5和向量Top5各自的候选/分数来源，合法候选ID经枚举约束；补丁只改原始span并记录原题、改写题、方法与绑定。SQL生成接收绑定，执行前SQLGlot检查WHERE/HAVING及布尔/子查询绕过。原值不存在时保留，真实歧义发起最小澄清。显式未知表在模型/执行前拒绝，避免偷偷换表。</p>
+<p><strong>改动文件：</strong> <a href="../../../qa_agent/nlu/linker.py">qa_agent/nlu/linker.py</a>、<a href="../../../qa_agent/nlu/rewrite.py">qa_agent/nlu/rewrite.py</a>、<a href="../../../qa_agent/pipeline.py">qa_agent/pipeline.py</a>、<a href="../../../qa_agent/sql/generator.py">qa_agent/sql/generator.py</a>、<a href="../../../qa_agent/sql/validator.py">qa_agent/sql/validator.py</a>、<a href="../../../qa_agent/sql/executor.py">qa_agent/sql/executor.py</a>。</p>
+<p><strong>测试方法与实际结果：</strong> 真实API边界 11/11：精确Brazil、字符Brasil、真实标准值拼音u s a、语义ba xi/jia na da、职位错字、Narnia0与摇滚歧义；另有显式来源修复后的独立真实正反例。ON/OFF诊断6/6均正确，不能宣称本小样本证明EX提升。</p>
+<p><strong>证据位置：</strong> <a href="../../artifacts/d2/a-live/final/summary.json">eval/artifacts/d2/a-live/final/summary.json</a>、<a href="../../artifacts/d2/a-live/final/api-responses.jsonl">eval/artifacts/d2/a-live/final/api-responses.jsonl</a>、<a href="../../artifacts/d2/a-live/final/ablation-responses.jsonl">eval/artifacts/d2/a-live/final/ablation-responses.jsonl</a>、<a href="../../artifacts/d2/a-live/source-guard">eval/artifacts/d2/a-live/source-guard</a>。</p>
+<p><strong>未完成事项 / 口径限制：</strong> 工程完成。中文拼音ba xi/jia na da本轮走受限LLM，未冒称命中尚未审核的中文别名拼音索引。完整D3澄清状态机不在D2范围。</p>
+<h2>D2-03 / A3</h2>
+<p><strong>要求：</strong> 单表题扩到50道，写30道鲁棒变体。</p>
+<p><strong>实现情况：</strong> 保留D1原始题库，新增D2题库版本。50道SQL覆盖COUNT、筛选、聚合、分组、TopN、日期、LIKE、NULL和不存在值；30变体按错字、别名、拼音、混合语言、口语、冗余词各5题。所有50条gold SQL真实只读执行并保存结果；变体保持同源标准结果和分组。</p>
+<p><strong>改动文件：</strong> <a href="../../build_d2_sql_datasets.py">eval/build_d2_sql_datasets.py</a>、<a href="../../datasets/nl2sql_chinook_d2.jsonl">eval/datasets/nl2sql_chinook_d2.jsonl</a>、<a href="../../datasets/robust.jsonl">eval/datasets/robust.jsonl</a>、<a href="../../datasets/d2_sql.manifest.json">eval/datasets/d2_sql.manifest.json</a>。</p>
+<p><strong>测试方法与实际结果：</strong> 题库结构和同源关系检查PASS：SQL35dev/15holdout、鲁棒21dev/9holdout；原D1 21/9分组不改。gold执行与模型预测分开记录。</p>
+<p><strong>证据位置：</strong> <a href="../../artifacts/d2/input-audit-final.json">eval/artifacts/d2/input-audit-final.json</a>、<a href="../../datasets/review_d2/sql_gold_review.md">eval/datasets/review_d2/sql_gold_review.md</a>。</p>
+<p><strong>未完成事项 / 口径限制：</strong> 工程完成；50题gold与30变体语义保持逐题待审。保留题尚未预测。</p>
+<h2>D2-04 / A4</h2>
+<p><strong>要求：</strong> 按目录语义、值链接、SQL结构等错误修正；目标EX≥85%。</p>
+<p><strong>实现情况：</strong> 实际开发集初跑、分类修复、回归已完成。鲁棒初轮18/21中的职位抽取和两道拼音候选问题修复为21/21；页面发现的未知表假空结果另存原始失败与回归。D1评测模型元数据兼容性回退已修复，原失败日志保留。</p>
+<p><strong>改动文件：</strong> <a href="../../run_eval.py">eval/run_eval.py</a>、<a href="../../metrics.py">eval/metrics.py</a>、<a href="../../reanalyze_d2_rag.py">eval/reanalyze_d2_rag.py</a>、<a href="../../../tests/test_d2_evaluation.py">tests/test_d2_evaluation.py</a>。</p>
+<p><strong>测试方法与实际结果：</strong> 单表最终35/35达到D2探索检查点，D1同题21/21、新题14/14；鲁棒最终21/21，相对同源原题下降0个百分点。正式入口真实返回READINESS_ONLY、预测0，因为gold未人工接受。</p>
+<p><strong>证据位置：</strong> <a href="../../artifacts/d2/nl2sql/final/report.json">eval/artifacts/d2/nl2sql/final/report.json</a>、<a href="../../artifacts/d2/nl2sql/final/responses.jsonl">eval/artifacts/d2/nl2sql/final/responses.jsonl</a>、<a href="../../artifacts/d2/robust/initial/report.json">eval/artifacts/d2/robust/initial/report.json</a>、<a href="../../artifacts/d2/robust/final/report.json">eval/artifacts/d2/robust/final/report.json</a>、<a href="../../artifacts/d2/robust/final/responses.jsonl">eval/artifacts/d2/robust/final/responses.jsonl</a>、<a href="../../artifacts/d2/nl2sql/review-gate/report.json">eval/artifacts/d2/nl2sql/review-gate/report.json</a>、<a href="../../artifacts/d2/errors-and-fixes.json">eval/artifacts/d2/errors-and-fixes.json</a>。</p>
+<p><strong>未完成事项 / 口径限制：</strong> 工程及草稿开发探索通过；正式EX≥85%的人工验收状态待gold审核后再运行，未把探索成绩写成正式成绩。</p>
+<h2>D2-05 / B1</h2>
+<p><strong>要求：</strong> trace接进界面：步骤时间线，每步可以展开。</p>
+<p><strong>实现情况：</strong> 保持SQL结果、引用来源、处理步骤与耗时三个固定面板；每个真实Step可展开输入/输出摘要、状态和耗时。显示原题、补丁改写、引用原文及真实页/章节/图像；使用会话内响应重绘。</p>
+<p><strong>改动文件：</strong> <a href="../../../ui/app.py">ui/app.py</a>、<a href="../../../api/main.py">api/main.py</a>、<a href="../../../scripts/capture_d2_demo.py">scripts/capture_d2_demo.py</a>、<a href="../../../scripts/d2_capture_api.py">scripts/d2_capture_api.py</a>。</p>
+<p><strong>测试方法与实际结果：</strong> 真实Edge五场景：普通SQL、纠错SQL、图片RAG、证据不足、显式失败。UI与API trace一致，展开前后同会话API请求数1→1，不额外调用LLM；固定三面板，0浏览器错误。记录器只为验收启用，复用原API handler。</p>
+<p><strong>证据位置：</strong> <a href="../../artifacts/d2/e2e/browser/d2-live-final/report.json">eval/artifacts/d2/e2e/browser/d2-live-final/report.json</a>、<a href="../../../notes/screenshots/D2-d2-live-final-sql.png">notes/screenshots/D2-d2-live-final-sql.png</a>、<a href="../../../notes/screenshots/D2-d2-live-final-rewrite.png">notes/screenshots/D2-d2-live-final-rewrite.png</a>、<a href="../../../notes/screenshots/D2-d2-live-final-rag-ocr.png">notes/screenshots/D2-d2-live-final-rag-ocr.png</a>、<a href="../../../notes/screenshots/D2-d2-live-final-insufficient.png">notes/screenshots/D2-d2-live-final-insufficient.png</a>、<a href="../../../notes/screenshots/D2-d2-live-final-failure.png">notes/screenshots/D2-d2-live-final-failure.png</a>。</p>
+<p><strong>未完成事项 / 口径限制：</strong> 工程完成。首次Streamlit交互式邮箱提示导致headless启动失败、首轮表格挂载断言过早的原日志均保留并修复。</p>
+<h2>D2-06 / B2</h2>
+<p><strong>要求：</strong> 混合检索RRF、引用ID核验、数字核验。</p>
+<p><strong>实现情况：</strong> 先严格筛选指定doc_id，两路各Top20，RRF k=60从rank1起、稳定chunk_id打破同分，生成Top8。编号引用必须存在且实际文档一致；数值按对应引用片段核对数字、币种符号、负号、百分号和量级，失败至多重生成一次，仍不通过如实FAILED；不足返回EMPTY_RESULT且无伪造引用。</p>
+<p><strong>改动文件：</strong> <a href="../../../qa_agent/rag/retriever.py">qa_agent/rag/retriever.py</a>、<a href="../../../qa_agent/rag/answer.py">qa_agent/rag/answer.py</a>、<a href="../../../qa_agent/rag/service.py">qa_agent/rag/service.py</a>、<a href="../../../tests/test_d2_rag.py">tests/test_d2_rag.py</a>。</p>
+<p><strong>测试方法与实际结果：</strong> 真实开发21题：20可答有引用且来源/文字/page/section/bbox与当前哈希验证索引一致；1不足无引用。模块覆盖非法ID、数字串号/单位、重试与最终失败；这些fixture不冒称真实模型错误实跑。实际保留两路及融合完整排名，Hit@5只检查前5。</p>
+<p><strong>证据位置：</strong> <a href="../../artifacts/d2/rag/final/report.json">eval/artifacts/d2/rag/final/report.json</a>、<a href="../../artifacts/d2/rag/final/responses.jsonl">eval/artifacts/d2/rag/final/responses.jsonl</a>、<a href="../../artifacts/d2/rag/final/reanalysis.json">eval/artifacts/d2/rag/final/reanalysis.json</a>、<a href="../../artifacts/d2/e2e/evidence-authenticity-final.json">eval/artifacts/d2/e2e/evidence-authenticity-final.json</a>。</p>
+<p><strong>未完成事项 / 口径限制：</strong> 工程完成。数字字面检查不等于完整语义忠实度；实际答案人工正确性及忠实度留统一审核表。</p>
+<h2>D2-07 / B3</h2>
+<p><strong>要求：</strong> 补齐DOCX、HTML、MD、图片OCR解析器；知识库13份；manifest含来源/格式/许可。</p>
+<p><strong>实现情况：</strong> 13独立资料：原生PDF6、另一来源扫描PDF1、Top4艺术家HTML2/DOCX1/PNG1、指标DOCX1、中文字典MD1；5种扩展格式、按原生/扫描区分6种资料形式。真实OCR保留bbox与置信度；DOCX/HTML/MD保持章节，PDF物理页从1计，非PDF page=null。500字符目标、80重叠，不跨页/章节。来源、许可、语言、派生关系、内容SHA和摄取状态有独立审计。</p>
+<p><strong>改动文件：</strong> <a href="../../../qa_agent/rag/parsers.py">qa_agent/rag/parsers.py</a>、<a href="../../../qa_agent/rag/chunker.py">qa_agent/rag/chunker.py</a>、<a href="../../../qa_agent/rag/index.py">qa_agent/rag/index.py</a>、<a href="../../../scripts/ingest_docs.py">scripts/ingest_docs.py</a>、<a href="../../../scripts/prepare_d2_documents.py">scripts/prepare_d2_documents.py</a>、<a href="../../../data/docs/manifest.csv">data/docs/manifest.csv</a>。</p>
+<p><strong>测试方法与实际结果：</strong> 最终13/13入库，2193×1024真实BGE归一化向量；7英文/6中文。13原文件下载SHA、7PDF首末物理页预览、6非PDF伪物理页拒绝均实测通过。初建11/13因两DOCX在终版渲染中改动hash而失败，原失败索引/日志保留，终版用新目录重新构建。</p>
+<p><strong>证据位置：</strong> <a href="../../artifacts/d2/docs-audit-initial.json">eval/artifacts/d2/docs-audit-initial.json</a>、<a href="../../artifacts/d2/docs-audit-final.json">eval/artifacts/d2/docs-audit-final.json</a>、<a href="../../artifacts/d2/source/corpus-preparation.json">eval/artifacts/d2/source/corpus-preparation.json</a>、<a href="../../artifacts/d2/source/artist-source-audit.json">eval/artifacts/d2/source/artist-source-audit.json</a>、<a href="../../artifacts/d2/source/ohr-scan-source.json">eval/artifacts/d2/source/ohr-scan-source.json</a>、<a href="engineering.json">eval/reports/d2-acceptance/engineering.json</a>。</p>
+<p><strong>未完成事项 / 口径限制：</strong> 工程完成。扫描多栏顺序和562个不完整句子边界标志如实保留。艺人资料为署名中文改写；PNG为实际本地简介网页截图，未冒称维基原站截图。manifest的prepared表示源文件注册，实际ingested状态见最终索引审计。</p>
+<h2>D2-08 / B4</h2>
+<p><strong>要求：</strong> 2–3页DOCX业务指标口径手册，含销售额、客单价、复购、热门曲目及SQL。</p>
+<p><strong>实现情况：</strong> 已生成3页指标手册，四项口径有A/B明确共同同意记录；金额单位不臆测，日期左闭右开，NULL/零分母/地区字段含义明确。机器定义同步保存，完整D3运行默认仍关闭。</p>
+<p><strong>改动文件：</strong> <a href="../../../data/docs/raw/d2/Chinook%E4%B8%9A%E5%8A%A1%E6%8C%87%E6%A0%87%E5%8F%A3%E5%BE%84%E6%89%8B%E5%86%8C.docx">data/docs/raw/d2/Chinook业务指标口径手册.docx</a>、<a href="../../../data/rules/metric_definitions.json">data/rules/metric_definitions.json</a>、<a href="../../../scripts/prepare_d2_metric_proposal.py">scripts/prepare_d2_metric_proposal.py</a>、<a href="../../../scripts/render_d2_docx.ps1">scripts/render_d2_docx.ps1</a>。</p>
+<p><strong>测试方法与实际结果：</strong> 6段示例SQL真实只读执行。2024发票销售477.53，平均每张发票5.75，至少两张发票复购27人；整库发票额与明细额2328.60一致。Word实际导出3页PDF并渲染逐页检查；艺人DOCX为1页。</p>
+<p><strong>证据位置：</strong> <a href="../../artifacts/d2/source/metric-human-review.json">eval/artifacts/d2/source/metric-human-review.json</a>、<a href="../../artifacts/d2/source/metric-sql-checks.json">eval/artifacts/d2/source/metric-sql-checks.json</a>、<a href="../../artifacts/d2/source/docx-authoring-audit.json">eval/artifacts/d2/source/docx-authoring-audit.json</a>。</p>
+<p><strong>未完成事项 / 口径限制：</strong> 四指标口径已确认，保留既有记录，不重复要求批准。文档版式由Codex检查，未将它当作题库gold或答案忠实度的人审。</p>
+<h2>D2-09 / B5</h2>
+<p><strong>要求：</strong> RAG扩到30题＝OHR20＋自建文档10；跑第一轮评测。</p>
+<p><strong>实现情况：</strong> 原20官方text QA保持问题、答案、物理页和14dev/6holdout；10自建文档题中含3不足，新增7dev/3holdout，最终21dev/9holdout。准备阶段将一OHR扫描题误算自建来源的问题在正式模型预测前纠正，原版本与独立OCR探针保留。</p>
+<p><strong>改动文件：</strong> <a href="../../../scripts/prepare_d2_rag_dataset.py">scripts/prepare_d2_rag_dataset.py</a>、<a href="../../datasets/rag_single.jsonl">eval/datasets/rag_single.jsonl</a>、<a href="../../datasets/rag_single.manifest.json">eval/datasets/rag_single.manifest.json</a>、<a href="../../d2_rag_eval.py">eval/d2_rag_eval.py</a>、<a href="../../judge_d2_rag.py">eval/judge_d2_rag.py</a>。</p>
+<p><strong>测试方法与实际结果：</strong> 初轮及最终开发实跑各21请求；最终可答Hit@5 20/20、不足1/1；同源D1开发14题＋新增7题分别记录。最终辅助模型答案一致21/21、断言支持21/21，源响应/题库SHA和真实模型/调用trace齐全。</p>
+<p><strong>证据位置：</strong> <a href="../../artifacts/d2/rag/initial/report.json">eval/artifacts/d2/rag/initial/report.json</a>、<a href="../../artifacts/d2/rag/final/report.json">eval/artifacts/d2/rag/final/report.json</a>、<a href="../../artifacts/d2/rag/final/ai-judge.json">eval/artifacts/d2/rag/final/ai-judge.json</a>、<a href="../../artifacts/d2/source/rag-source-scope-correction.json">eval/artifacts/d2/source/rag-source-scope-correction.json</a>、<a href="../../artifacts/d2/source/ocr-e2e-case.json">eval/artifacts/d2/source/ocr-e2e-case.json</a>、<a href="unified-review.html">eval/reports/d2-acceptance/unified-review.html</a>。</p>
+<p><strong>未完成事项 / 口径限制：</strong> 工程、题集与实际基线完成；30题gold、实际开发答案正确性/忠实度仍待人工审核，不能发布正式RAG答案准确率或忠实度。9道保留题D5待测。</p>
+<h2>实际命令、原始记录和后续审核</h2>
+<p>全部执行命令、exit code、UTC时间和脱敏输出见 <a href="../../artifacts/d2/commands/commands.jsonl">eval/artifacts/d2/commands/commands.jsonl</a>。最终模块原始输出：<a href="../../artifacts/d2/commands/20261010T181619630632Z-all-modules-source-guard-final.txt">eval/artifacts/d2/commands/20261010T181619630632Z-all-modules-source-guard-final.txt</a>；测试含确定性fixture与真实独立probe，二者分别记录。依赖检查 <a href="../../artifacts/d2/commands/20261010T182423581339Z-dependency-check-final.txt">eval/artifacts/d2/commands/20261010T182423581339Z-dependency-check-final.txt</a>。</p>
+<p>开发评测实际使用以下命令（每次使用独立目录；原失败保留）：</p>
+<pre><code class="language-powershell">.\.venv\Scripts\python.exe eval\run_eval.py --suite nl2sql --split dev --draft-gold --run-id d2-nl2sql-final --output-dir eval/artifacts/d2/nl2sql/final
+.\.venv\Scripts\python.exe eval\run_eval.py --suite robust --split dev --draft-gold --run-id d2-robust-final --output-dir eval/artifacts/d2/robust/final
+.\.venv\Scripts\python.exe eval\run_eval.py --suite rag --split dev --draft-gold --run-id d2-rag-final --output-dir eval/artifacts/d2/rag/final
+.\.venv\Scripts\python.exe -m pytest -q
+</code></pre>
+<p>最后三套正式题集开发跑批合计77个API请求、87个真实LLM步骤、300943 total_tokens。用量仅从这些最终响应的trace计算，不包括初轮、辅助评审、UI、额外probe与小样本消融；见本报告JSON。最终跑批并行运行，各均值为当时HTTP耗时，不冒称与D1串行延迟直接可比或已经做了D6效率压测。</p>
+<p>人工审核集中使用 <a href="unified-review.html">统一审核表 HTML</a> 或 <a href="unified-review.md">同内容 Markdown</a>，标准材料与真实回答已内嵌，无需为了解答逐个翻源码。191项待审＝81别名＋50SQLgold＋30鲁棒语义＋30RAG gold/回答；另4指标为既有共同批准记录。按题号填写A/B、日期、结论和意见；RAG同一项分别核对gold、答案正确性、引用忠实度。保留33题当前实际回答为空，D5前只审核题目与标准材料。</p>
+<p>审核后将具体通过/拒绝条目与改动告知或交回审核记录，先更新被批准的标注与哈希，再用新的run-id运行正式开发评测；若有gold修正，重新执行相应只读SQL并保存修订证据。当前没有替用户填写人工接受，也没有因为等待审核停止工程工作。</p>
+<h2>打包与查看</h2>
+<p>ZIP内保留项目目录，根目录的同内容HTML报告可直接用浏览器打开；HTML的源码、日志、截图和原文附件均用相对路径。需先完整解压再打开。统一审核表在 <code>eval/reports/d2-acceptance/unified-review.html</code>，支持题号/词句搜索与dev/holdout筛选。</p>
+<p>附件包含对应源码、题集、标准结果、原始模型响应、日志、五场景截图、13份原资料及来源许可；不包含真实.env、数据库密码、虚拟环境、模型权重或PostgreSQL数据卷。附带索引供复核；新电脑运行须按README安装Python3.12依赖、准备本机模型/凭据并连接现有数据库。报告查看不需API key。</p>
+<p>当前本机页面：<code>http://127.0.0.1:8501/</code>；API：<code>http://127.0.0.1:8000/docs</code>。这两个地址供本机使用，附件中的证据不依赖这两个服务地址。</p>
+</body></html>

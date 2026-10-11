@@ -41,7 +41,8 @@ def validate_frozen_tag(tag: str) -> None:
 def _write_report(directory: Path, report: dict[str, Any]) -> None:
     directory.mkdir(parents=True, exist_ok=True)
     (directory / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
-    lines = ["# D1 SQL 评测记录", "", f"状态：{report['status']}",
+    title = "D2" if report.get("run_id") else "D1"
+    lines = [f"# {title} SQL 评测记录", "", f"状态：{report['status']}",
              f"题集：{report['split']}；选中 {report['selected_count']} 题；实际预测 {report['prediction_count']} 题。",
              "保留题预测：" + ("本次显式授权冻结评测" if report["split"] == "holdout" and report["prediction_count"] else "本次未运行"),
              f"模型：{report['provenance']['configured_model']}；Git commit：{report['provenance']['git_commit'] or '尚未提交'}。", ""]
@@ -74,16 +75,21 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
     settings = get_settings()
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     directory = args.output or ROOT / "eval/reports" / f"{args.split}_{stamp}"
+    if getattr(args, "run_id", None) and (directory / "report.json").exists():
+        raise ValueError("此 D2 运行目录已有结果，请使用新的 --run-id / --output-dir，保留原错误记录")
     provenance = {
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "git_commit": _git("rev-parse", "HEAD"),
         "working_tree_dirty": bool(_git("status", "--porcelain")),
         "frozen_tag": args.frozen_tag,
-        "dataset": str(args.dataset.resolve()),
+        "dataset": (args.dataset.resolve().relative_to(ROOT).as_posix()
+                    if args.dataset.resolve().is_relative_to(ROOT) else str(args.dataset.resolve())),
         "dataset_sha256": hashlib.sha256(args.dataset.read_bytes()).hexdigest(),
         "source_sha256": sorted({item.get("source_sha256", "unknown") for item in selected}),
         "configured_model": settings.llm_model,
         "api_base_url": args.base_url,
+        "run_id": getattr(args, "run_id", None),
+        "comparison_policy": "global column mapping; duplicate rows preserved; continuous numbers 2dp, integer columns exact" if getattr(args,"suite",None) else "D1 declared monetary rounding",
         "actual_models": [],
         "gold_review": ("draft" if args.draft_gold else
                         "human_accepted" if all(reviewed(item) for item in selected) else "pending_human_review"),
@@ -115,6 +121,7 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
         "selected_count": len(selected), "prediction_count": 0,
         "holdout_prediction_count": 0, "blockers": blockers,
         "gold_pending_ids": pending, "provenance": provenance,
+        "suite": getattr(args, "suite", None), "run_id": getattr(args, "run_id", None),
     }
     if blockers:
         _write_report(directory, report)
@@ -133,6 +140,8 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
                                       "category": item["category"], "request": request.model_dump(),
                                       "expected_result": item["gold_result"], "response": None,
                                       "matched": False, "failure_category": None}
+            record.update(base_id=item.get("base_id"), variant_type=item.get("variant_type"),
+                          is_d1_common=item.get("exposure_history",{}).get("d1_model_exposed",False))
             started = time.perf_counter()
             try:
                 response = client.post(args.base_url.rstrip("/") + "/api/chat", json=request.model_dump())
@@ -140,9 +149,17 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
                 response.raise_for_status()
                 envelope = AnswerEnvelope.model_validate(response.json())
                 record["response"] = envelope.model_dump(mode="json")
-                actual_model = envelope.metadata.get("model")
-                if actual_model and actual_model not in provenance["actual_models"]:
-                    provenance["actual_models"].append(actual_model)
+                for step in envelope.steps:
+                    actual_model = step.output_summary.get("model") if step.name == "llm" else None
+                    if actual_model and actual_model not in provenance["actual_models"]:
+                        provenance["actual_models"].append(actual_model)
+                # Preserve the existing D1 response contract. Real D2 calls
+                # prefer the model returned by the traced LLM response;
+                # legacy envelopes may expose it only in response metadata.
+                legacy_model = envelope.metadata.get("model")
+                if not any(step.name == "llm" and step.output_summary.get("model") for step in envelope.steps):
+                    if legacy_model and legacy_model not in provenance["actual_models"]:
+                        provenance["actual_models"].append(legacy_model)
                 if envelope.status not in {"SUCCEEDED", "EMPTY_RESULT"}:
                     record["failure_category"] = envelope.error.code if envelope.error else envelope.status.lower()
                 elif envelope.table is None:
@@ -156,6 +173,9 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
                         monetary_columns=item.get("monetary_columns", []),
                         numeric_columns=[i for i, value in enumerate(types) if value == "number"],
                         temporal_columns=[i for i, value in enumerate(types) if value == "temporal"],
+                        round_numeric_columns=[i for i, value in enumerate(types)
+                                               if value == "number" and i not in item.get("integer_columns",[])]
+                                              if getattr(args,"suite",None) else [],
                     )
                     record["comparison"] = comparison.as_dict()
                     record["matched"] = comparison.matched
@@ -171,6 +191,13 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
                 record["failure_category"] = "response_format_error"
                 record["error"] = sanitize_error(exc, settings)
             record["latency_ms"] = round((time.perf_counter() - started) * 1000, 2)
+            code = record.get("failure_category") or ""
+            record["error_type"] = ("value_link" if "binding" in code or "value_link" in code else
+                                    "clarify_wrong" if "clarification" in code else
+                                    "timeout" if "timeout" in code else
+                                    "format" if "format" in code or "missing_result" in code else
+                                    "schema" if code in {"sql_rejected","catalog_error"} else
+                                    "sql_logic" if code else None)
             records.append(record)
             stream.write(json.dumps(record, ensure_ascii=False) + "\n")
             stream.flush()
@@ -181,27 +208,42 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
                    "exploratory_ex" if args.draft_gold else "ex": correct / len(selected),
                    "failure_categories": dict(Counter(record["failure_category"] for record in records if not record["matched"])),
                    "average_latency_ms": sum(record["latency_ms"] for record in records) / len(records)})
+    report["error_types"] = dict(Counter(r["error_type"] for r in records if r["error_type"]))
+    report["segments"] = {label:{"correct":sum(bool(r["matched"]) for r in group), "denominator":len(group)}
+                          for label, group in {"d1_common":[r for r in records if r["is_d1_common"]],
+                                               "new_dev":[r for r in records if not r["is_d1_common"]]}.items()}
+    report["gold_human_accepted_count"] = len(selected) - len(pending)
     _write_report(directory, report)
     return report, directory
 
 
 def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser(description=__doc__)
-    result.add_argument("--dataset", type=Path, default=DEFAULT_DATASET)
+    result.add_argument("--dataset", type=Path)
+    result.add_argument("--suite", choices=["nl2sql", "robust", "rag"], help="D2 suites; omitting preserves the D1 entry")
+    result.add_argument("--run-id", help="Unique D2 run identifier, recorded in provenance")
     result.add_argument("--base-url", default="http://127.0.0.1:8000")
     result.add_argument("--split", choices=["dev", "holdout"], default="dev")
     result.add_argument("--draft-gold", action="store_true", help="仅开发集草稿探索，不能作为正式成绩")
     result.add_argument("--allow-holdout", action="store_true")
     result.add_argument("--frozen-tag", help="保留集要求当前 HEAD 的冻结 Git tag 和干净工作目录")
     result.add_argument("--timeout", type=float, default=240)
-    result.add_argument("--output", type=Path)
+    result.add_argument("--output", "--output-dir", dest="output", type=Path)
     return result
 
 
 def main() -> int:
     args = parser().parse_args()
+    if args.dataset is None:
+        args.dataset = ROOT / "eval/datasets" / {"nl2sql":"nl2sql_chinook_d2.jsonl", "robust":"robust.jsonl", "rag":"rag_single.jsonl"}.get(args.suite, DEFAULT_DATASET.name)
+    if args.run_id and not args.output:
+        args.output = ROOT / "eval/artifacts/d2" / (args.suite or "nl2sql") / args.run_id
     try:
-        report, directory = evaluate(args)
+        if args.suite == "rag":
+            from eval.d2_rag_eval import evaluate_rag
+            report, directory = evaluate_rag(args)
+        else:
+            report, directory = evaluate(args)
     except (ValueError, OSError) as exc:
         print(sanitize_error(exc, get_settings()), file=sys.stderr)
         return 2

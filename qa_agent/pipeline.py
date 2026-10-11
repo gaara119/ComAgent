@@ -1,4 +1,4 @@
-"""D1 dispatch and SQL pipeline. No evaluation labels are read by this service."""
+"""Shared dispatch and incremental SQL pipeline; no evaluation labels are read."""
 from __future__ import annotations
 
 import importlib
@@ -71,10 +71,21 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
     from qa_agent.sql.catalog import load_catalog
     from qa_agent.sql.executor import SQLExecutionError, SQLTimeoutError, execute_sql
     from qa_agent.sql.generator import generate_sql
-    from qa_agent.sql.validator import SQLValidationError, validate_sql
+    from qa_agent.sql.validator import (SQLValidationError, validate_sql, validate_value_bindings,
+                                       parameterize_strings, validate_question_sources, validate_generation_claim)
+    from qa_agent.nlu.linker import LinkResult, ValueLinker
+    from qa_agent.nlu.value_index import load_value_index
 
     intent = IntentContract(route="sql", task_type="lookup")
     last_sql = None
+    linked = LinkResult(request.message, request.message, [], [], [], "not_loaded")
+
+    def failed(*args, **kwargs):
+        result = _error_envelope(*args, **kwargs)
+        result.metadata["nlu"] = linked.as_dict()
+        result.rewritten_question = linked.rewritten_question if linked.patches else None
+        return result
+
     try:
         with trace.step("config_check") as step:
             step.output_summary = settings.public()
@@ -85,27 +96,94 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
         with trace.step("catalog", {"db_id": "chinook"}) as step:
             catalog = load_catalog(settings.catalog_path)
             step.output_summary = {"table_count": len(catalog.tables)}
+        with trace.step("requested_source_check") as step:
+            requested_tables = validate_question_sources(request.message, catalog)
+            step.output_summary = {"explicit_tables": requested_tables, "unknown_sources": False}
+        with trace.step("value_link", {"enabled": settings.nlu_enabled}) as step:
+            index = load_value_index(settings.value_index_path) if settings.nlu_enabled else None
+            if index is None:
+                linked.index_status = "disabled" if not settings.nlu_enabled else "missing"
+                step.status = "skipped"
+                step.output_summary = {"reason": linked.index_status, "bindings": []}
+            else:
+                def encode_values(texts):
+                    from qa_agent.rag.embeddings import get_embedder
+                    embedder = get_embedder(settings)
+                    if embedder is None:
+                        raise ValueError("值链接需要 D1 BGE-M3 模型，但模型尚未找到。")
+                    model = index.metadata.get("embedding") or {}
+                    current = embedder.metadata()
+                    for key in ("model_sha256", "model_revision", "max_length"):
+                        if model.get(key) != current.get(key):
+                            raise ValueError("值索引与当前 embedding 配置不一致，请重建该值索引。")
+                    return embedder.encode(texts)
+                linker = ValueLinker(index, settings, llm=llm, encode=encode_values)
+                try:
+                    linked = linker.link(request.message, trace)
+                except Exception:
+                    if linker.last_result is not None:
+                        linked = linker.last_result
+                    raise
+                intent.filters = linked.bindings
+                intent.unresolved = [item.as_dict() for item in linked.ambiguous]
+                step.output_summary = {"mention_count": len(linked.mentions), "bindings": linked.bindings,
+                                       "ambiguous_count": len(linked.ambiguous), "index_status": linked.index_status}
+        with trace.step("rewrite", {"original_question": request.message}) as step:
+            step.output_summary = {"rewritten_question": linked.rewritten_question,
+                                   "patches": [patch.as_dict() for patch in linked.patches]}
+            if not linked.patches:
+                step.status = "skipped"
+        if linked.ambiguous:
+            choices = [{"mention_id": item.mention_id, "original_text": item.original_text,
+                        "candidates": item.candidates} for item in linked.ambiguous]
+            answer = "这个说法有多个可用解释，请用候选中的明确名称重新提问。"
+            with trace.step("clarification_gate") as step:
+                step.status = "warn"
+                step.output_summary = {"ambiguity_count": len(choices), "mode": "d2_reask_with_explicit_value"}
+            return AnswerEnvelope(trace_id=trace.trace_id, status="NEEDS_CLARIFICATION", answer=answer,
+                                  rewritten_question=linked.rewritten_question if linked.patches else None,
+                                  clarification={"question": answer, "options": choices, "resume_supported": False},
+                                  intent=intent, steps=trace.steps,
+                                  metadata={"model": settings.llm_model, "db_id": "chinook", "latency_ms": trace.latency_ms,
+                                            "nlu": linked.as_dict()})
         repair_error = None
         for attempt in range(settings.sql_repair_attempts + 1):
-            with trace.step("sql_gen", {"question": request.message, "repair_attempt": attempt}) as step:
-                generation = generate_sql(request.message, catalog, llm, trace,
-                                          previous_sql=last_sql, error=repair_error)
+            with trace.step("sql_gen", {"question": linked.rewritten_question, "repair_attempt": attempt}) as step:
+                generation = generate_sql(linked.rewritten_question, catalog, llm, trace,
+                                          previous_sql=last_sql, error=repair_error,
+                                          intent=intent, bindings=linked.bindings)
                 last_sql = generation.sql
                 step.output_summary = {"sql": generation.sql, "explanation": generation.explanation}
-            with trace.step("sql_validate", {"sql": last_sql}) as step:
-                validated = validate_sql(last_sql, catalog, max_rows=settings.max_rows)
-                last_sql = validated.sql
-                if not validated.tables_used:
-                    raise SQLValidationError("问数 SQL 必须引用真实业务表，不能以常量代替数据库查询。")
-                if len(validated.tables_used) > 1:
-                    raise SQLValidationError("D1 SQL 通道目前只支持单表查询；跨表问题按后续计划实现。")
-                step.output_summary = {"tables": validated.tables_used,
-                                       "default_limit_added": validated.default_limit_added,
-                                       "sql": last_sql}
             try:
-                result = execute_sql(last_sql, settings.db_url,
+                with trace.step("sql_validate", {"sql": last_sql}) as step:
+                    validated = validate_sql(last_sql, catalog, max_rows=settings.max_rows)
+                    last_sql = validated.sql
+                    validate_generation_claim(request.message, last_sql, generation.explanation)
+                    if not validated.tables_used:
+                        raise SQLValidationError("问数 SQL 必须引用真实业务表，不能以常量代替数据库查询。")
+                    if len(validated.tables_used) > 1:
+                        raise SQLValidationError("当前 SQL 通道只支持单表查询；跨表问题按后续计划实现。")
+                    if requested_tables and set(validated.tables_used) != set(requested_tables):
+                        raise SQLValidationError("生成 SQL 改变了原问题显式指定的业务表，禁止替换查询来源。")
+                    step.output_summary = {"tables": validated.tables_used,
+                                           "default_limit_added": validated.default_limit_added,
+                                           "sql": last_sql}
+                with trace.step("sql_binding_validate", {"binding_count": len(linked.bindings)}) as step:
+                    validate_value_bindings(last_sql, catalog, linked.bindings)
+                    step.output_summary = {"verified": True, "bindings": linked.bindings,
+                                           "mode": "qualified_ast_mandatory_filters"}
+            except SQLValidationError as exc:
+                if attempt >= settings.sql_repair_attempts:
+                    raise
+                repair_error = sanitize_error(exc, settings)
+                with trace.step("sql_repair", {"attempt": attempt + 1}) as step:
+                    step.status, step.output_summary = "warn", {"reason": repair_error, "preserve_bindings": True}
+                continue
+            try:
+                executable_sql, parameters = parameterize_strings(last_sql) if linked.bindings else (last_sql, {})
+                result = execute_sql(executable_sql, settings.db_url,
                                      statement_timeout_ms=settings.statement_timeout_ms,
-                                     max_rows=settings.max_rows, trace=trace)
+                                     max_rows=settings.max_rows, trace=trace, parameters=parameters)
                 break
             except SQLTimeoutError:
                 raise
@@ -130,22 +208,23 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
             step.output_summary = {"status": status, "summary_source": "database_result_template"}
         return AnswerEnvelope(
             trace_id=trace.trace_id, status=status, answer=answer, sql=last_sql,
+            rewritten_question=linked.rewritten_question if linked.patches else None,
             table=result.table, intent=intent, steps=trace.steps,
             metadata={"model": settings.llm_model, "db_id": "chinook", "result_columns": result.columns,
-                      "truncated": result.truncated, "latency_ms": trace.latency_ms},
+                      "truncated": result.truncated, "latency_ms": trace.latency_ms, "nlu": linked.as_dict()},
         )
     except MissingCredentialError as exc:
-        return _error_envelope(trace, settings, str(exc), exc.code, intent=intent)
+        return failed(trace, settings, str(exc), exc.code, intent=intent)
     except LLMError as exc:
-        return _error_envelope(trace, settings, str(exc), exc.code, exc.retryable, last_sql, intent)
+        return failed(trace, settings, str(exc), exc.code, exc.retryable, last_sql, intent)
     except SQLValidationError as exc:
-        return _error_envelope(trace, settings, f"SQL 未通过校验：{sanitize_error(exc, settings)}", "sql_rejected", sql=last_sql, intent=intent)
+        return failed(trace, settings, f"SQL 未通过校验：{sanitize_error(exc, settings)}", "sql_rejected", sql=last_sql, intent=intent)
     except SQLTimeoutError as exc:
-        return _error_envelope(trace, settings, "数据库查询超过允许时限。", "sql_timeout", sql=last_sql, intent=intent)
+        return failed(trace, settings, "数据库查询超过允许时限。", "sql_timeout", sql=last_sql, intent=intent)
     except SQLExecutionError as exc:
-        return _error_envelope(trace, settings, f"数据库查询失败：{sanitize_error(exc, settings)}", "sql_execution", sql=last_sql, intent=intent)
+        return failed(trace, settings, f"数据库查询失败：{sanitize_error(exc, settings)}", "sql_execution", sql=last_sql, intent=intent)
     except Exception as exc:
-        return _error_envelope(trace, settings, sanitize_error(exc, settings), "pipeline_error", sql=last_sql, intent=intent)
+        return failed(trace, settings, sanitize_error(exc, settings), "pipeline_error", sql=last_sql, intent=intent)
 
 
 def chat(request: ChatRequest, llm: JsonLLM | None = None,

@@ -1,0 +1,1958 @@
+{
+  "started_at_utc": "2026-10-10T18:09:54.523526+00:00",
+  "finished_at_utc": "2026-10-10T18:09:58.332829+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d2-rag-d2-rag-final-rag-08",
+    "message": "In the Millstone Grits, what are the four main groups of grits and sandstones distinguished by color on the map?",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "ohr-textbook-geology"
+      ]
+    }
+  },
+  "response": {
+    "trace_id": "b1caa690-c513-4e87-8173-457f9790bbf4",
+    "status": "SUCCEEDED",
+    "answer": "In the Millstone Grits, the grits and sandstones are shown by four colours for the main groups, namely: The Rough Rock Series, the Middle Grits, the Kinderscout Grits and the Shale Grit [E1]。",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [
+      {
+        "evidence_id": "E1",
+        "doc_id": "ohr-textbook-geology",
+        "doc_title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+        "page": 8,
+        "section_path": [
+          "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+        ],
+        "text": "In the Millstone Grits the shales are coloured uniformly\nthroughout, but the grits and sandstones are shown by four\ncolours for the main groups, viz., The Rough Rock Series, the\nMiddle Grits, the Kinderscout Grits and the Shale Grit. These\nagain are individually distinguished by letters.\nSuperficial Formations\n('Alluvium\nRecent\\ Peat\nI Gravel\nPleistocene :—fSand and Gravel\n\\Boulder Clay\nSolid Formations\nUpper Carboniferous :—\n. Middle Coal Measures :—(top of division not present).",
+        "bbox": [
+          37.68,
+          383.95,
+          247.98,
+          534.78
+        ]
+      }
+    ],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-textbook-geology"
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "evidence_count": 1
+        },
+        "latency_ms": 3807
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-textbook-geology"
+        },
+        "output_summary": {
+          "doc_id": "ohr-textbook-geology",
+          "title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+          "content_hash": "e7be7af7c911cccf6d391934ef062db94d10b1496659828d649af36201616612"
+        },
+        "latency_ms": 7
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-textbook-geology",
+          "question": "In the Millstone Grits, what are the four main groups of grits and sandstones distinguished by color on the map?",
+          "query": "In the Millstone Grits, what are the four main groups of grits and sandstones distinguished by color on the map?"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 153,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "a16f9095077c80bbee6b52b5",
+                "doc_id": "ohr-textbook-geology",
+                "page": 8,
+                "section_path": [
+                  "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 15.3241902
+              },
+              {
+                "rank": 2,
+                "chunk_id": "13a29bde185d0dab3b14a5d1",
+                "doc_id": "ohr-textbook-geology",
+                "page": 8,
+                "section_path": [
+                  "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 9.04022442
+              },
+              {
+                "rank": 3,
+                "chunk_id": "08eebff41a594d1f9efd5160",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 8.11433071
+              },
+              {
+                "rank": 4,
+                "chunk_id": "391c4259a99e41617ee8b0a1",
+                "doc_id": "ohr-textbook-geology",
+                "page": 4,
+                "section_path": [
+                  "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 6.28901323
+              },
+              {
+                "rank": 5,
+                "chunk_id": "b7f156c4352576fa73bc1224",
+                "doc_id": "ohr-textbook-geology",
+                "page": 4,
+                "section_path": [
+                  "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 4.33554659
+              },
+              {
+                "rank": 6,
+                "chunk_id": "2d3e78a6ad76aac34249ed04",
+                "doc_id": "ohr-textbook-geology",
+                "page": 1,
+                "section_path": [
+                  "INTRODUCTION"
+                ],
+                "score": 4.16195622
+              },
+              {
+                "rank": 7,
+                "chunk_id": "e82066d36c2f730c7054a26f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 10,
+                "section_path": [
+                  "MILLSTONE GRITS"
+                ],
+                "score": 4.15157734
+              },
+              {
+                "rank": 8,
+                "chunk_id": "7b7969ea24ec0a7095394e73",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [
+                  "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+                ],
+                "score": 3.92689327
+              },
+              {
+                "rank": 9,
+                "chunk_id": "7973d18e1fe801f346c8ade3",
+                "doc_id": "ohr-textbook-geology",
+                "page": 5,
+                "section_path": [
+                  "INTRODUCTION. 5"
+                ],
+                "score": 3.78316689
+              },
+              {
+                "rank": 10,
+                "chunk_id": "06b229e5fc0fa5bd97781159",
+                "doc_id": "ohr-textbook-geology",
+                "page": 18,
+                "section_path": [
+                  "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+                ],
+                "score": 3.44086146
+              },
+              {
+                "rank": 11,
+                "chunk_id": "5b4fcd46d151fec1b6d3b214",
+                "doc_id": "ohr-textbook-geology",
+                "page": 11,
+                "section_path": [
+                  "MILLSTONE GRITS. II"
+                ],
+                "score": 3.34750296
+              },
+              {
+                "rank": 12,
+                "chunk_id": "ec73ac1d0da4d9f8d0afdfb8",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [
+                  "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+                ],
+                "score": 3.28874832
+              },
+              {
+                "rank": 13,
+                "chunk_id": "21e7786c18a638869088e7ac",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 3.22200281
+              },
+              {
+                "rank": 14,
+                "chunk_id": "5ca36c42bf465cce0f1c7f29",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [
+                  "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+                ],
+                "score": 3.20917606
+              },
+              {
+                "rank": 15,
+                "chunk_id": "f8f48077d4d6623bfac17736",
+                "doc_id": "ohr-textbook-geology",
+                "page": 5,
+                "section_path": [
+                  "INTRODUCTION. 5"
+                ],
+                "score": 3.19115128
+              },
+              {
+                "rank": 16,
+                "chunk_id": "d04cafaeb8ab24d611bbdc32",
+                "doc_id": "ohr-textbook-geology",
+                "page": 11,
+                "section_path": [
+                  "MILLSTONE GRITS. II"
+                ],
+                "score": 3.11572883
+              },
+              {
+                "rank": 17,
+                "chunk_id": "b6672931becb3ed3919d5347",
+                "doc_id": "ohr-textbook-geology",
+                "page": 19,
+                "section_path": [
+                  "100 ft. In the central plateau, round Holme Moss.and Withens"
+                ],
+                "score": 3.07185172
+              },
+              {
+                "rank": 18,
+                "chunk_id": "9204b8fa3e25601e4a0373ba",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [
+                  "MILLSTONE GRITS. 17"
+                ],
+                "score": 3.04548077
+              },
+              {
+                "rank": 19,
+                "chunk_id": "42d5db626754304c50dcac3b",
+                "doc_id": "ohr-textbook-geology",
+                "page": 18,
+                "section_path": [
+                  "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+                ],
+                "score": 3.01345654
+              },
+              {
+                "rank": 20,
+                "chunk_id": "b05f6cf4661677cd61fef496",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 2.8528085
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "a16f9095077c80bbee6b52b5",
+                "doc_id": "ohr-textbook-geology",
+                "page": 8,
+                "section_path": [
+                  "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 0.71410918
+              },
+              {
+                "rank": 2,
+                "chunk_id": "08eebff41a594d1f9efd5160",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.64002717
+              },
+              {
+                "rank": 3,
+                "chunk_id": "f3245cb885932e1e795718be",
+                "doc_id": "ohr-textbook-geology",
+                "page": 3,
+                "section_path": [
+                  "INTRODUCTION. 3"
+                ],
+                "score": 0.61401558
+              },
+              {
+                "rank": 4,
+                "chunk_id": "529e311cb444f723003cbeae",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.60719335
+              },
+              {
+                "rank": 5,
+                "chunk_id": "0bd8aa5cc1ec9a871344fdd5",
+                "doc_id": "ohr-textbook-geology",
+                "page": 10,
+                "section_path": [
+                  "MILLSTONE GRITS"
+                ],
+                "score": 0.60393035
+              },
+              {
+                "rank": 6,
+                "chunk_id": "d6da1a736a8a4a53f05b9e6a",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.6005944
+              },
+              {
+                "rank": 7,
+                "chunk_id": "d04cafaeb8ab24d611bbdc32",
+                "doc_id": "ohr-textbook-geology",
+                "page": 11,
+                "section_path": [
+                  "MILLSTONE GRITS. II"
+                ],
+                "score": 0.59240133
+              },
+              {
+                "rank": 8,
+                "chunk_id": "cade4df3efd0911c7bd72ab3",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.59144562
+              },
+              {
+                "rank": 9,
+                "chunk_id": "9e1070b07d7f2df7d98139c5",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.58752066
+              },
+              {
+                "rank": 10,
+                "chunk_id": "fedaddd6e31874986b67c851",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.58348882
+              },
+              {
+                "rank": 11,
+                "chunk_id": "5b4fcd46d151fec1b6d3b214",
+                "doc_id": "ohr-textbook-geology",
+                "page": 11,
+                "section_path": [
+                  "MILLSTONE GRITS. II"
+                ],
+                "score": 0.57932931
+              },
+              {
+                "rank": 12,
+                "chunk_id": "e82066d36c2f730c7054a26f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 10,
+                "section_path": [
+                  "MILLSTONE GRITS"
+                ],
+                "score": 0.57562584
+              },
+              {
+                "rank": 13,
+                "chunk_id": "2b17cdefccd4696f9d34344f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.57557005
+              },
+              {
+                "rank": 14,
+                "chunk_id": "3949f1923e897b088cf8343e",
+                "doc_id": "ohr-textbook-geology",
+                "page": 11,
+                "section_path": [
+                  "MILLSTONE GRITS. II"
+                ],
+                "score": 0.55930394
+              },
+              {
+                "rank": 15,
+                "chunk_id": "300f47334b22c19b201ce824",
+                "doc_id": "ohr-textbook-geology",
+                "page": 4,
+                "section_path": [
+                  "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 0.55625236
+              },
+              {
+                "rank": 16,
+                "chunk_id": "391c4259a99e41617ee8b0a1",
+                "doc_id": "ohr-textbook-geology",
+                "page": 4,
+                "section_path": [
+                  "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 0.55557024
+              },
+              {
+                "rank": 17,
+                "chunk_id": "888ea97f7402d3bf71cbbb79",
+                "doc_id": "ohr-textbook-geology",
+                "page": 12,
+                "section_path": [
+                  "12 GEOLOGY OF HOLMFIRTH AND GLOSSOP I"
+                ],
+                "score": 0.55433303
+              },
+              {
+                "rank": 18,
+                "chunk_id": "78f5f4acebb760eddb6af083",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.55417585
+              },
+              {
+                "rank": 19,
+                "chunk_id": "a67b0f326002fe9547b9e23f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 10,
+                "section_path": [
+                  "MILLSTONE GRITS"
+                ],
+                "score": 0.55400461
+              },
+              {
+                "rank": 20,
+                "chunk_id": "0538fd2a55970ccf6b801296",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [
+                  "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+                ],
+                "score": 0.54940218
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "a16f9095077c80bbee6b52b5",
+                "doc_id": "ohr-textbook-geology",
+                "page": 8,
+                "section_path": [
+                  "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 0.03278689
+              },
+              {
+                "rank": 2,
+                "chunk_id": "08eebff41a594d1f9efd5160",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.03200205
+              },
+              {
+                "rank": 3,
+                "chunk_id": "e82066d36c2f730c7054a26f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 10,
+                "section_path": [
+                  "MILLSTONE GRITS"
+                ],
+                "score": 0.02881426
+              },
+              {
+                "rank": 4,
+                "chunk_id": "391c4259a99e41617ee8b0a1",
+                "doc_id": "ohr-textbook-geology",
+                "page": 4,
+                "section_path": [
+                  "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 0.02878289
+              },
+              {
+                "rank": 5,
+                "chunk_id": "5b4fcd46d151fec1b6d3b214",
+                "doc_id": "ohr-textbook-geology",
+                "page": 11,
+                "section_path": [
+                  "MILLSTONE GRITS. II"
+                ],
+                "score": 0.02816901
+              },
+              {
+                "rank": 6,
+                "chunk_id": "d04cafaeb8ab24d611bbdc32",
+                "doc_id": "ohr-textbook-geology",
+                "page": 11,
+                "section_path": [
+                  "MILLSTONE GRITS. II"
+                ],
+                "score": 0.02808327
+              },
+              {
+                "rank": 7,
+                "chunk_id": "13a29bde185d0dab3b14a5d1",
+                "doc_id": "ohr-textbook-geology",
+                "page": 8,
+                "section_path": [
+                  "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 0.01612903
+              },
+              {
+                "rank": 8,
+                "chunk_id": "f3245cb885932e1e795718be",
+                "doc_id": "ohr-textbook-geology",
+                "page": 3,
+                "section_path": [
+                  "INTRODUCTION. 3"
+                ],
+                "score": 0.01587302
+              },
+              {
+                "rank": 9,
+                "chunk_id": "529e311cb444f723003cbeae",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.015625
+              },
+              {
+                "rank": 10,
+                "chunk_id": "0bd8aa5cc1ec9a871344fdd5",
+                "doc_id": "ohr-textbook-geology",
+                "page": 10,
+                "section_path": [
+                  "MILLSTONE GRITS"
+                ],
+                "score": 0.01538462
+              },
+              {
+                "rank": 11,
+                "chunk_id": "b7f156c4352576fa73bc1224",
+                "doc_id": "ohr-textbook-geology",
+                "page": 4,
+                "section_path": [
+                  "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 0.01538462
+              },
+              {
+                "rank": 12,
+                "chunk_id": "2d3e78a6ad76aac34249ed04",
+                "doc_id": "ohr-textbook-geology",
+                "page": 1,
+                "section_path": [
+                  "INTRODUCTION"
+                ],
+                "score": 0.01515152
+              },
+              {
+                "rank": 13,
+                "chunk_id": "d6da1a736a8a4a53f05b9e6a",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.01515152
+              },
+              {
+                "rank": 14,
+                "chunk_id": "7b7969ea24ec0a7095394e73",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [
+                  "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+                ],
+                "score": 0.01470588
+              },
+              {
+                "rank": 15,
+                "chunk_id": "cade4df3efd0911c7bd72ab3",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.01470588
+              },
+              {
+                "rank": 16,
+                "chunk_id": "7973d18e1fe801f346c8ade3",
+                "doc_id": "ohr-textbook-geology",
+                "page": 5,
+                "section_path": [
+                  "INTRODUCTION. 5"
+                ],
+                "score": 0.01449275
+              },
+              {
+                "rank": 17,
+                "chunk_id": "9e1070b07d7f2df7d98139c5",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.01449275
+              },
+              {
+                "rank": 18,
+                "chunk_id": "06b229e5fc0fa5bd97781159",
+                "doc_id": "ohr-textbook-geology",
+                "page": 18,
+                "section_path": [
+                  "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+                ],
+                "score": 0.01428571
+              },
+              {
+                "rank": 19,
+                "chunk_id": "fedaddd6e31874986b67c851",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.01428571
+              },
+              {
+                "rank": 20,
+                "chunk_id": "ec73ac1d0da4d9f8d0afdfb8",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [
+                  "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+                ],
+                "score": 0.01388889
+              },
+              {
+                "rank": 21,
+                "chunk_id": "21e7786c18a638869088e7ac",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.01369863
+              },
+              {
+                "rank": 22,
+                "chunk_id": "2b17cdefccd4696f9d34344f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.01369863
+              },
+              {
+                "rank": 23,
+                "chunk_id": "3949f1923e897b088cf8343e",
+                "doc_id": "ohr-textbook-geology",
+                "page": 11,
+                "section_path": [
+                  "MILLSTONE GRITS. II"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 24,
+                "chunk_id": "5ca36c42bf465cce0f1c7f29",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [
+                  "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 25,
+                "chunk_id": "300f47334b22c19b201ce824",
+                "doc_id": "ohr-textbook-geology",
+                "page": 4,
+                "section_path": [
+                  "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+                ],
+                "score": 0.01333333
+              },
+              {
+                "rank": 26,
+                "chunk_id": "f8f48077d4d6623bfac17736",
+                "doc_id": "ohr-textbook-geology",
+                "page": 5,
+                "section_path": [
+                  "INTRODUCTION. 5"
+                ],
+                "score": 0.01333333
+              },
+              {
+                "rank": 27,
+                "chunk_id": "888ea97f7402d3bf71cbbb79",
+                "doc_id": "ohr-textbook-geology",
+                "page": 12,
+                "section_path": [
+                  "12 GEOLOGY OF HOLMFIRTH AND GLOSSOP I"
+                ],
+                "score": 0.01298701
+              },
+              {
+                "rank": 28,
+                "chunk_id": "b6672931becb3ed3919d5347",
+                "doc_id": "ohr-textbook-geology",
+                "page": 19,
+                "section_path": [
+                  "100 ft. In the central plateau, round Holme Moss.and Withens"
+                ],
+                "score": 0.01298701
+              },
+              {
+                "rank": 29,
+                "chunk_id": "78f5f4acebb760eddb6af083",
+                "doc_id": "ohr-textbook-geology",
+                "page": 15,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.01282051
+              },
+              {
+                "rank": 30,
+                "chunk_id": "9204b8fa3e25601e4a0373ba",
+                "doc_id": "ohr-textbook-geology",
+                "page": 17,
+                "section_path": [
+                  "MILLSTONE GRITS. 17"
+                ],
+                "score": 0.01282051
+              },
+              {
+                "rank": 31,
+                "chunk_id": "42d5db626754304c50dcac3b",
+                "doc_id": "ohr-textbook-geology",
+                "page": 18,
+                "section_path": [
+                  "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+                ],
+                "score": 0.01265823
+              },
+              {
+                "rank": 32,
+                "chunk_id": "a67b0f326002fe9547b9e23f",
+                "doc_id": "ohr-textbook-geology",
+                "page": 10,
+                "section_path": [
+                  "MILLSTONE GRITS"
+                ],
+                "score": 0.01265823
+              },
+              {
+                "rank": 33,
+                "chunk_id": "0538fd2a55970ccf6b801296",
+                "doc_id": "ohr-textbook-geology",
+                "page": 14,
+                "section_path": [
+                  "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+                ],
+                "score": 0.0125
+              },
+              {
+                "rank": 34,
+                "chunk_id": "b05f6cf4661677cd61fef496",
+                "doc_id": "ohr-textbook-geology",
+                "page": 16,
+                "section_path": [
+                  "MILLSTONE GRITS. 15"
+                ],
+                "score": 0.0125
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "a16f9095077c80bbee6b52b5",
+            "08eebff41a594d1f9efd5160",
+            "e82066d36c2f730c7054a26f",
+            "391c4259a99e41617ee8b0a1",
+            "5b4fcd46d151fec1b6d3b214"
+          ],
+          "retrieved_count": 8,
+          "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+          "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+          "query": "In the Millstone Grits, what are the four main groups of grits and sandstones distinguished by color on the map?",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "a16f9095077c80bbee6b52b5",
+              "evidence_id": "E1",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [
+                "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+              ],
+              "score": 0.03278689
+            },
+            {
+              "chunk_id": "08eebff41a594d1f9efd5160",
+              "evidence_id": "E2",
+              "doc_id": "ohr-textbook-geology",
+              "page": 16,
+              "section_path": [
+                "MILLSTONE GRITS. 15"
+              ],
+              "score": 0.03200205
+            },
+            {
+              "chunk_id": "e82066d36c2f730c7054a26f",
+              "evidence_id": "E3",
+              "doc_id": "ohr-textbook-geology",
+              "page": 10,
+              "section_path": [
+                "MILLSTONE GRITS"
+              ],
+              "score": 0.02881426
+            },
+            {
+              "chunk_id": "391c4259a99e41617ee8b0a1",
+              "evidence_id": "E4",
+              "doc_id": "ohr-textbook-geology",
+              "page": 4,
+              "section_path": [
+                "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+              ],
+              "score": 0.02878289
+            },
+            {
+              "chunk_id": "5b4fcd46d151fec1b6d3b214",
+              "evidence_id": "E5",
+              "doc_id": "ohr-textbook-geology",
+              "page": 11,
+              "section_path": [
+                "MILLSTONE GRITS. II"
+              ],
+              "score": 0.02816901
+            },
+            {
+              "chunk_id": "d04cafaeb8ab24d611bbdc32",
+              "evidence_id": "E6",
+              "doc_id": "ohr-textbook-geology",
+              "page": 11,
+              "section_path": [
+                "MILLSTONE GRITS. II"
+              ],
+              "score": 0.02808327
+            },
+            {
+              "chunk_id": "13a29bde185d0dab3b14a5d1",
+              "evidence_id": "E7",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [
+                "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+              ],
+              "score": 0.01612903
+            },
+            {
+              "chunk_id": "f3245cb885932e1e795718be",
+              "evidence_id": "E8",
+              "doc_id": "ohr-textbook-geology",
+              "page": 3,
+              "section_path": [
+                "INTRODUCTION. 3"
+              ],
+              "score": 0.01587302
+            }
+          ]
+        },
+        "latency_ms": 222
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1"
+          ]
+        },
+        "latency_ms": 3578
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "citation_ids": [
+            "E1"
+          ]
+        },
+        "latency_ms": 3578
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 75,
+            "prompt_tokens": 1748,
+            "total_tokens": 1823,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1536
+            },
+            "prompt_cache_hit_tokens": 1536,
+            "prompt_cache_miss_tokens": 212
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1882
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1"
+          ],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "potential_uncited_statements": [],
+            "mode": "heuristic_warning_only",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "ohr-textbook-geology",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 153,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "a16f9095077c80bbee6b52b5",
+            "doc_id": "ohr-textbook-geology",
+            "page": 8,
+            "section_path": [
+              "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 15.3241902
+          },
+          {
+            "rank": 2,
+            "chunk_id": "13a29bde185d0dab3b14a5d1",
+            "doc_id": "ohr-textbook-geology",
+            "page": 8,
+            "section_path": [
+              "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 9.04022442
+          },
+          {
+            "rank": 3,
+            "chunk_id": "08eebff41a594d1f9efd5160",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 8.11433071
+          },
+          {
+            "rank": 4,
+            "chunk_id": "391c4259a99e41617ee8b0a1",
+            "doc_id": "ohr-textbook-geology",
+            "page": 4,
+            "section_path": [
+              "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 6.28901323
+          },
+          {
+            "rank": 5,
+            "chunk_id": "b7f156c4352576fa73bc1224",
+            "doc_id": "ohr-textbook-geology",
+            "page": 4,
+            "section_path": [
+              "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 4.33554659
+          },
+          {
+            "rank": 6,
+            "chunk_id": "2d3e78a6ad76aac34249ed04",
+            "doc_id": "ohr-textbook-geology",
+            "page": 1,
+            "section_path": [
+              "INTRODUCTION"
+            ],
+            "score": 4.16195622
+          },
+          {
+            "rank": 7,
+            "chunk_id": "e82066d36c2f730c7054a26f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 10,
+            "section_path": [
+              "MILLSTONE GRITS"
+            ],
+            "score": 4.15157734
+          },
+          {
+            "rank": 8,
+            "chunk_id": "7b7969ea24ec0a7095394e73",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [
+              "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+            ],
+            "score": 3.92689327
+          },
+          {
+            "rank": 9,
+            "chunk_id": "7973d18e1fe801f346c8ade3",
+            "doc_id": "ohr-textbook-geology",
+            "page": 5,
+            "section_path": [
+              "INTRODUCTION. 5"
+            ],
+            "score": 3.78316689
+          },
+          {
+            "rank": 10,
+            "chunk_id": "06b229e5fc0fa5bd97781159",
+            "doc_id": "ohr-textbook-geology",
+            "page": 18,
+            "section_path": [
+              "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+            ],
+            "score": 3.44086146
+          },
+          {
+            "rank": 11,
+            "chunk_id": "5b4fcd46d151fec1b6d3b214",
+            "doc_id": "ohr-textbook-geology",
+            "page": 11,
+            "section_path": [
+              "MILLSTONE GRITS. II"
+            ],
+            "score": 3.34750296
+          },
+          {
+            "rank": 12,
+            "chunk_id": "ec73ac1d0da4d9f8d0afdfb8",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [
+              "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+            ],
+            "score": 3.28874832
+          },
+          {
+            "rank": 13,
+            "chunk_id": "21e7786c18a638869088e7ac",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 3.22200281
+          },
+          {
+            "rank": 14,
+            "chunk_id": "5ca36c42bf465cce0f1c7f29",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [
+              "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+            ],
+            "score": 3.20917606
+          },
+          {
+            "rank": 15,
+            "chunk_id": "f8f48077d4d6623bfac17736",
+            "doc_id": "ohr-textbook-geology",
+            "page": 5,
+            "section_path": [
+              "INTRODUCTION. 5"
+            ],
+            "score": 3.19115128
+          },
+          {
+            "rank": 16,
+            "chunk_id": "d04cafaeb8ab24d611bbdc32",
+            "doc_id": "ohr-textbook-geology",
+            "page": 11,
+            "section_path": [
+              "MILLSTONE GRITS. II"
+            ],
+            "score": 3.11572883
+          },
+          {
+            "rank": 17,
+            "chunk_id": "b6672931becb3ed3919d5347",
+            "doc_id": "ohr-textbook-geology",
+            "page": 19,
+            "section_path": [
+              "100 ft. In the central plateau, round Holme Moss.and Withens"
+            ],
+            "score": 3.07185172
+          },
+          {
+            "rank": 18,
+            "chunk_id": "9204b8fa3e25601e4a0373ba",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [
+              "MILLSTONE GRITS. 17"
+            ],
+            "score": 3.04548077
+          },
+          {
+            "rank": 19,
+            "chunk_id": "42d5db626754304c50dcac3b",
+            "doc_id": "ohr-textbook-geology",
+            "page": 18,
+            "section_path": [
+              "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+            ],
+            "score": 3.01345654
+          },
+          {
+            "rank": 20,
+            "chunk_id": "b05f6cf4661677cd61fef496",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 2.8528085
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "a16f9095077c80bbee6b52b5",
+            "doc_id": "ohr-textbook-geology",
+            "page": 8,
+            "section_path": [
+              "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 0.71410918
+          },
+          {
+            "rank": 2,
+            "chunk_id": "08eebff41a594d1f9efd5160",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.64002717
+          },
+          {
+            "rank": 3,
+            "chunk_id": "f3245cb885932e1e795718be",
+            "doc_id": "ohr-textbook-geology",
+            "page": 3,
+            "section_path": [
+              "INTRODUCTION. 3"
+            ],
+            "score": 0.61401558
+          },
+          {
+            "rank": 4,
+            "chunk_id": "529e311cb444f723003cbeae",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.60719335
+          },
+          {
+            "rank": 5,
+            "chunk_id": "0bd8aa5cc1ec9a871344fdd5",
+            "doc_id": "ohr-textbook-geology",
+            "page": 10,
+            "section_path": [
+              "MILLSTONE GRITS"
+            ],
+            "score": 0.60393035
+          },
+          {
+            "rank": 6,
+            "chunk_id": "d6da1a736a8a4a53f05b9e6a",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.6005944
+          },
+          {
+            "rank": 7,
+            "chunk_id": "d04cafaeb8ab24d611bbdc32",
+            "doc_id": "ohr-textbook-geology",
+            "page": 11,
+            "section_path": [
+              "MILLSTONE GRITS. II"
+            ],
+            "score": 0.59240133
+          },
+          {
+            "rank": 8,
+            "chunk_id": "cade4df3efd0911c7bd72ab3",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.59144562
+          },
+          {
+            "rank": 9,
+            "chunk_id": "9e1070b07d7f2df7d98139c5",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.58752066
+          },
+          {
+            "rank": 10,
+            "chunk_id": "fedaddd6e31874986b67c851",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.58348882
+          },
+          {
+            "rank": 11,
+            "chunk_id": "5b4fcd46d151fec1b6d3b214",
+            "doc_id": "ohr-textbook-geology",
+            "page": 11,
+            "section_path": [
+              "MILLSTONE GRITS. II"
+            ],
+            "score": 0.57932931
+          },
+          {
+            "rank": 12,
+            "chunk_id": "e82066d36c2f730c7054a26f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 10,
+            "section_path": [
+              "MILLSTONE GRITS"
+            ],
+            "score": 0.57562584
+          },
+          {
+            "rank": 13,
+            "chunk_id": "2b17cdefccd4696f9d34344f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.57557005
+          },
+          {
+            "rank": 14,
+            "chunk_id": "3949f1923e897b088cf8343e",
+            "doc_id": "ohr-textbook-geology",
+            "page": 11,
+            "section_path": [
+              "MILLSTONE GRITS. II"
+            ],
+            "score": 0.55930394
+          },
+          {
+            "rank": 15,
+            "chunk_id": "300f47334b22c19b201ce824",
+            "doc_id": "ohr-textbook-geology",
+            "page": 4,
+            "section_path": [
+              "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 0.55625236
+          },
+          {
+            "rank": 16,
+            "chunk_id": "391c4259a99e41617ee8b0a1",
+            "doc_id": "ohr-textbook-geology",
+            "page": 4,
+            "section_path": [
+              "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 0.55557024
+          },
+          {
+            "rank": 17,
+            "chunk_id": "888ea97f7402d3bf71cbbb79",
+            "doc_id": "ohr-textbook-geology",
+            "page": 12,
+            "section_path": [
+              "12 GEOLOGY OF HOLMFIRTH AND GLOSSOP I"
+            ],
+            "score": 0.55433303
+          },
+          {
+            "rank": 18,
+            "chunk_id": "78f5f4acebb760eddb6af083",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.55417585
+          },
+          {
+            "rank": 19,
+            "chunk_id": "a67b0f326002fe9547b9e23f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 10,
+            "section_path": [
+              "MILLSTONE GRITS"
+            ],
+            "score": 0.55400461
+          },
+          {
+            "rank": 20,
+            "chunk_id": "0538fd2a55970ccf6b801296",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [
+              "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+            ],
+            "score": 0.54940218
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "a16f9095077c80bbee6b52b5",
+            "doc_id": "ohr-textbook-geology",
+            "page": 8,
+            "section_path": [
+              "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 0.03278689
+          },
+          {
+            "rank": 2,
+            "chunk_id": "08eebff41a594d1f9efd5160",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.03200205
+          },
+          {
+            "rank": 3,
+            "chunk_id": "e82066d36c2f730c7054a26f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 10,
+            "section_path": [
+              "MILLSTONE GRITS"
+            ],
+            "score": 0.02881426
+          },
+          {
+            "rank": 4,
+            "chunk_id": "391c4259a99e41617ee8b0a1",
+            "doc_id": "ohr-textbook-geology",
+            "page": 4,
+            "section_path": [
+              "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 0.02878289
+          },
+          {
+            "rank": 5,
+            "chunk_id": "5b4fcd46d151fec1b6d3b214",
+            "doc_id": "ohr-textbook-geology",
+            "page": 11,
+            "section_path": [
+              "MILLSTONE GRITS. II"
+            ],
+            "score": 0.02816901
+          },
+          {
+            "rank": 6,
+            "chunk_id": "d04cafaeb8ab24d611bbdc32",
+            "doc_id": "ohr-textbook-geology",
+            "page": 11,
+            "section_path": [
+              "MILLSTONE GRITS. II"
+            ],
+            "score": 0.02808327
+          },
+          {
+            "rank": 7,
+            "chunk_id": "13a29bde185d0dab3b14a5d1",
+            "doc_id": "ohr-textbook-geology",
+            "page": 8,
+            "section_path": [
+              "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 0.01612903
+          },
+          {
+            "rank": 8,
+            "chunk_id": "f3245cb885932e1e795718be",
+            "doc_id": "ohr-textbook-geology",
+            "page": 3,
+            "section_path": [
+              "INTRODUCTION. 3"
+            ],
+            "score": 0.01587302
+          },
+          {
+            "rank": 9,
+            "chunk_id": "529e311cb444f723003cbeae",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.015625
+          },
+          {
+            "rank": 10,
+            "chunk_id": "0bd8aa5cc1ec9a871344fdd5",
+            "doc_id": "ohr-textbook-geology",
+            "page": 10,
+            "section_path": [
+              "MILLSTONE GRITS"
+            ],
+            "score": 0.01538462
+          },
+          {
+            "rank": 11,
+            "chunk_id": "b7f156c4352576fa73bc1224",
+            "doc_id": "ohr-textbook-geology",
+            "page": 4,
+            "section_path": [
+              "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 0.01538462
+          },
+          {
+            "rank": 12,
+            "chunk_id": "2d3e78a6ad76aac34249ed04",
+            "doc_id": "ohr-textbook-geology",
+            "page": 1,
+            "section_path": [
+              "INTRODUCTION"
+            ],
+            "score": 0.01515152
+          },
+          {
+            "rank": 13,
+            "chunk_id": "d6da1a736a8a4a53f05b9e6a",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.01515152
+          },
+          {
+            "rank": 14,
+            "chunk_id": "7b7969ea24ec0a7095394e73",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [
+              "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+            ],
+            "score": 0.01470588
+          },
+          {
+            "rank": 15,
+            "chunk_id": "cade4df3efd0911c7bd72ab3",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.01470588
+          },
+          {
+            "rank": 16,
+            "chunk_id": "7973d18e1fe801f346c8ade3",
+            "doc_id": "ohr-textbook-geology",
+            "page": 5,
+            "section_path": [
+              "INTRODUCTION. 5"
+            ],
+            "score": 0.01449275
+          },
+          {
+            "rank": 17,
+            "chunk_id": "9e1070b07d7f2df7d98139c5",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.01449275
+          },
+          {
+            "rank": 18,
+            "chunk_id": "06b229e5fc0fa5bd97781159",
+            "doc_id": "ohr-textbook-geology",
+            "page": 18,
+            "section_path": [
+              "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+            ],
+            "score": 0.01428571
+          },
+          {
+            "rank": 19,
+            "chunk_id": "fedaddd6e31874986b67c851",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.01428571
+          },
+          {
+            "rank": 20,
+            "chunk_id": "ec73ac1d0da4d9f8d0afdfb8",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [
+              "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+            ],
+            "score": 0.01388889
+          },
+          {
+            "rank": 21,
+            "chunk_id": "21e7786c18a638869088e7ac",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.01369863
+          },
+          {
+            "rank": 22,
+            "chunk_id": "2b17cdefccd4696f9d34344f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.01369863
+          },
+          {
+            "rank": 23,
+            "chunk_id": "3949f1923e897b088cf8343e",
+            "doc_id": "ohr-textbook-geology",
+            "page": 11,
+            "section_path": [
+              "MILLSTONE GRITS. II"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 24,
+            "chunk_id": "5ca36c42bf465cce0f1c7f29",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [
+              "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 25,
+            "chunk_id": "300f47334b22c19b201ce824",
+            "doc_id": "ohr-textbook-geology",
+            "page": 4,
+            "section_path": [
+              "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+            ],
+            "score": 0.01333333
+          },
+          {
+            "rank": 26,
+            "chunk_id": "f8f48077d4d6623bfac17736",
+            "doc_id": "ohr-textbook-geology",
+            "page": 5,
+            "section_path": [
+              "INTRODUCTION. 5"
+            ],
+            "score": 0.01333333
+          },
+          {
+            "rank": 27,
+            "chunk_id": "888ea97f7402d3bf71cbbb79",
+            "doc_id": "ohr-textbook-geology",
+            "page": 12,
+            "section_path": [
+              "12 GEOLOGY OF HOLMFIRTH AND GLOSSOP I"
+            ],
+            "score": 0.01298701
+          },
+          {
+            "rank": 28,
+            "chunk_id": "b6672931becb3ed3919d5347",
+            "doc_id": "ohr-textbook-geology",
+            "page": 19,
+            "section_path": [
+              "100 ft. In the central plateau, round Holme Moss.and Withens"
+            ],
+            "score": 0.01298701
+          },
+          {
+            "rank": 29,
+            "chunk_id": "78f5f4acebb760eddb6af083",
+            "doc_id": "ohr-textbook-geology",
+            "page": 15,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.01282051
+          },
+          {
+            "rank": 30,
+            "chunk_id": "9204b8fa3e25601e4a0373ba",
+            "doc_id": "ohr-textbook-geology",
+            "page": 17,
+            "section_path": [
+              "MILLSTONE GRITS. 17"
+            ],
+            "score": 0.01282051
+          },
+          {
+            "rank": 31,
+            "chunk_id": "42d5db626754304c50dcac3b",
+            "doc_id": "ohr-textbook-geology",
+            "page": 18,
+            "section_path": [
+              "30 yards apart, contain respectively mut. [3 with a few late mut. p"
+            ],
+            "score": 0.01265823
+          },
+          {
+            "rank": 32,
+            "chunk_id": "a67b0f326002fe9547b9e23f",
+            "doc_id": "ohr-textbook-geology",
+            "page": 10,
+            "section_path": [
+              "MILLSTONE GRITS"
+            ],
+            "score": 0.01265823
+          },
+          {
+            "rank": 33,
+            "chunk_id": "0538fd2a55970ccf6b801296",
+            "doc_id": "ohr-textbook-geology",
+            "page": 14,
+            "section_path": [
+              "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+            ],
+            "score": 0.0125
+          },
+          {
+            "rank": 34,
+            "chunk_id": "b05f6cf4661677cd61fef496",
+            "doc_id": "ohr-textbook-geology",
+            "page": 16,
+            "section_path": [
+              "MILLSTONE GRITS. 15"
+            ],
+            "score": 0.0125
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "a16f9095077c80bbee6b52b5",
+        "08eebff41a594d1f9efd5160",
+        "e82066d36c2f730c7054a26f",
+        "391c4259a99e41617ee8b0a1",
+        "5b4fcd46d151fec1b6d3b214"
+      ],
+      "retrieved_count": 8,
+      "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+      "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+      "query": "In the Millstone Grits, what are the four main groups of grits and sandstones distinguished by color on the map?",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "chunk_id": "a16f9095077c80bbee6b52b5",
+          "section_path": [
+            "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+          ],
+          "bbox": [
+            37.68,
+            383.95,
+            247.98,
+            534.78
+          ],
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 16,
+          "chunk_id": "08eebff41a594d1f9efd5160",
+          "section_path": [
+            "MILLSTONE GRITS. 15"
+          ],
+          "bbox": [
+            38.16,
+            257.63,
+            248.34,
+            341.76
+          ],
+          "evidence_id": "E2"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 10,
+          "chunk_id": "e82066d36c2f730c7054a26f",
+          "section_path": [
+            "MILLSTONE GRITS"
+          ],
+          "bbox": [
+            39.48,
+            303.22,
+            249.66,
+            439.36
+          ],
+          "evidence_id": "E3"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 4,
+          "chunk_id": "391c4259a99e41617ee8b0a1",
+          "section_path": [
+            "4 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+          ],
+          "bbox": [
+            44.76,
+            233.85,
+            254.82,
+            335.47
+          ],
+          "evidence_id": "E4"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 11,
+          "chunk_id": "5b4fcd46d151fec1b6d3b214",
+          "section_path": [
+            "MILLSTONE GRITS. II"
+          ],
+          "bbox": [
+            16.68,
+            246.51,
+            226.38,
+            295.64
+          ],
+          "evidence_id": "E5"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 11,
+          "chunk_id": "d04cafaeb8ab24d611bbdc32",
+          "section_path": [
+            "MILLSTONE GRITS. II"
+          ],
+          "bbox": [
+            16.44,
+            254.1,
+            226.86,
+            474.56
+          ],
+          "evidence_id": "E6"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "chunk_id": "13a29bde185d0dab3b14a5d1",
+          "section_path": [
+            "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+          ],
+          "bbox": [
+            37.68,
+            383.95,
+            247.98,
+            474.45
+          ],
+          "evidence_id": "E7"
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 3,
+          "chunk_id": "f3245cb885932e1e795718be",
+          "section_path": [
+            "INTRODUCTION. 3"
+          ],
+          "bbox": [
+            11.88,
+            544.91,
+            221.94,
+            628.19
+          ],
+          "evidence_id": "E8"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "potential_uncited_statements": [],
+        "mode": "heuristic_warning_only",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [
+        "E1"
+      ],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 3807,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

@@ -1,4 +1,4 @@
-"""Registered PDF documents: canonical paths and actual content hashes."""
+"""Registered source documents: canonical paths and actual content hashes."""
 from __future__ import annotations
 
 import csv
@@ -44,8 +44,11 @@ def load_documents(manifest_path: Path | None = None,
             path = (path if path.is_absolute() else project_root / path).resolve()
             if not path.is_relative_to(project_root / "data"):
                 raise DocumentError("文档路径必须位于项目 data 目录中。")
-            if item["format"].lower() != "pdf" or path.suffix.lower() != ".pdf":
-                raise DocumentError("D1 文档入口当前要求原生 PDF。")
+            formats = {"pdf": {".pdf"}, "docx": {".docx"}, "html": {".html", ".htm"},
+                       "md": {".md", ".markdown"}, "png": {".png"}}
+            item["format"] = item["format"].lower()
+            if item["format"] not in formats or path.suffix.lower() not in formats[item["format"]]:
+                raise DocumentError("文档格式与后缀不匹配；支持 PDF、DOCX、HTML、Markdown 和 PNG。")
             if not path.is_file():
                 raise DocumentError("清单中的文档文件不存在，请重新准备资料。")
             if not re.fullmatch(r"[0-9a-fA-F]{64}", item["content_hash"]):
@@ -53,6 +56,10 @@ def load_documents(manifest_path: Path | None = None,
             if not item["title"]:
                 raise DocumentError("文档标题不能为空。")
             item["content_hash"] = item["content_hash"].lower()
+            if item.get("content_sha256") and item["content_sha256"].lower() != item["content_hash"]:
+                raise DocumentError("文档清单的两项 SHA256 字段不一致。")
+            if item.get("relative_path") and Path(item["relative_path"]).as_posix() != Path(item["path"]).as_posix():
+                raise DocumentError("文档清单 path 与 relative_path 不一致。")
             item["resolved_path"] = path
             documents.append(item)
     return documents

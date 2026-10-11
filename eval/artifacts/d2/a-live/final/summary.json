@@ -1,0 +1,29 @@
+{
+  "started_at_utc": "2026-10-10T18:09:17.257308+00:00",
+  "ended_at_utc": "2026-10-10T18:10:30.763522+00:00",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "scripts/check_d2_sql_live.py",
+    "--mode",
+    "both",
+    "--output-dir",
+    "eval/artifacts/d2/a-live/final"
+  ],
+  "api_url": "http://127.0.0.1:8000",
+  "model": "deepseek-flash",
+  "api_passed": 11,
+  "api_count": 11,
+  "ablation_passed": 6,
+  "ablation_count": 6,
+  "human_review_status": "pending",
+  "holdout_model_requests": 0,
+  "source_sha256": {
+    "qa_agent/nlu/linker.py": "758581601f1da1f2e5b60dc660a2a2acc252f1e7a917d6cb24510b9b7b51d468",
+    "qa_agent/pipeline.py": "8d8fb95d21f778b3fdc6c8ad49b1b49710a2ae0e4a3fdbcacc1bbcb5a1fa3b8e",
+    "qa_agent/sql/validator.py": "2413bca69ecdf84fddaeb1b2016e06471439ea0847b291498d3b481e35b80fa5",
+    "qa_agent/sql/executor.py": "1d7f11b0d7170f641f29ddc5010369786e705650b91636ccfd8721f17b4169d9",
+    "scripts/check_d2_sql_live.py": "fbf14a1a4dbbdb299b577832783cb504f4c71bfed7b510392b97cf8e6789fdd9"
+  },
+  "api_errors": [],
+  "ablation_errors": []
+}

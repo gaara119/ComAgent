@@ -13,3 +13,16 @@ eval/datasets/rag_ohr.jsonl -text whitespace=blank-at-eol,cr-at-eol
 eval/datasets/rag_review/*.md whitespace=-blank-at-eol
 eval/reports/*/human_review.md whitespace=-blank-at-eol
 eval/reports/**/human_review.md whitespace=-blank-at-eol
+# Preserve D2 original datasets and evidence byte-for-byte for recorded SHA256 checks.
+data/aliases/*.csv -text whitespace=-blank-at-eol,cr-at-eol
+data/rules/metric_definitions.json -text whitespace=cr-at-eol
+eval/datasets/nl2sql_chinook_d2.jsonl -text whitespace=cr-at-eol
+eval/datasets/robust.jsonl -text whitespace=cr-at-eol
+eval/datasets/rag_single.jsonl -text whitespace=cr-at-eol
+eval/datasets/d2_sql.manifest.json -text whitespace=cr-at-eol
+eval/datasets/rag_single.manifest.json -text whitespace=cr-at-eol
+eval/datasets/review_d2/** -text whitespace=-blank-at-eol,cr-at-eol
+eval/artifacts/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+eval/reports/d2-acceptance/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+eval/reports/d2-ai-preaudit/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+notes/references/d2/*.md whitespace=-blank-at-eol

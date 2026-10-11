@@ -1,0 +1,185 @@
+Deploy
+精准问数问答
+
+选择数据来源，输入问题，查看答案和对应依据。
+
+数据来源
+
+数据库
+
+指定文档
+
+查询文档
+
+PNG · zh
+
+你的问题
+
+提交问题
+
+查询完成，未找到符合条件的记录
+
+所选文档未提供足以直接支持此问题的证据，当前无法核实。
+
+keyboard_arrow_right
+
+SQL 与结果
+
+keyboard_arrow_right
+
+引用来源
+
+keyboard_arrow_down
+
+处理步骤与耗时
+
+请求编号：bf20f7ff-ae29-47d7-9816-5134619aec9d
+
+服务端总耗时：3109 毫秒
+
+1. route · 完成 · 0 毫秒
+
+展开第 1 步详情
+
+2. rag_channel · 完成 · 3109 毫秒
+
+展开第 2 步详情
+
+3. doc_scope · 完成 · 8 毫秒
+
+展开第 3 步详情
+
+4. retrieve · 完成 · 103 毫秒
+
+展开第 4 步详情
+
+{
+  "输入": {
+    "doc_id": "artist-led-zeppelin",
+    "question": "这份文档能提供 Led Zeppelin 在2099年的全年巡演总收入和纳税申报金额吗？",
+    "query": "这份文档能提供 Led Zeppelin 在2099年的全年巡演总收入和纳税申报金额吗？"
+  },
+  "输出": {
+    "retrieval_method": "bm25+bge-m3_dense_rrf",
+    "candidate_count": 2,
+    "top_k": 8,
+    "candidate_k_per_channel": 20,
+    "rrf_k": 60,
+    "rank_starts_at": 1,
+    "rankings": {
+      "bm25": [
+        {
+          "rank": 1,
+          "chunk_id": "0b74392566b4204cc0e56ef5",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": -0.17159572
+        },
+        {
+          "rank": 2,
+          "chunk_id": "6fbbccecc8aa76b33aa1057b",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": -0.22569165
+        }
+      ],
+      "dense": [
+        {
+          "rank": 1,
+          "chunk_id": "0b74392566b4204cc0e56ef5",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": 0.59774095
+        },
+        {
+          "rank": 2,
+          "chunk_id": "6fbbccecc8aa76b33aa1057b",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": 0.54219681
+        }
+      ],
+      "rrf": [
+        {
+          "rank": 1,
+          "chunk_id": "0b74392566b4204cc0e56ef5",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": 0.03278689
+        },
+        {
+          "rank": 2,
+          "chunk_id": "6fbbccecc8aa76b33aa1057b",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": 0.03225806
+        }
+      ]
+    },
+    "hit_at_5_scope": [
+      "0b74392566b4204cc0e56ef5",
+      "6fbbccecc8aa76b33aa1057b"
+    ],
+    "retrieved_count": 2,
+    "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+    "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+    "query": "这份文档能提供 Led Zeppelin 在2099年的全年巡演总收入和纳税申报金额吗？",
+    "dense_enabled": true,
+    "chunks": [
+      {
+        "chunk_id": "0b74392566b4204cc0e56ef5",
+        "evidence_id": "E1",
+        "doc_id": "artist-led-zeppelin",
+        "page": null,
+        "section_path": [
+          "图像 OCR"
+        ],
+        "score": 0.03278689
+      },
+      {
+        "chunk_id": "6fbbccecc8aa76b33aa1057b",
+        "evidence_id": "E2",
+        "doc_id": "artist-led-zeppelin",
+        "page": null,
+        "section_path": [
+          "图像 OCR"
+        ],
+        "score": 0.03225806
+      }
+    ]
+  }
+}
+
+5. doc_answer · 完成 · 2999 毫秒
+
+展开第 5 步详情
+
+6. rag_generate · 完成 · 2999 毫秒
+
+展开第 6 步详情
+
+7. llm · 完成 · 1682 毫秒
+
+展开第 7 步详情
+
+8. rag_validate · 完成 · 0 毫秒
+
+展开第 8 步详情

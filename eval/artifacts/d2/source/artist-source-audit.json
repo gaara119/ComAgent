@@ -1,0 +1,99 @@
+{
+  "prepared_at_utc": "2026-10-10T17:49:19.005343+00:00",
+  "top_artist_handoff": "data/handoff/A_to_B_chinook.json",
+  "top_artist_handoff_sha256": "828d6fd01f0b45c820b5674811ac460f8a7965a54b8daadbd6c28aa111e2571a",
+  "direct_fetch_attempts": [
+    {
+      "url": "https://en.wikipedia.org/wiki/Iron_Maiden",
+      "http_status": 403,
+      "response_size": 126,
+      "response_sha256": "165da4d5af47d0a2008597750d184a3cef870aff9d0a5005b71d6bd17a75672e"
+    },
+    {
+      "url": "https://zh.wikipedia.org/wiki/U2%E6%A8%82%E5%9C%98",
+      "http_status": 403,
+      "response_size": 126,
+      "response_sha256": "165da4d5af47d0a2008597750d184a3cef870aff9d0a5005b71d6bd17a75672e"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Metallica",
+      "http_status": 403,
+      "response_size": 126,
+      "response_sha256": "165da4d5af47d0a2008597750d184a3cef870aff9d0a5005b71d6bd17a75672e"
+    },
+    {
+      "url": "https://zh.wikipedia.org/wiki/%E9%BD%90%E6%9F%8F%E6%9E%97%E9%A3%9E%E8%88%B9%E4%B9%90%E9%98%9F",
+      "http_status": 403,
+      "response_size": 126,
+      "response_sha256": "165da4d5af47d0a2008597750d184a3cef870aff9d0a5005b71d6bd17a75672e"
+    }
+  ],
+  "adaptation_reason": "Direct local Wikipedia fetch was blocked (HTTP 403); browsing tools provided readable articles. Original total plan allows attributed public introductions when Wikipedia cannot be accessed.",
+  "fact_verification_method": "Browser-opened Wikipedia article text; short project-authored Chinese adaptations, not a complete downloaded article",
+  "artists": [
+    {
+      "name": "Iron Maiden",
+      "artist_id": 90,
+      "title": "Iron Maiden 铁娘子乐队公开简介",
+      "slug": "iron-maiden",
+      "url": "https://en.wikipedia.org/wiki/Iron_Maiden",
+      "source_document_id": "wikipedia-iron-maiden-introduction",
+      "paragraphs": [
+        "Iron Maiden（铁娘子乐队）是英国重金属乐队，由贝斯手及主要创作者 Steve Harris 于1975年在伦敦东部的 Leyton 组建。",
+        "乐队是英国重金属新浪潮的重要代表。其音乐和歌词涉及历史、文学、战争、神话及科幻等题材。",
+        "同名首张录音室专辑于1980年发行；1982年的 The Number of the Beast 是其早期重要作品。这里介绍的是公开音乐背景，不包含 Chinook 销售排名或当代巡演收入。"
+      ]
+    },
+    {
+      "name": "U2",
+      "artist_id": 150,
+      "title": "U2 乐队公开简介",
+      "slug": "u2",
+      "url": "https://zh.wikipedia.org/wiki/U2%E6%A8%82%E5%9C%98",
+      "source_document_id": "wikipedia-u2-introduction",
+      "paragraphs": [
+        "U2是爱尔兰摇滚乐队，于1976年在都柏林成立。其四位核心成员为 Bono、The Edge、Adam Clayton 和 Larry Mullen Jr.。",
+        "乐队的音乐以摇滚为基础，也探索过电子音乐等风格。人权及社会议题常出现在其创作与公共活动中。",
+        "U2于1980年发行首张录音室专辑 Boy，1983年发行 War。这份背景简介不提供未来演出合同、客户数据或实时销售信息。"
+      ]
+    },
+    {
+      "name": "Metallica",
+      "artist_id": 50,
+      "title": "Metallica 金属乐队公开简介",
+      "slug": "metallica",
+      "url": "https://en.wikipedia.org/wiki/Metallica",
+      "source_document_id": "wikipedia-metallica-introduction",
+      "paragraphs": [
+        "Metallica是美国重金属乐队，1981年在洛杉矶由主唱兼吉他手 James Hetfield 和鼓手 Lars Ulrich 组建。其职业生涯的大部分时期以旧金山地区为活动基地。",
+        "乐队以快速节奏、器乐表现和强烈演奏风格著称，被视为鞭笞金属的重要代表之一。",
+        "Master of Puppets 于1986年发行；乐队于2009年进入摇滚名人堂。这里仅提供公开背景，不以音乐史简介解释 Chinook 快照里的商业因果。"
+      ]
+    },
+    {
+      "name": "Led Zeppelin",
+      "artist_id": 22,
+      "title": "Led Zeppelin 齐柏林飞船乐队公开简介",
+      "slug": "led-zeppelin",
+      "url": "https://zh.wikipedia.org/wiki/%E9%BD%90%E6%9F%8F%E6%9E%97%E9%A3%9E%E8%88%B9%E4%B9%90%E9%98%9F",
+      "source_document_id": "wikipedia-led-zeppelin-introduction",
+      "paragraphs": [
+        "Led Zeppelin（齐柏林飞船）是英国摇滚乐队，1968年在伦敦成立。乐队成员包括吉他手 Jimmy Page、主唱 Robert Plant、贝斯兼键盘手 John Paul Jones 和鼓手 John Bonham。",
+        "其早期音乐扎根于蓝调摇滚与迷幻摇滚，也与硬摇滚和重金属的发展密切相关。",
+        "首张同名专辑于1969年发行，1971年的第四张专辑收录了 Stairway to Heaven。此网页是带出处的简短项目改写，不是维基百科原站页面截图。"
+      ]
+    }
+  ],
+  "screenshot": {
+    "path": "data/docs/raw/d2/led-zeppelin.png",
+    "source_html": "data/docs/raw/d2/source/led-zeppelin-summary.html",
+    "sha256": "950e7d66df1a0ca64bb7770420f919a3665a254ee0429c7fe8d9194d8a97ec19",
+    "browser": "actual headless Microsoft Edge",
+    "is_original_wikipedia_screenshot": false,
+    "rendered_dimensions": {
+      "width": 1200,
+      "height": 1500
+    }
+  },
+  "license": "Attributed summaries are adaptations under CC BY-SA 4.0; no external photographs are included"
+}

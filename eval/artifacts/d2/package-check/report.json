@@ -1,0 +1,161 @@
+{
+  "status": "PASSED",
+  "checked_at_utc": "2026-10-10T18:29:44.210066+00:00",
+  "method": "independent isolated safe extraction + actual offline Edge + raw evidence comparison",
+  "archive": "D2原清单九项验收与证据.zip",
+  "archive_sha256": "c07e87f25e2d1cb13098fca79aac9ccfeeb322993582fc765bcd068943cf5b59",
+  "archive_entries": 626,
+  "archive_size_bytes": 52987880,
+  "scope_note": "This is the archive inspected before these package-check artifacts are added to the final delivery ZIP.",
+  "isolated_extraction": ".runtime/d2-unpack-review-20261010T182939080338Z",
+  "zip_crc": "passed",
+  "relative_evidence_links": {
+    "D2 原清单九项逐项验收与证据.html": 92,
+    "eval/reports/d2-acceptance/requested-d2-evidence.html": 92,
+    "eval/reports/d2-acceptance/unified-review.html": 447
+  },
+  "nine_checklist_items": [
+    {
+      "item": "D2-01 / A1",
+      "required_fields_present": {
+        "要求": true,
+        "实现情况": true,
+        "改动文件": true,
+        "测试方法与实际结果": true,
+        "证据位置": true,
+        "未完成事项 / 口径限制": true
+      }
+    },
+    {
+      "item": "D2-02 / A2",
+      "required_fields_present": {
+        "要求": true,
+        "实现情况": true,
+        "改动文件": true,
+        "测试方法与实际结果": true,
+        "证据位置": true,
+        "未完成事项 / 口径限制": true
+      }
+    },
+    {
+      "item": "D2-03 / A3",
+      "required_fields_present": {
+        "要求": true,
+        "实现情况": true,
+        "改动文件": true,
+        "测试方法与实际结果": true,
+        "证据位置": true,
+        "未完成事项 / 口径限制": true
+      }
+    },
+    {
+      "item": "D2-04 / A4",
+      "required_fields_present": {
+        "要求": true,
+        "实现情况": true,
+        "改动文件": true,
+        "测试方法与实际结果": true,
+        "证据位置": true,
+        "未完成事项 / 口径限制": true
+      }
+    },
+    {
+      "item": "D2-05 / B1",
+      "required_fields_present": {
+        "要求": true,
+        "实现情况": true,
+        "改动文件": true,
+        "测试方法与实际结果": true,
+        "证据位置": true,
+        "未完成事项 / 口径限制": true
+      }
+    },
+    {
+      "item": "D2-06 / B2",
+      "required_fields_present": {
+        "要求": true,
+        "实现情况": true,
+        "改动文件": true,
+        "测试方法与实际结果": true,
+        "证据位置": true,
+        "未完成事项 / 口径限制": true
+      }
+    },
+    {
+      "item": "D2-07 / B3",
+      "required_fields_present": {
+        "要求": true,
+        "实现情况": true,
+        "改动文件": true,
+        "测试方法与实际结果": true,
+        "证据位置": true,
+        "未完成事项 / 口径限制": true
+      }
+    },
+    {
+      "item": "D2-08 / B4",
+      "required_fields_present": {
+        "要求": true,
+        "实现情况": true,
+        "改动文件": true,
+        "测试方法与实际结果": true,
+        "证据位置": true,
+        "未完成事项 / 口径限制": true
+      }
+    },
+    {
+      "item": "D2-09 / B5",
+      "required_fields_present": {
+        "要求": true,
+        "实现情况": true,
+        "改动文件": true,
+        "测试方法与实际结果": true,
+        "证据位置": true,
+        "未完成事项 / 口径限制": true
+      }
+    }
+  ],
+  "review": {
+    "pending": 191,
+    "already_approved_metrics": 4,
+    "gold_human_accepted": 0,
+    "actual_dev_predictions": 77,
+    "actual_human_accepted": 0,
+    "holdout_cases": 33,
+    "holdout_predictions": 0
+  },
+  "raw_results": {
+    "sql": "35/35",
+    "robust": "21/21",
+    "rag_hit_at_5": "20/20",
+    "rag_insufficient": "1/1",
+    "modules": 281,
+    "engineering": "58/58",
+    "ui_screenshots": 5
+  },
+  "offline_browser": {
+    "errors": [],
+    "clicked_links": [
+      {
+        "kind": "png",
+        "href": "notes/screenshots/D2-d2-live-final-sql.png",
+        "actual": "browser rendered unpacked image",
+        "sha256": "3e253a535a1d4320488e9453d3883458a184ff522e3e3234806f12d93c68694b"
+      },
+      {
+        "kind": "source",
+        "href": "scripts/build_value_index.py",
+        "actual": "browser opened unpacked source as text",
+        "sha256": "05b7fc7f477ab6cb7637c571d8fc68eba016b87144059da4f9814d58764947ac"
+      }
+    ],
+    "review_rows": 195,
+    "dev_filter": 77,
+    "holdout_filter": 33,
+    "search_and_expand": "passed"
+  },
+  "excluded_sensitive_or_runtime_paths": [],
+  "possible_api_key_content_paths": [],
+  "human_review_not_falsely_claimed": true,
+  "findings": []
+}

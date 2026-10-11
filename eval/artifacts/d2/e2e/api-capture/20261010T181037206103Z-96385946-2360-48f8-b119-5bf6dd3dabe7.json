@@ -1,0 +1,409 @@
+{
+  "started_at_utc": "2026-10-10T18:10:34.095378+00:00",
+  "finished_at_utc": "2026-10-10T18:10:37.206103+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "e93c6656-296f-43fa-a51e-deddda453931",
+    "message": "这份文档能提供 Led Zeppelin 在2099年的全年巡演总收入和纳税申报金额吗？",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "artist-led-zeppelin"
+      ]
+    }
+  },
+  "response": {
+    "trace_id": "bf20f7ff-ae29-47d7-9816-5134619aec9d",
+    "status": "EMPTY_RESULT",
+    "answer": "所选文档未提供足以直接支持此问题的证据，当前无法核实。",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "artist-led-zeppelin"
+        },
+        "output_summary": {
+          "status": "EMPTY_RESULT",
+          "evidence_count": 0
+        },
+        "latency_ms": 3109
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "artist-led-zeppelin"
+        },
+        "output_summary": {
+          "doc_id": "artist-led-zeppelin",
+          "title": "Led Zeppelin 齐柏林飞船乐队公开简介",
+          "content_hash": "950e7d66df1a0ca64bb7770420f919a3665a254ee0429c7fe8d9194d8a97ec19"
+        },
+        "latency_ms": 8
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "artist-led-zeppelin",
+          "question": "这份文档能提供 Led Zeppelin 在2099年的全年巡演总收入和纳税申报金额吗？",
+          "query": "这份文档能提供 Led Zeppelin 在2099年的全年巡演总收入和纳税申报金额吗？"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 2,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "0b74392566b4204cc0e56ef5",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": -0.17159572
+              },
+              {
+                "rank": 2,
+                "chunk_id": "6fbbccecc8aa76b33aa1057b",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": -0.22569165
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "0b74392566b4204cc0e56ef5",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": 0.59774095
+              },
+              {
+                "rank": 2,
+                "chunk_id": "6fbbccecc8aa76b33aa1057b",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": 0.54219681
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "0b74392566b4204cc0e56ef5",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": 0.03278689
+              },
+              {
+                "rank": 2,
+                "chunk_id": "6fbbccecc8aa76b33aa1057b",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": 0.03225806
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "0b74392566b4204cc0e56ef5",
+            "6fbbccecc8aa76b33aa1057b"
+          ],
+          "retrieved_count": 2,
+          "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+          "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+          "query": "这份文档能提供 Led Zeppelin 在2099年的全年巡演总收入和纳税申报金额吗？",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "0b74392566b4204cc0e56ef5",
+              "evidence_id": "E1",
+              "doc_id": "artist-led-zeppelin",
+              "page": null,
+              "section_path": [
+                "图像 OCR"
+              ],
+              "score": 0.03278689
+            },
+            {
+              "chunk_id": "6fbbccecc8aa76b33aa1057b",
+              "evidence_id": "E2",
+              "doc_id": "artist-led-zeppelin",
+              "page": null,
+              "section_path": [
+                "图像 OCR"
+              ],
+              "score": 0.03225806
+            }
+          ]
+        },
+        "latency_ms": 103
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 2
+        },
+        "output_summary": {
+          "status": "EMPTY_RESULT",
+          "used_evidence_ids": []
+        },
+        "latency_ms": 2999
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 2
+        },
+        "output_summary": {
+          "status": "EMPTY_RESULT",
+          "citation_ids": []
+        },
+        "latency_ms": 2999
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 59,
+            "prompt_tokens": 817,
+            "total_tokens": 876,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 128
+            },
+            "prompt_cache_hit_tokens": 128,
+            "prompt_cache_miss_tokens": 689
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1682
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "EMPTY_RESULT",
+          "used_evidence_ids": [],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "mode": "not_applicable",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "artist-led-zeppelin",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 2,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "0b74392566b4204cc0e56ef5",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": -0.17159572
+          },
+          {
+            "rank": 2,
+            "chunk_id": "6fbbccecc8aa76b33aa1057b",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": -0.22569165
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "0b74392566b4204cc0e56ef5",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": 0.59774095
+          },
+          {
+            "rank": 2,
+            "chunk_id": "6fbbccecc8aa76b33aa1057b",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": 0.54219681
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "0b74392566b4204cc0e56ef5",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": 0.03278689
+          },
+          {
+            "rank": 2,
+            "chunk_id": "6fbbccecc8aa76b33aa1057b",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": 0.03225806
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "0b74392566b4204cc0e56ef5",
+        "6fbbccecc8aa76b33aa1057b"
+      ],
+      "retrieved_count": 2,
+      "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+      "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+      "query": "这份文档能提供 Led Zeppelin 在2099年的全年巡演总收入和纳税申报金额吗？",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "chunk_id": "0b74392566b4204cc0e56ef5",
+          "section_path": [
+            "图像 OCR"
+          ],
+          "bbox": [
+            127.0,
+            57.0,
+            1067.0,
+            832.0
+          ],
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "chunk_id": "6fbbccecc8aa76b33aa1057b",
+          "section_path": [
+            "图像 OCR"
+          ],
+          "bbox": [
+            128.0,
+            782.0,
+            1048.0,
+            891.0
+          ],
+          "evidence_id": "E2"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "mode": "not_applicable",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 3109,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

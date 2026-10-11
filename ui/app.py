@@ -1,4 +1,4 @@
-"""D1 demonstration UI. The server owns SQL execution and document retrieval."""
+"""Shared demonstration UI with actual request traces and source locations."""
 from __future__ import annotations
 
 import os
@@ -32,6 +32,27 @@ def safe_text(value: str) -> str:
     value = re.sub(r"(?i)Bearer\s+\S+", "Bearer [已隐藏凭据]", value)
     value = re.sub(r"(?i)postgres(?:ql)?://[^\s]+", "[已隐藏数据库连接]", value)
     return value
+
+
+def safe_diagnostics(value):
+    """Show bounded tool summaries; never display full prompts or credentials."""
+    hidden = {"api_key", "llm_api_key", "password", "secret", "authorization", "db_url",
+              "dsn", "system_prompt", "user_prompt", "prompt", "full_prompt", "catalog"}
+    if isinstance(value, dict):
+        return {key: "[已隐藏]" if key.lower() in hidden else safe_diagnostics(item)
+                for key, item in value.items()}
+    if isinstance(value, list):
+        return [safe_diagnostics(item) for item in value[:20]]
+    return safe_text(value)[:2000] if isinstance(value, str) else value
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def source_bytes(base_url: str, doc_id: str, content_hash: str) -> bytes:
+    response = httpx.get(document_url(base_url, doc_id), timeout=30)
+    response.raise_for_status()
+    if len(response.content) > 50 * 1024 * 1024:
+        raise ValueError("The original document exceeds the preview limit")
+    return response.content
 
 
 @st.cache_data(ttl=15, show_spinner=False)
@@ -100,7 +121,8 @@ def render_evidence(result: AnswerEnvelope, base_url: str, documents: list[dict]
     if st.session_state.get(selected_key) not in valid_ids:
         st.session_state[selected_key] = result.evidences[0].evidence_id
     for evidence in result.evidences:
-        page_label = f"第 {evidence.page} 页" if evidence.page is not None and evidence.page >= 1 else "页号未提供"
+        page_label = (f"第 {evidence.page} 页" if evidence.page is not None
+                      else "章节：" + " / ".join(evidence.section_path) if evidence.section_path else "原文段落")
         if st.button(
             f"[{evidence.evidence_id}] {evidence.doc_title} · {page_label}",
             key=f"reference_{result.trace_id}_{evidence.evidence_id}",
@@ -108,15 +130,29 @@ def render_evidence(result: AnswerEnvelope, base_url: str, documents: list[dict]
         ):
             st.session_state[selected_key] = evidence.evidence_id
     selected = next(e for e in result.evidences if e.evidence_id == st.session_state[selected_key])
+    metadata = next((d for d in documents if d["doc_id"] == selected.doc_id), {})
+    document_format = str(metadata.get("format", "pdf")).lower()
     left, right = st.columns([1, 1])
     with left:
         st.markdown(f"**[{selected.evidence_id}] 原文**")
         if selected.section_path:
             st.caption(" / ".join(selected.section_path))
         st.text(safe_text(selected.text))
-        st.link_button("打开原 PDF 对应页", document_url(base_url, selected.doc_id, selected.page))
+        st.link_button("打开原 PDF 对应页" if document_format == "pdf" else "打开原始文件",
+                       document_url(base_url, selected.doc_id, selected.page))
     with right:
-        metadata = next((d for d in documents if d["doc_id"] == selected.doc_id), {})
+        if document_format != "pdf":
+            try:
+                value = source_bytes(base_url, selected.doc_id, metadata.get("content_hash", ""))
+            except (httpx.HTTPError, ValueError):
+                st.info("原文引用已显示，原始文件暂不可用。")
+            else:
+                mime = {"docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        "html": "text/html", "md": "text/markdown", "png": "image/png"}.get(document_format, "application/octet-stream")
+                st.download_button("下载原始文件", value, file_name=f"{selected.doc_id}.{document_format}", mime=mime)
+                if document_format in {"png", "jpg", "jpeg"}:
+                    st.image(value, caption="原始图像；引用文字来自实际 OCR。", width="stretch")
+            return
         try:
             value = pdf_bytes(base_url, selected.doc_id, metadata.get("content_hash", ""))
         except (httpx.HTTPError, ValueError):
@@ -173,11 +209,14 @@ def render_panels(
         if not result.steps:
             st.caption("本次响应未提供处理步骤。")
         for index, step in enumerate(result.steps, start=1):
-            st.markdown(f"**{index}. {step.name}** · {step.status} · {step.latency_ms} 毫秒")
-            if step.input_summary or step.output_summary:
+            labels = {"ok": "完成", "warn": "有告警", "error": "失败", "skipped": "未执行"}
+            st.markdown(f"**{index}. {step.name}** · {labels[step.status]} · {step.latency_ms} 毫秒")
+            show = st.toggle(f"展开第 {index} 步详情", key=f"step_{result.trace_id}_{index}")
+            if show and (step.input_summary or step.output_summary):
                 # Render summaries as text rather than allowing arbitrary HTML.
                 import json
-                st.code(safe_text(json.dumps({"输入": step.input_summary, "输出": step.output_summary}, ensure_ascii=False, indent=2)), language="json")
+                st.code(json.dumps(safe_diagnostics({"输入": step.input_summary, "输出": step.output_summary}),
+                                   ensure_ascii=False, indent=2), language="json")
 
 
 def render_result(
@@ -198,6 +237,25 @@ def render_result(
         st.info(label)
     else:
         st.error(label)
+    nlu = result.metadata.get("nlu", {})
+    if result.rewritten_question:
+        left, right = st.columns(2)
+        with left:
+            st.caption("原问题")
+            st.text(safe_text(nlu.get("original_question", "")))
+        with right:
+            st.caption("改写后")
+            st.text(safe_text(result.rewritten_question))
+        patches = nlu.get("patches", [])
+        if patches:
+            st.caption("修改依据")
+            for patch in patches:
+                st.text(safe_text(f"{patch.get('original_text', patch.get('original', patch.get('before','')))} → "
+                                  f"{patch.get('replacement', patch.get('after',''))}；"
+                                  f"{patch.get('method','')} {patch.get('evidence_ref','')}"))
+    if result.clarification:
+        for item in result.clarification.get("options", []):
+            st.caption(safe_text(str(item)))
     st.markdown(linked_answer(result.answer, result, base_url))
     if result.error:
         st.caption(safe_text(result.error.message))

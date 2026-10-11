@@ -1,0 +1,52 @@
+..........................F..................................            [100%]
+================================== FAILURES ===================================
+______________ test_rrf_top20_each_rank1_formula_and_stable_tie _______________
+
+tmp_path = WindowsPath('C:/Users/郭乾冥/AppData/Local/Temp/pytest-of-郭乾冥/pytest-33/test_rrf_top20_each_rank1_form0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001E8BD37E5A0>
+
+    def test_rrf_top20_each_rank1_formula_and_stable_tie(tmp_path, monkeypatch):
+        import csv
+        import numpy as np
+        import qa_agent.rag.index as index_module
+        import qa_agent.rag.embeddings as embeddings
+        from qa_agent.documents import load_documents
+        from qa_agent.rag.retriever import retrieve
+        docs = tmp_path / "data/docs"
+        docs.mkdir(parents=True)
+        rows = []
+        for doc_id in ("allowed", "forbidden"):
+            path = docs / f"{doc_id}.pdf"
+            path.write_bytes(b"parser fixture only")
+            rows.append({"doc_id": doc_id, "title": "Same title", "format": "pdf",
+                         "path": f"data/docs/{doc_id}.pdf", "content_hash": sha256(path.read_bytes()).hexdigest()})
+        manifest = docs / "manifest.csv"
+        with manifest.open("w", newline="", encoding="utf-8") as stream:
+            writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+            writer.writeheader()
+            writer.writerows(rows)
+        monkeypatch.setattr(index_module, "load_documents", lambda source: load_documents(source, tmp_path))
+        monkeypatch.setattr(index_module, "parse_pdf", lambda document: [
+            {"doc_id": document["doc_id"], "doc_title": "Same title", "page": i+1,
+             "text": "matching revenue evidence", "bbox": None} for i in range(30)])
+        class FixtureEncoder:
+            def encode(self, texts):
+                return np.asarray([[1., 0.]]*len(texts), dtype=np.float32)
+            def metadata(self):
+                return {"model_id": "test-only"}
+        monkeypatch.setattr(embeddings, "get_embedder", lambda settings: FixtureEncoder())
+        settings = Settings(db_url="", rag_manifest_path=manifest, rag_index_path=tmp_path / "data/index",
+                            rag_top_k=8, rag_candidate_k=20, rag_rrf_k=60)
+        index_module.build_index(settings=settings)
+        chunks, metadata = retrieve("revenue evidence", "allowed", settings=settings)
+        rankings = metadata["rankings"]
+        assert metadata["candidate_count"] == 30 and len(chunks) == 8
+>       assert len(rankings["bm25"]) == len(rankings["dense"]) == 20
+E       AssertionError: assert 0 == 20
+E        +  where 0 = len([])
+E        +  and   20 = len([{'rank': 1, 'chunk_id': '09c766a52055611e7b849267', 'doc_id': 'allowed', 'page': 30, ...}, {'rank': 2, 'chunk_id': '0...wed', 'page': 12, ...}, {'rank': 6, 'chunk_id': '1871a7fd4d3858564dc12707', 'doc_id': 'allowed', 'page': 17, ...}, ...])
+
+tests\test_d2_rag.py:249: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_d2_rag.py::test_rrf_top20_each_rank1_formula_and_stable_tie
+1 failed, 60 passed in 2.25s

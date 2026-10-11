@@ -34,6 +34,10 @@ def review_hash(item: dict[str, Any]) -> str:
         "id", "question", "doc_id", "answer", "reference_text", "physical_pages",
         "page_numbering", "split", "family_id", "source_qa_id", "source_sha256",
         "source_qa_sha256", "evidence_source", "answer_form")}
+    # Preserve historical D1 review hashes while binding new D2 annotations too.
+    for key in ("answerable", "expected_status", "gold_evidence", "source_scope", "source_type"):
+        if key in item:
+            material[key] = item[key]
     content = json.dumps(material, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf8")
     return hashlib.sha256(content).hexdigest()
 

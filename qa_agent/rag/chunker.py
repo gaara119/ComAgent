@@ -81,7 +81,7 @@ def _cut(text: str, start: int, limit: int, boundaries: dict[int, str]) -> tuple
     return (word if word > start else limit), "forced_word"
 
 
-def chunk_pages(pages: list[dict], max_chars: int = 600, overlap: int = 80) -> list[dict]:
+def _chunk_records(pages: list[dict], max_chars: int = 500, overlap: int = 80) -> list[dict]:
     if max_chars < 200 or not 0 <= overlap < max_chars:
         raise ValueError("chunk 参数必须满足 max_chars>=200 且 0<=overlap<max_chars")
     chunks: list[dict] = []
@@ -94,7 +94,8 @@ def chunk_pages(pages: list[dict], max_chars: int = 600, overlap: int = 80) -> l
         doc_id = page["doc_id"]
         headings = [h for h in page.get("heading_candidates", [])
                     if is_heading_candidate(h, require_pattern=False)]
-        sections[doc_id] = [headings[0]] if headings else _section(text, sections.get(doc_id, []))
+        sections[doc_id] = (list(page["section_path"]) if "section_path" in page else
+                            ([headings[0]] if headings else _section(text, sections.get(doc_id, []))))
         boundaries = _boundaries(text)
         starts = {_skip_space(text, pos): kind for pos, kind in boundaries.items()}
         start = _skip_space(text, 0)
@@ -108,13 +109,14 @@ def chunk_pages(pages: list[dict], max_chars: int = 600, overlap: int = 80) -> l
             chunk_text = text[start:visible_end]
             if chunk_text:
                 content_hash = hashlib.sha256(chunk_text.encode("utf-8")).hexdigest()
-                stable = f"{doc_id}:{page['page']}:{start}:{visible_end}:{content_hash}"
+                stable = f"{doc_id}:{page['page']}:{page.get('record_id', '')}:{page.get('source_offset', 0)+start}:{page.get('source_offset', 0)+visible_end}:{content_hash}"
                 source_blocks = [b for b in page.get("blocks", [])
                                  if b.get("char_start") is not None and b.get("char_end") is not None
                                  and b["char_start"] < visible_end and b["char_end"] > start]
-                bbox = ([min(b["bbox"][0] for b in source_blocks), min(b["bbox"][1] for b in source_blocks),
-                         max(b["bbox"][2] for b in source_blocks), max(b["bbox"][3] for b in source_blocks)]
-                        if source_blocks else None)
+                boxed = [b for b in source_blocks if b.get("bbox") is not None]
+                bbox = ([min(b["bbox"][0] for b in boxed), min(b["bbox"][1] for b in boxed),
+                         max(b["bbox"][2] for b in boxed), max(b["bbox"][3] for b in boxed)]
+                        if boxed else None)
                 complete_end = end_kind in {"sentence", "paragraph", "heading_line", "table_line"}
                 if end_kind == "page_end":
                     complete_end = visible_end in boundaries or bool(re.search(r"[.!?。！？][\"”’')\]]*$", chunk_text))
@@ -124,7 +126,11 @@ def chunk_pages(pages: list[dict], max_chars: int = 600, overlap: int = 80) -> l
                                "bbox": bbox, "bbox_scope": "union_of_text_blocks" if bbox else None,
                                "source_blocks": [{k: b[k] for k in ("block_id", "bbox", "char_start", "char_end")}
                                                  for b in source_blocks],
-                               "page_bbox": page.get("bbox"), "char_start": start, "char_end": visible_end,
+                               "page_bbox": page.get("bbox"),
+                               "char_start": page.get("source_offset", 0)+start,
+                               "char_end": page.get("source_offset", 0)+visible_end,
+                               "source_record_id": page.get("record_id"), "parser": page.get("parser"),
+                               "warnings": page.get("warnings", []), "source_url": page.get("source_url", ""),
                                "content_hash": content_hash, "boundary_start": start_kind, "boundary_end": end_kind,
                                "incomplete_sentence_start": start_kind.startswith("forced_"),
                                "incomplete_sentence_end": not complete_end,
@@ -142,3 +148,56 @@ def chunk_pages(pages: list[dict], max_chars: int = 600, overlap: int = 80) -> l
                 start = _skip_space(text, end)
                 start_kind = end_kind
     return chunks
+
+
+def chunk_pages(pages: list[dict], max_chars: int = 500, overlap: int = 80) -> list[dict]:
+    """Section-first, page-local chunks; never overlap into another heading.
+
+    Non-paginated parsers already produce section records. PDF heading starts
+    use unchanged source offsets, retaining the one-physical-page contract.
+    """
+    records = []
+    inherited: dict[str, list[str]] = {}
+    for page in pages:
+        if "section_path" in page:
+            records.append(page)
+            inherited[page["doc_id"]] = list(page["section_path"])
+            continue
+        text = page["text"]
+        supplied = [h for h in page.get("heading_candidates", [])
+                    if is_heading_candidate(h, require_pattern=False)]
+        offsets = []
+        offset = 0
+        for raw in text.splitlines(keepends=True):
+            line = raw.strip()
+            if line in supplied or is_heading_candidate(line):
+                offsets.append((offset+len(raw)-len(raw.lstrip()), line))
+            offset += len(raw)
+        if not offsets:
+            record = dict(page)
+            record["section_path"] = inherited.get(page["doc_id"], [])
+            # Keep multi-line font-based candidates even when no line matches.
+            if supplied:
+                record["section_path"] = [supplied[0]]
+            records.append(record)
+            inherited[page["doc_id"]] = record["section_path"]
+            continue
+        cuts = [(0, inherited.get(page["doc_id"], []))]
+        for position, heading in offsets:
+            if position == 0:
+                cuts[0] = (0, [heading])
+            else:
+                cuts.append((position, [heading]))
+        for number, (start, section) in enumerate(cuts):
+            end = cuts[number+1][0] if number+1 < len(cuts) else len(text)
+            if not text[start:end].strip():
+                continue
+            blocks = [{**block, "char_start": block["char_start"]-start,
+                       "char_end": block["char_end"]-start}
+                      for block in page.get("blocks", [])
+                      if block.get("char_start") is not None and block.get("char_end") is not None
+                      and block["char_start"] < end and block["char_end"] > start]
+            records.append({**page, "text": text[start:end], "blocks": blocks,
+                            "section_path": section, "source_offset": start})
+            inherited[page["doc_id"]] = section
+    return _chunk_records(records, max_chars, overlap)

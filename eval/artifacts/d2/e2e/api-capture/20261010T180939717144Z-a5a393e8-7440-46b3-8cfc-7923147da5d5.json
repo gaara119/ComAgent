@@ -1,0 +1,1873 @@
+{
+  "started_at_utc": "2026-10-10T18:09:32.048802+00:00",
+  "finished_at_utc": "2026-10-10T18:09:39.717144+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d2-rag-d2-rag-final-rag-02",
+    "message": "How many days after the end of the first fiscal quarter of Physician Sales & Service, Inc. must the financial results of post-Merger combined operations be published?",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "ohr-law-affiliate"
+      ]
+    }
+  },
+  "response": {
+    "trace_id": "0e15611e-fe34-40a2-8eff-687d03e7af51",
+    "status": "SUCCEEDED",
+    "answer": "PSS must publish the financial results of post-Merger combined operations within 45 days after the end of the first fiscal quarter of PSS containing the required period of post-Merger combined operations. [E1]",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [
+      {
+        "evidence_id": "E1",
+        "doc_id": "ohr-law-affiliate",
+        "doc_title": "Gulf South Medical Supply Affiliate Agreement (1997)",
+        "page": 1,
+        "section_path": [
+          "2. Initial Restriction on Disposition. The undersigned agrees that he"
+        ],
+        "text": "understands that ASR 130 and 135 relate to publication of financial results of\npost-Merger combined operations of PSS and GSMS. PSS agrees that it will publish\nsuch results as promptly as practicable following the Merger in the sole\ndiscretion of PSS, but in any event within 45 days after the end of the first\nfiscal quarter of PSS containing the required period of post-Merger combined\noperations and that it will notify the undersigned promptly following such\npublication.",
+        "bbox": [
+          13.44,
+          389.46,
+          357.14,
+          496.86
+        ]
+      }
+    ],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-law-affiliate"
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "evidence_count": 1
+        },
+        "latency_ms": 7658
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-law-affiliate"
+        },
+        "output_summary": {
+          "doc_id": "ohr-law-affiliate",
+          "title": "Gulf South Medical Supply Affiliate Agreement (1997)",
+          "content_hash": "a4a646e9e36567c91424c29b05790d04b780df57f05342758f4a63e2b2bdbeef"
+        },
+        "latency_ms": 34
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-law-affiliate",
+          "question": "How many days after the end of the first fiscal quarter of Physician Sales & Service, Inc. must the financial results of post-Merger combined operations be published?",
+          "query": "How many days after the end of the first fiscal quarter of Physician Sales & Service, Inc. must the financial results of post-Merger combined operations be published?"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 63,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "7ed5263dd0ad56e594cd92a8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 31.57427497
+              },
+              {
+                "rank": 2,
+                "chunk_id": "4368f70897c028fdee30ada8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 20.20889154
+              },
+              {
+                "rank": 3,
+                "chunk_id": "f78717e04db1b19bf30ae5b8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 15.25947985
+              },
+              {
+                "rank": 4,
+                "chunk_id": "8f882e08297a47b7347dfeed",
+                "doc_id": "ohr-law-affiliate",
+                "page": 8,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 7.38062823
+              },
+              {
+                "rank": 5,
+                "chunk_id": "1dfa8acf88582046dd626617",
+                "doc_id": "ohr-law-affiliate",
+                "page": 4,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 6.82185804
+              },
+              {
+                "rank": 6,
+                "chunk_id": "7b9e73a073cb1476d9369976",
+                "doc_id": "ohr-law-affiliate",
+                "page": 7,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 6.82185804
+              },
+              {
+                "rank": 7,
+                "chunk_id": "261af6b20dc45f5925ccd0ac",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 6.24408304
+              },
+              {
+                "rank": 8,
+                "chunk_id": "668e543147825d58dbb9a6eb",
+                "doc_id": "ohr-law-affiliate",
+                "page": 6,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 6.24408304
+              },
+              {
+                "rank": 9,
+                "chunk_id": "d0520df923e6cfbf0ed544a2",
+                "doc_id": "ohr-law-affiliate",
+                "page": 7,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 6.24408304
+              },
+              {
+                "rank": 10,
+                "chunk_id": "0f8eb3c10d99e30f7888e780",
+                "doc_id": "ohr-law-affiliate",
+                "page": 6,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 6.14938842
+              },
+              {
+                "rank": 11,
+                "chunk_id": "75a32e0f5891f3da4e8e177b",
+                "doc_id": "ohr-law-affiliate",
+                "page": 5,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 6.14938842
+              },
+              {
+                "rank": 12,
+                "chunk_id": "8ea964b8d343ecf6399de964",
+                "doc_id": "ohr-law-affiliate",
+                "page": 5,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 6.14938842
+              },
+              {
+                "rank": 13,
+                "chunk_id": "e1a4c5ef3b9ae31641f90dcb",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "AFFILIATE AGREEMENT"
+                ],
+                "score": 5.99708531
+              },
+              {
+                "rank": 14,
+                "chunk_id": "c17d1395f7fc446c20559017",
+                "doc_id": "ohr-law-affiliate",
+                "page": 5,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 5.7423013
+              },
+              {
+                "rank": 15,
+                "chunk_id": "7460bdf654e7ee792f14ecd1",
+                "doc_id": "ohr-law-affiliate",
+                "page": 4,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 5.59760085
+              },
+              {
+                "rank": 16,
+                "chunk_id": "3b99665f52bc9e5c6bb84c2d",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "4345 Southpoint Boulevard"
+                ],
+                "score": 4.21480467
+              },
+              {
+                "rank": 17,
+                "chunk_id": "413974bb9f0e522c1c7f8899",
+                "doc_id": "ohr-law-affiliate",
+                "page": 4,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 4.11185498
+              },
+              {
+                "rank": 18,
+                "chunk_id": "fbd3a683e361c94f02906b60",
+                "doc_id": "ohr-law-affiliate",
+                "page": 7,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 3.95157024
+              },
+              {
+                "rank": 19,
+                "chunk_id": "ab94ad9379aed6db588b14ec",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "4345 Southpoint Boulevard"
+                ],
+                "score": 3.87429415
+              },
+              {
+                "rank": 20,
+                "chunk_id": "1176a58ccfd2f38861a2e00a",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+                ],
+                "score": 3.71649479
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "7ed5263dd0ad56e594cd92a8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.68045413
+              },
+              {
+                "rank": 2,
+                "chunk_id": "4368f70897c028fdee30ada8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.67828703
+              },
+              {
+                "rank": 3,
+                "chunk_id": "1176a58ccfd2f38861a2e00a",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+                ],
+                "score": 0.63959986
+              },
+              {
+                "rank": 4,
+                "chunk_id": "22de9196a30a026ec9b8be97",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "8. Acknowledgments. The undersigned recognizes and agrees that the"
+                ],
+                "score": 0.59262872
+              },
+              {
+                "rank": 5,
+                "chunk_id": "aef1afab5caaf4aedf700d21",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.57082582
+              },
+              {
+                "rank": 6,
+                "chunk_id": "8efa8173957499f69b55b589",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.55806088
+              },
+              {
+                "rank": 7,
+                "chunk_id": "f78717e04db1b19bf30ae5b8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.54414201
+              },
+              {
+                "rank": 8,
+                "chunk_id": "03877a45888577581e686412",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.53977627
+              },
+              {
+                "rank": 9,
+                "chunk_id": "5d7146cd33ca44049bc471c8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "7. Transfer Under Rule 145(d). If the undersigned desires to sell or"
+                ],
+                "score": 0.53304613
+              },
+              {
+                "rank": 10,
+                "chunk_id": "d0520df923e6cfbf0ed544a2",
+                "doc_id": "ohr-law-affiliate",
+                "page": 7,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.5285781
+              },
+              {
+                "rank": 11,
+                "chunk_id": "e1a4c5ef3b9ae31641f90dcb",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "AFFILIATE AGREEMENT"
+                ],
+                "score": 0.52233976
+              },
+              {
+                "rank": 12,
+                "chunk_id": "31378223574defe2ba70421a",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "4345 Southpoint Boulevard"
+                ],
+                "score": 0.52159238
+              },
+              {
+                "rank": 13,
+                "chunk_id": "7b9e73a073cb1476d9369976",
+                "doc_id": "ohr-law-affiliate",
+                "page": 7,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.52006942
+              },
+              {
+                "rank": 14,
+                "chunk_id": "15668418ba2557f968c7988d",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.51923251
+              },
+              {
+                "rank": 15,
+                "chunk_id": "7460bdf654e7ee792f14ecd1",
+                "doc_id": "ohr-law-affiliate",
+                "page": 4,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.51894176
+              },
+              {
+                "rank": 16,
+                "chunk_id": "75a32e0f5891f3da4e8e177b",
+                "doc_id": "ohr-law-affiliate",
+                "page": 5,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.51796162
+              },
+              {
+                "rank": 17,
+                "chunk_id": "04a4366d4552bd8ac18c5571",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.51790822
+              },
+              {
+                "rank": 18,
+                "chunk_id": "4d6caf07a966d47939894212",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.51606309
+              },
+              {
+                "rank": 19,
+                "chunk_id": "8f882e08297a47b7347dfeed",
+                "doc_id": "ohr-law-affiliate",
+                "page": 8,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.51508093
+              },
+              {
+                "rank": 20,
+                "chunk_id": "463d126a39f57d4dfdf01182",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.51443577
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "7ed5263dd0ad56e594cd92a8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.03278689
+              },
+              {
+                "rank": 2,
+                "chunk_id": "4368f70897c028fdee30ada8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.03225806
+              },
+              {
+                "rank": 3,
+                "chunk_id": "f78717e04db1b19bf30ae5b8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.03079839
+              },
+              {
+                "rank": 4,
+                "chunk_id": "7b9e73a073cb1476d9369976",
+                "doc_id": "ohr-law-affiliate",
+                "page": 7,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.02885015
+              },
+              {
+                "rank": 5,
+                "chunk_id": "d0520df923e6cfbf0ed544a2",
+                "doc_id": "ohr-law-affiliate",
+                "page": 7,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.02877847
+              },
+              {
+                "rank": 6,
+                "chunk_id": "1176a58ccfd2f38861a2e00a",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+                ],
+                "score": 0.02837302
+              },
+              {
+                "rank": 7,
+                "chunk_id": "8f882e08297a47b7347dfeed",
+                "doc_id": "ohr-law-affiliate",
+                "page": 8,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.02828323
+              },
+              {
+                "rank": 8,
+                "chunk_id": "e1a4c5ef3b9ae31641f90dcb",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "AFFILIATE AGREEMENT"
+                ],
+                "score": 0.02778314
+              },
+              {
+                "rank": 9,
+                "chunk_id": "75a32e0f5891f3da4e8e177b",
+                "doc_id": "ohr-law-affiliate",
+                "page": 5,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.0272424
+              },
+              {
+                "rank": 10,
+                "chunk_id": "7460bdf654e7ee792f14ecd1",
+                "doc_id": "ohr-law-affiliate",
+                "page": 4,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.02666667
+              },
+              {
+                "rank": 11,
+                "chunk_id": "22de9196a30a026ec9b8be97",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "8. Acknowledgments. The undersigned recognizes and agrees that the"
+                ],
+                "score": 0.015625
+              },
+              {
+                "rank": 12,
+                "chunk_id": "1dfa8acf88582046dd626617",
+                "doc_id": "ohr-law-affiliate",
+                "page": 4,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.01538462
+              },
+              {
+                "rank": 13,
+                "chunk_id": "aef1afab5caaf4aedf700d21",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.01538462
+              },
+              {
+                "rank": 14,
+                "chunk_id": "8efa8173957499f69b55b589",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.01515152
+              },
+              {
+                "rank": 15,
+                "chunk_id": "261af6b20dc45f5925ccd0ac",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.01492537
+              },
+              {
+                "rank": 16,
+                "chunk_id": "03877a45888577581e686412",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.01470588
+              },
+              {
+                "rank": 17,
+                "chunk_id": "668e543147825d58dbb9a6eb",
+                "doc_id": "ohr-law-affiliate",
+                "page": 6,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.01470588
+              },
+              {
+                "rank": 18,
+                "chunk_id": "5d7146cd33ca44049bc471c8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "7. Transfer Under Rule 145(d). If the undersigned desires to sell or"
+                ],
+                "score": 0.01449275
+              },
+              {
+                "rank": 19,
+                "chunk_id": "0f8eb3c10d99e30f7888e780",
+                "doc_id": "ohr-law-affiliate",
+                "page": 6,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.01428571
+              },
+              {
+                "rank": 20,
+                "chunk_id": "31378223574defe2ba70421a",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "4345 Southpoint Boulevard"
+                ],
+                "score": 0.01388889
+              },
+              {
+                "rank": 21,
+                "chunk_id": "8ea964b8d343ecf6399de964",
+                "doc_id": "ohr-law-affiliate",
+                "page": 5,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.01388889
+              },
+              {
+                "rank": 22,
+                "chunk_id": "15668418ba2557f968c7988d",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 23,
+                "chunk_id": "c17d1395f7fc446c20559017",
+                "doc_id": "ohr-law-affiliate",
+                "page": 5,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 24,
+                "chunk_id": "3b99665f52bc9e5c6bb84c2d",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "4345 Southpoint Boulevard"
+                ],
+                "score": 0.01315789
+              },
+              {
+                "rank": 25,
+                "chunk_id": "04a4366d4552bd8ac18c5571",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.01298701
+              },
+              {
+                "rank": 26,
+                "chunk_id": "413974bb9f0e522c1c7f8899",
+                "doc_id": "ohr-law-affiliate",
+                "page": 4,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.01298701
+              },
+              {
+                "rank": 27,
+                "chunk_id": "4d6caf07a966d47939894212",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.01282051
+              },
+              {
+                "rank": 28,
+                "chunk_id": "fbd3a683e361c94f02906b60",
+                "doc_id": "ohr-law-affiliate",
+                "page": 7,
+                "section_path": [
+                  "PHYSICIAN SALES & SERVICE, INC."
+                ],
+                "score": 0.01282051
+              },
+              {
+                "rank": 29,
+                "chunk_id": "ab94ad9379aed6db588b14ec",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "4345 Southpoint Boulevard"
+                ],
+                "score": 0.01265823
+              },
+              {
+                "rank": 30,
+                "chunk_id": "463d126a39f57d4dfdf01182",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.0125
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "7ed5263dd0ad56e594cd92a8",
+            "4368f70897c028fdee30ada8",
+            "f78717e04db1b19bf30ae5b8",
+            "7b9e73a073cb1476d9369976",
+            "d0520df923e6cfbf0ed544a2"
+          ],
+          "retrieved_count": 8,
+          "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+          "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+          "query": "How many days after the end of the first fiscal quarter of Physician Sales & Service, Inc. must the financial results of post-Merger combined operations be published?",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "7ed5263dd0ad56e594cd92a8",
+              "evidence_id": "E1",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [
+                "2. Initial Restriction on Disposition. The undersigned agrees that he"
+              ],
+              "score": 0.03278689
+            },
+            {
+              "chunk_id": "4368f70897c028fdee30ada8",
+              "evidence_id": "E2",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [
+                "4. Restrictions on Transfer. The undersigned understands and agrees that"
+              ],
+              "score": 0.03225806
+            },
+            {
+              "chunk_id": "f78717e04db1b19bf30ae5b8",
+              "evidence_id": "E3",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [
+                "2. Initial Restriction on Disposition. The undersigned agrees that he"
+              ],
+              "score": 0.03079839
+            },
+            {
+              "chunk_id": "7b9e73a073cb1476d9369976",
+              "evidence_id": "E4",
+              "doc_id": "ohr-law-affiliate",
+              "page": 7,
+              "section_path": [
+                "PHYSICIAN SALES & SERVICE, INC."
+              ],
+              "score": 0.02885015
+            },
+            {
+              "chunk_id": "d0520df923e6cfbf0ed544a2",
+              "evidence_id": "E5",
+              "doc_id": "ohr-law-affiliate",
+              "page": 7,
+              "section_path": [
+                "PHYSICIAN SALES & SERVICE, INC."
+              ],
+              "score": 0.02877847
+            },
+            {
+              "chunk_id": "1176a58ccfd2f38861a2e00a",
+              "evidence_id": "E6",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [
+                "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+              ],
+              "score": 0.02837302
+            },
+            {
+              "chunk_id": "8f882e08297a47b7347dfeed",
+              "evidence_id": "E7",
+              "doc_id": "ohr-law-affiliate",
+              "page": 8,
+              "section_path": [
+                "PHYSICIAN SALES & SERVICE, INC."
+              ],
+              "score": 0.02828323
+            },
+            {
+              "chunk_id": "e1a4c5ef3b9ae31641f90dcb",
+              "evidence_id": "E8",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [
+                "AFFILIATE AGREEMENT"
+              ],
+              "score": 0.02778314
+            }
+          ]
+        },
+        "latency_ms": 3979
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1"
+          ]
+        },
+        "latency_ms": 3644
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "citation_ids": [
+            "E1"
+          ]
+        },
+        "latency_ms": 3643
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 66,
+            "prompt_tokens": 1392,
+            "total_tokens": 1458,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1152
+            },
+            "prompt_cache_hit_tokens": 1152,
+            "prompt_cache_miss_tokens": 240
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1892
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1"
+          ],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "potential_uncited_statements": [],
+            "mode": "heuristic_warning_only",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 1
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "ohr-law-affiliate",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 63,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "7ed5263dd0ad56e594cd92a8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 31.57427497
+          },
+          {
+            "rank": 2,
+            "chunk_id": "4368f70897c028fdee30ada8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 20.20889154
+          },
+          {
+            "rank": 3,
+            "chunk_id": "f78717e04db1b19bf30ae5b8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 15.25947985
+          },
+          {
+            "rank": 4,
+            "chunk_id": "8f882e08297a47b7347dfeed",
+            "doc_id": "ohr-law-affiliate",
+            "page": 8,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 7.38062823
+          },
+          {
+            "rank": 5,
+            "chunk_id": "1dfa8acf88582046dd626617",
+            "doc_id": "ohr-law-affiliate",
+            "page": 4,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 6.82185804
+          },
+          {
+            "rank": 6,
+            "chunk_id": "7b9e73a073cb1476d9369976",
+            "doc_id": "ohr-law-affiliate",
+            "page": 7,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 6.82185804
+          },
+          {
+            "rank": 7,
+            "chunk_id": "261af6b20dc45f5925ccd0ac",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 6.24408304
+          },
+          {
+            "rank": 8,
+            "chunk_id": "668e543147825d58dbb9a6eb",
+            "doc_id": "ohr-law-affiliate",
+            "page": 6,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 6.24408304
+          },
+          {
+            "rank": 9,
+            "chunk_id": "d0520df923e6cfbf0ed544a2",
+            "doc_id": "ohr-law-affiliate",
+            "page": 7,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 6.24408304
+          },
+          {
+            "rank": 10,
+            "chunk_id": "0f8eb3c10d99e30f7888e780",
+            "doc_id": "ohr-law-affiliate",
+            "page": 6,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 6.14938842
+          },
+          {
+            "rank": 11,
+            "chunk_id": "75a32e0f5891f3da4e8e177b",
+            "doc_id": "ohr-law-affiliate",
+            "page": 5,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 6.14938842
+          },
+          {
+            "rank": 12,
+            "chunk_id": "8ea964b8d343ecf6399de964",
+            "doc_id": "ohr-law-affiliate",
+            "page": 5,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 6.14938842
+          },
+          {
+            "rank": 13,
+            "chunk_id": "e1a4c5ef3b9ae31641f90dcb",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "AFFILIATE AGREEMENT"
+            ],
+            "score": 5.99708531
+          },
+          {
+            "rank": 14,
+            "chunk_id": "c17d1395f7fc446c20559017",
+            "doc_id": "ohr-law-affiliate",
+            "page": 5,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 5.7423013
+          },
+          {
+            "rank": 15,
+            "chunk_id": "7460bdf654e7ee792f14ecd1",
+            "doc_id": "ohr-law-affiliate",
+            "page": 4,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 5.59760085
+          },
+          {
+            "rank": 16,
+            "chunk_id": "3b99665f52bc9e5c6bb84c2d",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "4345 Southpoint Boulevard"
+            ],
+            "score": 4.21480467
+          },
+          {
+            "rank": 17,
+            "chunk_id": "413974bb9f0e522c1c7f8899",
+            "doc_id": "ohr-law-affiliate",
+            "page": 4,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 4.11185498
+          },
+          {
+            "rank": 18,
+            "chunk_id": "fbd3a683e361c94f02906b60",
+            "doc_id": "ohr-law-affiliate",
+            "page": 7,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 3.95157024
+          },
+          {
+            "rank": 19,
+            "chunk_id": "ab94ad9379aed6db588b14ec",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "4345 Southpoint Boulevard"
+            ],
+            "score": 3.87429415
+          },
+          {
+            "rank": 20,
+            "chunk_id": "1176a58ccfd2f38861a2e00a",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+            ],
+            "score": 3.71649479
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "7ed5263dd0ad56e594cd92a8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.68045413
+          },
+          {
+            "rank": 2,
+            "chunk_id": "4368f70897c028fdee30ada8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.67828703
+          },
+          {
+            "rank": 3,
+            "chunk_id": "1176a58ccfd2f38861a2e00a",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+            ],
+            "score": 0.63959986
+          },
+          {
+            "rank": 4,
+            "chunk_id": "22de9196a30a026ec9b8be97",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "8. Acknowledgments. The undersigned recognizes and agrees that the"
+            ],
+            "score": 0.59262872
+          },
+          {
+            "rank": 5,
+            "chunk_id": "aef1afab5caaf4aedf700d21",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.57082582
+          },
+          {
+            "rank": 6,
+            "chunk_id": "8efa8173957499f69b55b589",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.55806088
+          },
+          {
+            "rank": 7,
+            "chunk_id": "f78717e04db1b19bf30ae5b8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.54414201
+          },
+          {
+            "rank": 8,
+            "chunk_id": "03877a45888577581e686412",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.53977627
+          },
+          {
+            "rank": 9,
+            "chunk_id": "5d7146cd33ca44049bc471c8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "7. Transfer Under Rule 145(d). If the undersigned desires to sell or"
+            ],
+            "score": 0.53304613
+          },
+          {
+            "rank": 10,
+            "chunk_id": "d0520df923e6cfbf0ed544a2",
+            "doc_id": "ohr-law-affiliate",
+            "page": 7,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.5285781
+          },
+          {
+            "rank": 11,
+            "chunk_id": "e1a4c5ef3b9ae31641f90dcb",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "AFFILIATE AGREEMENT"
+            ],
+            "score": 0.52233976
+          },
+          {
+            "rank": 12,
+            "chunk_id": "31378223574defe2ba70421a",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "4345 Southpoint Boulevard"
+            ],
+            "score": 0.52159238
+          },
+          {
+            "rank": 13,
+            "chunk_id": "7b9e73a073cb1476d9369976",
+            "doc_id": "ohr-law-affiliate",
+            "page": 7,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.52006942
+          },
+          {
+            "rank": 14,
+            "chunk_id": "15668418ba2557f968c7988d",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.51923251
+          },
+          {
+            "rank": 15,
+            "chunk_id": "7460bdf654e7ee792f14ecd1",
+            "doc_id": "ohr-law-affiliate",
+            "page": 4,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.51894176
+          },
+          {
+            "rank": 16,
+            "chunk_id": "75a32e0f5891f3da4e8e177b",
+            "doc_id": "ohr-law-affiliate",
+            "page": 5,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.51796162
+          },
+          {
+            "rank": 17,
+            "chunk_id": "04a4366d4552bd8ac18c5571",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.51790822
+          },
+          {
+            "rank": 18,
+            "chunk_id": "4d6caf07a966d47939894212",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.51606309
+          },
+          {
+            "rank": 19,
+            "chunk_id": "8f882e08297a47b7347dfeed",
+            "doc_id": "ohr-law-affiliate",
+            "page": 8,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.51508093
+          },
+          {
+            "rank": 20,
+            "chunk_id": "463d126a39f57d4dfdf01182",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.51443577
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "7ed5263dd0ad56e594cd92a8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.03278689
+          },
+          {
+            "rank": 2,
+            "chunk_id": "4368f70897c028fdee30ada8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.03225806
+          },
+          {
+            "rank": 3,
+            "chunk_id": "f78717e04db1b19bf30ae5b8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.03079839
+          },
+          {
+            "rank": 4,
+            "chunk_id": "7b9e73a073cb1476d9369976",
+            "doc_id": "ohr-law-affiliate",
+            "page": 7,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.02885015
+          },
+          {
+            "rank": 5,
+            "chunk_id": "d0520df923e6cfbf0ed544a2",
+            "doc_id": "ohr-law-affiliate",
+            "page": 7,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.02877847
+          },
+          {
+            "rank": 6,
+            "chunk_id": "1176a58ccfd2f38861a2e00a",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+            ],
+            "score": 0.02837302
+          },
+          {
+            "rank": 7,
+            "chunk_id": "8f882e08297a47b7347dfeed",
+            "doc_id": "ohr-law-affiliate",
+            "page": 8,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.02828323
+          },
+          {
+            "rank": 8,
+            "chunk_id": "e1a4c5ef3b9ae31641f90dcb",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "AFFILIATE AGREEMENT"
+            ],
+            "score": 0.02778314
+          },
+          {
+            "rank": 9,
+            "chunk_id": "75a32e0f5891f3da4e8e177b",
+            "doc_id": "ohr-law-affiliate",
+            "page": 5,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.0272424
+          },
+          {
+            "rank": 10,
+            "chunk_id": "7460bdf654e7ee792f14ecd1",
+            "doc_id": "ohr-law-affiliate",
+            "page": 4,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.02666667
+          },
+          {
+            "rank": 11,
+            "chunk_id": "22de9196a30a026ec9b8be97",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "8. Acknowledgments. The undersigned recognizes and agrees that the"
+            ],
+            "score": 0.015625
+          },
+          {
+            "rank": 12,
+            "chunk_id": "1dfa8acf88582046dd626617",
+            "doc_id": "ohr-law-affiliate",
+            "page": 4,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.01538462
+          },
+          {
+            "rank": 13,
+            "chunk_id": "aef1afab5caaf4aedf700d21",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.01538462
+          },
+          {
+            "rank": 14,
+            "chunk_id": "8efa8173957499f69b55b589",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.01515152
+          },
+          {
+            "rank": 15,
+            "chunk_id": "261af6b20dc45f5925ccd0ac",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.01492537
+          },
+          {
+            "rank": 16,
+            "chunk_id": "03877a45888577581e686412",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.01470588
+          },
+          {
+            "rank": 17,
+            "chunk_id": "668e543147825d58dbb9a6eb",
+            "doc_id": "ohr-law-affiliate",
+            "page": 6,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.01470588
+          },
+          {
+            "rank": 18,
+            "chunk_id": "5d7146cd33ca44049bc471c8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "7. Transfer Under Rule 145(d). If the undersigned desires to sell or"
+            ],
+            "score": 0.01449275
+          },
+          {
+            "rank": 19,
+            "chunk_id": "0f8eb3c10d99e30f7888e780",
+            "doc_id": "ohr-law-affiliate",
+            "page": 6,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.01428571
+          },
+          {
+            "rank": 20,
+            "chunk_id": "31378223574defe2ba70421a",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "4345 Southpoint Boulevard"
+            ],
+            "score": 0.01388889
+          },
+          {
+            "rank": 21,
+            "chunk_id": "8ea964b8d343ecf6399de964",
+            "doc_id": "ohr-law-affiliate",
+            "page": 5,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.01388889
+          },
+          {
+            "rank": 22,
+            "chunk_id": "15668418ba2557f968c7988d",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 23,
+            "chunk_id": "c17d1395f7fc446c20559017",
+            "doc_id": "ohr-law-affiliate",
+            "page": 5,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 24,
+            "chunk_id": "3b99665f52bc9e5c6bb84c2d",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "4345 Southpoint Boulevard"
+            ],
+            "score": 0.01315789
+          },
+          {
+            "rank": 25,
+            "chunk_id": "04a4366d4552bd8ac18c5571",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.01298701
+          },
+          {
+            "rank": 26,
+            "chunk_id": "413974bb9f0e522c1c7f8899",
+            "doc_id": "ohr-law-affiliate",
+            "page": 4,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.01298701
+          },
+          {
+            "rank": 27,
+            "chunk_id": "4d6caf07a966d47939894212",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.01282051
+          },
+          {
+            "rank": 28,
+            "chunk_id": "fbd3a683e361c94f02906b60",
+            "doc_id": "ohr-law-affiliate",
+            "page": 7,
+            "section_path": [
+              "PHYSICIAN SALES & SERVICE, INC."
+            ],
+            "score": 0.01282051
+          },
+          {
+            "rank": 29,
+            "chunk_id": "ab94ad9379aed6db588b14ec",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "4345 Southpoint Boulevard"
+            ],
+            "score": 0.01265823
+          },
+          {
+            "rank": 30,
+            "chunk_id": "463d126a39f57d4dfdf01182",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.0125
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "7ed5263dd0ad56e594cd92a8",
+        "4368f70897c028fdee30ada8",
+        "f78717e04db1b19bf30ae5b8",
+        "7b9e73a073cb1476d9369976",
+        "d0520df923e6cfbf0ed544a2"
+      ],
+      "retrieved_count": 8,
+      "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+      "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+      "query": "How many days after the end of the first fiscal quarter of Physician Sales & Service, Inc. must the financial results of post-Merger combined operations be published?",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "chunk_id": "7ed5263dd0ad56e594cd92a8",
+          "section_path": [
+            "2. Initial Restriction on Disposition. The undersigned agrees that he"
+          ],
+          "bbox": [
+            13.44,
+            389.46,
+            357.14,
+            496.86
+          ],
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "chunk_id": "4368f70897c028fdee30ada8",
+          "section_path": [
+            "4. Restrictions on Transfer. The undersigned understands and agrees that"
+          ],
+          "bbox": [
+            13.44,
+            231.35,
+            357.14,
+            354.23
+          ],
+          "evidence_id": "E2"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "chunk_id": "f78717e04db1b19bf30ae5b8",
+          "section_path": [
+            "2. Initial Restriction on Disposition. The undersigned agrees that he"
+          ],
+          "bbox": [
+            13.44,
+            389.46,
+            357.14,
+            496.86
+          ],
+          "evidence_id": "E3"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 7,
+          "chunk_id": "7b9e73a073cb1476d9369976",
+          "section_path": [
+            "PHYSICIAN SALES & SERVICE, INC."
+          ],
+          "bbox": null,
+          "evidence_id": "E4"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 7,
+          "chunk_id": "d0520df923e6cfbf0ed544a2",
+          "section_path": [
+            "PHYSICIAN SALES & SERVICE, INC."
+          ],
+          "bbox": [
+            13.44,
+            579.36,
+            262.62,
+            686.76
+          ],
+          "evidence_id": "E5"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "chunk_id": "1176a58ccfd2f38861a2e00a",
+          "section_path": [
+            "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+          ],
+          "bbox": [
+            13.44,
+            587.09,
+            357.14,
+            648.09
+          ],
+          "evidence_id": "E6"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 8,
+          "chunk_id": "8f882e08297a47b7347dfeed",
+          "section_path": [
+            "PHYSICIAN SALES & SERVICE, INC."
+          ],
+          "bbox": [
+            13.44,
+            79.82,
+            159.51,
+            148.56
+          ],
+          "evidence_id": "E7"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "chunk_id": "e1a4c5ef3b9ae31641f90dcb",
+          "section_path": [
+            "AFFILIATE AGREEMENT"
+          ],
+          "bbox": [
+            13.44,
+            80.12,
+            352.84,
+            148.86
+          ],
+          "evidence_id": "E8"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "potential_uncited_statements": [],
+        "mode": "heuristic_warning_only",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [
+        "E1"
+      ],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 7667,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

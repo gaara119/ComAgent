@@ -14,7 +14,7 @@ $apiUrl = "http://127.0.0.1:$ApiPort"
 function Test-ProjectApi {
     try {
         $health = Invoke-RestMethod -Uri "$apiUrl/health" -TimeoutSec 3
-        return ($health.status -eq 'ok' -and $health.stage -eq 'D1')
+        return ($health.status -eq 'ok' -and $health.stage -in @('D1', 'D2'))
     } catch { return $false }
 }
 
@@ -42,7 +42,7 @@ try {
     Write-Host "API: $apiUrl/docs"
     Write-Host "Demo: http://127.0.0.1:$UiPort"
     Write-Host 'Press Ctrl+C to stop the demo. The API remains available.'
-    & $projectPython -m streamlit run ui/app.py --server.address 127.0.0.1 --server.port $UiPort --browser.gatherUsageStats false
+    & $projectPython -m streamlit run ui/app.py --server.address 127.0.0.1 --server.port $UiPort --server.headless true --browser.gatherUsageStats false
     if ($LASTEXITCODE -ne 0) { throw "Streamlit exited with code $LASTEXITCODE." }
 } finally {
     $env:QA_API_BASE_URL = $previousApiBase

@@ -1,0 +1,21 @@
+{
+  "started_at_utc": "2026-10-10T18:17:13.014413+00:00",
+  "ended_at_utc": "2026-10-10T18:17:23.614473+00:00",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "scripts/check_d2_sql_sources.py",
+    "--output-dir",
+    "eval/artifacts/d2/a-live/source-guard"
+  ],
+  "passed": 4,
+  "count": 4,
+  "holdout_requests": 0,
+  "human_review_status": "pending",
+  "source_sha256": {
+    "qa_agent/pipeline.py": "5b2fcc19c8bbff9e3ca494bc200a38a00e54fde2329df1205254b46b2c6ba4ca",
+    "qa_agent/sql/validator.py": "76d67255f181b9f08fa192fc7dded9bda5b5643e6a26b5a3c7de93a17e950791",
+    "scripts/check_d2_sql_sources.py": "db39abc901f55360c3811512df341334718b152c950c50ff8acceb9974b00db5"
+  },
+  "original_bug_record": "eval/artifacts/d2/e2e/browser/d2-live-v1/failure-raw.json",
+  "errors": []
+}

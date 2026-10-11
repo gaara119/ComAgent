@@ -1,0 +1,244 @@
+{
+  "started_at_utc": "2026-10-10T18:10:21.473587+00:00",
+  "finished_at_utc": "2026-10-10T18:10:24.968145+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "eval-20261010T180931256567Z-sql-17",
+    "message": "找出时长最长的 5 首曲目，返回编号、名称和毫秒时长；按时长降序，并列按编号升序。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "67f084ca-e594-4cda-8b79-819c67f49cb0",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 5 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT \"track_id\", \"name\", \"milliseconds\" FROM \"public\".\"track\" ORDER BY \"milliseconds\" DESC, \"track_id\" ASC LIMIT 5",
+    "table": [
+      {
+        "track_id": 2820,
+        "name": "Occupation / Precipice",
+        "milliseconds": 5286953
+      },
+      {
+        "track_id": 3224,
+        "name": "Through a Looking Glass",
+        "milliseconds": 5088838
+      },
+      {
+        "track_id": 3244,
+        "name": "Greetings from Earth, Pt. 1",
+        "milliseconds": 2960293
+      },
+      {
+        "track_id": 3242,
+        "name": "The Man With Nine Lives",
+        "milliseconds": 2956998
+      },
+      {
+        "track_id": 3227,
+        "name": "Battlestar Galactica, Pt. 2",
+        "milliseconds": 2956081
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11
+        },
+        "latency_ms": 20
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "找出时长最长的 5 首曲目，返回编号、名称和毫秒时长；按时长降序，并列按编号升序。"
+        },
+        "output_summary": {
+          "rewritten_question": "找出时长最长的 5 首曲目，返回编号、名称和毫秒时长；按时长降序，并列按编号升序。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "找出时长最长的 5 首曲目，返回编号、名称和毫秒时长；按时长降序，并列按编号升序。",
+          "repair_attempt": 0
+        },
+        "output_summary": {
+          "sql": "SELECT \"track_id\", \"name\", \"milliseconds\" FROM \"public\".\"track\" ORDER BY \"milliseconds\" DESC, \"track_id\" ASC LIMIT 5",
+          "explanation": "查询曲目表中最长的 5 首曲目，返回编号、名称和毫秒时长，按时长降序、编号升序排列。"
+        },
+        "latency_ms": 3436
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 86,
+            "prompt_tokens": 4296,
+            "total_tokens": 4382,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4096
+            },
+            "prompt_cache_hit_tokens": 4096,
+            "prompt_cache_miss_tokens": 200
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2138
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"track_id\", \"name\", \"milliseconds\" FROM \"public\".\"track\" ORDER BY \"milliseconds\" DESC, \"track_id\" ASC LIMIT 5"
+        },
+        "output_summary": {
+          "tables": [
+            "track"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT \"track_id\", \"name\", \"milliseconds\" FROM \"public\".\"track\" ORDER BY \"milliseconds\" DESC, \"track_id\" ASC LIMIT 5"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"track_id\", \"name\", \"milliseconds\" FROM \"public\".\"track\" ORDER BY \"milliseconds\" DESC, \"track_id\" ASC LIMIT 5",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 5,
+          "columns": [
+            "track_id",
+            "name",
+            "milliseconds"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 35
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "result_columns": [
+        "track_id",
+        "name",
+        "milliseconds"
+      ],
+      "truncated": false,
+      "latency_ms": 3493,
+      "nlu": {
+        "original_question": "找出时长最长的 5 首曲目，返回编号、名称和毫秒时长；按时长降序，并列按编号升序。",
+        "rewritten_question": "找出时长最长的 5 首曲目，返回编号、名称和毫秒时长；按时长降序，并列按编号升序。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

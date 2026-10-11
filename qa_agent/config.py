@@ -27,6 +27,16 @@ def _project_path(name: str, default: str) -> Path:
     return value if value.is_absolute() else PROJECT_ROOT / value
 
 
+def _decimal(name: str, default: float, minimum: float = 0, maximum: float = 1) -> float:
+    try:
+        value = float(os.getenv(name, str(default)))
+    except ValueError as exc:
+        raise ValueError(f"配置 {name} 必须为数值") from exc
+    if not minimum <= value <= maximum:
+        raise ValueError(f"配置 {name} 必须在 {minimum}–{maximum} 范围内")
+    return value
+
+
 @dataclass(frozen=True)
 class Settings:
     db_url: str = field(repr=False)
@@ -48,12 +58,23 @@ class Settings:
     rag_manifest_path: Path = PROJECT_ROOT / "data/docs/manifest.csv"
     rag_index_path: Path = PROJECT_ROOT / "data/processed/rag/ohr"
     bge_model_path: Path = PROJECT_ROOT / "data/models/bge-m3"
-    rag_top_k: int = 5
+    rag_top_k: int = 8
+    rag_candidate_k: int = 20
+    rag_rrf_k: int = 60
+    rag_chunk_chars: int = 500
+    rag_chunk_overlap: int = 80
+    rag_ocr_model_path: Path = PROJECT_ROOT / "data/models/rapidocr"
     rag_embedding_max_length: int = 512
     rag_embedding_batch_size: int = 2
     rag_embedding_device: str = "cpu"
     rag_embedding_quantization: str = "int8"
     rag_answer_mode: str = "llm"
+    nlu_enabled: bool = True
+    value_index_path: Path = PROJECT_ROOT / "data/indexes/values"
+    nlu_fuzzy_threshold: float = 0.82
+    nlu_fuzzy_margin: float = 0.08
+    nlu_vector_threshold: float = 0.82
+    nlu_vector_margin: float = 0.08
 
     @property
     def llm_configured(self) -> bool:
@@ -96,12 +117,23 @@ def get_settings() -> Settings:
         rag_manifest_path=_project_path("RAG_MANIFEST_PATH", "data/docs/manifest.csv"),
         rag_index_path=_project_path("RAG_INDEX_PATH", "data/processed/rag/ohr"),
         bge_model_path=_project_path("BGE_MODEL_PATH", "data/models/bge-m3"),
-        rag_top_k=_integer("RAG_TOP_K", 5, maximum=100),
+        rag_top_k=_integer("RAG_TOP_K", 8, maximum=100),
+        rag_candidate_k=_integer("RAG_CANDIDATE_K", 20, maximum=200),
+        rag_rrf_k=_integer("RAG_RRF_K", 60, maximum=1000),
+        rag_chunk_chars=_integer("RAG_CHUNK_CHARS", 500, minimum=100, maximum=3000),
+        rag_chunk_overlap=_integer("RAG_CHUNK_OVERLAP", 80, minimum=0, maximum=1000),
+        rag_ocr_model_path=_project_path("RAPIDOCR_MODEL_PATH", "data/models/rapidocr"),
         rag_embedding_max_length=_integer("RAG_EMBEDDING_MAX_LENGTH", 512, maximum=8192),
         rag_embedding_batch_size=_integer("RAG_EMBEDDING_BATCH_SIZE", 2, maximum=256),
         rag_embedding_device=os.getenv("RAG_EMBEDDING_DEVICE", "cpu"),
         rag_embedding_quantization=os.getenv("RAG_EMBEDDING_QUANTIZATION", "int8"),
         rag_answer_mode=os.getenv("RAG_ANSWER_MODE", "llm"),
+        nlu_enabled=os.getenv("NLU_ENABLED", "true").lower() in {"true", "1", "yes"},
+        value_index_path=_project_path("VALUE_INDEX_PATH", "data/indexes/values"),
+        nlu_fuzzy_threshold=_decimal("NLU_FUZZY_THRESHOLD", 0.82),
+        nlu_fuzzy_margin=_decimal("NLU_FUZZY_MARGIN", 0.08),
+        nlu_vector_threshold=_decimal("NLU_VECTOR_THRESHOLD", 0.82),
+        nlu_vector_margin=_decimal("NLU_VECTOR_MARGIN", 0.08),
     )
 
 

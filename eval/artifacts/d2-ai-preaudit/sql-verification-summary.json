@@ -1,0 +1,4776 @@
+{
+  "started_at_utc": "2026-10-11T03:24:37.426241+00:00",
+  "finished_at_utc": "2026-10-11T03:24:37.586670+00:00",
+  "operation": "Existing DEV gold and original predictions re-executed as SELECT only; no new system predictions or models",
+  "identity": {
+    "role": "qa_reader",
+    "transaction_read_only": "on",
+    "statement_timeout": "5s"
+  },
+  "dev_rows": {
+    "nl2sql": 35,
+    "robust": 21
+  },
+  "skipped_holdout_counts": {
+    "nl2sql": 15,
+    "robust": 9
+  },
+  "source_response_rechecks": [
+    {
+      "review_id": "nl2sql:sql-01",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 1,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-02",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 2,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "vector",
+            "evidence_ref": "v-95ff10c443473368bada",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-04",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 3,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "vector",
+            "evidence_ref": "v-95ff10c443473368bada",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-05",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 4,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "USA",
+            "mention_id": "mention-1",
+            "method": "vector",
+            "evidence_ref": "v-5d60ecf4270e9f86054a",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-06",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 5,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-07",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 6,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "employee.title",
+            "operator": "=",
+            "value": "Sales Support Agent",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-a128177244b56279d60f",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-09",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 7,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-10",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 8,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-11",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 9,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-13",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 10,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-14",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 11,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_llm",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-15",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 12,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-17",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 13,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-18",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 14,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-19",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 15,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-21",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 16,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-22",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 17,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-24",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 18,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-26",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 19,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-27",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 20,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-29",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 21,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-31",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 22,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Italy",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-ec3f5c892a21c72c35e1",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-32",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 23,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Canada",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-f357d4a9aa3228c9d69b",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-33",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 24,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Canada",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-ed13ace46d49a0165890",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-34",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 25,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-35",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 26,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-36",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 27,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-37",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 28,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-38",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 29,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-39",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 30,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-40",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 31,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-41",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 32,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-42",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 33,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "artist.name",
+            "operator": "=",
+            "value": "U2",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-7050c980bcdbcadd0509",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-43",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 34,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "nl2sql:sql-44",
+      "source": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "source_line": 35,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-01",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 1,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_llm",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "llm",
+            "evidence_ref": "v-95ff10c443473368bada",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-02",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 2,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_llm",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "USA",
+            "mention_id": "mention-1",
+            "method": "llm",
+            "evidence_ref": "v-5d60ecf4270e9f86054a",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-03",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 3,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "employee.title",
+            "operator": "=",
+            "value": "Sales Support Agent",
+            "mention_id": "mention-1",
+            "method": "fuzzy",
+            "evidence_ref": "v-a128177244b56279d60f",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-06",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 4,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_llm",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "USA",
+            "mention_id": "mention-1",
+            "method": "llm",
+            "evidence_ref": "v-5d60ecf4270e9f86054a",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-07",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 5,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Italy",
+            "mention_id": "mention-1",
+            "method": "vector",
+            "evidence_ref": "v-ec3f5c892a21c72c35e1",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-08",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 6,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Canada",
+            "mention_id": "mention-1",
+            "method": "vector",
+            "evidence_ref": "v-f357d4a9aa3228c9d69b",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-11",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 7,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_llm",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "llm",
+            "evidence_ref": "v-95ff10c443473368bada",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-12",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 8,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_llm",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Italy",
+            "mention_id": "mention-1",
+            "method": "llm",
+            "evidence_ref": "v-ec3f5c892a21c72c35e1",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-13",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 9,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_llm",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-16",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 10,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-95ff10c443473368bada",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-17",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 11,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "USA",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-5d60ecf4270e9f86054a",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-18",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 12,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-19",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 13,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Canada",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-ed13ace46d49a0165890",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-21",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 14,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_llm",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-22",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 15,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "vector",
+            "evidence_ref": "v-95ff10c443473368bada",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-23",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 16,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-24",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 17,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-26",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 18,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_llm",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "ok"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "llm",
+            "evidence_ref": "v-95ff10c443473368bada",
+            "source": "verified_value_index"
+          }
+        ],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-27",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 19,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-28",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 20,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    },
+    {
+      "review_id": "robust:robust-29",
+      "source": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "source_line": 21,
+      "embedded_matches_original": {
+        "status": true,
+        "sql": true,
+        "table": true,
+        "answer": true,
+        "rewritten_question": true,
+        "error": true
+      },
+      "http_status": 200,
+      "original_step_statuses": [
+        {
+          "name": "route",
+          "status": "ok"
+        },
+        {
+          "name": "config_check",
+          "status": "ok"
+        },
+        {
+          "name": "catalog",
+          "status": "ok"
+        },
+        {
+          "name": "value_link",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_pinyin",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_fuzzy",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_vector",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_exact",
+          "status": "ok"
+        },
+        {
+          "name": "value_link_llm",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "rewrite",
+          "status": "skipped"
+        },
+        {
+          "name": "sql_gen",
+          "status": "ok"
+        },
+        {
+          "name": "llm",
+          "status": "ok"
+        },
+        {
+          "name": "sql_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_binding_validate",
+          "status": "ok"
+        },
+        {
+          "name": "sql_exec",
+          "status": "ok"
+        },
+        {
+          "name": "answer",
+          "status": "ok"
+        }
+      ],
+      "truncated": false,
+      "intent": {
+        "intent_version": 1,
+        "route": "sql",
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "filters": [],
+        "grouping": [],
+        "order": null,
+        "assumptions": [],
+        "unresolved": []
+      },
+      "clarification": null
+    }
+  ],
+  "query_count": 130,
+  "expected_query_count": 130,
+  "failed_value_comparisons": [],
+  "errors": [],
+  "script_sha256": "563d68deef64cd2b83c569a4e7911317de0c33a951f12e66c531da45a4bf36b3",
+  "source_hashes": {
+    "unified-review": "c92c89d01ab2c95d80acb5b4d7f0b04ab9a2dc2c3ed52bddf1ba5a060b5d9771",
+    "nl2sql": "8a17395480d00ef26180fb0f0c1e70bd9c635459f9f8569edbc62a81929fe02a",
+    "robust": "44b74aa5ac6e3f65f501eb82e5e082c3a5a9953b32bdc30a1706072d1a85f4ae"
+  }
+}

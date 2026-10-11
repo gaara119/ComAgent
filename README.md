@@ -1,4 +1,32 @@
-# 赛题八 D1：A + B 问数问答演示
+# 赛题八：D1 + D2 问数问答项目
+
+**D2 工程已完成并实际验收；人工审核集中待处理。** 沿用Python3.12.10与已验证的 `deepseek-flash`。最终SQL开发35/35、鲁棒21/21；RAG可答Hit@5 20/20，另1不足题处理正确。以上为gold待审的开发探索；RAG辅助模型复核21/21不能代替人工正确性或忠实度审核。全量模块281 passed（9.99秒），工程58/58，五场景真实浏览器联调通过。33道保留题D5待测，当前预测0。
+
+查看 [D2原九项验收HTML](eval/reports/d2-acceptance/requested-d2-evidence.html) 或 [Markdown](eval/reports/d2-acceptance/requested-d2-evidence.md)。统一使用 [审核表HTML](eval/reports/d2-acceptance/unified-review.html)：191项待审、4项既有共同确认口径，内嵌标准材料、实际回答和证据，可搜索编号与筛选开发/保留集。待审别名未启用，gold和实际答案语义人审均为0。
+
+最新 [D2逐项AI预审报告](eval/reports/d2-ai-preaudit/D2统一待审核表-AI预审报告.md) 与 [可筛选HTML](eval/reports/d2-ai-preaudit/D2统一待审核表-AI预审报告.html) 保留195个原编号，实际审核162项及77条已有开发回答，33道保留题因当前开发环境无法隔离而跳过内容审核。预审发现10道RAG题存在引用定位错误，并列出别名条件、题意范围与NULL处理等问题；这些问题尚待团队决定如何修正。AI预审未修改业务实现、标准答案、别名启用或人工审核记录，不替代人工签字。
+
+已有项目不需要重新导入或重建数据库、虚拟环境。页面 `http://127.0.0.1:8501/`，API `http://127.0.0.1:8000/docs`。需要重新启动本项目服务时，在 `system` 目录运行：
+
+```powershell
+pwsh -NoProfile -File scripts/restart_d2_services.ps1
+```
+
+D2当前配置为 `RAG_INDEX_PATH=data/indexes/docs-final`、`RAG_TOP_K=8`、两路候选各20、RRF k60；值索引为 `data/indexes/values`。真实.env保留本机，新电脑用.env.example填写自己的凭据；模型权重与虚拟环境不随ZIP提供。
+
+复现开发探索请使用新目录，避免覆盖实跑；人工审核完成前明确使用 `--draft-gold`：
+
+```powershell
+.\.venv\Scripts\python.exe eval\run_eval.py --suite nl2sql --split dev --draft-gold --run-id d2-sql-repeat --output-dir eval/artifacts/d2/nl2sql/repeat
+.\.venv\Scripts\python.exe eval\run_eval.py --suite robust --split dev --draft-gold --run-id d2-robust-repeat --output-dir eval/artifacts/d2/robust/repeat
+.\.venv\Scripts\python.exe eval\run_eval.py --suite rag --split dev --draft-gold --run-id d2-rag-repeat --output-dir eval/artifacts/d2/rag/repeat
+```
+
+D2在现有单表SQL和指定单文档RAG上增加值链接、可核验改写、可展开真实Step、多格式/OCR解析、严格文档隔离的混合检索和引用/数字核验。完整AdventureWorks、多轮澄清和跨源流程留后续阶段。见 [覆盖清单](notes/d2-execution-checklist.md) 和 [决定记录](notes/decisions.md)。
+
+以下保留D1历史验收、旧索引/题量及环境说明；当前D2以新报告为准。
+
+## D1 历史验收记录
 
 **2026-10-10 原清单最新复查已完成：159项pytest、0skip、6.22秒；53/53项工程检查通过。** 本轮补齐真实`@traced`及固定三个折叠面板；用户确认当前协议双方同意。六份PDF本轮经hf-mirror实下载且SHA一致，QA镜像404而保留官方固定GitHub来源。数据库外键实数为11。新UI两题/3个LLM步骤/8项浏览器检查通过，详见 [十四项证据表](E:/中国电子杯-赛题八/system/eval/reports/d1-acceptance/requested-d1-evidence.md)。原35题benchmark和下面前一轮57项工程/149项测试记录保持，不能把新UI耗时替换原均值。
 

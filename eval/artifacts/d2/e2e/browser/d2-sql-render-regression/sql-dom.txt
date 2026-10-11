@@ -1,0 +1,99 @@
+Deploy
+精准问数问答
+
+选择数据来源，输入问题，查看答案和对应依据。
+
+数据来源
+
+数据库
+
+指定文档
+
+数据库
+
+你的问题
+
+提交问题
+
+回答完成
+
+查询结果：59。
+
+keyboard_arrow_down
+
+SQL 与结果
+
+数据库：chinook
+
+执行的 SQL
+
+SELECT COUNT(*) AS customer_count FROM "public"."customer"
+keyboard_arrow_right
+
+引用来源
+
+keyboard_arrow_down
+
+处理步骤与耗时
+
+请求编号：4406a816-786d-45cd-a7fa-ed0cbea66de7
+
+服务端总耗时：3044 毫秒
+
+1. route · 完成 · 0 毫秒
+
+展开第 1 步详情
+
+2. config_check · 完成 · 0 毫秒
+
+展开第 2 步详情
+
+3. catalog · 完成 · 23 毫秒
+
+展开第 3 步详情
+
+4. value_link · 完成 · 1 毫秒
+
+展开第 4 步详情
+
+5. rewrite · 未执行 · 0 毫秒
+
+展开第 5 步详情
+
+6. sql_gen · 完成 · 3005 毫秒
+
+展开第 6 步详情
+
+7. llm · 完成 · 2072 毫秒
+
+展开第 7 步详情
+
+8. sql_validate · 完成 · 1 毫秒
+
+展开第 8 步详情
+
+9. sql_binding_validate · 完成 · 0 毫秒
+
+展开第 9 步详情
+
+10. sql_exec · 完成 · 13 毫秒
+
+展开第 10 步详情
+
+{
+  "输入": {
+    "sql": "SELECT COUNT(*) AS customer_count FROM \"public\".\"customer\"",
+    "db_id": "chinook"
+  },
+  "输出": {
+    "row_count": 1,
+    "columns": [
+      "customer_count"
+    ],
+    "truncated": false
+  }
+}
+
+11. answer · 完成 · 0 毫秒
+
+展开第 11 步详情

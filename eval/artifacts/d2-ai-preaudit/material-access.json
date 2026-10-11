@@ -1,0 +1,239 @@
+{
+  "checked_at_utc": "2026-10-11T03:27:41.614818+00:00",
+  "actual_row_counts": {
+    "alias": 81,
+    "nl2sql": 50,
+    "robust": 30,
+    "rag": 30,
+    "metric": 4
+  },
+  "actual_dev_rows_with_output": 77,
+  "holdout_rows": 33,
+  "holdout_policy": "Content audit skipped: current conversation is a development environment without independent holdout isolation",
+  "files": [
+    {
+      "path": "data/aliases/aliases.csv",
+      "readable": true,
+      "bytes": 7759,
+      "sha256": "1675b387e59acea4928293ed9b6d9447ca4445ac8bc38feaf6927f9835796a7b",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/catalog/chinook.yaml",
+      "readable": true,
+      "bytes": 16051,
+      "sha256": "4d97a3f7fdfd0c684b544f162e20d2253c4f9c0cd572ba1fcaf40fe439a391b8",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/manifest.csv",
+      "readable": true,
+      "bytes": 10643,
+      "sha256": "bba1ad9491cbc22c538b877253e2902627a2cea101ef5eb4aa7fefe34e4919c5",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/academic/2305.14160v4.pdf",
+      "readable": true,
+      "bytes": 6338813,
+      "sha256": "035b1659c5305a0c8157594cf41446fe72ade8d48efa99eb036dfa522d3431c4",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/d2/Chinook业务指标口径手册.docx",
+      "readable": true,
+      "bytes": 40260,
+      "sha256": "b50f5683e735baa3ca6fe08bde3b437377d810732357e2a4898d6820b0456a9a",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/d2/chinook-dictionary-zh.md",
+      "readable": true,
+      "bytes": 7498,
+      "sha256": "c1a36da359cef886099ffd59e355716a28d0aaaba044834002ee76d49942d2c7",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/d2/iron-maiden.html",
+      "readable": true,
+      "bytes": 1665,
+      "sha256": "4f071c465c5417f5867e8571fb4ea37098dd8829d86b9b253ac26184a145b270",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/d2/led-zeppelin.png",
+      "readable": true,
+      "bytes": 146859,
+      "sha256": "950e7d66df1a0ca64bb7770420f919a3665a254ee0429c7fe8d9194d8a97ec19",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/d2/metallica-introduction.docx",
+      "readable": true,
+      "bytes": 38651,
+      "sha256": "90677c4750f1c548d0b103394df12ce825ff960655316518313cbd38a685fcc2",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/d2/ohr-endoscope-scan.pdf",
+      "readable": true,
+      "bytes": 865991,
+      "sha256": "41cd29980e7d5ba0f86b8f0c41bcba930f5d39bb99707185b414d408839a8b62",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/d2/u2.html",
+      "readable": true,
+      "bytes": 1585,
+      "sha256": "b2390ce8d232a9030e6dea5a7f43650b843108be0e26c876ed2d9572a653757e",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/finance/AMD_2022_10K.pdf",
+      "readable": true,
+      "bytes": 5122473,
+      "sha256": "a3bd74088fae0ad4aa03d04998a1f4c64fd0b3c693841601b0ac49b46cf5c1f4",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/law/GULFSOUTHMEDICALSUPPLYINC_12_24_1997-EX-4-AFFILIATE AGREEMENT.pdf",
+      "readable": true,
+      "bytes": 61212,
+      "sha256": "a4a646e9e36567c91424c29b05790d04b780df57f05342758f4a63e2b2bdbeef",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/manual/Macbook_air.pdf",
+      "readable": true,
+      "bytes": 3871985,
+      "sha256": "d99de99131b4d8a5471d3e3d96befaa1e6152560d12a93f854c5dd95e54225aa",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/news/DUDE_62ba680b413005aa9f018454c4ab4c43.pdf",
+      "readable": true,
+      "bytes": 2634735,
+      "sha256": "48981bbfdaf170bfc2ffceae813f17b49e528cb3cde75bac3b48b532b30e4274",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+      "readable": true,
+      "bytes": 1390361,
+      "sha256": "e7be7af7c911cccf6d391934ef062db94d10b1496659828d649af36201616612",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/indexes/docs-final/chunks.jsonl",
+      "readable": true,
+      "bytes": 2967108,
+      "sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/indexes/values/index_meta.json",
+      "readable": true,
+      "bytes": 7423,
+      "sha256": "3bad9f09a2b43047071f678db73ec8aa3bc95679fd4240c1ebfe23cfe5d5d268",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/indexes/values/records.jsonl",
+      "readable": true,
+      "bytes": 1183910,
+      "sha256": "c355c8ddaa505f37c1abde36fbc80cdb75459b8a1b28a3afbe989661a6644a18",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/indexes/values/values.jsonl",
+      "readable": true,
+      "bytes": 1183910,
+      "sha256": "c355c8ddaa505f37c1abde36fbc80cdb75459b8a1b28a3afbe989661a6644a18",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/raw/ohr/qas_v2.json",
+      "readable": true,
+      "bytes": 6091375,
+      "sha256": "2446db28741fa9f392067ee7aae7f3b05e0d85c584069a50ddd5b1b5bc783f58",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "data/rules/metric_definitions.json",
+      "readable": true,
+      "bytes": 4500,
+      "sha256": "2a0df8d29a4fb5401fd0a5b33a0f44932e00ab005bc674eaaa8b8a33f1df5efc",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "eval/artifacts/d2/aliases-review-selection.json",
+      "readable": true,
+      "bytes": 24039,
+      "sha256": "fbcf1feeb9ecf2058f89dae6cadcc868dc05dd3f5b8b8cd00890abc1f8804e90",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "eval/artifacts/d2/nl2sql/final/responses.jsonl",
+      "readable": true,
+      "bytes": 217609,
+      "sha256": "8a17395480d00ef26180fb0f0c1e70bd9c635459f9f8569edbc62a81929fe02a",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "eval/artifacts/d2/rag/final/responses.jsonl",
+      "readable": true,
+      "bytes": 618801,
+      "sha256": "9a2a6f8adcb933d980bc9bf40eba8b3deaf3d58909032c9c8f5a142ff78a15b1",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "eval/artifacts/d2/robust/final/responses.jsonl",
+      "readable": true,
+      "bytes": 192608,
+      "sha256": "44b74aa5ac6e3f65f501eb82e5e082c3a5a9953b32bdc30a1706072d1a85f4ae",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "eval/artifacts/d2/source/metric-human-review.json",
+      "readable": true,
+      "bytes": 401,
+      "sha256": "d0848e6167aa95714e078bb99b192ab5fcd51c3fe21bed0deed588c3e3547631",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "eval/artifacts/d2/source/metric-sql-checks.json",
+      "readable": true,
+      "bytes": 3288,
+      "sha256": "2ab43a9610c097b8af407e93aa451ab92b61e88da70232ccddfbcd7c82b1167b",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "eval/datasets/nl2sql_chinook_d2.jsonl",
+      "readable": true,
+      "bytes": 65496,
+      "sha256": "ea6009fc9d05e14b351234819247ac7664f34cde3b504d13ce4fa8c6e048f4e5",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "eval/datasets/rag_single.jsonl",
+      "readable": true,
+      "bytes": 76095,
+      "sha256": "8387615e3c65a8ffca4928cceb59f6f601b7f826d2870a6be792e3c4a5ea72c4",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "eval/datasets/robust.jsonl",
+      "readable": true,
+      "bytes": 31417,
+      "sha256": "81e820e4da818dee347bf96acbebe07a26a44b98ce9e11fae33dc58304044d1b",
+      "access_level": "bytes read; semantic content review recorded separately"
+    },
+    {
+      "path": "notes/d2-alias-review.md",
+      "readable": true,
+      "bytes": 3482,
+      "sha256": "09503805ad628a4b8be4d99d86459b43a6efb0312e34c732e091d198ea7ab2aa",
+      "access_level": "bytes read; semantic content review recorded separately"
+    }
+  ]
+}

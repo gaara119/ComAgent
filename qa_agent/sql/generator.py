@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING
 
-from qa_agent.schemas import SQLGeneration
+from qa_agent.schemas import IntentContract, SQLGeneration
 from qa_agent.sql.catalog import Catalog
 
 if TYPE_CHECKING:
@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from qa_agent.trace import TraceRecorder
 
 
-SQL_SYSTEM_PROMPT = """你是 D1 PostgreSQL 单表问数助手。根据用户问题及提供的真实结构目录，输出 JSON：
+SQL_SYSTEM_PROMPT = """你是 PostgreSQL 单表问数助手。根据用户问题及提供的真实结构目录，输出 JSON：
 {"sql":"一条 SELECT SQL", "tables_used":["真实表名"], "explanation":"简短查询用途"}。
 规则：
 1. 本阶段只做单表查询；只能使用目录列出的业务表、字段和真实值，不能猜测不存在的对象。
@@ -28,6 +28,8 @@ SQL_SYSTEM_PROMPT = """你是 D1 PostgreSQL 单表问数助手。根据用户问
 7. 常用允许函数：COUNT/SUM/AVG/MIN/MAX/ROUND/ABS/CEIL/FLOOR/COALESCE/NULLIF/
    LOWER/UPPER/LENGTH/TRIM/SUBSTRING/EXTRACT/DATE_TRUNC/CAST；允许 CASE 和基本运算。
 8. 返回严格 JSON，不使用 Markdown。explanation 只描述查询用途，不输出隐藏思考过程。
+9. verified_value_bindings 是已核验的用户筛选条件，必须按真实字段、操作符和标准值保留；
+   不能将客户国家替成账单国家，不能只在 SELECT 中输出标准值冒充 WHERE 筛选，也不能用 OR 绕过条件。
 """
 
 
@@ -38,11 +40,17 @@ def generate_sql(
     trace: "TraceRecorder | None" = None,
     previous_sql: str | None = None,
     error: str | None = None,
+    intent: IntentContract | None = None,
+    bindings: list[dict] | None = None,
 ) -> SQLGeneration:
     prompt = {
         "question": question,
         "catalog": catalog.prompt_schema(),
     }
+    if intent is not None:
+        prompt["intent"] = intent.model_dump(mode="json")
+    if bindings:
+        prompt["verified_value_bindings"] = bindings
     if previous_sql is not None:
         prompt["previous_sql"] = previous_sql
         prompt["technical_error"] = error or "SQL 需要技术修复"

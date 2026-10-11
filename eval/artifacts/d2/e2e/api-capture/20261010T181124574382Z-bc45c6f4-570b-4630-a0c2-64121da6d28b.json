@@ -1,0 +1,218 @@
+{
+  "started_at_utc": "2026-10-10T18:11:21.479387+00:00",
+  "finished_at_utc": "2026-10-10T18:11:24.574382+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "eval-20261010T180931256567Z-sql-39",
+    "message": "2023 年一共开了多少张发票？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "77fef77a-69cc-4130-b091-29e93f6e0414",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：83。",
+    "rewritten_question": null,
+    "sql": "SELECT COUNT(*) FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= CAST('2023-01-01' AS DATE) AND \"invoice_date\" < CAST('2024-01-01' AS DATE)",
+    "table": [
+      {
+        "count": 83
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11
+        },
+        "latency_ms": 19
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2023 年一共开了多少张发票？"
+        },
+        "output_summary": {
+          "rewritten_question": "2023 年一共开了多少张发票？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2023 年一共开了多少张发票？",
+          "repair_attempt": 0
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= DATE '2023-01-01' AND \"invoice_date\" < DATE '2024-01-01'",
+          "explanation": "统计 2023 年 1 月 1 日至 2023 年 12 月 31 日期间开出的发票数量"
+        },
+        "latency_ms": 3039
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 92,
+            "prompt_tokens": 4275,
+            "total_tokens": 4367,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4096
+            },
+            "prompt_cache_hit_tokens": 4096,
+            "prompt_cache_miss_tokens": 179
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2170
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= DATE '2023-01-01' AND \"invoice_date\" < DATE '2024-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= CAST('2023-01-01' AS DATE) AND \"invoice_date\" < CAST('2024-01-01' AS DATE)"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= CAST('2023-01-01' AS DATE) AND \"invoice_date\" < CAST('2024-01-01' AS DATE)",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 33
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "result_columns": [
+        "count"
+      ],
+      "truncated": false,
+      "latency_ms": 3094,
+      "nlu": {
+        "original_question": "2023 年一共开了多少张发票？",
+        "rewritten_question": "2023 年一共开了多少张发票？",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

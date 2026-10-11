@@ -6,7 +6,7 @@ from qa_agent.config import get_settings
 from qa_agent.pipeline import chat
 from qa_agent.schemas import AnswerEnvelope, ChatRequest
 
-app = FastAPI(title="赛题八 D1 问数 API", version="0.1.0", description="A SQL 通道与 B RAG 通道共用入口；D1 按显式来源路由。")
+app = FastAPI(title="赛题八 问数问答 API", version="0.2.0", description="共享显式来源入口；D2 增加值链接、可核验改写与多格式文档检索。")
 
 from api.documents import router as documents_router
 app.include_router(documents_router)
@@ -25,7 +25,7 @@ def health() -> dict:
                     database_ready = cursor.fetchone() == (1,)
     except psycopg.Error:
         pass
-    return {"status": "ok", "stage": "D1", "database_ready": database_ready,
+    return {"status": "ok", "stage": "D2", "database_ready": database_ready,
             **settings.public()}
 
 

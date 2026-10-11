@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "E:\中国电子杯-赛题八\system\scripts\prepare_d2_rag_dataset.py", line 137, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "E:\中国电子杯-赛题八\system\scripts\prepare_d2_rag_dataset.py", line 127, in main
+    writer.writerow({**{key: item[key] for key in fields[:9]}, "review_status": "needs_human_review", "reviewer": "", "reviewed_at_utc": ""})
+                             ~~~~^^^^^
+KeyError: 'review_status'

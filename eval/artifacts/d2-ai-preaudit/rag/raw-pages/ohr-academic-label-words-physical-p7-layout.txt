@@ -1,0 +1,91 @@
+                                                                                  
+                                                                                  
+                                                                                  
+                                                                                  
+                                                                                  
+                                                                                  
+                        Method            SST-2 TREC AGNews EmoC Average          
+            VanillaIn-ContextLearning(1-shotperclass) 61.28 57.56 73.32 15.44 51.90
+            VanillaIn-ContextLearning(5-shotperclass) 64.75 60.40 52.52 9.80 46.87
+              AnchorRe-weighting(1-shotperclass) 90.07 60.92 81.94 41.64 68.64    
+                                                                                  
+          Table1:Theeffectafteraddingparameterβi.ForAGNews,duetothelengthlimit,weonlyusethreedemonstrations
+                                 0                                                
+          perclass. OurAnchorRe-weightingmethodachievesthebestperformanceoveralltasks.
+                                                                                  
+          fromthedemonstrations. Giventheauto-regressive Method LabelLoyalty WordLoyalty Acc.
+          nature of GPT-like models, where hidden states                          
+                                           ICL(GPT2-XL) 100.00 100.00 51.90       
+          of tokens depend solely on preceding ones, label                        
+                                           Text       51.05    36.65 38.77        
+                                             anchor                               
+          words’ information aggregation process is inde- Hidden 48.96 5.59 39.96 
+                                              random                              
+          pendentofsubsequentwords. Thisallowsforthe Hidden random-top 57.52 4.49 41.72
+                                           Hidden     79.47   62.17  45.04        
+          calculation and caching of the label word hidden anchor                 
+          states H = {{hi}C }N (hi is the l-th layer’s ICL(GPT-J) 100.00 100.00 56.82
+                    l i=1 l=1 l                                                   
+          hidden state of the i-th label word in the demon- Text anchor 53.45 43.85 40.83
+          stration). Byconcatenatingh1,...,hC atthefront Hidden random 49.03 2.16 31.51
+                            l   l          Hidden     71.10    11.36 52.34        
+                                              random-top                          
+          ineachlayerduringinference,insteadofusingthe Hidden 89.06 75.04 55.59   
+                                              anchor                              
+          fulldemonstration,wecanspeedupinference.                                
+           In our preliminary experiments, concatenating Table2: Resultsofdifferentcompressionmethodson
+                                          GPT2-XLandGPT-J(averagedoverSST-2,TREC,AG-
+          hiddenstatesoflabelwordsalonewasinadequate                              
+                                          News, and EmoC). Acc. denotes accuracy. The best
+          for completing the ICL task.6 This might be due                         
+                                          resultsareshowninbold. Ourmethodachievesthebest
+          to the critical role of formatting information in                       
+                                          compressionperformance.                 
+          helping the model to determine the output space                         
+          atthetargetposition,7 ashighlightedinMinetal.                           
+          (2022b). Asasolution,weamalgamatethehidden words, rather than the mere text of label words.
+          statesofboththeformattingandthelabelwords,a IfwefindthatHidden anchor surpassesText anchor in
+          methodwe’vetermedHidden .       performance, it solidifies the notion that the ag-
+                            anchor                                                
+                                          gregated information within label words carries
+          3.2.2 Experiments               significantimportance. TheHidden method 
+                                                                random            
+          Wefollowthesameexperimentalsettingsas§2.2. isintroducedtoillustratethatanchorhiddenstates
+          We compare our Hidden input compression encapsulatemostofthedemonstrationinformation
+                         anchor                                                   
+          methodwithtwoequallyefficientbaselines. amongallhiddenstates.           
+          Text  : Thismethodconcatenatestheformat- We assess all compression methods using the
+             anchor                                                               
+          ting and label text with the input, as opposed to labelloyaltyandwordloyaltyintroducedin§2.2,
+          concatenatingthehiddenstatesateachlayer. inadditiontoclassificationaccuracy.
+          Hidden  : Thisapproachconcatenatesthehid-                               
+              random                      3.2.3 Results                           
+          denstatesofformattingandrandomlyselectednon-                            
+                                          We can see from Table 2 that the proposed com-
+          labelwords(equalinnumbertoHidden ).                                     
+                                  anchor                                          
+                                          pression method Hidden achieves the best
+          Hidden    : Toestablishastrongerbaseline,       anchor                  
+              random-top                                                          
+                                          resultsamongallthreecompressionmethodsonall
+          werandomlyselect20setsofnon-labelwordsin                                
+                                          metricsandforbothmodels. Forexample,withthe
+          Hidden  and report the one with the highest                             
+              random                                                              
+                                          GPT-Jmodel,thecompressionmethodwithanchor
+          labelloyalty.                                                           
+                                          statesonlyleadstoa1.5accuracydropcompared
+           The Text  method is included to demon-                                 
+                 anchor                                                           
+                                          totheuncompressedsituation,indicatingthatthe
+          strate that the effectiveness of Hidden is at-                          
+                                 anchor                                           
+                                          compressionintroducesnegligibleinformationloss.
+          tributedtotheaggregationofinformationinlabel                            
+                                          Further,weestimatetheefficiencyimprovements
+            6Omittingformattingsignificantlyreducesaccuracy,asthe over the original ICL. As shown in Table 3, the
+          modelwillfavorcommontokenslike“the”overlabelwords, speed-up ratio ranges from 1.1× to 2.9×, as the
+          indicatingconfusionabouttheexpectedoutputtype.                          
+                                          efficiency gain is influenced by the length of the
+            7Here,“formatting”referstoelementslike“Review:”and                    
+          “Sentiment:”inFigure2.          demonstrations. WereferreaderstoAppendixIfor

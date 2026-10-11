@@ -1,4 +1,4 @@
-"""Read-only access to registered PDF files and physical page previews."""
+"""Read-only access to registered files and honest physical-page previews."""
 from __future__ import annotations
 
 from functools import lru_cache
@@ -52,7 +52,9 @@ def document_list() -> dict:
             result.append({
                 **{key: document.get(key, "") for key in
                    ("doc_id", "title", "format", "domain", "language", "source_url", "content_hash")},
-                "page_count": _page_count(str(path), stat.st_mtime_ns, stat.st_size),
+                "page_count": _page_count(str(path), stat.st_mtime_ns, stat.st_size) if document["format"] == "pdf" else None,
+                "location_type": "physical_page" if document["format"] == "pdf" else
+                                 "image_coordinates" if document["format"] == "png" else "section",
                 "ready": index_hash == document["content_hash"],
             })
         return {"documents": result, "status": "READY" if result and all(d["ready"] for d in result) else "NOT_READY"}
@@ -63,8 +65,15 @@ def document_list() -> dict:
 @router.get("/{doc_id}/file")
 def document_file(doc_id: str) -> FileResponse:
     document = _registered(doc_id)
-    return FileResponse(document["resolved_path"], media_type="application/pdf",
-                        filename=f"{doc_id}.pdf", content_disposition_type="inline")
+    formats = {"pdf": ("application/pdf", ".pdf"), "png": ("image/png", ".png"),
+               "html": ("text/html; charset=utf-8", ".html"), "md": ("text/markdown; charset=utf-8", ".md"),
+               "docx": ("application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx")}
+    mime, suffix = formats[document["format"]]
+    # HTML is an untrusted source: download it rather than execute its scripts
+    # inside the API origin. Only PDF/PNG have an inline preview.
+    return FileResponse(document["resolved_path"], media_type=mime,
+                        filename=f"{doc_id}{suffix}",
+                        content_disposition_type="inline" if document["format"] in {"pdf", "png"} else "attachment")
 
 
 @lru_cache(maxsize=16)
@@ -87,6 +96,8 @@ def _render_page(path: str, content_hash: str, page: int) -> bytes:
 @router.get("/{doc_id}/pages/{page}")
 def document_page(doc_id: str, page: int) -> Response:
     document = _registered(doc_id)
+    if document["format"] != "pdf":
+        raise HTTPException(404, "此格式没有稳定 PDF 物理页码，请使用章节或图像位置。")
     path = document["resolved_path"]
     stat = path.stat()
     if page < 1 or page > _page_count(str(path), stat.st_mtime_ns, stat.st_size):

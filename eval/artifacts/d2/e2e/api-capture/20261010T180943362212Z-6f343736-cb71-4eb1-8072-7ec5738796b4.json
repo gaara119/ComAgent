@@ -1,0 +1,1838 @@
+{
+  "started_at_utc": "2026-10-10T18:09:39.736642+00:00",
+  "finished_at_utc": "2026-10-10T18:09:43.362212+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d2-rag-d2-rag-final-rag-03",
+    "message": "For how many years after the effective date of the Merger does PSS agree to file all reports required by Section 13 of the Securities Exchange Act of 1934?",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "ohr-law-affiliate"
+      ]
+    }
+  },
+  "response": {
+    "trace_id": "b374bb89-cc18-4d3c-b75d-bfcfd0d31978",
+    "status": "SUCCEEDED",
+    "answer": "PSS agrees to file all reports required by Section 13 of the Securities Exchange Act of 1934 for a period of three years after the effective date of the Merger [E1][E5].",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [
+      {
+        "evidence_id": "E1",
+        "doc_id": "ohr-law-affiliate",
+        "doc_title": "Gulf South Medical Supply Affiliate Agreement (1997)",
+        "page": 2,
+        "section_path": [
+          "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+        ],
+        "text": "------------------------\nafter the effective date of the Merger, to file on a timely basis all reports\nrequired to be filed by it pursuant to Section 13 of the Securities Exchange Act\nof 1934, as amended, so that the public information provisions of Rule 145(d)\npromulgated by the SEC as the same are presently in effect will be available to\nthe undersigned in the event the undersigned desires to transfer any shares of\nPSS Common Stock issued to the undersigned pursuant to the Merger.",
+        "bbox": [
+          13.44,
+          587.09,
+          357.14,
+          648.09
+        ]
+      },
+      {
+        "evidence_id": "E5",
+        "doc_id": "ohr-law-affiliate",
+        "doc_title": "Gulf South Medical Supply Affiliate Agreement (1997)",
+        "page": 2,
+        "section_path": [
+          "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+        ],
+        "text": "6. Filing of Reports by PSS. PSS agrees, for a period of three years",
+        "bbox": [
+          13.44,
+          587.09,
+          357.14,
+          648.09
+        ]
+      }
+    ],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-law-affiliate"
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "evidence_count": 2
+        },
+        "latency_ms": 3624
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-law-affiliate"
+        },
+        "output_summary": {
+          "doc_id": "ohr-law-affiliate",
+          "title": "Gulf South Medical Supply Affiliate Agreement (1997)",
+          "content_hash": "a4a646e9e36567c91424c29b05790d04b780df57f05342758f4a63e2b2bdbeef"
+        },
+        "latency_ms": 6
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-law-affiliate",
+          "question": "For how many years after the effective date of the Merger does PSS agree to file all reports required by Section 13 of the Securities Exchange Act of 1934?",
+          "query": "For how many years after the effective date of the Merger does PSS agree to file all reports required by Section 13 of the Securities Exchange Act of 1934?"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 63,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "1176a58ccfd2f38861a2e00a",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+                ],
+                "score": 33.0988798
+              },
+              {
+                "rank": 2,
+                "chunk_id": "22de9196a30a026ec9b8be97",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "8. Acknowledgments. The undersigned recognizes and agrees that the"
+                ],
+                "score": 13.57856134
+              },
+              {
+                "rank": 3,
+                "chunk_id": "8a61ddeb365718f14e611825",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+                ],
+                "score": 11.898012
+              },
+              {
+                "rank": 4,
+                "chunk_id": "7364153fe0b55d3f580504ba",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "1. Affiliate Status. The undersigned understands and agrees that as to"
+                ],
+                "score": 9.06991092
+              },
+              {
+                "rank": 5,
+                "chunk_id": "4368f70897c028fdee30ada8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 8.4413302
+              },
+              {
+                "rank": 6,
+                "chunk_id": "7ed5263dd0ad56e594cd92a8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 6.06794611
+              },
+              {
+                "rank": 7,
+                "chunk_id": "0bbbe0af857b959c6b2d5824",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 5.89794172
+              },
+              {
+                "rank": 8,
+                "chunk_id": "8efa8173957499f69b55b589",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 5.24868873
+              },
+              {
+                "rank": 9,
+                "chunk_id": "abe1c606de354c4679cacf2c",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 4.82058329
+              },
+              {
+                "rank": 10,
+                "chunk_id": "820f64bc5ced392abd81ceeb",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "8. Acknowledgments. The undersigned recognizes and agrees that the"
+                ],
+                "score": 4.57103834
+              },
+              {
+                "rank": 11,
+                "chunk_id": "15668418ba2557f968c7988d",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 3.91268352
+              },
+              {
+                "rank": 12,
+                "chunk_id": "9fd99aea3fb0a0d716a23445",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 3.84182081
+              },
+              {
+                "rank": 13,
+                "chunk_id": "04a4366d4552bd8ac18c5571",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 3.75353318
+              },
+              {
+                "rank": 14,
+                "chunk_id": "e45c28423faf62c72bf9b72b",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 3.53701691
+              },
+              {
+                "rank": 15,
+                "chunk_id": "fec69a70e3a3a3dcc2ff4233",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 3.18363143
+              },
+              {
+                "rank": 16,
+                "chunk_id": "aef1afab5caaf4aedf700d21",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 3.13850052
+              },
+              {
+                "rank": 17,
+                "chunk_id": "b5632a7fb9b3f3e02c5fdb26",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 3.11854782
+              },
+              {
+                "rank": 18,
+                "chunk_id": "eab008660f5122197a22d327",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "8. Acknowledgments. The undersigned recognizes and agrees that the"
+                ],
+                "score": 2.97510033
+              },
+              {
+                "rank": 19,
+                "chunk_id": "03d9901655c069222fb195b6",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 2.48889659
+              },
+              {
+                "rank": 20,
+                "chunk_id": "179f238ee758b66faf56a519",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "9. Miscellaneous. This Affiliate Agreement is the complete agreement"
+                ],
+                "score": 2.36487301
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "1176a58ccfd2f38861a2e00a",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+                ],
+                "score": 0.75485164
+              },
+              {
+                "rank": 2,
+                "chunk_id": "4368f70897c028fdee30ada8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.64382565
+              },
+              {
+                "rank": 3,
+                "chunk_id": "aef1afab5caaf4aedf700d21",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.62184453
+              },
+              {
+                "rank": 4,
+                "chunk_id": "22de9196a30a026ec9b8be97",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "8. Acknowledgments. The undersigned recognizes and agrees that the"
+                ],
+                "score": 0.62010044
+              },
+              {
+                "rank": 5,
+                "chunk_id": "7ed5263dd0ad56e594cd92a8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.6152246
+              },
+              {
+                "rank": 6,
+                "chunk_id": "04a4366d4552bd8ac18c5571",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.59625387
+              },
+              {
+                "rank": 7,
+                "chunk_id": "03877a45888577581e686412",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.56477892
+              },
+              {
+                "rank": 8,
+                "chunk_id": "4d6caf07a966d47939894212",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.55637962
+              },
+              {
+                "rank": 9,
+                "chunk_id": "31378223574defe2ba70421a",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "4345 Southpoint Boulevard"
+                ],
+                "score": 0.55544865
+              },
+              {
+                "rank": 10,
+                "chunk_id": "463d126a39f57d4dfdf01182",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.5520246
+              },
+              {
+                "rank": 11,
+                "chunk_id": "abe1c606de354c4679cacf2c",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.54687482
+              },
+              {
+                "rank": 12,
+                "chunk_id": "8a61ddeb365718f14e611825",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+                ],
+                "score": 0.54412186
+              },
+              {
+                "rank": 13,
+                "chunk_id": "15668418ba2557f968c7988d",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.54371727
+              },
+              {
+                "rank": 14,
+                "chunk_id": "8cf4a85243f4ade64d1752f4",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.54096913
+              },
+              {
+                "rank": 15,
+                "chunk_id": "0bbbe0af857b959c6b2d5824",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.53975815
+              },
+              {
+                "rank": 16,
+                "chunk_id": "f78717e04db1b19bf30ae5b8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.53821564
+              },
+              {
+                "rank": 17,
+                "chunk_id": "b5632a7fb9b3f3e02c5fdb26",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.52958393
+              },
+              {
+                "rank": 18,
+                "chunk_id": "fec69a70e3a3a3dcc2ff4233",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.52071828
+              },
+              {
+                "rank": 19,
+                "chunk_id": "5d7146cd33ca44049bc471c8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "7. Transfer Under Rule 145(d). If the undersigned desires to sell or"
+                ],
+                "score": 0.51899433
+              },
+              {
+                "rank": 20,
+                "chunk_id": "8efa8173957499f69b55b589",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.51606017
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "1176a58ccfd2f38861a2e00a",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+                ],
+                "score": 0.03278689
+              },
+              {
+                "rank": 2,
+                "chunk_id": "22de9196a30a026ec9b8be97",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "8. Acknowledgments. The undersigned recognizes and agrees that the"
+                ],
+                "score": 0.03175403
+              },
+              {
+                "rank": 3,
+                "chunk_id": "4368f70897c028fdee30ada8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.03151365
+              },
+              {
+                "rank": 4,
+                "chunk_id": "7ed5263dd0ad56e594cd92a8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.03053613
+              },
+              {
+                "rank": 5,
+                "chunk_id": "8a61ddeb365718f14e611825",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+                ],
+                "score": 0.0297619
+              },
+              {
+                "rank": 6,
+                "chunk_id": "aef1afab5caaf4aedf700d21",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.02903091
+              },
+              {
+                "rank": 7,
+                "chunk_id": "04a4366d4552bd8ac18c5571",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.02885015
+              },
+              {
+                "rank": 8,
+                "chunk_id": "abe1c606de354c4679cacf2c",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.02857726
+              },
+              {
+                "rank": 9,
+                "chunk_id": "0bbbe0af857b959c6b2d5824",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.02825871
+              },
+              {
+                "rank": 10,
+                "chunk_id": "15668418ba2557f968c7988d",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.02778314
+              },
+              {
+                "rank": 11,
+                "chunk_id": "8efa8173957499f69b55b589",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.02720588
+              },
+              {
+                "rank": 12,
+                "chunk_id": "fec69a70e3a3a3dcc2ff4233",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.02615385
+              },
+              {
+                "rank": 13,
+                "chunk_id": "b5632a7fb9b3f3e02c5fdb26",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.02597403
+              },
+              {
+                "rank": 14,
+                "chunk_id": "7364153fe0b55d3f580504ba",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "1. Affiliate Status. The undersigned understands and agrees that as to"
+                ],
+                "score": 0.015625
+              },
+              {
+                "rank": 15,
+                "chunk_id": "03877a45888577581e686412",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.01492537
+              },
+              {
+                "rank": 16,
+                "chunk_id": "4d6caf07a966d47939894212",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.01470588
+              },
+              {
+                "rank": 17,
+                "chunk_id": "31378223574defe2ba70421a",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "4345 Southpoint Boulevard"
+                ],
+                "score": 0.01449275
+              },
+              {
+                "rank": 18,
+                "chunk_id": "463d126a39f57d4dfdf01182",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.01428571
+              },
+              {
+                "rank": 19,
+                "chunk_id": "820f64bc5ced392abd81ceeb",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "8. Acknowledgments. The undersigned recognizes and agrees that the"
+                ],
+                "score": 0.01428571
+              },
+              {
+                "rank": 20,
+                "chunk_id": "9fd99aea3fb0a0d716a23445",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "4. Restrictions on Transfer. The undersigned understands and agrees that"
+                ],
+                "score": 0.01388889
+              },
+              {
+                "rank": 21,
+                "chunk_id": "8cf4a85243f4ade64d1752f4",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 22,
+                "chunk_id": "e45c28423faf62c72bf9b72b",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 23,
+                "chunk_id": "f78717e04db1b19bf30ae5b8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "2. Initial Restriction on Disposition. The undersigned agrees that he"
+                ],
+                "score": 0.01315789
+              },
+              {
+                "rank": 24,
+                "chunk_id": "eab008660f5122197a22d327",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "8. Acknowledgments. The undersigned recognizes and agrees that the"
+                ],
+                "score": 0.01282051
+              },
+              {
+                "rank": 25,
+                "chunk_id": "03d9901655c069222fb195b6",
+                "doc_id": "ohr-law-affiliate",
+                "page": 1,
+                "section_path": [
+                  "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+                ],
+                "score": 0.01265823
+              },
+              {
+                "rank": 26,
+                "chunk_id": "5d7146cd33ca44049bc471c8",
+                "doc_id": "ohr-law-affiliate",
+                "page": 2,
+                "section_path": [
+                  "7. Transfer Under Rule 145(d). If the undersigned desires to sell or"
+                ],
+                "score": 0.01265823
+              },
+              {
+                "rank": 27,
+                "chunk_id": "179f238ee758b66faf56a519",
+                "doc_id": "ohr-law-affiliate",
+                "page": 3,
+                "section_path": [
+                  "9. Miscellaneous. This Affiliate Agreement is the complete agreement"
+                ],
+                "score": 0.0125
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "1176a58ccfd2f38861a2e00a",
+            "22de9196a30a026ec9b8be97",
+            "4368f70897c028fdee30ada8",
+            "7ed5263dd0ad56e594cd92a8",
+            "8a61ddeb365718f14e611825"
+          ],
+          "retrieved_count": 8,
+          "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+          "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+          "query": "For how many years after the effective date of the Merger does PSS agree to file all reports required by Section 13 of the Securities Exchange Act of 1934?",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "1176a58ccfd2f38861a2e00a",
+              "evidence_id": "E1",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [
+                "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+              ],
+              "score": 0.03278689
+            },
+            {
+              "chunk_id": "22de9196a30a026ec9b8be97",
+              "evidence_id": "E2",
+              "doc_id": "ohr-law-affiliate",
+              "page": 3,
+              "section_path": [
+                "8. Acknowledgments. The undersigned recognizes and agrees that the"
+              ],
+              "score": 0.03175403
+            },
+            {
+              "chunk_id": "4368f70897c028fdee30ada8",
+              "evidence_id": "E3",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [
+                "4. Restrictions on Transfer. The undersigned understands and agrees that"
+              ],
+              "score": 0.03151365
+            },
+            {
+              "chunk_id": "7ed5263dd0ad56e594cd92a8",
+              "evidence_id": "E4",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [
+                "2. Initial Restriction on Disposition. The undersigned agrees that he"
+              ],
+              "score": 0.03053613
+            },
+            {
+              "chunk_id": "8a61ddeb365718f14e611825",
+              "evidence_id": "E5",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [
+                "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+              ],
+              "score": 0.0297619
+            },
+            {
+              "chunk_id": "aef1afab5caaf4aedf700d21",
+              "evidence_id": "E6",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [
+                "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+              ],
+              "score": 0.02903091
+            },
+            {
+              "chunk_id": "04a4366d4552bd8ac18c5571",
+              "evidence_id": "E7",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [
+                "4. Restrictions on Transfer. The undersigned understands and agrees that"
+              ],
+              "score": 0.02885015
+            },
+            {
+              "chunk_id": "abe1c606de354c4679cacf2c",
+              "evidence_id": "E8",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [
+                "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+              ],
+              "score": 0.02857726
+            }
+          ]
+        },
+        "latency_ms": 124
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1",
+            "E5"
+          ]
+        },
+        "latency_ms": 3494
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "citation_ids": [
+            "E1",
+            "E5"
+          ]
+        },
+        "latency_ms": 3494
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 70,
+            "prompt_tokens": 1583,
+            "total_tokens": 1653,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1408
+            },
+            "prompt_cache_hit_tokens": 1408,
+            "prompt_cache_miss_tokens": 175
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1775
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1",
+            "E5"
+          ],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "potential_uncited_statements": [],
+            "mode": "heuristic_warning_only",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "ohr-law-affiliate",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 63,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "1176a58ccfd2f38861a2e00a",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+            ],
+            "score": 33.0988798
+          },
+          {
+            "rank": 2,
+            "chunk_id": "22de9196a30a026ec9b8be97",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "8. Acknowledgments. The undersigned recognizes and agrees that the"
+            ],
+            "score": 13.57856134
+          },
+          {
+            "rank": 3,
+            "chunk_id": "8a61ddeb365718f14e611825",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+            ],
+            "score": 11.898012
+          },
+          {
+            "rank": 4,
+            "chunk_id": "7364153fe0b55d3f580504ba",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "1. Affiliate Status. The undersigned understands and agrees that as to"
+            ],
+            "score": 9.06991092
+          },
+          {
+            "rank": 5,
+            "chunk_id": "4368f70897c028fdee30ada8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 8.4413302
+          },
+          {
+            "rank": 6,
+            "chunk_id": "7ed5263dd0ad56e594cd92a8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 6.06794611
+          },
+          {
+            "rank": 7,
+            "chunk_id": "0bbbe0af857b959c6b2d5824",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 5.89794172
+          },
+          {
+            "rank": 8,
+            "chunk_id": "8efa8173957499f69b55b589",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 5.24868873
+          },
+          {
+            "rank": 9,
+            "chunk_id": "abe1c606de354c4679cacf2c",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 4.82058329
+          },
+          {
+            "rank": 10,
+            "chunk_id": "820f64bc5ced392abd81ceeb",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "8. Acknowledgments. The undersigned recognizes and agrees that the"
+            ],
+            "score": 4.57103834
+          },
+          {
+            "rank": 11,
+            "chunk_id": "15668418ba2557f968c7988d",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 3.91268352
+          },
+          {
+            "rank": 12,
+            "chunk_id": "9fd99aea3fb0a0d716a23445",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 3.84182081
+          },
+          {
+            "rank": 13,
+            "chunk_id": "04a4366d4552bd8ac18c5571",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 3.75353318
+          },
+          {
+            "rank": 14,
+            "chunk_id": "e45c28423faf62c72bf9b72b",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 3.53701691
+          },
+          {
+            "rank": 15,
+            "chunk_id": "fec69a70e3a3a3dcc2ff4233",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 3.18363143
+          },
+          {
+            "rank": 16,
+            "chunk_id": "aef1afab5caaf4aedf700d21",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 3.13850052
+          },
+          {
+            "rank": 17,
+            "chunk_id": "b5632a7fb9b3f3e02c5fdb26",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 3.11854782
+          },
+          {
+            "rank": 18,
+            "chunk_id": "eab008660f5122197a22d327",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "8. Acknowledgments. The undersigned recognizes and agrees that the"
+            ],
+            "score": 2.97510033
+          },
+          {
+            "rank": 19,
+            "chunk_id": "03d9901655c069222fb195b6",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 2.48889659
+          },
+          {
+            "rank": 20,
+            "chunk_id": "179f238ee758b66faf56a519",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "9. Miscellaneous. This Affiliate Agreement is the complete agreement"
+            ],
+            "score": 2.36487301
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "1176a58ccfd2f38861a2e00a",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+            ],
+            "score": 0.75485164
+          },
+          {
+            "rank": 2,
+            "chunk_id": "4368f70897c028fdee30ada8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.64382565
+          },
+          {
+            "rank": 3,
+            "chunk_id": "aef1afab5caaf4aedf700d21",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.62184453
+          },
+          {
+            "rank": 4,
+            "chunk_id": "22de9196a30a026ec9b8be97",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "8. Acknowledgments. The undersigned recognizes and agrees that the"
+            ],
+            "score": 0.62010044
+          },
+          {
+            "rank": 5,
+            "chunk_id": "7ed5263dd0ad56e594cd92a8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.6152246
+          },
+          {
+            "rank": 6,
+            "chunk_id": "04a4366d4552bd8ac18c5571",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.59625387
+          },
+          {
+            "rank": 7,
+            "chunk_id": "03877a45888577581e686412",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.56477892
+          },
+          {
+            "rank": 8,
+            "chunk_id": "4d6caf07a966d47939894212",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.55637962
+          },
+          {
+            "rank": 9,
+            "chunk_id": "31378223574defe2ba70421a",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "4345 Southpoint Boulevard"
+            ],
+            "score": 0.55544865
+          },
+          {
+            "rank": 10,
+            "chunk_id": "463d126a39f57d4dfdf01182",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.5520246
+          },
+          {
+            "rank": 11,
+            "chunk_id": "abe1c606de354c4679cacf2c",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.54687482
+          },
+          {
+            "rank": 12,
+            "chunk_id": "8a61ddeb365718f14e611825",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+            ],
+            "score": 0.54412186
+          },
+          {
+            "rank": 13,
+            "chunk_id": "15668418ba2557f968c7988d",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.54371727
+          },
+          {
+            "rank": 14,
+            "chunk_id": "8cf4a85243f4ade64d1752f4",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.54096913
+          },
+          {
+            "rank": 15,
+            "chunk_id": "0bbbe0af857b959c6b2d5824",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.53975815
+          },
+          {
+            "rank": 16,
+            "chunk_id": "f78717e04db1b19bf30ae5b8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.53821564
+          },
+          {
+            "rank": 17,
+            "chunk_id": "b5632a7fb9b3f3e02c5fdb26",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.52958393
+          },
+          {
+            "rank": 18,
+            "chunk_id": "fec69a70e3a3a3dcc2ff4233",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.52071828
+          },
+          {
+            "rank": 19,
+            "chunk_id": "5d7146cd33ca44049bc471c8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "7. Transfer Under Rule 145(d). If the undersigned desires to sell or"
+            ],
+            "score": 0.51899433
+          },
+          {
+            "rank": 20,
+            "chunk_id": "8efa8173957499f69b55b589",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.51606017
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "1176a58ccfd2f38861a2e00a",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+            ],
+            "score": 0.03278689
+          },
+          {
+            "rank": 2,
+            "chunk_id": "22de9196a30a026ec9b8be97",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "8. Acknowledgments. The undersigned recognizes and agrees that the"
+            ],
+            "score": 0.03175403
+          },
+          {
+            "rank": 3,
+            "chunk_id": "4368f70897c028fdee30ada8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.03151365
+          },
+          {
+            "rank": 4,
+            "chunk_id": "7ed5263dd0ad56e594cd92a8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.03053613
+          },
+          {
+            "rank": 5,
+            "chunk_id": "8a61ddeb365718f14e611825",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+            ],
+            "score": 0.0297619
+          },
+          {
+            "rank": 6,
+            "chunk_id": "aef1afab5caaf4aedf700d21",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.02903091
+          },
+          {
+            "rank": 7,
+            "chunk_id": "04a4366d4552bd8ac18c5571",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.02885015
+          },
+          {
+            "rank": 8,
+            "chunk_id": "abe1c606de354c4679cacf2c",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.02857726
+          },
+          {
+            "rank": 9,
+            "chunk_id": "0bbbe0af857b959c6b2d5824",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.02825871
+          },
+          {
+            "rank": 10,
+            "chunk_id": "15668418ba2557f968c7988d",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.02778314
+          },
+          {
+            "rank": 11,
+            "chunk_id": "8efa8173957499f69b55b589",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.02720588
+          },
+          {
+            "rank": 12,
+            "chunk_id": "fec69a70e3a3a3dcc2ff4233",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.02615385
+          },
+          {
+            "rank": 13,
+            "chunk_id": "b5632a7fb9b3f3e02c5fdb26",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.02597403
+          },
+          {
+            "rank": 14,
+            "chunk_id": "7364153fe0b55d3f580504ba",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "1. Affiliate Status. The undersigned understands and agrees that as to"
+            ],
+            "score": 0.015625
+          },
+          {
+            "rank": 15,
+            "chunk_id": "03877a45888577581e686412",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.01492537
+          },
+          {
+            "rank": 16,
+            "chunk_id": "4d6caf07a966d47939894212",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.01470588
+          },
+          {
+            "rank": 17,
+            "chunk_id": "31378223574defe2ba70421a",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "4345 Southpoint Boulevard"
+            ],
+            "score": 0.01449275
+          },
+          {
+            "rank": 18,
+            "chunk_id": "463d126a39f57d4dfdf01182",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.01428571
+          },
+          {
+            "rank": 19,
+            "chunk_id": "820f64bc5ced392abd81ceeb",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "8. Acknowledgments. The undersigned recognizes and agrees that the"
+            ],
+            "score": 0.01428571
+          },
+          {
+            "rank": 20,
+            "chunk_id": "9fd99aea3fb0a0d716a23445",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "4. Restrictions on Transfer. The undersigned understands and agrees that"
+            ],
+            "score": 0.01388889
+          },
+          {
+            "rank": 21,
+            "chunk_id": "8cf4a85243f4ade64d1752f4",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 22,
+            "chunk_id": "e45c28423faf62c72bf9b72b",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 23,
+            "chunk_id": "f78717e04db1b19bf30ae5b8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "2. Initial Restriction on Disposition. The undersigned agrees that he"
+            ],
+            "score": 0.01315789
+          },
+          {
+            "rank": 24,
+            "chunk_id": "eab008660f5122197a22d327",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "8. Acknowledgments. The undersigned recognizes and agrees that the"
+            ],
+            "score": 0.01282051
+          },
+          {
+            "rank": 25,
+            "chunk_id": "03d9901655c069222fb195b6",
+            "doc_id": "ohr-law-affiliate",
+            "page": 1,
+            "section_path": [
+              "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+            ],
+            "score": 0.01265823
+          },
+          {
+            "rank": 26,
+            "chunk_id": "5d7146cd33ca44049bc471c8",
+            "doc_id": "ohr-law-affiliate",
+            "page": 2,
+            "section_path": [
+              "7. Transfer Under Rule 145(d). If the undersigned desires to sell or"
+            ],
+            "score": 0.01265823
+          },
+          {
+            "rank": 27,
+            "chunk_id": "179f238ee758b66faf56a519",
+            "doc_id": "ohr-law-affiliate",
+            "page": 3,
+            "section_path": [
+              "9. Miscellaneous. This Affiliate Agreement is the complete agreement"
+            ],
+            "score": 0.0125
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "1176a58ccfd2f38861a2e00a",
+        "22de9196a30a026ec9b8be97",
+        "4368f70897c028fdee30ada8",
+        "7ed5263dd0ad56e594cd92a8",
+        "8a61ddeb365718f14e611825"
+      ],
+      "retrieved_count": 8,
+      "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+      "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+      "query": "For how many years after the effective date of the Merger does PSS agree to file all reports required by Section 13 of the Securities Exchange Act of 1934?",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "chunk_id": "1176a58ccfd2f38861a2e00a",
+          "section_path": [
+            "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+          ],
+          "bbox": [
+            13.44,
+            587.09,
+            357.14,
+            648.09
+          ],
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 3,
+          "chunk_id": "22de9196a30a026ec9b8be97",
+          "section_path": [
+            "8. Acknowledgments. The undersigned recognizes and agrees that the"
+          ],
+          "bbox": [
+            13.44,
+            45.75,
+            357.14,
+            160.89
+          ],
+          "evidence_id": "E2"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "chunk_id": "4368f70897c028fdee30ada8",
+          "section_path": [
+            "4. Restrictions on Transfer. The undersigned understands and agrees that"
+          ],
+          "bbox": [
+            13.44,
+            231.35,
+            357.14,
+            354.23
+          ],
+          "evidence_id": "E3"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "chunk_id": "7ed5263dd0ad56e594cd92a8",
+          "section_path": [
+            "2. Initial Restriction on Disposition. The undersigned agrees that he"
+          ],
+          "bbox": [
+            13.44,
+            389.46,
+            357.14,
+            496.86
+          ],
+          "evidence_id": "E4"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "chunk_id": "8a61ddeb365718f14e611825",
+          "section_path": [
+            "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+          ],
+          "bbox": [
+            13.44,
+            587.09,
+            357.14,
+            648.09
+          ],
+          "evidence_id": "E5"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "chunk_id": "aef1afab5caaf4aedf700d21",
+          "section_path": [
+            "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+          ],
+          "bbox": [
+            13.44,
+            567.32,
+            352.84,
+            667.0
+          ],
+          "evidence_id": "E6"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "chunk_id": "04a4366d4552bd8ac18c5571",
+          "section_path": [
+            "4. Restrictions on Transfer. The undersigned understands and agrees that"
+          ],
+          "bbox": [
+            13.44,
+            362.82,
+            357.14,
+            501.16
+          ],
+          "evidence_id": "E7"
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "chunk_id": "abe1c606de354c4679cacf2c",
+          "section_path": [
+            "3. Covenants and Warranties of Undersigned. The undersigned represents,"
+          ],
+          "bbox": [
+            13.44,
+            45.75,
+            357.14,
+            168.63
+          ],
+          "evidence_id": "E8"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "potential_uncited_statements": [],
+        "mode": "heuristic_warning_only",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [
+        "E1",
+        "E5"
+      ],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 3625,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

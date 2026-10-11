@@ -1,0 +1,117 @@
+{
+  "created_at_utc": "2026-10-10T18:06:58.175001+00:00",
+  "status": "PASS",
+  "checks": {
+    "nl2sql_counts": {
+      "total": 50,
+      "split": {
+        "dev": 35,
+        "holdout": 15
+      }
+    },
+    "robust_counts": {
+      "total": 30,
+      "split": {
+        "dev": 21,
+        "holdout": 9
+      }
+    },
+    "rag_counts": {
+      "total": 30,
+      "split": {
+        "holdout": 9,
+        "dev": 21
+      }
+    }
+  },
+  "documents": [
+    {
+      "doc_id": "ohr-finance-amd-2022",
+      "format": "pdf",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "ohr-law-affiliate",
+      "format": "pdf",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "ohr-textbook-geology",
+      "format": "pdf",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "ohr-manual-macbook-air",
+      "format": "pdf",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "ohr-news-executive-insight",
+      "format": "pdf",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "ohr-academic-label-words",
+      "format": "pdf",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "ohr-manual-endoscope-scan",
+      "format": "pdf",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "artist-iron-maiden",
+      "format": "html",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "artist-u2",
+      "format": "html",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "artist-metallica",
+      "format": "docx",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "artist-led-zeppelin",
+      "format": "png",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "project-metric-manual",
+      "format": "docx",
+      "exists": true,
+      "sha256_matches": true
+    },
+    {
+      "doc_id": "project-chinook-dictionary",
+      "format": "md",
+      "exists": true,
+      "sha256_matches": true
+    }
+  ],
+  "document_count": 13,
+  "holdout_prediction_records": [],
+  "errors": [],
+  "model_calls": 0,
+  "human_review": "not performed by this structure audit",
+  "datasets_sha256": {
+    "nl2sql_chinook_d2.jsonl": "ea6009fc9d05e14b351234819247ac7664f34cde3b504d13ce4fa8c6e048f4e5",
+    "robust.jsonl": "81e820e4da818dee347bf96acbebe07a26a44b98ce9e11fae33dc58304044d1b",
+    "rag_single.jsonl": "8387615e3c65a8ffca4928cceb59f6f601b7f826d2870a6be792e3c4a5ea72c4"
+  }
+}

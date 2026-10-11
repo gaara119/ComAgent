@@ -78,6 +78,7 @@ def execute_sql(
     statement_timeout_ms: int = 5000,
     max_rows: int = 200,
     trace: TraceRecorder | None = None,
+    parameters: dict[str, Any] | None = None,
 ) -> SQLResult:
     """Run a previously validated query; caller must call validate_sql first.
 
@@ -100,7 +101,7 @@ def execute_sql(
                     )
                     control.execute("SET LOCAL search_path TO pg_catalog, public")
                 with connection.cursor(name="qa_d1_result") as cursor:
-                    cursor.execute(sql)
+                    cursor.execute(sql, parameters) if parameters else cursor.execute(sql)
                     columns = unique_columns([column.name for column in cursor.description or []])
                     fetched = cursor.fetchmany(max_rows + 1)
                     truncated = len(fetched) > max_rows

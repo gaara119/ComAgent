@@ -1,0 +1,268 @@
+{
+  "request": {
+    "session_id": "d2-e2e-legal-unknown-value-36b1e9eb-40dc-47b4-86e3-d9c65d34958d",
+    "message": "customer表country字段严格等于'Atlantis'的客户数量是多少？保留该值，不做纠错。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "9503f5e2-1c1f-4c2c-b1c1-2b236fb85eef",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：0。",
+    "rewritten_question": null,
+    "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Atlantis'",
+    "table": [
+      {
+        "count": 0
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11
+        },
+        "latency_ms": 19
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [
+            "customer"
+          ],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "Atlantis"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "customer表country字段严格等于'Atlantis'的客户数量是多少？保留该值，不做纠错。"
+        },
+        "output_summary": {
+          "rewritten_question": "customer表country字段严格等于'Atlantis'的客户数量是多少？保留该值，不做纠错。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "customer表country字段严格等于'Atlantis'的客户数量是多少？保留该值，不做纠错。",
+          "repair_attempt": 0
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Atlantis'",
+          "explanation": "统计 customer 表中 country 字段严格等于 'Atlantis' 的客户记录数。"
+        },
+        "latency_ms": 3265
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 56,
+            "prompt_tokens": 4288,
+            "total_tokens": 4344,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4096
+            },
+            "prompt_cache_hit_tokens": 4096,
+            "prompt_cache_miss_tokens": 192
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2091
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Atlantis'"
+        },
+        "output_summary": {
+          "tables": [
+            "customer"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Atlantis'"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Atlantis'",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 39
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "result_columns": [
+        "count"
+      ],
+      "truncated": false,
+      "latency_ms": 3326,
+      "nlu": {
+        "original_question": "customer表country字段严格等于'Atlantis'的客户数量是多少？保留该值，不做纠错。",
+        "rewritten_question": "customer表country字段严格等于'Atlantis'的客户数量是多少？保留该值，不做纠错。",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "Atlantis",
+            "span": [
+              23,
+              31
+            ],
+            "status": "unmatched",
+            "field_candidates": [
+              "customer.country"
+            ],
+            "candidates": [],
+            "selected_candidate_id": null,
+            "match_method": null,
+            "evidence_ref": null,
+            "canonical_value": null,
+            "column": null,
+            "stages": [
+              {
+                "method": "exact",
+                "candidates": []
+              },
+              {
+                "method": "absent_value_preserved",
+                "reason": "explicit_legal_no_match_value"
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      }
+    }
+  }
+}

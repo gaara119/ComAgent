@@ -1,0 +1,839 @@
+[
+  {
+    "review_id": "rag:rag-02",
+    "id": "rag-02",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "ohr-law-affiliate",
+    "actual_physical_page": 1,
+    "actual_section_path": [
+      "2. Initial Restriction on Disposition. The undersigned agrees that he"
+    ],
+    "actual_bbox": [
+      13.44,
+      389.46,
+      357.14,
+      496.86
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-02",
+      "eid": "E1",
+      "page": 1,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        22,
+        649,
+        595,
+        828
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-02-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-02-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-03",
+    "id": "rag-03",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "ohr-law-affiliate",
+    "actual_physical_page": 2,
+    "actual_section_path": [
+      "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+    ],
+    "actual_bbox": [
+      13.44,
+      587.09,
+      357.14,
+      648.09
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-03",
+      "eid": "E1",
+      "page": 2,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        22,
+        979,
+        595,
+        1081
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-03-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-03-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-03",
+    "id": "rag-03",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E5",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "ohr-law-affiliate",
+    "actual_physical_page": 2,
+    "actual_section_path": [
+      "6. Filing of Reports by PSS. PSS agrees, for a period of three years"
+    ],
+    "actual_bbox": [
+      13.44,
+      587.09,
+      357.14,
+      648.09
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-03",
+      "eid": "E5",
+      "page": 2,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        22,
+        979,
+        595,
+        1081
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-03-E5-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-03-E5-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-05",
+    "id": "rag-05",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI发现错误",
+    "reason": "原地质扫描PDF隐藏文字层的bbox=[22.92,516.71,233.1,577.03]可裁出西侧河流文字，但Poppler真实可视页红框落在更低的Don/Derwent及南侧分水岭段落，不覆盖可视Tame/Etherow原句。原页MediaBox=CropBox且无旋转，不能用裁切原点偏移解释。",
+    "actual_doc_id": "ohr-textbook-geology",
+    "actual_physical_page": 1,
+    "actual_section_path": [
+      "INTRODUCTION"
+    ],
+    "actual_bbox": [
+      22.92,
+      516.71,
+      233.1,
+      577.03
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-05",
+      "eid": "E1",
+      "page": 1,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        38,
+        862,
+        389,
+        962
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-05-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-05-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-06",
+    "id": "rag-06",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI发现错误",
+    "reason": "bbox=[36.12,245.41,246.9,381.44]在隐藏文字层能取出作物段，真实扫描页红框却落在Table of Formations说明段，不覆盖页面上方Coal Measures作物原句。文字层命中不等于视觉坐标准确。",
+    "actual_doc_id": "ohr-textbook-geology",
+    "actual_physical_page": 8,
+    "actual_section_path": [
+      "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+    ],
+    "actual_bbox": [
+      36.12,
+      245.41,
+      246.9,
+      381.44
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-06",
+      "eid": "E1",
+      "page": 8,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        60,
+        409,
+        412,
+        636
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-06-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-06-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-07",
+    "id": "rag-07",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI发现错误",
+    "reason": "bbox=[40.68,403.4,250.62,475.17]在隐藏文字层能取出450至550 feet句，真实扫描页红框位于更低的砂岩特征/Grindslow Shales段，不覆盖可视Shale Grit厚度句。原页和答案正确，但框选定位错位。",
+    "actual_doc_id": "ohr-textbook-geology",
+    "actual_physical_page": 14,
+    "actual_section_path": [
+      "14 GEOLOGY OF HOLMFIKTH AND GLOSSOP :"
+    ],
+    "actual_bbox": [
+      40.68,
+      403.4,
+      250.62,
+      475.17
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-07",
+      "eid": "E1",
+      "page": 14,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        68,
+        673,
+        418,
+        792
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-07-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-07-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-08",
+    "id": "rag-08",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI发现错误",
+    "reason": "bbox=[37.68,383.95,247.98,534.78]在隐藏文字层能取出四组图例说明，真实扫描页红框却位于Superficial/Solid Formations表，不覆盖上方可视四组列举句。原文字层与图像坐标不齐。",
+    "actual_doc_id": "ohr-textbook-geology",
+    "actual_physical_page": 8,
+    "actual_section_path": [
+      "8 GEOLOGY OF HOLMFIRTH AND GLOSSOP :"
+    ],
+    "actual_bbox": [
+      37.68,
+      383.95,
+      247.98,
+      534.78
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-08",
+      "eid": "E1",
+      "page": 8,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        63,
+        640,
+        414,
+        892
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-08-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-08-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-10",
+    "id": "rag-10",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "ohr-manual-macbook-air",
+    "actual_physical_page": 65,
+    "actual_section_path": [
+      "Regulatory Compliance Information"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-11",
+    "id": "rag-11",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI发现错误",
+    "reason": "E1 bbox=[27.21,99.39,325.38,117.81]；考虑原PDF CropBox偏移(129,219)后，仅框到iMovie/iPhoto网址与Help行，未覆盖Create and share movies in minutes描述。section_path=[]只是未登记章节，本身不判错。",
+    "actual_doc_id": "ohr-manual-macbook-air",
+    "actual_physical_page": 3,
+    "actual_section_path": [],
+    "actual_bbox": [
+      27.21,
+      99.39,
+      325.38,
+      117.81
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-11",
+      "eid": "E1",
+      "page": 3,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        260,
+        531,
+        757,
+        561
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-11-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-11-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-12",
+    "id": "rag-12",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "ohr-manual-macbook-air",
+    "actual_physical_page": 67,
+    "actual_section_path": [
+      "Regulatory Compliance Information"
+    ],
+    "actual_bbox": [
+      39.83,
+      199.29,
+      335.98,
+      337.25
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-12",
+      "eid": "E1",
+      "page": 67,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        281,
+        697,
+        775,
+        927
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-12-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-12-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-12",
+    "id": "rag-12",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E2",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "ohr-manual-macbook-air",
+    "actual_physical_page": 67,
+    "actual_section_path": [
+      "Regulatory Compliance Information"
+    ],
+    "actual_bbox": [
+      39.83,
+      29.09,
+      175.93,
+      253.29
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-12",
+      "eid": "E2",
+      "page": 67,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        281,
+        413,
+        508,
+        787
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-12-E2-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-12-E2-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-13",
+    "id": "rag-13",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI发现错误",
+    "reason": "“4 Follow the onscreen instructions.”是Network Diagnostics步骤4，而非共享IP段落的章节标题；字段把步骤文本误登记为章节。PDF物理第52页正确，CropBox偏移后bbox能包含支持句，不据MediaBox未平移裁切结果误判坐标。",
+    "actual_doc_id": "ohr-manual-macbook-air",
+    "actual_physical_page": 52,
+    "actual_section_path": [
+      "4 Follow the onscreen instructions."
+    ],
+    "actual_bbox": [
+      39.84,
+      132.98,
+      319.07,
+      244.98
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-13",
+      "eid": "E1",
+      "page": 52,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        281,
+        587,
+        747,
+        773
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-13-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-13-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-13",
+    "id": "rag-13",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E2",
+    "source_location_status": "AI发现错误",
+    "reason": "“4 Follow the onscreen instructions.”是Network Diagnostics步骤4，而非共享IP段落的章节标题；字段把步骤文本误登记为章节。PDF物理第52页正确，CropBox偏移后bbox能包含支持句，不据MediaBox未平移裁切结果误判坐标。",
+    "actual_doc_id": "ohr-manual-macbook-air",
+    "actual_physical_page": 52,
+    "actual_section_path": [
+      "4 Follow the onscreen instructions."
+    ],
+    "actual_bbox": [
+      18.24,
+      170.98,
+      319.07,
+      337.25
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-13",
+      "eid": "E2",
+      "page": 52,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        245,
+        650,
+        747,
+        927
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-13-E2-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-13-E2-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-15",
+    "id": "rag-15",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI发现错误",
+    "reason": "E1 bbox=[432.28,50.71,534.6,66.45]在原第11页只框到EYE ON QUALITY页眉，不覆盖五能力正文。E3第10页物理页/Elements of Success定位正确，故回答语义仍可获充分支持。",
+    "actual_doc_id": "ohr-news-executive-insight",
+    "actual_physical_page": 11,
+    "actual_section_path": [
+      "EYE ON QUALITY"
+    ],
+    "actual_bbox": [
+      432.28,
+      50.71,
+      534.6,
+      66.45
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-15",
+      "eid": "E1",
+      "page": 11,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        720,
+        85,
+        891,
+        111
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-15-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-15-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-15",
+    "id": "rag-15",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E3",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "ohr-news-executive-insight",
+    "actual_physical_page": 10,
+    "actual_section_path": [
+      "ELEMENTS OF SUCCESS"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-16",
+    "id": "rag-16",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI发现错误",
+    "reason": "登记BUILDING A NEW CULTURE，但71%句属物理第11页左栏RANKINGS OF QUALITY PROGRAMS；邻右栏章节被错误继承。",
+    "actual_doc_id": "ohr-news-executive-insight",
+    "actual_physical_page": 11,
+    "actual_section_path": [
+      "BUILDING A NEW CULTURE"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-18",
+    "id": "rag-18",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E2",
+    "source_location_status": "AI发现错误",
+    "reason": "E2登记Limitations，原第12页属于Appendix E Details for the Calculation of AUCROC。E4的2.3.2标题混入右栏to denote them等正文。章节定位明确错误；doc_id/物理页和实际语义仍正确。",
+    "actual_doc_id": "ohr-academic-label-words",
+    "actual_physical_page": 12,
+    "actual_section_path": [
+      "Limitations"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-18",
+    "id": "rag-18",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E4",
+    "source_location_status": "AI发现错误",
+    "reason": "E2登记Limitations，原第12页属于Appendix E Details for the Calculation of AUCROC。E4的2.3.2标题混入右栏to denote them等正文。章节定位明确错误；doc_id/物理页和实际语义仍正确。",
+    "actual_doc_id": "ohr-academic-label-words",
+    "actual_physical_page": 5,
+    "actual_section_path": [
+      "2.3.2 Results and Analysis to denote them. Given the considerable role these"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-19",
+    "id": "rag-19",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI发现错误",
+    "reason": "E1 bbox=[70.87,486.56,152.06,499.36]在原第6页裁到左栏“In this equation, βi”方程说明，不覆盖右栏3.1.3核心支持句。E5章节路径“0 role that anchors play in ICL.”是前页续句/公式残片，原文位置是第7页Table 1。",
+    "actual_doc_id": "ohr-academic-label-words",
+    "actual_physical_page": 6,
+    "actual_section_path": [
+      "3.1.3 Results"
+    ],
+    "actual_bbox": [
+      70.87,
+      486.56,
+      152.06,
+      499.36
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-19",
+      "eid": "E1",
+      "page": 6,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        118,
+        811,
+        254,
+        833
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-19-E1-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-19-E1-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-19",
+    "id": "rag-19",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E5",
+    "source_location_status": "AI发现错误",
+    "reason": "E1 bbox=[70.87,486.56,152.06,499.36]在原第6页裁到左栏“In this equation, βi”方程说明，不覆盖右栏3.1.3核心支持句。E5章节路径“0 role that anchors play in ICL.”是前页续句/公式残片，原文位置是第7页Table 1。",
+    "actual_doc_id": "ohr-academic-label-words",
+    "actual_physical_page": 7,
+    "actual_section_path": [
+      "0 role that anchors play in ICL."
+    ],
+    "actual_bbox": [
+      70.56,
+      76.14,
+      509.86,
+      158.38
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": {
+      "id": "rag-19",
+      "eid": "E5",
+      "page": 7,
+      "coordinate_interpretation": "CropBox-local, translated to full rendered MediaBox",
+      "pixel_box": [
+        118,
+        127,
+        851,
+        264
+      ],
+      "outline_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-19-E5-cropbox-outline.png",
+      "visible_crop_path": "eval/artifacts/d2-ai-preaudit/rag/bbox-visual/rag-19-E5-visible-crop.png",
+      "visual_inspection": "completed by AI"
+    }
+  },
+  {
+    "review_id": "rag:rag-21",
+    "id": "rag-21",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "artist-iron-maiden",
+    "actual_physical_page": null,
+    "actual_section_path": [
+      "Iron Maiden 铁娘子乐队公开简介",
+      "公开背景"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-22",
+    "id": "rag-22",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "artist-u2",
+    "actual_physical_page": null,
+    "actual_section_path": [
+      "U2 乐队公开简介",
+      "公开背景"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-24",
+    "id": "rag-24",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "artist-led-zeppelin",
+    "actual_physical_page": null,
+    "actual_section_path": [
+      "图像 OCR"
+    ],
+    "actual_bbox": [
+      127.0,
+      57.0,
+      1067.0,
+      832.0
+    ],
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-25",
+    "id": "rag-25",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "project-metric-manual",
+    "actual_physical_page": null,
+    "actual_section_path": [
+      "四项指标的定义与限制",
+      "热门曲目"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-25",
+    "id": "rag-25",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E2",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "project-metric-manual",
+    "actual_physical_page": null,
+    "actual_section_path": [
+      "指标对应关系"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-26",
+    "id": "rag-26",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "project-metric-manual",
+    "actual_physical_page": null,
+    "actual_section_path": [
+      "指标对应关系"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-26",
+    "id": "rag-26",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E2",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "project-metric-manual",
+    "actual_physical_page": null,
+    "actual_section_path": [
+      "四项指标的定义与限制",
+      "平均每张发票金额"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-27",
+    "id": "rag-27",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E1",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "project-chinook-dictionary",
+    "actual_physical_page": null,
+    "actual_section_path": [
+      "Chinook 数据字典 中文",
+      "地区字段含义"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-27",
+    "id": "rag-27",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E2",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "project-chinook-dictionary",
+    "actual_physical_page": null,
+    "actual_section_path": [
+      "Chinook 数据字典 中文",
+      "表与字段",
+      "invoice"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  },
+  {
+    "review_id": "rag:rag-27",
+    "id": "rag-27",
+    "group": "rag",
+    "split": "dev",
+    "evidence_id": "E8",
+    "source_location_status": "AI建议通过",
+    "reason": "原doc_id与物理页/非PDF章节匹配；已读取原文并核对段落。bbox存在时另按真实渲染图检查。没有登记bbox或章节时不宣称它们已被精确证明。",
+    "actual_doc_id": "project-chinook-dictionary",
+    "actual_physical_page": null,
+    "actual_section_path": [
+      "Chinook 数据字典 中文",
+      "表与字段",
+      "customer"
+    ],
+    "actual_bbox": null,
+    "index_text_and_section_exact": true,
+    "index_bbox_exact": true,
+    "bbox_visual_evidence": null
+  }
+]

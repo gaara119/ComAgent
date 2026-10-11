@@ -1,0 +1,81 @@
+{
+  "created_at_utc": "2026-10-10T18:21:16.234971+00:00",
+  "method": "All five final screenshots individually opened and visually inspected by coding agent; original screenshot pixels were not edited. This is visual QA, not business/gold human approval.",
+  "visual_qa_status": "PASSED",
+  "screenshots_checked": 5,
+  "human_gold_or_faithfulness_approvals_added": 0,
+  "api_calls_added_for_visual_review": 0,
+  "checks": [
+    {
+      "case_id": "sql",
+      "screenshot": "notes/screenshots/D2-d2-live-final-sql.png",
+      "sha256": "3e253a535a1d4320488e9453d3883458a184ff522e3e3234806f12d93c68694b",
+      "width": 1440,
+      "height": 2600,
+      "opened_with": "tools.view_image detail=original",
+      "visual_inspection": "passed",
+      "finding": "Visible result 59 and real SELECT COUNT(*) customer table; all three panels present, sql_exec input/output detail readable.",
+      "capture_rerun_verified": true,
+      "api_posts_before_toggle": 1,
+      "api_posts_after_toggle": 1
+    },
+    {
+      "case_id": "rewrite",
+      "screenshot": "notes/screenshots/D2-d2-live-final-rewrite.png",
+      "sha256": "a222ba606ee32f74ff81eb4c0c8bbfe0daa5d60363da97ea16160506ca9f9db5",
+      "width": 1440,
+      "height": 3184,
+      "opened_with": "tools.view_image detail=original",
+      "visual_inspection": "passed",
+      "finding": "Visible original brazill and rewritten Brazil, fuzzy evidence reference, result 5 and actual customer.country binding; value_link detail readable.",
+      "capture_rerun_verified": true,
+      "api_posts_before_toggle": 1,
+      "api_posts_after_toggle": 1
+    },
+    {
+      "case_id": "rag-ocr",
+      "screenshot": "notes/screenshots/D2-d2-live-final-rag-ocr.png",
+      "sha256": "e4f780333e63ea4591b413ef4850682fc99c04e5a87e7f0fec1887a9e7fb673e",
+      "width": 1440,
+      "height": 3306,
+      "opened_with": "tools.view_image detail=original",
+      "visual_inspection": "passed",
+      "finding": "Visible 1968 and London answer with E1, actual original PNG preview plus OCR text, image OCR section without invented PDF page, expanded rag_validate detail; pending semantic human review displayed.",
+      "capture_rerun_verified": true,
+      "api_posts_before_toggle": 1,
+      "api_posts_after_toggle": 1
+    },
+    {
+      "case_id": "insufficient",
+      "screenshot": "notes/screenshots/D2-d2-live-final-insufficient.png",
+      "sha256": "820f0997bb34529e9f3ba4794362e2e78f9afdf0d5edaeb94e97e5bc678bdc88",
+      "width": 1440,
+      "height": 2231,
+      "opened_with": "tools.view_image detail=original",
+      "visual_inspection": "passed",
+      "finding": "Visible evidence-insufficiency sentence without invented answer/citations, EMPTY_RESULT shown, three panels and expanded validation detail. Generic status banner uses record terminology; explicit answer explains documents lack evidence.",
+      "capture_rerun_verified": true,
+      "api_posts_before_toggle": 1,
+      "api_posts_after_toggle": 1
+    },
+    {
+      "case_id": "failure",
+      "screenshot": "notes/screenshots/D2-d2-live-final-failure.png",
+      "sha256": "eba8c79e714ec5e196e41a398563dd39588db7852fd4c2076dca53a90842de18",
+      "width": 1440,
+      "height": 1636,
+      "opened_with": "tools.view_image detail=original",
+      "visual_inspection": "passed",
+      "finding": "Visible red incomplete status and explicit nonexistent-table refusal, no substituted SQL/result, requested_source_check failed; three panels and route input/output detail readable.",
+      "capture_rerun_verified": true,
+      "api_posts_before_toggle": 1,
+      "api_posts_after_toggle": 1
+    }
+  ],
+  "known_layout_notes": [
+    "RAG original PNG preview includes blank space below the source as captured from the real UI; content, source and validation details remain readable.",
+    "Failure page shows refusal message in both answer and error detail; both reflect the same real API refusal."
+  ],
+  "authenticity_evidence": "eval/artifacts/d2/e2e/evidence-authenticity-final.json",
+  "holdout_prediction_count": 0
+}

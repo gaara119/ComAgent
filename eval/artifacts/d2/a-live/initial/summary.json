@@ -1,0 +1,37 @@
+{
+  "started_at_utc": "2026-10-10T18:02:43.807827+00:00",
+  "ended_at_utc": "2026-10-10T18:03:34.667780+00:00",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "scripts/check_d2_sql_live.py",
+    "--mode",
+    "both",
+    "--output-dir",
+    "eval/artifacts/d2/a-live/initial"
+  ],
+  "api_url": "http://127.0.0.1:8000",
+  "model": "deepseek-flash",
+  "api_passed": 7,
+  "api_count": 8,
+  "ablation_passed": 6,
+  "ablation_count": 6,
+  "human_review_status": "pending",
+  "holdout_model_requests": 0,
+  "source_sha256": {
+    "qa_agent/nlu/linker.py": "c4f4d7badfb4f4c911fa405fb8ee6d78d037713ed6298d823b8e5d08214d08e8",
+    "qa_agent/pipeline.py": "faf92256e1f9133b5ed2adefa141ec5c051dc2597e9becda8fae7c188f5fd932",
+    "qa_agent/sql/validator.py": "2413bca69ecdf84fddaeb1b2016e06471439ea0847b291498d3b481e35b80fa5",
+    "qa_agent/sql/executor.py": "1d7f11b0d7170f641f29ddc5010369786e705650b91636ccfd8721f17b4169d9",
+    "scripts/check_d2_sql_live.py": "8de9d8cb39ad8784a560ebed65d59eaa2187038a4a19c5c9b44d3fc2549433ad"
+  },
+  "api_errors": [
+    {
+      "case_id": "api-genre-ambiguity-engineering",
+      "errors": [
+        "unexpected_status",
+        "ambiguity_should_not_execute"
+      ]
+    }
+  ],
+  "ablation_errors": []
+}

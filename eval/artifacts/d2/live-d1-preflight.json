@@ -1,0 +1,467 @@
+{
+  "created_at_utc": "2026-10-10T17:37:54.163443+00:00",
+  "phase": "D1-before-D2",
+  "model": "deepseek-flash",
+  "checks": {
+    "configured_model_is_real": true,
+    "json_output": true,
+    "sql_api": true,
+    "sql_real_result": true,
+    "doc_api": true,
+    "rag_selected_document_citations": true
+  },
+  "requests": [
+    {
+      "kind": "sql",
+      "request": {
+        "session_id": "d2-preflight-sql",
+        "message": "来自巴西的客户有多少位？",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "response": {
+        "trace_id": "c072ab0b-348b-43e7-bd1f-f058c01249ca",
+        "status": "SUCCEEDED",
+        "answer": "查询结果：5。",
+        "rewritten_question": null,
+        "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Brazil'",
+        "table": [
+          {
+            "count": 5
+          }
+        ],
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 1,
+          "route": "sql",
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": null,
+          "filters": [],
+          "grouping": [],
+          "order": null,
+          "assumptions": [],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11
+            },
+            "latency_ms": 21
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "来自巴西的客户有多少位？",
+              "repair_attempt": 0
+            },
+            "output_summary": {
+              "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Brazil'",
+              "explanation": "统计所在国家为 Brazil 的客户记录数。"
+            },
+            "latency_ms": 3771
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 52,
+                "prompt_tokens": 4151,
+                "total_tokens": 4203,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 3968
+                },
+                "prompt_cache_hit_tokens": 3968,
+                "prompt_cache_miss_tokens": 183
+              },
+              "json_valid": true
+            },
+            "latency_ms": 2838
+          },
+          {
+            "name": "sql_validate",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Brazil'"
+            },
+            "output_summary": {
+              "tables": [
+                "customer"
+              ],
+              "default_limit_added": false,
+              "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Brazil'"
+            },
+            "latency_ms": 6
+          },
+          {
+            "name": "sql_exec",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT COUNT(*) FROM \"public\".\"customer\" WHERE \"country\" = 'Brazil'",
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "row_count": 1,
+              "columns": [
+                "count"
+              ],
+              "truncated": false
+            },
+            "latency_ms": 16
+          },
+          {
+            "name": "answer",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "summary_source": "database_result_template"
+            },
+            "latency_ms": 0
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "result_columns": [
+            "count"
+          ],
+          "truncated": false,
+          "latency_ms": 3888
+        }
+      },
+      "latency_ms": 3894
+    },
+    {
+      "kind": "doc",
+      "request": {
+        "session_id": "d2-preflight-doc",
+        "message": "Which application lets you create and share movies in minutes?",
+        "scope": {
+          "route": "doc",
+          "db_id": null,
+          "doc_ids": [
+            "ohr-manual-macbook-air"
+          ]
+        }
+      },
+      "response": {
+        "trace_id": "2ebdca7c-385d-4fe0-af62-b15aef011d81",
+        "status": "SUCCEEDED",
+        "answer": "iMovie lets you create and share movies in minutes. [E1]",
+        "rewritten_question": null,
+        "sql": null,
+        "table": null,
+        "evidences": [
+          {
+            "evidence_id": "E1",
+            "doc_id": "ohr-manual-macbook-air",
+            "doc_title": "MacBook Air User Guide (archival edition)",
+            "page": 3,
+            "section_path": [],
+            "text": "iMovie iPhoto\nCollect all your video in Organize all your photos\none library. Create and with Events. Publish to a\nshare movies in minutes. Web Gallery with a click.\nwww.apple.com/ilife/imovie www.apple.com/ilife/iphoto\niMovie Help movie iPhoto Help photo\nGarageBand iWeb\nCreate music by adding Create beautiful websites\nmusicians to a virtual stage. with photos, movies, blogs,\nEnhance your song to sound podcasts, and dynamic\nlike a pro. web widgets.\nwww.apple.com/ilife/garageband www.apple.com/ilife/iweb\nGarageBand Help record iWeb Help website",
+            "bbox": [
+              26.87,
+              99.39,
+              325.38,
+              339.22
+            ]
+          }
+        ],
+        "clarification": null,
+        "intent": {
+          "intent_version": 1,
+          "route": "doc",
+          "task_type": "doc_qa",
+          "metric": null,
+          "time_scope": null,
+          "filters": [],
+          "grouping": [],
+          "order": null,
+          "assumptions": [],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "doc"
+            },
+            "output_summary": {
+              "route": "doc",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "rag_channel",
+            "status": "ok",
+            "input_summary": {
+              "doc_id": "ohr-manual-macbook-air"
+            },
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "evidence_count": 1
+            },
+            "latency_ms": 4830
+          },
+          {
+            "name": "doc_scope",
+            "status": "ok",
+            "input_summary": {
+              "doc_id": "ohr-manual-macbook-air"
+            },
+            "output_summary": {
+              "doc_id": "ohr-manual-macbook-air",
+              "title": "MacBook Air User Guide (archival edition)",
+              "content_hash": "d99de99131b4d8a5471d3e3d96befaa1e6152560d12a93f854c5dd95e54225aa"
+            },
+            "latency_ms": 7
+          },
+          {
+            "name": "retrieve",
+            "status": "ok",
+            "input_summary": {
+              "doc_id": "ohr-manual-macbook-air",
+              "question": "Which application lets you create and share movies in minutes?",
+              "query": "Which application lets you create and share movies in minutes?"
+            },
+            "output_summary": {
+              "retrieval_method": "bm25+bge-m3_dense_rrf",
+              "candidate_count": 166,
+              "top_k": 5,
+              "retrieved_count": 5,
+              "index_created_at": "2026-10-10T12:43:03.123218+00:00",
+              "index_chunks_sha256": "3af77dcca0b2938b2493cd68e849e86c247c45a4a8462d5a7bd457f6a37031b9",
+              "query": "Which application lets you create and share movies in minutes?",
+              "dense_enabled": true,
+              "chunks": [
+                {
+                  "chunk_id": "da23580a10ec290e1f31e0b3",
+                  "evidence_id": "E1",
+                  "doc_id": "ohr-manual-macbook-air",
+                  "page": 3,
+                  "score": 0.03278689
+                },
+                {
+                  "chunk_id": "bfcfa2f2788ed5ada4f8b2df",
+                  "evidence_id": "E2",
+                  "doc_id": "ohr-manual-macbook-air",
+                  "page": 34,
+                  "score": 0.02995752
+                },
+                {
+                  "chunk_id": "78b72c164637df5aa9f5df8c",
+                  "evidence_id": "E3",
+                  "doc_id": "ohr-manual-macbook-air",
+                  "page": 67,
+                  "score": 0.02941813
+                },
+                {
+                  "chunk_id": "e3ba3079c3b184666ff2e97e",
+                  "evidence_id": "E4",
+                  "doc_id": "ohr-manual-macbook-air",
+                  "page": 40,
+                  "score": 0.02889813
+                },
+                {
+                  "chunk_id": "927e7d2bccc5bcbc053f2529",
+                  "evidence_id": "E5",
+                  "doc_id": "ohr-manual-macbook-air",
+                  "page": 33,
+                  "score": 0.02878726
+                }
+              ]
+            },
+            "latency_ms": 1987
+          },
+          {
+            "name": "doc_answer",
+            "status": "ok",
+            "input_summary": {
+              "mode": "llm",
+              "evidence_count": 5
+            },
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "used_evidence_ids": [
+                "E1"
+              ]
+            },
+            "latency_ms": 2835
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 38,
+                "prompt_tokens": 1275,
+                "total_tokens": 1313,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 128
+                },
+                "prompt_cache_hit_tokens": 128,
+                "prompt_cache_miss_tokens": 1147
+              },
+              "json_valid": true
+            },
+            "latency_ms": 1863
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "doc_id": "ohr-manual-macbook-air",
+          "answer_mode": "llm",
+          "model": "deepseek-flash",
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 166,
+          "top_k": 5,
+          "retrieved_count": 5,
+          "index_created_at": "2026-10-10T12:43:03.123218+00:00",
+          "index_chunks_sha256": "3af77dcca0b2938b2493cd68e849e86c247c45a4a8462d5a7bd457f6a37031b9",
+          "query": "Which application lets you create and share movies in minutes?",
+          "dense_enabled": true,
+          "retrieved_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "retrieved_pages": [
+            {
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "chunk_id": "da23580a10ec290e1f31e0b3",
+              "evidence_id": "E1"
+            },
+            {
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 34,
+              "chunk_id": "bfcfa2f2788ed5ada4f8b2df",
+              "evidence_id": "E2"
+            },
+            {
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 67,
+              "chunk_id": "78b72c164637df5aa9f5df8c",
+              "evidence_id": "E3"
+            },
+            {
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 40,
+              "chunk_id": "e3ba3079c3b184666ff2e97e",
+              "evidence_id": "E4"
+            },
+            {
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 33,
+              "chunk_id": "927e7d2bccc5bcbc053f2529",
+              "evidence_id": "E5"
+            }
+          ],
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "latency_ms": 4837,
+          "llm_attempts": 1
+        }
+      },
+      "latency_ms": 4841
+    }
+  ],
+  "errors": [],
+  "available_model_ids": [
+    "deepseek-flash",
+    "deepseek-v4-pro"
+  ],
+  "json_probe": {
+    "ok": true,
+    "message": "接入成功。"
+  },
+  "probe_steps": [
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 13,
+          "prompt_tokens": 123,
+          "total_tokens": 136,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 123
+        },
+        "json_valid": true
+      },
+      "latency_ms": 1979
+    }
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,22 @@
+usage: run_eval.py [-h] [--dataset DATASET] [--suite {nl2sql,robust,rag}]
+                   [--run-id RUN_ID] [--base-url BASE_URL]
+                   [--split {dev,holdout}] [--draft-gold] [--allow-holdout]
+                   [--frozen-tag FROZEN_TAG] [--timeout TIMEOUT]
+                   [--output OUTPUT]
+
+Evaluate /api/chat without exposing holdout or inventing unrun accuracy.
+
+options:
+  -h, --help            show this help message and exit
+  --dataset DATASET
+  --suite {nl2sql,robust,rag}
+                        D2 suites; omitting preserves the D1 entry
+  --run-id RUN_ID       Unique D2 run identifier, recorded in provenance
+  --base-url BASE_URL
+  --split {dev,holdout}
+  --draft-gold          仅开发集草稿探索，不能作为正式成绩
+  --allow-holdout
+  --frozen-tag FROZEN_TAG
+                        保留集要求当前 HEAD 的冻结 Git tag 和干净工作目录
+  --timeout TIMEOUT
+  --output OUTPUT, --output-dir OUTPUT

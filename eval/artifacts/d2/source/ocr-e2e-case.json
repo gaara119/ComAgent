@@ -1,0 +1,97 @@
+{
+  "id": "e2e-ocr-endoscope-warranty",
+  "case_id": "e2e-ocr-endoscope-warranty",
+  "family_id": "self-d2-rag-25",
+  "question": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?",
+  "doc_id": "ohr-manual-endoscope-scan",
+  "doc_title": "Rigid Endoscope User Manual 扫描派生件",
+  "domain": "manual",
+  "answer": "2 years.",
+  "reference_text": "InnoViewGMBHEndoscopes comewitha2\nindividuallysecuredinonecontainer.\nresult in severe damage to the\ndeposits on the optical surfaces.\nyearminimumwarranty.",
+  "physical_pages": [
+    2
+  ],
+  "page_numbering": "physical_pdf_1_based",
+  "evidence_source": "image_ocr",
+  "answer_form": "Free-form",
+  "split": "dev",
+  "source_qa_id": null,
+  "source_type": "ohr_raster_derivative",
+  "answerable": true,
+  "expected_status": "SUCCEEDED",
+  "acceptable_insufficient_statuses": [],
+  "source_scope": {
+    "route": "doc",
+    "doc_ids": [
+      "ohr-manual-endoscope-scan"
+    ]
+  },
+  "gold_evidence": [
+    {
+      "doc_id": "ohr-manual-endoscope-scan",
+      "page": 2,
+      "text": "InnoViewGMBHEndoscopes comewitha2",
+      "section_path": [],
+      "source_parser": "RapidOCR",
+      "bbox": [
+        601.5,
+        266.5,
+        764.5,
+        277.5
+      ],
+      "ocr_confidence": 0.980804
+    },
+    {
+      "doc_id": "ohr-manual-endoscope-scan",
+      "page": 2,
+      "text": "yearminimumwarranty.",
+      "section_path": [],
+      "source_parser": "RapidOCR",
+      "bbox": [
+        602.5,
+        278.0,
+        688.5,
+        286.5
+      ],
+      "ocr_confidence": 0.998695
+    }
+  ],
+  "expected_facts": [
+    "2 years."
+  ],
+  "source_url": "https://hf-mirror.com/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+  "source_sha256": "41cd29980e7d5ba0f86b8f0c41bcba930f5d39bb99707185b414d408839a8b62",
+  "source_document_id": "ohr-manual-endoscope-original",
+  "source_group": "ohr-manual-endoscope-original",
+  "machine_verification": {
+    "reference_is_exact_parser_substring": true,
+    "source_hash_verified": true,
+    "parser": "RapidOCR",
+    "human_approval": false,
+    "reading_order_warning": "Actual four-column OCR interleaves lines from neighbouring columns; gold keeps the exact recorded span. Warranty lines must be visually reviewed using their real boxes on PDF page 2.",
+    "insufficient_evidence_reason": null
+  },
+  "gold_review": {
+    "status": "needs_human_review",
+    "reviewer": null,
+    "reviewed_at_utc": null,
+    "content_sha256": null
+  },
+  "exposure_history": {
+    "prior_stage": null,
+    "model_prediction_count": 0,
+    "classification": "new_development"
+  },
+  "gold_content_sha256": "871dc6cd028354c03f212df8c7f95273d6fa77534a0ca8ae8d7f9d1605343f0d",
+  "registered_suite": "independent_e2e_ocr_probe_not_counted_in_rag30",
+  "request": {
+    "session_id": "d2-e2e-ocr",
+    "message": "According to this scanned manual, what is the minimum warranty period for InnoView GMBH Endoscopes?",
+    "scope": {
+      "route": "doc",
+      "doc_ids": [
+        "ohr-manual-endoscope-scan"
+      ]
+    }
+  }
+}

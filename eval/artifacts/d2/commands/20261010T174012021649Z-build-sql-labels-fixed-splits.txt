@@ -1,0 +1,36 @@
+{
+  "created_at_utc": "2026-10-10T17:40:12.492544+00:00",
+  "parent": "eval/datasets/nl2sql_chinook_d1_acceptance.jsonl",
+  "parent_sha256": "d7ecb412982761ce746565a7d847058567cc13d60d95462bf0c6d431bc50c51c",
+  "sql_counts": {
+    "dev": 35,
+    "holdout": 15
+  },
+  "robust_counts": {
+    "dev": 21,
+    "holdout": 9
+  },
+  "sql_category_counts": {
+    "count": 6,
+    "filter": 7,
+    "aggregate": 8,
+    "group": 7,
+    "top": 5,
+    "date": 6,
+    "like": 4,
+    "null": 4,
+    "no_match": 3
+  },
+  "robust_type_counts": {
+    "typo": 5,
+    "alias": 5,
+    "pinyin": 5,
+    "mixed_language": 5,
+    "colloquial": 5,
+    "extra_words": 5
+  },
+  "gold_sql_executed": 50,
+  "model_predictions_in_build": 0,
+  "human_accepted_count": 0,
+  "holdout_model_predictions": 0
+}

@@ -1,0 +1,214 @@
+Deploy
+精准问数问答
+
+选择数据来源，输入问题，查看答案和对应依据。
+
+数据来源
+
+数据库
+
+指定文档
+
+查询文档
+
+PNG · zh
+
+你的问题
+
+提交问题
+
+回答完成
+
+Led Zeppelin（齐柏林飞船）1968年在伦敦成立。[E1]
+
+keyboard_arrow_right
+
+SQL 与结果
+
+keyboard_arrow_down
+
+引用来源
+
+引用依据
+
+[E1] Led Zeppelin 齐柏林飞船乐队公开简介 · 章节：图像 OCR
+
+[E1] 原文
+
+图像 OCR
+
+Led Zeppelin齐柏林飞船乐队公开简介
+公开背景
+Led Zeppelin（齐柏林飞船）是英国摇滚乐队，1968年在伦敦成立。乐队成员包括吉他手
+Jimmy Page、主唱 Robert Plant、贝斯兼键盘手 John Paul Jones 和鼓手 John Bonham。
+其早期音乐扎根于蓝调摇滚与迷幻摇滚，也与硬摇滚和重金属的发展密切相关。
+首张同名专辑于1969年发行，1971年的第四张专辑收录了StairwaytoHeaven。此网页是带出
+处的简短项目改写，不是维基百科原站页面截图。
+资料来源与处理说明
+由项目根据公开百科条目改写为中文简介。用于研究检索和来源定位，不声称它是原站完整页
+面。
+百科原文作者为对应维基百科条目贡献者；本文进行了精简、中文改写与排版，按CCBY-SA4.0
+共享。未复制外部照片。
+来源
+https://zh.wikipedia.0rg/wiki/%E9%BD%90%E6%9F%8F%E6%9E%97%E9%A3%9E%E8%88%B9%E4%B9%90%E9%98%9F
+
+打开原始文件
+
+下载原始文件
+
+原始图像；引用文字来自实际 OCR。
+
+keyboard_arrow_down
+
+处理步骤与耗时
+
+请求编号：40bd2c2c-2aee-4c7b-8ad9-aab3276c850c
+
+服务端总耗时：3875 毫秒
+
+1. route · 完成 · 0 毫秒
+
+展开第 1 步详情
+
+2. rag_channel · 完成 · 3875 毫秒
+
+展开第 2 步详情
+
+3. doc_scope · 完成 · 7 毫秒
+
+展开第 3 步详情
+
+4. retrieve · 完成 · 653 毫秒
+
+展开第 4 步详情
+
+{
+  "输入": {
+    "doc_id": "artist-led-zeppelin",
+    "question": "Led Zeppelin（齐柏林飞船）是哪一年、在哪座城市成立的？",
+    "query": "Led Zeppelin（齐柏林飞船）是哪一年、在哪座城市成立的？"
+  },
+  "输出": {
+    "retrieval_method": "bm25+bge-m3_dense_rrf",
+    "candidate_count": 2,
+    "top_k": 8,
+    "candidate_k_per_channel": 20,
+    "rrf_k": 60,
+    "rank_starts_at": 1,
+    "rankings": {
+      "bm25": [
+        {
+          "rank": 1,
+          "chunk_id": "0b74392566b4204cc0e56ef5",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": -1.34422525
+        },
+        {
+          "rank": 2,
+          "chunk_id": "6fbbccecc8aa76b33aa1057b",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": -1.44150427
+        }
+      ],
+      "dense": [
+        {
+          "rank": 1,
+          "chunk_id": "0b74392566b4204cc0e56ef5",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": 0.76752853
+        },
+        {
+          "rank": 2,
+          "chunk_id": "6fbbccecc8aa76b33aa1057b",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": 0.60119265
+        }
+      ],
+      "rrf": [
+        {
+          "rank": 1,
+          "chunk_id": "0b74392566b4204cc0e56ef5",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": 0.03278689
+        },
+        {
+          "rank": 2,
+          "chunk_id": "6fbbccecc8aa76b33aa1057b",
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "section_path": [
+            "图像 OCR"
+          ],
+          "score": 0.03225806
+        }
+      ]
+    },
+    "hit_at_5_scope": [
+      "0b74392566b4204cc0e56ef5",
+      "6fbbccecc8aa76b33aa1057b"
+    ],
+    "retrieved_count": 2,
+    "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+    "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+    "query": "Led Zeppelin（齐柏林飞船）是哪一年、在哪座城市成立的？",
+    "dense_enabled": true,
+    "chunks": [
+      {
+        "chunk_id": "0b74392566b4204cc0e56ef5",
+        "evidence_id": "E1",
+        "doc_id": "artist-led-zeppelin",
+        "page": null,
+        "section_path": [
+          "图像 OCR"
+        ],
+        "score": 0.03278689
+      },
+      {
+        "chunk_id": "6fbbccecc8aa76b33aa1057b",
+        "evidence_id": "E2",
+        "doc_id": "artist-led-zeppelin",
+        "page": null,
+        "section_path": [
+          "图像 OCR"
+        ],
+        "score": 0.03225806
+      }
+    ]
+  }
+}
+
+5. doc_answer · 完成 · 3216 毫秒
+
+展开第 5 步详情
+
+6. rag_generate · 完成 · 3216 毫秒
+
+展开第 6 步详情
+
+7. llm · 完成 · 1763 毫秒
+
+展开第 7 步详情
+
+8. rag_validate · 完成 · 0 毫秒
+
+展开第 8 步详情

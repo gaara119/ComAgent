@@ -1,0 +1,70 @@
+{
+  "checked_at_utc": "2026-10-11T02:36:25.622488+00:00",
+  "scope": "D2 completion verification; no model calls or holdout predictions",
+  "checks": {
+    "final_zip_matches_recorded_sha256": true,
+    "zip_crc": true,
+    "all_packaged_files_match_manifest": true,
+    "reports_review_table_and_independent_check_packaged": true,
+    "no_real_env_venv_git_or_model_weights_packaged": true,
+    "delivered_source_unchanged_since_final_checks": true,
+    "d1_evidence_still_unchanged": true,
+    "engineering_and_test_records_complete": true,
+    "final_module_command_success_and_raw_log_present": true,
+    "human_review_pending_and_holdouts_unrun": true,
+    "api_currently_running": true,
+    "ui_currently_running": true
+  },
+  "details": {
+    "zip": {
+      "sha256": "e34c248c120dd7c1ff716f4d2eb6f07ca4039fb2bc0fa9a11f6d667fa97cf1ca",
+      "files": 640,
+      "bytes": 53281335,
+      "mismatches": [],
+      "unexpected_sensitive_paths": []
+    },
+    "source": {
+      "files": 85,
+      "changed": []
+    },
+    "d1": {
+      "files": 87,
+      "changed": []
+    },
+    "review": {
+      "total_rows": 195,
+      "pending_rows": 191,
+      "previously_approved_metrics": 4,
+      "by_group": {
+        "metric": 4,
+        "alias": 81,
+        "nl2sql": 50,
+        "robust": 30,
+        "rag": 30
+      },
+      "gold_cases": 110,
+      "human_gold_accepted": 0,
+      "actual_dev_predictions": 77,
+      "human_actual_predictions_accepted": 0,
+      "holdout_cases": 33,
+      "holdout_predictions": 0
+    },
+    "api": {
+      "http_status": 200,
+      "health": {
+        "status": "ok",
+        "stage": "D2",
+        "database_ready": true,
+        "llm_configured": true,
+        "model": "deepseek-flash",
+        "catalog_exists": true,
+        "statement_timeout_ms": 5000,
+        "max_rows": 200
+      }
+    },
+    "ui": {
+      "http_status": 200
+    }
+  },
+  "status": "PASS"
+}

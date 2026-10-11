@@ -1,0 +1,1743 @@
+{
+  "started_at_utc": "2026-10-10T18:10:12.179589+00:00",
+  "finished_at_utc": "2026-10-10T18:10:15.798058+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d2-rag-d2-rag-final-rag-15",
+    "message": "What are the five fundamental capabilities identified by ASQ and Forbes Insights as essential for building a successful organizational culture?",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "ohr-news-executive-insight"
+      ]
+    }
+  },
+  "response": {
+    "trace_id": "e798f6ac-e736-451e-9b79-cf61c78eb60e",
+    "status": "SUCCEEDED",
+    "answer": "ASQ and Forbes Insights identified five fundamental capabilities essential for building a successful organizational culture: leadership, culture, strategy execution, management practices, and robust process improvement [E1][E3].",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [
+      {
+        "evidence_id": "E1",
+        "doc_id": "ohr-news-executive-insight",
+        "doc_title": "Executive Insight Healthcare Magazine (archival excerpt)",
+        "page": 11,
+        "section_path": [
+          "EYE ON QUALITY"
+        ],
+        "text": "EYE ON QUALITY\nSuccess boils down to five not-so-sim- to leadership and effective action at all levels to build culture that\nsupports excellence and high reliability into operations. Awareness\nple but fundamental capabilities—\nof how the organization is perceived at all levels is key to building\nleadership, culture, strategy execution,\neffective approaches to culture change.\nmanagement practices, and robust pro-",
+        "bbox": [
+          432.28,
+          50.71,
+          534.6,
+          66.45
+        ]
+      },
+      {
+        "evidence_id": "E3",
+        "doc_id": "ohr-news-executive-insight",
+        "doc_title": "Executive Insight Healthcare Magazine (archival excerpt)",
+        "page": 10,
+        "section_path": [
+          "ELEMENTS OF SUCCESS"
+        ],
+        "text": "ELEMENTS OF SUCCESS\nInsights. The study, conducted in a variety of in-\ndustries, including healthcare, highlighted the Success boils down to five not-so-simple but\nuniversal challenge of leading for excellence. The fundamental capabilities—leadership, culture,\nresearch underscored that every leader, regardless strategy execution, management practices, and\nof industry or country around the world, must robust process improvement.",
+        "bbox": null
+      }
+    ],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-news-executive-insight"
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "evidence_count": 2
+        },
+        "latency_ms": 3617
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-news-executive-insight"
+        },
+        "output_summary": {
+          "doc_id": "ohr-news-executive-insight",
+          "title": "Executive Insight Healthcare Magazine (archival excerpt)",
+          "content_hash": "48981bbfdaf170bfc2ffceae813f17b49e528cb3cde75bac3b48b532b30e4274"
+        },
+        "latency_ms": 10
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-news-executive-insight",
+          "question": "What are the five fundamental capabilities identified by ASQ and Forbes Insights as essential for building a successful organizational culture?",
+          "query": "What are the five fundamental capabilities identified by ASQ and Forbes Insights as essential for building a successful organizational culture?"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 218,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "7b8e0c7dfa329d071f780eb4",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "Leading for Excellence"
+                ],
+                "score": 18.49789314
+              },
+              {
+                "rank": 2,
+                "chunk_id": "bb606f98a5cb99292e71beb1",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "EYE ON QUALITY"
+                ],
+                "score": 17.38255021
+              },
+              {
+                "rank": 3,
+                "chunk_id": "92484bde73f0485c43b4e2f5",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 14.14254475
+              },
+              {
+                "rank": 4,
+                "chunk_id": "de921f63bac3c72a20a2ab82",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 12.7619482
+              },
+              {
+                "rank": 5,
+                "chunk_id": "407ad3b61d1f4347e80ecd18",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 11.91012439
+              },
+              {
+                "rank": 6,
+                "chunk_id": "f209a3642a3fa62466fa4ab9",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 11.10326345
+              },
+              {
+                "rank": 7,
+                "chunk_id": "ab1355500d92f535257c366c",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 10.70824445
+              },
+              {
+                "rank": 8,
+                "chunk_id": "c9d4ae18c1d7f06bbb9a6781",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 10.24169243
+              },
+              {
+                "rank": 9,
+                "chunk_id": "15c0bd0b1179280ae0745e50",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 8.79446056
+              },
+              {
+                "rank": 10,
+                "chunk_id": "6cacb294d36b50c186ea9dbe",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 8.76695272
+              },
+              {
+                "rank": 11,
+                "chunk_id": "182ec160831d1faed0945569",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "ON THE WEB"
+                ],
+                "score": 7.38496339
+              },
+              {
+                "rank": 12,
+                "chunk_id": "41604f8be24cda5183b0c4aa",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 7.22207084
+              },
+              {
+                "rank": 13,
+                "chunk_id": "19cf2b6de1935f4e0d89f30b",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 7.20762549
+              },
+              {
+                "rank": 14,
+                "chunk_id": "b72fd1a266d3a5be30fb6957",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 9,
+                "section_path": [
+                  "By Dawn Milstead"
+                ],
+                "score": 5.97720585
+              },
+              {
+                "rank": 15,
+                "chunk_id": "f3563c995911966a11191c3b",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 5.8947523
+              },
+              {
+                "rank": 16,
+                "chunk_id": "3530f1b9571d8470536ded42",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 5.87088195
+              },
+              {
+                "rank": 17,
+                "chunk_id": "ab3e69da9b2b3af04d4df6a9",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 5.8358258
+              },
+              {
+                "rank": 18,
+                "chunk_id": "d94ad3759ae3637ada00c994",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 5.72143785
+              },
+              {
+                "rank": 19,
+                "chunk_id": "2c526a76aee403036fe26015",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 6,
+                "section_path": [
+                  "D epartments Columns"
+                ],
+                "score": 5.64231081
+              },
+              {
+                "rank": 20,
+                "chunk_id": "708e7b7d5fee72e2df34a694",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 5.3637529
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "bb606f98a5cb99292e71beb1",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "EYE ON QUALITY"
+                ],
+                "score": 0.61105156
+              },
+              {
+                "rank": 2,
+                "chunk_id": "407ad3b61d1f4347e80ecd18",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.61045456
+              },
+              {
+                "rank": 3,
+                "chunk_id": "92484bde73f0485c43b4e2f5",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 0.55914021
+              },
+              {
+                "rank": 4,
+                "chunk_id": "de921f63bac3c72a20a2ab82",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 0.54913658
+              },
+              {
+                "rank": 5,
+                "chunk_id": "7b8e0c7dfa329d071f780eb4",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "Leading for Excellence"
+                ],
+                "score": 0.54594028
+              },
+              {
+                "rank": 6,
+                "chunk_id": "f54729fbd7d9d2fa99859992",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.53401339
+              },
+              {
+                "rank": 7,
+                "chunk_id": "41604f8be24cda5183b0c4aa",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.53136754
+              },
+              {
+                "rank": 8,
+                "chunk_id": "6cacb294d36b50c186ea9dbe",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.53062016
+              },
+              {
+                "rank": 9,
+                "chunk_id": "f3563c995911966a11191c3b",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.5253824
+              },
+              {
+                "rank": 10,
+                "chunk_id": "15c0bd0b1179280ae0745e50",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.52005792
+              },
+              {
+                "rank": 11,
+                "chunk_id": "ab1355500d92f535257c366c",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.51259887
+              },
+              {
+                "rank": 12,
+                "chunk_id": "c9d4ae18c1d7f06bbb9a6781",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.50195086
+              },
+              {
+                "rank": 13,
+                "chunk_id": "af679314322081b065f96ec2",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 13,
+                "section_path": [
+                  "How is McKesson addressing\nchanges in technology?"
+                ],
+                "score": 0.49843445
+              },
+              {
+                "rank": 14,
+                "chunk_id": "d94ad3759ae3637ada00c994",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.49713692
+              },
+              {
+                "rank": 15,
+                "chunk_id": "3530f1b9571d8470536ded42",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.49234763
+              },
+              {
+                "rank": 16,
+                "chunk_id": "e556614890741d792129973e",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.49119866
+              },
+              {
+                "rank": 17,
+                "chunk_id": "19cf2b6de1935f4e0d89f30b",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 0.48807436
+              },
+              {
+                "rank": 18,
+                "chunk_id": "ab3e69da9b2b3af04d4df6a9",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.48763624
+              },
+              {
+                "rank": 19,
+                "chunk_id": "16c4d1a661d618a1d53f0ad3",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 12,
+                "section_path": [
+                  "ON THE WEB"
+                ],
+                "score": 0.47095528
+              },
+              {
+                "rank": 20,
+                "chunk_id": "f209a3642a3fa62466fa4ab9",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.46921414
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "bb606f98a5cb99292e71beb1",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "EYE ON QUALITY"
+                ],
+                "score": 0.03252247
+              },
+              {
+                "rank": 2,
+                "chunk_id": "7b8e0c7dfa329d071f780eb4",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "Leading for Excellence"
+                ],
+                "score": 0.03177806
+              },
+              {
+                "rank": 3,
+                "chunk_id": "92484bde73f0485c43b4e2f5",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 0.03174603
+              },
+              {
+                "rank": 4,
+                "chunk_id": "407ad3b61d1f4347e80ecd18",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.03151365
+              },
+              {
+                "rank": 5,
+                "chunk_id": "de921f63bac3c72a20a2ab82",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 0.03125
+              },
+              {
+                "rank": 6,
+                "chunk_id": "ab1355500d92f535257c366c",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.02900988
+              },
+              {
+                "rank": 7,
+                "chunk_id": "6cacb294d36b50c186ea9dbe",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.0289916
+              },
+              {
+                "rank": 8,
+                "chunk_id": "41604f8be24cda5183b0c4aa",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.02881426
+              },
+              {
+                "rank": 9,
+                "chunk_id": "15c0bd0b1179280ae0745e50",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.02877847
+              },
+              {
+                "rank": 10,
+                "chunk_id": "c9d4ae18c1d7f06bbb9a6781",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.02859477
+              },
+              {
+                "rank": 11,
+                "chunk_id": "f3563c995911966a11191c3b",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.02782609
+              },
+              {
+                "rank": 12,
+                "chunk_id": "f209a3642a3fa62466fa4ab9",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.02765152
+              },
+              {
+                "rank": 13,
+                "chunk_id": "19cf2b6de1935f4e0d89f30b",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 0.02668564
+              },
+              {
+                "rank": 14,
+                "chunk_id": "3530f1b9571d8470536ded42",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.02649123
+              },
+              {
+                "rank": 15,
+                "chunk_id": "d94ad3759ae3637ada00c994",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.02633403
+              },
+              {
+                "rank": 16,
+                "chunk_id": "ab3e69da9b2b3af04d4df6a9",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.02580753
+              },
+              {
+                "rank": 17,
+                "chunk_id": "f54729fbd7d9d2fa99859992",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.01515152
+              },
+              {
+                "rank": 18,
+                "chunk_id": "182ec160831d1faed0945569",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "ON THE WEB"
+                ],
+                "score": 0.01408451
+              },
+              {
+                "rank": 19,
+                "chunk_id": "af679314322081b065f96ec2",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 13,
+                "section_path": [
+                  "How is McKesson addressing\nchanges in technology?"
+                ],
+                "score": 0.01369863
+              },
+              {
+                "rank": 20,
+                "chunk_id": "b72fd1a266d3a5be30fb6957",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 9,
+                "section_path": [
+                  "By Dawn Milstead"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 21,
+                "chunk_id": "e556614890741d792129973e",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 11,
+                "section_path": [
+                  "BUILDING A NEW CULTURE"
+                ],
+                "score": 0.01315789
+              },
+              {
+                "rank": 22,
+                "chunk_id": "16c4d1a661d618a1d53f0ad3",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 12,
+                "section_path": [
+                  "ON THE WEB"
+                ],
+                "score": 0.01265823
+              },
+              {
+                "rank": 23,
+                "chunk_id": "2c526a76aee403036fe26015",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 6,
+                "section_path": [
+                  "D epartments Columns"
+                ],
+                "score": 0.01265823
+              },
+              {
+                "rank": 24,
+                "chunk_id": "708e7b7d5fee72e2df34a694",
+                "doc_id": "ohr-news-executive-insight",
+                "page": 10,
+                "section_path": [
+                  "ELEMENTS OF SUCCESS"
+                ],
+                "score": 0.0125
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "bb606f98a5cb99292e71beb1",
+            "7b8e0c7dfa329d071f780eb4",
+            "92484bde73f0485c43b4e2f5",
+            "407ad3b61d1f4347e80ecd18",
+            "de921f63bac3c72a20a2ab82"
+          ],
+          "retrieved_count": 8,
+          "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+          "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+          "query": "What are the five fundamental capabilities identified by ASQ and Forbes Insights as essential for building a successful organizational culture?",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "bb606f98a5cb99292e71beb1",
+              "evidence_id": "E1",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "EYE ON QUALITY"
+              ],
+              "score": 0.03252247
+            },
+            {
+              "chunk_id": "7b8e0c7dfa329d071f780eb4",
+              "evidence_id": "E2",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 10,
+              "section_path": [
+                "Leading for Excellence"
+              ],
+              "score": 0.03177806
+            },
+            {
+              "chunk_id": "92484bde73f0485c43b4e2f5",
+              "evidence_id": "E3",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 10,
+              "section_path": [
+                "ELEMENTS OF SUCCESS"
+              ],
+              "score": 0.03174603
+            },
+            {
+              "chunk_id": "407ad3b61d1f4347e80ecd18",
+              "evidence_id": "E4",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "BUILDING A NEW CULTURE"
+              ],
+              "score": 0.03151365
+            },
+            {
+              "chunk_id": "de921f63bac3c72a20a2ab82",
+              "evidence_id": "E5",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 10,
+              "section_path": [
+                "ELEMENTS OF SUCCESS"
+              ],
+              "score": 0.03125
+            },
+            {
+              "chunk_id": "ab1355500d92f535257c366c",
+              "evidence_id": "E6",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "BUILDING A NEW CULTURE"
+              ],
+              "score": 0.02900988
+            },
+            {
+              "chunk_id": "6cacb294d36b50c186ea9dbe",
+              "evidence_id": "E7",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "BUILDING A NEW CULTURE"
+              ],
+              "score": 0.0289916
+            },
+            {
+              "chunk_id": "41604f8be24cda5183b0c4aa",
+              "evidence_id": "E8",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "BUILDING A NEW CULTURE"
+              ],
+              "score": 0.02881426
+            }
+          ]
+        },
+        "latency_ms": 235
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1",
+            "E3"
+          ]
+        },
+        "latency_ms": 3372
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "citation_ids": [
+            "E1",
+            "E3"
+          ]
+        },
+        "latency_ms": 3372
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 66,
+            "prompt_tokens": 1492,
+            "total_tokens": 1558,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1280
+            },
+            "prompt_cache_hit_tokens": 1280,
+            "prompt_cache_miss_tokens": 212
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1975
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1",
+            "E3"
+          ],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "potential_uncited_statements": [],
+            "mode": "heuristic_warning_only",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "ohr-news-executive-insight",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 218,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "7b8e0c7dfa329d071f780eb4",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "Leading for Excellence"
+            ],
+            "score": 18.49789314
+          },
+          {
+            "rank": 2,
+            "chunk_id": "bb606f98a5cb99292e71beb1",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "EYE ON QUALITY"
+            ],
+            "score": 17.38255021
+          },
+          {
+            "rank": 3,
+            "chunk_id": "92484bde73f0485c43b4e2f5",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 14.14254475
+          },
+          {
+            "rank": 4,
+            "chunk_id": "de921f63bac3c72a20a2ab82",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 12.7619482
+          },
+          {
+            "rank": 5,
+            "chunk_id": "407ad3b61d1f4347e80ecd18",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 11.91012439
+          },
+          {
+            "rank": 6,
+            "chunk_id": "f209a3642a3fa62466fa4ab9",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 11.10326345
+          },
+          {
+            "rank": 7,
+            "chunk_id": "ab1355500d92f535257c366c",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 10.70824445
+          },
+          {
+            "rank": 8,
+            "chunk_id": "c9d4ae18c1d7f06bbb9a6781",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 10.24169243
+          },
+          {
+            "rank": 9,
+            "chunk_id": "15c0bd0b1179280ae0745e50",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 8.79446056
+          },
+          {
+            "rank": 10,
+            "chunk_id": "6cacb294d36b50c186ea9dbe",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 8.76695272
+          },
+          {
+            "rank": 11,
+            "chunk_id": "182ec160831d1faed0945569",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "ON THE WEB"
+            ],
+            "score": 7.38496339
+          },
+          {
+            "rank": 12,
+            "chunk_id": "41604f8be24cda5183b0c4aa",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 7.22207084
+          },
+          {
+            "rank": 13,
+            "chunk_id": "19cf2b6de1935f4e0d89f30b",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 7.20762549
+          },
+          {
+            "rank": 14,
+            "chunk_id": "b72fd1a266d3a5be30fb6957",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 9,
+            "section_path": [
+              "By Dawn Milstead"
+            ],
+            "score": 5.97720585
+          },
+          {
+            "rank": 15,
+            "chunk_id": "f3563c995911966a11191c3b",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 5.8947523
+          },
+          {
+            "rank": 16,
+            "chunk_id": "3530f1b9571d8470536ded42",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 5.87088195
+          },
+          {
+            "rank": 17,
+            "chunk_id": "ab3e69da9b2b3af04d4df6a9",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 5.8358258
+          },
+          {
+            "rank": 18,
+            "chunk_id": "d94ad3759ae3637ada00c994",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 5.72143785
+          },
+          {
+            "rank": 19,
+            "chunk_id": "2c526a76aee403036fe26015",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 6,
+            "section_path": [
+              "D epartments Columns"
+            ],
+            "score": 5.64231081
+          },
+          {
+            "rank": 20,
+            "chunk_id": "708e7b7d5fee72e2df34a694",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 5.3637529
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "bb606f98a5cb99292e71beb1",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "EYE ON QUALITY"
+            ],
+            "score": 0.61105156
+          },
+          {
+            "rank": 2,
+            "chunk_id": "407ad3b61d1f4347e80ecd18",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.61045456
+          },
+          {
+            "rank": 3,
+            "chunk_id": "92484bde73f0485c43b4e2f5",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 0.55914021
+          },
+          {
+            "rank": 4,
+            "chunk_id": "de921f63bac3c72a20a2ab82",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 0.54913658
+          },
+          {
+            "rank": 5,
+            "chunk_id": "7b8e0c7dfa329d071f780eb4",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "Leading for Excellence"
+            ],
+            "score": 0.54594028
+          },
+          {
+            "rank": 6,
+            "chunk_id": "f54729fbd7d9d2fa99859992",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.53401339
+          },
+          {
+            "rank": 7,
+            "chunk_id": "41604f8be24cda5183b0c4aa",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.53136754
+          },
+          {
+            "rank": 8,
+            "chunk_id": "6cacb294d36b50c186ea9dbe",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.53062016
+          },
+          {
+            "rank": 9,
+            "chunk_id": "f3563c995911966a11191c3b",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.5253824
+          },
+          {
+            "rank": 10,
+            "chunk_id": "15c0bd0b1179280ae0745e50",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.52005792
+          },
+          {
+            "rank": 11,
+            "chunk_id": "ab1355500d92f535257c366c",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.51259887
+          },
+          {
+            "rank": 12,
+            "chunk_id": "c9d4ae18c1d7f06bbb9a6781",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.50195086
+          },
+          {
+            "rank": 13,
+            "chunk_id": "af679314322081b065f96ec2",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 13,
+            "section_path": [
+              "How is McKesson addressing\nchanges in technology?"
+            ],
+            "score": 0.49843445
+          },
+          {
+            "rank": 14,
+            "chunk_id": "d94ad3759ae3637ada00c994",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.49713692
+          },
+          {
+            "rank": 15,
+            "chunk_id": "3530f1b9571d8470536ded42",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.49234763
+          },
+          {
+            "rank": 16,
+            "chunk_id": "e556614890741d792129973e",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.49119866
+          },
+          {
+            "rank": 17,
+            "chunk_id": "19cf2b6de1935f4e0d89f30b",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 0.48807436
+          },
+          {
+            "rank": 18,
+            "chunk_id": "ab3e69da9b2b3af04d4df6a9",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.48763624
+          },
+          {
+            "rank": 19,
+            "chunk_id": "16c4d1a661d618a1d53f0ad3",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 12,
+            "section_path": [
+              "ON THE WEB"
+            ],
+            "score": 0.47095528
+          },
+          {
+            "rank": 20,
+            "chunk_id": "f209a3642a3fa62466fa4ab9",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.46921414
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "bb606f98a5cb99292e71beb1",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "EYE ON QUALITY"
+            ],
+            "score": 0.03252247
+          },
+          {
+            "rank": 2,
+            "chunk_id": "7b8e0c7dfa329d071f780eb4",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "Leading for Excellence"
+            ],
+            "score": 0.03177806
+          },
+          {
+            "rank": 3,
+            "chunk_id": "92484bde73f0485c43b4e2f5",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 0.03174603
+          },
+          {
+            "rank": 4,
+            "chunk_id": "407ad3b61d1f4347e80ecd18",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.03151365
+          },
+          {
+            "rank": 5,
+            "chunk_id": "de921f63bac3c72a20a2ab82",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 0.03125
+          },
+          {
+            "rank": 6,
+            "chunk_id": "ab1355500d92f535257c366c",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.02900988
+          },
+          {
+            "rank": 7,
+            "chunk_id": "6cacb294d36b50c186ea9dbe",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.0289916
+          },
+          {
+            "rank": 8,
+            "chunk_id": "41604f8be24cda5183b0c4aa",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.02881426
+          },
+          {
+            "rank": 9,
+            "chunk_id": "15c0bd0b1179280ae0745e50",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.02877847
+          },
+          {
+            "rank": 10,
+            "chunk_id": "c9d4ae18c1d7f06bbb9a6781",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.02859477
+          },
+          {
+            "rank": 11,
+            "chunk_id": "f3563c995911966a11191c3b",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.02782609
+          },
+          {
+            "rank": 12,
+            "chunk_id": "f209a3642a3fa62466fa4ab9",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.02765152
+          },
+          {
+            "rank": 13,
+            "chunk_id": "19cf2b6de1935f4e0d89f30b",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 0.02668564
+          },
+          {
+            "rank": 14,
+            "chunk_id": "3530f1b9571d8470536ded42",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.02649123
+          },
+          {
+            "rank": 15,
+            "chunk_id": "d94ad3759ae3637ada00c994",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.02633403
+          },
+          {
+            "rank": 16,
+            "chunk_id": "ab3e69da9b2b3af04d4df6a9",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.02580753
+          },
+          {
+            "rank": 17,
+            "chunk_id": "f54729fbd7d9d2fa99859992",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.01515152
+          },
+          {
+            "rank": 18,
+            "chunk_id": "182ec160831d1faed0945569",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "ON THE WEB"
+            ],
+            "score": 0.01408451
+          },
+          {
+            "rank": 19,
+            "chunk_id": "af679314322081b065f96ec2",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 13,
+            "section_path": [
+              "How is McKesson addressing\nchanges in technology?"
+            ],
+            "score": 0.01369863
+          },
+          {
+            "rank": 20,
+            "chunk_id": "b72fd1a266d3a5be30fb6957",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 9,
+            "section_path": [
+              "By Dawn Milstead"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 21,
+            "chunk_id": "e556614890741d792129973e",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 11,
+            "section_path": [
+              "BUILDING A NEW CULTURE"
+            ],
+            "score": 0.01315789
+          },
+          {
+            "rank": 22,
+            "chunk_id": "16c4d1a661d618a1d53f0ad3",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 12,
+            "section_path": [
+              "ON THE WEB"
+            ],
+            "score": 0.01265823
+          },
+          {
+            "rank": 23,
+            "chunk_id": "2c526a76aee403036fe26015",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 6,
+            "section_path": [
+              "D epartments Columns"
+            ],
+            "score": 0.01265823
+          },
+          {
+            "rank": 24,
+            "chunk_id": "708e7b7d5fee72e2df34a694",
+            "doc_id": "ohr-news-executive-insight",
+            "page": 10,
+            "section_path": [
+              "ELEMENTS OF SUCCESS"
+            ],
+            "score": 0.0125
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "bb606f98a5cb99292e71beb1",
+        "7b8e0c7dfa329d071f780eb4",
+        "92484bde73f0485c43b4e2f5",
+        "407ad3b61d1f4347e80ecd18",
+        "de921f63bac3c72a20a2ab82"
+      ],
+      "retrieved_count": 8,
+      "index_created_at": "2026-10-10T18:00:32.823521+00:00",
+      "index_chunks_sha256": "fc37e840d011bf16ee4233341bcc29217a03e7770b75b976c5e3ce96524905c3",
+      "query": "What are the five fundamental capabilities identified by ASQ and Forbes Insights as essential for building a successful organizational culture?",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "chunk_id": "bb606f98a5cb99292e71beb1",
+          "section_path": [
+            "EYE ON QUALITY"
+          ],
+          "bbox": [
+            432.28,
+            50.71,
+            534.6,
+            66.45
+          ],
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 10,
+          "chunk_id": "7b8e0c7dfa329d071f780eb4",
+          "section_path": [
+            "Leading for Excellence"
+          ],
+          "bbox": [
+            43.45,
+            137.33,
+            288.11,
+            168.82
+          ],
+          "evidence_id": "E2"
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 10,
+          "chunk_id": "92484bde73f0485c43b4e2f5",
+          "section_path": [
+            "ELEMENTS OF SUCCESS"
+          ],
+          "bbox": null,
+          "evidence_id": "E3"
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "chunk_id": "407ad3b61d1f4347e80ecd18",
+          "section_path": [
+            "BUILDING A NEW CULTURE"
+          ],
+          "bbox": null,
+          "evidence_id": "E4"
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 10,
+          "chunk_id": "de921f63bac3c72a20a2ab82",
+          "section_path": [
+            "ELEMENTS OF SUCCESS"
+          ],
+          "bbox": null,
+          "evidence_id": "E5"
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "chunk_id": "ab1355500d92f535257c366c",
+          "section_path": [
+            "BUILDING A NEW CULTURE"
+          ],
+          "bbox": null,
+          "evidence_id": "E6"
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "chunk_id": "6cacb294d36b50c186ea9dbe",
+          "section_path": [
+            "BUILDING A NEW CULTURE"
+          ],
+          "bbox": null,
+          "evidence_id": "E7"
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "chunk_id": "41604f8be24cda5183b0c4aa",
+          "section_path": [
+            "BUILDING A NEW CULTURE"
+          ],
+          "bbox": null,
+          "evidence_id": "E8"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "potential_uncited_statements": [],
+        "mode": "heuristic_warning_only",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [
+        "E1",
+        "E3"
+      ],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 3617,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

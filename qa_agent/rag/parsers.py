@@ -1,9 +1,10 @@
-"""Parse physical PDF pages without guessing OCR text or printed page numbers."""
+"""Parse registered sources with physical PDF pages and honest section locators."""
 from __future__ import annotations
 
 from pathlib import Path
 import re
 from statistics import median
+from functools import lru_cache
 
 from qa_agent.rag.chunker import is_heading_candidate
 
@@ -93,14 +94,244 @@ def parse_pdf(document: dict) -> list[dict]:
                             round(max(w["bottom"] for w in words), 2)]
                 layout = layout_pdf[number - 1].get_text("dict", sort=True)
                 blocks, heading_candidates = _attach_layout(text, layout)
+                warnings = []
+                parser = "pdfplumber+PyMuPDF"
+                # Blank covers are allowed. OCR only pages without a usable text
+                # layer and with an actual raster image; no synthetic text.
+                if len(text.strip()) < 30 and layout_pdf[number - 1].get_images():
+                    pixmap = layout_pdf[number - 1].get_pixmap(matrix=pymupdf.Matrix(2, 2), alpha=False)
+                    import numpy as np
+                    image = np.frombuffer(pixmap.samples, dtype=np.uint8).reshape(pixmap.height, pixmap.width, pixmap.n)
+                    text, blocks, warnings = _ocr_text(image, scale_x=page.width/pixmap.width,
+                                                       scale_y=page.height/pixmap.height)
+                    bbox = _union_bbox(blocks)
+                    heading_candidates = []
+                    parser = "RapidOCR"
                 pages.append({"doc_id": document["doc_id"], "doc_title": document["title"],
                               "page": number, "text": text, "bbox": bbox,
                               "width": float(page.width), "height": float(page.height),
                               "blocks": blocks, "heading_candidates": heading_candidates,
                               "layout_parser": "PyMuPDF.get_text(dict)",
+                              "parser": parser, "warnings": warnings,
+                              "source_url": document.get("source_url", ""),
                               "coordinate_system": "PDF points; top-left origin"})
     except DocumentError:
         raise
     except Exception as exc:
         raise DocumentError(f"文档 {document['doc_id']} PDF 解析失败：{type(exc).__name__}。", "pdf_parse_failed") from exc
     return pages
+
+
+@lru_cache(maxsize=1)
+def _ocr_engine():
+    try:
+        from rapidocr_onnxruntime import RapidOCR
+        # The pinned 1.4.4 wheel includes its own detector/classifier/recognizer;
+        # no implicit online model download is required during a user request.
+        return RapidOCR(intra_op_num_threads=2, inter_op_num_threads=1)
+    except ImportError as exc:
+        raise DocumentError("RapidOCR 未安装，扫描资料无法入库。", "ocr_unavailable") from exc
+
+
+def _union_bbox(blocks: list[dict]):
+    boxes = [b["bbox"] for b in blocks if b.get("bbox")]
+    return [min(b[0] for b in boxes), min(b[1] for b in boxes),
+            max(b[2] for b in boxes), max(b[3] for b in boxes)] if boxes else None
+
+
+def _ocr_text(image, *, scale_x=1.0, scale_y=1.0) -> tuple[str, list[dict], list[str]]:
+    try:
+        output = _ocr_engine()(image)
+        # Explicit legacy/current adapter, without confusing elapsed time with
+        # records. The installed and audited version uses the first branch.
+        if isinstance(output, tuple) and len(output) == 2:
+            rows = output[0] or []
+        elif hasattr(output, "boxes") and hasattr(output, "txts"):
+            rows = zip(output.boxes, output.txts, output.scores)
+        else:
+            raise DocumentError("RapidOCR 返回接口不受支持。", "ocr_output_invalid")
+        blocks, lines, warnings = [], [], []
+        offset = 0
+        for number, (box, text, confidence) in enumerate(rows):
+            text = str(text).strip()
+            if not text:
+                continue
+            coords = [[float(x)*scale_x, float(y)*scale_y] for x, y in box]
+            bbox = [min(p[0] for p in coords), min(p[1] for p in coords),
+                    max(p[0] for p in coords), max(p[1] for p in coords)]
+            blocks.append({"block_id": number, "text": text, "bbox": bbox,
+                           "char_start": offset, "char_end": offset+len(text),
+                           "ocr_confidence": round(float(confidence), 6)})
+            lines.append(text)
+            offset += len(text)+1
+            if float(confidence) < .80:
+                warnings.append(f"OCR block {number} confidence={float(confidence):.3f}")
+        if not lines:
+            warnings.append("OCR produced no text")
+        if hasattr(image, "shape") and blocks:
+            # This is a geometry warning, not invented reading-order recovery.
+            # Preserve the engine's raw block order; mixed columns must be
+            # verified against their actual source boxes.
+            starts = sorted(b["bbox"][0] for b in blocks)
+            gap = float(image.shape[1])*scale_x*.10
+            clusters = 1+sum(right-left > gap for left, right in zip(starts, starts[1:]))
+            if clusters >= 2:
+                warnings.append("Possible multi-column OCR: detector reading order may interleave columns; verify source boxes")
+        return "\n".join(lines), blocks, warnings
+    except DocumentError:
+        raise
+    except Exception as exc:
+        raise DocumentError(f"OCR 失败：{type(exc).__name__}。", "ocr_failed") from exc
+
+
+def _verified_path(document: dict) -> Path:
+    from qa_agent.documents import verify_document_hash
+    try:
+        verify_document_hash(document)
+    except ValueError as exc:
+        raise DocumentError(str(exc), "document_hash_mismatch") from exc
+    return Path(document["resolved_path"])
+
+
+def _section_records(document: dict, blocks: list[dict], parser: str) -> list[dict]:
+    """Group contiguous blocks only within an unchanged section and locator."""
+    groups = []
+    for block in blocks:
+        section = block.get("section_path", [])
+        if not groups or groups[-1]["section_path"] != section:
+            groups.append({"section_path": list(section), "blocks": []})
+        groups[-1]["blocks"].append(block)
+    records = []
+    for order, group in enumerate(groups):
+        source_blocks, parts, offset = [], [], 0
+        for block in group["blocks"]:
+            text = block["text"].strip()
+            if not text:
+                continue
+            parts.append(text)
+            source_blocks.append({**block, "char_start": offset, "char_end": offset+len(text)})
+            offset += len(text)+1
+        if parts:
+            records.append({"doc_id": document["doc_id"], "doc_title": document["title"],
+                            "page": None, "text": "\n".join(parts), "bbox": None,
+                            "section_path": group["section_path"], "blocks": source_blocks,
+                            "block_order": order, "record_id": f"section-{order}",
+                            "parser": parser, "warnings": [],
+                            "source_url": document.get("source_url", "")})
+    return records
+
+
+def _heading(path: list[str], text: str, level: int) -> list[str]:
+    # Do not invent absent parent headings when source skips a heading level.
+    return path[:max(0, level-1)]+[text.strip()]
+
+
+def parse_docx(document: dict) -> list[dict]:
+    from docx import Document
+    from docx.text.paragraph import Paragraph
+    from docx.table import Table
+    source = Document(_verified_path(document))
+    blocks, path = [], []
+    for order, child in enumerate(source.element.body.iterchildren()):
+        if child.tag.endswith("}p"):
+            paragraph = Paragraph(child, source)
+            text = paragraph.text.strip()
+            if not text:
+                continue
+            style = paragraph.style.name if paragraph.style else ""
+            match = re.match(r"(?:Heading|标题)\s*(\d+)", style, re.I)
+            if match:
+                path = _heading(path, text, int(match.group(1)))
+            blocks.append({"block_id": order, "text": text, "section_path": list(path),
+                           "bbox": None, "style": style, "kind": "paragraph"})
+        elif child.tag.endswith("}tbl"):
+            table = Table(child, source)
+            text = "\n".join(" | ".join(cell.text.strip() for cell in row.cells) for row in table.rows)
+            if text.strip():
+                blocks.append({"block_id": order, "text": text, "section_path": list(path),
+                               "bbox": None, "kind": "table"})
+    return _section_records(document, blocks, "python-docx")
+
+
+def parse_html(document: dict) -> list[dict]:
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(_verified_path(document).read_text(encoding="utf-8-sig"), "html.parser")
+    for node in soup.select("script,style,nav,header,footer,aside,noscript,form,[aria-hidden='true']"):
+        node.decompose()
+    root = soup.find("main") or soup.find("article") or soup.body or soup
+    blocks, path = [], []
+    for order, node in enumerate(root.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "p", "li", "table", "pre"])):
+        if node.find_parent(["table", "pre", "li"]) is not None:
+            continue
+        if node.name == "table":
+            text = "\n".join(" | ".join(cell.get_text(" ", strip=True) for cell in row.find_all(["td", "th"]))
+                             for row in node.find_all("tr"))
+        else:
+            text = node.get_text(" ", strip=True)
+        if not text:
+            continue
+        if re.fullmatch(r"h[1-6]", node.name):
+            path = _heading(path, text, int(node.name[1]))
+        blocks.append({"block_id": order, "text": text, "section_path": list(path),
+                       "bbox": None, "kind": node.name})
+    return _section_records(document, blocks, "BeautifulSoup")
+
+
+def parse_markdown(document: dict) -> list[dict]:
+    text = _verified_path(document).read_text(encoding="utf-8-sig")
+    blocks, path, pending, fenced, fence_marker = [], [], [], False, ""
+    def flush():
+        if pending:
+            blocks.append({"block_id": len(blocks), "text": "\n".join(pending),
+                           "section_path": list(path), "bbox": None,
+                           "kind": "code" if fenced else "paragraph"})
+            pending.clear()
+    for line in text.splitlines():
+        fence = re.match(r"^\s{0,3}(`{3,}|~{3,})", line)
+        if fence and (not fenced or fence.group(1)[0] == fence_marker):
+            flush()
+            fenced = not fenced
+            fence_marker = fence.group(1)[0] if fenced else ""
+            pending.append(line)
+            continue
+        match = re.match(r"^(#{1,6})\s+(.+?)(?:\s+#+)?$", line) if not fenced else None
+        if match:
+            flush()
+            path = _heading(path, match.group(2), len(match.group(1)))
+            pending.append(line)
+        elif not line.strip() and not fenced:
+            flush()
+        else:
+            pending.append(line)
+    flush()
+    return _section_records(document, blocks, "markdown-headings")
+
+
+def parse_png(document: dict) -> list[dict]:
+    from PIL import Image
+    import numpy as np
+    path = _verified_path(document)
+    with Image.open(path) as source:
+        image = np.asarray(source.convert("RGB"))
+        text, blocks, warnings = _ocr_text(image)
+        return [{"doc_id": document["doc_id"], "doc_title": document["title"],
+                 "page": None, "record_id": "image", "text": text, "blocks": blocks,
+                 "bbox": _union_bbox(blocks), "section_path": ["图像 OCR"],
+                 "width": source.width, "height": source.height, "parser": "RapidOCR",
+                 "warnings": warnings, "coordinate_system": "image pixels; top-left origin",
+                 "source_url": document.get("source_url", "")}]
+
+
+def parse_document(document: dict) -> list[dict]:
+    parsers = {"pdf": parse_pdf, "docx": parse_docx, "html": parse_html,
+               "md": parse_markdown, "png": parse_png}
+    try:
+        parser = parsers[document["format"].lower()]
+    except KeyError as exc:
+        raise DocumentError("未知资料格式。", "format_unsupported") from exc
+    try:
+        return parser(document)
+    except DocumentError:
+        raise
+    except Exception as exc:
+        raise DocumentError(f"文档 {document['doc_id']} 解析失败：{type(exc).__name__}。", "document_parse_failed") from exc

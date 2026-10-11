@@ -1,0 +1,322 @@
+{
+  "title": "D2四项已确认口径AI依据核验",
+  "generated_at_utc": "2026-10-11T03:32:21.858029+00:00",
+  "scope": "仅依据核验，不再审批既有口径，不扩大用户确认到题库gold或别名；actual不适用",
+  "reference_status_counts": {
+    "AI建议通过": 4
+  },
+  "actual_status_counts": {
+    "不适用（已确认口径依据）": 4
+  },
+  "human_fields_preserved": true,
+  "existing_confirmation_scope": "four business definitions and distinct query-object rule only; does not approve evaluation gold or aliases",
+  "rows": [
+    {
+      "review_id": "metric:sales_revenue",
+      "id": "sales_revenue",
+      "group": "metric",
+      "split": null,
+      "title": "发票销售额",
+      "reference_status": "AI建议通过",
+      "actual_status": "不适用（已确认口径依据）",
+      "reason": "发票销售额在invoice粒度SUM(total)，期间依据invoice_date半开范围，示例2024年返回477.53。按曲目/艺术家另用invoice_line.unit_price*quantity，不能明细JOIN后重复SUM发票总额；全库发票与明细对账均2328.60、差0.00。空期间SUM为NULL，不能无声改0。金额仅数据库金额单位，源数据未声明币种或支付状态。",
+      "actual_reason": "本行是四项已确认业务口径的依据核验，actual原本null；本次仅重执行既有口径示例SELECT，未产生问答系统新预测。",
+      "issues": [],
+      "suggestion": "保留既有四项确认记录；执行该口径时仍明确对象、期间、字段和单位，不把确认范围扩大到题库gold或别名。",
+      "human_confirmation": "既有用户陈述“A、B已共同核对同意四项口径”；本次不新增/冒填人工审批，不要求重复确认四项已授权口径。",
+      "existing_human_confirmation": {
+        "method": "explicit_user_reply",
+        "statement": "A、B已共同核对同意四项口径",
+        "scope": "four business definitions and distinct query-object rule only; does not approve evaluation gold or aliases",
+        "proposal_sha256": "ab52f7a03866528fbfaa4e45c98193fd8ce9bce297c84b31e243c9e66254ea1e",
+        "review_status": "approved",
+        "reviewed_at_utc": "2026-10-10T17:50:08.519114+00:00"
+      },
+      "existing_actual": null,
+      "evidence": [
+        {
+          "path": "data/rules/metric_definitions.json",
+          "section": "metrics.sales_revenue; general; sql_examples.revenue_invoice"
+        },
+        {
+          "path": "eval/artifacts/d2/source/metric-human-review.json",
+          "section": "method; statement; scope; proposal_sha256; reviewed_at_utc",
+          "note": "原既有人工共同确认记录，仅核实留存、不代填新审批"
+        },
+        {
+          "path": "eval/artifacts/d2/source/metric-sql-checks.json",
+          "section": "records.id=revenue_invoice",
+          "note": "既有只读例SQL材料；其早期pending状态早于单独共同确认记录，不视为撤销确认"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/sql-verification.jsonl",
+          "line": 114,
+          "note": "本次只读重执行既有SQL示例"
+        },
+        {
+          "path": "data/catalog/chinook.yaml",
+          "section": "invoice; invoice_line; track; invoice_date_range"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/database-materials.json",
+          "section": "schema; invoice_dates; identity; privileges"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/sql-verification.jsonl",
+          "line": 125,
+          "note": "empty-amount-semantics"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/sql-verification.jsonl",
+          "line": 118,
+          "note": "发票与明细金额对账"
+        }
+      ],
+      "evidence_complete": true,
+      "human_fields_modified": false,
+      "readonly_sql_example_reexecution": {
+        "sql": "SELECT SUM(total) AS revenue FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+        "columns": [
+          "revenue"
+        ],
+        "rows": [
+          [
+            "477.53"
+          ]
+        ],
+        "evidence_line": 114
+      }
+    },
+    {
+      "review_id": "metric:average_invoice_amount",
+      "id": "average_invoice_amount",
+      "group": "metric",
+      "split": null,
+      "title": "平均每张发票金额",
+      "reference_status": "AI建议通过",
+      "actual_status": "不适用（已确认口径依据）",
+      "reason": "平均每张发票金额为AVG(invoice.total)，示例先平均再保留两位得到2024年5.75；平均每位购买客户金额SUM(total)/COUNT(DISTINCT customer_id)是另一个指标。空期间AVG为NULL。已确认的短标签提案“客单价”不应使未指明对象的其他问题自动获得默认口径，runtime_defaults_enabled仍false。",
+      "actual_reason": "本行是四项已确认业务口径的依据核验，actual原本null；本次仅重执行既有口径示例SELECT，未产生问答系统新预测。",
+      "issues": [],
+      "suggestion": "保留既有四项确认记录；执行该口径时仍明确对象、期间、字段和单位，不把确认范围扩大到题库gold或别名。",
+      "human_confirmation": "既有用户陈述“A、B已共同核对同意四项口径”；本次不新增/冒填人工审批，不要求重复确认四项已授权口径。",
+      "existing_human_confirmation": {
+        "method": "explicit_user_reply",
+        "statement": "A、B已共同核对同意四项口径",
+        "scope": "four business definitions and distinct query-object rule only; does not approve evaluation gold or aliases",
+        "proposal_sha256": "ab52f7a03866528fbfaa4e45c98193fd8ce9bce297c84b31e243c9e66254ea1e",
+        "review_status": "approved",
+        "reviewed_at_utc": "2026-10-10T17:50:08.519114+00:00"
+      },
+      "existing_actual": null,
+      "evidence": [
+        {
+          "path": "data/rules/metric_definitions.json",
+          "section": "metrics.average_invoice_amount; general; sql_examples.average_invoice"
+        },
+        {
+          "path": "eval/artifacts/d2/source/metric-human-review.json",
+          "section": "method; statement; scope; proposal_sha256; reviewed_at_utc",
+          "note": "原既有人工共同确认记录，仅核实留存、不代填新审批"
+        },
+        {
+          "path": "eval/artifacts/d2/source/metric-sql-checks.json",
+          "section": "records.id=average_invoice",
+          "note": "既有只读例SQL材料；其早期pending状态早于单独共同确认记录，不视为撤销确认"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/sql-verification.jsonl",
+          "line": 115,
+          "note": "本次只读重执行既有SQL示例"
+        },
+        {
+          "path": "data/catalog/chinook.yaml",
+          "section": "invoice; invoice_line; track; invoice_date_range"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/database-materials.json",
+          "section": "schema; invoice_dates; identity; privileges"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/sql-verification.jsonl",
+          "line": 125,
+          "note": "empty-amount-semantics"
+        }
+      ],
+      "evidence_complete": true,
+      "human_fields_modified": false,
+      "readonly_sql_example_reexecution": {
+        "sql": "SELECT ROUND(AVG(total), 2) AS average_invoice_amount FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+        "columns": [
+          "average_invoice_amount"
+        ],
+        "rows": [
+          [
+            "5.75"
+          ]
+        ],
+        "evidence_line": 115
+      }
+    },
+    {
+      "review_id": "metric:repeat_customer_count",
+      "id": "repeat_customer_count",
+      "group": "metric",
+      "split": null,
+      "title": "期间内复购客户数",
+      "reference_status": "AI建议通过",
+      "actual_status": "不适用（已确认口径依据）",
+      "reason": "期间内复购客户数先将明确期间[2024-01-01,2025-01-01)的invoice按customer_id分组，HAVING COUNT(*)>=2，再计合格客户数，示例27位并有逐客户明细支持；不是发票条数、客户历史跨期次数或付款成功次数。没有合格客户时COUNT返回0，缺少期间不能自动填年。",
+      "actual_reason": "本行是四项已确认业务口径的依据核验，actual原本null；本次仅重执行既有口径示例SELECT，未产生问答系统新预测。",
+      "issues": [],
+      "suggestion": "保留既有四项确认记录；执行该口径时仍明确对象、期间、字段和单位，不把确认范围扩大到题库gold或别名。",
+      "human_confirmation": "既有用户陈述“A、B已共同核对同意四项口径”；本次不新增/冒填人工审批，不要求重复确认四项已授权口径。",
+      "existing_human_confirmation": {
+        "method": "explicit_user_reply",
+        "statement": "A、B已共同核对同意四项口径",
+        "scope": "four business definitions and distinct query-object rule only; does not approve evaluation gold or aliases",
+        "proposal_sha256": "ab52f7a03866528fbfaa4e45c98193fd8ce9bce297c84b31e243c9e66254ea1e",
+        "review_status": "approved",
+        "reviewed_at_utc": "2026-10-10T17:50:08.519114+00:00"
+      },
+      "existing_actual": null,
+      "evidence": [
+        {
+          "path": "data/rules/metric_definitions.json",
+          "section": "metrics.repeat_customer_count; general; sql_examples.repeat_customers"
+        },
+        {
+          "path": "eval/artifacts/d2/source/metric-human-review.json",
+          "section": "method; statement; scope; proposal_sha256; reviewed_at_utc",
+          "note": "原既有人工共同确认记录，仅核实留存、不代填新审批"
+        },
+        {
+          "path": "eval/artifacts/d2/source/metric-sql-checks.json",
+          "section": "records.id=repeat_customers",
+          "note": "既有只读例SQL材料；其早期pending状态早于单独共同确认记录，不视为撤销确认"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/sql-verification.jsonl",
+          "line": 116,
+          "note": "本次只读重执行既有SQL示例"
+        },
+        {
+          "path": "data/catalog/chinook.yaml",
+          "section": "invoice; invoice_line; track; invoice_date_range"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/database-materials.json",
+          "section": "schema; invoice_dates; identity; privileges"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/sql-verification.jsonl",
+          "line": 127,
+          "note": "repeat-customer-check"
+        }
+      ],
+      "evidence_complete": true,
+      "human_fields_modified": false,
+      "readonly_sql_example_reexecution": {
+        "sql": "SELECT COUNT(*) AS repeat_customer_count FROM (SELECT customer_id FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' GROUP BY customer_id HAVING COUNT(*) >= 2) AS repeat_customers;",
+        "columns": [
+          "repeat_customer_count"
+        ],
+        "rows": [
+          [
+            27
+          ]
+        ],
+        "evidence_line": 116
+      }
+    },
+    {
+      "review_id": "metric:popular_tracks",
+      "id": "popular_tracks",
+      "group": "metric",
+      "split": null,
+      "title": "热门曲目",
+      "reference_status": "AI建议通过",
+      "actual_status": "不适用（已确认口径依据）",
+      "reason": "明确期间内热门曲目按SUM(invoice_line.quantity)的实际购买数量，关联invoice_date过滤；不是目录单价、金额或播放列表成员数。数量降序后track_id升序作并列规则，再LIMIT 5；2024年示例3/9/15/21/30均购买1，补充前10行也并列1，稳定次排序必要。客户“谁买得最多”的金额口径与曲目热门不同，主语省略且无期间的问题仍需澄清。",
+      "actual_reason": "本行是四项已确认业务口径的依据核验，actual原本null；本次仅重执行既有口径示例SELECT，未产生问答系统新预测。",
+      "issues": [],
+      "suggestion": "保留既有四项确认记录；执行该口径时仍明确对象、期间、字段和单位，不把确认范围扩大到题库gold或别名。",
+      "human_confirmation": "既有用户陈述“A、B已共同核对同意四项口径”；本次不新增/冒填人工审批，不要求重复确认四项已授权口径。",
+      "existing_human_confirmation": {
+        "method": "explicit_user_reply",
+        "statement": "A、B已共同核对同意四项口径",
+        "scope": "four business definitions and distinct query-object rule only; does not approve evaluation gold or aliases",
+        "proposal_sha256": "ab52f7a03866528fbfaa4e45c98193fd8ce9bce297c84b31e243c9e66254ea1e",
+        "review_status": "approved",
+        "reviewed_at_utc": "2026-10-10T17:50:08.519114+00:00"
+      },
+      "existing_actual": null,
+      "evidence": [
+        {
+          "path": "data/rules/metric_definitions.json",
+          "section": "metrics.popular_tracks; general; sql_examples.popular_tracks"
+        },
+        {
+          "path": "eval/artifacts/d2/source/metric-human-review.json",
+          "section": "method; statement; scope; proposal_sha256; reviewed_at_utc",
+          "note": "原既有人工共同确认记录，仅核实留存、不代填新审批"
+        },
+        {
+          "path": "eval/artifacts/d2/source/metric-sql-checks.json",
+          "section": "records.id=popular_tracks",
+          "note": "既有只读例SQL材料；其早期pending状态早于单独共同确认记录，不视为撤销确认"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/sql-verification.jsonl",
+          "line": 117,
+          "note": "本次只读重执行既有SQL示例"
+        },
+        {
+          "path": "data/catalog/chinook.yaml",
+          "section": "invoice; invoice_line; track; invoice_date_range"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/database-materials.json",
+          "section": "schema; invoice_dates; identity; privileges"
+        },
+        {
+          "path": "eval/artifacts/d2-ai-preaudit/sql-verification.jsonl",
+          "line": 128,
+          "note": "popular-quantity-ties"
+        }
+      ],
+      "evidence_complete": true,
+      "human_fields_modified": false,
+      "readonly_sql_example_reexecution": {
+        "sql": "SELECT track_id, SUM(quantity) AS purchased_quantity FROM public.invoice_line WHERE invoice_id IN (SELECT invoice_id FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01') GROUP BY track_id ORDER BY purchased_quantity DESC, track_id ASC LIMIT 5;",
+        "columns": [
+          "track_id",
+          "purchased_quantity"
+        ],
+        "rows": [
+          [
+            3,
+            1
+          ],
+          [
+            9,
+            1
+          ],
+          [
+            15,
+            1
+          ],
+          [
+            21,
+            1
+          ],
+          [
+            30,
+            1
+          ]
+        ],
+        "evidence_line": 117
+      }
+    }
+  ]
+}
