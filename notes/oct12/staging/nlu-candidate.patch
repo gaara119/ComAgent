@@ -1,0 +1,25 @@
+--- a/qa_agent/nlu/linker.py
++++ b/qa_agent/nlu/linker.py
+@@ -127,6 +127,13 @@
+     financial = any(word in lower for word in ("销售额", "发票金额", "发票总额", "账单金额", "invoice revenue"))
+     if financial and not any(table in matched for table in ("artist", "track", "album", "genre", "invoice_line")):
+         matched = ["customer" if customer_residence else "invoice"]
++    # Counted customers do not own a name explicitly qualifying an employee.
++    # Restrict to existing employee name fields; an absent field means no value
++    # linking, never fallback to a similar customer name.
++    employee_name_owner = ('employee' in matched and
++        bool(re.search(r'(?:名字|姓名|姓氏|first_name|last_name)[^？?。；;]{0,80}的员工|员工(?:的)?(?:名字|姓名|姓氏|first_name|last_name)', question)))
++    if employee_name_owner:
++        matched = ['employee']
+     # A customer's "所在地国家" and an invoice's "账单国家" remain different fields.
+     if "invoice_line" in matched:
+         matched = ["invoice_line"]
+@@ -265,7 +272,7 @@
+                 if not any(start < prior.end and prior.start < start + len(text) for prior in picked):
+                     picked.append(Mention(text, start, start + len(text), fields, "country_context", _preserve_unknown(text)))
+     # If a fuzzy spelling is followed by a genre/artist object, it may be linked.
+-    for match in re.finditer(r"(?P<value>[A-Za-z][A-Za-z \-&/]{1,35}|[\u4e00-\u9fff]{2,10})(?:的)?(?:流派|乐队|媒体格式)", question):
++    for match in re.finditer(r"(?P<value>[A-Za-z][A-Za-z \-&/]{1,35}|[\u4e00-\u9fff]{2,10})\s*(?:这个|这种|这一种|该|的)?\s*(?:流派|乐队|媒体格式)", question):
+         raw = match.group("value")
+         text = re.sub(r"^(?:请问|查询|列出|查找|统计|请)+", "", raw)
+         text = re.sub(r"(?:的|这个)$", "", text).strip()

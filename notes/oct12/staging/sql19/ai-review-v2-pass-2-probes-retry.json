@@ -1,0 +1,282 @@
+{
+  "state": "PASS",
+  "candidate_sha256": "eef79cdcf2066118c7548940616d65d6206413bc9f310cec86b5c3da8408ddab",
+  "purpose": "AI第二审核新候选独立实际fixture探针；不代表真实模型成绩",
+  "checks": 7,
+  "model_requests": 0,
+  "holdout_predictions": 0,
+  "business_files_modified": false,
+  "probes": [
+    {
+      "question": "按姓氏降序取前5位客户，返回编号、名字和姓氏。",
+      "fixture_rank_object": "customer",
+      "expected_task": "lookup",
+      "actual_task": "lookup",
+      "pass": true,
+      "intent_after": {
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "customer",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L0",
+      "issues": []
+    },
+    {
+      "question": "按姓氏降序取前5位客户，统计营收总和。",
+      "fixture_rank_object": "customer",
+      "expected_task": "ranking",
+      "actual_task": "ranking",
+      "pass": true,
+      "intent_after": {
+        "task_type": "ranking",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "customer",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L2",
+      "issues": [
+        {
+          "id": "missing:metric",
+          "question": "请明确要计算的指标。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "metric",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question": "按姓氏降序取前5位客户，按 revenue 再排名。",
+      "fixture_rank_object": "customer",
+      "expected_task": "ranking",
+      "actual_task": "ranking",
+      "pass": true,
+      "intent_after": {
+        "task_type": "ranking",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "customer",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L2",
+      "issues": [
+        {
+          "id": "missing:metric",
+          "question": "请明确要计算的指标。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "metric",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question": "按姓氏降序取前5位客户的支出。",
+      "fixture_rank_object": "customer",
+      "expected_task": "ranking",
+      "actual_task": "ranking",
+      "pass": true,
+      "intent_after": {
+        "task_type": "ranking",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "customer",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L2",
+      "issues": [
+        {
+          "id": "missing:metric",
+          "question": "请明确要计算的指标。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "metric",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question": "按姓氏降序取前5位客户。",
+      "fixture_rank_object": "artist",
+      "expected_task": "ranking",
+      "actual_task": "ranking",
+      "pass": true,
+      "intent_after": {
+        "task_type": "ranking",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "artist",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L2",
+      "issues": [
+        {
+          "id": "missing:metric",
+          "question": "请明确要计算的指标。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "metric",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question": "按姓氏降序取前5位客户，返回编号、未知字段。",
+      "fixture_rank_object": "customer",
+      "expected_task": "ranking",
+      "actual_task": "ranking",
+      "pass": true,
+      "intent_after": {
+        "task_type": "ranking",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "customer",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L2",
+      "issues": [
+        {
+          "id": "missing:metric",
+          "question": "请明确要计算的指标。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "field": "metric",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question": "按姓氏降序取前5位客户，返回编号；姓氏相同时按客户编号升序。",
+      "fixture_rank_object": "客户",
+      "expected_task": "lookup",
+      "actual_task": "lookup",
+      "pass": true,
+      "intent_after": {
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "customer",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L0",
+      "issues": []
+    }
+  ]
+}

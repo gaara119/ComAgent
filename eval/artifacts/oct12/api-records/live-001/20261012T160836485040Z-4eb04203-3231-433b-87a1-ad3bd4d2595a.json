@@ -1,0 +1,357 @@
+{
+  "started_at_utc": "2026-10-12T16:08:29.502069+00:00",
+  "finished_at_utc": "2026-10-12T16:08:36.485040+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "eval-20261012T160730646105Z-sql-21",
+    "message": "列出 2021 年的前 10 张发票，返回编号、日期和总额，按发票编号升序。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "a4a0725f-e4a1-4011-841d-f8197ed03e4c",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 10 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT \"invoice_id\", \"invoice_date\", \"total\" FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2021-01-01' AND \"invoice_date\" < '2022-01-01' ORDER BY \"invoice_id\" ASC LIMIT 10",
+    "table": [
+      {
+        "invoice_id": 1,
+        "invoice_date": "2021-01-01T00:00:00",
+        "total": "1.98"
+      },
+      {
+        "invoice_id": 2,
+        "invoice_date": "2021-01-02T00:00:00",
+        "total": "3.96"
+      },
+      {
+        "invoice_id": 3,
+        "invoice_date": "2021-01-03T00:00:00",
+        "total": "5.94"
+      },
+      {
+        "invoice_id": 4,
+        "invoice_date": "2021-01-06T00:00:00",
+        "total": "8.91"
+      },
+      {
+        "invoice_id": 5,
+        "invoice_date": "2021-01-11T00:00:00",
+        "total": "13.86"
+      },
+      {
+        "invoice_id": 6,
+        "invoice_date": "2021-01-19T00:00:00",
+        "total": "0.99"
+      },
+      {
+        "invoice_id": 7,
+        "invoice_date": "2021-02-01T00:00:00",
+        "total": "1.98"
+      },
+      {
+        "invoice_id": 8,
+        "invoice_date": "2021-02-01T00:00:00",
+        "total": "1.98"
+      },
+      {
+        "invoice_id": 9,
+        "invoice_date": "2021-02-02T00:00:00",
+        "total": "3.96"
+      },
+      {
+        "invoice_id": 10,
+        "invoice_date": "2021-02-03T00:00:00",
+        "total": "5.94"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": {
+        "current": {
+          "start": "2021-01-01",
+          "end": "2022-01-01",
+          "grain": "year",
+          "label": "2021 年"
+        },
+        "base": null
+      },
+      "filters": [],
+      "grouping": [],
+      "order": {
+        "field": "invoice_id",
+        "direction": "asc"
+      },
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 19
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "列出 2021 年的前 10 张发票，返回编号、日期和总额，按发票编号升序。"
+        },
+        "output_summary": {
+          "rewritten_question": "列出 2021 年的前 10 张发票，返回编号、日期和总额，按发票编号升序。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3689
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/oct12/provider-captures/live-001/19a9971a3fe94f8abd15f3ba49e9827b.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 178,
+            "prompt_tokens": 5364,
+            "total_tokens": 5542,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1536
+            },
+            "prompt_cache_hit_tokens": 1536,
+            "prompt_cache_miss_tokens": 3828
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2821
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "列出 2021 年的前 10 张发票，返回编号、日期和总额，按发票编号升序。\n当前执行条件（用户显式条件优先；已批准默认只补缺项；替代改动的旧条件，其余保留）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2021-01-01\", \"end\": \"2022-01-01\", \"grain\": \"year\", \"label\": \"2021 年\"}, \"base\": null}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": \"invoice\", \"top_n\": 10, \"order\": {\"field\": \"invoice_id\", \"direction\": \"asc\"}, \"region_scope\": null, \"filters\": [], \"assumptions\": []}",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT \"invoice_id\", \"invoice_date\", \"total\" FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2021-01-01' AND \"invoice_date\" < '2022-01-01' ORDER BY \"invoice_id\" ASC LIMIT 10",
+          "explanation": "查询 2021 年（左闭右开区间 [2021-01-01, 2022-01-01)）的发票，按发票编号升序返回前 10 张的编号、开票日期和总额。"
+        },
+        "latency_ms": 3229
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/oct12/provider-captures/live-001/0a8ea09d93344311902e23bab134f949.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 133,
+            "prompt_tokens": 5129,
+            "total_tokens": 5262,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1024
+            },
+            "prompt_cache_hit_tokens": 1024,
+            "prompt_cache_miss_tokens": 4105
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2351
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"invoice_id\", \"invoice_date\", \"total\" FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2021-01-01' AND \"invoice_date\" < '2022-01-01' ORDER BY \"invoice_id\" ASC LIMIT 10"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT \"invoice_id\", \"invoice_date\", \"total\" FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2021-01-01' AND \"invoice_date\" < '2022-01-01' ORDER BY \"invoice_id\" ASC LIMIT 10"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"invoice_id\", \"invoice_date\", \"total\" FROM \"public\".\"invoice\" WHERE \"invoice_date\" >= '2021-01-01' AND \"invoice_date\" < '2022-01-01' ORDER BY \"invoice_id\" ASC LIMIT 10",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 10,
+          "columns": [
+            "invoice_id",
+            "invoice_date",
+            "total"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 35
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 6982,
+      "nlu": {
+        "original_question": "列出 2021 年的前 10 张发票，返回编号、日期和总额，按发票编号升序。",
+        "rewritten_question": "列出 2021 年的前 10 张发票，返回编号、日期和总额，按发票编号升序。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "result_columns": [
+        "invoice_id",
+        "invoice_date",
+        "total"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

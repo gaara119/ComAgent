@@ -1,0 +1,507 @@
+{
+  "created_at_utc": "2026-10-12T15:54:36.574337+00:00",
+  "source_script": "scripts/verify_oct12_gold.py",
+  "invocation": ".\\.venv\\Scripts\\python.exe -B scripts/verify_oct12_gold.py --output eval/artifacts/oct12/review-gold/readonly-rerun",
+  "scope": "Only sql-38/robust-23 DEV gold SELECTs, schema/aggregate facts and synthetic VALUES; no model predictions",
+  "read_only": true,
+  "statement_timeout_ms": 5000,
+  "new_holdout_predictions": 0,
+  "new_llm_requests": 0,
+  "records": [
+    {
+      "id": "role_and_transaction",
+      "sql": "SELECT current_user AS role_name, current_setting('transaction_read_only') AS transaction_read_only, current_setting('statement_timeout') AS statement_timeout, current_setting('server_version') AS server_version;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "role_name",
+          "transaction_read_only",
+          "statement_timeout",
+          "server_version"
+        ],
+        "rows": [
+          [
+            "qa_reader",
+            "on",
+            "5s",
+            "16.15"
+          ]
+        ],
+        "table": [
+          {
+            "role_name": "qa_reader",
+            "transaction_read_only": "on",
+            "statement_timeout": "5s",
+            "server_version": "16.15"
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "elapsed_ms": 19.015
+    },
+    {
+      "id": "track_schema",
+      "sql": "SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'track' AND column_name IN ('track_id','name','bytes','milliseconds') ORDER BY ordinal_position;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "column_name",
+          "data_type",
+          "is_nullable"
+        ],
+        "rows": [
+          [
+            "track_id",
+            "integer",
+            "NO"
+          ],
+          [
+            "name",
+            "character varying",
+            "NO"
+          ],
+          [
+            "milliseconds",
+            "integer",
+            "NO"
+          ],
+          [
+            "bytes",
+            "integer",
+            "YES"
+          ]
+        ],
+        "table": [
+          {
+            "column_name": "track_id",
+            "data_type": "integer",
+            "is_nullable": "NO"
+          },
+          {
+            "column_name": "name",
+            "data_type": "character varying",
+            "is_nullable": "NO"
+          },
+          {
+            "column_name": "milliseconds",
+            "data_type": "integer",
+            "is_nullable": "NO"
+          },
+          {
+            "column_name": "bytes",
+            "data_type": "integer",
+            "is_nullable": "YES"
+          }
+        ],
+        "row_count": 4,
+        "truncated": false
+      },
+      "elapsed_ms": 33.348
+    },
+    {
+      "id": "track_scope",
+      "sql": "SELECT COUNT(*) AS track_count, COUNT(bytes) AS bytes_known_count, COUNT(*) FILTER (WHERE bytes IS NULL) AS bytes_null_count, COUNT(milliseconds) AS milliseconds_known_count, COUNT(*) FILTER (WHERE milliseconds IS NULL) AS milliseconds_null_count, SUM(milliseconds::numeric) AS milliseconds_sum, AVG(milliseconds) AS average_milliseconds FROM public.track;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "track_count",
+          "bytes_known_count",
+          "bytes_null_count",
+          "milliseconds_known_count",
+          "milliseconds_null_count",
+          "milliseconds_sum",
+          "average_milliseconds"
+        ],
+        "rows": [
+          [
+            3503,
+            3503,
+            0,
+            3503,
+            0,
+            "1378778040",
+            "393599.212103910933"
+          ]
+        ],
+        "table": [
+          {
+            "track_count": 3503,
+            "bytes_known_count": 3503,
+            "bytes_null_count": 0,
+            "milliseconds_known_count": 3503,
+            "milliseconds_null_count": 0,
+            "milliseconds_sum": "1378778040",
+            "average_milliseconds": "393599.212103910933"
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "elapsed_ms": 29.797
+    },
+    {
+      "id": "sql-38_old",
+      "sql": "SELECT track_id, name, bytes FROM public.track ORDER BY bytes DESC, track_id ASC LIMIT 3;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "track_id",
+          "name",
+          "bytes"
+        ],
+        "rows": [
+          [
+            3224,
+            "Through a Looking Glass",
+            1059546140
+          ],
+          [
+            2820,
+            "Occupation / Precipice",
+            1054423946
+          ],
+          [
+            3236,
+            "The Young Lords",
+            587051735
+          ]
+        ],
+        "table": [
+          {
+            "track_id": 3224,
+            "name": "Through a Looking Glass",
+            "bytes": 1059546140
+          },
+          {
+            "track_id": 2820,
+            "name": "Occupation / Precipice",
+            "bytes": 1054423946
+          },
+          {
+            "track_id": 3236,
+            "name": "The Young Lords",
+            "bytes": 587051735
+          }
+        ],
+        "row_count": 3,
+        "truncated": false
+      },
+      "elapsed_ms": 27.349
+    },
+    {
+      "id": "sql-38_current_pending",
+      "sql": "SELECT track_id, name, bytes FROM public.track ORDER BY bytes DESC NULLS LAST, track_id ASC LIMIT 3;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "track_id",
+          "name",
+          "bytes"
+        ],
+        "rows": [
+          [
+            3224,
+            "Through a Looking Glass",
+            1059546140
+          ],
+          [
+            2820,
+            "Occupation / Precipice",
+            1054423946
+          ],
+          [
+            3236,
+            "The Young Lords",
+            587051735
+          ]
+        ],
+        "table": [
+          {
+            "track_id": 3224,
+            "name": "Through a Looking Glass",
+            "bytes": 1059546140
+          },
+          {
+            "track_id": 2820,
+            "name": "Occupation / Precipice",
+            "bytes": 1054423946
+          },
+          {
+            "track_id": 3236,
+            "name": "The Young Lords",
+            "bytes": 587051735
+          }
+        ],
+        "row_count": 3,
+        "truncated": false
+      },
+      "elapsed_ms": 30.36
+    },
+    {
+      "id": "sql-38_recommended",
+      "sql": "SELECT track_id, name, bytes FROM public.track WHERE bytes IS NOT NULL ORDER BY bytes DESC, track_id ASC LIMIT 3;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "track_id",
+          "name",
+          "bytes"
+        ],
+        "rows": [
+          [
+            3224,
+            "Through a Looking Glass",
+            1059546140
+          ],
+          [
+            2820,
+            "Occupation / Precipice",
+            1054423946
+          ],
+          [
+            3236,
+            "The Young Lords",
+            587051735
+          ]
+        ],
+        "table": [
+          {
+            "track_id": 3224,
+            "name": "Through a Looking Glass",
+            "bytes": 1059546140
+          },
+          {
+            "track_id": 2820,
+            "name": "Occupation / Precipice",
+            "bytes": 1054423946
+          },
+          {
+            "track_id": 3236,
+            "name": "The Young Lords",
+            "bytes": 587051735
+          }
+        ],
+        "row_count": 3,
+        "truncated": false
+      },
+      "elapsed_ms": 16.972
+    },
+    {
+      "id": "robust-23_recommended",
+      "sql": "SELECT AVG(milliseconds) AS average_milliseconds FROM public.track;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "average_milliseconds"
+        ],
+        "rows": [
+          [
+            "393599.212103910933"
+          ]
+        ],
+        "table": [
+          {
+            "average_milliseconds": "393599.212103910933"
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "elapsed_ms": 11.675
+    },
+    {
+      "id": "synthetic_desc_default",
+      "sql": "SELECT track_id, bytes FROM (VALUES (1, NULL::bigint), (2, 100::bigint), (3, 80::bigint), (4, 80::bigint)) AS t(track_id, bytes) ORDER BY bytes DESC, track_id ASC LIMIT 3;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "track_id",
+          "bytes"
+        ],
+        "rows": [
+          [
+            1,
+            null
+          ],
+          [
+            2,
+            100
+          ],
+          [
+            3,
+            80
+          ]
+        ],
+        "table": [
+          {
+            "track_id": 1,
+            "bytes": null
+          },
+          {
+            "track_id": 2,
+            "bytes": 100
+          },
+          {
+            "track_id": 3,
+            "bytes": 80
+          }
+        ],
+        "row_count": 3,
+        "truncated": false
+      },
+      "elapsed_ms": 33.234
+    },
+    {
+      "id": "synthetic_desc_nulls_last",
+      "sql": "SELECT track_id, bytes FROM (VALUES (1, NULL::bigint), (2, 100::bigint), (3, 80::bigint), (4, 80::bigint)) AS t(track_id, bytes) ORDER BY bytes DESC NULLS LAST, track_id ASC LIMIT 3;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "track_id",
+          "bytes"
+        ],
+        "rows": [
+          [
+            2,
+            100
+          ],
+          [
+            3,
+            80
+          ],
+          [
+            4,
+            80
+          ]
+        ],
+        "table": [
+          {
+            "track_id": 2,
+            "bytes": 100
+          },
+          {
+            "track_id": 3,
+            "bytes": 80
+          },
+          {
+            "track_id": 4,
+            "bytes": 80
+          }
+        ],
+        "row_count": 3,
+        "truncated": false
+      },
+      "elapsed_ms": 29.246
+    },
+    {
+      "id": "synthetic_fewer_known_nulls_last",
+      "sql": "SELECT track_id, bytes FROM (VALUES (1, NULL::bigint), (2, 100::bigint)) AS t(track_id, bytes) ORDER BY bytes DESC NULLS LAST, track_id ASC LIMIT 3;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "track_id",
+          "bytes"
+        ],
+        "rows": [
+          [
+            2,
+            100
+          ],
+          [
+            1,
+            null
+          ]
+        ],
+        "table": [
+          {
+            "track_id": 2,
+            "bytes": 100
+          },
+          {
+            "track_id": 1,
+            "bytes": null
+          }
+        ],
+        "row_count": 2,
+        "truncated": false
+      },
+      "elapsed_ms": 31.814
+    },
+    {
+      "id": "synthetic_fewer_known_exclusion",
+      "sql": "SELECT track_id, bytes FROM (VALUES (1, NULL::bigint), (2, 100::bigint)) AS t(track_id, bytes) WHERE bytes IS NOT NULL ORDER BY bytes DESC, track_id ASC LIMIT 3;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "track_id",
+          "bytes"
+        ],
+        "rows": [
+          [
+            2,
+            100
+          ]
+        ],
+        "table": [
+          {
+            "track_id": 2,
+            "bytes": 100
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "elapsed_ms": 11.371
+    },
+    {
+      "id": "synthetic_average_null",
+      "sql": "SELECT AVG(milliseconds) AS average_milliseconds, COUNT(milliseconds) AS nonnull_denominator FROM (VALUES (100), (300), (NULL::integer)) AS t(milliseconds);",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "average_milliseconds",
+          "nonnull_denominator"
+        ],
+        "rows": [
+          [
+            "200.0000000000000000",
+            2
+          ]
+        ],
+        "table": [
+          {
+            "average_milliseconds": "200.0000000000000000",
+            "nonnull_denominator": 2
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "elapsed_ms": 11.81
+    },
+    {
+      "id": "synthetic_average_empty",
+      "sql": "SELECT AVG(milliseconds) AS average_milliseconds FROM (VALUES (100), (300)) AS t(milliseconds) WHERE false;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "average_milliseconds"
+        ],
+        "rows": [
+          [
+            null
+          ]
+        ],
+        "table": [
+          {
+            "average_milliseconds": null
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "elapsed_ms": 11.024
+    }
+  ]
+}

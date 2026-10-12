@@ -1,0 +1,59 @@
+{
+  "kind": "AI逐张原始PNG视觉核验；未代替人工签字或语义忠实度人工审核",
+  "phase": "phase3",
+  "state": "PASS",
+  "images_inspected_with": "view_image",
+  "screenshots_inspected": 5,
+  "human_approval": false,
+  "files": [
+    {
+      "id": "artist-join",
+      "screenshot": "eval/artifacts/oct12/ui-live/run-004/artist-join.png",
+      "trace_id": "bb963dca-aa2f-43c2-b12e-b5d75a363c97",
+      "screenshot_sha256": "1fc9f838d77d8ccb4cade57d27b749ec965787c21fd69410d6e220d03cb78c78",
+      "visual_judgment": "AI视觉建议通过",
+      "reason": "中文字体正常；真实artist_id外键JOIN可见，album_count结果10已绘制，无灰色占位。完整SQL另存raw。",
+      "raw": "eval/artifacts/oct12/ui-live/run-004/artist-join-raw.json"
+    },
+    {
+      "id": "pinyin-rewrite",
+      "screenshot": "eval/artifacts/oct12/ui-live/run-004/pinyin-rewrite.png",
+      "trace_id": "6972dd96-7544-4dfa-8dd1-a91365af0aba",
+      "screenshot_sha256": "c7a42bf2d29302fb69a0fc2b3e31f589b63789bbebbb79d14a9d2ed7ce9b0a4e",
+      "visual_judgment": "AI视觉建议通过",
+      "reason": "巴稀→Brazil（拼音匹配1.00）可读，实际raw候选score为1.0；主流程未显示v-95ff候选ID，customer_count真实结果5可见。",
+      "raw": "eval/artifacts/oct12/ui-live/run-004/pinyin-rewrite-raw.json"
+    },
+    {
+      "id": "invoice-ratio",
+      "screenshot": "eval/artifacts/oct12/ui-live/run-004/invoice-ratio.png",
+      "trace_id": "0756e1bd-749b-47c6-b44c-9f007d14bbd1",
+      "screenshot_sha256": "5f671e4dd89f74842ac9be434d973932e6cf8f76feabc2d88eb65eed7a67f092",
+      "visual_judgment": "AI视觉建议通过",
+      "reason": "答案和ratio表格显示11.20%，原始0.11195108160743827613保存在raw；分母为同年所有发票，国家只在分子CASE。本轮真实SQL使用ISO日期字符串，没有另声称本轮执行午夜TIMESTAMP形式。",
+      "raw": "eval/artifacts/oct12/ui-live/run-004/invoice-ratio-raw.json"
+    },
+    {
+      "id": "invoice-growth",
+      "screenshot": "eval/artifacts/oct12/ui-live/run-004/invoice-growth.png",
+      "trace_id": "360ec0c5-e74e-48b0-b38c-5ce6ddb9c408",
+      "screenshot_sha256": "3440e37477681377677f9ed697e2afe38a0c50182fa28c1c928180d36d453838",
+      "visual_judgment": "AI视觉建议通过",
+      "reason": "答案和yoy_growth_rate表格显示24.24%，原始0.24240365013105523736另存，实际result_format.scale=100，没有重复缩放。",
+      "raw": "eval/artifacts/oct12/ui-live/run-004/invoice-growth-raw.json"
+    },
+    {
+      "id": "rag-03",
+      "screenshot": "eval/artifacts/oct12/ui-live/run-004/rag-03.png",
+      "trace_id": "0cfa4de2-673a-443d-be43-cacdbe34d2f4",
+      "screenshot_sha256": "7a67d581261f6b1c244be392ac918a0e6816ea7dbc9fbe53a269e1db74a27254",
+      "visual_judgment": "AI视觉建议通过；语义仍待人工审核",
+      "reason": "本轮第一次生成即引E6和E1，retries=0。物理第2页标签、E6三年原文和完整PDF页预览已绘制；E1含effective date/Section13/1934上下文。校验passed，semantic_faithfulness仍pending_human_review。本轮未触发未核实分支。",
+      "raw": "eval/artifacts/oct12/ui-live/run-004/rag-03-raw.json",
+      "semantic_faithfulness": "pending_human_review",
+      "fallback_branch_observed": false,
+      "full_pdf_page_visible": true
+    }
+  ],
+  "screenshots_are_unedited": true
+}

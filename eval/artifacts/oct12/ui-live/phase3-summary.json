@@ -1,0 +1,55 @@
+{
+  "phase": "phase3",
+  "state": "PASS",
+  "run": "eval/artifacts/oct12/ui-live/run-004/report.json",
+  "command_log": "eval/artifacts/oct12/rag-ui/ui-live-run-004-command.log",
+  "command_exit_code": 0,
+  "actual_api_requests": 5,
+  "screenshots": 5,
+  "dom_files": 5,
+  "raw_files": 5,
+  "checks_passed": 33,
+  "checks_total": 33,
+  "browser_errors": 0,
+  "holdout_predictions": 0,
+  "human_approval": false,
+  "visual_review": "eval/artifacts/oct12/ui-live/run-004/visual-review.json",
+  "runtime_source_alignment": {
+    "api_pid": 25108,
+    "ui_pid": 55064,
+    "snapshot": "eval/artifacts/oct12/runtime-snapshot-003/manifest.json",
+    "observer_source_count": 42,
+    "snapshot_source_count": 66,
+    "intersection_count": 41,
+    "intersection_sha256_matches": 41,
+    "mismatches": [],
+    "observer_extra_files": ["scripts/d2_capture_api.py"],
+    "limit": "Disk source hashes and project process provenance; not an in-memory loaded-module attestation"
+  },
+  "rag_actual": {
+    "trace_id": "0cfa4de2-673a-443d-be43-cacdbe34d2f4",
+    "validation_status": "passed",
+    "validation_retries": 0,
+    "llm_attempts": 1,
+    "faithfulness_uncertain": false,
+    "semantic_faithfulness": "pending_human_review",
+    "cited_evidence_ids": ["E6", "E1"],
+    "physical_page": 2,
+    "fallback_branch_observed": false,
+    "full_pdf_page_visible": true,
+    "provider_capture": "eval/artifacts/oct12/provider-captures/live-003/2ff1534ad6914f7884c4c47bf3aafc11.json"
+  },
+  "historical_fallback_evidence": {
+    "phase": "phase2",
+    "raw": "eval/artifacts/oct12/ui-live/run-003/rag-03-raw.json",
+    "screenshot": "eval/artifacts/oct12/ui-live/run-003/rag-03.png",
+    "trace_id": "d77bb9e7-290b-4aa3-b14c-8950dea8cc2d",
+    "semantic_faithfulness": "not_verified",
+    "component_sha256_equal_to_phase3": {
+      "qa_agent/rag/answer.py": "8c452ee476cf1acd3af0fc5e221364bcee7f21b0af1f9a8b915541aa8d8a9d0a",
+      "qa_agent/rag/service.py": "0ec7e3740bc65e18e54eed12d8a6eed4f681ae4e3b4e1df862b9d0f092d5fe8e",
+      "ui/app.py": "d2b0b06c961c5036b8a326a2d32d9dc1bb6bbff6d8960385a3a06e9faf07dc51"
+    },
+    "limit": "A real Phase2 invocation with unchanged RAG/UI component hashes; not a new Phase3 invocation or semantic-faithfulness pass"
+  }
+}

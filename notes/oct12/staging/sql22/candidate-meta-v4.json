@@ -1,0 +1,56 @@
+{
+  "generated_at_utc": "2026-10-12T17:13:23.375534+00:00",
+  "source_file": "qa_agent/clarify/rules.py",
+  "source_sha256": "793df09e6d1d2d4521b40f2684a3cbcb77647183b46a06440a9655a6a76d401b",
+  "candidate_file": "notes/oct12/staging/sql22/rules_candidate-v4.py",
+  "candidate_sha256": "4016837c562814058b8160a7e109e1088baaf1737a49d78bfc76fbd32317329c",
+  "formal_test_file": "tests/test_oct12_before_date.py",
+  "formal_test_sha256": "54516d85a659fa0f51ef2b3399ae44baa6eff14fb028a9eda3268fbccf18bcdf",
+  "business_source_applied": false,
+  "schemas_changed": false,
+  "golds_changed": false,
+  "human_review_changed": false,
+  "tested": {
+    "isolated_cases": 65,
+    "passed": 65,
+    "real_model_requests": 0,
+    "database_queries": 0,
+    "holdout_predictions": 0
+  },
+  "trusted_new_contract": {
+    "current": {
+      "end": "literal verified ISO date",
+      "grain": "before",
+      "label": "actual written strictly earlier date phrase"
+    },
+    "start": "absent"
+  },
+  "positive_scope": "exactly one complete date with literal 之前/早于/小于 and no incompatible qualifier",
+  "unparsed_scope": [
+    "negative comparisons",
+    "inclusive endpoints",
+    "later comparisons",
+    "explicit clock/zone",
+    "shifted days",
+    "invalid dates"
+  ],
+  "unchanged_scope": [
+    "genuine closed dates/ranges/months/years",
+    "business defaults",
+    "schemas",
+    "model config",
+    "original golds",
+    "human signatures"
+  ],
+  "limitations": [
+    "Does not implement timestamp or relative/later-period semantics.",
+    "Unsupported/invalid comparator text is not turned into a program window; model handling of unsupported questions is unchanged.",
+    "Existing confirmed invoice followup SQL guard requires closed periods and will conservatively reject an open bound; employee sql-22 does not invoke it.",
+    "Growth requires a base; an open current bound cannot fabricate a YOY/MOM base."
+  ],
+  "ai_self_review": "AI建议通过窄候选；独立v4第二审待完成",
+  "human_signature": null,
+  "human_confirmation_date": null,
+  "replaces_unapplied_candidate_version": 3,
+  "added_scope_proof": "Date-attached comparison intent first; unrelated amount/negated-paid predicates do not disable ordinary day windows."
+}

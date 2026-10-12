@@ -1,0 +1,23 @@
+{
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "eval.run_eval",
+    "--suite",
+    "robust",
+    "--dataset",
+    "eval/artifacts/d2-final/review/robust-dev-v1.jsonl",
+    "--split",
+    "dev",
+    "--draft-gold",
+    "--run-id",
+    "d2-dev-live-002-robust",
+    "--output",
+    "eval/artifacts/oct12/d2-dev-live-002/robust",
+    "--timeout",
+    "240"
+  ],
+  "cwd": ".",
+  "dataset_sha256": "1d6c7732b5196e7146e3b3f01fe4f9ccb24ad354c6b20776631192c605d213f7"
+}

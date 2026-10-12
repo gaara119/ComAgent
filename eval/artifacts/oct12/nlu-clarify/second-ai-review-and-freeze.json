@@ -1,0 +1,187 @@
+{
+  "review_kind": "Second AI self-check against original Oct 12 instructions; does not substitute human sign-off",
+  "created_at_utc": "2026-10-12T16:05:44.433751+00:00",
+  "code_frozen": true,
+  "human_signatures_added": false,
+  "held_questions_read": 0,
+  "held_predictions_generated": 0,
+  "first_review": "Initial source/task coverage before implementation",
+  "second_review": [
+    {
+      "requirement": "Region default and explicit residence override",
+      "verdict": "AI建议通过",
+      "evidence": [
+        "tests/test_oct12_nlu_clarify.py",
+        "tests/test_d3_clarify.py"
+      ],
+      "reason": "Sales/invoice default selects billing_country; explicit residence selects customer.country. Clear region queries retain fast path."
+    },
+    {
+      "requirement": "All data only for approved missing-period task scopes; preserve prior year",
+      "verdict": "AI建议通过",
+      "evidence": [
+        "tests/test_oct12_nlu_clarify.py"
+      ],
+      "reason": "all_data boolean avoids invented date ranges; current periods are never replaced; metric follow-up without date text discards model-generated date reset."
+    },
+    {
+      "requirement": "Who buys most defaults to customer invoice amount, popular track to quantity",
+      "verdict": "AI建议通过",
+      "evidence": [
+        "tests/test_oct12_nlu_clarify.py"
+      ],
+      "reason": "The approved default is confined to Chinook and does not override a named artist/track object or contaminate AdventureWorks."
+    },
+    {
+      "requirement": "Amount share denominator defaults to same-period all invoice amounts",
+      "verdict": "AI建议通过",
+      "evidence": [
+        "tests/test_oct12_nlu_clarify.py"
+      ],
+      "reason": "Only invoice_revenue uses the default; customer_count remains missing denominator. Changing an amount metric invalidates its generated amount denominator."
+    },
+    {
+      "requirement": "老美 authorizes direct USA binding",
+      "verdict": "AI建议通过",
+      "evidence": [
+        "alias-index-build.json",
+        "module-tests-004.txt"
+      ],
+      "reason": "Exactly two existing relations changed from candidate-only to direct, preserving alias IDs and every other review record."
+    },
+    {
+      "requirement": "Time phrase and low-score candidate rejection",
+      "verdict": "AI建议通过",
+      "evidence": [
+        "tests/test_oct12_nlu_clarify.py",
+        "module-tests-004.txt"
+      ],
+      "reason": "Time phrases and conditional instructions are excluded before recall; fuzzy minimum .60 and vector minimum .65 are separate from automatic binding thresholds."
+    },
+    {
+      "requirement": "One growth period clarification and explicit share numerator extraction",
+      "verdict": "AI建议通过",
+      "evidence": [
+        "tests/test_oct12_nlu_clarify.py"
+      ],
+      "reason": "Full sp03-06 and sp03-22 inputs tested; current/base roles parsed for actual supplement, one period issue only."
+    },
+    {
+      "requirement": "Multiyear grouping and ratio numerator follow-up provenance",
+      "verdict": "AI建议通过",
+      "evidence": [
+        "tests/test_oct12_nlu_clarify.py"
+      ],
+      "reason": "Full sp03-14 program overrides model last-year-only extraction; ratio numerator country binding is refreshed with verified new user surface and is tagged local numerator scope."
+    }
+  ],
+  "runtime_checks_not_claimed": "Module tests and live read-only database/index verification completed here; real DeepSeek and API integration is owned by root and must be assessed separately.",
+  "limits": [
+    "Recall cutoffs are deterministic engineering thresholds, not calibrated probabilities. No held-set calibration.",
+    "No user sign/date written into pending review tables.",
+    "No database import or rebuild."
+  ],
+  "module_runs": [
+    {
+      "artifact": "baseline-after-patch.txt",
+      "passed": 132,
+      "failed": 6,
+      "reason": "Five outdated authorized-default assertions plus one old low-score fuzzy fixture."
+    },
+    {
+      "artifact": "module-tests-001.txt",
+      "passed": 157,
+      "failed": 0
+    },
+    {
+      "artifact": "module-tests-002.txt",
+      "passed": 210,
+      "failed": 3,
+      "reason": "One added test omitted finish transition, two concurrently changed SQL guard assertions owned by root."
+    },
+    {
+      "artifact": "module-tests-003.txt",
+      "passed": 164,
+      "failed": 1,
+      "reason": "Meaningful regression exposed condition prose falsely treated as a genre entity; code corrected."
+    },
+    {
+      "artifact": "module-tests-004.txt",
+      "passed": 165,
+      "failed": 0
+    }
+  ],
+  "live_database_date_verification": {
+    "sql": "SELECT MIN(invoice_date)::date, MAX(invoice_date)::date, ARRAY_AGG(DISTINCT EXTRACT(YEAR FROM invoice_date)::int ORDER BY EXTRACT(YEAR FROM invoice_date)::int) FROM public.invoice",
+    "read_only": true,
+    "statement_timeout_ms": 5000,
+    "min_date": "2021-01-01",
+    "max_date": "2025-12-22",
+    "available_years": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ]
+  },
+  "alias_policy_counts": {
+    "approved_candidate": 23,
+    "approved": 56,
+    "pending": 2
+  },
+  "frozen_sha256": [
+    {
+      "path": "qa_agent/nlu/linker.py",
+      "sha256": "498839127f3a3cef2b4c7c2434316a3354eb975cfc5d7c928bb764a7acd51742"
+    },
+    {
+      "path": "qa_agent/clarify/extractor.py",
+      "sha256": "860129544ca50d37941e62e1c4743ead5f21066d473441469a028b394dad1326"
+    },
+    {
+      "path": "qa_agent/clarify/rules.py",
+      "sha256": "793df09e6d1d2d4521b40f2684a3cbcb77647183b46a06440a9655a6a76d401b"
+    },
+    {
+      "path": "qa_agent/clarify/service.py",
+      "sha256": "9a7710458cc2cdd20239b23ca92c68f11047bf655e44151d5d0b17d4f77d80e1"
+    },
+    {
+      "path": "qa_agent/clarify/state.py",
+      "sha256": "4a8231547c5ea29d0c932774718c81daedc7d7e70627210ba41b6ac688711023"
+    },
+    {
+      "path": "qa_agent/clarify/clarify_rules.yaml",
+      "sha256": "75ec3421959867eb5aaed58499a8c5eff69ca6e07b1d3016266792f90cf750cb"
+    },
+    {
+      "path": "qa_agent/clarify/prompts/intent_extract.txt",
+      "sha256": "141d0f3e9d632d63e9c5e272f7bfd0d8c5b46bf3cb8029ecbe7d31b73a8c7fc5"
+    },
+    {
+      "path": "tests/test_oct12_nlu_clarify.py",
+      "sha256": "a1294e248af6475fbe6da7da206fdc7e0f4943f324674d10fc6cf49c23a00b08"
+    },
+    {
+      "path": "tests/test_d2_nlu.py",
+      "sha256": "94533d6ff92f346a63322da4ef2a5a9279872a8572930162b7f90f6bd618cfe5"
+    },
+    {
+      "path": "tests/test_d3_clarify.py",
+      "sha256": "7dee2db64b46b5479fb77704dd821e5cba98cb28d17ce1fb88117813fea79a44"
+    },
+    {
+      "path": "scripts/prepare_oct12_aliases.py",
+      "sha256": "89dcf3bd83a60215afaa6c9061dfd76c9a8af25e3bc771c057c86aad6c029aca"
+    },
+    {
+      "path": "data/aliases/aliases-oct12-approved.csv",
+      "sha256": "18d03aa50cb8f6b78a0ba7e5d9d2ca6f9601d5a1e2af5c88efcc5cad9563135c"
+    },
+    {
+      "path": "data/indexes/values-oct12-approved/index_meta.json",
+      "sha256": "c18fcf73101831aac70f192a80933e36ab449aeba75654b5225a230a9f162819"
+    }
+  ]
+}

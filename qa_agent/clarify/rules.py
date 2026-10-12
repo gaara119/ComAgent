@@ -1,4 +1,4 @@
-"""Grounded rule decisions. Missing conditions never become guessed defaults."""
+"""Grounded decisions, with only explicitly authorized business defaults."""
 from __future__ import annotations
 
 from calendar import monthrange
@@ -70,11 +70,41 @@ class RuleDecision:
 
 def explicit_period(question: str) -> dict | None:
     """Parse an explicitly written year/month, not a complete-year assumption."""
-    dates=list(re.finditer(r"(?<!\d)(\d{4})(?:年|-)(\d{1,2})(?:月|-)(\d{1,2})(?:日)?(?!\d)",question))
+    dates=list(re.finditer(r"(?<!\d)(\d{4})\s*(?:年|-)\s*(\d+)\s*(?:月|-)\s*(\d+)(?!\d)\s*(?:日)?",question))
     if dates:
         try:
             values=[date(*map(int,match.groups())) for match in dates]
             if len(dates)==1:
+                prefix=question[:dates[0].start()]
+                suffix=question[dates[0].end():]
+                before_prefix=re.search(r"(?<![不未])(?:早于|小于)\s*$",prefix)
+                before_suffix=re.match(r"\s*之前",suffix)
+                # Only a literal strict-before date is proven. Inclusive,
+                # negated, later-than and shifted-day expressions are left
+                # unparsed rather than downgraded to a day/month window.
+                operator_prefix=re.split(r"[，,；;。？！?!]",prefix)[-1]
+                operator_suffix=re.split(r"[，,；;。？！?!]",suffix)[0]
+                # Only negation attached to the date relation affects its
+                # direction; “未支付且早于...” still names a strict date bound.
+                negated=bool(re.search(r"(?:不|未|非|不是|并非|不要(?:查询|列出|查)?|禁止(?:查询|列出|查)?|别(?:查询|列出|查)?)(?:严格)?(?:早于|小于)\s*$",prefix) or
+                             before_suffix and re.search(r"(?:不|未|非|不是|并非|不要(?:查询|列出|查)?|禁止(?:查询|列出|查)?|别(?:查询|列出|查)?)(?:在)?\s*$",prefix))
+                clock_or_zone=bool(re.match(r"\s*(?:日\s*)?(?:T\s*)?(?:\d{1,2}(?::\d{2}|\s*[点时])|上午|下午|中午|凌晨|午夜|晚上)",suffix,re.I) or
+                                   re.search(r"UTC|GMT|北京时间|时区",operator_prefix+operator_suffix,re.I))
+                temporal_qualifier=bool(clock_or_zone or re.match(r"\s*(?:的)?(?:次日|翌日|第二天|前一天)|\s*[（(]\s*(?:含|包含|包括)",suffix))
+                relation_prefix=bool(re.search(r"(?:早于|小于|晚于|大于|(?:早于|小于)(?:或)?等于|<=|≤)\s*$",prefix))
+                relation_suffix=bool(re.match(r"\s*(?:(?:并非|不是|不|未)\s*)?(?:之前|之后|以前|以后|及之前|当天及之前|当日及之前)",suffix))
+                date_relation=bool(relation_prefix or relation_suffix or
+                                   temporal_qualifier and re.search(r"之前|早于|小于|之后|晚于|大于",operator_suffix))
+                # Ordinary day lookups may have unrelated amount comparisons
+                # or unpaid predicates; those do not modify the calendar day.
+                if date_relation:
+                    unsupported=bool(negated or clock_or_zone or re.search(r"次日|翌日|第二天|前一天|含(?:当天|当日|该日|边界)|包含(?:当天|当日|该日|边界)|包括(?:当天|当日|该日|边界)|或等于|或当天|或当日|<=|≤",operator_prefix+operator_suffix))
+                    if unsupported or not (before_prefix or before_suffix):
+                        return None
+                    label_start=before_prefix.start() if before_prefix else dates[0].start()
+                    label_end=dates[0].end()+before_suffix.end() if before_suffix else dates[0].end()
+                    return {"current":{"end":values[0].isoformat(),"grain":"before",
+                                       "label":question[label_start:label_end].strip()}}
                 start,end=values[0],values[0]+timedelta(days=1)
             elif len(dates)==2 and re.search(r"到|至|—|~|～",question[dates[0].end():dates[1].start()]):
                 start=values[0]
@@ -110,12 +140,43 @@ def explicit_period(question: str) -> dict | None:
     if re.search(r"\d{4}\s*年.*?(?:月|日|季度|半年|周)",question):
         return None
     years = re.findall(r"(?<!\d)(\d{4})\s*年", question)
+    distinct_years=sorted({int(value) for value in years})
+    if (len(distinct_years)==2 and distinct_years[1]-distinct_years[0]==1 and
+            any(word in question for word in ('每年','分别','按年','逐年')) and
+            not any(word in question for word in ('同比','环比','相比','比较','增长','增幅','相对','对比'))):
+        first,last=distinct_years
+        if 1<=first<last<9999:
+            return {'current':{'start':f'{first:04d}-01-01','end':f'{last+1:04d}-01-01',
+                               'grain':'multi_year','label':f'{first}年和{last}年'},'years':distinct_years}
     if len(set(years)) == 1:
         year = int(years[0])
         if year < 1 or year >= 9999:
             return None
         return {"current": {"start": f"{year:04d}-01-01", "end": f"{year+1:04d}-01-01",
                             "label": f"{year}年", "grain": "year"}}
+    return None
+
+
+def explicit_comparison_period(question: str, comparison_type: str | None) -> dict | None:
+    """Current year is the first written year in an explicit comparison.
+
+    “2024年，和2023年比” names two roles rather than a two-year total. It is
+    converted only when the comparison wording and both calendar years exist.
+    """
+    if not re.search(r'同比|环比|相比|比较|对比|比[。？?，,\s]*$',question):
+        return None
+    if re.search(r'\d{4}\s*年\s*(?:\d{1,2}\s*月|第?.{1,2}季度|[上下]半年)',question):
+        return None
+    years=re.findall(r'(?<!\d)(\d{4})\s*年',question)
+    if len(years)!=2 or years[0]==years[1] or not all(1<=int(value)<9999 for value in years):
+        return None
+    first_year=re.search(r'(?<!\d)\d{4}\s*年',question)
+    if first_year and re.search(r'相比|相对|对比|基期|基准',question[:first_year.start()]):
+        return None
+    current=explicit_period(years[0]+'年')
+    base=explicit_period(years[1]+'年')
+    if current and base:
+        return {**current,'base':base['current']}
     return None
 
 
@@ -157,6 +218,33 @@ class RuleEngine:
         derived: dict = {}
         current = (analysis.time_scope or {}).get("current")
 
+        if db_id == 'chinook':
+            # The Oct 12 task explicitly replaces the older missing-object rule
+            # for this phrase. It does not replace an already named object.
+            if ('谁买得最多' in question and analysis.task_type not in {'growth','ratio'} and
+                    analysis.rank_object is None and not any(word in question for word in ('曲目','歌曲','艺术家','乐队','专辑','流派'))):
+                analysis.task_type='ranking'
+                analysis.rank_object='customer'
+                note='“谁买得最多”默认查询客户消费金额排名（10月12日已确认）。'
+                assumptions.append(note)
+                defaults.append(note)
+                derived['rank_object']={'source':'oct12_approved_default','value':'customer'}
+            if analysis.region_ambiguous and analysis.region_scope is None:
+                if analysis.metric in {'invoice_revenue','average_invoice_amount'} or any(word in question for word in ('销售额','发票','账单')):
+                    analysis.region_scope='invoice.billing_country'
+                elif analysis.metric in {'customer_count','repeat_customer_count'} or analysis.rank_object=='customer':
+                    analysis.region_scope='customer.country'
+                if analysis.region_scope:
+                    analysis.region_ambiguous=False
+                    derived['region_scope']={'source':'oct12_approved_default','value':analysis.region_scope}
+            if (analysis.task_type=='ratio' and analysis.metric=='invoice_revenue' and not analysis.denominator):
+                analysis.denominator='同期全部发票金额（SUM(invoice.total)，分母不加分子地区筛选）'
+                note='销售额占比默认以同期全部发票金额作分母（10月12日已确认）。'
+                assumptions.append(note)
+                defaults.append(note)
+                derived['denominator']={'source':'oct12_approved_default','scope':'all_invoices_same_period',
+                                        'metric':'invoice_revenue'}
+
         for mention in ambiguous or []:
             candidates = mention.get("candidates", [])
             options = []
@@ -172,7 +260,7 @@ class RuleEngine:
             issues.append(ClarificationIssue(
                 "value:" + str(mention["mention_id"]),
                 f"“{mention.get('original_text', '')}”具体指哪个对象？",
-                "候选关系获准不等于允许自动绑定；请明确本次筛选。", "filters", options))
+                "这个说法可能对应不同对象，请选择本次要查询的对象。", "filters", options))
 
         if analysis.conflicts:
             issues.append(ClarificationIssue("conflicting_conditions", "请确认冲突条件，保留哪一个？",
@@ -181,8 +269,11 @@ class RuleEngine:
             issues.append(ClarificationIssue("missing:reference_scope", "“这批/这些”具体指哪些记录？",
                                              "当前会话没有这批记录的范围依据，不能擅自按全库统计。", "scope_missing"))
         if analysis.time_ambiguous:
+            options=[{"id":"year:"+str(year),"label":f"{year}年（该年有数据，不代表完整年度）",
+                      "patch":{"op":"set","path":"time_scope","value":explicit_period(f"{year}年")}}
+                     for year in sorted(set(available_years or []))]
             issues.append(ClarificationIssue("ambiguous:time_scope", "请明确具体统计期间。",
-                                             "目录中的最大日期或年份不能证明完整年度；不猜未说明的日期。", "time_ambiguous"))
+                                             "目录中的最大日期或年份不能证明完整年度；不猜未说明的日期。", "time_scope.current",options))
         if analysis.region_ambiguous and analysis.region_scope is None:
             scope_rule = next(item for item in self.rules["ambiguities"] if item["id"] == "invoice_country_scope")
             options = [{"id": item["id"], "label": item["label"],
@@ -212,6 +303,20 @@ class RuleEngine:
             assumptions.append(default_note)
             defaults.append(default_note)
 
+        all_data_allowed=(db_id=='chinook' and analysis.task_type not in {'growth','ratio'} and
+                          ((is_popular and analysis.metric!='playlist_memberships') or
+                           analysis.metric=='repeat_customer_count' or
+                           analysis.task_type=='ranking' and analysis.rank_object=='customer'))
+        if all_data_allowed and not current and not analysis.time_ambiguous:
+            # No synthetic calendar boundaries: use all rows in the existing DB.
+            # An explicitly established period stays in current and is untouched.
+            analysis.time_scope={'all_data':True,'label':'全部现有数据'}
+            note='未指定期间，按全部现有数据统计（10月12日已确认）；已确认的会话期间继续保留。'
+            assumptions.append(note)
+            defaults.append(note)
+            derived['time_scope']={'source':'oct12_approved_default','scope':'all_existing_data',
+                                   'available_years':sorted(set(available_years or []))}
+
         required = self.rules["task_types"].get(analysis.task_type, {}).get("required", [])
         paths = {"metric": analysis.metric, "time_scope.current": current,
                  "comparison.type": (analysis.comparison or {}).get("type"),
@@ -221,6 +326,10 @@ class RuleEngine:
                   "numerator": "分子范围", "denominator": "分母范围", "rank_object": "排名对象"}
         for path in required:
             if not paths[path]:
+                # A relative/missing current period is one issue, not two cards
+                # asking for the same year through separate grammar rules.
+                if path=='time_scope.current' and any(item.field==path for item in issues):
+                    continue
                 options = []
                 if path == "time_scope.current":
                     options = [{"id": "year:" + str(year), "label": f"{year}年（该年有数据，不代表完整年度）",
@@ -234,14 +343,6 @@ class RuleEngine:
                                 "patch": {"op": "set", "path": "comparison", "value": {"type": "mom"}}}]
                 issues.append(ClarificationIssue("missing:" + path, f"请明确{labels[path]}。",
                                                  "该任务缺少必需条件，未登记可直接代填的默认值。", path, options))
-        if ((is_popular and analysis.metric != "playlist_memberships" or analysis.metric == "repeat_customer_count" or analysis.rank_object == "customer" and
-             analysis.task_type == "ranking" and analysis.metric == "invoice_revenue") and not current):
-            if not any(item.field == "time_scope.current" for item in issues):
-                options = [{"id": "year:" + str(year), "label": f"{year}年（该年有数据，不代表完整年度）",
-                            "patch": {"op": "set", "path": "time_scope", "value": explicit_period(f"{year}年")}}
-                           for year in sorted(set(available_years or []))]
-                issues.append(ClarificationIssue("missing:time_scope.current", "请明确统计期间。",
-                                                 "已确认业务定义要求指定期间；不猜最近年度。", "time_scope.current", options))
         if analysis.metric == "playlist_memberships" and current:
             issues.append(ClarificationIssue(
                 "unsupported:playlist_period", "歌单收录快照没有收录日期，是否明确取消期间约束？",

@@ -1,0 +1,113 @@
+{
+  "created_at_utc": "2026-10-12T15:56:40.227717+00:00",
+  "source_script": "scripts/verify_oct12_gold.py",
+  "invocation": ".\\.venv\\Scripts\\python.exe -B scripts/verify_oct12_gold.py --output eval/artifacts/oct12/review-gold/date-facts --date-facts-only",
+  "scope": "Actual available invoice dates/yearly aggregates only; no question predictions",
+  "read_only": true,
+  "statement_timeout_ms": 5000,
+  "new_holdout_predictions": 0,
+  "new_llm_requests": 0,
+  "records": [
+    {
+      "id": "invoice_available_dates",
+      "sql": "SELECT COUNT(*) AS invoice_count, MIN(invoice_date) AS first_invoice_date, MAX(invoice_date) AS last_invoice_date, COUNT(*) FILTER (WHERE invoice_date IS NULL) AS null_invoice_date_count FROM public.invoice;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "invoice_count",
+          "first_invoice_date",
+          "last_invoice_date",
+          "null_invoice_date_count"
+        ],
+        "rows": [
+          [
+            412,
+            "2021-01-01T00:00:00",
+            "2025-12-22T00:00:00",
+            0
+          ]
+        ],
+        "table": [
+          {
+            "invoice_count": 412,
+            "first_invoice_date": "2021-01-01T00:00:00",
+            "last_invoice_date": "2025-12-22T00:00:00",
+            "null_invoice_date_count": 0
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "elapsed_ms": 19.148
+    },
+    {
+      "id": "invoice_yearly_summary",
+      "sql": "SELECT EXTRACT(YEAR FROM invoice_date)::integer AS invoice_year, COUNT(*) AS invoice_count, SUM(total) AS invoice_amount FROM public.invoice GROUP BY EXTRACT(YEAR FROM invoice_date)::integer ORDER BY invoice_year;",
+      "status": "executed",
+      "result": {
+        "columns": [
+          "invoice_year",
+          "invoice_count",
+          "invoice_amount"
+        ],
+        "rows": [
+          [
+            2021,
+            83,
+            "449.46"
+          ],
+          [
+            2022,
+            83,
+            "481.45"
+          ],
+          [
+            2023,
+            83,
+            "469.58"
+          ],
+          [
+            2024,
+            83,
+            "477.53"
+          ],
+          [
+            2025,
+            80,
+            "450.58"
+          ]
+        ],
+        "table": [
+          {
+            "invoice_year": 2021,
+            "invoice_count": 83,
+            "invoice_amount": "449.46"
+          },
+          {
+            "invoice_year": 2022,
+            "invoice_count": 83,
+            "invoice_amount": "481.45"
+          },
+          {
+            "invoice_year": 2023,
+            "invoice_count": 83,
+            "invoice_amount": "469.58"
+          },
+          {
+            "invoice_year": 2024,
+            "invoice_count": 83,
+            "invoice_amount": "477.53"
+          },
+          {
+            "invoice_year": 2025,
+            "invoice_count": 80,
+            "invoice_amount": "450.58"
+          }
+        ],
+        "row_count": 5,
+        "truncated": false
+      },
+      "elapsed_ms": 11.804
+    }
+  ]
+}

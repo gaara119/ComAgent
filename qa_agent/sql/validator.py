@@ -299,6 +299,10 @@ def validate_value_bindings(sql: str, catalog: Catalog, bindings: list[dict], *,
     """
     if not bindings:
         return
+    if ratio_context is not None:
+        from qa_agent.sql.ratio_guard import validate_invoice_share
+        if validate_invoice_share(sql, catalog, bindings, ratio_context):
+            return
     if ratio_context is not None and _validate_invoice_ratio_binding(sql,catalog,bindings,ratio_context):
         return
     expression = normalize_identifiers(sqlglot.parse_one(sql, read="postgres"), dialect="postgres")

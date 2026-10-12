@@ -17,7 +17,7 @@ if __package__ in {None, ""}:
 
 import httpx
 from eval.dataset import DEFAULT_DATASET, ROOT, load_dataset, require_run_permission, reviewed
-from eval.metrics import compare_results
+from eval.metrics import compare_results, compare_plan_results
 from qa_agent.config import get_settings, sanitize_error
 from qa_agent.schemas import AnswerEnvelope, ChatRequest
 
@@ -89,7 +89,7 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
         "configured_model": settings.llm_model,
         "api_base_url": args.base_url,
         "run_id": getattr(args, "run_id", None),
-        "comparison_policy": "global column mapping; duplicate rows preserved; continuous numbers 2dp, integer columns exact" if getattr(args,"suite",None) else "D1 declared monetary rounding",
+        "comparison_policy": "oct12-plan-ex-v1: global column mapping, proven descriptive extras allowed, duplicates and requested row order preserved; declared continuous numbers 2dp, integers exact; legacy comparison separately retained",
         "actual_models": [],
         "gold_review": ("draft" if args.draft_gold else
                         "human_accepted" if all(reviewed(item) for item in selected) else "pending_human_review"),
@@ -132,6 +132,11 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
                                       allow_holdout=args.allow_holdout, frozen_tag=args.frozen_tag)
     directory.mkdir(parents=True, exist_ok=True)
     records: list[dict[str, Any]] = []
+    from qa_agent.sql.catalog import load_catalog
+    try:
+        comparison_catalog = load_catalog(settings.catalog_path)
+    except (AttributeError, ValueError, OSError):
+        comparison_catalog = None
     with httpx.Client(timeout=args.timeout, trust_env=False) as client, (directory / "responses.jsonl").open("w", encoding="utf-8") as stream:
         for item in selected:
             request = ChatRequest(session_id=f"eval-{stamp}-{item['id']}", message=item["question"],
@@ -166,8 +171,8 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
                     record["failure_category"] = "missing_result_table"
                 else:
                     types = item["column_types"]
-                    comparison = compare_results(
-                        item["gold_result"], envelope.table, ordered=item["ordered"],
+                    comparison_options = dict(
+                        ordered=item["ordered"],
                         expected_columns=item["gold_columns"],
                         actual_columns=envelope.metadata.get("result_columns"),
                         monetary_columns=item.get("monetary_columns", []),
@@ -177,6 +182,11 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
                                                if value == "number" and i not in item.get("integer_columns",[])]
                                               if getattr(args,"suite",None) else [],
                     )
+                    legacy = compare_results(item["gold_result"], envelope.table, **comparison_options)
+                    comparison = compare_plan_results(item["gold_result"], envelope.table,
+                                                      actual_sql=envelope.sql, catalog=comparison_catalog,
+                                                      **comparison_options)
+                    record["legacy_comparison"] = legacy.as_dict()
                     record["comparison"] = comparison.as_dict()
                     record["matched"] = comparison.matched
                     if not comparison.matched:
@@ -204,6 +214,7 @@ def evaluate(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
             print(f"{item['id']} {'通过' if record['matched'] else record['failure_category']}", flush=True)
     correct = sum(bool(record["matched"]) for record in records)
     report.update({"prediction_count": len(records), "correct": correct,
+                   "legacy_correct": sum(bool(row.get("legacy_comparison", {}).get("matched")) for row in records),
                    "holdout_prediction_count": len(records) if args.split == "holdout" else 0,
                    "exploratory_ex" if args.draft_gold else "ex": correct / len(selected),
                    "failure_categories": dict(Counter(record["failure_category"] for record in records if not record["matched"])),

@@ -1,0 +1,75 @@
+........................................................................ [ 15%]
+........................................................................ [ 31%]
+........................................................................ [ 46%]
+............................................F...F....................... [ 62%]
+..............................................F......................... [ 77%]
+........................................................................ [ 93%]
+...............................                                          [100%]
+================================== FAILURES ===================================
+_ test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter[context1] _
+
+context = {'task_type': 'ratio', 'numerator': '2024年账单国家为Canada的发票金额', 'denominator': '同年所有发票金额', 'question': '2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？', ...}
+
+    @pytest.mark.parametrize('context',[
+        {**CONTEXT,'task_type':'lookup'},
+        {**CONTEXT,'numerator':'2024年账单国家为Canada的发票金额'},
+        {**CONTEXT,'denominator':'Brazil的发票金额'},
+        {**CONTEXT,'time_scope':None},
+        {**CONTEXT,'region_scope':'customer.country'},
+        {**CONTEXT,'question':'2024年账单国家为Brazil的发票金额占全部发票金额的比例是多少？'},
+    ])
+    def test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter(context):
+>       with pytest.raises(SQLValidationError):validate_value_bindings(VALID,CATALOG,BINDINGS,ratio_context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE SQLValidationError
+
+tests\test_d3_ratio_binding.py:58: Failed
+_ test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter[context5] _
+
+context = {'task_type': 'ratio', 'numerator': '2024年账单国家为Brazil的发票金额', 'denominator': '同年所有发票金额', 'question': '2024年账单国家为Brazil的发票金额占全部发票金额的比例是多少？', ...}
+
+    @pytest.mark.parametrize('context',[
+        {**CONTEXT,'task_type':'lookup'},
+        {**CONTEXT,'numerator':'2024年账单国家为Canada的发票金额'},
+        {**CONTEXT,'denominator':'Brazil的发票金额'},
+        {**CONTEXT,'time_scope':None},
+        {**CONTEXT,'region_scope':'customer.country'},
+        {**CONTEXT,'question':'2024年账单国家为Brazil的发票金额占全部发票金额的比例是多少？'},
+    ])
+    def test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter(context):
+>       with pytest.raises(SQLValidationError):validate_value_bindings(VALID,CATALOG,BINDINGS,ratio_context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE SQLValidationError
+
+tests\test_d3_ratio_binding.py:58: Failed
+_ test_amount_denominator_default_is_invalidated_when_followup_changes_to_customer_count _
+
+tmp_path = WindowsPath('E:/中国电子杯-赛题八/system/.runtime/pytest-full-module-001/test_amount_denominator_defaul0')
+
+    def test_amount_denominator_default_is_invalidated_when_followup_changes_to_customer_count(tmp_path):
+        from qa_agent.clarify.state import apply_patches, prepare_card, transition
+        state=SessionStore(tmp_path).start('count',{},'法国销售额占比',SemanticIntent(
+            task_type='ratio',metric='invoice_revenue',numerator='法国销售额'))
+        prepare_card(state,RuleEngine().evaluate(state.original_question,state.analysis))
+>       transition(state,'ANSWERED')
+
+tests\test_oct12_nlu_clarify.py:257: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+qa_agent\clarify\state.py:275: in apply_patches
+    transition(state, "CHECKING")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+state = SessionState(session_id='count', scope={}, phase='EXECUTING', intent=IntentContract(intent_version=2, route='sql', tas...nvalidated': ['aggregation', 'fields', 'grain', 'result', 'schema']}], last_updated='2026-10-12T16:02:57.253864+00:00')
+destination = 'CHECKING'
+
+    def transition(state: SessionState, destination: str) -> None:
+        if destination not in TRANSITIONS[state.phase]:
+>           raise SessionConflict(f"非法会话状态迁移：{state.phase} → {destination}")
+E           qa_agent.clarify.state.SessionConflict: 非法会话状态迁移：EXECUTING → CHECKING
+
+qa_agent\clarify\state.py:149: SessionConflict
+=========================== short test summary info ===========================
+FAILED tests/test_d3_ratio_binding.py::test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter[context1]
+FAILED tests/test_d3_ratio_binding.py::test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter[context5]
+FAILED tests/test_oct12_nlu_clarify.py::test_amount_denominator_default_is_invalidated_when_followup_changes_to_customer_count
+3 failed, 460 passed in 12.43s

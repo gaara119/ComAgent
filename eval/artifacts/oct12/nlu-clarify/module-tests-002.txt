@@ -1,0 +1,27 @@
+.........................F.............................................. [ 33%]
+........................................................................ [ 67%]
+.....................................................F...F...........    [100%]
+================================== FAILURES ===================================
+_ test_amount_denominator_default_is_invalidated_when_followup_changes_to_customer_count _
+tests\test_oct12_nlu_clarify.py:257: in test_amount_denominator_default_is_invalidated_when_followup_changes_to_customer_count
+    apply_patches(state,[IntentPatch(op='set',path='metric',value='customer_count',evidence='客户数量')],
+qa_agent\clarify\state.py:275: in apply_patches
+    transition(state, "CHECKING")
+qa_agent\clarify\state.py:149: in transition
+    raise SessionConflict(f"非法会话状态迁移：{state.phase} → {destination}")
+E   qa_agent.clarify.state.SessionConflict: 非法会话状态迁移：EXECUTING → CHECKING
+_ test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter[context1] _
+tests\test_d3_ratio_binding.py:58: in test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter
+    with pytest.raises(SQLValidationError):validate_value_bindings(VALID,CATALOG,BINDINGS,ratio_context=context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE SQLValidationError
+_ test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter[context5] _
+tests\test_d3_ratio_binding.py:58: in test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter
+    with pytest.raises(SQLValidationError):validate_value_bindings(VALID,CATALOG,BINDINGS,ratio_context=context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE SQLValidationError
+=========================== short test summary info ===========================
+FAILED tests/test_oct12_nlu_clarify.py::test_amount_denominator_default_is_invalidated_when_followup_changes_to_customer_count
+FAILED tests/test_d3_ratio_binding.py::test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter[context1]
+FAILED tests/test_d3_ratio_binding.py::test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter[context5]
+3 failed, 210 passed in 4.42s

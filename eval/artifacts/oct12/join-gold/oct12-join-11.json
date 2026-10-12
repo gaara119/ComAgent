@@ -1,0 +1,22 @@
+{
+  "id": "oct12-join-11",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "-B",
+    "scripts/build_oct12_join_dev.py"
+  ],
+  "sql": "SELECT SUM(l.quantity) AS purchased_quantity FROM invoice AS i JOIN invoice_line AS l ON l.invoice_id = i.invoice_id JOIN track AS t ON l.track_id = t.track_id JOIN genre AS g ON t.genre_id = g.genre_id WHERE i.billing_country = 'France' AND g.name = 'Rock'",
+  "status": "EXECUTED",
+  "columns": [
+    "purchased_quantity"
+  ],
+  "rows": [
+    [
+      65
+    ]
+  ],
+  "read_only": true,
+  "statement_timeout_ms": 5000,
+  "generated_at_utc": "2026-10-12T15:55:40.864420+00:00",
+  "truncated": false
+}

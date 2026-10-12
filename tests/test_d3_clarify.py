@@ -48,16 +48,19 @@ def test_popularity_default_is_scoped_to_tracks_and_not_comparisons():
     assert engine.evaluate("2024年最热门5首曲目", popular).level == "L1"
     assert engine.evaluate("2024年最热门5首曲目", popular).analysis.metric == "purchased_quantity"
     object_free = SemanticIntent(task_type="ranking", time_scope=explicit_period("2024年"), top_n=5)
-    assert engine.evaluate("2024年谁买得最多", object_free).level == "L2"
+    who=engine.evaluate("2024年谁买得最多", object_free)
+    assert who.level == "L1" and who.analysis.rank_object=='customer'
+    assert who.analysis.metric=='invoice_revenue' and who.analysis.time_scope['current']['start']=='2024-01-01'
     comparison = SemanticIntent(task_type="growth", rank_object="track", time_scope=explicit_period("2024年"), comparison={"type":"yoy"})
     assert engine.evaluate("2024年最热门曲目同比", comparison).level == "L2"
     assert engine.evaluate("2024年最热门曲目同比", comparison).analysis.metric is None
 
 
-def test_missing_period_and_undated_playlist_switch_pause():
+def test_oct12_missing_period_uses_all_data_and_undated_playlist_switch_still_pauses():
     engine = RuleEngine()
     missing = SemanticIntent(task_type="ranking", rank_object="track", top_n=5)
-    assert engine.evaluate("最热门5首曲目", missing).level == "L2"
+    assert engine.evaluate("最热门5首曲目", missing).analysis.time_scope['all_data'] is True
+    assert engine.evaluate("最热门5首曲目", missing).level == "L1"
     snapshot = SemanticIntent(task_type="ranking", rank_object="track", metric="playlist_memberships", top_n=5,
                               time_scope=explicit_period("2024年"))
     result = engine.evaluate("2024年最热门5首曲目", snapshot)
@@ -66,8 +69,9 @@ def test_missing_period_and_undated_playlist_switch_pause():
 
 def test_billing_and_customer_countries_remain_distinct():
     result = RuleEngine().evaluate("2024年美国发票销售额", SemanticIntent(metric="invoice_revenue", region_ambiguous=True))
-    assert result.level == "L2"
-    assert {item["patch"]["value"] for item in result.issues[0].options} == {"invoice.billing_country","customer.country"}
+    assert result.level == "L0" and result.analysis.region_scope=='invoice.billing_country'
+    explicit=RuleEngine().evaluate('客户所在地销售额',SemanticIntent(metric='invoice_revenue',region_scope='customer.country'))
+    assert explicit.analysis.region_scope=='customer.country'
 
 
 @pytest.mark.parametrize("text", ["0000年1月", "9999年12月", "2024年0月", "2024年13月"])
@@ -277,7 +281,7 @@ def test_new_explicit_custom_base_survives_patch_and_sort_patch_preserves_condit
     assert state.invalidated==['result']
 
 
-def test_invoice_country_binding_is_not_proof_of_user_billing_scope(tmp_path):
+def test_oct12_invoice_country_uses_authorized_billing_default_without_model(tmp_path):
     class Model:
         calls=0
         def complete_json(self,*args,**kwargs):
@@ -287,8 +291,9 @@ def test_invoice_country_binding_is_not_proof_of_user_billing_scope(tmp_path):
     linked=no_link();linked.bindings=[binding]
     model=Model()
     gate=run_gate(request('2024年美国发票金额'),load_catalog(ROOT/'data/catalog/chinook.yaml'),model,linked,store=SessionStore(tmp_path))
-    assert model.calls==1 and gate.decision.level=='L2'
-    assert gate.state.analysis.region_scope is None
+    assert model.calls==0 and gate.decision.level=='L0'
+    assert gate.state.analysis.region_scope=='invoice.billing_country'
+    assert gate.state.bindings[0]['scope_evidence']=='oct12_approved_default'
 
 
 def test_explicit_customer_country_scope_aligns_binding_and_stays_l0(tmp_path):
@@ -338,7 +343,10 @@ def test_explicit_chinese_object_is_canonicalized_without_inventing_missing_obje
     semantic=extract_intent(question,catalog,Model('曲目'))
     assert semantic.rank_object=='track' and RuleEngine().evaluate(question,semantic).level=='L1'
     missing=extract_intent('2024年谁买得最多？',catalog,Model(None))
-    assert missing.rank_object is None and RuleEngine().evaluate('2024年谁买得最多？',missing).level=='L2'
+    assert missing.rank_object is None
+    default=RuleEngine().evaluate('2024年谁买得最多？',missing)
+    assert default.analysis.rank_object=='customer' and default.analysis.metric=='invoice_revenue'
+    assert default.level=='L1'
 
 
 def test_followup_uses_confirmed_field_scope_but_only_new_country_text(tmp_path):

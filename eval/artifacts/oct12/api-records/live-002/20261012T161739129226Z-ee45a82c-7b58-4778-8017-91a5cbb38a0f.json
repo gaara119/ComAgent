@@ -1,0 +1,267 @@
+{
+  "started_at_utc": "2026-10-12T16:17:35.574050+00:00",
+  "finished_at_utc": "2026-10-12T16:17:39.129226+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "eval-20261012T161551101239Z-oct12-join-15",
+    "message": "哪些专辑没有曲目？列出专辑编号和标题，按专辑编号升序。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "6b12b92e-6fb6-4d15-9a7e-4ea4be847dcc",
+    "status": "EMPTY_RESULT",
+    "answer": "按原问题条件未查到记录。",
+    "rewritten_question": null,
+    "sql": "SELECT a.\"album_id\", a.\"title\" FROM \"public\".\"album\" AS a LEFT JOIN \"public\".\"track\" AS t ON t.\"album_id\" = a.\"album_id\" WHERE t.\"track_id\" IS NULL ORDER BY a.\"album_id\" ASC LIMIT 200",
+    "table": [],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 18
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 9
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "哪些专辑没有曲目？列出专辑编号和标题，按专辑编号升序。"
+        },
+        "output_summary": {
+          "rewritten_question": "哪些专辑没有曲目？列出专辑编号和标题，按专辑编号升序。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 6
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "哪些专辑没有曲目？列出专辑编号和标题，按专辑编号升序。",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT a.\"album_id\", a.\"title\" FROM \"public\".\"album\" AS a LEFT JOIN \"public\".\"track\" AS t ON t.\"album_id\" = a.\"album_id\" WHERE t.\"track_id\" IS NULL ORDER BY a.\"album_id\" ASC",
+          "explanation": "使用 LEFT JOIN 保留 album 表全部专辑并匹配 track 表曲目，筛选 track_id 为空的行即无曲目的专辑，输出专辑编号和标题并按专辑编号升序。"
+        },
+        "latency_ms": 3489
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/oct12/provider-captures/live-001/6eed7a0508b5407e84ff22dd9a27ba57.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 133,
+            "prompt_tokens": 4936,
+            "total_tokens": 5069,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1024
+            },
+            "prompt_cache_hit_tokens": 1024,
+            "prompt_cache_miss_tokens": 3912
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2457
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT a.\"album_id\", a.\"title\" FROM \"public\".\"album\" AS a LEFT JOIN \"public\".\"track\" AS t ON t.\"album_id\" = a.\"album_id\" WHERE t.\"track_id\" IS NULL ORDER BY a.\"album_id\" ASC"
+        },
+        "output_summary": {
+          "tables": [
+            "album",
+            "track"
+          ],
+          "default_limit_added": true,
+          "sql": "SELECT a.\"album_id\", a.\"title\" FROM \"public\".\"album\" AS a LEFT JOIN \"public\".\"track\" AS t ON t.\"album_id\" = a.\"album_id\" WHERE t.\"track_id\" IS NULL ORDER BY a.\"album_id\" ASC LIMIT 200"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT a.\"album_id\", a.\"title\" FROM \"public\".\"album\" AS a LEFT JOIN \"public\".\"track\" AS t ON t.\"album_id\" = a.\"album_id\" WHERE t.\"track_id\" IS NULL ORDER BY a.\"album_id\" ASC LIMIT 200",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 0,
+          "columns": [
+            "album_id",
+            "title"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 26
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "EMPTY_RESULT",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 3554,
+      "nlu": {
+        "original_question": "哪些专辑没有曲目？列出专辑编号和标题，按专辑编号升序。",
+        "rewritten_question": "哪些专辑没有曲目？列出专辑编号和标题，按专辑编号升序。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "result_columns": [
+        "album_id",
+        "title"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

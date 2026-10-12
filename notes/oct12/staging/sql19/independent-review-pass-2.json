@@ -1,0 +1,26 @@
+{
+  "reviewer": "AI independent reviewer /root/oct12_review_gold",
+  "review_type": "read-only candidate review, not human approval",
+  "status": "AI建议有条件通过",
+  "scope": "The explicit sql-19 customer-attribute sort repair preserves N, order and catalog-grounded fields. Mixed aggregate requests need a stronger negative guard before applying this candidate.",
+  "reviewed_files": [
+    "notes/oct12/staging/sql19/candidate.patch",
+    "notes/oct12/staging/sql19/extractor_candidate.py",
+    "notes/oct12/staging/sql19/test_candidate.py",
+    "notes/oct12/staging/sql19/test-results-002.txt"
+  ],
+  "observed_existing_test_result": "18 passed in 0.47s",
+  "verification_command": ".\\.venv\\Scripts\\python.exe -B -c \"import runpy; m=runpy.run_path('notes/oct12/staging/sql19/test_candidate.py'); c=m['candidate']; cat=m['load_catalog'](m['ROOT']/'data/catalog/chinook.yaml'); cases=['按姓氏降序取前5位客户，同时统计收入。','按姓氏降序取前5位客户，同时计算sales revenue。','按姓氏降序取前5位客户，同时展示姓氏频率。']; print([(q,c.explicit_customer_attribute_top(q,cat)) for q in cases])\"",
+  "actual_counterexamples": [
+    {"question": "按姓氏降序取前5位客户，同时统计收入。", "actual_guard": true, "expected_guard": false},
+    {"question": "按姓氏降序取前5位客户，同时计算sales revenue。", "actual_guard": true, "expected_guard": false},
+    {"question": "按姓氏降序取前5位客户，同时展示姓氏频率。", "actual_guard": true, "expected_guard": false}
+  ],
+  "recommendation": "Reject mixed statistics/computation/amount/volume/frequency requests in Chinese and English or use a positive pure-attribute-request allowlist; add these counterexamples before accepting the candidate.",
+  "model_calls": 0,
+  "database_calls": 0,
+  "business_source_modified": false,
+  "gold_modified": false,
+  "human_signature": null,
+  "human_confirmation_date": null
+}

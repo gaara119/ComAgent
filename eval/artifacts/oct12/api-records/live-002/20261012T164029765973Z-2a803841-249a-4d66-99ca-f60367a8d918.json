@@ -1,0 +1,1924 @@
+{
+  "started_at_utc": "2026-10-12T16:40:26.803467+00:00",
+  "finished_at_utc": "2026-10-12T16:40:29.765973+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d2-rag-d2-dev-live-002-rag-rag-19",
+    "message": "Which datasets showed significant performance enhancement with the proposed anchor reweighting method?",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "ohr-academic-label-words"
+      ]
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "1bea8e73-7025-4fc5-bb3f-71ee5134c7eb",
+    "status": "SUCCEEDED",
+    "answer": "The proposed anchor reweighting method significantly enhances ICL performance, particularly on the SST-2 and EmoC datasets [E2].",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [
+      {
+        "evidence_id": "E2",
+        "doc_id": "ohr-academic-label-words",
+        "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+        "page": 6,
+        "section_path": [
+          "3.1.3 Results"
+        ],
+        "text": "3.1.3\nResults\nAs Table 1 shows, the proposed anchor re-\nweighting significantly enhances ICL performance,\nparticularly on the SST-2 and EmoC datasets. Be-\nsides, adding more demonstrations for vanilla ICL\nmay not bring a stable accuracy boost due to the po-\ntential noise introduced, as discussed in Zhao et al.\n(2021). Different from vanilla ICL which utilizes\nthe extra examples to form a demonstration, we\ntrain a re-weighting vector β to modulate label an-\nchor contributions.",
+        "bbox": [
+          305.75,
+          427.67,
+          526.32,
+          657.92
+        ]
+      }
+    ],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-academic-label-words"
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "evidence_count": 1
+        },
+        "latency_ms": 2961
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-academic-label-words"
+        },
+        "output_summary": {
+          "doc_id": "ohr-academic-label-words",
+          "title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+          "content_hash": "035b1659c5305a0c8157594cf41446fe72ade8d48efa99eb036dfa522d3431c4"
+        },
+        "latency_ms": 11
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "ohr-academic-label-words",
+          "question": "Which datasets showed significant performance enhancement with the proposed anchor reweighting method?",
+          "query": "Which datasets showed significant performance enhancement with the proposed anchor reweighting method?"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 726,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "f5da3d5ad1e23e0fd68c43e3",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [],
+                "score": 9.0253645
+              },
+              {
+                "rank": 2,
+                "chunk_id": "746ab17265e123a93add83c7",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [],
+                "score": 8.25206276
+              },
+              {
+                "rank": 3,
+                "chunk_id": "159b50384046d5059dffd89a",
+                "doc_id": "ohr-academic-label-words",
+                "page": 9,
+                "section_path": [
+                  "5 Conclusion"
+                ],
+                "score": 7.39961711
+              },
+              {
+                "rank": 4,
+                "chunk_id": "f3f7f0f7f6edb91937128996",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [],
+                "score": 6.97488204
+              },
+              {
+                "rank": 5,
+                "chunk_id": "3d91ce681679730bd0621a13",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1.3 Results"
+                ],
+                "score": 6.79015637
+              },
+              {
+                "rank": 6,
+                "chunk_id": "d723e6dd0c9cfa3466b09460",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [],
+                "score": 6.68591231
+              },
+              {
+                "rank": 7,
+                "chunk_id": "a041935c4ae91fd6ec220ddc",
+                "doc_id": "ohr-academic-label-words",
+                "page": 14,
+                "section_path": [
+                  "I The Factor of Ldemo and Lx"
+                ],
+                "score": 6.51137292
+              },
+              {
+                "rank": 8,
+                "chunk_id": "146213aeaf3ff49e33f64ed7",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "(c) Results on the AGNews dataset"
+                ],
+                "score": 6.48019899
+              },
+              {
+                "rank": 9,
+                "chunk_id": "7bea349d15cec014c93d4ec8",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "(b) Results on the TREC dataset"
+                ],
+                "score": 6.48019899
+              },
+              {
+                "rank": 10,
+                "chunk_id": "85a1256f505e5e95554b002e",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "(d) Results on the EmoC dataset"
+                ],
+                "score": 6.48019899
+              },
+              {
+                "rank": 11,
+                "chunk_id": "b54113b0460cec987599b3f5",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "(a) Results on the SST-2 dataset"
+                ],
+                "score": 6.48019899
+              },
+              {
+                "rank": 12,
+                "chunk_id": "1e043b594242130d15d12fcd",
+                "doc_id": "ohr-academic-label-words",
+                "page": 8,
+                "section_path": [
+                  "3.3.1 Method"
+                ],
+                "score": 6.06073562
+              },
+              {
+                "rank": 13,
+                "chunk_id": "f2c9bdfd0e6a77716dacc5f0",
+                "doc_id": "ohr-academic-label-words",
+                "page": 4,
+                "section_path": [],
+                "score": 5.9734844
+              },
+              {
+                "rank": 14,
+                "chunk_id": "c0135b7c85997377c66fa721",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [
+                  "3.2.3 Results"
+                ],
+                "score": 5.96866186
+              },
+              {
+                "rank": 15,
+                "chunk_id": "1ff2137cd1e710cee9e61c38",
+                "doc_id": "ohr-academic-label-words",
+                "page": 8,
+                "section_path": [
+                  "3.3.1 Method"
+                ],
+                "score": 5.94820257
+              },
+              {
+                "rank": 16,
+                "chunk_id": "0f3649e129e021efd7b1b5b7",
+                "doc_id": "ohr-academic-label-words",
+                "page": 11,
+                "section_path": [],
+                "score": 5.75317583
+              },
+              {
+                "rank": 17,
+                "chunk_id": "1c670e7b3db2c78a4d952a15",
+                "doc_id": "ohr-academic-label-words",
+                "page": 11,
+                "section_path": [],
+                "score": 5.59970269
+              },
+              {
+                "rank": 18,
+                "chunk_id": "7b65cc16d129c489b411277b",
+                "doc_id": "ohr-academic-label-words",
+                "page": 4,
+                "section_path": [],
+                "score": 5.59970269
+              },
+              {
+                "rank": 19,
+                "chunk_id": "94e62ea86836aa1fd66d3713",
+                "doc_id": "ohr-academic-label-words",
+                "page": 4,
+                "section_path": [],
+                "score": 5.59970269
+              },
+              {
+                "rank": 20,
+                "chunk_id": "fc207c35c6b4e4f9557468b4",
+                "doc_id": "ohr-academic-label-words",
+                "page": 8,
+                "section_path": [
+                  "3.3.3 Results"
+                ],
+                "score": 5.59158682
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "fb54b62f7e61eaffe6b60186",
+                "doc_id": "ohr-academic-label-words",
+                "page": 1,
+                "section_path": [],
+                "score": 0.64737296
+              },
+              {
+                "rank": 2,
+                "chunk_id": "3d91ce681679730bd0621a13",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1.3 Results"
+                ],
+                "score": 0.64434516
+              },
+              {
+                "rank": 3,
+                "chunk_id": "159b50384046d5059dffd89a",
+                "doc_id": "ohr-academic-label-words",
+                "page": 9,
+                "section_path": [
+                  "5 Conclusion"
+                ],
+                "score": 0.61907822
+              },
+              {
+                "rank": 4,
+                "chunk_id": "7f2bc54b15e63a5880f6900a",
+                "doc_id": "ohr-academic-label-words",
+                "page": 5,
+                "section_path": [
+                  "3 Applications of Our Anchor-Based Understanding"
+                ],
+                "score": 0.60204345
+              },
+              {
+                "rank": 5,
+                "chunk_id": "02bced6fb9acde008d85895f",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.59873742
+              },
+              {
+                "rank": 6,
+                "chunk_id": "59de6ec656e3f94e35c7b6fe",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "G Implementation of Anchor Re-weighting"
+                ],
+                "score": 0.5979228
+              },
+              {
+                "rank": 7,
+                "chunk_id": "87566d7b94a19d2703f2b6e5",
+                "doc_id": "ohr-academic-label-words",
+                "page": 2,
+                "section_path": [],
+                "score": 0.59655386
+              },
+              {
+                "rank": 8,
+                "chunk_id": "f5da3d5ad1e23e0fd68c43e3",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [],
+                "score": 0.5935216
+              },
+              {
+                "rank": 9,
+                "chunk_id": "8ed74349a6dbb0c2d7592092",
+                "doc_id": "ohr-academic-label-words",
+                "page": 14,
+                "section_path": [
+                  "H Training Settings of Anchor Re-weighting"
+                ],
+                "score": 0.5924927
+              },
+              {
+                "rank": 10,
+                "chunk_id": "0a0854d6fa7533fe2963c2ee",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.58331728
+              },
+              {
+                "rank": 11,
+                "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [],
+                "score": 0.58070898
+              },
+              {
+                "rank": 12,
+                "chunk_id": "626a16bef7efae89b0e92827",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1.1 Method"
+                ],
+                "score": 0.58042485
+              },
+              {
+                "rank": 13,
+                "chunk_id": "dd4d517d4cf013d92894cc5c",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "G Implementation of Anchor Re-weighting"
+                ],
+                "score": 0.57939965
+              },
+              {
+                "rank": 14,
+                "chunk_id": "442810fbef8f4513a2f955b0",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.56763619
+              },
+              {
+                "rank": 15,
+                "chunk_id": "4885fd4dcb3061b3280029b8",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1.3 Results"
+                ],
+                "score": 0.56507766
+              },
+              {
+                "rank": 16,
+                "chunk_id": "6dace730a13dfb8683f884a8",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.56211519
+              },
+              {
+                "rank": 17,
+                "chunk_id": "56363b1d7efbb454e0d53088",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.55406475
+              },
+              {
+                "rank": 18,
+                "chunk_id": "4b047812c272610f63514b45",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [],
+                "score": 0.54575789
+              },
+              {
+                "rank": 19,
+                "chunk_id": "fa13195ce32df76a30fccb48",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [
+                  "3.2.3 Results"
+                ],
+                "score": 0.5445838
+              },
+              {
+                "rank": 20,
+                "chunk_id": "8cb59bc95f90f2032e0f797a",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.54389733
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "159b50384046d5059dffd89a",
+                "doc_id": "ohr-academic-label-words",
+                "page": 9,
+                "section_path": [
+                  "5 Conclusion"
+                ],
+                "score": 0.03174603
+              },
+              {
+                "rank": 2,
+                "chunk_id": "3d91ce681679730bd0621a13",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1.3 Results"
+                ],
+                "score": 0.03151365
+              },
+              {
+                "rank": 3,
+                "chunk_id": "f5da3d5ad1e23e0fd68c43e3",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [],
+                "score": 0.03109932
+              },
+              {
+                "rank": 4,
+                "chunk_id": "fb54b62f7e61eaffe6b60186",
+                "doc_id": "ohr-academic-label-words",
+                "page": 1,
+                "section_path": [],
+                "score": 0.01639344
+              },
+              {
+                "rank": 5,
+                "chunk_id": "746ab17265e123a93add83c7",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [],
+                "score": 0.01612903
+              },
+              {
+                "rank": 6,
+                "chunk_id": "7f2bc54b15e63a5880f6900a",
+                "doc_id": "ohr-academic-label-words",
+                "page": 5,
+                "section_path": [
+                  "3 Applications of Our Anchor-Based Understanding"
+                ],
+                "score": 0.015625
+              },
+              {
+                "rank": 7,
+                "chunk_id": "f3f7f0f7f6edb91937128996",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [],
+                "score": 0.015625
+              },
+              {
+                "rank": 8,
+                "chunk_id": "02bced6fb9acde008d85895f",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.01538462
+              },
+              {
+                "rank": 9,
+                "chunk_id": "59de6ec656e3f94e35c7b6fe",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "G Implementation of Anchor Re-weighting"
+                ],
+                "score": 0.01515152
+              },
+              {
+                "rank": 10,
+                "chunk_id": "d723e6dd0c9cfa3466b09460",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [],
+                "score": 0.01515152
+              },
+              {
+                "rank": 11,
+                "chunk_id": "87566d7b94a19d2703f2b6e5",
+                "doc_id": "ohr-academic-label-words",
+                "page": 2,
+                "section_path": [],
+                "score": 0.01492537
+              },
+              {
+                "rank": 12,
+                "chunk_id": "a041935c4ae91fd6ec220ddc",
+                "doc_id": "ohr-academic-label-words",
+                "page": 14,
+                "section_path": [
+                  "I The Factor of Ldemo and Lx"
+                ],
+                "score": 0.01492537
+              },
+              {
+                "rank": 13,
+                "chunk_id": "146213aeaf3ff49e33f64ed7",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "(c) Results on the AGNews dataset"
+                ],
+                "score": 0.01470588
+              },
+              {
+                "rank": 14,
+                "chunk_id": "7bea349d15cec014c93d4ec8",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "(b) Results on the TREC dataset"
+                ],
+                "score": 0.01449275
+              },
+              {
+                "rank": 15,
+                "chunk_id": "8ed74349a6dbb0c2d7592092",
+                "doc_id": "ohr-academic-label-words",
+                "page": 14,
+                "section_path": [
+                  "H Training Settings of Anchor Re-weighting"
+                ],
+                "score": 0.01449275
+              },
+              {
+                "rank": 16,
+                "chunk_id": "0a0854d6fa7533fe2963c2ee",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.01428571
+              },
+              {
+                "rank": 17,
+                "chunk_id": "85a1256f505e5e95554b002e",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "(d) Results on the EmoC dataset"
+                ],
+                "score": 0.01428571
+              },
+              {
+                "rank": 18,
+                "chunk_id": "b54113b0460cec987599b3f5",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "(a) Results on the SST-2 dataset"
+                ],
+                "score": 0.01408451
+              },
+              {
+                "rank": 19,
+                "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [],
+                "score": 0.01408451
+              },
+              {
+                "rank": 20,
+                "chunk_id": "1e043b594242130d15d12fcd",
+                "doc_id": "ohr-academic-label-words",
+                "page": 8,
+                "section_path": [
+                  "3.3.1 Method"
+                ],
+                "score": 0.01388889
+              },
+              {
+                "rank": 21,
+                "chunk_id": "626a16bef7efae89b0e92827",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1.1 Method"
+                ],
+                "score": 0.01388889
+              },
+              {
+                "rank": 22,
+                "chunk_id": "dd4d517d4cf013d92894cc5c",
+                "doc_id": "ohr-academic-label-words",
+                "page": 13,
+                "section_path": [
+                  "G Implementation of Anchor Re-weighting"
+                ],
+                "score": 0.01369863
+              },
+              {
+                "rank": 23,
+                "chunk_id": "f2c9bdfd0e6a77716dacc5f0",
+                "doc_id": "ohr-academic-label-words",
+                "page": 4,
+                "section_path": [],
+                "score": 0.01369863
+              },
+              {
+                "rank": 24,
+                "chunk_id": "442810fbef8f4513a2f955b0",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 25,
+                "chunk_id": "c0135b7c85997377c66fa721",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [
+                  "3.2.3 Results"
+                ],
+                "score": 0.01351351
+              },
+              {
+                "rank": 26,
+                "chunk_id": "1ff2137cd1e710cee9e61c38",
+                "doc_id": "ohr-academic-label-words",
+                "page": 8,
+                "section_path": [
+                  "3.3.1 Method"
+                ],
+                "score": 0.01333333
+              },
+              {
+                "rank": 27,
+                "chunk_id": "4885fd4dcb3061b3280029b8",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1.3 Results"
+                ],
+                "score": 0.01333333
+              },
+              {
+                "rank": 28,
+                "chunk_id": "0f3649e129e021efd7b1b5b7",
+                "doc_id": "ohr-academic-label-words",
+                "page": 11,
+                "section_path": [],
+                "score": 0.01315789
+              },
+              {
+                "rank": 29,
+                "chunk_id": "6dace730a13dfb8683f884a8",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.01315789
+              },
+              {
+                "rank": 30,
+                "chunk_id": "1c670e7b3db2c78a4d952a15",
+                "doc_id": "ohr-academic-label-words",
+                "page": 11,
+                "section_path": [],
+                "score": 0.01298701
+              },
+              {
+                "rank": 31,
+                "chunk_id": "56363b1d7efbb454e0d53088",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.01298701
+              },
+              {
+                "rank": 32,
+                "chunk_id": "4b047812c272610f63514b45",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [],
+                "score": 0.01282051
+              },
+              {
+                "rank": 33,
+                "chunk_id": "7b65cc16d129c489b411277b",
+                "doc_id": "ohr-academic-label-words",
+                "page": 4,
+                "section_path": [],
+                "score": 0.01282051
+              },
+              {
+                "rank": 34,
+                "chunk_id": "94e62ea86836aa1fd66d3713",
+                "doc_id": "ohr-academic-label-words",
+                "page": 4,
+                "section_path": [],
+                "score": 0.01265823
+              },
+              {
+                "rank": 35,
+                "chunk_id": "fa13195ce32df76a30fccb48",
+                "doc_id": "ohr-academic-label-words",
+                "page": 7,
+                "section_path": [
+                  "3.2.3 Results"
+                ],
+                "score": 0.01265823
+              },
+              {
+                "rank": 36,
+                "chunk_id": "8cb59bc95f90f2032e0f797a",
+                "doc_id": "ohr-academic-label-words",
+                "page": 6,
+                "section_path": [
+                  "3.1 Anchor Re-weighting"
+                ],
+                "score": 0.0125
+              },
+              {
+                "rank": 37,
+                "chunk_id": "fc207c35c6b4e4f9557468b4",
+                "doc_id": "ohr-academic-label-words",
+                "page": 8,
+                "section_path": [
+                  "3.3.3 Results"
+                ],
+                "score": 0.0125
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "159b50384046d5059dffd89a",
+            "3d91ce681679730bd0621a13",
+            "f5da3d5ad1e23e0fd68c43e3",
+            "fb54b62f7e61eaffe6b60186",
+            "746ab17265e123a93add83c7"
+          ],
+          "retrieved_count": 8,
+          "index_created_at": "2026-10-11T18:31:51.088865+00:00",
+          "index_chunks_sha256": "f21416522546616317c9b08f2c5c5f9d0b17dab8f5f2a0995f280bf3c8f9461c",
+          "query": "Which datasets showed significant performance enhancement with the proposed anchor reweighting method?",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "159b50384046d5059dffd89a",
+              "evidence_id": "E1",
+              "doc_id": "ohr-academic-label-words",
+              "page": 9,
+              "section_path": [
+                "5 Conclusion"
+              ],
+              "score": 0.03174603
+            },
+            {
+              "chunk_id": "3d91ce681679730bd0621a13",
+              "evidence_id": "E2",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.3 Results"
+              ],
+              "score": 0.03151365
+            },
+            {
+              "chunk_id": "f5da3d5ad1e23e0fd68c43e3",
+              "evidence_id": "E3",
+              "doc_id": "ohr-academic-label-words",
+              "page": 7,
+              "section_path": [],
+              "score": 0.03109932
+            },
+            {
+              "chunk_id": "fb54b62f7e61eaffe6b60186",
+              "evidence_id": "E4",
+              "doc_id": "ohr-academic-label-words",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01639344
+            },
+            {
+              "chunk_id": "746ab17265e123a93add83c7",
+              "evidence_id": "E5",
+              "doc_id": "ohr-academic-label-words",
+              "page": 7,
+              "section_path": [],
+              "score": 0.01612903
+            },
+            {
+              "chunk_id": "7f2bc54b15e63a5880f6900a",
+              "evidence_id": "E6",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "3 Applications of Our Anchor-Based Understanding"
+              ],
+              "score": 0.015625
+            },
+            {
+              "chunk_id": "f3f7f0f7f6edb91937128996",
+              "evidence_id": "E7",
+              "doc_id": "ohr-academic-label-words",
+              "page": 7,
+              "section_path": [],
+              "score": 0.015625
+            },
+            {
+              "chunk_id": "02bced6fb9acde008d85895f",
+              "evidence_id": "E8",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1 Anchor Re-weighting"
+              ],
+              "score": 0.01538462
+            }
+          ]
+        },
+        "latency_ms": 144
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E2"
+          ]
+        },
+        "latency_ms": 2805
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 8
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "citation_ids": [
+            "E2"
+          ]
+        },
+        "latency_ms": 2805
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/oct12/provider-captures/live-001/9fb2b8e456364397a649642f09476c74.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 55,
+            "prompt_tokens": 1599,
+            "total_tokens": 1654,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1408
+            },
+            "prompt_cache_hit_tokens": 1408,
+            "prompt_cache_miss_tokens": 191
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1829
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers",
+            "explicit_research_attributions"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E2"
+          ],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "potential_uncited_statements": [],
+            "mode": "heuristic_warning_only",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "ohr-academic-label-words",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 726,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "f5da3d5ad1e23e0fd68c43e3",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [],
+            "score": 9.0253645
+          },
+          {
+            "rank": 2,
+            "chunk_id": "746ab17265e123a93add83c7",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [],
+            "score": 8.25206276
+          },
+          {
+            "rank": 3,
+            "chunk_id": "159b50384046d5059dffd89a",
+            "doc_id": "ohr-academic-label-words",
+            "page": 9,
+            "section_path": [
+              "5 Conclusion"
+            ],
+            "score": 7.39961711
+          },
+          {
+            "rank": 4,
+            "chunk_id": "f3f7f0f7f6edb91937128996",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [],
+            "score": 6.97488204
+          },
+          {
+            "rank": 5,
+            "chunk_id": "3d91ce681679730bd0621a13",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1.3 Results"
+            ],
+            "score": 6.79015637
+          },
+          {
+            "rank": 6,
+            "chunk_id": "d723e6dd0c9cfa3466b09460",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [],
+            "score": 6.68591231
+          },
+          {
+            "rank": 7,
+            "chunk_id": "a041935c4ae91fd6ec220ddc",
+            "doc_id": "ohr-academic-label-words",
+            "page": 14,
+            "section_path": [
+              "I The Factor of Ldemo and Lx"
+            ],
+            "score": 6.51137292
+          },
+          {
+            "rank": 8,
+            "chunk_id": "146213aeaf3ff49e33f64ed7",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "(c) Results on the AGNews dataset"
+            ],
+            "score": 6.48019899
+          },
+          {
+            "rank": 9,
+            "chunk_id": "7bea349d15cec014c93d4ec8",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "(b) Results on the TREC dataset"
+            ],
+            "score": 6.48019899
+          },
+          {
+            "rank": 10,
+            "chunk_id": "85a1256f505e5e95554b002e",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "(d) Results on the EmoC dataset"
+            ],
+            "score": 6.48019899
+          },
+          {
+            "rank": 11,
+            "chunk_id": "b54113b0460cec987599b3f5",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "(a) Results on the SST-2 dataset"
+            ],
+            "score": 6.48019899
+          },
+          {
+            "rank": 12,
+            "chunk_id": "1e043b594242130d15d12fcd",
+            "doc_id": "ohr-academic-label-words",
+            "page": 8,
+            "section_path": [
+              "3.3.1 Method"
+            ],
+            "score": 6.06073562
+          },
+          {
+            "rank": 13,
+            "chunk_id": "f2c9bdfd0e6a77716dacc5f0",
+            "doc_id": "ohr-academic-label-words",
+            "page": 4,
+            "section_path": [],
+            "score": 5.9734844
+          },
+          {
+            "rank": 14,
+            "chunk_id": "c0135b7c85997377c66fa721",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [
+              "3.2.3 Results"
+            ],
+            "score": 5.96866186
+          },
+          {
+            "rank": 15,
+            "chunk_id": "1ff2137cd1e710cee9e61c38",
+            "doc_id": "ohr-academic-label-words",
+            "page": 8,
+            "section_path": [
+              "3.3.1 Method"
+            ],
+            "score": 5.94820257
+          },
+          {
+            "rank": 16,
+            "chunk_id": "0f3649e129e021efd7b1b5b7",
+            "doc_id": "ohr-academic-label-words",
+            "page": 11,
+            "section_path": [],
+            "score": 5.75317583
+          },
+          {
+            "rank": 17,
+            "chunk_id": "1c670e7b3db2c78a4d952a15",
+            "doc_id": "ohr-academic-label-words",
+            "page": 11,
+            "section_path": [],
+            "score": 5.59970269
+          },
+          {
+            "rank": 18,
+            "chunk_id": "7b65cc16d129c489b411277b",
+            "doc_id": "ohr-academic-label-words",
+            "page": 4,
+            "section_path": [],
+            "score": 5.59970269
+          },
+          {
+            "rank": 19,
+            "chunk_id": "94e62ea86836aa1fd66d3713",
+            "doc_id": "ohr-academic-label-words",
+            "page": 4,
+            "section_path": [],
+            "score": 5.59970269
+          },
+          {
+            "rank": 20,
+            "chunk_id": "fc207c35c6b4e4f9557468b4",
+            "doc_id": "ohr-academic-label-words",
+            "page": 8,
+            "section_path": [
+              "3.3.3 Results"
+            ],
+            "score": 5.59158682
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "fb54b62f7e61eaffe6b60186",
+            "doc_id": "ohr-academic-label-words",
+            "page": 1,
+            "section_path": [],
+            "score": 0.64737296
+          },
+          {
+            "rank": 2,
+            "chunk_id": "3d91ce681679730bd0621a13",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1.3 Results"
+            ],
+            "score": 0.64434516
+          },
+          {
+            "rank": 3,
+            "chunk_id": "159b50384046d5059dffd89a",
+            "doc_id": "ohr-academic-label-words",
+            "page": 9,
+            "section_path": [
+              "5 Conclusion"
+            ],
+            "score": 0.61907822
+          },
+          {
+            "rank": 4,
+            "chunk_id": "7f2bc54b15e63a5880f6900a",
+            "doc_id": "ohr-academic-label-words",
+            "page": 5,
+            "section_path": [
+              "3 Applications of Our Anchor-Based Understanding"
+            ],
+            "score": 0.60204345
+          },
+          {
+            "rank": 5,
+            "chunk_id": "02bced6fb9acde008d85895f",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.59873742
+          },
+          {
+            "rank": 6,
+            "chunk_id": "59de6ec656e3f94e35c7b6fe",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "G Implementation of Anchor Re-weighting"
+            ],
+            "score": 0.5979228
+          },
+          {
+            "rank": 7,
+            "chunk_id": "87566d7b94a19d2703f2b6e5",
+            "doc_id": "ohr-academic-label-words",
+            "page": 2,
+            "section_path": [],
+            "score": 0.59655386
+          },
+          {
+            "rank": 8,
+            "chunk_id": "f5da3d5ad1e23e0fd68c43e3",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [],
+            "score": 0.5935216
+          },
+          {
+            "rank": 9,
+            "chunk_id": "8ed74349a6dbb0c2d7592092",
+            "doc_id": "ohr-academic-label-words",
+            "page": 14,
+            "section_path": [
+              "H Training Settings of Anchor Re-weighting"
+            ],
+            "score": 0.5924927
+          },
+          {
+            "rank": 10,
+            "chunk_id": "0a0854d6fa7533fe2963c2ee",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.58331728
+          },
+          {
+            "rank": 11,
+            "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [],
+            "score": 0.58070898
+          },
+          {
+            "rank": 12,
+            "chunk_id": "626a16bef7efae89b0e92827",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1.1 Method"
+            ],
+            "score": 0.58042485
+          },
+          {
+            "rank": 13,
+            "chunk_id": "dd4d517d4cf013d92894cc5c",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "G Implementation of Anchor Re-weighting"
+            ],
+            "score": 0.57939965
+          },
+          {
+            "rank": 14,
+            "chunk_id": "442810fbef8f4513a2f955b0",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.56763619
+          },
+          {
+            "rank": 15,
+            "chunk_id": "4885fd4dcb3061b3280029b8",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1.3 Results"
+            ],
+            "score": 0.56507766
+          },
+          {
+            "rank": 16,
+            "chunk_id": "6dace730a13dfb8683f884a8",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.56211519
+          },
+          {
+            "rank": 17,
+            "chunk_id": "56363b1d7efbb454e0d53088",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.55406475
+          },
+          {
+            "rank": 18,
+            "chunk_id": "4b047812c272610f63514b45",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [],
+            "score": 0.54575789
+          },
+          {
+            "rank": 19,
+            "chunk_id": "fa13195ce32df76a30fccb48",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [
+              "3.2.3 Results"
+            ],
+            "score": 0.5445838
+          },
+          {
+            "rank": 20,
+            "chunk_id": "8cb59bc95f90f2032e0f797a",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.54389733
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "159b50384046d5059dffd89a",
+            "doc_id": "ohr-academic-label-words",
+            "page": 9,
+            "section_path": [
+              "5 Conclusion"
+            ],
+            "score": 0.03174603
+          },
+          {
+            "rank": 2,
+            "chunk_id": "3d91ce681679730bd0621a13",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1.3 Results"
+            ],
+            "score": 0.03151365
+          },
+          {
+            "rank": 3,
+            "chunk_id": "f5da3d5ad1e23e0fd68c43e3",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [],
+            "score": 0.03109932
+          },
+          {
+            "rank": 4,
+            "chunk_id": "fb54b62f7e61eaffe6b60186",
+            "doc_id": "ohr-academic-label-words",
+            "page": 1,
+            "section_path": [],
+            "score": 0.01639344
+          },
+          {
+            "rank": 5,
+            "chunk_id": "746ab17265e123a93add83c7",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [],
+            "score": 0.01612903
+          },
+          {
+            "rank": 6,
+            "chunk_id": "7f2bc54b15e63a5880f6900a",
+            "doc_id": "ohr-academic-label-words",
+            "page": 5,
+            "section_path": [
+              "3 Applications of Our Anchor-Based Understanding"
+            ],
+            "score": 0.015625
+          },
+          {
+            "rank": 7,
+            "chunk_id": "f3f7f0f7f6edb91937128996",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [],
+            "score": 0.015625
+          },
+          {
+            "rank": 8,
+            "chunk_id": "02bced6fb9acde008d85895f",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.01538462
+          },
+          {
+            "rank": 9,
+            "chunk_id": "59de6ec656e3f94e35c7b6fe",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "G Implementation of Anchor Re-weighting"
+            ],
+            "score": 0.01515152
+          },
+          {
+            "rank": 10,
+            "chunk_id": "d723e6dd0c9cfa3466b09460",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [],
+            "score": 0.01515152
+          },
+          {
+            "rank": 11,
+            "chunk_id": "87566d7b94a19d2703f2b6e5",
+            "doc_id": "ohr-academic-label-words",
+            "page": 2,
+            "section_path": [],
+            "score": 0.01492537
+          },
+          {
+            "rank": 12,
+            "chunk_id": "a041935c4ae91fd6ec220ddc",
+            "doc_id": "ohr-academic-label-words",
+            "page": 14,
+            "section_path": [
+              "I The Factor of Ldemo and Lx"
+            ],
+            "score": 0.01492537
+          },
+          {
+            "rank": 13,
+            "chunk_id": "146213aeaf3ff49e33f64ed7",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "(c) Results on the AGNews dataset"
+            ],
+            "score": 0.01470588
+          },
+          {
+            "rank": 14,
+            "chunk_id": "7bea349d15cec014c93d4ec8",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "(b) Results on the TREC dataset"
+            ],
+            "score": 0.01449275
+          },
+          {
+            "rank": 15,
+            "chunk_id": "8ed74349a6dbb0c2d7592092",
+            "doc_id": "ohr-academic-label-words",
+            "page": 14,
+            "section_path": [
+              "H Training Settings of Anchor Re-weighting"
+            ],
+            "score": 0.01449275
+          },
+          {
+            "rank": 16,
+            "chunk_id": "0a0854d6fa7533fe2963c2ee",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.01428571
+          },
+          {
+            "rank": 17,
+            "chunk_id": "85a1256f505e5e95554b002e",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "(d) Results on the EmoC dataset"
+            ],
+            "score": 0.01428571
+          },
+          {
+            "rank": 18,
+            "chunk_id": "b54113b0460cec987599b3f5",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "(a) Results on the SST-2 dataset"
+            ],
+            "score": 0.01408451
+          },
+          {
+            "rank": 19,
+            "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [],
+            "score": 0.01408451
+          },
+          {
+            "rank": 20,
+            "chunk_id": "1e043b594242130d15d12fcd",
+            "doc_id": "ohr-academic-label-words",
+            "page": 8,
+            "section_path": [
+              "3.3.1 Method"
+            ],
+            "score": 0.01388889
+          },
+          {
+            "rank": 21,
+            "chunk_id": "626a16bef7efae89b0e92827",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1.1 Method"
+            ],
+            "score": 0.01388889
+          },
+          {
+            "rank": 22,
+            "chunk_id": "dd4d517d4cf013d92894cc5c",
+            "doc_id": "ohr-academic-label-words",
+            "page": 13,
+            "section_path": [
+              "G Implementation of Anchor Re-weighting"
+            ],
+            "score": 0.01369863
+          },
+          {
+            "rank": 23,
+            "chunk_id": "f2c9bdfd0e6a77716dacc5f0",
+            "doc_id": "ohr-academic-label-words",
+            "page": 4,
+            "section_path": [],
+            "score": 0.01369863
+          },
+          {
+            "rank": 24,
+            "chunk_id": "442810fbef8f4513a2f955b0",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 25,
+            "chunk_id": "c0135b7c85997377c66fa721",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [
+              "3.2.3 Results"
+            ],
+            "score": 0.01351351
+          },
+          {
+            "rank": 26,
+            "chunk_id": "1ff2137cd1e710cee9e61c38",
+            "doc_id": "ohr-academic-label-words",
+            "page": 8,
+            "section_path": [
+              "3.3.1 Method"
+            ],
+            "score": 0.01333333
+          },
+          {
+            "rank": 27,
+            "chunk_id": "4885fd4dcb3061b3280029b8",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1.3 Results"
+            ],
+            "score": 0.01333333
+          },
+          {
+            "rank": 28,
+            "chunk_id": "0f3649e129e021efd7b1b5b7",
+            "doc_id": "ohr-academic-label-words",
+            "page": 11,
+            "section_path": [],
+            "score": 0.01315789
+          },
+          {
+            "rank": 29,
+            "chunk_id": "6dace730a13dfb8683f884a8",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.01315789
+          },
+          {
+            "rank": 30,
+            "chunk_id": "1c670e7b3db2c78a4d952a15",
+            "doc_id": "ohr-academic-label-words",
+            "page": 11,
+            "section_path": [],
+            "score": 0.01298701
+          },
+          {
+            "rank": 31,
+            "chunk_id": "56363b1d7efbb454e0d53088",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.01298701
+          },
+          {
+            "rank": 32,
+            "chunk_id": "4b047812c272610f63514b45",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [],
+            "score": 0.01282051
+          },
+          {
+            "rank": 33,
+            "chunk_id": "7b65cc16d129c489b411277b",
+            "doc_id": "ohr-academic-label-words",
+            "page": 4,
+            "section_path": [],
+            "score": 0.01282051
+          },
+          {
+            "rank": 34,
+            "chunk_id": "94e62ea86836aa1fd66d3713",
+            "doc_id": "ohr-academic-label-words",
+            "page": 4,
+            "section_path": [],
+            "score": 0.01265823
+          },
+          {
+            "rank": 35,
+            "chunk_id": "fa13195ce32df76a30fccb48",
+            "doc_id": "ohr-academic-label-words",
+            "page": 7,
+            "section_path": [
+              "3.2.3 Results"
+            ],
+            "score": 0.01265823
+          },
+          {
+            "rank": 36,
+            "chunk_id": "8cb59bc95f90f2032e0f797a",
+            "doc_id": "ohr-academic-label-words",
+            "page": 6,
+            "section_path": [
+              "3.1 Anchor Re-weighting"
+            ],
+            "score": 0.0125
+          },
+          {
+            "rank": 37,
+            "chunk_id": "fc207c35c6b4e4f9557468b4",
+            "doc_id": "ohr-academic-label-words",
+            "page": 8,
+            "section_path": [
+              "3.3.3 Results"
+            ],
+            "score": 0.0125
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "159b50384046d5059dffd89a",
+        "3d91ce681679730bd0621a13",
+        "f5da3d5ad1e23e0fd68c43e3",
+        "fb54b62f7e61eaffe6b60186",
+        "746ab17265e123a93add83c7"
+      ],
+      "retrieved_count": 8,
+      "index_created_at": "2026-10-11T18:31:51.088865+00:00",
+      "index_chunks_sha256": "f21416522546616317c9b08f2c5c5f9d0b17dab8f5f2a0995f280bf3c8f9461c",
+      "query": "Which datasets showed significant performance enhancement with the proposed anchor reweighting method?",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 9,
+          "chunk_id": "159b50384046d5059dffd89a",
+          "section_path": [
+            "5 Conclusion"
+          ],
+          "bbox": [
+            70.47,
+            324.42,
+            290.95,
+            538.65
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "same_column_heading",
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "chunk_id": "3d91ce681679730bd0621a13",
+          "section_path": [
+            "3.1.3 Results"
+          ],
+          "bbox": [
+            305.75,
+            427.67,
+            526.32,
+            657.92
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "same_column_heading",
+          "evidence_id": "E2"
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 7,
+          "chunk_id": "f5da3d5ad1e23e0fd68c43e3",
+          "section_path": [],
+          "bbox": [
+            70.87,
+            160.39,
+            425.19,
+            170.36
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E3"
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 1,
+          "chunk_id": "fb54b62f7e61eaffe6b60186",
+          "section_path": [],
+          "bbox": [
+            87.52,
+            237.52,
+            273.87,
+            510.45
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E4"
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 7,
+          "chunk_id": "746ab17265e123a93add83c7",
+          "section_path": [],
+          "bbox": [
+            305.75,
+            424.12,
+            526.31,
+            529.95
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E5"
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "chunk_id": "7f2bc54b15e63a5880f6900a",
+          "section_path": [
+            "3 Applications of Our Anchor-Based Understanding"
+          ],
+          "bbox": [
+            306.14,
+            667.84,
+            526.23,
+            773.63
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "same_column_heading",
+          "evidence_id": "E6"
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 7,
+          "chunk_id": "f3f7f0f7f6edb91937128996",
+          "section_path": [],
+          "bbox": [
+            305.83,
+            341.45,
+            526.06,
+            399.31
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "unknown",
+          "evidence_id": "E7"
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "chunk_id": "02bced6fb9acde008d85895f",
+          "section_path": [
+            "3.1 Anchor Re-weighting"
+          ],
+          "bbox": [
+            70.47,
+            140.24,
+            290.94,
+            191.88
+          ],
+          "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+          "location_status": "source_block_geometry",
+          "section_location_status": "same_column_heading",
+          "evidence_id": "E8"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "potential_uncited_statements": [],
+        "mode": "heuristic_warning_only",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [
+        "E2"
+      ],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "faithfulness_uncertain": false,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 2961,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

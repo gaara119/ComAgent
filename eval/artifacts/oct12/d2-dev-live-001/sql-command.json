@@ -1,0 +1,23 @@
+{
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "eval.run_eval",
+    "--suite",
+    "nl2sql",
+    "--dataset",
+    "eval/artifacts/d2-final/review/sql-dev-v1.jsonl",
+    "--split",
+    "dev",
+    "--draft-gold",
+    "--run-id",
+    "d2-dev-live-001-sql",
+    "--output",
+    "eval/artifacts/oct12/d2-dev-live-001/sql",
+    "--timeout",
+    "240"
+  ],
+  "cwd": ".",
+  "dataset_sha256": "7b4c18f203ce0d88f38837f0c788cbcff142b559dc70d3f281990a2d47175f35"
+}

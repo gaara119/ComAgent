@@ -71,6 +71,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
     from qa_agent.sql.catalog import load_catalog
     from qa_agent.sql.executor import SQLExecutionError, SQLTimeoutError, execute_sql
     from qa_agent.sql.generator import generate_sql
+    from qa_agent.sql.repair_guard import (string_filter_contract, validate_repair_filters,
+                                           validate_chinook_fk_joins)
     from qa_agent.sql.validator import (SQLValidationError, validate_sql, validate_value_bindings,
                                        parameterize_strings, validate_question_sources, validate_generation_claim)
     from qa_agent.nlu.linker import LinkResult, ValueLinker
@@ -193,13 +195,11 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                                                    value_columns=[item["column"] for item in bindings])
                 selected_catalog = schema_bundle.selected_catalog
                 step.output_summary = schema_bundle.as_dict()
-        binding_tables = {item.get("column", "").rsplit(".", 1)[0] for item in bindings}
-        allow_joins = (db_id == "adventureworks" or intent.task_type in {"ranking", "growth", "ratio"}
-                       or len(binding_tables) > 1 or
-                       (gate.state.analysis.region_scope == "customer.country" and
-                        any(word in gate.state.original_question for word in ("发票", "invoice", "账单"))) or
-                       any(item.get("column", "").startswith(("artist.", "genre.", "media_type.")) for item in bindings))
+        # Lookup names need FK joins even when no alias/candidate was bound.
+        # The catalog, FK proof and mandatory-filter checks still govern access.
+        allow_joins = db_id in {"chinook", "adventureworks"}
         repair_error = None
+        repair_filters = None
         for attempt in range(settings.sql_repair_attempts + 1):
             with trace.step("sql_gen", {"question": question, "repair_attempt": attempt,
                                        "db_id": db_id, "allow_joins": allow_joins}) as step:
@@ -208,6 +208,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                                           intent=intent, bindings=bindings, allow_joins=allow_joins)
                 last_sql = generation.sql
                 step.output_summary = {"sql": generation.sql, "explanation": generation.explanation}
+            if repair_filters is None:
+                repair_filters = string_filter_contract(last_sql, selected_catalog)
             try:
                 with trace.step("sql_validate", {"sql": last_sql}) as step:
                     validated = validate_sql(last_sql, selected_catalog, max_rows=settings.max_rows)
@@ -215,6 +217,9 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                     validate_generation_claim(gate.state.original_question, last_sql, generation.explanation)
                     if not validated.tables_used:
                         raise SQLValidationError("问数 SQL 必须引用真实业务表，不能以常量代替数据库查询。")
+                    validate_repair_filters(repair_filters, last_sql, selected_catalog)
+                    if db_id == "chinook":
+                        validate_chinook_fk_joins(last_sql, selected_catalog)
                     if len(validated.tables_used) > 1 and not allow_joins:
                         raise SQLValidationError("该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。")
                     if requested_tables and ((not allow_joins and set(validated.tables_used) != set(requested_tables))
@@ -243,6 +248,7 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                         step.output_summary={'verified':True,'mode':'qualified_country_result_sources','region_scope':region}
                 with trace.step("sql_binding_validate", {"binding_count": len(bindings)}) as step:
                     ratio_context = ({"task_type": "ratio", "numerator": gate.state.analysis.numerator,
+                                      "metric": gate.state.analysis.metric,
                                       "denominator": gate.state.analysis.denominator,
                                       "time_scope": gate.state.analysis.time_scope,
                                       "region_scope": gate.state.analysis.region_scope,
@@ -273,6 +279,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                 if attempt >= settings.sql_repair_attempts or exc.sqlstate not in repairable_states:
                     raise
                 repair_error = sanitize_error(exc, settings)
+        from qa_agent.sql.result_format import percentage_formats, display_percentage
+        result_formats = percentage_formats(last_sql, result.columns, intent.task_type)
         with trace.step("answer") as step:
             if not result.rows:
                 status = "EMPTY_RESULT"
@@ -280,7 +288,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
             elif len(result.rows) == 1 and len(result.columns) == 1:
                 status = "SUCCEEDED"
                 value = result.rows[0][0]
-                answer = "查询结果为 NULL，没有可汇总的值。" if value is None else f"查询结果：{value}。"
+                displayed = display_percentage(value, result_formats[result.columns[0]]) if result.columns[0] in result_formats else value
+                answer = "查询结果为 NULL，没有可汇总的值。" if value is None else f"查询结果：{displayed}。"
             else:
                 status = "SUCCEEDED"
                 answer = f"查询返回 {result.row_count} 行，详细数据见结果表。"
@@ -293,7 +302,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
         return AnswerEnvelope(trace_id=trace.trace_id, status=status, answer=answer, sql=last_sql,
                               rewritten_question=linked.rewritten_question if linked.patches else None,
                               table=result.table, intent=intent, steps=trace.steps,
-                              metadata={**metadata(), "result_columns": result.columns, "truncated": result.truncated})
+                              metadata={**metadata(), "result_columns": result.columns, "truncated": result.truncated,
+                                        "result_format": result_formats})
     except SessionConflict as exc:
         return failed(trace, settings, str(exc), "clarification_conflict", intent=intent)
     except MissingCredentialError as exc:

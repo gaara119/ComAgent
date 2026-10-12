@@ -1,0 +1,400 @@
+{
+  "started_at_utc": "2026-10-12T16:07:42.283670+00:00",
+  "finished_at_utc": "2026-10-12T16:07:46.228596+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "oct12-target-fed30b9de5434ffe9e72dda6f334f821",
+    "message": "2024年按客户所在地统计巴西销售额是多少？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "f68287d0-df09-45a8-904e-9a87ef0f0078",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：53.46。",
+    "rewritten_question": "2024年按客户所在地统计Brazil销售额是多少？",
+    "sql": "SELECT SUM(invoice.total) AS total_sales FROM \"public\".\"invoice\" INNER JOIN \"public\".\"customer\" ON \"invoice\".\"customer_id\" = \"customer\".\"customer_id\" WHERE \"customer\".\"country\" = 'Brazil' AND \"invoice\".\"invoice_date\" >= '2024-01-01' AND \"invoice\".\"invoice_date\" < '2025-01-01'",
+    "table": [
+      {
+        "total_sales": "53.46"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        }
+      },
+      "filters": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "Brazil",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "a-cf1b483ec6900d1a",
+          "source": "verified_value_index",
+          "scope_evidence": "explicit_user_country_scope"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 23
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [
+            {
+              "column": "customer.country",
+              "operator": "=",
+              "value": "Brazil",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-cf1b483ec6900d1a",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "巴西"
+        },
+        "output_summary": {
+          "candidate_count": 1,
+          "candidate_ids": [
+            "v-95ff10c443473368bada"
+          ],
+          "scores": [
+            1.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "ok",
+        "input_summary": {
+          "original_question": "2024年按客户所在地统计巴西销售额是多少？"
+        },
+        "output_summary": {
+          "rewritten_question": "2024年按客户所在地统计Brazil销售额是多少？",
+          "patches": [
+            {
+              "start": 13,
+              "end": 15,
+              "original": "巴西",
+              "replacement": "Brazil",
+              "method": "exact",
+              "evidence_ref": "a-cf1b483ec6900d1a"
+            }
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 7
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024年按客户所在地统计Brazil销售额是多少？\n当前执行条件（用户显式条件优先；已批准默认只补缺项；替代改动的旧条件，其余保留）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"customer.country\", \"filters\": [{\"column\": \"customer.country\", \"operator\": \"=\", \"value\": \"Brazil\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"a-cf1b483ec6900d1a\", \"source\": \"verified_value_index\", \"scope_evidence\": \"explicit_user_country_scope\"}], \"assumptions\": []}",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(invoice.total) AS total_sales FROM \"public\".\"invoice\" INNER JOIN \"public\".\"customer\" ON \"invoice\".\"customer_id\" = \"customer\".\"customer_id\" WHERE \"customer\".\"country\" = 'Brazil' AND \"invoice\".\"invoice_date\" >= '2024-01-01' AND \"invoice\".\"invoice_date\" < '2025-01-01'",
+          "explanation": "按客户所在地（customer.country='Brazil'）统计 2024 年发票销售额，使用 invoice.total 汇总收入，并与 customer 通过 customer_id 连接以获取客户所在地。"
+        },
+        "latency_ms": 3868
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/oct12/provider-captures/live-001/d7eeb172b8544a2da5ec84e64c7d578b.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 161,
+            "prompt_tokens": 5322,
+            "total_tokens": 5483,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1024
+            },
+            "prompt_cache_hit_tokens": 1024,
+            "prompt_cache_miss_tokens": 4298
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2582
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(invoice.total) AS total_sales FROM \"public\".\"invoice\" INNER JOIN \"public\".\"customer\" ON \"invoice\".\"customer_id\" = \"customer\".\"customer_id\" WHERE \"customer\".\"country\" = 'Brazil' AND \"invoice\".\"invoice_date\" >= '2024-01-01' AND \"invoice\".\"invoice_date\" < '2025-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(invoice.total) AS total_sales FROM \"public\".\"invoice\" INNER JOIN \"public\".\"customer\" ON \"invoice\".\"customer_id\" = \"customer\".\"customer_id\" WHERE \"customer\".\"country\" = 'Brazil' AND \"invoice\".\"invoice_date\" >= '2024-01-01' AND \"invoice\".\"invoice_date\" < '2025-01-01'"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "customer.country",
+              "operator": "=",
+              "value": "Brazil",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-cf1b483ec6900d1a",
+              "source": "verified_value_index",
+              "scope_evidence": "explicit_user_country_scope"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(invoice.total) AS total_sales FROM \"public\".\"invoice\" INNER JOIN \"public\".\"customer\" ON \"invoice\".\"customer_id\" = \"customer\".\"customer_id\" WHERE \"customer\".\"country\" = %(qa_value_1)s AND \"invoice\".\"invoice_date\" >= %(qa_value_2)s AND \"invoice\".\"invoice_date\" < %(qa_value_0)s",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "total_sales"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 35
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 3942,
+      "nlu": {
+        "original_question": "2024年按客户所在地统计巴西销售额是多少？",
+        "rewritten_question": "2024年按客户所在地统计Brazil销售额是多少？",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "巴西",
+            "span": [
+              13,
+              15
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "customer.country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-95ff10c443473368bada",
+                "column": "customer.country",
+                "standard_value": "Brazil",
+                "surface": "巴西",
+                "score": 1.0,
+                "source": "llm_draft:deepseek-flash",
+                "evidence_ref": "a-cf1b483ec6900d1a",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": "v-95ff10c443473368bada",
+            "match_method": "exact",
+            "evidence_ref": "a-cf1b483ec6900d1a",
+            "canonical_value": "Brazil",
+            "column": "customer.country",
+            "stages": [
+              {
+                "method": "exact",
+                "minimum_score": 0.0,
+                "candidates": [
+                  {
+                    "candidate_id": "v-95ff10c443473368bada",
+                    "column": "customer.country",
+                    "standard_value": "Brazil",
+                    "surface": "巴西",
+                    "score": 1.0,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-cf1b483ec6900d1a",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "a-cf1b483ec6900d1a",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [
+          {
+            "start": 13,
+            "end": 15,
+            "original": "巴西",
+            "replacement": "Brazil",
+            "method": "exact",
+            "evidence_ref": "a-cf1b483ec6900d1a"
+          }
+        ],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": "customer.country",
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "result_columns": [
+        "total_sales"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

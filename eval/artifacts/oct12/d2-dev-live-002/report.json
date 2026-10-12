@@ -1,0 +1,153 @@
+{
+  "created_at_utc": "2026-10-12T16:36:16.844318+00:00",
+  "measurement": "Oct12 live DEV exploratory regression; original labels/status/results unchanged",
+  "holdout_prediction_count": 0,
+  "results": {
+    "sql": {
+      "exit_code": 0,
+      "report": "eval/artifacts/oct12/d2-dev-live-002/sql/report.json",
+      "summary": {
+        "status": "COMPLETED",
+        "split": "dev",
+        "draft_gold": true,
+        "selected_count": 35,
+        "prediction_count": 35,
+        "holdout_prediction_count": 0,
+        "blockers": [],
+        "gold_pending_ids": [
+          "sql-38"
+        ],
+        "suite": "nl2sql",
+        "run_id": "d2-dev-live-002-sql",
+        "correct": 34,
+        "legacy_correct": 34,
+        "exploratory_ex": 0.9714285714285714,
+        "failure_categories": {
+          "needs_clarification": 1
+        },
+        "average_latency_ms": 3881.8725714285715,
+        "error_types": {
+          "clarify_wrong": 1
+        },
+        "segments": {
+          "d1_common": {
+            "correct": 20,
+            "denominator": 21
+          },
+          "new_dev": {
+            "correct": 14,
+            "denominator": 14
+          }
+        },
+        "gold_human_accepted_count": 34
+      },
+      "original_dev_sha_unchanged": true
+    },
+    "robust": {
+      "exit_code": 0,
+      "report": "eval/artifacts/oct12/d2-dev-live-002/robust/report.json",
+      "summary": {
+        "status": "COMPLETED",
+        "split": "dev",
+        "draft_gold": true,
+        "selected_count": 21,
+        "prediction_count": 21,
+        "holdout_prediction_count": 0,
+        "blockers": [],
+        "gold_pending_ids": [
+          "robust-23"
+        ],
+        "suite": "robust",
+        "run_id": "d2-dev-live-002-robust",
+        "correct": 21,
+        "legacy_correct": 21,
+        "exploratory_ex": 1.0,
+        "failure_categories": {},
+        "average_latency_ms": 3379.8633333333337,
+        "error_types": {},
+        "segments": {
+          "d1_common": {
+            "correct": 0,
+            "denominator": 0
+          },
+          "new_dev": {
+            "correct": 21,
+            "denominator": 21
+          }
+        },
+        "gold_human_accepted_count": 20
+      },
+      "original_dev_sha_unchanged": true
+    },
+    "rag": {
+      "exit_code": 0,
+      "report": "eval/artifacts/oct12/d2-dev-live-002/rag/report.json",
+      "summary": {
+        "status": "COMPLETED",
+        "suite": "rag",
+        "split": "dev",
+        "run_id": "d2-dev-live-002-rag",
+        "selected_count": 21,
+        "prediction_count": 21,
+        "holdout_prediction_count": 0,
+        "gold_human_accepted_count": 0,
+        "answer_human_review_count": 0,
+        "blockers": [],
+        "hit_at_5": {
+          "passed": 20,
+          "denominator": 20
+        },
+        "exact_gold_quote_hit_at_5": {
+          "passed": 14,
+          "denominator": 20
+        },
+        "insufficient_handling": {
+          "passed": 1,
+          "denominator": 1
+        },
+        "mechanical_metrics": {
+          "status_succeeded": {
+            "passed": 20,
+            "denominator": 21
+          },
+          "evidence_in_selected_doc": {
+            "passed": 20,
+            "denominator": 21
+          },
+          "evidence_authentic_index_text": {
+            "passed": 20,
+            "denominator": 21
+          }
+        },
+        "error_types": {},
+        "mean_latency_ms": 3032.5990476190477,
+        "api_status_counts": {
+          "SUCCEEDED": 20,
+          "EMPTY_RESULT": 1
+        },
+        "segments": {
+          "d1_common": {
+            "prediction_count": 14,
+            "hit_at_5_passed": 14,
+            "hit_at_5_denominator": 14,
+            "actual_status_counts": {
+              "SUCCEEDED": 14
+            },
+            "human_correctness_review_count": 0
+          },
+          "new_d2": {
+            "prediction_count": 7,
+            "hit_at_5_passed": 6,
+            "hit_at_5_denominator": 6,
+            "actual_status_counts": {
+              "SUCCEEDED": 6,
+              "EMPTY_RESULT": 1
+            },
+            "human_correctness_review_count": 0
+          }
+        }
+      },
+      "original_dev_sha_unchanged": true
+    }
+  }
+}

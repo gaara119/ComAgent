@@ -1,0 +1,26 @@
+{
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "eval.run_eval",
+    "--suite",
+    "nl2sql",
+    "--dataset",
+    "eval/datasets/oct12/chinook_join_dev_v1.jsonl",
+    "--split",
+    "dev",
+    "--draft-gold",
+    "--run-id",
+    "oct12-join-002",
+    "--output",
+    "eval/artifacts/oct12/join-live-002",
+    "--timeout",
+    "240"
+  ],
+  "cwd": ".",
+  "started_at_utc": "20261012T161550802518Z",
+  "elapsed_seconds": 108.367,
+  "exit_code": 0,
+  "output": "eval/artifacts/oct12/commands/20261012T161550802518Z-oct12-join-live2.txt"
+}

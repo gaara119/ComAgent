@@ -1,0 +1,428 @@
+{
+  "created_at_utc": "2026-10-12T17:19:09.723087+00:00",
+  "file": "qa_agent/clarify/rules.py",
+  "before_sha256": "793df09e6d1d2d4521b40f2684a3cbcb77647183b46a06440a9655a6a76d401b",
+  "after_sha256": "e5c70638135e892f10b2a9e59bedcf82df8dc19e29ddaf2130ecdcfaafeaebb7",
+  "self_review": {
+    "generated_at_utc": "2026-10-12T17:15:46.951054+00:00",
+    "source_file": "qa_agent/clarify/rules.py",
+    "source_sha256": "793df09e6d1d2d4521b40f2684a3cbcb77647183b46a06440a9655a6a76d401b",
+    "candidate_file": "notes/oct12/staging/sql22/rules_candidate-v5.py",
+    "candidate_sha256": "e5c70638135e892f10b2a9e59bedcf82df8dc19e29ddaf2130ecdcfaafeaebb7",
+    "formal_test_file": "tests/test_oct12_before_date.py",
+    "formal_test_sha256": "9382c4f5e8c338db68a6cc9a111db3555d2772867a9c5c28f97f7711ba33a447",
+    "business_source_applied": false,
+    "schemas_changed": false,
+    "golds_changed": false,
+    "human_review_changed": false,
+    "tested": {
+      "isolated_cases": 71,
+      "passed": 71,
+      "real_model_requests": 0,
+      "database_queries": 0,
+      "holdout_predictions": 0
+    },
+    "trusted_new_contract": {
+      "current": {
+        "end": "literal verified ISO date",
+        "grain": "before",
+        "label": "actual written strictly earlier date phrase"
+      },
+      "start": "absent"
+    },
+    "positive_scope": "exactly one complete date with literal 之前/早于/小于 and no incompatible qualifier",
+    "unparsed_scope": [
+      "negative comparisons",
+      "inclusive endpoints",
+      "later comparisons",
+      "explicit clock/zone",
+      "shifted days",
+      "invalid dates"
+    ],
+    "unchanged_scope": [
+      "genuine closed dates/ranges/months/years",
+      "business defaults",
+      "schemas",
+      "model config",
+      "original golds",
+      "human signatures"
+    ],
+    "limitations": [
+      "Does not implement timestamp or relative/later-period semantics.",
+      "Unsupported/invalid comparator text is not turned into a program window; model handling of unsupported questions is unchanged.",
+      "Existing confirmed invoice followup SQL guard requires closed periods and will conservatively reject an open bound; employee sql-22 does not invoke it.",
+      "Growth requires a base; an open current bound cannot fabricate a YOY/MOM base."
+    ],
+    "ai_self_review": "AI建议通过窄候选；独立v5第二审待完成",
+    "human_signature": null,
+    "human_confirmation_date": null,
+    "replaces_unapplied_candidate_version": 4,
+    "added_scope_proof": "Date-attached comparison intent and directly attached negation only; unrelated amount/unpaid predicates do not disable ordinary day or strict-before bounds."
+  },
+  "independent_review": {
+    "state": "PASS",
+    "passed": true,
+    "candidate_path": "notes/oct12/staging/sql22/rules_candidate-v5.py",
+    "candidate_sha256": "e5c70638135e892f10b2a9e59bedcf82df8dc19e29ddaf2130ecdcfaafeaebb7",
+    "source_unchanged_during_probe": true,
+    "checks": 22,
+    "passed_count": 22,
+    "kind": "actual local date parser and archived-provider replay; not a system prediction",
+    "fixture_complete_json_calls": 1,
+    "real_model_requests": 0,
+    "database_executions": 0,
+    "holdout_predictions": 0,
+    "business_files_modified": false,
+    "human_approval": false,
+    "probes": [
+      {
+        "question": "列出 2004 年 1 月 1 日之前入职的员工。",
+        "expected": {
+          "end": "2004-01-01",
+          "grain": "before"
+        },
+        "actual": {
+          "current": {
+            "end": "2004-01-01",
+            "grain": "before",
+            "label": "2004 年 1 月 1 日之前"
+          }
+        },
+        "pass": true
+      },
+      {
+        "question": "2004-01-01之前入职。",
+        "expected": {
+          "end": "2004-01-01",
+          "grain": "before"
+        },
+        "actual": {
+          "current": {
+            "end": "2004-01-01",
+            "grain": "before",
+            "label": "2004-01-01之前"
+          }
+        },
+        "pass": true
+      },
+      {
+        "question": "未早于2004年1月1日入职。",
+        "expected": null,
+        "actual": null,
+        "pass": true
+      },
+      {
+        "question": "并非早于2004年1月1日入职。",
+        "expected": null,
+        "actual": null,
+        "pass": true
+      },
+      {
+        "question": "不是早于2004年1月1日入职。",
+        "expected": null,
+        "actual": null,
+        "pass": true
+      },
+      {
+        "question": "早于2004年1月1日12:00:00入职。",
+        "expected": null,
+        "actual": null,
+        "pass": true
+      },
+      {
+        "question": "2004-01-01T12:00:00之前入职。",
+        "expected": null,
+        "actual": null,
+        "pass": true
+      },
+      {
+        "question": "2004年1月1日之前（含该日）入职。",
+        "expected": null,
+        "actual": null,
+        "pass": true
+      },
+      {
+        "question": "早于2004年1月1日中午12点入职。",
+        "expected": null,
+        "actual": null,
+        "pass": true
+      },
+      {
+        "question": "早于2004-01-01T00:00:00+08:00入职。",
+        "expected": null,
+        "actual": null,
+        "pass": true
+      },
+      {
+        "question": "早于2004年1月123日入职。",
+        "expected": null,
+        "actual": null,
+        "pass": true
+      },
+      {
+        "question": "2004年123月1日之前入职。",
+        "expected": null,
+        "actual": null,
+        "pass": true
+      },
+      {
+        "question": "2004 年 2 月入职。",
+        "expected": {
+          "start": "2004-02-01",
+          "end": "2004-03-01",
+          "grain": "month"
+        },
+        "actual": {
+          "current": {
+            "start": "2004-02-01",
+            "end": "2004-03-01",
+            "label": "2004年2月",
+            "grain": "month"
+          }
+        },
+        "pass": true
+      },
+      {
+        "question": "2003年12月1日到2004年1月1日入职。",
+        "expected": {
+          "start": "2003-12-01",
+          "end": "2004-01-02",
+          "grain": "custom"
+        },
+        "actual": {
+          "current": {
+            "start": "2003-12-01",
+            "end": "2004-01-02",
+            "grain": "custom",
+            "label": "2003年12月1日到2004年1月1日"
+          }
+        },
+        "pass": true
+      },
+      {
+        "question": "2004年2月29日入职。",
+        "expected": {
+          "start": "2004-02-29",
+          "end": "2004-03-01",
+          "grain": "custom"
+        },
+        "actual": {
+          "current": {
+            "start": "2004-02-29",
+            "end": "2004-03-01",
+            "grain": "custom",
+            "label": "2004年2月29日"
+          }
+        },
+        "pass": true
+      },
+      {
+        "question": "2004年1月1日，列出金额大于5的记录。",
+        "expected": {
+          "start": "2004-01-01",
+          "end": "2004-01-02",
+          "grain": "custom"
+        },
+        "actual": {
+          "current": {
+            "start": "2004-01-01",
+            "end": "2004-01-02",
+            "grain": "custom",
+            "label": "2004年1月1日"
+          }
+        },
+        "pass": true
+      },
+      {
+        "question": "列出2004年1月1日未支付的发票。",
+        "expected": {
+          "start": "2004-01-01",
+          "end": "2004-01-02",
+          "grain": "custom"
+        },
+        "actual": {
+          "current": {
+            "start": "2004-01-01",
+            "end": "2004-01-02",
+            "grain": "custom",
+            "label": "2004年1月1日"
+          }
+        },
+        "pass": true
+      },
+      {
+        "question": "2004年1月1日之前入职的员工，工资大于5。",
+        "expected": {
+          "end": "2004-01-01",
+          "grain": "before"
+        },
+        "actual": {
+          "current": {
+            "end": "2004-01-01",
+            "grain": "before",
+            "label": "2004年1月1日之前"
+          }
+        },
+        "pass": true
+      },
+      {
+        "question": "2004年1月1日之前未支付的发票。",
+        "expected": {
+          "end": "2004-01-01",
+          "grain": "before"
+        },
+        "actual": {
+          "current": {
+            "end": "2004-01-01",
+            "grain": "before",
+            "label": "2004年1月1日之前"
+          }
+        },
+        "pass": true
+      },
+      {
+        "question": "未支付且早于2004年1月1日的发票。",
+        "expected": {
+          "end": "2004-01-01",
+          "grain": "before"
+        },
+        "actual": {
+          "current": {
+            "end": "2004-01-01",
+            "grain": "before",
+            "label": "早于2004年1月1日"
+          }
+        },
+        "pass": true
+      },
+      {
+        "id": "actual_provider_response_local_replay",
+        "actual_intent": {
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": {
+            "current": {
+              "end": "2004-01-01",
+              "grain": "before",
+              "label": "2004 年 1 月 1 日之前"
+            }
+          },
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": {
+            "field": "employee.employee_id",
+            "direction": "asc"
+          },
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {
+            "filters": "2004 年 1 月 1 日之前入职",
+            "order": "按员工编号升序"
+          }
+        },
+        "decision": {
+          "level": "L0",
+          "analysis": {
+            "task_type": "lookup",
+            "metric": null,
+            "time_scope": {
+              "current": {
+                "end": "2004-01-01",
+                "grain": "before",
+                "label": "2004 年 1 月 1 日之前"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": {
+              "field": "employee.employee_id",
+              "direction": "asc"
+            },
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "filters": "2004 年 1 月 1 日之前入职",
+              "order": "按员工编号升序"
+            }
+          },
+          "issues": [],
+          "assumptions": [],
+          "switches": [],
+          "derived": {}
+        },
+        "pass": true
+      },
+      {
+        "id": "open_before_does_not_invent_growth_base",
+        "decision": {
+          "level": "L2",
+          "analysis": {
+            "task_type": "growth",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "end": "2004-01-01",
+                "grain": "before",
+                "label": "2004年1月1日之前"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "issues": [
+            {
+              "id": "missing:base_period",
+              "question": "请明确基期，或提供适用比较规则的当前月份。",
+              "reason": "当前范围无法唯一推导比较基期。",
+              "field": "time_scope.base",
+              "options": []
+            }
+          ],
+          "assumptions": [],
+          "switches": [],
+          "derived": {}
+        },
+        "pass": true
+      }
+    ]
+  },
+  "gold_changes": 0,
+  "human_review_changes": 0,
+  "held_predictions": 0
+}

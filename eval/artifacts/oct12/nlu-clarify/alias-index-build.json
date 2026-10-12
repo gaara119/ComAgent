@@ -1,0 +1,373 @@
+{
+  "created_at_utc": "2026-10-12T15:57:17.911891+00:00",
+  "authorization_source": "C:\\Users\\郭乾冥\\Desktop\\12号任务.md",
+  "authorization_sha256": "4cfcf12c19531b342100af195f0008cbf84d7097e16aca533ea33b08dd2339dc",
+  "authorization_kind": "explicit_user_document_instruction",
+  "human_signatures_added": false,
+  "source_alias_sha256": "aa699e8ef59f5185a0626ed2a9aefb36a1e292bfa2e3c0efd4b0ba5b1ddaef04",
+  "new_alias_sha256": "18d03aa50cb8f6b78a0ba7e5d9d2ca6f9601d5a1e2af5c88efcc5cad9563135c",
+  "updated_relationships": [
+    {
+      "alias_id": "a-c43d08f9e0effe4d",
+      "before": {
+        "standard_value": "USA",
+        "column": "customer.country",
+        "alias": "老美",
+        "source": "llm_draft:deepseek-flash",
+        "review_status": "approved_candidate",
+        "reviewer": "user-attested-D2-audit",
+        "alias_id": "a-c43d08f9e0effe4d"
+      },
+      "after": {
+        "standard_value": "USA",
+        "column": "customer.country",
+        "alias": "老美",
+        "source": "user_authorized:12号任务.md:sha256:4cfcf12c19531b342100af195f0008cbf84d7097e16aca533ea33b08dd2339dc",
+        "review_status": "approved",
+        "reviewer": "user-explicit-oct12-task",
+        "alias_id": "a-c43d08f9e0effe4d"
+      }
+    },
+    {
+      "alias_id": "a-9d6edadfda3e46a9",
+      "before": {
+        "standard_value": "USA",
+        "column": "invoice.billing_country",
+        "alias": "老美",
+        "source": "llm_draft:deepseek-flash",
+        "review_status": "approved_candidate",
+        "reviewer": "user-attested-D2-audit",
+        "alias_id": "a-9d6edadfda3e46a9"
+      },
+      "after": {
+        "standard_value": "USA",
+        "column": "invoice.billing_country",
+        "alias": "老美",
+        "source": "user_authorized:12号任务.md:sha256:4cfcf12c19531b342100af195f0008cbf84d7097e16aca533ea33b08dd2339dc",
+        "review_status": "approved",
+        "reviewer": "user-explicit-oct12-task",
+        "alias_id": "a-9d6edadfda3e46a9"
+      }
+    }
+  ],
+  "other_relationships_changed": 0,
+  "policy_counts": {
+    "approved_candidate": 23,
+    "approved": 56,
+    "pending": 2
+  },
+  "live_date_verification": {
+    "sql": "SELECT MIN(invoice_date)::date, MAX(invoice_date)::date, ARRAY_AGG(DISTINCT EXTRACT(YEAR FROM invoice_date)::int ORDER BY EXTRACT(YEAR FROM invoice_date)::int) FROM public.invoice",
+    "read_only": true,
+    "statement_timeout_ms": 5000,
+    "min_date": "2021-01-01",
+    "max_date": "2025-12-22",
+    "available_years": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ]
+  },
+  "index": {
+    "format_version": 1,
+    "complete": true,
+    "built_at": "2026-10-12T15:57:17.695113+00:00",
+    "source": "read_only_live_database",
+    "standard_count": 5528,
+    "record_count": 5607,
+    "alias_audit": {
+      "accepted_count": 79,
+      "direct_count": 56,
+      "candidate_only_count": 23,
+      "excluded_count": 2,
+      "invalid": [],
+      "input_sha256": "18d03aa50cb8f6b78a0ba7e5d9d2ca6f9601d5a1e2af5c88efcc5cad9563135c"
+    },
+    "column_audit": [
+      {
+        "column": "album.title",
+        "status": "indexed",
+        "distinct_non_null_count": 347,
+        "latency_ms": 5
+      },
+      {
+        "column": "artist.name",
+        "status": "indexed",
+        "distinct_non_null_count": 275,
+        "latency_ms": 2
+      },
+      {
+        "column": "customer.first_name",
+        "status": "indexed",
+        "distinct_non_null_count": 57,
+        "latency_ms": 2
+      },
+      {
+        "column": "customer.last_name",
+        "status": "indexed",
+        "distinct_non_null_count": 59,
+        "latency_ms": 2
+      },
+      {
+        "column": "customer.company",
+        "status": "indexed",
+        "distinct_non_null_count": 10,
+        "latency_ms": 2
+      },
+      {
+        "column": "customer.address",
+        "status": "indexed",
+        "distinct_non_null_count": 59,
+        "latency_ms": 2
+      },
+      {
+        "column": "customer.city",
+        "status": "indexed",
+        "distinct_non_null_count": 53,
+        "latency_ms": 2
+      },
+      {
+        "column": "customer.state",
+        "status": "indexed",
+        "distinct_non_null_count": 25,
+        "latency_ms": 1
+      },
+      {
+        "column": "customer.country",
+        "status": "indexed",
+        "distinct_non_null_count": 24,
+        "latency_ms": 1
+      },
+      {
+        "column": "customer.postal_code",
+        "status": "indexed",
+        "distinct_non_null_count": 55,
+        "latency_ms": 1
+      },
+      {
+        "column": "customer.phone",
+        "status": "indexed",
+        "distinct_non_null_count": 58,
+        "latency_ms": 1
+      },
+      {
+        "column": "customer.fax",
+        "status": "indexed",
+        "distinct_non_null_count": 12,
+        "latency_ms": 1
+      },
+      {
+        "column": "customer.email",
+        "status": "indexed",
+        "distinct_non_null_count": 59,
+        "latency_ms": 2
+      },
+      {
+        "column": "employee.last_name",
+        "status": "indexed",
+        "distinct_non_null_count": 8,
+        "latency_ms": 2
+      },
+      {
+        "column": "employee.first_name",
+        "status": "indexed",
+        "distinct_non_null_count": 8,
+        "latency_ms": 1
+      },
+      {
+        "column": "employee.title",
+        "status": "indexed",
+        "distinct_non_null_count": 5,
+        "latency_ms": 1
+      },
+      {
+        "column": "employee.address",
+        "status": "indexed",
+        "distinct_non_null_count": 8,
+        "latency_ms": 1
+      },
+      {
+        "column": "employee.city",
+        "status": "indexed",
+        "distinct_non_null_count": 3,
+        "latency_ms": 1
+      },
+      {
+        "column": "employee.state",
+        "status": "indexed",
+        "distinct_non_null_count": 1,
+        "latency_ms": 1
+      },
+      {
+        "column": "employee.country",
+        "status": "indexed",
+        "distinct_non_null_count": 1,
+        "latency_ms": 1
+      },
+      {
+        "column": "employee.postal_code",
+        "status": "indexed",
+        "distinct_non_null_count": 8,
+        "latency_ms": 1
+      },
+      {
+        "column": "employee.phone",
+        "status": "indexed",
+        "distinct_non_null_count": 7,
+        "latency_ms": 1
+      },
+      {
+        "column": "employee.fax",
+        "status": "indexed",
+        "distinct_non_null_count": 8,
+        "latency_ms": 1
+      },
+      {
+        "column": "employee.email",
+        "status": "indexed",
+        "distinct_non_null_count": 8,
+        "latency_ms": 2
+      },
+      {
+        "column": "genre.name",
+        "status": "indexed",
+        "distinct_non_null_count": 25,
+        "latency_ms": 2
+      },
+      {
+        "column": "invoice.billing_address",
+        "status": "indexed",
+        "distinct_non_null_count": 59,
+        "latency_ms": 2
+      },
+      {
+        "column": "invoice.billing_city",
+        "status": "indexed",
+        "distinct_non_null_count": 53,
+        "latency_ms": 2
+      },
+      {
+        "column": "invoice.billing_state",
+        "status": "indexed",
+        "distinct_non_null_count": 25,
+        "latency_ms": 2
+      },
+      {
+        "column": "invoice.billing_country",
+        "status": "indexed",
+        "distinct_non_null_count": 24,
+        "latency_ms": 2
+      },
+      {
+        "column": "invoice.billing_postal_code",
+        "status": "indexed",
+        "distinct_non_null_count": 55,
+        "latency_ms": 2
+      },
+      {
+        "column": "media_type.name",
+        "status": "indexed",
+        "distinct_non_null_count": 5,
+        "latency_ms": 2
+      },
+      {
+        "column": "playlist.name",
+        "status": "indexed",
+        "distinct_non_null_count": 14,
+        "latency_ms": 3
+      },
+      {
+        "column": "track.name",
+        "status": "indexed",
+        "distinct_non_null_count": 3257,
+        "latency_ms": 9
+      },
+      {
+        "column": "track.composer",
+        "status": "indexed",
+        "distinct_non_null_count": 853,
+        "latency_ms": 5
+      }
+    ],
+    "vector_count": 5607,
+    "vector_shape": [
+      5607,
+      1024
+    ],
+    "embedding": {
+      "model": "BAAI/bge-m3",
+      "conversion_repo": "Xenova/bge-m3",
+      "revision": "4de13258303883538bd53b696b452bf8099f0858",
+      "source": "https://huggingface.co/Xenova/bge-m3/tree/4de13258303883538bd53b696b452bf8099f0858",
+      "license": "MIT",
+      "runtime": "onnxruntime",
+      "device": "cpu",
+      "weight_type": "QInt8",
+      "pooling": "CLS",
+      "normalization": "L2",
+      "dimensions": 1024,
+      "downloaded_at_utc": "2026-10-10T12:06:50.568592+00:00",
+      "files": [
+        {
+          "path": "onnx/model_quantized.onnx",
+          "size": 569694530,
+          "sha256": "0826f8c1ab9edf1801db86c61919d4d108e8bfc0b809ec823ad366882ff0b77d"
+        },
+        {
+          "path": "tokenizer.json",
+          "size": 17082821,
+          "sha256": "6710678b12670bc442b99edc952c4d996ae309a7020c1fa0096dd245c2faf790"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "size": 1173,
+          "sha256": "7e4c1cc848840aeccdd763458c18dd525eb0f795c992e00ebe9c28554e7db2d4"
+        },
+        {
+          "path": "config.json",
+          "size": 770,
+          "sha256": "734a79bf12d388c1467a4e3ab625f45de7f6906cffcfb93a1eca1787504bed95"
+        },
+        {
+          "path": "quantize_config.json",
+          "size": 834,
+          "sha256": "4d98142624026cf78a40b36896ae1b1bada4faf185b77784a03b6995324aa176"
+        }
+      ],
+      "max_length": 512,
+      "batch_size": 2,
+      "providers": [
+        "CPUExecutionProvider"
+      ],
+      "mode": "bge-m3_onnx_int8",
+      "model_id": "BAAI/bge-m3",
+      "model_revision": "4de13258303883538bd53b696b452bf8099f0858",
+      "model_sha256": "0826f8c1ab9edf1801db86c61919d4d108e8bfc0b809ec823ad366882ff0b77d"
+    },
+    "artifact_sha256": {
+      "values.jsonl": "c355c8ddaa505f37c1abde36fbc80cdb75459b8a1b28a3afbe989661a6644a18",
+      "records.jsonl": "5dfc63ab045f773dfb473bf05cc1115c3e4cf4b9f41b05a17e17944d56c11ef2",
+      "pinyin_index.json": "5b4872c8054b083b63192f4363414a033027ad754a4c7a0a8f3890fa8c43c983",
+      "embeddings.npy": "06db85c32549d6456262cf73f8406a620988eddef16bd1524ad08aafbf81abf8"
+    },
+    "human_review_status": "approved_aliases_only",
+    "vectors_enabled": true,
+    "catalog_sha256": "4d97a3f7fdfd0c684b544f162e20d2253c4f9c0cd572ba1fcaf40fe439a391b8",
+    "build_config": {
+      "distinct_non_null_limit": 5000,
+      "read_only": true,
+      "statement_timeout_ms": 5000,
+      "normalization": "NFKC_casefold_whitespace",
+      "alias_review_required": true
+    },
+    "embedding_reuse": {
+      "source_index": "data/indexes/values-d2-reviewed",
+      "source_meta_sha256": "268fd11858e9f5bad3d7dd265fbf02c3d35b4c7741034ca1a38ced0e6ce67093",
+      "reason": "All text surfaces unchanged; vectors reordered by verified record identity",
+      "reused_count": 5607
+    },
+    "alias_source": "data/aliases/aliases-oct12-approved.csv"
+  }
+}

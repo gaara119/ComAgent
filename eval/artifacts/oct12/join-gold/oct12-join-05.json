@@ -1,0 +1,22 @@
+{
+  "id": "oct12-join-05",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "-B",
+    "scripts/build_oct12_join_dev.py"
+  ],
+  "sql": "SELECT COUNT(*) AS track_count FROM track AS t JOIN genre AS g ON t.genre_id = g.genre_id WHERE g.name = 'Vaporwave'",
+  "status": "EXECUTED",
+  "columns": [
+    "track_count"
+  ],
+  "rows": [
+    [
+      0
+    ]
+  ],
+  "read_only": true,
+  "statement_timeout_ms": 5000,
+  "generated_at_utc": "2026-10-12T15:55:40.678062+00:00",
+  "truncated": false
+}

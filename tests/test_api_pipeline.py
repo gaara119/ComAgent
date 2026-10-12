@@ -68,7 +68,7 @@ def test_scripted_model_real_database_wiring(sql, expected_status, expected_tabl
 @pytest.mark.parametrize("sql", [
     "DELETE FROM customer",
     "SELECT 59 AS customer_count",
-    "SELECT COUNT(*) FROM customer c JOIN invoice i ON c.customer_id=i.customer_id",
+    "SELECT COUNT(*) FROM customer c JOIN invoice i ON TRUE",
 ])
 def test_rejected_generated_sql_never_reaches_executor(monkeypatch, sql):
     def unexpected_execution(*args, **kwargs):

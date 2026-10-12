@@ -1,0 +1,150 @@
+{
+  "state": "ACTUAL_LOCAL_PROBE",
+  "candidate_sha256": "e2d6f2760cb5558a1f8376ebd197e1633ed15a198310e58a9ef25e755d121590",
+  "purpose": "AI独立第二审核；纯模型fixture验证是否误绕过指标缺口，不能计作真实模型成绩",
+  "model_requests": 0,
+  "holdout_predictions": 0,
+  "business_files_modified": false,
+  "probes": [
+    {
+      "question": "按姓氏降序取前5位客户，返回编号、名字和姓氏。",
+      "attribute_rule_matches": true,
+      "fixture_intent_before": {
+        "task_type": "ranking",
+        "metric": null,
+        "rank_object": "customer"
+      },
+      "intent_after": {
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "customer",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L0",
+      "issues": []
+    },
+    {
+      "question": "按姓氏降序取前5位客户，统计营收总和。",
+      "attribute_rule_matches": true,
+      "fixture_intent_before": {
+        "task_type": "ranking",
+        "metric": null,
+        "rank_object": "customer"
+      },
+      "intent_after": {
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "customer",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L0",
+      "issues": []
+    },
+    {
+      "question": "按姓氏降序取前5位客户，按 revenue 再排名。",
+      "attribute_rule_matches": true,
+      "fixture_intent_before": {
+        "task_type": "ranking",
+        "metric": null,
+        "rank_object": "customer"
+      },
+      "intent_after": {
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "customer",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L0",
+      "issues": []
+    },
+    {
+      "question": "按姓氏降序取前5位客户的支出。",
+      "attribute_rule_matches": true,
+      "fixture_intent_before": {
+        "task_type": "ranking",
+        "metric": null,
+        "rank_object": "customer"
+      },
+      "intent_after": {
+        "task_type": "lookup",
+        "metric": null,
+        "time_scope": null,
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "customer",
+        "top_n": 5,
+        "order": {
+          "field": "last_name",
+          "direction": "desc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "decision_level": "L0",
+      "issues": []
+    }
+  ]
+}

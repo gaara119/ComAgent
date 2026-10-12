@@ -60,14 +60,20 @@ def run_doc_qa(*, question: str, doc_id: str, trace_id: str, intent: IntentContr
             step.output_summary = {"status": answer.status, "used_evidence_ids": [c["evidence_id"] for c in used]}
             coverage = citation_coverage_diagnostics(answer)
             metadata["citation_coverage"] = coverage
+            if answer._validation_warnings:
+                step.status = "warn"
+                metadata.update(faithfulness_uncertain=True, warnings=answer._validation_warnings)
+                step.output_summary["validation_warnings"] = answer._validation_warnings
             if coverage["potential_uncited_statement_count"]:
                 step.status = "warn"
                 step.output_summary["warning"] = "存在可能未标引用的文字陈述，须人工复核；启发式检查不等同事实判定。"
         evidences = [Evidence(**{key: c[key] for key in
                                ("evidence_id", "doc_id", "doc_title", "page", "section_path", "text", "bbox")}) for c in used]
         metadata["cited_evidence_ids"] = [c["evidence_id"] for c in used]
-        metadata.update(validation_status="passed", validation_retries=sum(s.name == "rag_retry" for s in trace.steps),
-                        semantic_faithfulness="pending_human_review")
+        metadata.update(validation_status="unverified" if answer._validation_warnings else "passed",
+                        validation_retries=sum(s.name == "rag_retry" for s in trace.steps),
+                        faithfulness_uncertain=bool(answer._validation_warnings),
+                        semantic_faithfulness="not_verified" if answer._validation_warnings else "pending_human_review")
         metadata.update(latency_ms=trace.latency_ms, llm_attempts=trace.llm_attempts)
         return AnswerEnvelope(trace_id=trace.trace_id, status=answer.status, answer=answer.answer,
                               evidences=evidences, intent=intent, steps=trace.steps, metadata=metadata)

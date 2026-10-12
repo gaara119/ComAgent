@@ -1,0 +1,2368 @@
+{
+  "schema_version": "oct12-human-decisions-draft-v1",
+  "source_report": "eval/reports/oct12/manual-review/全部待人工审核统一入口.json",
+  "dataset_sha256": "6f22e0031629597171800df1ee14d86c2ec094efb1cd59a7189755d905c8914f",
+  "exported_at_utc": "2026-10-12T16:05:56.461Z",
+  "human_signature": null,
+  "human_confirmation_date": null,
+  "automatic_application": false,
+  "records": [
+    {
+      "review_key": "alias:a-0c47392129d13dd6",
+      "content_sha256": "5b632cd1cb5abb7cc23723317e9f6acae754c22f83fbbc5d47d6651b4e491577",
+      "decisions": {
+        "别名关系": "待审核"
+      },
+      "question": "金属 → Metallica（artist.name）",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "alias:a-c748b229db869a4e",
+      "content_sha256": "4a94d2f2a2bb2b8c1cee9c3c32fae6fe3faefb3ffc0ac822574c239d5e815d51",
+      "decisions": {
+        "别名关系": "待审核"
+      },
+      "question": "节奏摇滚 → Rock And Roll（genre.name）",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-38",
+      "content_sha256": "7b54505c200ada4f13fb8fa75e6114c42006b8ee4fd2cd772bfa44b778838a41",
+      "decisions": {
+        "新参考答案": "有条件通过"
+      },
+      "question": "找出文件字节数最大的 3 首曲目，返回编号、名称和字节数；按字节数降序，并列按曲目编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": "AUTOMATED_DEMO_ONLY: synthetic export test, not human approval."
+    },
+    {
+      "review_key": "robust:robust-23",
+      "content_sha256": "f95138d1e8a71a376752d510a4711c24a515a72e7b2ccf5acec042f8c3b01f50",
+      "decisions": {
+        "新参考答案": "待审核"
+      },
+      "question": "库里所有曲目的平均长度是多少毫秒？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-01",
+      "content_sha256": "9b9b27d53dc1326674509a83c900482b55e76437d67187cf2bac2ff9f1cb97a1",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "客户表共有多少位客户？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-02",
+      "content_sha256": "389aa98dcd8fde454c53bd2109512d79c2512b173c4a94012be446ce6f29e94b",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "来自巴西的客户有多少位？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-04",
+      "content_sha256": "05ba94924084e6ce5c31549d6b76140aacd03aa1046265f1decc015ce10b6cbf",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "列出来自巴西的客户编号、名字、姓氏和城市，按客户编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-05",
+      "content_sha256": "bd0dd88305062fb2838e97368d30988f5c011861fc2ba5d06735068b1db3c1ba",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "列出来自美国的客户编号、城市和州，按客户编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-06",
+      "content_sha256": "cfc561293bd85ac3b30e6c772c95850188137b8fe37f0fbbd920c3a161170172",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "列出单价高于 0.99 的前 10 首曲目的编号、名称和单价，按曲目编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-07",
+      "content_sha256": "0dae1997d86bd3518dedfd034602a33249b548aa19fa6084298237d4144d9b58",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "列出职位为 Sales Support Agent 的员工编号、名字和姓氏，按员工编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-09",
+      "content_sha256": "c76ea8c58fa33c13d8ad9439346889e333eeeb045f56731609841acf5ba3d9d9",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "全部发票的总金额是多少？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-10",
+      "content_sha256": "3c8c076f0ea6dfaf0bb348694698e4a37bd1f1c3b8d9989b8e9162e9ed5af0ba",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "全部曲目的平均时长是多少毫秒？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-11",
+      "content_sha256": "60429a014634e7723e8bce45ce7d01c8cab7e7da6319307e4f242214ca36be7f",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "全部发票的平均总额是多少？请保留两位小数。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-13",
+      "content_sha256": "499e00290510548c6a001e7102d82f2ee7e61bee684c4f95e7215ba259c64028",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "按客户所在国家统计客户数，先按客户数降序，并列时按国家名称升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-14",
+      "content_sha256": "43d36dfef5acabf5ed0fb0060a897340d06c125293eae8691dc79df4122d84dc",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "按流派编号统计曲目数，先按曲目数降序，并列时按流派编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-15",
+      "content_sha256": "ef39afd0665757aed3f36b8e4b42284b0f117374d7f2a3149cdaf77b7d00c262",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "按发票的账单国家统计销售总额，先按销售总额降序，并列时按国家名称升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-17",
+      "content_sha256": "f275e9837510e2db4ca00ef1b705d40422a4314b0c13248dcd38a2d7b9486418",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "找出时长最长的 5 首曲目，返回编号、名称和毫秒时长；按时长降序，并列按编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-18",
+      "content_sha256": "15312610c9e1f0836b20be4ed91808d1babb59804e27d0289dc58be28b23c49d",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "找出总额最高的 5 张发票，返回编号和总额；按总额降序，并列按编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-19",
+      "content_sha256": "febe9d05b04bb1df3836d12886b29709f982aad2fb5278ed6c2752eeeead59f4",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "按姓氏降序取前 5 位客户，返回编号、名字和姓氏；姓氏相同时按客户编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-21",
+      "content_sha256": "bcbb83a834b43bd30bc82836db43bcfd755b30b00c5581e7249917fb9119e865",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "列出 2021 年的前 10 张发票，返回编号、日期和总额，按发票编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-22",
+      "content_sha256": "56a52cfea930839a49e9cbe0c954aef623d7f714925905834bbdd040a7aacd0d",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "列出 2004 年 1 月 1 日之前入职的员工编号、名字（不包含姓氏）和入职日期，按员工编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-24",
+      "content_sha256": "ac064457b65e6622bfe5b2172c7c34e526047ec04ec3f9881fe30a6f9096d2dc",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "列出邮箱以 @gmail.com 结尾的客户编号、名字（不包含姓氏）和邮箱，按客户编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-26",
+      "content_sha256": "b4ffa51453d55a1515915e2da80724bd41b9683357d00abc20563d961bb13197",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "有多少位客户没有填写公司名称（company 为 NULL）？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-27",
+      "content_sha256": "89263146354aaf8ae2fa16330a5e4a00c0dca9b39a47f61c5660d0e378c3a54d",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "列出没有作曲者信息（composer 为 NULL）的前 10 首曲目编号和名称，按曲目编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "sql:sql-29",
+      "content_sha256": "2a741055d039ad0021423e2afa4190a2cd181c23722e4214527c120e7df2256a",
+      "decisions": {
+        "历史D1原表条目确认或归档": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "列出国家字段为 Antarctica 的客户编号、名字和姓氏，按客户编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-02",
+      "content_sha256": "c6260ddf761f036603182adb23606807f82d18b78a52901df889550059065ab5",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "How many days after the end of the first fiscal quarter of Physician Sales & Service, Inc. must the financial results of post-Merger combined operations be published?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-03",
+      "content_sha256": "66866d0e19b8e526d131400b9cb3ca5be4019f52621815ffb33446ef97fa1d83",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "For how many years after the effective date of the Merger does PSS agree to file all reports required by Section 13 of the Securities Exchange Act of 1934?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-05",
+      "content_sha256": "d1323d339350d1e19f85d3abcd02537c468e162ff4a28b000bda8c5fa2029e87",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "Which rivers drain the western side of the primary watershed in the area around Holmfirth and Glossop?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-06",
+      "content_sha256": "d6822b50c765fbc3217e98fd3c77c2a449169250ec2ce93d5569e83ee8da3d07",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "What are the most satisfactory arable crops grown in the soils of the Coal Measures?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-07",
+      "content_sha256": "6bfe7ff903e9e3c35b878e28819bd9e4855606ac561013970f2fdc11a7119838",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "What is the thickness range of the Shale Grit in the southern part of the Sheet?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-08",
+      "content_sha256": "5b232b64b778b259659b8daa4eb1e661d5e41f5e33f73bc123f3a955718d2360",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "In the Millstone Grits, what are the four main groups of grits and sandstones distinguished by color on the map?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-10",
+      "content_sha256": "1b009971de3620a19b60f2fee49fd4cf01dea37671ca7c46ae8da29b4bd21d98",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "What type of digital device classification is specified for the equipment in accordance with the FCC rules?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-11",
+      "content_sha256": "21b737ecd3b345b688972ebb171cce28d6bc53c8a8a21e2dec4861ac5bb2be37",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "Which application allows you to create and share movies in minutes?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-12",
+      "content_sha256": "ceb8dd0cb531f19da02aa5e8448b3ab10133b29cd5e219dd0455b5e8f9ba6c7a",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "What is the primary goal of the ENERGY STAR program in which Apple participates?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-13",
+      "content_sha256": "a2fddbe988fc756bb41de8c02822b0b92af6b5d87062d1423ff1697c02d82b22",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "Which device can be used to share one IP address among multiple computers?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-15",
+      "content_sha256": "69ef787947398349ac88923239b2c158617d0b44e2234ac0aec92774412b9378",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "What are the five fundamental capabilities identified by ASQ and Forbes Insights as essential for building a successful organizational culture?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-16",
+      "content_sha256": "8ddb5e3c0c17209d7fd0b6f7cf6b8cbefdb1d0a00ca125462e48ffaf57a1873e",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "What percentage of senior leaders rate their quality programs as world class or advanced according to the research?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-18",
+      "content_sha256": "dc386c307adc4fb087e1cda1a95b9e10716618619532161d6d09db82c9b5ae7b",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "What is the correlation between attention distributions on label words and the model's final prediction quantified by?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-19",
+      "content_sha256": "d85f09b0b37f47a8b44a195f1e509287aa96948fdca4c62dc03e6e46c41d2b7a",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "Which datasets showed significant performance enhancement with the proposed anchor reweighting method?",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-21",
+      "content_sha256": "1afa1ebd13d0b5f6030ad3a90c29092842a0d5d1bfaa5748a4b3380d16afe05f",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "根据这份简介，Iron Maiden 是哪一年在什么地方组建的？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-22",
+      "content_sha256": "3dbac0f6cd678ec37e6e490e4443ddedd68d3b46d151e071de843faf5ae247c4",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "只根据 U2 简介，U2 于哪一年在哪座城市成立？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-24",
+      "content_sha256": "11e38cc328a5c7a6a3ecdab7f651d77d296ced91f662ada2325b97f4504bfdc5",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "根据这张简介图片，Led Zeppelin 于哪一年在哪座城市成立？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-25",
+      "content_sha256": "cbf1f8e3f0b71b437a9939b6418a9a2ba6cd478f1421024e3f812b700f053586",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "根据口径手册，曲目最受欢迎的默认口径是什么，对应哪个汇总表达式？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-26",
+      "content_sha256": "ad4b3ac2ce10acb013790c773635bc4e82c5eb5cd4ddebf79b8df9f470f56452",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "按口径手册，客单价的主口径全名是什么，对应哪个 SQL 表达式？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-27",
+      "content_sha256": "ae4d27e9f225789e119fa67ac6712b00a83e8f4ecffa946675db4d504a7ad9db",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "根据中文数据字典，customer.country 和 invoice.billing_country 分别表示什么？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "rag:rag-28",
+      "content_sha256": "489828c20179860868e4475e6d78988e6b1cced5d6d75353d12b26261b381e9f",
+      "decisions": {
+        "完整答案正确性": "待审核",
+        "引用语义支持": "待审核",
+        "引用页/章节/区域定位": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "只依据这份 Iron Maiden 简介，列出该乐队2026年在中国每场演出的门票收入。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-T-person.person",
+      "content_sha256": "b362a97c44ebb7bd4569bf5fe0a4536fb9dd3795b3a631072113617f6a456e96",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "person.person",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-person.person.persontype",
+      "content_sha256": "98a0d677405caf658b357eeae1a67f29467a0f5ac94b21006e230ce0d7b8cb02",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "person.person.persontype",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-person.person.namestyle",
+      "content_sha256": "1a9f62baa10fd6d98d62bf31d3b7c7454ca32016f2df73b5370eaa43a4cad5c7",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "person.person.namestyle",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-person.person.emailpromotion",
+      "content_sha256": "b7c978b4d2ada32c8c9adcaa25f1ba001be3721e673ac30d228b29911223ec1d",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "person.person.emailpromotion",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-T-production.document",
+      "content_sha256": "c8132483837ead30c7c7743eb6084747cf5117065072889f8198f3a132a63736",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "production.document",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-production.document.status",
+      "content_sha256": "ccfd4fc6d00e5202f2158f89542c9480169d7c2b31201529f0c5ba3fafb000de",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "production.document.status",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-production.document.documentnode",
+      "content_sha256": "29daa2a2361a555a903a21f5f800f71ecfd7174af2c99da3cbe98c21c3ac1868",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "production.document.documentnode",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-T-production.transactionhistoryarchive",
+      "content_sha256": "3f2bf67344faf4a85fbbd2cb458999e6a3e5b2c21eee0b16378e4eb1cdaea3d1",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "production.transactionhistoryarchive",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-production.transactionhistoryarchive.transactiontype",
+      "content_sha256": "757ee0d9a8bdbc303de87283145a05259b6d63a96dc4d0d76ce9a372beb796e9",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "production.transactionhistoryarchive.transactiontype",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-production.transactionhistoryarchive.actualcost",
+      "content_sha256": "f7c0a8861acc7e65fff7cb106d3bff8ae794ea298a41e3b0f7a1b2d871a045f8",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "production.transactionhistoryarchive.actualcost",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-production.workorderrouting.actualresourcehrs",
+      "content_sha256": "63bb49ab728e7434685e0e1b8fee55af2f2e50e7b9603dbf0fcb26d23f596c25",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "production.workorderrouting.actualresourcehrs",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-production.workorderrouting.plannedcost",
+      "content_sha256": "c6c9d99c16536da073bc65445ff7cae89cb72d0e13970b9c4e54b74a061ef45c",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "production.workorderrouting.plannedcost",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-production.workorderrouting.actualcost",
+      "content_sha256": "c1070d0a93987f578cbb2cdd88695457462495ef34169b6ba91b912ad7199118",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "production.workorderrouting.actualcost",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-purchasing.productvendor.averageleadtime",
+      "content_sha256": "7eaab737fd400350c38283b5b0af7b34f7528e7e40e7f8a071457caa658e5649",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.productvendor.averageleadtime",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-purchasing.productvendor.standardprice",
+      "content_sha256": "e26160f5915879d263dcc8af9163f96f399222eae3970feb06f0332c123252da",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.productvendor.standardprice",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-purchasing.productvendor.lastreceiptcost",
+      "content_sha256": "8680a45bf2f2a274a68e465aed0778dd857dbffda8e3e4bafe2759b000acc1e0",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.productvendor.lastreceiptcost",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-purchasing.purchaseorderdetail.unitprice",
+      "content_sha256": "cd6a62cccb88266db71c1d4f8cd4b28df00aec9f0354db97b79c6b2429b35967",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.purchaseorderdetail.unitprice",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-T-purchasing.purchaseorderheader",
+      "content_sha256": "84f8da6538843695975a2bc9ad53fc012709f9951aa8a51e274d0ce802e65c1a",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.purchaseorderheader",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-purchasing.purchaseorderheader.status",
+      "content_sha256": "f93de12edb0fa65772bb2fa1d166efe69652ad1354a7caf52ea4005c8072c1e1",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.purchaseorderheader.status",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-purchasing.purchaseorderheader.subtotal",
+      "content_sha256": "5c1b0703536bd5681a452f6a0a88bf69f2540fbae4893162731ec93de916fc5f",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.purchaseorderheader.subtotal",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-purchasing.purchaseorderheader.taxamt",
+      "content_sha256": "5da480c4f498706d8f3e6a637ff116e7a5e49947fbf29dfc76b86073038fc45b",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.purchaseorderheader.taxamt",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-purchasing.purchaseorderheader.freight",
+      "content_sha256": "1ddf98b07174e1d2bfffddba67437d2a99e86ec147537c709fc4edd2d6275ac8",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.purchaseorderheader.freight",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-T-purchasing.shipmethod",
+      "content_sha256": "0cedb2842c2c59d2bf54eeaced54ec9ad468e4ed9322f1cb89c0de635620d4a5",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.shipmethod",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-purchasing.shipmethod.shipbase",
+      "content_sha256": "dd5c4bbf487ebbdad55d2cae01bc5df777fb5198aa01d184fbece0b02e5b9765",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.shipmethod.shipbase",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:AW-CAT-C-purchasing.shipmethod.shiprate",
+      "content_sha256": "b39ecaf846bff97c757706a70e7af0333204fd103e1655419da54de7b2e33b22",
+      "decisions": {
+        "目录说明": "待审核"
+      },
+      "question": "purchasing.shipmethod.shiprate",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-01",
+      "content_sha256": "5023fc820d814057f602863dd903aacf0d2fc651b9bde2cd247dd0628f417151",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-02",
+      "content_sha256": "13419e498e24d80e74e8823b5d4444e9f553b325995b1b37ac5c502bd658174a",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "采购订单一共有多少张？按采购订单头计数。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-03",
+      "content_sha256": "ef68cdc45282988b2fe36ef4d0ef23cfb3761224ff3012ba49251edc1437ac6b",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "员工档案中共有多少名员工？包括 currentflag 为 false 的档案。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-04",
+      "content_sha256": "b4a39b813b1250e04114ae061ba8c5d1a40cadc71d4414d5c8edcc5937c28836",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "销售人员表中共有多少名销售人员？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-05",
+      "content_sha256": "09b6d688134f298f4a33848261c783b2b7a37a527c1f82b6bf0160a46ad46147",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "产品目录中共有多少个产品？不要用产品型号数替代。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-06",
+      "content_sha256": "630715d99f935c22d045ad6a153d7cccbdf38a86b20cba4b034f98478bb1d111",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "产品颜色有多少种？未填写颜色的不计入。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-07",
+      "content_sha256": "7dc52b3e50cc4b77cc651fbb5f244327d86d334f854049b3e95e14b4e8b3f748",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-08",
+      "content_sha256": "0b2ff1c9948363f72ebf0836fdf5bd3aab2cdb7a5383eea0519ce62f6570b27b",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "每个产品大类下面有多少个产品？只统计已分到子类别的产品，输出大类名称和数量，按数量降序、名称升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-09",
+      "content_sha256": "064766efc2155b14c7f723177376905fba84ab3ffd8089104123a2e535246309",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "供应商档案一共有多少条？不按客户或门店计数。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-10",
+      "content_sha256": "08eb5ccdcb5de683cbf13e0a9723c851ead6fff30f365fdb23b1d7552a679f80",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "各员工职位有多少人？列人数最多的十个职位，按人数降序、职位名称升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-11",
+      "content_sha256": "95e54d74450b13ed52ab8471d7d26ad383436b14e39d7566c468ed708696995f",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2013 年销售订单头的 subtotal 合计是多少？仅算这个字段，不含 taxamt 和 freight。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-12",
+      "content_sha256": "62999ac756e1d54b37cee7be8d643386deddcf2ca919d81aa48e53f2ffdd6788",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024 年采购订单头的 subtotal 合计是多少？不含税与运费。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-13",
+      "content_sha256": "77eae33d43480fc1b44cf84d8cefde553664057eb992ef75019a6879b0983264",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "地址档案里哪个城市的地址记录最多？列出前五名城市和记录数，按记录数降序、城市名升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-14",
+      "content_sha256": "77dd71d8f4c30ac7205301cf7891e699e92d5f02c3ce7401a6c4b0bf265ee349",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024 年每个月有多少张销售订单？输出月份数字和订单数，按月份从小到大。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-15",
+      "content_sha256": "ddd31954ae59975097526c20f3e803ecdedd199be3dfbc832205b0271ad7dbfa",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "销售原因字典里每个 reasontype 分别有多少条原因？按类型名称排序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-16",
+      "content_sha256": "3b8c5b822013384e0c37e8df9d14df0a86ee3ed9f8153ab3b249d14a17aaea51",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "客户档案中 personid 非空的有多少条，storeid 非空的有多少条？两个条件分别计数，不要求互斥。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-17",
+      "content_sha256": "208a7aa03d7e1c4ab130e26dbcd824851a1eb67a601699fbcee7b4a3ed9313c3",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "汇总每个产品在所有库存地点的 quantity，列库存总量最高的五个产品编号、名称和数量；数量相同按编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-18",
+      "content_sha256": "747ac67c83118bbb7c13abe86617081223cf9749203e015255a8524f78e5fbe1",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024 年各产品大类的销售购买数量分别是多少？按 salesorderdetail.orderqty 加总，只统计有子类别的产品，输出大类名和数量，按数量降序、名称升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-19",
+      "content_sha256": "ce84db902b8b7028fa9e3164b6e813c022fe59b5e8ed0936dafd7d1812eaa9b2",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "每种运输方式被多少张采购订单使用？输出运输方式名称和采购订单数，按订单数降序、名称升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-20",
+      "content_sha256": "0a576c6e5400d58a237a979d5b2014767b042d25c5182184192d9fbdaa9a587d",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:aw-21",
+      "content_sha256": "8585530747ed989f302afd19449168cc41f008c0563cbfac8f6a2fd3b9519294",
+      "decisions": {
+        "参考答案": "待审核",
+        "系统实际回答": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "currentflag 为 true 的员工中，各部门目前分配了多少人？以部门历史记录 enddate 为空表示目前分配，输出部门名和人数，按人数降序、部门名升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-01",
+      "content_sha256": "7a9e0e0b4f8e2ee7994fddfb975c391695bac4fbafcf7b6b785bff24ec199f7b",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "巴西有多少客户？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-02",
+      "content_sha256": "96322d70ef8d3a0feb270d0d4e3fb5a78c67920d73e99115c7a871702eab143d",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "genre.name 明确为 Rock 的曲目有多少首？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-04",
+      "content_sha256": "32c3227b6803983e41189e9c873a5c6caf87410c868649a4adca54d17943acd1",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024年全部发票的平均每张发票金额是多少？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-05",
+      "content_sha256": "44512a400571b33fa65594f7267bdd5c92a9b3bb666d1d45e1453e6511cc914c",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "数据库一共有多少个音乐流派？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-07",
+      "content_sha256": "9916b89b4aaf000fbe68995bc04869eed5f0f1585074f4b4fc27006ae8dcdecc",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024年账单国家为Brazil的发票金额占同年所有发票金额的比例是多少？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-08",
+      "content_sha256": "4c126de77526ffea0f6d49badec08355aa09afcae96208a84168d9867413a6d9",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024年账单国家为USA的发票销售额同比增长率是多少？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-10",
+      "content_sha256": "7c2dc9f37afd46dc84180e8947d2c0da122e9fcb2f42c0d686d952f82d123107",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024年全部发票按总额从高到低列出前5张，相同金额按invoice_id升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-11",
+      "content_sha256": "374cab70d0b7a7c89da2d7150ffd12fa599654f71b359a39e022dc07d211d609",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024年最受欢迎的5首曲目是哪些？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-13",
+      "content_sha256": "3dd50c9d07e4b0f850dd95b03b49490d24d765c953a3da3faf5fa46a41e000fd",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2022年卖得最好的2首歌有哪些？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-14",
+      "content_sha256": "7262eed96b8eb81e2aab061832058c911140c3ee51140ae0359f9bb5c1d1f823",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024年客户中谁买得最多？请列前3名。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-16",
+      "content_sha256": "df9e6a275f0cbf06b641217e4d0628a27301b56ef4adf862ee805c3f1846d5e3",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "账单国家为USA的发票销售额同比增长多少？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-17",
+      "content_sha256": "17a380de3a1e2d45c7fb255dd65670c80bdc03227371c9c62c7dea23b1760067",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024年同比增长多少？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-19",
+      "content_sha256": "52e2da48fcdf9736f5e0ce671e66b90f53fd612227817246613b23409e100d73",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "2024年Brazil账单发票销售额占比是多少？",
+      "label": "L0（其他条件明确时）",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-20",
+      "content_sha256": "4ecc409aaf431e112206415eac01c56ad02c8ac6d6c392e4b7b14a963b938396",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024年哪些记录的金额占全部发票金额的比例？我还没确定分子范围。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-22",
+      "content_sha256": "ff58674600a150b3ec4deb3140beac6315d4822b559d304c6d6e52c7b2757215",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "2024年谁买得最多？",
+      "label": "重新定级，去掉缺排名对象理由",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-23",
+      "content_sha256": "0f15cf6b68fb98bb87d95271f608c45ecb0d0ff3de460cfb4e707c2532e5d5bd",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "摇滚歌曲有多少首？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-25",
+      "content_sha256": "3bcabc55c173ebbfef16de1310c6b89a830f71009e889c4312f1217b25809f10",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "这批曲目的平均时长是多少？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-26",
+      "content_sha256": "b1e0602e99725edb1431a7b66aa4a4f84ac7e6d819b65e56b6b6ae78b9f6a1da",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "有多少复购客户？",
+      "label": "L0（其他条件明确时）",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-27",
+      "content_sha256": "beef6e21c97d9cf647b7c7fb3bbd3f2fd1c4f5597122b701ff0403b6b4476073",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "2024年全部发票销售额环比增长率是多少？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-28",
+      "content_sha256": "68f48cea054be9a44fd03825b2d2572e84f3dfb82ff55ead031767dc6ed07e9e",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "统计2024年的发票销售额，但日期必须从2023年1月1日到2023年12月31日。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:clarify-30",
+      "content_sha256": "39bf755b8eb0c3f96a2160f4724d0230da13e3f899c9ba22ff59128af7d828f0",
+      "decisions": {
+        "参考语义/协议": "待审核",
+        "系统完整回答与多轮行为": "待审核",
+        "系统实际回答（各版本分别确认或归档）": "待审核"
+      },
+      "question": "摇滚乐曲目的平均时长是多少？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:d3-b-protocol",
+      "content_sha256": "dfbb55d69cef31568def763651b847ddd043da680869ef75b904d01652169659",
+      "decisions": {
+        "参考语义/协议": "待审核"
+      },
+      "question": "新增可选 ChatRequest.clarification_id/intent_version/choice_id 和 AnswerEnvelope.intent；IntentContract 延续 extra=forbid，卡片恢复需ID与版本同时匹配，PDF物理页从1开始的既有约定不改。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:d3-b-defaults",
+      "content_sha256": "05655eb91f2b768d6153a42b6986461eab438b0c13a940e24570cad15a2eec06",
+      "decisions": {
+        "参考语义/协议": "待审核"
+      },
+      "question": "热门曲目缺指标采用已共同确认的购买数量口径；客户谁买得最多缺指标采用已共同确认金额；缺Top-N数量按方案默认10并声明；缺关键期间/对象不得猜。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:d3-b-growth-display",
+      "content_sha256": "f2e0d0781917de3e280c4ea6d9ce8573f96db017f14292f077a14f4d32a445ba",
+      "decisions": {
+        "参考语义/协议": "待审核"
+      },
+      "question": "人工决定增长率结果表及文字采用fraction还是percent，以及统一舍入/单位说明方式；在决定前不修改原始输出。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "d3:d3-b-measurement-scope",
+      "content_sha256": "c86efd2daf1660f2796c014081d8122c29c5f64620fbb8e18fe8d4ece44afcbd",
+      "decisions": {
+        "参考语义/协议": "待审核"
+      },
+      "question": "21/21仅初始分级与执行门；7请求20/20为具体状态链；7UI请求10/10为控件连线。全部21题的澄清交互最终答案正确率尚未实测。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-01",
+      "content_sha256": "88b4d29e2bd7131449f487ebeec249b23c28058ea6974e5459df105a9663d9e1",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "How many customers are from France?",
+      "label": "standard",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-02",
+      "content_sha256": "26c6b6badf07c3d9b09a6ded306cbb97e384ea7a39cfd72beb7e0dae248092d8",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Iron Maiden乐队一共有多少张专辑？",
+      "label": "alias",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-03",
+      "content_sha256": "e50b52b43c2a0509693ae008a90f86af8ff3c7ad77a07f8ae35c388dfdc12912",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "德国的发票一共开了多少钱？",
+      "label": "alias",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-04",
+      "content_sha256": "82ad3747b6d06af90d8815ba2f10147d15a4a5e3b82b1b5cb63aaf142d80477b",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Frnace 有多少客户？",
+      "label": "typo",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-05",
+      "content_sha256": "51bb96f6b61694ad0a29790c347e47dbc7ddb163377637129d5b458cfa5941a7",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Metallcia 有多少张专辑？",
+      "label": "typo",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-06",
+      "content_sha256": "0d04b2d111d7da1b14fa9df8fde41ddbe07934e0c155c1b991fd0ae32cdca044",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "Deguo 有多少张专辑？",
+      "label": "题意/对象不一致，建议替换或移出可评分集",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-07",
+      "content_sha256": "dc5fe3a6806d9358a8973b6f2bf74f56648e6f5e4a5b03e3d1b6234be2c07518",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Chinook 里 Protected AAC audio file 这种 format 有多少首曲目？",
+      "label": "mixed_language",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-08",
+      "content_sha256": "ed51a2c265d18459aa3a2f62ecdeb7dd5dc82f37306427c87a69195bd66aa73d",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "意大利那边现在有多少客户？",
+      "label": "colloquial",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-09",
+      "content_sha256": "8fe9dbbadde1d2c219864082b4a082b6d003e34e9e5e1e09f1d6425016f80fcc",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Chinook 里有多少首摇滚歌曲？",
+      "label": "multi_candidate",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-10",
+      "content_sha256": "29c6a7323fed7099344f38345a4384028d4ff558119d03fba99befd510b5f405",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "题面清洗提案": "待审核"
+      },
+      "question": "查询 Vaporwave 流派 的曲目数量？",
+      "label": "explicit_absent",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-11",
+      "content_sha256": "29b1c4c3b119a7de8123acc93ade89f2711eacc68cf5ee0dc26b4bf4be5b3453",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "How many customers are from Canada?",
+      "label": "standard",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-12",
+      "content_sha256": "c971418a1b5deba89a0dcc1c502fdf701121a3336831cc85d51bc2356fc9c753",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "What was the total invoice revenue for France in 2022?",
+      "label": "standard",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-13",
+      "content_sha256": "74acafae3e24f87f2eade7d3649212198c0e35dbd9b516be56c1b344bdd39f05",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Iron Maiden乐队一共有多少张专辑？",
+      "label": "alias",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-14",
+      "content_sha256": "3e2e9b40dfef5f77f761ff467542e2c37008c3b5810fcd197e937b250e1eb37e",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "法兰西共和国的发票一共开了多少张？",
+      "label": "alias",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-15",
+      "content_sha256": "2f9fc8789ad72754a6199de6a1b443b71dd12076b54512db4a4b85c5e1036fbe",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "受保护AAC音频文件这种媒体格式有多少首曲目？",
+      "label": "alias",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-16",
+      "content_sha256": "9f08533aa315dfca71e71067378eef1a78f2aed8aaa82677e7ab8b5cbdc8710d",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "U2乐队一共有多少张专辑？",
+      "label": "alias",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-17",
+      "content_sha256": "fe08995e0dbee4f754fff14355ef997bd37157b531a9a0dba758dcb9c53796cb",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Fracne 有多少客户？",
+      "label": "typo",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-18",
+      "content_sha256": "0cfc80b27a9c92321b818d6fa670b3f538b1ee5ac6da7f5091a3fee6a53d6052",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Led Zepelin 有多少张专辑？",
+      "label": "typo",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-19",
+      "content_sha256": "745f2e6edf76527917385f9642de5888980b1c27c2eb9bbc1bf20482a24df786",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Canda 的客户有多少？",
+      "label": "typo",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-20",
+      "content_sha256": "7b008e46709cdfeaded8e4cf4a4ebc04653d0d8c677a4b0b8041854489d47060",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "MPEG adiou file 有多少首曲目？",
+      "label": "typo",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-21",
+      "content_sha256": "135494e5a533afd25fecf325af232555d4fb0ad5a6c1c5fe8b5642e075d15bff",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Deguo 的客户有多少个？",
+      "label": "pinyin",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-22",
+      "content_sha256": "eb4fcae7910d8c69c1fb0d53f7f2c7cdd95c928434e0e6f46ed1d9d759ee9893",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Gudian 这个流派的曲目有多少首？",
+      "label": "pinyin",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-23",
+      "content_sha256": "ab284d50405c8b7a99c1dfc27c334f9eb801c55f8443c3ac2e61dd0519d6276a",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Canada 那边一共有多少 customers？",
+      "label": "mixed_language",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-24",
+      "content_sha256": "5bcfc91d570f4b593c31864cbc5782e274bcde4b1277ad10204da840cf7bb5c4",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Iron Maiden 这个 artist 有多少 albums？",
+      "label": "mixed_language",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-25",
+      "content_sha256": "3e160b0f7f6bdcf5b9e73d0078c7ec7a34b00cb692593a3b1560890d414e2533",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "意大利那边的发票总共开了多少钱？",
+      "label": "colloquial",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-26",
+      "content_sha256": "7475e1d018ea54ce22ac41fb256306e5e38c79f4ddf562c87afef97dbc70274a",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "加拿大那边现在有多少客户？",
+      "label": "colloquial",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-27",
+      "content_sha256": "574ca1652a1a252a16d0a9e4c5e8eac925fada98fa6fca1ab96bc35551d91f26",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Chinook 里摇滚曲目有多少首？",
+      "label": "multi_candidate",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-28",
+      "content_sha256": "cb487a048b8f71d319aa6373a21184f8ccd63581af604f6c937b473362dcbadd",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Chinook 里金属流派的曲目有多少首？",
+      "label": "multi_candidate",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-29",
+      "content_sha256": "d373df8f1906b8a86b4adcd66cbb6eb167c98976205ba0bd96873119be092152",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "题面清洗提案": "待审核"
+      },
+      "question": "查一下 国家为 Atlantis 的客户数量？",
+      "label": "explicit_absent",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp01-30",
+      "content_sha256": "e4881a30e18454a6f15ea50396bf36d62bc969f5aa4c1c97a780ec2bcf2fb7ee",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "题面清洗提案": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "统计从2030年1月1日（含）到2030年12月31日（不含）的发票张数。",
+      "label": "保留明确半开区间的不存在数据题",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-01",
+      "content_sha256": "3e2e7558eac2ee7950103dfcbd49c28d653a7d161c3eb3d2819d2084b0ed08a1",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "题面清洗提案": "待审核"
+      },
+      "question": "Chinook 里2020年全年的发票销售额是多少？",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-02",
+      "content_sha256": "f571634ca23bc6b1195f4170787bb94d9621582bbd141eca5705d48059f481c9",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "How many customers reside in France?",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-03",
+      "content_sha256": "8fdf72a961601b3f3420b0d60b07ab70447031070c7eea461887c7e7bb878f03",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2024年巴西的销售额同比2023年增长了多少？",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-04",
+      "content_sha256": "26d2c59191a227ae475569551a958108aa8a7d814455c3c9dc2c10f59f57ab9e",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2023年按销售额排名最高的曲目。",
+      "label": "L1",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-05",
+      "content_sha256": "4c3935fdec1689bcf070b985c329a79fedd4c0654f9726c602858f346369096a",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2007年最受欢迎的10首爵士曲目是哪些？",
+      "label": "L1",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-06",
+      "content_sha256": "3fa6bc2d8673d7f55e4b73b447a4b5e1d55bc7b48d5d523cc58073b83c5d2e13",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "销售额同比增长多少？",
+      "label": "L2",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-07",
+      "content_sha256": "2d514986942fa3ee7aef553c0265c8b9c4b6f4b04d6cacd41ec9ff89720e6424",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "2024年账单国是美国的发票销售额占比是多少？",
+      "label": "L0（其他条件明确时）",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-08",
+      "content_sha256": "6b4991242e50b065ac051f56d4fb4d5c9f55e398a0b01c1926678eacb8dc10c3",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "2023年谁买得最多？",
+      "label": "重新定级，去掉缺排名对象理由",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-09",
+      "content_sha256": "c49ea524d3ec7b6fc20966df5f49888751154b2051bd053faafca3017431183c",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2024年摇滚曲目卖了多少张？",
+      "label": "L2",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-10",
+      "content_sha256": "e549d1e34b42ba75005abfaeb7337afcdb0b608c85759b682803c686ce49a8b1",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2024年巴西的客户有多少？",
+      "label": "L2",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-11",
+      "content_sha256": "f8a4de324478e470dd308dfc92db7245187d15593db26378b060a214aad82c77",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "How many customers reside in the USA?",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-12",
+      "content_sha256": "884f151e4fc0e3fe46de3f0e2678d55ce4051fb2f0ea71e4202a56ff436d042a",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "意大利有多少客户？",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-13",
+      "content_sha256": "ef1002791a3f0bb36bc99ea1f6959cf6ffeb8855ea32ccd72233069001e3e9ca",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "What was the total invoice revenue for Canada in 2024?",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-14",
+      "content_sha256": "200e833c1e6eb0e13728d1ffe054199246aad511b30893a228802320079c992c",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2022年和2023年，Chinook 每年的发票销售额分别是多少？",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-15",
+      "content_sha256": "73c4b95db755e0e7f452c149d053d0b46142c90015b4fcc953d53077eb9eeec4",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2009 年和 2010 年之间，哪首曲目最受欢迎？",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-16",
+      "content_sha256": "c33c823f752fd5406bd024ca604da20d0b8f391341a052ef6977004346280014",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "Chinook 里 Jazz 流派的曲目有多少首？",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-17",
+      "content_sha256": "7e55aa3d112c585d927e44195c50dd2e11c9bb3a4d1e6ec27ab7a494281d1055",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "题面清洗提案": "待审核"
+      },
+      "question": "2020年全年复购（至少开2张发票）的客户有多少位？",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-18",
+      "content_sha256": "13bd3f813f42f667df6c0cb71e0fceb8264172fe595fb8470c5aeb67f91485f2",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2021到2022年最受欢迎的曲目有哪些？",
+      "label": "L1",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-19",
+      "content_sha256": "6303d54c40437a3fe37642c785aacdc3ff191fdae78b77dc4399172929033911",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2022年买得最多的客户是谁？",
+      "label": "L1",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-20",
+      "content_sha256": "9a5972274d6c8102d6e5053d7d5b5039c67c1a611e93b073c415e33919d03f38",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2023年按销售额排名最高的艺术家，取前10名。",
+      "label": "L1",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-21",
+      "content_sha256": "49b675856aedf4a78b487ef351cc436521090380dc38e3cf27a53164e32449c0",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "德国的销售额同比增长多少？",
+      "label": "L2",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-22",
+      "content_sha256": "b186be0d231f0868c61b0e0bcf4140b15f2b07fa0c9d92e9014d5e9c1c18dcba",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "2024年法国居住客户的销售额占比是多少？",
+      "label": "L0（其他条件明确时）",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-23",
+      "content_sha256": "97cdec906bfcf8219affd57e90ab1d540b6481beda755b48f419f76b809f1f72",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "2023年谁买得最多？",
+      "label": "重新定级，去掉缺排名对象理由",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-24",
+      "content_sha256": "d04d5b12062b53897d7f5f4dd37d690b39b2023e26ebd97bc16ee61817a436e9",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "2022年澳大利亚的发票销售额是多少？",
+      "label": "L0",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-25",
+      "content_sha256": "519225650613d6ceec77f0914ffd75befd815950b262fa2bdf15975feae07642",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2024年摇滚曲目的销售额是多少？",
+      "label": "L2",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-26",
+      "content_sha256": "c819509670bb596d74c7da613cfb7740ce1236efbc1761573281208facbf84d3",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "同比增长多少？",
+      "label": "L2",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-27",
+      "content_sha256": "ebf6d83480d91f06c0fbd0d51252a39656d3586d0baf66722f8fe389ce5aa80a",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2023年销售额占比是多少？",
+      "label": "L2",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-28",
+      "content_sha256": "8d8d27ab195eb802f9176c46f4770d24b82f9049db2bd8ee15860ef0050c6fce",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核"
+      },
+      "question": "2022年金属乐队的销售额是多少？",
+      "label": "L2",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-29",
+      "content_sha256": "44b825b49ccaa59ef0fb164477ff77550addbdf09833c777ed3bb78a081c80ed",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "最受欢迎的10首曲目是哪些？",
+      "label": "L0（其他条件明确时）",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "special:sp03-30",
+      "content_sha256": "cee1845cc28f0d4fae01a866964dcc52e749ca28a364f0c00de6a2a52eca3d29",
+      "decisions": {
+        "参考答案与标签": "待审核",
+        "系统实际回答与控制器": "待审核",
+        "标签修订提案": "待审核"
+      },
+      "question": "谁买得最多？",
+      "label": "重新定级，去掉缺对象/缺期间理由",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-01",
+      "content_sha256": "1f12646b33b54c5d03d176b3c64e2bedfc0a9e8ec76a18279f1f1cb030b05839",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "Metallica有多少张专辑？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-02",
+      "content_sha256": "8be20df3625aab6fa6c44d5bdf85641373a45124430742d4b90627ece41b4b60",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "Metallcia有多少张专辑？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-03",
+      "content_sha256": "c0d20adeb2d8cbf1e4bcb5628f88693781eafcc07d46d63af2d18c43c22fbde3",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "AC/DC一共有几首曲目？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-04",
+      "content_sha256": "b0fb40f4ab2dab27ff4d8cc9763c2e1d324feabf15ebcb347af4a241930da17d",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "Protected AAC audio file这种媒体类型有多少首曲目？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-05",
+      "content_sha256": "1fde2b3b556afaa33f425e212014285be58c2fc6cf0f26b48bf3a0c5626c3e7f",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "Vaporwave流派有多少首曲目？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-06",
+      "content_sha256": "216be322e06b31b08debef4c93cbc63ad4fae7438781a51f8264d6468aef466b",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "Iron Maiden的专辑有哪些？按专辑编号从小到大列出编号和标题。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-07",
+      "content_sha256": "76e774a1d16443f5bb7472e0c3d83f4da66f6dd50b9470a885ec0fe8bd603ed6",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "专辑最多的5位艺术家是谁？列出艺术家编号、名字和专辑数，同数量时按艺术家编号从小到大。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-08",
+      "content_sha256": "24f9b604a2c9bcf667ecc8be7100924be34c244e988fa383dd52f1652e5f722a",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "按购买数量排，最热门的3首曲目是什么？列出曲目编号、名称和购买数量，同数量按曲目编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-09",
+      "content_sha256": "a37e3dcb3a0531b6fb0ffc94b9e3aa09cf19944ec24d4d6636ea9f253097a597",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "每位客户开过几张发票？没有发票的也要，列出客户编号、名字、姓氏和发票数，按客户编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-10",
+      "content_sha256": "d5221ff0c14d87f61905fd0ef98736d57f265c0a17936301d66121e5dc3866d4",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "客户所在地在巴西的客户一共开过多少张发票？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-11",
+      "content_sha256": "43e09e6aecb53d010f98db834c7674df93bb6773b2171874d2b6d2a58dac7e6a",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "账单国家是France的发票一共买了多少首Rock流派的曲目？按购买数量计。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-12",
+      "content_sha256": "283f6f980b556973c4114eb85281fdfd3d79488c02431c5822285701022aee30",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "Led Zeppelin所有曲目的销售额合计是多少？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-13",
+      "content_sha256": "2e0260d9d57a1ee8c44107f79fcf1d2a9c9c2037d6af87c310bb0fe100a0fe61",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "名字叫Jane、姓氏为Peacock的员工负责几位客户？",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-14",
+      "content_sha256": "96bae76d110477ad18dc8cd515fccb32e7937c757163af217f80755e41120121",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "每种媒体类型有几首曲目？没有曲目的也保留，列出类型编号、名称和曲目数，按类型编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    },
+    {
+      "review_key": "oct12-join:oct12-join-15",
+      "content_sha256": "f70cc8059eab965d5c300e8edcdd4e929666c8e165c6267e036d547280c3ab0c",
+      "decisions": {
+        "新增参考答案": "待审核"
+      },
+      "question": "哪些专辑没有曲目？列出专辑编号和标题，按专辑编号升序。",
+      "label": "",
+      "gold_sql": "",
+      "notes": ""
+    }
+  ]
+}

@@ -1,0 +1,448 @@
+{
+  "started_at_utc": "2026-10-12T16:40:35.983044+00:00",
+  "finished_at_utc": "2026-10-12T16:40:39.009255+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d2-rag-d2-dev-live-002-rag-rag-24",
+    "message": "根据这张简介图片，Led Zeppelin 于哪一年在哪座城市成立？",
+    "scope": {
+      "route": "doc",
+      "db_id": null,
+      "doc_ids": [
+        "artist-led-zeppelin"
+      ]
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "63b9e5ec-45d1-4ee9-ab1a-3cd5c57a2d40",
+    "status": "SUCCEEDED",
+    "answer": "Led Zeppelin（齐柏林飞船）是英国摇滚乐队，1968年在伦敦成立。[E1]",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [
+      {
+        "evidence_id": "E1",
+        "doc_id": "artist-led-zeppelin",
+        "doc_title": "Led Zeppelin 齐柏林飞船乐队公开简介",
+        "page": null,
+        "section_path": [
+          "图像 OCR"
+        ],
+        "text": "Led Zeppelin齐柏林飞船乐队公开简介\n公开背景\nLed Zeppelin（齐柏林飞船）是英国摇滚乐队，1968年在伦敦成立。乐队成员包括吉他手\nJimmy Page、主唱 Robert Plant、贝斯兼键盘手 John Paul Jones 和鼓手 John Bonham。\n其早期音乐扎根于蓝调摇滚与迷幻摇滚，也与硬摇滚和重金属的发展密切相关。\n首张同名专辑于1969年发行，1971年的第四张专辑收录了StairwaytoHeaven。此网页是带出\n处的简短项目改写，不是维基百科原站页面截图。\n资料来源与处理说明\n由项目根据公开百科条目改写为中文简介。用于研究检索和来源定位，不声称它是原站完整页\n面。\n百科原文作者为对应维基百科条目贡献者；本文进行了精简、中文改写与排版，按CCBY-SA4.0\n共享。未复制外部照片。\n来源\nhttps://zh.wikipedia.0rg/wiki/%E9%BD%90%E6%9F%8F%E6%9E%97%E9%A3%9E%E8%88%B9%E4%B9%90%E9%98%9F",
+        "bbox": [
+          127.0,
+          57.0,
+          1067.0,
+          832.0
+        ]
+      }
+    ],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "doc",
+      "task_type": "doc_qa",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "doc"
+        },
+        "output_summary": {
+          "route": "doc",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rag_channel",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "artist-led-zeppelin"
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "evidence_count": 1
+        },
+        "latency_ms": 3025
+      },
+      {
+        "name": "doc_scope",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "artist-led-zeppelin"
+        },
+        "output_summary": {
+          "doc_id": "artist-led-zeppelin",
+          "title": "Led Zeppelin 齐柏林飞船乐队公开简介",
+          "content_hash": "950e7d66df1a0ca64bb7770420f919a3665a254ee0429c7fe8d9194d8a97ec19"
+        },
+        "latency_ms": 5
+      },
+      {
+        "name": "retrieve",
+        "status": "ok",
+        "input_summary": {
+          "doc_id": "artist-led-zeppelin",
+          "question": "根据这张简介图片，Led Zeppelin 于哪一年在哪座城市成立？",
+          "query": "根据这张简介图片，Led Zeppelin 于哪一年在哪座城市成立？"
+        },
+        "output_summary": {
+          "retrieval_method": "bm25+bge-m3_dense_rrf",
+          "candidate_count": 2,
+          "top_k": 8,
+          "candidate_k_per_channel": 20,
+          "rrf_k": 60,
+          "rank_starts_at": 1,
+          "rankings": {
+            "bm25": [
+              {
+                "rank": 1,
+                "chunk_id": "0b74392566b4204cc0e56ef5",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": -0.65101474
+              },
+              {
+                "rank": 2,
+                "chunk_id": "6fbbccecc8aa76b33aa1057b",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": -0.72075214
+              }
+            ],
+            "dense": [
+              {
+                "rank": 1,
+                "chunk_id": "0b74392566b4204cc0e56ef5",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": 0.72039223
+              },
+              {
+                "rank": 2,
+                "chunk_id": "6fbbccecc8aa76b33aa1057b",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": 0.55641794
+              }
+            ],
+            "rrf": [
+              {
+                "rank": 1,
+                "chunk_id": "0b74392566b4204cc0e56ef5",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": 0.03278689
+              },
+              {
+                "rank": 2,
+                "chunk_id": "6fbbccecc8aa76b33aa1057b",
+                "doc_id": "artist-led-zeppelin",
+                "page": null,
+                "section_path": [
+                  "图像 OCR"
+                ],
+                "score": 0.03225806
+              }
+            ]
+          },
+          "hit_at_5_scope": [
+            "0b74392566b4204cc0e56ef5",
+            "6fbbccecc8aa76b33aa1057b"
+          ],
+          "retrieved_count": 2,
+          "index_created_at": "2026-10-11T18:31:51.088865+00:00",
+          "index_chunks_sha256": "f21416522546616317c9b08f2c5c5f9d0b17dab8f5f2a0995f280bf3c8f9461c",
+          "query": "根据这张简介图片，Led Zeppelin 于哪一年在哪座城市成立？",
+          "dense_enabled": true,
+          "chunks": [
+            {
+              "chunk_id": "0b74392566b4204cc0e56ef5",
+              "evidence_id": "E1",
+              "doc_id": "artist-led-zeppelin",
+              "page": null,
+              "section_path": [
+                "图像 OCR"
+              ],
+              "score": 0.03278689
+            },
+            {
+              "chunk_id": "6fbbccecc8aa76b33aa1057b",
+              "evidence_id": "E2",
+              "doc_id": "artist-led-zeppelin",
+              "page": null,
+              "section_path": [
+                "图像 OCR"
+              ],
+              "score": 0.03225806
+            }
+          ]
+        },
+        "latency_ms": 124
+      },
+      {
+        "name": "doc_answer",
+        "status": "ok",
+        "input_summary": {
+          "mode": "llm",
+          "evidence_count": 2
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1"
+          ]
+        },
+        "latency_ms": 2896
+      },
+      {
+        "name": "rag_generate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "evidence_count": 2
+        },
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "citation_ids": [
+            "E1"
+          ]
+        },
+        "latency_ms": 2896
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/oct12/provider-captures/live-001/a89e6b166e504967b81774147a568a89.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 46,
+            "prompt_tokens": 994,
+            "total_tokens": 1040,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 768
+            },
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 226
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1913
+      },
+      {
+        "name": "rag_validate",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "checks": [
+            "citation_membership",
+            "inline_ids",
+            "cited_numbers",
+            "explicit_research_attributions"
+          ]
+        },
+        "output_summary": {
+          "passed": true,
+          "status": "SUCCEEDED",
+          "used_evidence_ids": [
+            "E1"
+          ],
+          "citation_coverage": {
+            "potential_uncited_statement_count": 0,
+            "potential_uncited_statements": [],
+            "mode": "heuristic_warning_only",
+            "semantic_claim_coverage": "requires_human_review"
+          },
+          "semantic_faithfulness": "requires_human_review"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "doc_id": "artist-led-zeppelin",
+      "answer_mode": "llm",
+      "model": "deepseek-flash",
+      "retrieval_method": "bm25+bge-m3_dense_rrf",
+      "candidate_count": 2,
+      "top_k": 8,
+      "candidate_k_per_channel": 20,
+      "rrf_k": 60,
+      "rank_starts_at": 1,
+      "rankings": {
+        "bm25": [
+          {
+            "rank": 1,
+            "chunk_id": "0b74392566b4204cc0e56ef5",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": -0.65101474
+          },
+          {
+            "rank": 2,
+            "chunk_id": "6fbbccecc8aa76b33aa1057b",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": -0.72075214
+          }
+        ],
+        "dense": [
+          {
+            "rank": 1,
+            "chunk_id": "0b74392566b4204cc0e56ef5",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": 0.72039223
+          },
+          {
+            "rank": 2,
+            "chunk_id": "6fbbccecc8aa76b33aa1057b",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": 0.55641794
+          }
+        ],
+        "rrf": [
+          {
+            "rank": 1,
+            "chunk_id": "0b74392566b4204cc0e56ef5",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": 0.03278689
+          },
+          {
+            "rank": 2,
+            "chunk_id": "6fbbccecc8aa76b33aa1057b",
+            "doc_id": "artist-led-zeppelin",
+            "page": null,
+            "section_path": [
+              "图像 OCR"
+            ],
+            "score": 0.03225806
+          }
+        ]
+      },
+      "hit_at_5_scope": [
+        "0b74392566b4204cc0e56ef5",
+        "6fbbccecc8aa76b33aa1057b"
+      ],
+      "retrieved_count": 2,
+      "index_created_at": "2026-10-11T18:31:51.088865+00:00",
+      "index_chunks_sha256": "f21416522546616317c9b08f2c5c5f9d0b17dab8f5f2a0995f280bf3c8f9461c",
+      "query": "根据这张简介图片，Led Zeppelin 于哪一年在哪座城市成立？",
+      "dense_enabled": true,
+      "retrieved_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "retrieved_pages": [
+        {
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "chunk_id": "0b74392566b4204cc0e56ef5",
+          "section_path": [
+            "图像 OCR"
+          ],
+          "bbox": [
+            127.0,
+            57.0,
+            1067.0,
+            832.0
+          ],
+          "coordinate_system": "image pixels; top-left origin",
+          "location_status": "source_block_geometry",
+          "section_location_status": "source_heading",
+          "evidence_id": "E1"
+        },
+        {
+          "doc_id": "artist-led-zeppelin",
+          "page": null,
+          "chunk_id": "6fbbccecc8aa76b33aa1057b",
+          "section_path": [
+            "图像 OCR"
+          ],
+          "bbox": [
+            128.0,
+            782.0,
+            1048.0,
+            891.0
+          ],
+          "coordinate_system": "image pixels; top-left origin",
+          "location_status": "source_block_geometry",
+          "section_location_status": "source_heading",
+          "evidence_id": "E2"
+        }
+      ],
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "potential_uncited_statements": [],
+        "mode": "heuristic_warning_only",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "cited_evidence_ids": [
+        "E1"
+      ],
+      "validation_status": "passed",
+      "validation_retries": 0,
+      "faithfulness_uncertain": false,
+      "semantic_faithfulness": "pending_human_review",
+      "latency_ms": 3025,
+      "llm_attempts": 1
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

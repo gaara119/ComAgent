@@ -30,12 +30,23 @@ TABLE_WORDS = {
     "customer": ("客户", "顾客", "customer"),
     "employee": ("员工", "employee"),
     "genre": ("流派", "genre"),
-    "media_type": ("媒体格式", "媒体类型", "media_type"),
+    "media_type": ("媒体格式", "媒体类型", "media_type", "format"),
     "artist": ("艺术家", "乐队", "artist"),
     "album": ("专辑", "album"),
     "playlist": ("播放列表", "歌单", "playlist"),
     "track": ("曲目", "歌曲", "track"),
 }
+
+# These are query structure/time expressions, never country or name literals.
+# Keep them out of extraction before character/vector retrieval, rather than
+# presenting unrelated database values as a choice to the user.
+TIME_PHRASES = frozenset({"每年", "每月", "每季度", "今年", "去年", "前年", "明年", "本年", "本月", "上月", "下月",
+                          "本季度", "上季度", "下季度", "年度", "按年", "按月", "逐年", "逐月", "历年", "全年",
+                          "同期", "当期", "本期", "基期", "最近", "今年的", "每年的", "每月的"})
+# Recall thresholds differ from the stricter thresholds for automatic binding.
+# They are not probabilities, and scores from different methods are not fused.
+FUZZY_CANDIDATE_MIN_SCORE = 0.60
+VECTOR_CANDIDATE_MIN_SCORE = 0.65
 
 # An explicit ambiguity in the user's authoritative total plan is a negative
 # execution guard, not an approved alias or a default mapping. Both canonical
@@ -110,6 +121,19 @@ class CandidateDecisions(BaseModel):
 def field_scope(question: str, index: ValueIndex) -> tuple[str, ...]:
     lower = normalize(question)
     matched = [table for table, words in TABLE_WORDS.items() if any(word.casefold() in lower for word in words)]
+    # Oct 12 approved: sales/invoice geography defaults to billing country;
+    # a user explicitly naming customer residence still takes precedence.
+    customer_residence = any(word in question for word in ("客户所在地", "客户所在国", "客户居住国", "居住客户", "居住的客户"))
+    financial = any(word in lower for word in ("销售额", "发票金额", "发票总额", "账单金额", "invoice revenue"))
+    if financial and not any(table in matched for table in ("artist", "track", "album", "genre", "invoice_line")):
+        matched = ["customer" if customer_residence else "invoice"]
+    # Counted customers do not own a name explicitly qualifying an employee.
+    # Restrict to existing employee name fields; an absent field means no value
+    # linking, never fallback to a similar customer name.
+    employee_name_owner = ('employee' in matched and
+        bool(re.search(r'(?:名字|姓名|姓氏|first_name|last_name)[^？?。；;]{0,80}的员工|员工(?:的)?(?:名字|姓名|姓氏|first_name|last_name)', question)))
+    if employee_name_owner:
+        matched = ['employee']
     # A customer's "所在地国家" and an invoice's "账单国家" remain different fields.
     if "invoice_line" in matched:
         matched = ["invoice_line"]
@@ -135,6 +159,14 @@ def field_scope(question: str, index: ValueIndex) -> tuple[str, ...]:
         # Do not search all text values for arbitrary prose: that would turn
         # projection words into invented customer-name filters.
         return ()
+    if matched == ['album'] and not any(word in question for word in ('专辑名','专辑名称','专辑叫','专辑名为','album.title')):
+        # In “Metallcia has how many albums”, album is the counted object,
+        # while the named restriction is artist.name across its actual FK.
+        named_artist = any(record.column=='artist.name' and record.surface in question
+                           for record in index.records)
+        latin_artist = bool(re.search(r'[A-Za-z][A-Za-z .&/\-]{1,60}\s*(?:的)?(?:有多少张|有几张|共有多少张|有哪些|的)\s*专辑',question))
+        if (named_artist or latin_artist) and any(record.column=='artist.name' for record in index.records):
+            return ('artist.name',)
     fields = {item.column for item in index.records if item.column.split(".")[-2] in matched}
     if matched[0] in {"customer", "invoice", "employee"}:
         field_name = "billing_country" if matched[0] == "invoice" else "country"
@@ -174,9 +206,9 @@ def _contains_word_boundary(question: str, start: int, end: int, surface: str) -
 
 def _is_value_phrase(text: str) -> bool:
     """Exclude question/projection prose without classifying every entity type."""
-    return bool(len(text) >= 2 and not any(word in text for word in (
+    return bool(len(text) >= 2 and text.strip() not in TIME_PHRASES and not re.fullmatch(r"\d{4}\s*年(?:和\d{4}\s*年)?", text.strip()) and not any(word in text for word in (
         "客户", "顾客", "发票", "账单", "共有", "多少", "什么", "哪些", "哪种", "几位", "几张", "几种",
-        "如何", "怎样", "数量", "总共", "总数", "全部", "所有", "统计", "按国家", "不同国家", "最近一年", "工程", "检查", "测试", "验证",
+        "如何", "怎样", "数量", "总共", "总数", "全部", "所有", "统计", "按国家", "不同国家", "最近一年", "每年", "每月", "今年", "去年", "工程", "检查", "测试", "验证", "数据库", "如果", "不存在", "没有", "根本",
     )))
 
 
@@ -196,6 +228,8 @@ def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...
     surfaces = {item.surface for item in index.records if item.column in fields and len(item.surface) >= 2}
     surfaces.update(guard["surface"] for guard in PLAN_AMBIGUITY_GUARDS if guard["column"] in fields)
     for surface in sorted(surfaces, key=len, reverse=True):
+        if surface.strip() in TIME_PHRASES:
+            continue
         for match in re.finditer(re.escape(surface), question, re.IGNORECASE):
             if _contains_word_boundary(question, match.start(), match.end(), surface):
                 possible.append(Mention(question[match.start():match.end()], match.start(), match.end(), fields, "indexed_surface"))
@@ -218,8 +252,15 @@ def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...
             text = re.split(r"(?:的|有多少|有哪些|数量|共有|客户|发票|记录|并且|且)", text)[0].strip()
             start = match.start("value")
             if _is_value_phrase(text) and not any(start < prior.end and prior.start < start + len(text) for prior in picked):
-                preserve = _preserve_unknown(text) or any(word in question for word in ("保留原值", "恰好为", "严格等于", "不做近似", "不纠错"))
+                preserve = _preserve_unknown(text) or any(word in question for word in ("保留原值", "恰好为", "严格等于", "不做近似", "不纠错", "如果数据库里根本没有", "若数据库没有", "没有这个流派"))
                 picked.append(Mention(text, start, start + len(text), fields, "explicit_literal", preserve))
+    if 'artist.name' in fields and '专辑' in question:
+        for match in re.finditer(r'(?P<value>[A-Za-z][A-Za-z .&/\-]{1,60})\s*(?:的)?(?:有多少张|有几张|共有多少张|有哪些|的)\s*专辑',question):
+            raw=match.group('value')
+            text=raw.strip()
+            start=match.start('value')+raw.find(text)
+            if _is_value_phrase(text) and not any(start<prior.end and prior.start<start+len(text) for prior in picked):
+                picked.append(Mention(text,start,start+len(text),fields,'artist_album_relation'))
     if any(name.endswith((".country", ".billing_country")) for name in fields):
         for match in re.finditer(r"(?P<value>[A-Za-z][A-Za-z \-]{1,24}|[\u4e00-\u9fff]{2,18})\s*(?:的)?(?:客户|顾客|发票|账单)", question):
             raw = match.group("value")
@@ -231,7 +272,7 @@ def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...
                 if not any(start < prior.end and prior.start < start + len(text) for prior in picked):
                     picked.append(Mention(text, start, start + len(text), fields, "country_context", _preserve_unknown(text)))
     # If a fuzzy spelling is followed by a genre/artist object, it may be linked.
-    for match in re.finditer(r"(?P<value>[A-Za-z][A-Za-z \-&/]{1,35}|[\u4e00-\u9fff]{2,10})(?:的)?(?:流派|乐队|媒体格式)", question):
+    for match in re.finditer(r"(?P<value>[A-Za-z][A-Za-z \-&/]{1,35}|[\u4e00-\u9fff]{2,10})\s*(?:这个|这种|这一种|该|的)?\s*(?:流派|乐队|媒体格式)", question):
         raw = match.group("value")
         text = re.sub(r"^(?:请问|查询|列出|查找|统计|请)+", "", raw)
         text = re.sub(r"(?:的|这个)$", "", text).strip()
@@ -268,10 +309,14 @@ class ValueLinker:
                 break
         return list(candidates.values())
 
-    def _stage(self, result: LinkedMention, method: str, compute: Callable[[], list[tuple[int, float]]], trace):
+    def _stage(self, result: LinkedMention, method: str, compute: Callable[[], list[tuple[int, float]]], trace,
+               minimum_score: float = 0.0):
         def execute():
-            result.candidates = self._candidates(compute())
-            result.stages.append({"method": method, "candidates": result.candidates})
+            recalled = compute()
+            result.candidates = self._candidates([(number, score) for number, score in recalled
+                                                  if score >= minimum_score])
+            result.stages.append({"method": method, "minimum_score": minimum_score,
+                                  "candidates": result.candidates})
         if trace:
             with trace.step("value_link_" + method, {"mention_id": result.mention_id, "original_text": result.original_text}) as step:
                 execute()
@@ -300,6 +345,9 @@ class ValueLinker:
         result = LinkedMention(mention_id, mention.original_text, [mention.start, mention.end], "unmatched", list(mention.fields))
         if self.last_result is not None:
             self.last_result.mentions.append(result)
+        if mention.original_text.strip() in TIME_PHRASES:
+            result.stages.append({"method": "time_expression_excluded", "reason": "not_a_value_literal"})
+            return result
         rows = [i for i, item in enumerate(self.index.records) if not mention.fields or item.column in mention.fields]
         scope = set(rows)
         for guard in PLAN_AMBIGUITY_GUARDS:
@@ -326,7 +374,8 @@ class ValueLinker:
             else:
                 result.status, result.match_method = "ambiguous", "pinyin"
             return result
-        self._stage(result, "fuzzy", lambda: [(i, fuzz.ratio(normalize(mention.original_text), normalize(self.index.records[i].surface)) / 100) for i in rows], trace)
+        self._stage(result, "fuzzy", lambda: [(i, fuzz.ratio(normalize(mention.original_text), normalize(self.index.records[i].surface)) / 100) for i in rows], trace,
+                    minimum_score=FUZZY_CANDIDATE_MIN_SCORE)
         fuzzy_candidates = result.candidates
         high = result.candidates[0]["score"] if result.candidates else 0
         second = result.candidates[1]["score"] if len(result.candidates) > 1 else 0
@@ -345,16 +394,12 @@ class ValueLinker:
                 norm = max(float(np.linalg.norm(encoded[0])), 1e-12)
                 scores = self.index.embeddings[rows] @ (encoded[0] / norm)
                 return [(number, float(score)) for number, score in zip(rows, scores)]
-            self._stage(result, "vector", compute_vector, trace)
+            self._stage(result, "vector", compute_vector, trace, minimum_score=VECTOR_CANDIDATE_MIN_SCORE)
             top = result.candidates[0]["score"] if result.candidates else 0
             runner_up = result.candidates[1]["score"] if len(result.candidates) > 1 else 0
             if top >= self.settings.nlu_vector_threshold and top - runner_up >= self.settings.nlu_vector_margin:
                 self._select(result, result.candidates[0], "vector")
                 return result
-            # Below 0.40 similarity, treat the explicit literal as genuinely
-            # absent rather than inviting a model to invent a nearby country.
-            if top < 0.40:
-                result.candidates = []
             # A low-confidence vector ranking must not erase independently
             # recalled character candidates. Keep per-stage scores, never
             # compare/fuse their different raw scales as probabilities.

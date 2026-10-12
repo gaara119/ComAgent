@@ -1,0 +1,54 @@
+......................F................................................. [ 52%]
+.............FFF.........................F....F...................       [100%]
+================================== FAILURES ===================================
+___________ test_vector_top5_does_not_erase_a_legal_fuzzy_candidate ___________
+tests\test_d2_nlu.py:196: in test_vector_top5_does_not_erase_a_legal_fuzzy_candidate
+    result = linker(sample, llm=SelectBrazil(), encode=lambda texts: np.asarray([[1, 0]], dtype=np.float32)).link(
+qa_agent\nlu\linker.py:419: in link
+    decisions = self.llm.complete_json(
+tests\test_d2_nlu.py:193: in complete_json
+    selected = next(item for item in candidates if item["standard_value"] == "Brazil")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   StopIteration
+_______ test_popularity_default_is_scoped_to_tracks_and_not_comparisons _______
+tests\test_d3_clarify.py:51: in test_popularity_default_is_scoped_to_tracks_and_not_comparisons
+    assert engine.evaluate("2024年谁买得最多", object_free).level == "L2"
+E   AssertionError: assert 'L1' == 'L2'
+E     
+E     - L2
+E     + L1
+____________ test_missing_period_and_undated_playlist_switch_pause ____________
+tests\test_d3_clarify.py:60: in test_missing_period_and_undated_playlist_switch_pause
+    assert engine.evaluate("最热门5首曲目", missing).level == "L2"
+E   AssertionError: assert 'L1' == 'L2'
+E     
+E     - L2
+E     + L1
+_____________ test_billing_and_customer_countries_remain_distinct _____________
+tests\test_d3_clarify.py:69: in test_billing_and_customer_countries_remain_distinct
+    assert result.level == "L2"
+E   AssertionError: assert 'L0' == 'L2'
+E     
+E     - L2
+E     + L0
+_______ test_invoice_country_binding_is_not_proof_of_user_billing_scope _______
+tests\test_d3_clarify.py:290: in test_invoice_country_binding_is_not_proof_of_user_billing_scope
+    assert model.calls==1 and gate.decision.level=='L2'
+E   assert (0 == 1)
+E    +  where 0 = <test_d3_clarify.test_invoice_country_binding_is_not_proof_of_user_billing_scope.<locals>.Model object at 0x000001C536DC5F70>.calls
+_ test_explicit_chinese_object_is_canonicalized_without_inventing_missing_object _
+tests\test_d3_clarify.py:341: in test_explicit_chinese_object_is_canonicalized_without_inventing_missing_object
+    assert missing.rank_object is None and RuleEngine().evaluate('2024年谁买得最多？',missing).level=='L2'
+E   AssertionError: assert (None is None and 'L1' == 'L2'
+E    +  where None = SemanticIntent(task_type='ranking', metric=None, time_scope={'current': {'start': '2024-01-01', 'end': '2025-01-01', '...time_ambiguous=False, conflicts=[], grouping=[], filters=[], assumptions=[], default_assumptions=[], evidence_spans={}).rank_object
+E     
+E     - L2
+E     + L1)
+=========================== short test summary info ===========================
+FAILED tests/test_d2_nlu.py::test_vector_top5_does_not_erase_a_legal_fuzzy_candidate
+FAILED tests/test_d3_clarify.py::test_popularity_default_is_scoped_to_tracks_and_not_comparisons
+FAILED tests/test_d3_clarify.py::test_missing_period_and_undated_playlist_switch_pause
+FAILED tests/test_d3_clarify.py::test_billing_and_customer_countries_remain_distinct
+FAILED tests/test_d3_clarify.py::test_invoice_country_binding_is_not_proof_of_user_billing_scope
+FAILED tests/test_d3_clarify.py::test_explicit_chinese_object_is_canonicalized_without_inventing_missing_object
+6 failed, 132 passed in 3.92s

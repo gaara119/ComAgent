@@ -1,0 +1,19 @@
+{
+  "kind": "实际PNG视觉复核；不修改原report.json或原图",
+  "inspected": [
+    "artist-join.png",
+    "pinyin-rewrite.png",
+    "invoice-ratio.png",
+    "invoice-growth.png",
+    "rag-03.png"
+  ],
+  "finding": "第一轮观察脚本在Streamlit绘制尚未稳定时截图。artist-join结果表出现灰占位；invoice-ratio的SQL和结果表尚未绘制；rag-03 PDF预览尚未加载。不是功能结果缺失，原始API和DOM分别保留。",
+  "readable_actual": [
+    "巴稀→Brazil（拼音匹配1.00），客户数5",
+    "同比增长率24.24%",
+    "rag-03真实黄色提醒与【未核实】正文、E6原文three years"
+  ],
+  "screenshot_visual_status": "PARTIAL_RENDER_RACE",
+  "action": "仅调整观察脚本等待挂载、字体、图像与绘制稳定。原第一轮图保留，第二轮使用新请求、新run-002，不把第一轮状态套到新回答。",
+  "human_review": "pending_human_review"
+}

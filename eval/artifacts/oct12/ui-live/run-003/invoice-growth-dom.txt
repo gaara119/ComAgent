@@ -1,0 +1,39 @@
+Deploy
+精准问数问答
+
+选择数据来源，输入问题，查看答案和对应依据。
+
+数据来源
+
+数据库
+
+指定文档
+
+数据库
+
+你的问题
+
+提交问题
+
+回答完成
+
+当前国家口径：发票账单国家（invoice.billing_country）
+
+查询结果：24.24%。
+
+keyboard_arrow_down
+
+SQL 与结果
+
+数据库：chinook
+
+执行的 SQL
+
+WITH yearly AS (SELECT CAST(DATE_TRUNC('YEAR', "invoice_date") AS DATE) AS yr, SUM("total") AS revenue FROM "public"."invoice" WHERE "billing_country" = 'USA' AND "invoice_date" >= '2023-01-01' AND "invoice_date" < '2025-01-01' GROUP BY 1) SELECT (SUM(CASE WHEN yr = '2024-01-01' THEN revenue ELSE 0 END) - SUM(CASE WHEN yr = '2023-01-01' THEN revenue ELSE 0 END)) / NULLIF(SUM(CASE WHEN yr = '2023-01-01' THEN revenue ELSE 0 END), 0) AS yoy_growth_rate FROM yearly
+keyboard_arrow_right
+
+引用来源
+
+keyboard_arrow_right
+
+处理步骤与耗时

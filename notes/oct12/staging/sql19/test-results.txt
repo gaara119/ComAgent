@@ -1,0 +1,34 @@
+F................F                                                       [100%]
+================================== FAILURES ===================================
+______ test_pass1_complete_sql19_preserves_fields_n_and_is_clear_lookup _______
+notes\oct12\staging\sql19\test_candidate.py:31: in test_pass1_complete_sql19_preserves_fields_n_and_is_clear_lookup
+    semantic=candidate.extract_intent(question,load_catalog(ROOT/'data/catalog/chinook.yaml'),model)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+notes\oct12\staging\sql19\extractor_candidate.py:70: in extract_intent
+    result = llm.complete_json(PROMPT_PATH.read_text(encoding="utf-8"),
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\郭乾冥\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\郭乾冥\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1013: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'E:\\中国电子杯-赛题八\\system\\notes\\oct12\\staging\\sql19\\prompts\\intent_extract.txt'
+________ test_pass2_existing_metric_or_growth_task_is_not_reclassified ________
+notes\oct12\staging\sql19\test_candidate.py:75: in test_pass2_existing_metric_or_growth_task_is_not_reclassified
+    revenue=candidate.extract_intent(question,catalog,Model(SemanticIntent(task_type='ranking',metric='invoice_revenue',rank_object='customer',top_n=5)))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+notes\oct12\staging\sql19\extractor_candidate.py:70: in extract_intent
+    result = llm.complete_json(PROMPT_PATH.read_text(encoding="utf-8"),
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\郭乾冥\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\郭乾冥\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1013: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'E:\\中国电子杯-赛题八\\system\\notes\\oct12\\staging\\sql19\\prompts\\intent_extract.txt'
+=========================== short test summary info ===========================
+FAILED notes/oct12/staging/sql19/test_candidate.py::test_pass1_complete_sql19_preserves_fields_n_and_is_clear_lookup
+FAILED notes/oct12/staging/sql19/test_candidate.py::test_pass2_existing_metric_or_growth_task_is_not_reclassified
+2 failed, 16 passed in 0.63s

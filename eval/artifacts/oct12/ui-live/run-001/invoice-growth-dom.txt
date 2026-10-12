@@ -1,0 +1,103 @@
+Deploy
+精准问数问答
+
+选择数据来源，输入问题，查看答案和对应依据。
+
+数据来源
+
+数据库
+
+指定文档
+
+数据库
+
+你的问题
+
+提交问题
+
+回答完成
+
+当前国家口径：发票账单国家（invoice.billing_country）
+
+查询结果：24.24%。
+
+keyboard_arrow_down
+
+SQL 与结果
+
+数据库：chinook
+
+执行的 SQL
+
+WITH current_year AS (SELECT SUM(total) AS revenue FROM public.invoice WHERE billing_country = 'USA' AND invoice_date >= '2024-01-01' AND invoice_date < '2025-01-01'), base_year AS (SELECT SUM(total) AS revenue FROM public.invoice WHERE billing_country = 'USA' AND invoice_date >= '2023-01-01' AND invoice_date < '2024-01-01') SELECT ROUND((c.revenue - b.revenue) / NULLIF(b.revenue, 0) * 100, 2) AS yoy_growth_rate FROM current_year AS c CROSS JOIN base_year AS b LIMIT 200
+keyboard_arrow_right
+
+引用来源
+
+keyboard_arrow_down
+
+处理步骤与耗时
+
+请求编号：70fcdc86-1e6e-4626-b4cc-a0734bff2b11
+
+服务端总耗时：7780 毫秒
+
+1. route · 完成 · 0 毫秒
+
+展开第 1 步详情
+
+2. config_check · 完成 · 0 毫秒
+
+展开第 2 步详情
+
+3. catalog · 完成 · 21 毫秒
+
+展开第 3 步详情
+
+4. requested_source_check · 完成 · 0 毫秒
+
+展开第 4 步详情
+
+5. value_link · 完成 · 2 毫秒
+
+展开第 5 步详情
+
+6. value_link_exact · 完成 · 0 毫秒
+
+展开第 6 步详情
+
+7. rewrite · 未执行 · 0 毫秒
+
+展开第 7 步详情
+
+8. clarification_gate · 完成 · 3694 毫秒
+
+展开第 8 步详情
+
+9. llm · 完成 · 2737 毫秒
+
+展开第 9 步详情
+
+10. sql_gen · 完成 · 4020 毫秒
+
+展开第 10 步详情
+
+11. llm · 完成 · 3074 毫秒
+
+展开第 11 步详情
+
+12. sql_validate · 完成 · 8 毫秒
+
+展开第 12 步详情
+
+13. sql_binding_validate · 完成 · 2 毫秒
+
+展开第 13 步详情
+
+14. sql_exec · 完成 · 25 毫秒
+
+展开第 14 步详情
+
+15. answer · 完成 · 0 毫秒
+
+展开第 15 步详情

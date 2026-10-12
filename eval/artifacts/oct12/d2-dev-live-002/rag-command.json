@@ -1,0 +1,23 @@
+{
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "eval.run_eval",
+    "--suite",
+    "rag",
+    "--dataset",
+    "eval/artifacts/d2-final/review/rag-dev-view.jsonl",
+    "--split",
+    "dev",
+    "--draft-gold",
+    "--run-id",
+    "d2-dev-live-002-rag",
+    "--output",
+    "eval/artifacts/oct12/d2-dev-live-002/rag",
+    "--timeout",
+    "240"
+  ],
+  "cwd": ".",
+  "dataset_sha256": "12b8cc7de87ea73bc60a2e9b7d527d0721956ef1bf4256ccf6a70331a7f57f63"
+}

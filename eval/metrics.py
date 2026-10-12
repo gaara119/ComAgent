@@ -91,6 +91,8 @@ def compare_results(
     temporal_columns: Iterable[int | str] = (), expected_columns: Sequence[str] | None = None,
     actual_columns: Sequence[str] | None = None,
     round_numeric_columns: Iterable[int | str] = (),
+    descriptive_actual_columns: Iterable[int | str] = (),
+    allow_descriptive_extras: bool = False,
 ) -> ComparisonResult:
     """Compare rows under a global column permutation, preserving multiplicity.
 
@@ -100,13 +102,16 @@ def compare_results(
     try:
         expected, names = _matrix(expected_rows, expected_columns)
         actual, actual_names = _matrix(actual_rows, actual_columns)
+        descriptive = _indices(descriptive_actual_columns, actual_names)
         if len(expected) != len(actual):
             return ComparisonResult(False, "row_count_mismatch")
         if not expected:
             if names and actual_names and len(names) != len(actual_names):
+                if allow_descriptive_extras and len(actual_names) > len(names):
+                    return ComparisonResult(False, "empty_projection_mapping_unproved")
                 return ComparisonResult(False, "column_count_mismatch")
             return ComparisonResult(True, "equal_empty_tables", tuple(range(len(names))))
-        if len(names) != len(actual_names):
+        if len(names) != len(actual_names) and not (allow_descriptive_extras and len(actual_names) > len(names)):
             return ComparisonResult(False, "column_count_mismatch")
         width = len(names)
         # D2 applies the plan's two-decimal comparison to continuous quantities.
@@ -131,7 +136,7 @@ def compare_results(
         for gold_col in range(width):
             gold_values = [row[gold_col] for row in normalized_gold]
             candidates[gold_col] = []
-            for actual_col in range(width):
+            for actual_col in range(len(actual_names)):
                 values = [normalize(row[actual_col], gold_col) for row in actual]
                 actual_values[gold_col, actual_col] = values
                 equal = gold_values == values if ordered else Counter(gold_values) == Counter(values)
@@ -148,6 +153,8 @@ def compare_results(
 
         def search(depth: int) -> tuple[int, ...] | None:
             if depth == width:
+                if set(range(len(actual_names))) - used - descriptive:
+                    return None
                 return tuple(mapping[index] for index in range(width))
             gold_col = search_order[depth]
             for actual_col in candidates[gold_col]:
@@ -170,7 +177,72 @@ def compare_results(
 
         found = search(0)
         if found is not None:
-            return ComparisonResult(True, "equal", found)
+            return ComparisonResult(True, "equal_with_descriptive_extras" if len(actual_names) > width else "equal", found)
         return ComparisonResult(False, "row_values_or_order_mismatch")
     except (TypeError, ValueError, KeyError) as exc:
         return ComparisonResult(False, f"invalid_result_shape: {exc}")
+
+
+def descriptive_projection_columns(sql: str | None, catalog) -> tuple[int, ...]:
+    """Prove extra output columns are entity descriptions, not extra measures.
+
+    Text attributes/primary keys and concatenations of text attributes qualify.
+    Aggregate/arithmetic/window expressions, constants alone, prices, dates and
+    unproved derived-table lineage do not. Names/aliases are never evidence.
+    """
+    if not sql or catalog is None:
+        return ()
+    try:
+        import sqlglot
+        from sqlglot import exp
+        from sqlglot.optimizer.normalize_identifiers import normalize_identifiers
+        from sqlglot.optimizer.qualify import qualify
+        from sqlglot.optimizer.scope import traverse_scope
+        from sqlglot.schema import MappingSchema
+        tree = qualify(normalize_identifiers(sqlglot.parse_one(sql, read="postgres"), dialect="postgres"),
+                       dialect="postgres", db="public",
+                       schema=MappingSchema(catalog.sqlglot_schema(), dialect="postgres", normalize=False),
+                       allow_partial_qualification=False, validate_qualify_columns=True)
+        scopes = list(traverse_scope(tree))
+        root = next((scope for scope in scopes if scope.expression is tree), None)
+        if root is None or not isinstance(tree, exp.Select):
+            return ()
+        sources = {alias: source for alias, (_, source) in root.selected_sources.items()}
+
+        def attribute(column, *, text_only=False):
+            source = sources.get(column.table)
+            if not isinstance(source, exp.Table):
+                return False
+            table = catalog.get_table(source.name, source.db or "public")
+            field = next(c for c in table.columns if c.name == column.name)
+            is_text = any(word in field.data_type.lower() for word in ("char", "text"))
+            return is_text or (not text_only and field.name in table.primary_key)
+
+        def description(node):
+            if isinstance(node, (exp.Alias, exp.Paren)):
+                return description(node.this)
+            if isinstance(node, exp.Column):
+                return attribute(node)
+            if isinstance(node, (exp.Concat, exp.ConcatWs, exp.DPipe)):
+                columns = list(node.find_all(exp.Column))
+                if not columns or not all(attribute(column, text_only=True) for column in columns):
+                    return False
+                allowed = (exp.Concat, exp.ConcatWs, exp.DPipe, exp.Column, exp.Identifier, exp.Literal, exp.Paren)
+                return all(isinstance(child, allowed) for child in node.walk())
+            return False
+
+        return tuple(index for index, node in enumerate(tree.selects) if description(node))
+    except Exception:
+        return ()
+
+
+def compare_plan_results(expected_rows, actual_rows, *, actual_sql=None, catalog=None, **kwargs):
+    """Oct12 plan EX: global mapping + only proven descriptive extra columns.
+
+    SQL semantic correctness is assessed separately. Values, row multiplicity,
+    requested ordering, NULL and numeric rules retain the original comparator.
+    Equal empty tables cannot prove which columns to drop and remain conservative.
+    """
+    descriptions = descriptive_projection_columns(actual_sql, catalog)
+    return compare_results(expected_rows, actual_rows, allow_descriptive_extras=True,
+                           descriptive_actual_columns=descriptions, **kwargs)

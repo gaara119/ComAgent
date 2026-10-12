@@ -14,4 +14,8 @@ data/models/
 data/indexes/
 *.log
 .runtime/
+
+# Offline dataset-builder copies can contain held labels. Keep only their hashes
+# in the new runtime snapshots; the original source history remains in Git.
+eval/artifacts/oct12/runtime-snapshot-*/source/eval/
 tmp/

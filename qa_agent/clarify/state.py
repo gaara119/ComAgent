@@ -232,9 +232,23 @@ def apply_patches(state: SessionState, patches: list[IntentPatch], *, user_messa
                                (not has_current_confirmation and "用户已选择热门曲目口径：" in text))
             payload['assumptions']=[text for text in payload.get('assumptions',[]) if not stale(text)]
             payload['default_assumptions']=[text for text in payload.get('default_assumptions',[]) if not stale(text)]
+            if (payload.get('metric')!='invoice_revenue' and
+                    any('销售额占比默认以同期全部发票金额' in text for text in state.analysis.default_assumptions) and
+                    not any(patch.path=='denominator' for patch in patches)):
+                # An amount-specific default is stale after changing the metric
+                # to customer counts or another quantity. Ask for that scope.
+                payload['denominator']=None
+                payload['assumptions']=[text for text in payload.get('assumptions',[]) if '销售额占比默认以同期全部发票金额' not in text]
+                payload['default_assumptions']=[text for text in payload.get('default_assumptions',[]) if '销售额占比默认以同期全部发票金额' not in text]
         if any(patch.path=="top_n" for patch in patches):
             payload['assumptions']=[text for text in payload.get('assumptions',[]) if "未指定排名条数" not in text]
             payload['default_assumptions']=[text for text in payload.get('default_assumptions',[]) if "未指定排名条数" not in text]
+        if any(patch.path=='time_scope' for patch in patches):
+            payload['assumptions']=[text for text in payload.get('assumptions',[]) if '未指定期间，按全部现有数据' not in text]
+            payload['default_assumptions']=[text for text in payload.get('default_assumptions',[]) if '未指定期间，按全部现有数据' not in text]
+        if any(patch.path=='denominator' for patch in patches):
+            payload['assumptions']=[text for text in payload.get('assumptions',[]) if '销售额占比默认以同期全部发票金额' not in text]
+            payload['default_assumptions']=[text for text in payload.get('default_assumptions',[]) if '销售额占比默认以同期全部发票金额' not in text]
         # Derived comparison periods become stale when the current period changes.
         if "derived_period" in invalidated and payload.get("time_scope"):
             base=payload['time_scope'].get('base') or {}

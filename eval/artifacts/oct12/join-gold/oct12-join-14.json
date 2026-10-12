@@ -1,0 +1,46 @@
+{
+  "id": "oct12-join-14",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "-B",
+    "scripts/build_oct12_join_dev.py"
+  ],
+  "sql": "SELECT m.media_type_id, m.name, COUNT(t.track_id) AS track_count FROM media_type AS m LEFT JOIN track AS t ON t.media_type_id = m.media_type_id GROUP BY m.media_type_id, m.name ORDER BY m.media_type_id ASC LIMIT 200",
+  "status": "EXECUTED",
+  "columns": [
+    "media_type_id",
+    "name",
+    "track_count"
+  ],
+  "rows": [
+    [
+      1,
+      "MPEG audio file",
+      3034
+    ],
+    [
+      2,
+      "Protected AAC audio file",
+      237
+    ],
+    [
+      3,
+      "Protected MPEG-4 video file",
+      214
+    ],
+    [
+      4,
+      "Purchased AAC audio file",
+      7
+    ],
+    [
+      5,
+      "AAC audio file",
+      11
+    ]
+  ],
+  "read_only": true,
+  "statement_timeout_ms": 5000,
+  "generated_at_utc": "2026-10-12T15:55:40.939303+00:00",
+  "truncated": false
+}

@@ -1,0 +1,37 @@
+{
+  "created_at_utc": "2026-10-12T16:14:31.807752+00:00",
+  "version": "nlu-fixes-002",
+  "applied_after_first_live_regression_finished": true,
+  "application_authorized_by_root": true,
+  "original_runtime_failure_evidence_preserved": true,
+  "changed_business_files": [
+    "qa_agent/nlu/linker.py"
+  ],
+  "new_tests": [
+    "tests/test_oct12_nlu_live_fixes.py"
+  ],
+  "aliases_changed": 0,
+  "index_changed": false,
+  "new_aliases_added": 0,
+  "source_before_sha256": "498839127f3a3cef2b4c7c2434316a3354eb975cfc5d7c928bb764a7acd51742",
+  "source_after_sha256": "19d3e2f9e8f597bd5add77195fa659f007a94b85a13c1bafb432a47c259b20d8",
+  "candidate_text_matches_runtime_source": true,
+  "module_tests": {
+    "command": ".venv/Scripts/python.exe -B -m pytest tests/test_oct12_nlu_live_fixes.py tests/test_oct12_nlu_clarify.py tests/test_d2_nlu.py tests/test_d2_final_nlu.py tests/test_d3_clarify.py tests/test_d3_clarify_ai_counterexamples.py -q --tb=short",
+    "passed": 174,
+    "failed": 0,
+    "raw_output": "eval/artifacts/oct12/nlu-fixes-002/module-tests.txt",
+    "duration_seconds": 4.64
+  },
+  "live_retest_status": "Not run by this subagent; root must restart frozen new service version and execute targeted cases.",
+  "freeze": [
+    {
+      "path": "qa_agent/nlu/linker.py",
+      "sha256": "19d3e2f9e8f597bd5add77195fa659f007a94b85a13c1bafb432a47c259b20d8"
+    },
+    {
+      "path": "tests/test_oct12_nlu_live_fixes.py",
+      "sha256": "9beafbc2d428a59bf4be1bb7b42727aa8bb1570f182cb1da5a55d8c2417b6edb"
+    }
+  ]
+}

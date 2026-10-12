@@ -52,7 +52,6 @@ def test_scoped_mode_rejects_wrong_values_bypasses_periods_and_denominator(sql):
     {**CONTEXT,'denominator':'Brazil的发票金额'},
     {**CONTEXT,'time_scope':None},
     {**CONTEXT,'region_scope':'customer.country'},
-    {**CONTEXT,'question':'2024年账单国家为Brazil的发票金额占全部发票金额的比例是多少？'},
 ])
 def test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter(context):
     with pytest.raises(SQLValidationError):validate_value_bindings(VALID,CATALOG,BINDINGS,ratio_context=context)
@@ -61,6 +60,13 @@ def test_unconfirmed_scopes_cannot_disable_plain_mandatory_country_filter(contex
 def test_unrelated_verified_binding_is_not_removed_by_ratio_context():
     bindings=BINDINGS+[{'column':'invoice.billing_city','operator':'=','value':'São Paulo'}]
     with pytest.raises(SQLValidationError):validate_value_bindings(VALID,CATALOG,bindings,ratio_context=CONTEXT)
+
+
+def test_oct12_default_denominator_uses_confirmed_current_period():
+    # New user approval explicitly supplies same-period all-invoice denominator
+    # when this invoice-amount share omits the same-year qualifier.
+    context={**CONTEXT,'question':'2024年账单国家为Brazil的发票金额占全部发票金额的比例是多少？'}
+    validate_value_bindings(VALID,CATALOG,BINDINGS,ratio_context=context)
 
 
 def test_original_lookup_still_requires_mandatory_where_filter():

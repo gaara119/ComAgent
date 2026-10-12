@@ -1,0 +1,36 @@
+{
+  "id": "oct12-join-08",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "-B",
+    "scripts/build_oct12_join_dev.py"
+  ],
+  "sql": "SELECT t.track_id, t.name, SUM(l.quantity) AS purchased_quantity FROM track AS t JOIN invoice_line AS l ON l.track_id = t.track_id GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 3",
+  "status": "EXECUTED",
+  "columns": [
+    "track_id",
+    "name",
+    "purchased_quantity"
+  ],
+  "rows": [
+    [
+      2,
+      "Balls to the Wall",
+      2
+    ],
+    [
+      8,
+      "Inject The Venom",
+      2
+    ],
+    [
+      9,
+      "Snowballed",
+      2
+    ]
+  ],
+  "read_only": true,
+  "statement_timeout_ms": 5000,
+  "generated_at_utc": "2026-10-12T15:55:40.776455+00:00",
+  "truncated": false
+}

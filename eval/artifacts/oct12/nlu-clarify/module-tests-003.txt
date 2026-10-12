@@ -1,0 +1,14 @@
+.....................F.................................................. [ 43%]
+........................................................................ [ 87%]
+.....................                                                    [100%]
+================================== FAILURES ===================================
+__ test_explicit_missing_genre_is_preserved_instead_of_nearby_vector_choice ___
+tests\test_oct12_nlu_clarify.py:180: in test_explicit_missing_genre_is_preserved_instead_of_nearby_vector_choice
+    assert result.mentions[0].status=='unmatched' and not result.bindings
+E   AssertionError: assert ('unmatched' == 'unmatched'
+E     
+E       unmatched and not [{'column': 'genre.name', 'operator': '=', 'value': 'Rock', 'mention_id': 'mention-2', ...}])
+E    +  where [{'column': 'genre.name', 'operator': '=', 'value': 'Rock', 'mention_id': 'mention-2', ...}] = LinkResult(original_question='查询 genre 为 Vaporwave 的曲目数量；如果数据库里根本没有这个流派，请直接报告没有记录。', rewritten_question='查询 genre 为 Va...riginal='数据库里根本没有', replacement='Rock', method='vector', evidence_ref='v-5abaeb142337ce5b27ed')], index_status='ready').bindings
+=========================== short test summary info ===========================
+FAILED tests/test_oct12_nlu_clarify.py::test_explicit_missing_genre_is_preserved_instead_of_nearby_vector_choice
+1 failed, 164 passed in 4.34s

@@ -1,0 +1,329 @@
+{
+  "started_at_utc": "2026-10-12T16:58:00.595629+00:00",
+  "finished_at_utc": "2026-10-12T16:58:07.336139+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "eval-20261012T165523987066Z-sql-41",
+    "message": "列出名称以 The 开头的前 8 位艺术家，区分大小写，返回编号和名称，按艺术家编号升序。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "84477ffd-fd16-420b-b4f6-5ea749c3d908",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 8 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT \"artist_id\", \"name\" FROM \"public\".\"artist\" WHERE \"name\" LIKE 'The%' ORDER BY \"artist_id\" ASC LIMIT 8",
+    "table": [
+      {
+        "artist_id": 137,
+        "name": "The Black Crowes"
+      },
+      {
+        "artist_id": 138,
+        "name": "The Clash"
+      },
+      {
+        "artist_id": 139,
+        "name": "The Cult"
+      },
+      {
+        "artist_id": 140,
+        "name": "The Doors"
+      },
+      {
+        "artist_id": 141,
+        "name": "The Police"
+      },
+      {
+        "artist_id": 142,
+        "name": "The Rolling Stones"
+      },
+      {
+        "artist_id": 143,
+        "name": "The Tea Party"
+      },
+      {
+        "artist_id": 144,
+        "name": "The Who"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": {
+        "field": "artist_id",
+        "direction": "asc"
+      },
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 18
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 7
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "列出名称以 The 开头的前 8 位艺术家，区分大小写，返回编号和名称，按艺术家编号升序。"
+        },
+        "output_summary": {
+          "rewritten_question": "列出名称以 The 开头的前 8 位艺术家，区分大小写，返回编号和名称，按艺术家编号升序。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 3745
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/oct12/provider-captures/live-003/3f385c9a42fb4380ad119b99a4b3f716.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 163,
+            "prompt_tokens": 5366,
+            "total_tokens": 5529,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 5120
+            },
+            "prompt_cache_hit_tokens": 5120,
+            "prompt_cache_miss_tokens": 246
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2865
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "列出名称以 The 开头的前 8 位艺术家，区分大小写，返回编号和名称，按艺术家编号升序。",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT \"artist_id\", \"name\" FROM \"public\".\"artist\" WHERE \"name\" LIKE 'The%' ORDER BY \"artist_id\" ASC LIMIT 8",
+          "explanation": "从 artist 表筛选名称以 The 开头的艺术家（区分大小写，LIKE 'The%'），返回编号和名称，按 artist_id 升序，取前 8 位。"
+        },
+        "latency_ms": 2940
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/oct12/provider-captures/live-003/8cf94919ccea430b86dd849b5dcdc51c.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 101,
+            "prompt_tokens": 4957,
+            "total_tokens": 5058,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 4736
+            },
+            "prompt_cache_hit_tokens": 4736,
+            "prompt_cache_miss_tokens": 221
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2015
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"artist_id\", \"name\" FROM \"public\".\"artist\" WHERE \"name\" LIKE 'The%' ORDER BY \"artist_id\" ASC LIMIT 8"
+        },
+        "output_summary": {
+          "tables": [
+            "artist"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT \"artist_id\", \"name\" FROM \"public\".\"artist\" WHERE \"name\" LIKE 'The%' ORDER BY \"artist_id\" ASC LIMIT 8"
+        },
+        "latency_ms": 5
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"artist_id\", \"name\" FROM \"public\".\"artist\" WHERE \"name\" LIKE 'The%' ORDER BY \"artist_id\" ASC LIMIT 8",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 8,
+          "columns": [
+            "artist_id",
+            "name"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 20
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 6739,
+      "nlu": {
+        "original_question": "列出名称以 The 开头的前 8 位艺术家，区分大小写，返回编号和名称，按艺术家编号升序。",
+        "rewritten_question": "列出名称以 The 开头的前 8 位艺术家，区分大小写，返回编号和名称，按艺术家编号升序。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "switch": null
+      },
+      "result_columns": [
+        "artist_id",
+        "name"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

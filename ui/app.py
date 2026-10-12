@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 import re
 import sys
@@ -16,6 +17,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from qa_agent.schemas import AnswerEnvelope, ChatRequest, SourceScope
+from qa_agent.sql.result_format import percentage_formats
 
 
 def api_base_url() -> str:
@@ -44,6 +46,77 @@ def safe_diagnostics(value):
     if isinstance(value, list):
         return [safe_diagnostics(item) for item in value[:20]]
     return safe_text(value)[:2000] if isinstance(value, str) else value
+
+
+def rewrite_explanation(patch: dict, nlu: dict) -> str:
+    """Describe the actual selected match without exposing internal IDs."""
+    original = patch.get("original_text", patch.get("original", patch.get("before", "")))
+    replacement = patch.get("replacement", patch.get("after", ""))
+    method = patch.get("method", "")
+    labels = {"exact": "精确匹配", "alias": "已确认别名", "pinyin": "拼音匹配",
+              "fuzzy": "拼写相似匹配", "vector": "语义相似匹配", "llm": "候选判断"}
+    label = labels.get(method, "名称匹配")
+    score = patch.get("score")
+    for mention in nlu.get("mentions", []):
+        if mention.get("original_text") != original or mention.get("canonical_value") != replacement:
+            continue
+        if "start" in patch and mention.get("span") != [patch["start"], patch.get("end")]:
+            continue
+        selected = next((c for c in mention.get("candidates", [])
+                         if c.get("candidate_id") == mention.get("selected_candidate_id")), None)
+        if selected:
+            score = selected.get("stage_scores", {}).get(method, selected.get("score", score))
+        break
+    # A model choice is not itself a calibrated matching score. Do not attach
+    # another retrieval method's similarity to that model-choice label.
+    if method != "llm" and isinstance(score, (int, float)) and not isinstance(score, bool) and 0 <= score <= 1:
+        label += f" {score:.2f}"
+    return safe_text(f"{original} → {replacement}（{label}）")
+
+
+def clarification_reason(reason: str) -> str:
+    """Translate the legacy policy message into the user's query decision."""
+    return safe_text(str(reason).replace(
+        "候选关系获准不等于允许自动绑定；请明确本次筛选。",
+        "这个名称可能指不同对象，请选择本次查询所指的对象。"))
+
+
+def result_display_table(result: AnswerEnvelope) -> list[dict] | None:
+    """Format a display copy; database values remain in result.table unchanged."""
+    if not result.table:
+        return result.table
+    formats = result.metadata.get("result_format", {})
+    if not isinstance(formats, dict):
+        formats = {}
+    inferred = {}
+    # For old responses, use the SQL projection to determine fractional versus
+    # already-scaled percentages. Without SQL or a supported projection, keep
+    # the raw value rather than making up a scale from the column name.
+    if result.intent and result.sql:
+        names = {"ratio", "share", "percentage", "growth", "growth_rate", "yoy", "yoy_rate",
+                 "同比", "增长率", "占比", "比例"}
+        projected = percentage_formats(result.sql, list(result.table[0]), result.intent.task_type)
+        inferred = {column: formatting for column, formatting in projected.items()
+                    if str(column).casefold() in names and column not in formats}
+    formats = {**inferred, **formats}
+    displayed = []
+    for row in result.table:
+        output = dict(row)
+        for column, formatting in formats.items():
+            if (column not in output or not isinstance(formatting, dict)
+                    or formatting.get("kind") != "percentage" or formatting.get("scale") not in (1, 100)):
+                continue
+            value = output[column]
+            if value is None or isinstance(value, bool):
+                continue
+            try:
+                numeric = Decimal(str(value))
+                if numeric.is_finite():
+                    output[column] = f"{numeric * Decimal(formatting['scale']):.2f}%"
+            except (InvalidOperation, ValueError, TypeError):
+                continue
+        displayed.append(output)
+    return displayed
 
 
 @st.cache_data(ttl=300, show_spinner=False)
@@ -187,7 +260,7 @@ def render_panels(
         else:
             st.caption("本次响应未提供 SQL。" if db_id else "本次文档查询未执行数据库 SQL。")
         if result and result.table:
-            st.dataframe(result.table, width="stretch", hide_index=True)
+            st.dataframe(result_display_table(result), width="stretch", hide_index=True)
         elif result and result.table == []:
             st.caption("结果表为空。")
         if result and result.metadata.get("truncated"):
@@ -244,7 +317,7 @@ def render_clarification_controls(result: AnswerEnvelope, base_url: str, scope: 
         st.markdown("**请补充查询条件**")
         st.write(safe_text(card.get("question", "")))
         if card.get("reason"):
-            st.caption(safe_text(card["reason"]))
+            st.caption(clarification_reason(card["reason"]))
         for item in card.get("options", []):
             if st.button(safe_text(item["label"]), key=f"clarify_{card['clarification_id']}_{item['id']}"):
                 submit_resume(base_url, scope, message=item["label"], card=card, choice_id=item["id"])
@@ -284,7 +357,9 @@ def render_result(
         "NEEDS_CLARIFICATION": "需要补充信息", "UNSUPPORTED": "当前来源不支持此问题", "FAILED": "本次请求未完成",
     }
     label = labels[result.status]
-    if result.status == "SUCCEEDED":
+    if result.status == "SUCCEEDED" and result.metadata.get("faithfulness_uncertain"):
+        st.warning("回答已生成，含未核实内容。请根据引用原文核对数字和单位后使用。")
+    elif result.status == "SUCCEEDED":
         st.success(label)
     elif result.status in {"EMPTY_RESULT", "NEEDS_CLARIFICATION", "UNSUPPORTED"}:
         st.info(label)
@@ -303,9 +378,7 @@ def render_result(
         if patches:
             st.caption("修改依据")
             for patch in patches:
-                st.text(safe_text(f"{patch.get('original_text', patch.get('original', patch.get('before','')))} → "
-                                  f"{patch.get('replacement', patch.get('after',''))}；"
-                                  f"{patch.get('method','')} {patch.get('evidence_ref','')}"))
+                st.text(rewrite_explanation(patch, nlu))
     scope = SourceScope(route="sql", db_id=db_id, doc_ids=[]) if db_id else SourceScope(route="doc", db_id=None)
     if db_id:
         render_clarification_controls(result, base_url, scope)

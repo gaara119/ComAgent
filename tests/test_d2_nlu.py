@@ -194,7 +194,7 @@ def test_vector_top5_does_not_erase_a_legal_fuzzy_candidate():
             assert "fuzzy" in selected["stage_scores"] and "vector" not in selected["stage_scores"]
             return response_model(decisions=[{"mention_id": "mention-1", "status": "resolved", "candidate_id": selected["candidate_id"]}])
     result = linker(sample, llm=SelectBrazil(), encode=lambda texts: np.asarray([[1, 0]], dtype=np.float32)).link(
-        "ba xi", mentions=[Mention("ba xi", 0, 5, ("customer.country",))])
+        "Brasll", mentions=[Mention("Brasll", 0, 6, ("customer.country",))])
     assert result.bindings[0]["value"] == "Brazil" and result.bindings[0]["method"] == "llm"
 
 

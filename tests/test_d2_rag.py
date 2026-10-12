@@ -190,17 +190,20 @@ def test_validation_failure_retries_once_with_feedback_and_true_trace():
     assert [s.status for s in trace.steps if s.name == "rag_validate"] == ["error", "ok"]
 
 
-def test_validation_failure_after_one_retry_stays_failure():
+def test_numeric_validation_failure_after_one_retry_is_visibly_unverified():
     class Model:
         calls = 0
         def complete_json(self, *args):
             self.calls += 1
             return answer("9999 [E1]")
     model, trace = Model(), TraceRecorder()
-    with pytest.raises(CitationError):
-        answer_from_chunks("revenue", [evidence("1234")], model, trace)
+    result, used = answer_from_chunks("revenue", [evidence("1234")], model, trace)
+    assert result.status == "SUCCEEDED" and result.answer.startswith("【未核实】")
+    assert result._validation_warnings[0]["code"] == "rag_number_invalid"
+    assert used == [evidence("1234")]
     assert model.calls == 2 and [s.name for s in trace.steps].count("rag_regenerate") == 1
     assert [s.status for s in trace.steps if s.name == "rag_validate"] == ["error", "error"]
+    assert any(s.name == "rag_unverified" and s.status == "warn" for s in trace.steps)
 
 
 def test_empty_retrieval_calls_no_model():
