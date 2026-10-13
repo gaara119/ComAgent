@@ -632,6 +632,62 @@ def evidence_package(report):
     (OUT / 'evidence-package-paths.json').write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
+REVIEW_TYPES = [
+    ('aliases', '别名与称呼', '核对别名依据、标准对象及使用条件。'),
+    ('sql', 'SQL题与参考答案', '单表SQL、鲁棒变体和AdventureWorks题，分别核对参考与各次回答。'),
+    ('join', '跨表JOIN题', '集中核对新增关联查询、筛选范围和标准结果。'),
+    ('rag', '文档问答与引用', '分别核对答案、引用语义支持及定位。'),
+    ('clarify', '澄清与多轮题', '核对是否应询问、询问内容及续问条件。'),
+    ('special', '专项题面、去重与标签', '集中处理消歧改写、题面指令和标签草案。'),
+    ('catalog', '数据库表与字段说明', '先核对68个表说明，再核对456个字段说明。'),
+    ('shared', '公共接口与运行诊断', '接口、默认范围、显示单位和诊断输出。'),
+]
+
+
+def review_type(row):
+    """Presentation-only classification; original review data is unchanged."""
+    key = row['review_key']
+    original = row['original_ids'][0]
+    if key.startswith('alias:'):
+        return 'aliases', '待审核别名'
+    if key.startswith('sql:'):
+        return 'sql', 'Chinook单表SQL'
+    if key.startswith('robust:'):
+        return 'sql', '口语及鲁棒变体'
+    if key.startswith('d3:aw-'):
+        return 'sql', 'AdventureWorks SQL'
+    if key.startswith('oct12-join:'):
+        return 'join', '新增JOIN回归题'
+    if key.startswith('rag:'):
+        return 'rag', '文档答案与引用'
+    if key.startswith('d3:clarify-'):
+        return 'clarify', '分级澄清与续问'
+    if key.startswith('special:'):
+        return 'special', row['group']
+    if original.startswith('AW-CAT-T-'):
+        return 'catalog', '表说明'
+    if original.startswith('AW-CAT-C-'):
+        return 'catalog', '字段说明'
+    if key.startswith(('d3:d3-b-', 'oct12-diagnostic:', 'oct12-ui:')):
+        return 'shared', row['group']
+    raise ValueError('Unclassified review key: ' + key)
+
+
+def grouped_review_rows(report):
+    classified = defaultdict(lambda: defaultdict(list))
+    seen = set()
+    for original_number, row in enumerate(report['rows'], 1):
+        if row['review_key'] in seen:
+            raise ValueError('Duplicate review key: ' + row['review_key'])
+        seen.add(row['review_key'])
+        category, subgroup = review_type(row)
+        classified[category][subgroup].append((original_number, row))
+    if len(seen) != report['summary']['pending_rows']:
+        raise ValueError('Review row count differs from frozen summary')
+    return [(key, label, description, classified[key])
+            for key, label, description in REVIEW_TYPES if classified[key]]
+
+
 def build_html(report):
     esc = html.escape
     def link(path):
@@ -641,8 +697,10 @@ def build_html(report):
         if p.is_file() and 'holdout' not in raw.casefold() and raw not in ['eval/datasets/nl2sql_chinook.jsonl', 'eval/datasets/nl2sql_chinook_d1_acceptance.jsonl', 'eval/datasets/nl2sql_chinook_d2.jsonl','eval/datasets/robust.jsonl','eval/datasets/rag_ohr.jsonl','eval/datasets/rag_single.jsonl','eval/reports/d2-acceptance/unified-review.json']:
             return '<a href="' + esc(Path(os.path.relpath(p, OUT)).as_posix() + fragment, quote=True) + '">' + esc(path) + '</a>'
         return esc(path) + '（原混合表仅列出处，DEV内容已提取在下面）'
-    sections = []
+    groups = grouped_review_rows(report)
+    cards = {}
     for i, row in enumerate(report['rows']):
+        category, subgroup = review_type(row)
         material = json.dumps({'source_materials':row['source_materials'], 'historical_reference_versions':row.get('historical_reference_versions', []), 'accepted_current_reference':row.get('accepted_current_reference'), 'reference_authorization':row.get('reference_authorization'), 'duplicate_group':row.get('duplicate_group')}, ensure_ascii=False, indent=2)
         actual = json.dumps(row['system_versions'], ensure_ascii=False, indent=2)
         sources = set(row.get('evidence_files', []))
@@ -658,13 +716,21 @@ def build_html(report):
             for dimension in version['review_dimensions'][1:]:
                 fields += '<label>这个版本的' + esc(dimension) + '<select data-version="' + version['content_sha256'] + '" data-version-object="' + esc(dimension, quote=True) + '">' + options + '</select></label>'
             version_controls += '<details><summary>' + esc(version['version']) + ' | ' + esc(str(version['actual'].get('status', '未知状态'))) + '</summary>' + fields + '<pre>' + esc(json.dumps(version, ensure_ascii=False, indent=2)) + '</pre></details>'
-        sections.append(f'<article class="item" data-key="{esc(row["review_key"], quote=True)}" data-hash="{row["content_sha256"]}" data-group="{esc(row["group"], quote=True)}"><h2>{i+1}. {esc(row["review_key"])} <span>{esc(row["group"])}</span></h2><p class="question">{esc(row["title"])}</p><ul>{suggestions}</ul>{decisions}<div class="edit"><label>清洗后题面/描述草案（可改；保存不应用）<textarea data-field="question">{esc(row["proposed_question"])}</textarea></label><label>新标签/处理草案（可改）<textarea data-field="label">{esc(row["proposed_label"])}</textarea></label><label>新gold SQL草案（如有）<textarea data-field="gold_sql">{esc(row.get("proposed_gold_sql", ""))}</textarea></label><label>你的理由、仍需补证据、条件或归档范围<textarea data-field="notes"></textarea></label></div><details><summary>展开完整标准材料、原题、SQL/结果、AI意见（已读取提取的DEV材料）</summary><pre>{esc(material)}</pre></details><details><summary>展开各版本真实回答，逐版本单独决定</summary>{version_controls if row["system_versions"] else "实际回答请见上述source_materials内原始版本与具体证据；这里未额外生成预测。"}</details><p class="links">{links}</p></article>')
+        cards[row['review_key']] = f'<article class="item" data-key="{esc(row["review_key"], quote=True)}" data-hash="{row["content_sha256"]}" data-group="{esc(row["group"], quote=True)}" data-category="{category}" data-subgroup="{esc(subgroup, quote=True)}" data-original-number="{i+1}"><h2>原序号{i+1}. {esc(row["review_key"])} <span>{esc(row["group"])}</span></h2><p class="question">{esc(row["title"])}</p><ul>{suggestions}</ul>{decisions}<div class="edit"><label>清洗后题面/描述草案（可改；保存不应用）<textarea data-field="question">{esc(row["proposed_question"])}</textarea></label><label>新标签/处理草案（可改）<textarea data-field="label">{esc(row["proposed_label"])}</textarea></label><label>新gold SQL草案（如有）<textarea data-field="gold_sql">{esc(row.get("proposed_gold_sql", ""))}</textarea></label><label>你的理由、仍需补证据、条件或归档范围<textarea data-field="notes"></textarea></label></div><details><summary>展开完整标准材料、原题、SQL/结果、AI意见（已读取提取的DEV材料）</summary><pre>{esc(material)}</pre></details><details><summary>展开各版本真实回答，逐版本单独决定</summary>{version_controls if row["system_versions"] else "实际回答请见上述source_materials内原始版本与具体证据；这里未额外生成预测。"}</details><p class="links">{links}</p></article>'
+    sections, directory = [], []
+    type_options = '<option value="">全部类型</option>'
+    for number, (key, label, description, subgroups) in enumerate(groups, 1):
+        count = sum(len(rows) for rows in subgroups.values())
+        type_options += f'<option value="{key}">{esc(label)}（{count}）</option>'
+        directory.append(f'<a href="#review-type-{key}" data-jump-category="{key}"><strong>{number}. {esc(label)}</strong><span>{count}项</span><small>{esc(description)}</small></a>')
+        body = ''.join(f'<section class="review-subgroup" data-subgroup="{esc(name, quote=True)}"><h3>{esc(name)} · {len(rows)}项</h3>' + ''.join(cards[row['review_key']] for _, row in rows) + '</section>' for name, rows in subgroups.items())
+        sections.append(f'<section class="review-category" id="review-type-{key}" data-category="{key}"><h2 class="category-heading">{number}. {esc(label)} · {count}项</h2><p>{esc(description)}</p>{body}</section>')
     overview = json.dumps(report['summary'], ensure_ascii=False, indent=2)
     group_options = '<option value="">全部分组</option>' + ''.join('<option value="' + esc(group, quote=True) + '">' + esc(group) + '（' + str(count) + '）</option>' for group, count in report['summary']['pending_by_group'].items())
     auth = json.dumps(report['newly_explicit_authorizations'], ensure_ascii=False, indent=2)
     already = json.dumps({'authorized_objects':report['already_authorized'], 'confirmed_metric_material':report['confirmed_metric_material'],'alias_deduplication':report['alias_deduplication'],'rag_reference_deduplication':report['rag_reference_deduplication'],'sql_reference_deduplication':report['sql_reference_deduplication']}, ensure_ascii=False, indent=2)
     meta = json.dumps({'source_report': 'eval/reports/oct12/manual-review/' + TITLE + '.json', 'dataset_sha256': digest(report['rows']), 'rows': [{'key': r['review_key'], 'hash': r['content_sha256'], 'ids': r['original_ids']} for r in report['rows']]}, ensure_ascii=False).replace('<', '\\u003c')
-    css = 'body{max-width:1180px;margin:28px auto;padding:0 24px;font:15px/1.65 Microsoft YaHei,sans-serif;color:#202c40;background:#f6f8fb}h1{font-size:27px}h2{font-size:20px}h2 span{font-size:13px;font-weight:400;color:#52647a}article{background:white;border:1px solid #dce3ed;border-radius:8px;padding:18px;margin:16px 0}.bar{position:sticky;top:0;background:#e8eff8;padding:12px;z-index:2}input,button,select,textarea{font:inherit;padding:7px;border:1px solid #b8c7da;border-radius:4px}label{display:block;margin:10px 0}select{margin-left:12px}small{display:block;color:#516179}textarea{display:block;width:calc(100% - 18px);min-height:65px}.edit{display:grid;grid-template-columns:1fr 1fr;gap:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#eef3f8;padding:14px;max-height:650px;overflow:auto}details{margin:14px 0}summary{cursor:pointer;font-weight:600}a{color:#135ba0;overflow-wrap:anywhere}.links{font-size:13px}.question{font-size:16px}.notice{background:#fff5d8;padding:15px;border-radius:5px}@media(max-width:760px){.edit{grid-template-columns:1fr}}'
+    css = 'body{max-width:1180px;margin:28px auto;padding:0 24px;font:15px/1.65 Microsoft YaHei,sans-serif;color:#202c40;background:#f6f8fb}h1{font-size:27px}h2{font-size:20px}h2 span{font-size:13px;font-weight:400;color:#52647a}article{background:white;border:1px solid #dce3ed;border-radius:8px;padding:18px;margin:16px 0}.bar{position:sticky;top:0;background:#e8eff8;padding:12px;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:8px}.bar select{margin-left:0}input,button,select,textarea{font:inherit;padding:7px;border:1px solid #b8c7da;border-radius:4px}label{display:block;margin:10px 0}select{margin-left:12px}small{display:block;color:#516179}textarea{display:block;width:calc(100% - 18px);min-height:65px}.edit{display:grid;grid-template-columns:1fr 1fr;gap:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#eef3f8;padding:14px;max-height:650px;overflow:auto}details{margin:14px 0}summary{cursor:pointer;font-weight:600}a{color:#135ba0;overflow-wrap:anywhere}.links{font-size:13px}.question{font-size:16px}.notice{background:#fff5d8;padding:15px;border-radius:5px}.type-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0}.type-nav a{display:block;text-decoration:none;background:white;border:1px solid #c6d4e5;border-radius:7px;padding:12px}.type-nav strong{display:block}.type-nav span{font-weight:bold;color:#306791}.category-heading{font-size:24px;border-bottom:2px solid #557fa8;padding-bottom:10px}.review-category{scroll-margin-top:125px;margin-top:30px}h3{color:#385577;margin-top:24px}[hidden]{display:none!important}@media(max-width:900px){.type-nav{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:760px){.edit{grid-template-columns:1fr}.bar input{max-width:180px}}'
     js = """
 const meta = META;
 const storageKey = 'oct12-review-draft-v1';
@@ -682,9 +748,12 @@ document.querySelectorAll('article.item').forEach(a => {
  if(s && s.content_sha256 === a.dataset.hash) { a.querySelectorAll('select[data-object]').forEach(t => t.value=s.decisions[t.dataset.object]||'待审核'); a.querySelectorAll('select[data-version]:not([data-version-object])').forEach(t=>t.value=(s.version_decisions||{})[t.dataset.version]||'待审核'); a.querySelectorAll('select[data-version-object]').forEach(t=>t.value=((s.version_object_decisions||{})[t.dataset.version]||{})[t.dataset.versionObject]||'待审核'); a.querySelectorAll('textarea[data-field]').forEach(t=>{if(s[t.dataset.field]!==undefined)t.value=s[t.dataset.field];}); }
  a.addEventListener('change',()=>{saved[a.dataset.key]=gather(a);try{localStorage.setItem(storageKey,JSON.stringify(saved));document.getElementById('state').textContent='草稿已保存在当前浏览器';}catch(_){document.getElementById('state').textContent='浏览器不允许保存，请导出JSON';}});
 });
-function filterRows() { const q=document.getElementById('search').value.trim().toLowerCase(), group=document.getElementById('group').value;let visible=0;document.querySelectorAll('article.item').forEach(a=>{a.hidden=(group && a.dataset.group!==group)||!a.textContent.toLowerCase().includes(q);if(!a.hidden)visible++;});document.getElementById('visible').textContent='显示'+visible+'项';}
+function filterRows() { const q=document.getElementById('search').value.trim().toLowerCase(), group=document.getElementById('group').value, type=document.getElementById('type').value;let visible=0;document.querySelectorAll('article.item').forEach(a=>{a.hidden=Boolean((type && a.dataset.category!==type)||(group && a.dataset.group!==group)||!a.textContent.toLowerCase().includes(q));if(!a.hidden)visible++;});document.querySelectorAll('section.review-subgroup,section.review-category').forEach(s=>{s.hidden=![...s.querySelectorAll('article.item')].some(a=>!a.hidden);});document.getElementById('visible').textContent='显示'+visible+' / '+meta.rows.length+'项';}
 document.getElementById('search').addEventListener('input', filterRows);
-document.getElementById('group').addEventListener('change', filterRows);
+document.getElementById('type').addEventListener('change',()=>{document.getElementById('group').value='';filterRows();});
+document.getElementById('group').addEventListener('change',()=>{document.getElementById('type').value='';filterRows();});
+document.getElementById('show-all').addEventListener('click',()=>{document.getElementById('search').value='';document.getElementById('group').value='';document.getElementById('type').value='';filterRows();});
+document.querySelectorAll('a[data-jump-category]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.getElementById('type').value=a.dataset.jumpCategory;document.getElementById('group').value='';document.getElementById('search').value='';filterRows();document.getElementById('review-type-'+a.dataset.jumpCategory).scrollIntoView({behavior:'auto',block:'start'});}));
 filterRows();
 document.getElementById('export').addEventListener('click',()=>{
  const records=[...document.querySelectorAll('article.item')].map(gather);
@@ -692,7 +761,7 @@ document.getElementById('export').addEventListener('click',()=>{
  const u=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=u;a.download='10月12日-人工审核决定草稿.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);
 });
 """.replace('META', meta)
-    document = '<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>' + TITLE + '</title><style>' + css + '</style><body><h1>' + TITLE + '</h1><p class="notice">逐项核对原题、gold、实际回答、引用和候选关系，各自独立。页面填写是你的审核草稿，不自动改代码、题库、别名、旧审核状态或签名。导出后交回统一执行。保留题不在本页展开，需独立环境审核。</p><p>先定 <a href="../../../../notes/oct12/gold-38-23-proposal.md">sql-38 / robust-23 两个gold</a>。题面清洗保留业务条件、单位、排序和半开区间，去掉模型执行/应答指令。清洗及新标签均未应用。</p><p>选择分组可分别过AW目录68表/456列、专项题、RAG和新增JOIN。逐版本选择“历史归档”只表示你对那个旧输出的处理，不代表确认新答案。导出JSON中的时间是导出时间，签名和人工确认日期保持空。</p><details><summary>本轮统计、去重方式与待核范围</summary><pre>' + esc(overview) + '</pre><p>同一对象的MD/HTML/JSON及相同输出内容合并出处；不同gold版本、不同系统输出和多轮控制器差异保留，不能只按题面去重。</p></details><details><summary>已明确授权的五项新口径，不重复要求确认</summary><pre>' + esc(auth) + '</pre></details><details><summary>已有人工授权对象与批准范围</summary><pre>' + esc(already) + '</pre></details><div class="bar"><select id="group">' + group_options + '</select><input id="search" placeholder="筛选编号、关键词"><button id="export">导出决定JSON</button><span id="visible"></span> <span id="state">更改只存在本页草稿</span></div>' + ''.join(sections) + '<script>' + js + '</script></body></html>'
+    document = '<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>' + TITLE + '</title><style>' + css + '</style><body><h1>' + TITLE + '</h1><p class="notice">逐项核对原题、gold、实际回答、引用和候选关系，各自独立。页面填写是你的审核草稿，不自动改代码、题库、别名、旧审核状态或签名。导出后交回统一执行。保留题不在本页展开，需独立环境审核。</p><p>735项按审核问题类型分为下面8类，同类连续排列；每项保留原序号、审核键和内容哈希，已有浏览器草稿仍按原条目恢复。</p><nav class="type-nav" aria-label="审核类型目录">' + ''.join(directory) + '</nav><p>先定 <a href="../../../../notes/oct12/gold-38-23-proposal.md">sql-38 / robust-23 两个gold</a>。题面清洗保留业务条件、单位、排序和半开区间，去掉模型执行/应答指令。清洗及新标签均未应用。</p><p>点击类型目录只显示该类；也可用顶部筛选选择全部、原分组或关键词。导出始终包括全部735项，筛选不会漏掉隐藏条目。逐版本选择“历史归档”只表示你对那个旧输出的处理，不代表确认新答案。导出JSON中的时间是导出时间，签名和人工确认日期保持空。</p><details><summary>本轮统计、去重方式与待核范围</summary><pre>' + esc(overview) + '</pre><p>同一对象的MD/HTML/JSON及相同输出内容合并出处；不同gold版本、不同系统输出和多轮控制器差异保留，不能只按题面去重。</p></details><details><summary>已明确授权的五项新口径，不重复要求确认</summary><pre>' + esc(auth) + '</pre></details><details><summary>已有人工授权对象与批准范围</summary><pre>' + esc(already) + '</pre></details><div class="bar"><select id="type" aria-label="问题类型">' + type_options + '</select><select id="group" aria-label="原分组">' + group_options + '</select><input id="search" placeholder="筛选编号、关键词"><button id="show-all">显示全部</button><button id="export">导出决定JSON</button><span id="visible"></span> <span id="state">更改只存在本页草稿</span></div>' + ''.join(sections) + '<script>' + js + '</script></body></html>'
     (OUT / (TITLE + '.html')).write_text(document, encoding='utf-8')
 
 

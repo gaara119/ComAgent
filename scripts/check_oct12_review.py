@@ -16,8 +16,11 @@ class Links(HTMLParser):
     def __init__(self):
         super().__init__()
         self.hrefs = []
+        self.ids = set()
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if attrs.get('id'):
+            self.ids.add(attrs['id'])
         if tag == 'a' and attrs.get('href'):
             self.hrefs.append(attrs['href'])
 
@@ -36,6 +39,9 @@ def main():
     links = []
     for href in sorted(set(parsed.hrefs)):
         url = urlparse(href)
+        if not url.path and not url.scheme and not url.netloc and url.fragment:
+            links.append({'href': href, 'relative': True, 'inside_project': True, 'exists': unquote(url.fragment) in parsed.ids, 'kind': 'document_anchor'})
+            continue
         target = (DOCUMENT.parent / unquote(url.path)).resolve()
         links.append({'href': href, 'relative': not url.scheme and not url.netloc and not url.path.startswith(('/', '\\')), 'inside_project': target.is_relative_to(ROOT), 'exists': target.is_file()})
     report = {'created_at_utc': datetime.now(timezone.utc).isoformat(), 'command': '.\\.venv\\Scripts\\python.exe -B scripts/check_oct12_review.py --output ' + out.relative_to(ROOT).as_posix(), 'scope': 'Local file UI and synthetic draft export only, no API/model/database requests; not human approval', 'links': links, 'page_errors': [], 'blocked_network': [], 'browser_run': 'not_run'}

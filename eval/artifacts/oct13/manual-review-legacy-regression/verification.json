@@ -1,0 +1,2532 @@
+{
+  "created_at_utc": "2026-10-13T14:47:23.418619+00:00",
+  "command": ".\\.venv\\Scripts\\python.exe -B scripts/check_oct12_review.py --output eval/artifacts/oct13/manual-review-legacy-regression",
+  "scope": "Local file UI and synthetic draft export only, no API/model/database requests; not human approval",
+  "links": [
+    {
+      "href": "#review-type-aliases",
+      "relative": true,
+      "inside_project": true,
+      "exists": true,
+      "kind": "document_anchor"
+    },
+    {
+      "href": "#review-type-catalog",
+      "relative": true,
+      "inside_project": true,
+      "exists": true,
+      "kind": "document_anchor"
+    },
+    {
+      "href": "#review-type-clarify",
+      "relative": true,
+      "inside_project": true,
+      "exists": true,
+      "kind": "document_anchor"
+    },
+    {
+      "href": "#review-type-join",
+      "relative": true,
+      "inside_project": true,
+      "exists": true,
+      "kind": "document_anchor"
+    },
+    {
+      "href": "#review-type-rag",
+      "relative": true,
+      "inside_project": true,
+      "exists": true,
+      "kind": "document_anchor"
+    },
+    {
+      "href": "#review-type-shared",
+      "relative": true,
+      "inside_project": true,
+      "exists": true,
+      "kind": "document_anchor"
+    },
+    {
+      "href": "#review-type-special",
+      "relative": true,
+      "inside_project": true,
+      "exists": true,
+      "kind": "document_anchor"
+    },
+    {
+      "href": "#review-type-sql",
+      "relative": true,
+      "inside_project": true,
+      "exists": true,
+      "kind": "document_anchor"
+    },
+    {
+      "href": "../../../../data/aliases/aliases-d2-reviewed.csv",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/aliases/aliases-oct12-approved.csv",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/catalog/adventureworks.yaml",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/docs/raw/academic/2305.14160v4.pdf",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/docs/raw/d2/Chinook业务指标口径手册.docx",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/docs/raw/d2/chinook-dictionary-zh.md",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/docs/raw/d2/iron-maiden.html",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/docs/raw/d2/led-zeppelin.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/docs/raw/d2/u2.html",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/docs/raw/law/GULFSOUTHMEDICALSUPPLYINC_12_24_1997-EX-4-AFFILIATE AGREEMENT.pdf",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/docs/raw/manual/Macbook_air.pdf",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/docs/raw/news/DUDE_62ba680b413005aa9f018454c4ab4c43.pdf",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/docs/raw/textbook/DUDE_89a3da3457ce1451bc01e4b83fb95f04.pdf",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../data/rules/metric_definitions.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../notes/d3/clarify-human-review.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../notes/oct12/gold-38-23-proposal.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../notes/oct12/gold-38-23-proposal.md",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../notes/oct12/phase2-target-readonly-diagnosis.md",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../notes/oct12/sql22-final-readonly-diagnosis.md",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../notes/oct12/参考答案与计分争议提案.md",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../qa_agent/clarify/clarify_rules.yaml",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../qa_agent/clarify/rules.py",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../qa_agent/clarify/state.py",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../../qa_agent/schemas.py",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-02-E1-p1.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-05-E2-p1.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-06-E1-p8.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-07-E1-p14.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-08-E1-p8.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-10-E1-p65.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-11-E1-p3.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-12-E1-p67.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-13-E1-p52.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-13-E2-p52.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-15-E2-p11.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-15-E4-p10.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-16-E1-p11.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-18-E3-p12.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/rag/location-check-v4.3/rag-19-E2-p6.png",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/review/rag-dev-view.jsonl",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/review/robust-dev-v1.jsonl",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d2-final/review/sql-dev-v1.jsonl",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-01.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-02.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-03.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-04.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-05.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-06.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-07.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-08.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-09.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-10.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-11.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-12.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-13.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-14.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-15.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-16.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-17.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-18.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-19.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-20.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/a/gold/dev-v2/aw-21.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/button-api-v1/missing-metric-after.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/button-api-v1/valid-year-after.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-01.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-02.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-04.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-05.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-07.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-08.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-10.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-11.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-13.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-14.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-16.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-17.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-19.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-20.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-22.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-23.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-25.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-26.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-27.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-28.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/clarify-30.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-dev-v4/report.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-flow-v6/free-year-resumed.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-flow-v6/report.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/clarify-flow-v6/stale-card-rejected.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/shared-regression-v13/command.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/ui-live-v4/clarification-after-raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/ui-live-v4/free-input-after-raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/ui-live-v4/popular-default-raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/ui-live-v4/report.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/ui-live-v4/switch-back-quantity-raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/d3/b/ui-live-v4/switch-revenue-raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-01.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-02.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-03.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-04.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-05.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-06.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-07.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-08.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-09.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-10.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-11.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-12.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-13.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-14.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/join-gold/oct12-join-15.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/repairs-live-001/oct12-midnight-invoice-ratio.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/repairs-live-001/sql-19.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/review-gold/readonly-rerun/readonly-verification.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/sql22-live-004/sql-22.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/oct12-alias-us.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/oct12-default-ratio.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/oct12-default-region.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/oct12-default-repeat.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/oct12-default-track.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/oct12-default-who.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/oct12-explicit-region.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/sp01-05.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/sp01-07.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/sp01-10.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/sp01-22.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/sp03-06.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/sp03-14.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/sp03-19.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-001/sp03-22.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/oct12-alias-us.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/oct12-context-numerator.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/oct12-context-year.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/oct12-default-ratio.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/oct12-default-region.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/oct12-default-repeat.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/oct12-default-track.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/oct12-default-who.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/oct12-explicit-region.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/sp01-05.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/sp01-07.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/sp01-10.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/sp01-22.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/sp03-06.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/sp03-14.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/sp03-19.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-002/sp03-22.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-003/oct12-default-repeat.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/targets-live-003/oct12-default-track.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../artifacts/oct12/ui-live/run-001/invoice-ratio-raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../datasets/d3/clarify/dev.jsonl",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../datasets/d3/clarify/manifest.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../datasets/oct12/chinook_join_dev_v1.jsonl",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-01/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-02/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-03/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-04/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-05/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-06/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-07/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-08/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-09/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-10/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-11/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-12/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-13/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-14/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-15/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-16/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-17/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-18/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-19/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-20/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-21/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-22/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-23/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-24/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-25/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-26/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-27/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-28/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-29/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp01-30/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-01/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-02/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-03/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-04/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-05/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-06/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-07/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-08/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-09/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-09/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-10/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-11/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-12/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-13/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-14/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-15/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-16/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-17/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-18/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-19/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-20/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-21/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-22/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-22/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-23/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-23/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-23/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-24/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-24/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-24/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-25/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-26/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-26/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-26/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-26/turns/003/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-26/turns/004/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-27/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-27/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-28/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-28/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-28/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-29/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-29/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-29/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-29/turns/003/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-30/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-30/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-30/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-30/turns/003/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-30/turns/004/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V0-001/cases/sp03-30/turns/005/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-01/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-02/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-03/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-04/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-05/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-06/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-07/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-08/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-09/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-10/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-11/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-12/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-13/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-14/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-15/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-16/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-17/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-18/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-19/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-20/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-21/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-22/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-23/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-24/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-25/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-26/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-27/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-28/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-29/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp01-30/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-01/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-02/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-03/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-04/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-05/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-06/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-07/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-07/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-08/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-09/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-09/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-10/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-11/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-12/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-13/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-14/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-15/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-16/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-17/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-18/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-19/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-20/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-21/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-22/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-22/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-23/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-23/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-23/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-24/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-24/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-24/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-25/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-26/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-26/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-26/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-26/turns/003/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-26/turns/004/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-27/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-27/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-27/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-27/turns/003/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-28/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-28/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-28/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-29/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-29/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-29/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-29/turns/003/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-30/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-30/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-30/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-30/turns/003/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V1-001/cases/sp03-30/turns/004/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-01/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-02/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-03/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-04/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-05/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-06/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-07/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-08/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-09/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-10/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-11/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-12/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-13/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-14/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-15/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-16/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-17/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-18/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-19/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-20/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-21/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-22/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-23/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-24/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-25/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-26/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-27/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-28/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-29/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp01-30/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-01/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-02/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-03/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-04/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-05/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-06/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-06/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-07/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-08/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-09/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-09/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-10/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-11/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-12/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-13/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-14/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-15/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-16/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-17/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-18/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-19/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-20/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-21/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-22/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-23/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-23/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-23/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-24/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-24/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-24/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-25/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-26/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-27/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-28/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-29/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-29/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-29/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-29/turns/003/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-30/turns/000/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-30/turns/001/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-30/turns/002/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-30/turns/003/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../../experiments/after_d2_01_03/runtime_eval/runs/V2-001/cases/sp03-30/turns/004/response.raw.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../d3-acceptance/A待人工核对表.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../d3-ai-review/catalog-pass2.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../d3-ai-review/clarify-dev-pass2.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../d3-aw-live-dev-run1/responses.jsonl",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../d3-aw-live-dev-run2/responses.jsonl",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    },
+    {
+      "href": "../../d3/b/handoff-summary.json",
+      "relative": true,
+      "inside_project": true,
+      "exists": true
+    }
+  ],
+  "page_errors": [],
+  "blocked_network": [],
+  "browser_run": "actual_Edge_headless_complete",
+  "article_count": 735,
+  "original_special_ids_count": 60,
+  "filter_visible_keys": [
+    "sql:sql-38"
+  ],
+  "export_records": 735,
+  "synthetic_export_test": {
+    "notes_preserved": true,
+    "decision_preserved": true,
+    "individual_version_decision_preserved": true,
+    "rag_answer_support_location_separate": true,
+    "sql38_proposed_gold_prefilled": true,
+    "human_signature_null": true,
+    "human_confirmation_date_null": true,
+    "automatic_application_false": true
+  },
+  "synthetic_browser_localstorage_persistence": true,
+  "synthetic_rag_independent_choices_persisted": true,
+  "all_pending_aw_catalog_group_counts": {
+    "columns": 456,
+    "tables": 68,
+    "expected_complete_68_plus_456": true
+  },
+  "visible_after_clear": 735,
+  "layout": {
+    "innerWidth": 1440,
+    "scrollWidth": 1440
+  },
+  "source_html_unchanged": true,
+  "passed": true
+}
