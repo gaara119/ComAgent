@@ -1,0 +1,23 @@
+{
+  "id": "oct12-join-11",
+  "scale": "10000",
+  "sql": "SELECT SUM(l.quantity) AS purchased_quantity FROM d4_stress_10000.invoice AS i JOIN d4_stress_10000.invoice_line AS l ON l.invoice_id = i.invoice_id JOIN d4_stress_10000.track AS t ON l.track_id = t.track_id JOIN d4_stress_10000.genre AS g ON t.genre_id = g.genre_id WHERE i.billing_country = 'France' AND g.name = 'Rock'",
+  "result": {
+    "columns": [
+      "purchased_quantity"
+    ],
+    "rows": [
+      [
+        294
+      ]
+    ],
+    "table": [
+      {
+        "purchased_quantity": 294
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "system_prediction": false
+}

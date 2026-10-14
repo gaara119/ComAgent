@@ -1,0 +1,20 @@
+{
+  "command": [
+    "docker",
+    "exec",
+    "--interactive",
+    "comagent-d4-recovery-chinook-pg-1",
+    "psql",
+    "--username",
+    "postgres",
+    "--dbname",
+    "chinook",
+    "--no-psqlrc",
+    "--set",
+    "ON_ERROR_STOP=1",
+    "--tuples-only",
+    "--no-align"
+  ],
+  "exit_code": 0,
+  "sql": "verify-10000.sql"
+}

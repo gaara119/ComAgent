@@ -41,6 +41,9 @@ function Start-ExistingDatabases {
         @{Project='comagent-d3-aw';Service='aw-pg'}
     )) {
         $containerIds = @(& docker ps -aq --filter ('label=com.docker.compose.project=' + $definition.Project) --filter ('label=com.docker.compose.service=' + $definition.Service))
+        if ($LASTEXITCODE -eq 0 -and $containerIds.Count -eq 0) {
+            $containerIds = @(& docker ps -aq --filter 'label=com.docker.compose.project=comagent-d4-recovery' --filter ('label=com.docker.compose.service=' + $definition.Service) --filter 'label=comagent.data-purpose=d4-recovery-copy')
+        }
         if ($LASTEXITCODE -ne 0 -or $containerIds.Count -ne 1) {
             throw ('Expected one existing database container for ' + $definition.Project + '; nothing was created or imported.')
         }
@@ -79,7 +82,7 @@ function Assert-ProjectListener([int]$Port, [string[]]$Markers) {
 function Get-ProjectHealth {
     try {
         $health = Invoke-RestMethod -Uri ($projectApiUrl + '/health') -TimeoutSec 6
-        if ($health.status -eq 'ok' -and $health.stage -eq 'D3' -and $health.sql_prompt_sha256) { return $health }
+        if ($health.status -eq 'ok' -and $health.stage -in @('D3','D4') -and $health.sql_prompt_sha256) { return $health }
     } catch { }
     return $null
 }

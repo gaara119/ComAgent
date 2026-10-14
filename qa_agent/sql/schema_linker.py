@@ -1,12 +1,11 @@
-"""D3 table/column dense recall, value-column RRF and FK Steiner completion.
+"""Table/column dense recall and genuine FK completion, shared by D3/D4.
 
-This module deliberately performs no D4 LLM pruning. It returns the complete
-candidate subgraph and its reasons, never a fabricated join for disconnected
-components. The real local BGE-M3 embedder is shared with the existing RAG code.
+The optional D4 SchemaPruner consumes this bundle. Recall itself remains
+deterministic and never sees evaluation labels or invents a JOIN.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import hashlib
 import json
 from pathlib import Path
@@ -40,6 +39,8 @@ class SchemaBundle:
     query_facets: tuple[str, ...]
     per_query_recall: tuple[dict, ...]
     selected_catalog: Catalog
+    excluded_tables: dict[str, str] = field(default_factory=dict)
+    pruning: dict = field(default_factory=dict)
 
     def as_dict(self) -> dict:
         return {key: value for key, value in self.__dict__.items() if key != "selected_catalog"}

@@ -1,0 +1,28 @@
+{
+  "id": "sql-33",
+  "schema": "d4_stress_100000",
+  "sql": "SELECT SUM(total) AS total_amount FROM d4_stress_100000.invoice WHERE billing_country = 'Canada'",
+  "result": {
+    "columns": [
+      "total_amount"
+    ],
+    "rows": [
+      [
+        "13567.32"
+      ]
+    ],
+    "table": [
+      {
+        "total_amount": "13567.32"
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "source_gold_review": {
+    "status": "accepted",
+    "reviewer": "user-attested-D2-audit",
+    "content_sha256": "e918e1c0150a7a8efedda0eb7ea39668b401488f02554bc6d2a509900b9e167a"
+  },
+  "derivation": "same SQL business logic, only physical schema remapped"
+}

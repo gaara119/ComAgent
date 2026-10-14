@@ -1,0 +1,161 @@
+F....FFFF....F.......                                                    [100%]
+================================== FAILURES ===================================
+_____________ test_retired_filter_is_rejected_before_repair_lock ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000019510BD2480>
+
+    def test_retired_filter_is_rejected_before_repair_lock(monkeypatch):
+        country = {"column": "invoice.billing_country", "operator": "=", "value": "USA"}
+        state = SessionState(
+            session_id="patch-repair-fixture", scope={},
+            original_question="查发票张数", effective_question="取消国家限制后查全部发票张数",
+            intent=IntentContract(route="sql", task_type="aggregation", metric="invoice_count", intent_version=2),
+            analysis=SemanticIntent(task_type="aggregation", metric="invoice_count"),
+            resolutions=[{"previous_filters": [country], "patches": [{"op": "remove", "path": "filters", "value": [country]}]}],
+        )
+        decision = SimpleNamespace(level="ready", issues=[], assumptions=[], derived={})
+        gate = SimpleNamespace(state=state, question=state.effective_question, card=None, decision=decision)
+        monkeypatch.setattr("qa_agent.clarify.service.run_gate", lambda *args: gate)
+        monkeypatch.setattr("qa_agent.clarify.service.public_metadata", lambda *args: {})
+        monkeypatch.setattr("qa_agent.clarify.service.finish_gate", lambda *args, **kwargs: None)
+        executed = []
+    
+        def execute(sql, *args, **kwargs):
+            executed.append(sql)
+            return SQLResult(columns=["n"], rows=[[412]], table=[{"n": 412}], row_count=1)
+    
+        monkeypatch.setattr("qa_agent.sql.executor.execute_sql", execute)
+    
+        class Model:
+            calls = 0
+    
+            def complete_json(self, system, user, response_model, trace=None):
+                self.calls += 1
+                suffix = " WHERE billing_country='USA'" if self.calls == 1 else ""
+                return response_model(sql="SELECT COUNT(invoice_id) AS n FROM invoice" + suffix,
+                                      explanation="统计当前范围内发票数")
+    
+        model = Model()
+        result = chat(ChatRequest(message="取消国家限制", session_id=state.session_id), llm=model,
+                      settings=replace(get_settings(), nlu_enabled=False, sql_repair_attempts=2))
+>       assert result.status == "SUCCEEDED"
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+E         
+E         - SUCCEEDED
+E         + FAILED
+
+tests\test_d4_pipeline_patch_guard.py:47: AssertionError
+_ test_scripted_model_real_database_wiring[SELECT COUNT(*) AS total FROM customer-SUCCEEDED-expected_table0] _
+
+sql = 'SELECT COUNT(*) AS total FROM customer', expected_status = 'SUCCEEDED'
+expected_table = [{'total': 59}]
+
+    @pytest.mark.integration
+    @pytest.mark.parametrize("sql,expected_status,expected_table", [
+        ("SELECT COUNT(*) AS total FROM customer", "SUCCEEDED", [{"total": 59}]),
+        ("SELECT COUNT(*) AS total FROM customer WHERE country='Antarctica'", "SUCCEEDED", [{"total": 0}]),
+        ("SELECT customer_id FROM customer WHERE country='Antarctica'", "EMPTY_RESULT", []),
+        ("SELECT SUM(total) AS amount FROM invoice WHERE billing_country='Antarctica'", "SUCCEEDED", [{"amount": None}]),
+    ])
+    def test_scripted_model_real_database_wiring(sql, expected_status, expected_table):
+        if not get_settings().catalog_path.exists():
+            pytest.skip("先运行数据库初始化与目录脚本")
+        response = chat(ChatRequest(message="测试固定查询与真实数据库连接"), llm=ScriptedSQL(sql))
+>       assert response.status == expected_status
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+E         
+E         - SUCCEEDED
+E         + FAILED
+
+tests\test_api_pipeline.py:62: AssertionError
+_ test_scripted_model_real_database_wiring[SELECT COUNT(*) AS total FROM customer WHERE country='Antarctica'-SUCCEEDED-expected_table1] _
+
+sql = "SELECT COUNT(*) AS total FROM customer WHERE country='Antarctica'"
+expected_status = 'SUCCEEDED', expected_table = [{'total': 0}]
+
+    @pytest.mark.integration
+    @pytest.mark.parametrize("sql,expected_status,expected_table", [
+        ("SELECT COUNT(*) AS total FROM customer", "SUCCEEDED", [{"total": 59}]),
+        ("SELECT COUNT(*) AS total FROM customer WHERE country='Antarctica'", "SUCCEEDED", [{"total": 0}]),
+        ("SELECT customer_id FROM customer WHERE country='Antarctica'", "EMPTY_RESULT", []),
+        ("SELECT SUM(total) AS amount FROM invoice WHERE billing_country='Antarctica'", "SUCCEEDED", [{"amount": None}]),
+    ])
+    def test_scripted_model_real_database_wiring(sql, expected_status, expected_table):
+        if not get_settings().catalog_path.exists():
+            pytest.skip("先运行数据库初始化与目录脚本")
+        response = chat(ChatRequest(message="测试固定查询与真实数据库连接"), llm=ScriptedSQL(sql))
+>       assert response.status == expected_status
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+E         
+E         - SUCCEEDED
+E         + FAILED
+
+tests\test_api_pipeline.py:62: AssertionError
+_ test_scripted_model_real_database_wiring[SELECT customer_id FROM customer WHERE country='Antarctica'-EMPTY_RESULT-expected_table2] _
+
+sql = "SELECT customer_id FROM customer WHERE country='Antarctica'"
+expected_status = 'EMPTY_RESULT', expected_table = []
+
+    @pytest.mark.integration
+    @pytest.mark.parametrize("sql,expected_status,expected_table", [
+        ("SELECT COUNT(*) AS total FROM customer", "SUCCEEDED", [{"total": 59}]),
+        ("SELECT COUNT(*) AS total FROM customer WHERE country='Antarctica'", "SUCCEEDED", [{"total": 0}]),
+        ("SELECT customer_id FROM customer WHERE country='Antarctica'", "EMPTY_RESULT", []),
+        ("SELECT SUM(total) AS amount FROM invoice WHERE billing_country='Antarctica'", "SUCCEEDED", [{"amount": None}]),
+    ])
+    def test_scripted_model_real_database_wiring(sql, expected_status, expected_table):
+        if not get_settings().catalog_path.exists():
+            pytest.skip("先运行数据库初始化与目录脚本")
+        response = chat(ChatRequest(message="测试固定查询与真实数据库连接"), llm=ScriptedSQL(sql))
+>       assert response.status == expected_status
+E       AssertionError: assert 'FAILED' == 'EMPTY_RESULT'
+E         
+E         - EMPTY_RESULT
+E         + FAILED
+
+tests\test_api_pipeline.py:62: AssertionError
+_ test_scripted_model_real_database_wiring[SELECT SUM(total) AS amount FROM invoice WHERE billing_country='Antarctica'-SUCCEEDED-expected_table3] _
+
+sql = "SELECT SUM(total) AS amount FROM invoice WHERE billing_country='Antarctica'"
+expected_status = 'SUCCEEDED', expected_table = [{'amount': None}]
+
+    @pytest.mark.integration
+    @pytest.mark.parametrize("sql,expected_status,expected_table", [
+        ("SELECT COUNT(*) AS total FROM customer", "SUCCEEDED", [{"total": 59}]),
+        ("SELECT COUNT(*) AS total FROM customer WHERE country='Antarctica'", "SUCCEEDED", [{"total": 0}]),
+        ("SELECT customer_id FROM customer WHERE country='Antarctica'", "EMPTY_RESULT", []),
+        ("SELECT SUM(total) AS amount FROM invoice WHERE billing_country='Antarctica'", "SUCCEEDED", [{"amount": None}]),
+    ])
+    def test_scripted_model_real_database_wiring(sql, expected_status, expected_table):
+        if not get_settings().catalog_path.exists():
+            pytest.skip("先运行数据库初始化与目录脚本")
+        response = chat(ChatRequest(message="测试固定查询与真实数据库连接"), llm=ScriptedSQL(sql))
+>       assert response.status == expected_status
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+E         
+E         - SUCCEEDED
+E         + FAILED
+
+tests\test_api_pipeline.py:62: AssertionError
+___________________ test_api_contract_preserves_real_trace ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001953FE99730>
+
+    def test_api_contract_preserves_real_trace(monkeypatch):
+        monkeypatch.setattr("api.main.chat", lambda req: chat(req, llm=ScriptedSQL("SELECT COUNT(*) AS n FROM customer")))
+        with TestClient(app) as client:
+            response = client.post("/api/chat", json={"session_id": "integration-test", "message": "客户数"})
+        assert response.status_code == 200
+        body = response.json()
+>       assert body["table"] == [{"n": 59}]
+E       AssertionError: assert None == [{'n': 59}]
+
+tests\test_api_pipeline.py:99: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_d4_pipeline_patch_guard.py::test_retired_filter_is_rejected_before_repair_lock
+FAILED tests/test_api_pipeline.py::test_scripted_model_real_database_wiring[SELECT COUNT(*) AS total FROM customer-SUCCEEDED-expected_table0]
+FAILED tests/test_api_pipeline.py::test_scripted_model_real_database_wiring[SELECT COUNT(*) AS total FROM customer WHERE country='Antarctica'-SUCCEEDED-expected_table1]
+FAILED tests/test_api_pipeline.py::test_scripted_model_real_database_wiring[SELECT customer_id FROM customer WHERE country='Antarctica'-EMPTY_RESULT-expected_table2]
+FAILED tests/test_api_pipeline.py::test_scripted_model_real_database_wiring[SELECT SUM(total) AS amount FROM invoice WHERE billing_country='Antarctica'-SUCCEEDED-expected_table3]
+FAILED tests/test_api_pipeline.py::test_api_contract_preserves_real_trace - A...
+6 failed, 15 passed in 29.56s

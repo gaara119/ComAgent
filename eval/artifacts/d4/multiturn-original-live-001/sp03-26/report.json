@@ -1,0 +1,376 @@
+{
+  "id": "sp03-26",
+  "split": "dev",
+  "completed_all_turns": false,
+  "turns": [
+    {
+      "index": 0,
+      "message": "同比增长多少？",
+      "status": "NEEDS_CLARIFICATION",
+      "intent_version": 1,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": null,
+        "reason": "no SQL expected at incomplete clarification turn"
+      },
+      "trace_id": "dc85c24a-a591-4ca4-b924-984ce02c2861",
+      "latency_ms": 4523.377600009553,
+      "request_file": "eval\\artifacts\\d4\\multiturn-original-live-001\\sp03-26\\00\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-original-live-001\\sp03-26\\00\\response.raw.json",
+      "expected": {
+        "task_type": "growth",
+        "metric": null,
+        "time_scope": null,
+        "filters": []
+      },
+      "sql": null,
+      "semantic_contract": {
+        "task_type": "growth",
+        "metric": null,
+        "time_scope": null,
+        "comparison": {
+          "type": "yoy"
+        },
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": true,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "comparison": "同比"
+        }
+      },
+      "invalidated_execution": []
+    },
+    {
+      "index": 1,
+      "message": "2024年全年。",
+      "status": "NEEDS_CLARIFICATION",
+      "intent_version": 2,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": null,
+        "reason": "no SQL expected at incomplete clarification turn"
+      },
+      "trace_id": "c60ecaa4-e9bd-4a05-a9b9-feca3cabcd43",
+      "latency_ms": 2998.644699982833,
+      "request_file": "eval\\artifacts\\d4\\multiturn-original-live-001\\sp03-26\\01\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-original-live-001\\sp03-26\\01\\response.raw.json",
+      "expected": {
+        "task_type": "growth",
+        "metric": null,
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "base": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "filters": [],
+        "comparison": {
+          "type": "yoy"
+        }
+      },
+      "sql": null,
+      "semantic_contract": {
+        "task_type": "growth",
+        "metric": null,
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          },
+          "base": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "derived_from": "explicit current period and yoy"
+          }
+        },
+        "comparison": {
+          "type": "yoy"
+        },
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "comparison": "同比"
+        }
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 2,
+      "message": "按发票销售额算。",
+      "status": "SUCCEEDED",
+      "intent_version": 3,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "d284986e-b713-4f66-ad97-65e6f324e8bd",
+      "latency_ms": 7251.309699960984,
+      "request_file": "eval\\artifacts\\d4\\multiturn-original-live-001\\sp03-26\\02\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-original-live-001\\sp03-26\\02\\response.raw.json",
+      "expected": {
+        "task_type": "growth",
+        "metric": "invoice_revenue",
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "base": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "filters": [],
+        "comparison": {
+          "type": "yoy"
+        }
+      },
+      "sql": "SELECT (SUM(CASE WHEN i.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2025-01-01' AS TIMESTAMP) THEN i.total ELSE 0 END) - SUM(CASE WHEN i.invoice_date >= CAST('2023-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2024-01-01' AS TIMESTAMP) THEN i.total ELSE 0 END)) / NULLIF(SUM(CASE WHEN i.invoice_date >= CAST('2023-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2024-01-01' AS TIMESTAMP) THEN i.total ELSE 0 END), 0) AS yoy_growth FROM public.invoice AS i WHERE i.invoice_date >= CAST('2023-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2025-01-01' AS TIMESTAMP)",
+      "semantic_contract": {
+        "task_type": "growth",
+        "metric": "invoice_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          },
+          "base": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "derived_from": "explicit current period and yoy"
+          }
+        },
+        "comparison": {
+          "type": "yoy"
+        },
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "comparison": "同比"
+        }
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 3,
+      "message": "改成2025年同比。",
+      "status": "SUCCEEDED",
+      "intent_version": 4,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": false,
+        "reason": "row_values_or_order_mismatch",
+        "column_mapping": null
+      },
+      "trace_id": "70945a81-9116-4d37-9dcf-d0f2e245f96f",
+      "latency_ms": 7044.957700010855,
+      "request_file": "eval\\artifacts\\d4\\multiturn-original-live-001\\sp03-26\\03\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-original-live-001\\sp03-26\\03\\response.raw.json",
+      "expected": {
+        "task_type": "growth",
+        "metric": "invoice_revenue",
+        "current": {
+          "start": "2025-01-01",
+          "end": "2026-01-01"
+        },
+        "base": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "filters": [],
+        "comparison": {
+          "type": "yoy"
+        }
+      },
+      "sql": "WITH rev AS (SELECT SUM(CASE WHEN inv.invoice_date >= CAST('2025-01-01' AS TIMESTAMP) AND inv.invoice_date < CAST('2026-01-01' AS TIMESTAMP) THEN inv.total ELSE 0 END) AS current_rev, SUM(CASE WHEN inv.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND inv.invoice_date < CAST('2025-01-01' AS TIMESTAMP) THEN inv.total ELSE 0 END) AS base_rev FROM \"public\".\"invoice\" AS inv) SELECT current_rev, base_rev, (current_rev - base_rev) / NULLIF(base_rev, 0) AS yoy_growth FROM rev LIMIT 200",
+      "semantic_contract": {
+        "task_type": "growth",
+        "metric": "invoice_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2025-01-01",
+            "end": "2026-01-01",
+            "label": "2025年",
+            "grain": "year"
+          },
+          "base": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "derived_from": "explicit current period and yoy"
+          }
+        },
+        "comparison": {
+          "type": "yoy"
+        },
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "comparison": "同比"
+        }
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 4,
+      "message": "指标换成平均每张发票金额。",
+      "status": "SUCCEEDED",
+      "intent_version": 5,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": false,
+        "reason": "row_values_or_order_mismatch",
+        "column_mapping": null
+      },
+      "trace_id": "ecde6478-5da7-47fe-ac22-692ca4cae615",
+      "latency_ms": 7435.61069999123,
+      "request_file": "eval\\artifacts\\d4\\multiturn-original-live-001\\sp03-26\\04\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-original-live-001\\sp03-26\\04\\response.raw.json",
+      "expected": {
+        "task_type": "growth",
+        "metric": "average_invoice_amount",
+        "current": {
+          "start": "2025-01-01",
+          "end": "2026-01-01"
+        },
+        "base": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "filters": [],
+        "comparison": {
+          "type": "yoy"
+        }
+      },
+      "sql": "WITH per_period AS (SELECT CASE WHEN i.invoice_date >= CAST('2025-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2026-01-01' AS TIMESTAMP) THEN 'current' WHEN i.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2025-01-01' AS TIMESTAMP) THEN 'base' END AS period, AVG(i.total) AS avg_amount FROM \"public\".\"invoice\" AS i WHERE (i.invoice_date >= CAST('2025-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2026-01-01' AS TIMESTAMP)) OR (i.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2025-01-01' AS TIMESTAMP)) GROUP BY 1) SELECT cur.avg_amount AS current_avg, base.avg_amount AS base_avg, (cur.avg_amount - base.avg_amount) / NULLIF(base.avg_amount, 0) AS yoy_growth FROM per_period AS cur CROSS JOIN per_period AS base WHERE cur.period = 'current' AND base.period = 'base' LIMIT 200",
+      "semantic_contract": {
+        "task_type": "growth",
+        "metric": "average_invoice_amount",
+        "time_scope": {
+          "current": {
+            "start": "2025-01-01",
+            "end": "2026-01-01",
+            "label": "2025年",
+            "grain": "year"
+          },
+          "base": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "derived_from": "explicit current period and yoy"
+          }
+        },
+        "comparison": {
+          "type": "yoy"
+        },
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "comparison": "同比"
+        }
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    }
+  ]
+}

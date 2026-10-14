@@ -1,0 +1,2216 @@
+{
+  "id": "d4-eff-rag-11-original",
+  "original_dev_id": "rag-11",
+  "split": "dev",
+  "pages": 100,
+  "repetition": 3,
+  "request": {
+    "question": "Which application allows you to create and share movies in minutes?",
+    "scope_doc_ids": [
+      "ohr-academic-label-words",
+      "ohr-law-affiliate",
+      "ohr-manual-macbook-air",
+      "ohr-news-executive-insight",
+      "ohr-textbook-geology"
+    ]
+  },
+  "semantic_answer_review": "pending_human_review",
+  "matched": true,
+  "legacy_matched": false,
+  "retrieval": {
+    "retrieval_method": "bm25+bge-m3_dense_rrf",
+    "candidate_count": 1876,
+    "top_k": 8,
+    "allowed_doc_ids": [
+      "ohr-academic-label-words",
+      "ohr-law-affiliate",
+      "ohr-manual-macbook-air",
+      "ohr-news-executive-insight",
+      "ohr-textbook-geology"
+    ],
+    "searched_page_count": 100,
+    "candidate_k_per_channel": 20,
+    "rrf_k": 60,
+    "rank_starts_at": 1,
+    "rankings": {
+      "bm25": [
+        {
+          "rank": 1,
+          "chunk_id": "ed685ef489425c5fee8423f6",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iMovie"
+          ],
+          "score": 23.05313146
+        },
+        {
+          "rank": 2,
+          "chunk_id": "378ba7286bc150fa32c3ad65",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iWeb"
+          ],
+          "score": 12.49873161
+        },
+        {
+          "rank": 3,
+          "chunk_id": "b3139b0161e9d66e45fe02ca",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [
+            "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+          ],
+          "score": 10.11195411
+        },
+        {
+          "rank": 4,
+          "chunk_id": "b073b53fd90aac591b8e4087",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 7,
+          "section_path": [],
+          "score": 9.85517576
+        },
+        {
+          "rank": 5,
+          "chunk_id": "84bf6190479f85606471d841",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 8,
+          "section_path": [
+            "Welcome"
+          ],
+          "score": 9.73943523
+        },
+        {
+          "rank": 6,
+          "chunk_id": "419c0c059fbd1fd391e3057e",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 19,
+          "section_path": [
+            "Getting Additional Information onto Your MacBook Air"
+          ],
+          "score": 8.85712978
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dbe40afc64ec030f9e5a476b",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 19,
+          "section_path": [
+            "Sharing Discs with DVD or CD Sharing"
+          ],
+          "score": 8.5494201
+        },
+        {
+          "rank": 8,
+          "chunk_id": "8bece9d26b1acfda5d1cf135",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [
+            "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+          ],
+          "score": 7.49468385
+        },
+        {
+          "rank": 9,
+          "chunk_id": "74c2c6b9c05a26f42ececf79",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 35,
+          "section_path": [],
+          "score": 7.12671008
+        },
+        {
+          "rank": 10,
+          "chunk_id": "76fc7452f0ee355b74ac3b1a",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 22,
+          "section_path": [
+            "Putting Your MacBook Air to Sleep"
+          ],
+          "score": 7.01816174
+        },
+        {
+          "rank": 11,
+          "chunk_id": "0e0df4d25db5ba3abc63186d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 13,
+          "section_path": [
+            "Step 3:  Configure your MacBook Air with Setup Assistant"
+          ],
+          "score": 6.93519018
+        },
+        {
+          "rank": 12,
+          "chunk_id": "e3978df9fa579bc329d01ed5",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [
+            "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+          ],
+          "score": 6.89539707
+        },
+        {
+          "rank": 13,
+          "chunk_id": "228f13238a320940db73f445",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [],
+          "score": 6.89177676
+        },
+        {
+          "rank": 14,
+          "chunk_id": "19fadcece8febc63a0c208a6",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 27,
+          "section_path": [
+            "Built-in mono speaker"
+          ],
+          "score": 6.72344864
+        },
+        {
+          "rank": 15,
+          "chunk_id": "e871c167fc3ab9df0e305e60",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 16,
+          "section_path": [
+            "Migrating Information to Your MacBook Air"
+          ],
+          "score": 6.65218791
+        },
+        {
+          "rank": 16,
+          "chunk_id": "f1588b5dca8abd55167a1c10",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 18,
+          "section_path": [],
+          "score": 6.55966908
+        },
+        {
+          "rank": 17,
+          "chunk_id": "434ba6ff4877eec6b819312a",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 19,
+          "section_path": [],
+          "score": 6.41272167
+        },
+        {
+          "rank": 18,
+          "chunk_id": "447362c4cb1695e661b652ec",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "3 Applications of Our Anchor-Based Understanding"
+          ],
+          "score": 6.26801252
+        },
+        {
+          "rank": 19,
+          "chunk_id": "912b386b2bb4b145dd6d962a",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 21,
+          "section_path": [],
+          "score": 5.96912908
+        },
+        {
+          "rank": 20,
+          "chunk_id": "0653dd424070c8aa2a479980",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 21,
+          "section_path": [],
+          "score": 5.77954722
+        }
+      ],
+      "dense": [
+        {
+          "rank": 1,
+          "chunk_id": "ed685ef489425c5fee8423f6",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iMovie"
+          ],
+          "score": 0.62957507
+        },
+        {
+          "rank": 2,
+          "chunk_id": "c5618ab0024a51ba0746b5e7",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 2,
+          "section_path": [
+            "Built-in iSight camera"
+          ],
+          "score": 0.45585924
+        },
+        {
+          "rank": 3,
+          "chunk_id": "f1588b5dca8abd55167a1c10",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 18,
+          "section_path": [],
+          "score": 0.43419209
+        },
+        {
+          "rank": 4,
+          "chunk_id": "378ba7286bc150fa32c3ad65",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iWeb"
+          ],
+          "score": 0.42846283
+        },
+        {
+          "rank": 5,
+          "chunk_id": "479b43b5b920663ae7add19d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iPhoto"
+          ],
+          "score": 0.42267895
+        },
+        {
+          "rank": 6,
+          "chunk_id": "3e5a36e1e8a718f8bae1e943",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 34,
+          "section_path": [],
+          "score": 0.42140242
+        },
+        {
+          "rank": 7,
+          "chunk_id": "3b4e5cc532f6ace3b5ff31ab",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "GarageBand"
+          ],
+          "score": 0.41947085
+        },
+        {
+          "rank": 8,
+          "chunk_id": "434ba6ff4877eec6b819312a",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 19,
+          "section_path": [],
+          "score": 0.4169215
+        },
+        {
+          "rank": 9,
+          "chunk_id": "2bd8d69a21e9e39ac7bd304b",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 19,
+          "section_path": [
+            "12 hours in advance of your appointment.”"
+          ],
+          "score": 0.41190347
+        },
+        {
+          "rank": 10,
+          "chunk_id": "fe4ffb97900e4e7339463a54",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "movie"
+          ],
+          "score": 0.4016341
+        },
+        {
+          "rank": 11,
+          "chunk_id": "53a35a37f83074ab495e79d1",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 33,
+          "section_path": [],
+          "score": 0.39803171
+        },
+        {
+          "rank": 12,
+          "chunk_id": "7f14c79a417a8ad0004c8135",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "www.apple.com/ilife/imovie"
+          ],
+          "score": 0.39437884
+        },
+        {
+          "rank": 13,
+          "chunk_id": "1c023f266a16465068d36b68",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 27,
+          "section_path": [
+            "Built-in iSight camera and camera indicator light"
+          ],
+          "score": 0.39109686
+        },
+        {
+          "rank": 14,
+          "chunk_id": "4bada7226480d254325eb21d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 31,
+          "section_path": [
+            "Port hatch"
+          ],
+          "score": 0.39051926
+        },
+        {
+          "rank": 15,
+          "chunk_id": "b20d599bb4551cf77c367dcd",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 27,
+          "section_path": [
+            "Built-in microphone"
+          ],
+          "score": 0.38873416
+        },
+        {
+          "rank": 16,
+          "chunk_id": "7efda4996c905fb7beb0c355",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iMovie Help"
+          ],
+          "score": 0.38863635
+        },
+        {
+          "rank": 17,
+          "chunk_id": "8b0fa4d5ac2c4f244026d417",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 17,
+          "section_path": [],
+          "score": 0.38558358
+        },
+        {
+          "rank": 18,
+          "chunk_id": "4cea8fffc1ccf15dc4372a7a",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 21,
+          "section_path": [],
+          "score": 0.38284105
+        },
+        {
+          "rank": 19,
+          "chunk_id": "38cdf4dbff35144b72938a59",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 34,
+          "section_path": [],
+          "score": 0.37995687
+        },
+        {
+          "rank": 20,
+          "chunk_id": "a6344378b8a1370f3ca676e1",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 20,
+          "section_path": [],
+          "score": 0.37975746
+        }
+      ],
+      "rrf": [
+        {
+          "rank": 1,
+          "chunk_id": "ed685ef489425c5fee8423f6",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iMovie"
+          ],
+          "score": 0.03278689
+        },
+        {
+          "rank": 2,
+          "chunk_id": "378ba7286bc150fa32c3ad65",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iWeb"
+          ],
+          "score": 0.03175403
+        },
+        {
+          "rank": 3,
+          "chunk_id": "f1588b5dca8abd55167a1c10",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 18,
+          "section_path": [],
+          "score": 0.02903091
+        },
+        {
+          "rank": 4,
+          "chunk_id": "434ba6ff4877eec6b819312a",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 19,
+          "section_path": [],
+          "score": 0.0276929
+        },
+        {
+          "rank": 5,
+          "chunk_id": "c5618ab0024a51ba0746b5e7",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 2,
+          "section_path": [
+            "Built-in iSight camera"
+          ],
+          "score": 0.01612903
+        },
+        {
+          "rank": 6,
+          "chunk_id": "b3139b0161e9d66e45fe02ca",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [
+            "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+          ],
+          "score": 0.01587302
+        },
+        {
+          "rank": 7,
+          "chunk_id": "b073b53fd90aac591b8e4087",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 7,
+          "section_path": [],
+          "score": 0.015625
+        },
+        {
+          "rank": 8,
+          "chunk_id": "479b43b5b920663ae7add19d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iPhoto"
+          ],
+          "score": 0.01538462
+        },
+        {
+          "rank": 9,
+          "chunk_id": "84bf6190479f85606471d841",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 8,
+          "section_path": [
+            "Welcome"
+          ],
+          "score": 0.01538462
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3e5a36e1e8a718f8bae1e943",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 34,
+          "section_path": [],
+          "score": 0.01515152
+        },
+        {
+          "rank": 11,
+          "chunk_id": "419c0c059fbd1fd391e3057e",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 19,
+          "section_path": [
+            "Getting Additional Information onto Your MacBook Air"
+          ],
+          "score": 0.01515152
+        },
+        {
+          "rank": 12,
+          "chunk_id": "3b4e5cc532f6ace3b5ff31ab",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "GarageBand"
+          ],
+          "score": 0.01492537
+        },
+        {
+          "rank": 13,
+          "chunk_id": "dbe40afc64ec030f9e5a476b",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 19,
+          "section_path": [
+            "Sharing Discs with DVD or CD Sharing"
+          ],
+          "score": 0.01492537
+        },
+        {
+          "rank": 14,
+          "chunk_id": "8bece9d26b1acfda5d1cf135",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [
+            "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+          ],
+          "score": 0.01470588
+        },
+        {
+          "rank": 15,
+          "chunk_id": "2bd8d69a21e9e39ac7bd304b",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 19,
+          "section_path": [
+            "12 hours in advance of your appointment.”"
+          ],
+          "score": 0.01449275
+        },
+        {
+          "rank": 16,
+          "chunk_id": "74c2c6b9c05a26f42ececf79",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 35,
+          "section_path": [],
+          "score": 0.01449275
+        },
+        {
+          "rank": 17,
+          "chunk_id": "76fc7452f0ee355b74ac3b1a",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 22,
+          "section_path": [
+            "Putting Your MacBook Air to Sleep"
+          ],
+          "score": 0.01428571
+        },
+        {
+          "rank": 18,
+          "chunk_id": "fe4ffb97900e4e7339463a54",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "movie"
+          ],
+          "score": 0.01428571
+        },
+        {
+          "rank": 19,
+          "chunk_id": "0e0df4d25db5ba3abc63186d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 13,
+          "section_path": [
+            "Step 3:  Configure your MacBook Air with Setup Assistant"
+          ],
+          "score": 0.01408451
+        },
+        {
+          "rank": 20,
+          "chunk_id": "53a35a37f83074ab495e79d1",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 33,
+          "section_path": [],
+          "score": 0.01408451
+        },
+        {
+          "rank": 21,
+          "chunk_id": "7f14c79a417a8ad0004c8135",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "www.apple.com/ilife/imovie"
+          ],
+          "score": 0.01388889
+        },
+        {
+          "rank": 22,
+          "chunk_id": "e3978df9fa579bc329d01ed5",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [
+            "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+          ],
+          "score": 0.01388889
+        },
+        {
+          "rank": 23,
+          "chunk_id": "1c023f266a16465068d36b68",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 27,
+          "section_path": [
+            "Built-in iSight camera and camera indicator light"
+          ],
+          "score": 0.01369863
+        },
+        {
+          "rank": 24,
+          "chunk_id": "228f13238a320940db73f445",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01369863
+        },
+        {
+          "rank": 25,
+          "chunk_id": "19fadcece8febc63a0c208a6",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 27,
+          "section_path": [
+            "Built-in mono speaker"
+          ],
+          "score": 0.01351351
+        },
+        {
+          "rank": 26,
+          "chunk_id": "4bada7226480d254325eb21d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 31,
+          "section_path": [
+            "Port hatch"
+          ],
+          "score": 0.01351351
+        },
+        {
+          "rank": 27,
+          "chunk_id": "b20d599bb4551cf77c367dcd",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 27,
+          "section_path": [
+            "Built-in microphone"
+          ],
+          "score": 0.01333333
+        },
+        {
+          "rank": 28,
+          "chunk_id": "e871c167fc3ab9df0e305e60",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 16,
+          "section_path": [
+            "Migrating Information to Your MacBook Air"
+          ],
+          "score": 0.01333333
+        },
+        {
+          "rank": 29,
+          "chunk_id": "7efda4996c905fb7beb0c355",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iMovie Help"
+          ],
+          "score": 0.01315789
+        },
+        {
+          "rank": 30,
+          "chunk_id": "8b0fa4d5ac2c4f244026d417",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 17,
+          "section_path": [],
+          "score": 0.01298701
+        },
+        {
+          "rank": 31,
+          "chunk_id": "447362c4cb1695e661b652ec",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "3 Applications of Our Anchor-Based Understanding"
+          ],
+          "score": 0.01282051
+        },
+        {
+          "rank": 32,
+          "chunk_id": "4cea8fffc1ccf15dc4372a7a",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 21,
+          "section_path": [],
+          "score": 0.01282051
+        },
+        {
+          "rank": 33,
+          "chunk_id": "38cdf4dbff35144b72938a59",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 34,
+          "section_path": [],
+          "score": 0.01265823
+        },
+        {
+          "rank": 34,
+          "chunk_id": "912b386b2bb4b145dd6d962a",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 21,
+          "section_path": [],
+          "score": 0.01265823
+        },
+        {
+          "rank": 35,
+          "chunk_id": "0653dd424070c8aa2a479980",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 21,
+          "section_path": [],
+          "score": 0.0125
+        },
+        {
+          "rank": 36,
+          "chunk_id": "a6344378b8a1370f3ca676e1",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 20,
+          "section_path": [],
+          "score": 0.0125
+        }
+      ]
+    },
+    "hit_at_5_scope": [
+      "ed685ef489425c5fee8423f6",
+      "378ba7286bc150fa32c3ad65",
+      "f1588b5dca8abd55167a1c10",
+      "434ba6ff4877eec6b819312a",
+      "c5618ab0024a51ba0746b5e7"
+    ],
+    "retrieved_count": 8,
+    "index_created_at": "2026-10-13T16:21:30.604523+00:00",
+    "index_chunks_sha256": "18f3d8e595e5d5e7a3872da33b3e9a80c247f5f6f4c4648c97b1a2f4371ce3b7",
+    "query": "Which application allows you to create and share movies in minutes?",
+    "dense_enabled": true
+  },
+  "retrieved_chunks": [
+    {
+      "chunk_id": "ed685ef489425c5fee8423f6",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 3,
+      "section_path": [
+        "iMovie"
+      ],
+      "text": "iMovie\nCollect all your video in \none library. Create and \nshare movies in minutes.",
+      "bbox": [
+        27.04,
+        60.72,
+        103.24,
+        95.21
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "134-0",
+          "bbox": [
+            27.04,
+            60.72,
+            103.24,
+            95.21
+          ],
+          "char_start": 0,
+          "char_end": 83
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        26.69,
+        60.72,
+        334.83,
+        339.22
+      ],
+      "char_start": 0,
+      "char_end": 83,
+      "source_record_id": "native-block-134-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "0937f1d0cc6f63dbee777e1614cfa819aa1a834d44be88b5646d28528ea8289a",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E1",
+      "score": 0.03278689,
+      "bm25_score": 23.053131,
+      "dense_score": 0.629575
+    },
+    {
+      "chunk_id": "378ba7286bc150fa32c3ad65",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 3,
+      "section_path": [
+        "iWeb"
+      ],
+      "text": "iWeb\nCreate beautiful websites \nwith photos, movies, blogs, \npodcasts, and dynamic \nweb widgets.",
+      "bbox": [
+        249.93,
+        273.02,
+        334.83,
+        316.52
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "5-0",
+          "bbox": [
+            249.93,
+            273.02,
+            334.83,
+            316.52
+          ],
+          "char_start": 0,
+          "char_end": 96
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        26.69,
+        60.72,
+        334.83,
+        339.22
+      ],
+      "char_start": 0,
+      "char_end": 96,
+      "source_record_id": "native-block-5-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "5b1327dda4e9625769f69bd0ce70d1b3466d53ee1f0cb30c36e56c05506bbbf6",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E2",
+      "score": 0.03175403,
+      "bm25_score": 12.498732,
+      "dense_score": 0.428463
+    },
+    {
+      "chunk_id": "f1588b5dca8abd55167a1c10",
+      "doc_id": "ohr-news-executive-insight",
+      "doc_title": "Executive Insight Healthcare Magazine (archival excerpt)",
+      "page": 18,
+      "section_path": [],
+      "text": "found that it takes less than one minute to schedule a medical ap-\npointment online. In contrast, scheduling by phone takes an aver-\nage of over eight minutes, where 63% of the time is wasted on call \ntransfers from one staff member to another.",
+      "bbox": [
+        305.1,
+        101.28,
+        551.37,
+        151.52
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "3-0",
+          "bbox": [
+            305.1,
+            101.28,
+            551.37,
+            151.52
+          ],
+          "char_start": 0,
+          "char_end": 244
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        40.65,
+        62.95,
+        551.37,
+        736.58
+      ],
+      "char_start": 0,
+      "char_end": 244,
+      "source_record_id": "native-block-3-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        585.0,
+        756.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "f93a664e3cb612d21a5e448fc47a14ff20713c9e12362e6be1955a9c51820aac",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E3",
+      "score": 0.02903091,
+      "bm25_score": 6.559669,
+      "dense_score": 0.434192
+    },
+    {
+      "chunk_id": "434ba6ff4877eec6b819312a",
+      "doc_id": "ohr-news-executive-insight",
+      "doc_title": "Executive Insight Healthcare Magazine (archival excerpt)",
+      "page": 19,
+      "section_path": [],
+      "text": "One study found that it takes less than \none minute to schedule a medical ap-\npointment online. In contrast, schedul-\ning by phone takes an average of over \neight minutes, where 63% of the time \nis wasted on call transfers from one \nstaff member to another.",
+      "bbox": [
+        36.0,
+        93.04,
+        273.01,
+        214.39
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "39-0",
+          "bbox": [
+            36.0,
+            93.04,
+            273.01,
+            214.39
+          ],
+          "char_start": 0,
+          "char_end": 257
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        36.0,
+        93.04,
+        545.3,
+        737.61
+      ],
+      "char_start": 0,
+      "char_end": 257,
+      "source_record_id": "native-block-39-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        585.0,
+        756.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "129c0a41a3294a07b384513e475805f8fe9dcfc234db4e7f5a252cfa1ef44fec",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E4",
+      "score": 0.0276929,
+      "bm25_score": 6.412722,
+      "dense_score": 0.416921
+    },
+    {
+      "chunk_id": "c5618ab0024a51ba0746b5e7",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 2,
+      "section_path": [
+        "Built-in iSight camera"
+      ],
+      "text": "Built-in iSight camera\nVideo chat with up to three \nfriends anywhere in the world \nat the same time.",
+      "bbox": [
+        22.93,
+        33.6,
+        117.17,
+        68.09
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "9-0",
+          "bbox": [
+            22.93,
+            33.6,
+            117.17,
+            68.09
+          ],
+          "char_start": 0,
+          "char_end": 100
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        22.12,
+        33.6,
+        293.95,
+        339.48
+      ],
+      "char_start": 0,
+      "char_end": 100,
+      "source_record_id": "native-block-9-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "8f9bc3e9b156447787cd45b0947beade7bafa48e39e088886a8e893aae4a7cf0",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E5",
+      "score": 0.01612903,
+      "bm25_score": 0.0,
+      "dense_score": 0.455859
+    },
+    {
+      "chunk_id": "b3139b0161e9d66e45fe02ca",
+      "doc_id": "ohr-news-executive-insight",
+      "doc_title": "Executive Insight Healthcare Magazine (archival excerpt)",
+      "page": 2,
+      "section_path": [
+        "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+      ],
+      "text": "Learn more about how we can help you \ncreate a comprehensive telehealth solution \nat CDW.com/t-health",
+      "bbox": [
+        43.38,
+        625.33,
+        250.35,
+        665.08
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "1-0",
+          "bbox": [
+            43.38,
+            625.33,
+            250.35,
+            665.08
+          ],
+          "char_start": 0,
+          "char_end": 101
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        42.36,
+        19.71,
+        520.39,
+        721.17
+      ],
+      "char_start": 0,
+      "char_end": 101,
+      "source_record_id": "native-block-1-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        585.0,
+        756.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "8039c4a8623a509f858c8382420f73da0fc81e57bf1f674456560e69cbeb76c5",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": true,
+      "overlap_chars": 0,
+      "evidence_id": "E6",
+      "score": 0.01587302,
+      "bm25_score": 10.111954,
+      "dense_score": 0.341248
+    },
+    {
+      "chunk_id": "b073b53fd90aac591b8e4087",
+      "doc_id": "ohr-news-executive-insight",
+      "doc_title": "Executive Insight Healthcare Magazine (archival excerpt)",
+      "page": 7,
+      "section_path": [],
+      "text": "In less than a minute, you can get all \nthese Executive Insider exclusives:",
+      "bbox": [
+        60.61,
+        481.67,
+        265.81,
+        511.74
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "782-0",
+          "bbox": [
+            60.61,
+            481.67,
+            265.81,
+            511.74
+          ],
+          "char_start": 0,
+          "char_end": 75
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        54.61,
+        259.06,
+        534.5,
+        661.34
+      ],
+      "char_start": 0,
+      "char_end": 75,
+      "source_record_id": "native-block-782-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        585.0,
+        756.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "dde027d9893dd99b5899e56d528ccb03f0d73ae86bb8e854e144cba7e2c95a96",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": true,
+      "overlap_chars": 0,
+      "evidence_id": "E7",
+      "score": 0.015625,
+      "bm25_score": 9.855176,
+      "dense_score": 0.377616
+    },
+    {
+      "chunk_id": "479b43b5b920663ae7add19d",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 3,
+      "section_path": [
+        "iPhoto"
+      ],
+      "text": "iPhoto\nOrganize all your photos \nwith Events. Publish to a \nWeb Gallery with a click.",
+      "bbox": [
+        248.69,
+        60.75,
+        326.1,
+        95.24
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "8-0",
+          "bbox": [
+            248.69,
+            60.75,
+            326.1,
+            95.24
+          ],
+          "char_start": 0,
+          "char_end": 85
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        26.69,
+        60.72,
+        334.83,
+        339.22
+      ],
+      "char_start": 0,
+      "char_end": 85,
+      "source_record_id": "native-block-8-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "b4e5d09972a6feb31bf285eb45b9796c9b6e235a3151fdc48d1c1d85dc5f5169",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E8",
+      "score": 0.01538462,
+      "bm25_score": 0.0,
+      "dense_score": 0.422679
+    }
+  ],
+  "hit_at_5": true,
+  "status": "SUCCEEDED",
+  "answer": "iMovie allows you to create and share movies in minutes. [E1]",
+  "citation_ids": [
+    "E1"
+  ],
+  "used_evidence": [
+    {
+      "chunk_id": "ed685ef489425c5fee8423f6",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 3,
+      "section_path": [
+        "iMovie"
+      ],
+      "text": "iMovie\nCollect all your video in \none library. Create and \nshare movies in minutes.",
+      "bbox": [
+        27.04,
+        60.72,
+        103.24,
+        95.21
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "134-0",
+          "bbox": [
+            27.04,
+            60.72,
+            103.24,
+            95.21
+          ],
+          "char_start": 0,
+          "char_end": 83
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        26.69,
+        60.72,
+        334.83,
+        339.22
+      ],
+      "char_start": 0,
+      "char_end": 83,
+      "source_record_id": "native-block-134-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "0937f1d0cc6f63dbee777e1614cfa819aa1a834d44be88b5646d28528ea8289a",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E1",
+      "score": 0.03278689,
+      "bm25_score": 23.053131,
+      "dense_score": 0.629575
+    }
+  ],
+  "surface_answer_match": true,
+  "citation_coverage": {
+    "potential_uncited_statement_count": 0,
+    "potential_uncited_statements": [],
+    "mode": "heuristic_warning_only",
+    "semantic_claim_coverage": "requires_human_review"
+  },
+  "validation_warnings": [],
+  "validation_status": "passed",
+  "failure_category": null,
+  "steps": [
+    {
+      "name": "retrieve",
+      "status": "ok",
+      "input_summary": {
+        "scope_doc_ids": [
+          "ohr-academic-label-words",
+          "ohr-law-affiliate",
+          "ohr-manual-macbook-air",
+          "ohr-news-executive-insight",
+          "ohr-textbook-geology"
+        ]
+      },
+      "output_summary": {
+        "retrieval_method": "bm25+bge-m3_dense_rrf",
+        "candidate_count": 1876,
+        "top_k": 8,
+        "allowed_doc_ids": [
+          "ohr-academic-label-words",
+          "ohr-law-affiliate",
+          "ohr-manual-macbook-air",
+          "ohr-news-executive-insight",
+          "ohr-textbook-geology"
+        ],
+        "searched_page_count": 100,
+        "candidate_k_per_channel": 20,
+        "rrf_k": 60,
+        "rank_starts_at": 1,
+        "rankings": {
+          "bm25": [
+            {
+              "rank": 1,
+              "chunk_id": "ed685ef489425c5fee8423f6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie"
+              ],
+              "score": 23.05313146
+            },
+            {
+              "rank": 2,
+              "chunk_id": "378ba7286bc150fa32c3ad65",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iWeb"
+              ],
+              "score": 12.49873161
+            },
+            {
+              "rank": 3,
+              "chunk_id": "b3139b0161e9d66e45fe02ca",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [
+                "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+              ],
+              "score": 10.11195411
+            },
+            {
+              "rank": 4,
+              "chunk_id": "b073b53fd90aac591b8e4087",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 7,
+              "section_path": [],
+              "score": 9.85517576
+            },
+            {
+              "rank": 5,
+              "chunk_id": "84bf6190479f85606471d841",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 8,
+              "section_path": [
+                "Welcome"
+              ],
+              "score": 9.73943523
+            },
+            {
+              "rank": 6,
+              "chunk_id": "419c0c059fbd1fd391e3057e",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 19,
+              "section_path": [
+                "Getting Additional Information onto Your MacBook Air"
+              ],
+              "score": 8.85712978
+            },
+            {
+              "rank": 7,
+              "chunk_id": "dbe40afc64ec030f9e5a476b",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 19,
+              "section_path": [
+                "Sharing Discs with DVD or CD Sharing"
+              ],
+              "score": 8.5494201
+            },
+            {
+              "rank": 8,
+              "chunk_id": "8bece9d26b1acfda5d1cf135",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [
+                "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+              ],
+              "score": 7.49468385
+            },
+            {
+              "rank": 9,
+              "chunk_id": "74c2c6b9c05a26f42ececf79",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 35,
+              "section_path": [],
+              "score": 7.12671008
+            },
+            {
+              "rank": 10,
+              "chunk_id": "76fc7452f0ee355b74ac3b1a",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 22,
+              "section_path": [
+                "Putting Your MacBook Air to Sleep"
+              ],
+              "score": 7.01816174
+            },
+            {
+              "rank": 11,
+              "chunk_id": "0e0df4d25db5ba3abc63186d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 13,
+              "section_path": [
+                "Step 3:  Configure your MacBook Air with Setup Assistant"
+              ],
+              "score": 6.93519018
+            },
+            {
+              "rank": 12,
+              "chunk_id": "e3978df9fa579bc329d01ed5",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [
+                "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+              ],
+              "score": 6.89539707
+            },
+            {
+              "rank": 13,
+              "chunk_id": "228f13238a320940db73f445",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [],
+              "score": 6.89177676
+            },
+            {
+              "rank": 14,
+              "chunk_id": "19fadcece8febc63a0c208a6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 27,
+              "section_path": [
+                "Built-in mono speaker"
+              ],
+              "score": 6.72344864
+            },
+            {
+              "rank": 15,
+              "chunk_id": "e871c167fc3ab9df0e305e60",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 16,
+              "section_path": [
+                "Migrating Information to Your MacBook Air"
+              ],
+              "score": 6.65218791
+            },
+            {
+              "rank": 16,
+              "chunk_id": "f1588b5dca8abd55167a1c10",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 18,
+              "section_path": [],
+              "score": 6.55966908
+            },
+            {
+              "rank": 17,
+              "chunk_id": "434ba6ff4877eec6b819312a",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 19,
+              "section_path": [],
+              "score": 6.41272167
+            },
+            {
+              "rank": 18,
+              "chunk_id": "447362c4cb1695e661b652ec",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "3 Applications of Our Anchor-Based Understanding"
+              ],
+              "score": 6.26801252
+            },
+            {
+              "rank": 19,
+              "chunk_id": "912b386b2bb4b145dd6d962a",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 21,
+              "section_path": [],
+              "score": 5.96912908
+            },
+            {
+              "rank": 20,
+              "chunk_id": "0653dd424070c8aa2a479980",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 21,
+              "section_path": [],
+              "score": 5.77954722
+            }
+          ],
+          "dense": [
+            {
+              "rank": 1,
+              "chunk_id": "ed685ef489425c5fee8423f6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie"
+              ],
+              "score": 0.62957507
+            },
+            {
+              "rank": 2,
+              "chunk_id": "c5618ab0024a51ba0746b5e7",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 2,
+              "section_path": [
+                "Built-in iSight camera"
+              ],
+              "score": 0.45585924
+            },
+            {
+              "rank": 3,
+              "chunk_id": "f1588b5dca8abd55167a1c10",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 18,
+              "section_path": [],
+              "score": 0.43419209
+            },
+            {
+              "rank": 4,
+              "chunk_id": "378ba7286bc150fa32c3ad65",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iWeb"
+              ],
+              "score": 0.42846283
+            },
+            {
+              "rank": 5,
+              "chunk_id": "479b43b5b920663ae7add19d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iPhoto"
+              ],
+              "score": 0.42267895
+            },
+            {
+              "rank": 6,
+              "chunk_id": "3e5a36e1e8a718f8bae1e943",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 34,
+              "section_path": [],
+              "score": 0.42140242
+            },
+            {
+              "rank": 7,
+              "chunk_id": "3b4e5cc532f6ace3b5ff31ab",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "GarageBand"
+              ],
+              "score": 0.41947085
+            },
+            {
+              "rank": 8,
+              "chunk_id": "434ba6ff4877eec6b819312a",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 19,
+              "section_path": [],
+              "score": 0.4169215
+            },
+            {
+              "rank": 9,
+              "chunk_id": "2bd8d69a21e9e39ac7bd304b",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 19,
+              "section_path": [
+                "12 hours in advance of your appointment.”"
+              ],
+              "score": 0.41190347
+            },
+            {
+              "rank": 10,
+              "chunk_id": "fe4ffb97900e4e7339463a54",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "movie"
+              ],
+              "score": 0.4016341
+            },
+            {
+              "rank": 11,
+              "chunk_id": "53a35a37f83074ab495e79d1",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 33,
+              "section_path": [],
+              "score": 0.39803171
+            },
+            {
+              "rank": 12,
+              "chunk_id": "7f14c79a417a8ad0004c8135",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "www.apple.com/ilife/imovie"
+              ],
+              "score": 0.39437884
+            },
+            {
+              "rank": 13,
+              "chunk_id": "1c023f266a16465068d36b68",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 27,
+              "section_path": [
+                "Built-in iSight camera and camera indicator light"
+              ],
+              "score": 0.39109686
+            },
+            {
+              "rank": 14,
+              "chunk_id": "4bada7226480d254325eb21d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 31,
+              "section_path": [
+                "Port hatch"
+              ],
+              "score": 0.39051926
+            },
+            {
+              "rank": 15,
+              "chunk_id": "b20d599bb4551cf77c367dcd",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 27,
+              "section_path": [
+                "Built-in microphone"
+              ],
+              "score": 0.38873416
+            },
+            {
+              "rank": 16,
+              "chunk_id": "7efda4996c905fb7beb0c355",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie Help"
+              ],
+              "score": 0.38863635
+            },
+            {
+              "rank": 17,
+              "chunk_id": "8b0fa4d5ac2c4f244026d417",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 17,
+              "section_path": [],
+              "score": 0.38558358
+            },
+            {
+              "rank": 18,
+              "chunk_id": "4cea8fffc1ccf15dc4372a7a",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 21,
+              "section_path": [],
+              "score": 0.38284105
+            },
+            {
+              "rank": 19,
+              "chunk_id": "38cdf4dbff35144b72938a59",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 34,
+              "section_path": [],
+              "score": 0.37995687
+            },
+            {
+              "rank": 20,
+              "chunk_id": "a6344378b8a1370f3ca676e1",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 20,
+              "section_path": [],
+              "score": 0.37975746
+            }
+          ],
+          "rrf": [
+            {
+              "rank": 1,
+              "chunk_id": "ed685ef489425c5fee8423f6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie"
+              ],
+              "score": 0.03278689
+            },
+            {
+              "rank": 2,
+              "chunk_id": "378ba7286bc150fa32c3ad65",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iWeb"
+              ],
+              "score": 0.03175403
+            },
+            {
+              "rank": 3,
+              "chunk_id": "f1588b5dca8abd55167a1c10",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 18,
+              "section_path": [],
+              "score": 0.02903091
+            },
+            {
+              "rank": 4,
+              "chunk_id": "434ba6ff4877eec6b819312a",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 19,
+              "section_path": [],
+              "score": 0.0276929
+            },
+            {
+              "rank": 5,
+              "chunk_id": "c5618ab0024a51ba0746b5e7",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 2,
+              "section_path": [
+                "Built-in iSight camera"
+              ],
+              "score": 0.01612903
+            },
+            {
+              "rank": 6,
+              "chunk_id": "b3139b0161e9d66e45fe02ca",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [
+                "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+              ],
+              "score": 0.01587302
+            },
+            {
+              "rank": 7,
+              "chunk_id": "b073b53fd90aac591b8e4087",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 7,
+              "section_path": [],
+              "score": 0.015625
+            },
+            {
+              "rank": 8,
+              "chunk_id": "479b43b5b920663ae7add19d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iPhoto"
+              ],
+              "score": 0.01538462
+            },
+            {
+              "rank": 9,
+              "chunk_id": "84bf6190479f85606471d841",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 8,
+              "section_path": [
+                "Welcome"
+              ],
+              "score": 0.01538462
+            },
+            {
+              "rank": 10,
+              "chunk_id": "3e5a36e1e8a718f8bae1e943",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 34,
+              "section_path": [],
+              "score": 0.01515152
+            },
+            {
+              "rank": 11,
+              "chunk_id": "419c0c059fbd1fd391e3057e",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 19,
+              "section_path": [
+                "Getting Additional Information onto Your MacBook Air"
+              ],
+              "score": 0.01515152
+            },
+            {
+              "rank": 12,
+              "chunk_id": "3b4e5cc532f6ace3b5ff31ab",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "GarageBand"
+              ],
+              "score": 0.01492537
+            },
+            {
+              "rank": 13,
+              "chunk_id": "dbe40afc64ec030f9e5a476b",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 19,
+              "section_path": [
+                "Sharing Discs with DVD or CD Sharing"
+              ],
+              "score": 0.01492537
+            },
+            {
+              "rank": 14,
+              "chunk_id": "8bece9d26b1acfda5d1cf135",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [
+                "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+              ],
+              "score": 0.01470588
+            },
+            {
+              "rank": 15,
+              "chunk_id": "2bd8d69a21e9e39ac7bd304b",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 19,
+              "section_path": [
+                "12 hours in advance of your appointment.”"
+              ],
+              "score": 0.01449275
+            },
+            {
+              "rank": 16,
+              "chunk_id": "74c2c6b9c05a26f42ececf79",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 35,
+              "section_path": [],
+              "score": 0.01449275
+            },
+            {
+              "rank": 17,
+              "chunk_id": "76fc7452f0ee355b74ac3b1a",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 22,
+              "section_path": [
+                "Putting Your MacBook Air to Sleep"
+              ],
+              "score": 0.01428571
+            },
+            {
+              "rank": 18,
+              "chunk_id": "fe4ffb97900e4e7339463a54",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "movie"
+              ],
+              "score": 0.01428571
+            },
+            {
+              "rank": 19,
+              "chunk_id": "0e0df4d25db5ba3abc63186d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 13,
+              "section_path": [
+                "Step 3:  Configure your MacBook Air with Setup Assistant"
+              ],
+              "score": 0.01408451
+            },
+            {
+              "rank": 20,
+              "chunk_id": "53a35a37f83074ab495e79d1",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 33,
+              "section_path": [],
+              "score": 0.01408451
+            },
+            {
+              "rank": 21,
+              "chunk_id": "7f14c79a417a8ad0004c8135",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "www.apple.com/ilife/imovie"
+              ],
+              "score": 0.01388889
+            },
+            {
+              "rank": 22,
+              "chunk_id": "e3978df9fa579bc329d01ed5",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [
+                "Learn more about how we can help you create a comprehensive telehealth solution at CDW.com/t-health"
+              ],
+              "score": 0.01388889
+            },
+            {
+              "rank": 23,
+              "chunk_id": "1c023f266a16465068d36b68",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 27,
+              "section_path": [
+                "Built-in iSight camera and camera indicator light"
+              ],
+              "score": 0.01369863
+            },
+            {
+              "rank": 24,
+              "chunk_id": "228f13238a320940db73f445",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01369863
+            },
+            {
+              "rank": 25,
+              "chunk_id": "19fadcece8febc63a0c208a6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 27,
+              "section_path": [
+                "Built-in mono speaker"
+              ],
+              "score": 0.01351351
+            },
+            {
+              "rank": 26,
+              "chunk_id": "4bada7226480d254325eb21d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 31,
+              "section_path": [
+                "Port hatch"
+              ],
+              "score": 0.01351351
+            },
+            {
+              "rank": 27,
+              "chunk_id": "b20d599bb4551cf77c367dcd",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 27,
+              "section_path": [
+                "Built-in microphone"
+              ],
+              "score": 0.01333333
+            },
+            {
+              "rank": 28,
+              "chunk_id": "e871c167fc3ab9df0e305e60",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 16,
+              "section_path": [
+                "Migrating Information to Your MacBook Air"
+              ],
+              "score": 0.01333333
+            },
+            {
+              "rank": 29,
+              "chunk_id": "7efda4996c905fb7beb0c355",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie Help"
+              ],
+              "score": 0.01315789
+            },
+            {
+              "rank": 30,
+              "chunk_id": "8b0fa4d5ac2c4f244026d417",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 17,
+              "section_path": [],
+              "score": 0.01298701
+            },
+            {
+              "rank": 31,
+              "chunk_id": "447362c4cb1695e661b652ec",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "3 Applications of Our Anchor-Based Understanding"
+              ],
+              "score": 0.01282051
+            },
+            {
+              "rank": 32,
+              "chunk_id": "4cea8fffc1ccf15dc4372a7a",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 21,
+              "section_path": [],
+              "score": 0.01282051
+            },
+            {
+              "rank": 33,
+              "chunk_id": "38cdf4dbff35144b72938a59",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 34,
+              "section_path": [],
+              "score": 0.01265823
+            },
+            {
+              "rank": 34,
+              "chunk_id": "912b386b2bb4b145dd6d962a",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 21,
+              "section_path": [],
+              "score": 0.01265823
+            },
+            {
+              "rank": 35,
+              "chunk_id": "0653dd424070c8aa2a479980",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 21,
+              "section_path": [],
+              "score": 0.0125
+            },
+            {
+              "rank": 36,
+              "chunk_id": "a6344378b8a1370f3ca676e1",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 20,
+              "section_path": [],
+              "score": 0.0125
+            }
+          ]
+        },
+        "hit_at_5_scope": [
+          "ed685ef489425c5fee8423f6",
+          "378ba7286bc150fa32c3ad65",
+          "f1588b5dca8abd55167a1c10",
+          "434ba6ff4877eec6b819312a",
+          "c5618ab0024a51ba0746b5e7"
+        ],
+        "retrieved_count": 8,
+        "index_created_at": "2026-10-13T16:21:30.604523+00:00",
+        "index_chunks_sha256": "18f3d8e595e5d5e7a3872da33b3e9a80c247f5f6f4c4648c97b1a2f4371ce3b7",
+        "query": "Which application allows you to create and share movies in minutes?",
+        "dense_enabled": true
+      },
+      "latency_ms": 122
+    },
+    {
+      "name": "doc_answer",
+      "status": "ok",
+      "input_summary": {
+        "evidence_count": 8
+      },
+      "output_summary": {
+        "status": "SUCCEEDED",
+        "citation_ids": [
+          "E1"
+        ]
+      },
+      "latency_ms": 2755
+    },
+    {
+      "name": "rag_generate",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "evidence_count": 8
+      },
+      "output_summary": {
+        "status": "SUCCEEDED",
+        "citation_ids": [
+          "E1"
+        ]
+      },
+      "latency_ms": 2754
+    },
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "provider_capture": "eval/artifacts/d4/rag-scale-live-001/provider/753e394b6fc840a19caaf2c29131a769.json",
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 39,
+          "prompt_tokens": 1233,
+          "total_tokens": 1272,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 1024
+          },
+          "prompt_cache_hit_tokens": 1024,
+          "prompt_cache_miss_tokens": 209
+        },
+        "json_valid": true
+      },
+      "latency_ms": 1823
+    },
+    {
+      "name": "rag_validate",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "checks": [
+          "citation_membership",
+          "inline_ids",
+          "cited_numbers",
+          "explicit_research_attributions"
+        ]
+      },
+      "output_summary": {
+        "passed": true,
+        "status": "SUCCEEDED",
+        "used_evidence_ids": [
+          "E1"
+        ],
+        "citation_coverage": {
+          "potential_uncited_statement_count": 0,
+          "potential_uncited_statements": [],
+          "mode": "heuristic_warning_only",
+          "semantic_claim_coverage": "requires_human_review"
+        },
+        "semantic_faithfulness": "requires_human_review"
+      },
+      "latency_ms": 0
+    }
+  ],
+  "cost": {
+    "raw_step_ms": {
+      "retrieve": 122,
+      "doc_answer": 2755,
+      "rag_generate": 2754,
+      "llm": 1823,
+      "rag_validate": 0
+    },
+    "stages_ms": {
+      "nlu": 0,
+      "value_link": 0,
+      "schema_selection": 0,
+      "sql_generation": 0,
+      "sql_execution": 0,
+      "retrieval": 122,
+      "answer_generation": 2755
+    },
+    "model_attempts": {
+      "other": 1,
+      "all": 1
+    },
+    "usage": {
+      "prompt_tokens": 1233,
+      "other_prompt_tokens": 1233,
+      "completion_tokens": 39,
+      "other_completion_tokens": 39,
+      "total_tokens": 1272,
+      "other_total_tokens": 1272
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "duration_warning": "嵌套步骤有重叠；端到端实测独立计时，不将所有step相加"
+  },
+  "elapsed_ms": 2877.169
+}

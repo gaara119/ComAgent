@@ -1,0 +1,463 @@
+{
+  "id": "aw-14",
+  "split": "dev",
+  "arm": "full",
+  "request": {
+    "session_id": "d4-aw-d0e68cff36744a3d930a1502ecb7b7b2-aw-14-full",
+    "message": "2024 年每个月有多少张销售订单？输出月份数字和订单数，按月份从小到大。",
+    "scope": {
+      "route": "sql",
+      "db_id": "adventureworks",
+      "doc_ids": []
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "fb8ef866-5e24-4b6c-8edf-9d14eb9de26b",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 12 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT CAST(EXTRACT(MONTH FROM soh.orderdate) AS INT) AS month, COUNT(*) AS order_count FROM sales.salesorderheader AS soh WHERE soh.orderdate >= CAST('2024-01-01' AS DATE) AND soh.orderdate < CAST('2025-01-01' AS DATE) GROUP BY EXTRACT(MONTH FROM soh.orderdate) ORDER BY month ASC LIMIT 200",
+    "table": [
+      {
+        "month": 1,
+        "order_count": 400
+      },
+      {
+        "month": 2,
+        "order_count": 338
+      },
+      {
+        "month": 3,
+        "order_count": 443
+      },
+      {
+        "month": 4,
+        "order_count": 426
+      },
+      {
+        "month": 5,
+        "order_count": 436
+      },
+      {
+        "month": 6,
+        "order_count": 741
+      },
+      {
+        "month": 7,
+        "order_count": 1755
+      },
+      {
+        "month": 8,
+        "order_count": 1785
+      },
+      {
+        "month": 9,
+        "order_count": 1796
+      },
+      {
+        "month": 10,
+        "order_count": 1971
+      },
+      {
+        "month": 11,
+        "order_count": 2100
+      },
+      {
+        "month": 12,
+        "order_count": 2053
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "aggregation",
+      "metric": "record_count",
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "grain": "month",
+          "label": "2024 年每个月"
+        },
+        "base": null
+      },
+      "filters": [],
+      "grouping": [
+        "month"
+      ],
+      "order": {
+        "field": "month",
+        "direction": "asc"
+      },
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "full",
+          "selected_db_id": "adventureworks"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "table_count": 68,
+          "db_id": "adventureworks"
+        },
+        "latency_ms": 263
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "reason": "not_registered_for_db",
+          "bindings": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024 年每个月有多少张销售订单？输出月份数字和订单数，按月份从小到大。"
+        },
+        "output_summary": {
+          "rewritten_question": "2024 年每个月有多少张销售订单？输出月份数字和订单数，按月份从小到大。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 4742
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/aw-ablation-live-001/provider/c7fb0ea528d7444bb269f6ef18e531dc.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 259,
+            "prompt_tokens": 37746,
+            "total_tokens": 38005,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 37504
+            },
+            "prompt_cache_hit_tokens": 37504,
+            "prompt_cache_miss_tokens": 242
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3359
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024 年每个月有多少张销售订单？输出月份数字和订单数，按月份从小到大。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"aggregation\", \"metric\": \"record_count\", \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"grain\": \"month\", \"label\": \"2024 年每个月\"}, \"base\": null}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": {\"field\": \"month\", \"direction\": \"asc\"}, \"region_scope\": null, \"filters\": [], \"assumptions\": []}",
+          "repair_attempt": 0,
+          "db_id": "adventureworks",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT EXTRACT(MONTH FROM soh.orderdate)::integer AS month, COUNT(*) AS order_count FROM sales.salesorderheader AS soh WHERE soh.orderdate >= DATE '2024-01-01' AND soh.orderdate < DATE '2025-01-01' GROUP BY EXTRACT(MONTH FROM soh.orderdate) ORDER BY month ASC",
+          "explanation": "统计 2024 年每个月的销售订单数量：按订单头表的 orderdate 过滤 2024 全年（左闭右开），按月份分组计数，输出月份数字与订单数并按月份升序排列。"
+        },
+        "latency_ms": 4928
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/aw-ablation-live-001/provider/ad8f987c70164d13a5bcb9a4ea9e749a.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 150,
+            "prompt_tokens": 38036,
+            "total_tokens": 38186,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1664
+            },
+            "prompt_cache_hit_tokens": 1664,
+            "prompt_cache_miss_tokens": 36372
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3225
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT EXTRACT(MONTH FROM soh.orderdate)::integer AS month, COUNT(*) AS order_count FROM sales.salesorderheader AS soh WHERE soh.orderdate >= DATE '2024-01-01' AND soh.orderdate < DATE '2025-01-01' GROUP BY EXTRACT(MONTH FROM soh.orderdate) ORDER BY month ASC"
+        },
+        "output_summary": {
+          "tables": [
+            "sales.salesorderheader"
+          ],
+          "default_limit_added": true,
+          "sql": "SELECT CAST(EXTRACT(MONTH FROM soh.orderdate) AS INT) AS month, COUNT(*) AS order_count FROM sales.salesorderheader AS soh WHERE soh.orderdate >= CAST('2024-01-01' AS DATE) AND soh.orderdate < CAST('2025-01-01' AS DATE) GROUP BY EXTRACT(MONTH FROM soh.orderdate) ORDER BY month ASC LIMIT 200"
+        },
+        "latency_ms": 4
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT CAST(EXTRACT(MONTH FROM soh.orderdate) AS INT) AS month, COUNT(*) AS order_count FROM sales.salesorderheader AS soh WHERE soh.orderdate >= CAST('2024-01-01' AS DATE) AND soh.orderdate < CAST('2025-01-01' AS DATE) GROUP BY EXTRACT(MONTH FROM soh.orderdate) ORDER BY month ASC LIMIT 200",
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "row_count": 12,
+          "columns": [
+            "month",
+            "order_count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 36
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "adventureworks",
+      "latency_ms": 9976,
+      "nlu": {
+        "original_question": "2024 年每个月有多少张销售订单？输出月份数字和订单数，按月份从小到大。",
+        "rewritten_question": "2024 年每个月有多少张销售订单？输出月份数字和订单数，按月份从小到大。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "not_registered_for_db"
+      },
+      "aw_schema_mode": "full",
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "semantic_contract": {
+          "task_type": "aggregation",
+          "metric": "record_count",
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01",
+              "grain": "month",
+              "label": "2024 年每个月"
+            },
+            "base": null
+          },
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": {
+            "field": "month",
+            "direction": "asc"
+          },
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [
+            "month"
+          ],
+          "filters": [],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {
+            "time_scope": "2024 年每个月",
+            "metric": "多少张销售订单",
+            "grouping": "每个月",
+            "order": "按月份从小到大"
+          }
+        },
+        "patch_history": [],
+        "invalidated_execution": [],
+        "switch": null
+      },
+      "result_columns": [
+        "month",
+        "order_count"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "cost": {
+    "raw_step_ms": {
+      "route": 0,
+      "config_check": 0,
+      "catalog": 263,
+      "requested_source_check": 0,
+      "value_link": 0,
+      "rewrite": 0,
+      "clarification_gate": 4742,
+      "llm": 6584,
+      "sql_gen": 4928,
+      "sql_validate": 4,
+      "sql_binding_validate": 0,
+      "sql_exec": 36,
+      "answer": 0
+    },
+    "stages_ms": {
+      "model_calls": 6584,
+      "nlu": 4742,
+      "value_link": 0,
+      "schema_selection": 0,
+      "sql_generation": 4928,
+      "sql_execution": 36,
+      "retrieval": 0,
+      "answer_generation": 0
+    },
+    "model_attempts": {
+      "other": 1,
+      "all": 2,
+      "sql_generation": 1
+    },
+    "usage": {
+      "prompt_tokens": 75782,
+      "other_prompt_tokens": 37746,
+      "completion_tokens": 409,
+      "other_completion_tokens": 259,
+      "total_tokens": 76191,
+      "other_total_tokens": 38005,
+      "sql_generation_prompt_tokens": 38036,
+      "sql_generation_completion_tokens": 150,
+      "sql_generation_total_tokens": 38186
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "duration_warning": "嵌套步骤有重叠；端到端实测独立计时，不将所有step相加"
+  },
+  "matched": true,
+  "legacy_matched": true,
+  "comparison": {
+    "matched": true,
+    "reason": "equal",
+    "column_mapping": [
+      0,
+      1
+    ]
+  },
+  "legacy_comparison": {
+    "matched": true,
+    "reason": "equal",
+    "column_mapping": [
+      0,
+      1
+    ]
+  },
+  "failure_category": null,
+  "selected_table_count": 68,
+  "schema_recall": 1.0,
+  "schema_precision": 0.014705882352941176,
+  "elapsed_ms": 9978.152
+}

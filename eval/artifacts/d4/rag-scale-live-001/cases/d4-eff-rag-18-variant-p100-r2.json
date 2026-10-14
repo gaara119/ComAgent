@@ -1,0 +1,2185 @@
+{
+  "id": "d4-eff-rag-18-variant",
+  "original_dev_id": "rag-18",
+  "split": "dev",
+  "pages": 100,
+  "repetition": 2,
+  "request": {
+    "question": "What measure quantifies the correlation of attention distributions on label words with the model's final prediction?",
+    "scope_doc_ids": [
+      "ohr-academic-label-words",
+      "ohr-law-affiliate",
+      "ohr-manual-macbook-air",
+      "ohr-news-executive-insight",
+      "ohr-textbook-geology"
+    ]
+  },
+  "semantic_answer_review": "pending_human_review",
+  "matched": true,
+  "legacy_matched": false,
+  "retrieval": {
+    "retrieval_method": "bm25+bge-m3_dense_rrf",
+    "candidate_count": 1876,
+    "top_k": 8,
+    "allowed_doc_ids": [
+      "ohr-academic-label-words",
+      "ohr-law-affiliate",
+      "ohr-manual-macbook-air",
+      "ohr-news-executive-insight",
+      "ohr-textbook-geology"
+    ],
+    "searched_page_count": 100,
+    "candidate_k_per_channel": 20,
+    "rrf_k": 60,
+    "rank_starts_at": 1,
+    "rankings": {
+      "bm25": [
+        {
+          "rank": 1,
+          "chunk_id": "576cb6a51d7502cf953a80cd",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 23.17624812
+        },
+        {
+          "rank": 2,
+          "chunk_id": "229a736c6199f86c8a38fde2",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [],
+          "score": 21.80149913
+        },
+        {
+          "rank": 3,
+          "chunk_id": "41022c88485398c4d1887d6c",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [],
+          "score": 21.14052958
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a659314ec228ffacb7d7a19e",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.2 Results and Analysis"
+          ],
+          "score": 18.37836447
+        },
+        {
+          "rank": 5,
+          "chunk_id": "b62e94f20b44aebc2efab88f",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [],
+          "score": 18.26981881
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8f22288387b24ba7530b3d87",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [
+            "2.3 Deep Layers: Information Extraction"
+          ],
+          "score": 15.3772421
+        },
+        {
+          "rank": 7,
+          "chunk_id": "936a57b8336d4791968c9f68",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.1 Method"
+          ],
+          "score": 12.72509426
+        },
+        {
+          "rank": 8,
+          "chunk_id": "816e7bc59dfb1299b364411f",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 12.71095501
+        },
+        {
+          "rank": 9,
+          "chunk_id": "edecb339baadfe64f65e49a8",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.2 Results and Analysis"
+          ],
+          "score": 12.66045754
+        },
+        {
+          "rank": 10,
+          "chunk_id": "114361c0ac425d6d6d777eef",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.1 Experiments"
+          ],
+          "score": 12.5210873
+        },
+        {
+          "rank": 11,
+          "chunk_id": "01e6346e4f00a9f3c37c0cbe",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.1 Experiments"
+          ],
+          "score": 10.91514312
+        },
+        {
+          "rank": 12,
+          "chunk_id": "4ccbe8f664dbef002f6eb8f9",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [],
+          "score": 10.61899094
+        },
+        {
+          "rank": 13,
+          "chunk_id": "c663f5949f31929df876de78",
+          "doc_id": "ohr-academic-label-words",
+          "page": 1,
+          "section_path": [],
+          "score": 9.8095585
+        },
+        {
+          "rank": 14,
+          "chunk_id": "d23a791043e5a5430d903c39",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.4 Discussion of Our Hypothesis"
+          ],
+          "score": 9.52087105
+        },
+        {
+          "rank": 15,
+          "chunk_id": "59de6ec656e3f94e35c7b6fe",
+          "doc_id": "ohr-academic-label-words",
+          "page": 13,
+          "section_path": [
+            "G Implementation of Anchor Re-weighting"
+          ],
+          "score": 9.09143064
+        },
+        {
+          "rank": 16,
+          "chunk_id": "9ce56dff88a5bd7a014c14a6",
+          "doc_id": "ohr-academic-label-words",
+          "page": 3,
+          "section_path": [
+            "Proposed Hypothesis"
+          ],
+          "score": 8.98978344
+        },
+        {
+          "rank": 17,
+          "chunk_id": "187a9c732cc092f394c91618",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.1 Experiments"
+          ],
+          "score": 8.46948025
+        },
+        {
+          "rank": 18,
+          "chunk_id": "fe236f7361efed67299d01c4",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [],
+          "score": 8.43049203
+        },
+        {
+          "rank": 19,
+          "chunk_id": "64131735357818921111aac6",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [],
+          "score": 8.27790617
+        },
+        {
+          "rank": 20,
+          "chunk_id": "66a2bf30f440db90656795ac",
+          "doc_id": "ohr-textbook-geology",
+          "page": 9,
+          "section_path": [],
+          "score": 7.96975481
+        }
+      ],
+      "dense": [
+        {
+          "rank": 1,
+          "chunk_id": "41022c88485398c4d1887d6c",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [],
+          "score": 0.72716349
+        },
+        {
+          "rank": 2,
+          "chunk_id": "576cb6a51d7502cf953a80cd",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.7076804
+        },
+        {
+          "rank": 3,
+          "chunk_id": "229a736c6199f86c8a38fde2",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [],
+          "score": 0.70534635
+        },
+        {
+          "rank": 4,
+          "chunk_id": "936a57b8336d4791968c9f68",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.1 Method"
+          ],
+          "score": 0.699525
+        },
+        {
+          "rank": 5,
+          "chunk_id": "a659314ec228ffacb7d7a19e",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.2 Results and Analysis"
+          ],
+          "score": 0.69755018
+        },
+        {
+          "rank": 6,
+          "chunk_id": "3698964f6481c0f5577ecff1",
+          "doc_id": "ohr-academic-label-words",
+          "page": 3,
+          "section_path": [],
+          "score": 0.66682023
+        },
+        {
+          "rank": 7,
+          "chunk_id": "2c3b2df1ba9b1ded083737e1",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [
+            "E Details for the Calculation of"
+          ],
+          "score": 0.66434127
+        },
+        {
+          "rank": 8,
+          "chunk_id": "8f22288387b24ba7530b3d87",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [
+            "2.3 Deep Layers: Information Extraction"
+          ],
+          "score": 0.65904719
+        },
+        {
+          "rank": 9,
+          "chunk_id": "00a5ca2bffb212c75f66a7bb",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [
+            "Metrics"
+          ],
+          "score": 0.65591592
+        },
+        {
+          "rank": 10,
+          "chunk_id": "ca363b50be205222098b0fea",
+          "doc_id": "ohr-academic-label-words",
+          "page": 15,
+          "section_path": [],
+          "score": 0.65114492
+        },
+        {
+          "rank": 11,
+          "chunk_id": "2e965c715a753215dbf6d0b5",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.2.1 Method"
+          ],
+          "score": 0.64498073
+        },
+        {
+          "rank": 12,
+          "chunk_id": "4c0d86b607c14a8ab73b3042",
+          "doc_id": "ohr-academic-label-words",
+          "page": 1,
+          "section_path": [],
+          "score": 0.63701713
+        },
+        {
+          "rank": 13,
+          "chunk_id": "0cd636cf44cf1307013f5b3b",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [
+            "2 Label Words are Anchors"
+          ],
+          "score": 0.63186926
+        },
+        {
+          "rank": 14,
+          "chunk_id": "4ccbe8f664dbef002f6eb8f9",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [],
+          "score": 0.6303975
+        },
+        {
+          "rank": 15,
+          "chunk_id": "4af2bb5c66653bbfd8d1cc4a",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [],
+          "score": 0.62595242
+        },
+        {
+          "rank": 16,
+          "chunk_id": "55d5a6a890e9a7ede5c84ce4",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [],
+          "score": 0.62595242
+        },
+        {
+          "rank": 17,
+          "chunk_id": "5e5d9d2126caa10adb59ac65",
+          "doc_id": "ohr-academic-label-words",
+          "page": 14,
+          "section_path": [],
+          "score": 0.62595242
+        },
+        {
+          "rank": 18,
+          "chunk_id": "0b95bb6c1faca3c5aa3eccb1",
+          "doc_id": "ohr-academic-label-words",
+          "page": 13,
+          "section_path": [
+            "Attentionh"
+          ],
+          "score": 0.62592864
+        },
+        {
+          "rank": 19,
+          "chunk_id": "82761c3f17689a49162e0ffc",
+          "doc_id": "ohr-academic-label-words",
+          "page": 13,
+          "section_path": [
+            "Attentionh"
+          ],
+          "score": 0.62495166
+        },
+        {
+          "rank": 20,
+          "chunk_id": "68ba840e331a518d674e7b43",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [
+            "Results and Analysis"
+          ],
+          "score": 0.62433082
+        }
+      ],
+      "rrf": [
+        {
+          "rank": 1,
+          "chunk_id": "576cb6a51d7502cf953a80cd",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.03252247
+        },
+        {
+          "rank": 2,
+          "chunk_id": "41022c88485398c4d1887d6c",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [],
+          "score": 0.03226646
+        },
+        {
+          "rank": 3,
+          "chunk_id": "229a736c6199f86c8a38fde2",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [],
+          "score": 0.03200205
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a659314ec228ffacb7d7a19e",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.2 Results and Analysis"
+          ],
+          "score": 0.03100962
+        },
+        {
+          "rank": 5,
+          "chunk_id": "936a57b8336d4791968c9f68",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.1 Method"
+          ],
+          "score": 0.03055037
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8f22288387b24ba7530b3d87",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [
+            "2.3 Deep Layers: Information Extraction"
+          ],
+          "score": 0.0298574
+        },
+        {
+          "rank": 7,
+          "chunk_id": "4ccbe8f664dbef002f6eb8f9",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [],
+          "score": 0.0274024
+        },
+        {
+          "rank": 8,
+          "chunk_id": "b62e94f20b44aebc2efab88f",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [],
+          "score": 0.01538462
+        },
+        {
+          "rank": 9,
+          "chunk_id": "3698964f6481c0f5577ecff1",
+          "doc_id": "ohr-academic-label-words",
+          "page": 3,
+          "section_path": [],
+          "score": 0.01515152
+        },
+        {
+          "rank": 10,
+          "chunk_id": "2c3b2df1ba9b1ded083737e1",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [
+            "E Details for the Calculation of"
+          ],
+          "score": 0.01492537
+        },
+        {
+          "rank": 11,
+          "chunk_id": "816e7bc59dfb1299b364411f",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.01470588
+        },
+        {
+          "rank": 12,
+          "chunk_id": "00a5ca2bffb212c75f66a7bb",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [
+            "Metrics"
+          ],
+          "score": 0.01449275
+        },
+        {
+          "rank": 13,
+          "chunk_id": "edecb339baadfe64f65e49a8",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.2 Results and Analysis"
+          ],
+          "score": 0.01449275
+        },
+        {
+          "rank": 14,
+          "chunk_id": "114361c0ac425d6d6d777eef",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.1 Experiments"
+          ],
+          "score": 0.01428571
+        },
+        {
+          "rank": 15,
+          "chunk_id": "ca363b50be205222098b0fea",
+          "doc_id": "ohr-academic-label-words",
+          "page": 15,
+          "section_path": [],
+          "score": 0.01428571
+        },
+        {
+          "rank": 16,
+          "chunk_id": "01e6346e4f00a9f3c37c0cbe",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.1 Experiments"
+          ],
+          "score": 0.01408451
+        },
+        {
+          "rank": 17,
+          "chunk_id": "2e965c715a753215dbf6d0b5",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.2.1 Method"
+          ],
+          "score": 0.01408451
+        },
+        {
+          "rank": 18,
+          "chunk_id": "4c0d86b607c14a8ab73b3042",
+          "doc_id": "ohr-academic-label-words",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01388889
+        },
+        {
+          "rank": 19,
+          "chunk_id": "0cd636cf44cf1307013f5b3b",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [
+            "2 Label Words are Anchors"
+          ],
+          "score": 0.01369863
+        },
+        {
+          "rank": 20,
+          "chunk_id": "c663f5949f31929df876de78",
+          "doc_id": "ohr-academic-label-words",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01369863
+        },
+        {
+          "rank": 21,
+          "chunk_id": "d23a791043e5a5430d903c39",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.4 Discussion of Our Hypothesis"
+          ],
+          "score": 0.01351351
+        },
+        {
+          "rank": 22,
+          "chunk_id": "4af2bb5c66653bbfd8d1cc4a",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [],
+          "score": 0.01333333
+        },
+        {
+          "rank": 23,
+          "chunk_id": "59de6ec656e3f94e35c7b6fe",
+          "doc_id": "ohr-academic-label-words",
+          "page": 13,
+          "section_path": [
+            "G Implementation of Anchor Re-weighting"
+          ],
+          "score": 0.01333333
+        },
+        {
+          "rank": 24,
+          "chunk_id": "55d5a6a890e9a7ede5c84ce4",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [],
+          "score": 0.01315789
+        },
+        {
+          "rank": 25,
+          "chunk_id": "9ce56dff88a5bd7a014c14a6",
+          "doc_id": "ohr-academic-label-words",
+          "page": 3,
+          "section_path": [
+            "Proposed Hypothesis"
+          ],
+          "score": 0.01315789
+        },
+        {
+          "rank": 26,
+          "chunk_id": "187a9c732cc092f394c91618",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.1 Experiments"
+          ],
+          "score": 0.01298701
+        },
+        {
+          "rank": 27,
+          "chunk_id": "5e5d9d2126caa10adb59ac65",
+          "doc_id": "ohr-academic-label-words",
+          "page": 14,
+          "section_path": [],
+          "score": 0.01298701
+        },
+        {
+          "rank": 28,
+          "chunk_id": "0b95bb6c1faca3c5aa3eccb1",
+          "doc_id": "ohr-academic-label-words",
+          "page": 13,
+          "section_path": [
+            "Attentionh"
+          ],
+          "score": 0.01282051
+        },
+        {
+          "rank": 29,
+          "chunk_id": "fe236f7361efed67299d01c4",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01282051
+        },
+        {
+          "rank": 30,
+          "chunk_id": "64131735357818921111aac6",
+          "doc_id": "ohr-academic-label-words",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01265823
+        },
+        {
+          "rank": 31,
+          "chunk_id": "82761c3f17689a49162e0ffc",
+          "doc_id": "ohr-academic-label-words",
+          "page": 13,
+          "section_path": [
+            "Attentionh"
+          ],
+          "score": 0.01265823
+        },
+        {
+          "rank": 32,
+          "chunk_id": "66a2bf30f440db90656795ac",
+          "doc_id": "ohr-textbook-geology",
+          "page": 9,
+          "section_path": [],
+          "score": 0.0125
+        },
+        {
+          "rank": 33,
+          "chunk_id": "68ba840e331a518d674e7b43",
+          "doc_id": "ohr-academic-label-words",
+          "page": 4,
+          "section_path": [
+            "Results and Analysis"
+          ],
+          "score": 0.0125
+        }
+      ]
+    },
+    "hit_at_5_scope": [
+      "576cb6a51d7502cf953a80cd",
+      "41022c88485398c4d1887d6c",
+      "229a736c6199f86c8a38fde2",
+      "a659314ec228ffacb7d7a19e",
+      "936a57b8336d4791968c9f68"
+    ],
+    "retrieved_count": 8,
+    "index_created_at": "2026-10-13T16:21:30.604523+00:00",
+    "index_chunks_sha256": "18f3d8e595e5d5e7a3872da33b3e9a80c247f5f6f4c4648c97b1a2f4371ce3b7",
+    "query": "What measure quantifies the correlation of attention distributions on label words with the model's final prediction?",
+    "dense_enabled": true
+  },
+  "retrieved_chunks": [
+    {
+      "chunk_id": "576cb6a51d7502cf953a80cd",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 12,
+      "section_path": [],
+      "text": "tween the attention distributions on the label words\nof the target position (Al(q, p1), ..., Al(q, pC)) and\nthe model’s final prediction. We use the AUC-\nROC score to quantify this correlation. We re-\ngard (Al(q, p1), ..., Al(q, pC)) as a classifier’s pre-\ndiction for the model output label (that is, Al(q, pi)\nis equivalent to the probability of model outputting\nlabel i), and compute the AUC-ROC value of this\nprediction relative to the actual model output. We\ndenote this as AUCROCl.",
+      "bbox": [
+        306.14,
+        195.82,
+        526.22,
+        356.57
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "27-0",
+          "bbox": [
+            306.14,
+            195.82,
+            526.22,
+            356.57
+          ],
+          "char_start": 0,
+          "char_end": 590
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.47,
+        75.89,
+        526.32,
+        773.67
+      ],
+      "char_start": 0,
+      "char_end": 487,
+      "source_record_id": "native-block-27-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "6b93c963da03da3ab683a05153d337fa253c5af39dcac2ca5c87b4766b9c9505",
+      "boundary_start": "page_start",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E1",
+      "score": 0.03252247,
+      "bm25_score": 23.176248,
+      "dense_score": 0.70768
+    },
+    {
+      "chunk_id": "41022c88485398c4d1887d6c",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 5,
+      "section_path": [],
+      "text": "layer as Al.5 In deeper layers, we find a strong\ncorrelation between the attention distributions on\nthe label words of the target position, represented\nas (Al(q, p1), ..., Al(q, pC)), and the model’s final\nprediction, affirming our hypothesis. The experi-\nmental setup mirrors that discussed in § 2.2.",
+      "bbox": [
+        70.87,
+        69.51,
+        290.94,
+        152.21
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "0-0",
+          "bbox": [
+            70.87,
+            69.51,
+            290.94,
+            152.21
+          ],
+          "char_start": 0,
+          "char_end": 301
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.35,
+        69.51,
+        526.35,
+        773.63
+      ],
+      "char_start": 0,
+      "char_end": 301,
+      "source_record_id": "native-block-0-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "d33787a43ef64675be42f3c9ebea0daf144bcb6c94a3acd5e5a60fe1e9b244a6",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E2",
+      "score": 0.03226646,
+      "bm25_score": 21.14053,
+      "dense_score": 0.727163
+    },
+    {
+      "chunk_id": "229a736c6199f86c8a38fde2",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 2,
+      "section_path": [],
+      "text": "This indicates that label words collect useful in-\nformation during forward propagation in shallow\nlayers. (2) We investigate the relationship between\nthe attention distributions on the label words of\nthe target position and the model’s final prediction.\nOur results illustrate a strong positive correlation,\nwhere a candidate label’s probability increases with\nmore attention weight on its corresponding label\ntoken.",
+      "bbox": [
+        70.47,
+        409.95,
+        291.05,
+        651.11
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "77-0",
+          "bbox": [
+            70.47,
+            409.95,
+            291.05,
+            651.11
+          ],
+          "char_start": 0,
+          "char_end": 902
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.47,
+        106.08,
+        526.32,
+        779.14
+      ],
+      "char_start": 355,
+      "char_end": 772,
+      "source_record_id": "native-block-77-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "b867a22be60a66c9761f51fa33e88a4fb2a717a1a50eccad06fe65688641a334",
+      "boundary_start": "sentence",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 106,
+      "evidence_id": "E3",
+      "score": 0.03200205,
+      "bm25_score": 21.801499,
+      "dense_score": 0.705346
+    },
+    {
+      "chunk_id": "a659314ec228ffacb7d7a19e",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 5,
+      "section_path": [
+        "2.3.2 Results and Analysis"
+      ],
+      "text": "2.3.2\nResults and Analysis\nFigures 5a and 5b delineate correlation metrics for\nGPT2-XL and GPT-J, averaged across four datasets.\nThe AUCROCl for deep layers approaches 0.8, il-\nlustrating a strong correlation between the attention\ndistributions on label words of the target position\nand the model’s final prediction. Moreover, shal-\nlow layers show negligible cumulative contribu-\ntions (Rl), with a significant increase in middle and\ndeep layers.",
+      "bbox": [
+        70.53,
+        568.55,
+        291.05,
+        744.6
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "11-0",
+          "bbox": [
+            70.53,
+            568.55,
+            291.05,
+            744.6
+          ],
+          "char_start": 0,
+          "char_end": 632
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.35,
+        69.51,
+        526.35,
+        773.63
+      ],
+      "char_start": 0,
+      "char_end": 447,
+      "source_record_id": "native-block-11-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "b8143a3ba55dfe0cfea749af29b3831585ee74e1b08d1af310d5cd493de65929",
+      "boundary_start": "page_start",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E4",
+      "score": 0.03100962,
+      "bm25_score": 18.378364,
+      "dense_score": 0.69755
+    },
+    {
+      "chunk_id": "936a57b8336d4791968c9f68",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 6,
+      "section_path": [
+        "3.1.1 Method"
+      ],
+      "text": "3.1.1\nMethod\n§ 2.3 illustrates a strong correlation between the\nmodel’s output category and the attention distri-\nbution (A (q, p1) , . . . , A (q, pC)) on label words\np1, ..., pC of the target position q in deep layers.\nWe can view the attention module as a classifier f,",
+      "bbox": [
+        70.35,
+        201.6,
+        291.05,
+        282.8
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "3-0",
+          "bbox": [
+            70.35,
+            201.6,
+            291.05,
+            282.8
+          ],
+          "char_start": 0,
+          "char_end": 272
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.35,
+        73.52,
+        526.32,
+        773.67
+      ],
+      "char_start": 0,
+      "char_end": 272,
+      "source_record_id": "native-block-3-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "1ddfb1464c1ff8267f247c4d4ba53d5e815a0cc371b853a912b740393b7239f2",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": true,
+      "overlap_chars": 0,
+      "evidence_id": "E5",
+      "score": 0.03055037,
+      "bm25_score": 12.725094,
+      "dense_score": 0.699525
+    },
+    {
+      "chunk_id": "8f22288387b24ba7530b3d87",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 4,
+      "section_path": [
+        "2.3 Deep Layers: Information Extraction"
+      ],
+      "text": "pothesis that the model extracts information from\nlabel words to form the final prediction. We de-\nnote the sum of the attention matrices in the l-th",
+      "bbox": [
+        306.14,
+        735.59,
+        526.22,
+        773.69
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "48-0",
+          "bbox": [
+            306.14,
+            735.59,
+            526.22,
+            773.69
+          ],
+          "char_start": 0,
+          "char_end": 149
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.87,
+        73.46,
+        526.32,
+        775.41
+      ],
+      "char_start": 0,
+      "char_end": 149,
+      "source_record_id": "native-block-48-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "5fa9ad89aff83d4522f7e7d1a7683b2315e79ec6f73daac782c35f939cb268d7",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": true,
+      "overlap_chars": 0,
+      "evidence_id": "E6",
+      "score": 0.0298574,
+      "bm25_score": 15.377242,
+      "dense_score": 0.659047
+    },
+    {
+      "chunk_id": "4ccbe8f664dbef002f6eb8f9",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 2,
+      "section_path": [],
+      "text": "Information Flow with Labels as Anchors\nH1: In shallow layers, label words gather the\ninformation of demonstrations to form seman-\ntic representations for deeper layers.\nH2: In deep layers, the model extracts the\ninformation from label words to form the final\nprediction.",
+      "bbox": [
+        80.83,
+        307.27,
+        280.99,
+        399.66
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "76-0",
+          "bbox": [
+            80.83,
+            307.27,
+            280.99,
+            399.66
+          ],
+          "char_start": 0,
+          "char_end": 271
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.47,
+        106.08,
+        526.32,
+        779.14
+      ],
+      "char_start": 0,
+      "char_end": 271,
+      "source_record_id": "native-block-76-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "b2166c75e1c51f3aa3e7b7cf0ffbd1bd6b72843ff98bde72b746e49421dbd26c",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E7",
+      "score": 0.0274024,
+      "bm25_score": 10.618991,
+      "dense_score": 0.630397
+    },
+    {
+      "chunk_id": "b62e94f20b44aebc2efab88f",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 4,
+      "section_path": [],
+      "text": "part to label tokens, which is facilitated by the trans-\nformer’s attention mechanism. By manipulating\nthe attention layer in the model to block this flow\nand examining the model behavior change, we val-\nidate the existence of the information aggregation\nprocess and its contribution to the final prediction.",
+      "bbox": [
+        70.87,
+        514.82,
+        290.95,
+        593.39
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "21-0",
+          "bbox": [
+            70.87,
+            514.82,
+            290.95,
+            593.39
+          ],
+          "char_start": 0,
+          "char_end": 308
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.87,
+        73.46,
+        526.32,
+        775.41
+      ],
+      "char_start": 0,
+      "char_end": 308,
+      "source_record_id": "native-block-21-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "a212f8d691bb8695c7235174479009ea8086defc0a1db6a4b34d005bc275a986",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E8",
+      "score": 0.01538462,
+      "bm25_score": 18.269819,
+      "dense_score": 0.612333
+    }
+  ],
+  "hit_at_5": true,
+  "status": "SUCCEEDED",
+  "answer": "The AUC-ROC score (denoted AUCROCl) is used to quantify the correlation between the attention distributions on the label words of the target position and the model's final prediction [E1][E4].",
+  "citation_ids": [
+    "E1",
+    "E4"
+  ],
+  "used_evidence": [
+    {
+      "chunk_id": "576cb6a51d7502cf953a80cd",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 12,
+      "section_path": [],
+      "text": "tween the attention distributions on the label words\nof the target position (Al(q, p1), ..., Al(q, pC)) and\nthe model’s final prediction. We use the AUC-\nROC score to quantify this correlation. We re-\ngard (Al(q, p1), ..., Al(q, pC)) as a classifier’s pre-\ndiction for the model output label (that is, Al(q, pi)\nis equivalent to the probability of model outputting\nlabel i), and compute the AUC-ROC value of this\nprediction relative to the actual model output. We\ndenote this as AUCROCl.",
+      "bbox": [
+        306.14,
+        195.82,
+        526.22,
+        356.57
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "27-0",
+          "bbox": [
+            306.14,
+            195.82,
+            526.22,
+            356.57
+          ],
+          "char_start": 0,
+          "char_end": 590
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.47,
+        75.89,
+        526.32,
+        773.67
+      ],
+      "char_start": 0,
+      "char_end": 487,
+      "source_record_id": "native-block-27-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "6b93c963da03da3ab683a05153d337fa253c5af39dcac2ca5c87b4766b9c9505",
+      "boundary_start": "page_start",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E1",
+      "score": 0.03252247,
+      "bm25_score": 23.176248,
+      "dense_score": 0.70768
+    },
+    {
+      "chunk_id": "a659314ec228ffacb7d7a19e",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 5,
+      "section_path": [
+        "2.3.2 Results and Analysis"
+      ],
+      "text": "2.3.2\nResults and Analysis\nFigures 5a and 5b delineate correlation metrics for\nGPT2-XL and GPT-J, averaged across four datasets.\nThe AUCROCl for deep layers approaches 0.8, il-\nlustrating a strong correlation between the attention\ndistributions on label words of the target position\nand the model’s final prediction. Moreover, shal-\nlow layers show negligible cumulative contribu-\ntions (Rl), with a significant increase in middle and\ndeep layers.",
+      "bbox": [
+        70.53,
+        568.55,
+        291.05,
+        744.6
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "11-0",
+          "bbox": [
+            70.53,
+            568.55,
+            291.05,
+            744.6
+          ],
+          "char_start": 0,
+          "char_end": 632
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.35,
+        69.51,
+        526.35,
+        773.63
+      ],
+      "char_start": 0,
+      "char_end": 447,
+      "source_record_id": "native-block-11-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "b8143a3ba55dfe0cfea749af29b3831585ee74e1b08d1af310d5cd493de65929",
+      "boundary_start": "page_start",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E4",
+      "score": 0.03100962,
+      "bm25_score": 18.378364,
+      "dense_score": 0.69755
+    }
+  ],
+  "surface_answer_match": false,
+  "citation_coverage": {
+    "potential_uncited_statement_count": 0,
+    "potential_uncited_statements": [],
+    "mode": "heuristic_warning_only",
+    "semantic_claim_coverage": "requires_human_review"
+  },
+  "validation_warnings": [],
+  "validation_status": "passed",
+  "failure_category": null,
+  "steps": [
+    {
+      "name": "retrieve",
+      "status": "ok",
+      "input_summary": {
+        "scope_doc_ids": [
+          "ohr-academic-label-words",
+          "ohr-law-affiliate",
+          "ohr-manual-macbook-air",
+          "ohr-news-executive-insight",
+          "ohr-textbook-geology"
+        ]
+      },
+      "output_summary": {
+        "retrieval_method": "bm25+bge-m3_dense_rrf",
+        "candidate_count": 1876,
+        "top_k": 8,
+        "allowed_doc_ids": [
+          "ohr-academic-label-words",
+          "ohr-law-affiliate",
+          "ohr-manual-macbook-air",
+          "ohr-news-executive-insight",
+          "ohr-textbook-geology"
+        ],
+        "searched_page_count": 100,
+        "candidate_k_per_channel": 20,
+        "rrf_k": 60,
+        "rank_starts_at": 1,
+        "rankings": {
+          "bm25": [
+            {
+              "rank": 1,
+              "chunk_id": "576cb6a51d7502cf953a80cd",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 23.17624812
+            },
+            {
+              "rank": 2,
+              "chunk_id": "229a736c6199f86c8a38fde2",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [],
+              "score": 21.80149913
+            },
+            {
+              "rank": 3,
+              "chunk_id": "41022c88485398c4d1887d6c",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [],
+              "score": 21.14052958
+            },
+            {
+              "rank": 4,
+              "chunk_id": "a659314ec228ffacb7d7a19e",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.2 Results and Analysis"
+              ],
+              "score": 18.37836447
+            },
+            {
+              "rank": 5,
+              "chunk_id": "b62e94f20b44aebc2efab88f",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [],
+              "score": 18.26981881
+            },
+            {
+              "rank": 6,
+              "chunk_id": "8f22288387b24ba7530b3d87",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [
+                "2.3 Deep Layers: Information Extraction"
+              ],
+              "score": 15.3772421
+            },
+            {
+              "rank": 7,
+              "chunk_id": "936a57b8336d4791968c9f68",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.1 Method"
+              ],
+              "score": 12.72509426
+            },
+            {
+              "rank": 8,
+              "chunk_id": "816e7bc59dfb1299b364411f",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 12.71095501
+            },
+            {
+              "rank": 9,
+              "chunk_id": "edecb339baadfe64f65e49a8",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.2 Results and Analysis"
+              ],
+              "score": 12.66045754
+            },
+            {
+              "rank": 10,
+              "chunk_id": "114361c0ac425d6d6d777eef",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.1 Experiments"
+              ],
+              "score": 12.5210873
+            },
+            {
+              "rank": 11,
+              "chunk_id": "01e6346e4f00a9f3c37c0cbe",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.1 Experiments"
+              ],
+              "score": 10.91514312
+            },
+            {
+              "rank": 12,
+              "chunk_id": "4ccbe8f664dbef002f6eb8f9",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [],
+              "score": 10.61899094
+            },
+            {
+              "rank": 13,
+              "chunk_id": "c663f5949f31929df876de78",
+              "doc_id": "ohr-academic-label-words",
+              "page": 1,
+              "section_path": [],
+              "score": 9.8095585
+            },
+            {
+              "rank": 14,
+              "chunk_id": "d23a791043e5a5430d903c39",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.4 Discussion of Our Hypothesis"
+              ],
+              "score": 9.52087105
+            },
+            {
+              "rank": 15,
+              "chunk_id": "59de6ec656e3f94e35c7b6fe",
+              "doc_id": "ohr-academic-label-words",
+              "page": 13,
+              "section_path": [
+                "G Implementation of Anchor Re-weighting"
+              ],
+              "score": 9.09143064
+            },
+            {
+              "rank": 16,
+              "chunk_id": "9ce56dff88a5bd7a014c14a6",
+              "doc_id": "ohr-academic-label-words",
+              "page": 3,
+              "section_path": [
+                "Proposed Hypothesis"
+              ],
+              "score": 8.98978344
+            },
+            {
+              "rank": 17,
+              "chunk_id": "187a9c732cc092f394c91618",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.1 Experiments"
+              ],
+              "score": 8.46948025
+            },
+            {
+              "rank": 18,
+              "chunk_id": "fe236f7361efed67299d01c4",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [],
+              "score": 8.43049203
+            },
+            {
+              "rank": 19,
+              "chunk_id": "64131735357818921111aac6",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [],
+              "score": 8.27790617
+            },
+            {
+              "rank": 20,
+              "chunk_id": "66a2bf30f440db90656795ac",
+              "doc_id": "ohr-textbook-geology",
+              "page": 9,
+              "section_path": [],
+              "score": 7.96975481
+            }
+          ],
+          "dense": [
+            {
+              "rank": 1,
+              "chunk_id": "41022c88485398c4d1887d6c",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [],
+              "score": 0.72716349
+            },
+            {
+              "rank": 2,
+              "chunk_id": "576cb6a51d7502cf953a80cd",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.7076804
+            },
+            {
+              "rank": 3,
+              "chunk_id": "229a736c6199f86c8a38fde2",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [],
+              "score": 0.70534635
+            },
+            {
+              "rank": 4,
+              "chunk_id": "936a57b8336d4791968c9f68",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.1 Method"
+              ],
+              "score": 0.699525
+            },
+            {
+              "rank": 5,
+              "chunk_id": "a659314ec228ffacb7d7a19e",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.2 Results and Analysis"
+              ],
+              "score": 0.69755018
+            },
+            {
+              "rank": 6,
+              "chunk_id": "3698964f6481c0f5577ecff1",
+              "doc_id": "ohr-academic-label-words",
+              "page": 3,
+              "section_path": [],
+              "score": 0.66682023
+            },
+            {
+              "rank": 7,
+              "chunk_id": "2c3b2df1ba9b1ded083737e1",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [
+                "E Details for the Calculation of"
+              ],
+              "score": 0.66434127
+            },
+            {
+              "rank": 8,
+              "chunk_id": "8f22288387b24ba7530b3d87",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [
+                "2.3 Deep Layers: Information Extraction"
+              ],
+              "score": 0.65904719
+            },
+            {
+              "rank": 9,
+              "chunk_id": "00a5ca2bffb212c75f66a7bb",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [
+                "Metrics"
+              ],
+              "score": 0.65591592
+            },
+            {
+              "rank": 10,
+              "chunk_id": "ca363b50be205222098b0fea",
+              "doc_id": "ohr-academic-label-words",
+              "page": 15,
+              "section_path": [],
+              "score": 0.65114492
+            },
+            {
+              "rank": 11,
+              "chunk_id": "2e965c715a753215dbf6d0b5",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.2.1 Method"
+              ],
+              "score": 0.64498073
+            },
+            {
+              "rank": 12,
+              "chunk_id": "4c0d86b607c14a8ab73b3042",
+              "doc_id": "ohr-academic-label-words",
+              "page": 1,
+              "section_path": [],
+              "score": 0.63701713
+            },
+            {
+              "rank": 13,
+              "chunk_id": "0cd636cf44cf1307013f5b3b",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [
+                "2 Label Words are Anchors"
+              ],
+              "score": 0.63186926
+            },
+            {
+              "rank": 14,
+              "chunk_id": "4ccbe8f664dbef002f6eb8f9",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [],
+              "score": 0.6303975
+            },
+            {
+              "rank": 15,
+              "chunk_id": "4af2bb5c66653bbfd8d1cc4a",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [],
+              "score": 0.62595242
+            },
+            {
+              "rank": 16,
+              "chunk_id": "55d5a6a890e9a7ede5c84ce4",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [],
+              "score": 0.62595242
+            },
+            {
+              "rank": 17,
+              "chunk_id": "5e5d9d2126caa10adb59ac65",
+              "doc_id": "ohr-academic-label-words",
+              "page": 14,
+              "section_path": [],
+              "score": 0.62595242
+            },
+            {
+              "rank": 18,
+              "chunk_id": "0b95bb6c1faca3c5aa3eccb1",
+              "doc_id": "ohr-academic-label-words",
+              "page": 13,
+              "section_path": [
+                "Attentionh"
+              ],
+              "score": 0.62592864
+            },
+            {
+              "rank": 19,
+              "chunk_id": "82761c3f17689a49162e0ffc",
+              "doc_id": "ohr-academic-label-words",
+              "page": 13,
+              "section_path": [
+                "Attentionh"
+              ],
+              "score": 0.62495166
+            },
+            {
+              "rank": 20,
+              "chunk_id": "68ba840e331a518d674e7b43",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [
+                "Results and Analysis"
+              ],
+              "score": 0.62433082
+            }
+          ],
+          "rrf": [
+            {
+              "rank": 1,
+              "chunk_id": "576cb6a51d7502cf953a80cd",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.03252247
+            },
+            {
+              "rank": 2,
+              "chunk_id": "41022c88485398c4d1887d6c",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [],
+              "score": 0.03226646
+            },
+            {
+              "rank": 3,
+              "chunk_id": "229a736c6199f86c8a38fde2",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [],
+              "score": 0.03200205
+            },
+            {
+              "rank": 4,
+              "chunk_id": "a659314ec228ffacb7d7a19e",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.2 Results and Analysis"
+              ],
+              "score": 0.03100962
+            },
+            {
+              "rank": 5,
+              "chunk_id": "936a57b8336d4791968c9f68",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.1 Method"
+              ],
+              "score": 0.03055037
+            },
+            {
+              "rank": 6,
+              "chunk_id": "8f22288387b24ba7530b3d87",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [
+                "2.3 Deep Layers: Information Extraction"
+              ],
+              "score": 0.0298574
+            },
+            {
+              "rank": 7,
+              "chunk_id": "4ccbe8f664dbef002f6eb8f9",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [],
+              "score": 0.0274024
+            },
+            {
+              "rank": 8,
+              "chunk_id": "b62e94f20b44aebc2efab88f",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [],
+              "score": 0.01538462
+            },
+            {
+              "rank": 9,
+              "chunk_id": "3698964f6481c0f5577ecff1",
+              "doc_id": "ohr-academic-label-words",
+              "page": 3,
+              "section_path": [],
+              "score": 0.01515152
+            },
+            {
+              "rank": 10,
+              "chunk_id": "2c3b2df1ba9b1ded083737e1",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [
+                "E Details for the Calculation of"
+              ],
+              "score": 0.01492537
+            },
+            {
+              "rank": 11,
+              "chunk_id": "816e7bc59dfb1299b364411f",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.01470588
+            },
+            {
+              "rank": 12,
+              "chunk_id": "00a5ca2bffb212c75f66a7bb",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [
+                "Metrics"
+              ],
+              "score": 0.01449275
+            },
+            {
+              "rank": 13,
+              "chunk_id": "edecb339baadfe64f65e49a8",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.2 Results and Analysis"
+              ],
+              "score": 0.01449275
+            },
+            {
+              "rank": 14,
+              "chunk_id": "114361c0ac425d6d6d777eef",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.1 Experiments"
+              ],
+              "score": 0.01428571
+            },
+            {
+              "rank": 15,
+              "chunk_id": "ca363b50be205222098b0fea",
+              "doc_id": "ohr-academic-label-words",
+              "page": 15,
+              "section_path": [],
+              "score": 0.01428571
+            },
+            {
+              "rank": 16,
+              "chunk_id": "01e6346e4f00a9f3c37c0cbe",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.1 Experiments"
+              ],
+              "score": 0.01408451
+            },
+            {
+              "rank": 17,
+              "chunk_id": "2e965c715a753215dbf6d0b5",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.2.1 Method"
+              ],
+              "score": 0.01408451
+            },
+            {
+              "rank": 18,
+              "chunk_id": "4c0d86b607c14a8ab73b3042",
+              "doc_id": "ohr-academic-label-words",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01388889
+            },
+            {
+              "rank": 19,
+              "chunk_id": "0cd636cf44cf1307013f5b3b",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [
+                "2 Label Words are Anchors"
+              ],
+              "score": 0.01369863
+            },
+            {
+              "rank": 20,
+              "chunk_id": "c663f5949f31929df876de78",
+              "doc_id": "ohr-academic-label-words",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01369863
+            },
+            {
+              "rank": 21,
+              "chunk_id": "d23a791043e5a5430d903c39",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.4 Discussion of Our Hypothesis"
+              ],
+              "score": 0.01351351
+            },
+            {
+              "rank": 22,
+              "chunk_id": "4af2bb5c66653bbfd8d1cc4a",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [],
+              "score": 0.01333333
+            },
+            {
+              "rank": 23,
+              "chunk_id": "59de6ec656e3f94e35c7b6fe",
+              "doc_id": "ohr-academic-label-words",
+              "page": 13,
+              "section_path": [
+                "G Implementation of Anchor Re-weighting"
+              ],
+              "score": 0.01333333
+            },
+            {
+              "rank": 24,
+              "chunk_id": "55d5a6a890e9a7ede5c84ce4",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [],
+              "score": 0.01315789
+            },
+            {
+              "rank": 25,
+              "chunk_id": "9ce56dff88a5bd7a014c14a6",
+              "doc_id": "ohr-academic-label-words",
+              "page": 3,
+              "section_path": [
+                "Proposed Hypothesis"
+              ],
+              "score": 0.01315789
+            },
+            {
+              "rank": 26,
+              "chunk_id": "187a9c732cc092f394c91618",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.1 Experiments"
+              ],
+              "score": 0.01298701
+            },
+            {
+              "rank": 27,
+              "chunk_id": "5e5d9d2126caa10adb59ac65",
+              "doc_id": "ohr-academic-label-words",
+              "page": 14,
+              "section_path": [],
+              "score": 0.01298701
+            },
+            {
+              "rank": 28,
+              "chunk_id": "0b95bb6c1faca3c5aa3eccb1",
+              "doc_id": "ohr-academic-label-words",
+              "page": 13,
+              "section_path": [
+                "Attentionh"
+              ],
+              "score": 0.01282051
+            },
+            {
+              "rank": 29,
+              "chunk_id": "fe236f7361efed67299d01c4",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01282051
+            },
+            {
+              "rank": 30,
+              "chunk_id": "64131735357818921111aac6",
+              "doc_id": "ohr-academic-label-words",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01265823
+            },
+            {
+              "rank": 31,
+              "chunk_id": "82761c3f17689a49162e0ffc",
+              "doc_id": "ohr-academic-label-words",
+              "page": 13,
+              "section_path": [
+                "Attentionh"
+              ],
+              "score": 0.01265823
+            },
+            {
+              "rank": 32,
+              "chunk_id": "66a2bf30f440db90656795ac",
+              "doc_id": "ohr-textbook-geology",
+              "page": 9,
+              "section_path": [],
+              "score": 0.0125
+            },
+            {
+              "rank": 33,
+              "chunk_id": "68ba840e331a518d674e7b43",
+              "doc_id": "ohr-academic-label-words",
+              "page": 4,
+              "section_path": [
+                "Results and Analysis"
+              ],
+              "score": 0.0125
+            }
+          ]
+        },
+        "hit_at_5_scope": [
+          "576cb6a51d7502cf953a80cd",
+          "41022c88485398c4d1887d6c",
+          "229a736c6199f86c8a38fde2",
+          "a659314ec228ffacb7d7a19e",
+          "936a57b8336d4791968c9f68"
+        ],
+        "retrieved_count": 8,
+        "index_created_at": "2026-10-13T16:21:30.604523+00:00",
+        "index_chunks_sha256": "18f3d8e595e5d5e7a3872da33b3e9a80c247f5f6f4c4648c97b1a2f4371ce3b7",
+        "query": "What measure quantifies the correlation of attention distributions on label words with the model's final prediction?",
+        "dense_enabled": true
+      },
+      "latency_ms": 176
+    },
+    {
+      "name": "doc_answer",
+      "status": "ok",
+      "input_summary": {
+        "evidence_count": 8
+      },
+      "output_summary": {
+        "status": "SUCCEEDED",
+        "citation_ids": [
+          "E1",
+          "E4"
+        ]
+      },
+      "latency_ms": 2920
+    },
+    {
+      "name": "rag_generate",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "evidence_count": 8
+      },
+      "output_summary": {
+        "status": "SUCCEEDED",
+        "citation_ids": [
+          "E1",
+          "E4"
+        ]
+      },
+      "latency_ms": 2920
+    },
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "provider_capture": "eval/artifacts/d4/rag-scale-live-001/provider/ff8d0bda48b0458fb0bedbadbead6cbd.json",
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 71,
+          "prompt_tokens": 1672,
+          "total_tokens": 1743,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 1536
+          },
+          "prompt_cache_hit_tokens": 1536,
+          "prompt_cache_miss_tokens": 136
+        },
+        "json_valid": true
+      },
+      "latency_ms": 2033
+    },
+    {
+      "name": "rag_validate",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "checks": [
+          "citation_membership",
+          "inline_ids",
+          "cited_numbers",
+          "explicit_research_attributions"
+        ]
+      },
+      "output_summary": {
+        "passed": true,
+        "status": "SUCCEEDED",
+        "used_evidence_ids": [
+          "E1",
+          "E4"
+        ],
+        "citation_coverage": {
+          "potential_uncited_statement_count": 0,
+          "potential_uncited_statements": [],
+          "mode": "heuristic_warning_only",
+          "semantic_claim_coverage": "requires_human_review"
+        },
+        "semantic_faithfulness": "requires_human_review"
+      },
+      "latency_ms": 0
+    }
+  ],
+  "cost": {
+    "raw_step_ms": {
+      "retrieve": 176,
+      "doc_answer": 2920,
+      "rag_generate": 2920,
+      "llm": 2033,
+      "rag_validate": 0
+    },
+    "stages_ms": {
+      "nlu": 0,
+      "value_link": 0,
+      "schema_selection": 0,
+      "sql_generation": 0,
+      "sql_execution": 0,
+      "retrieval": 176,
+      "answer_generation": 2920
+    },
+    "model_attempts": {
+      "other": 1,
+      "all": 1
+    },
+    "usage": {
+      "prompt_tokens": 1672,
+      "other_prompt_tokens": 1672,
+      "completion_tokens": 71,
+      "other_completion_tokens": 71,
+      "total_tokens": 1743,
+      "other_total_tokens": 1743
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "duration_warning": "嵌套步骤有重叠；端到端实测独立计时，不将所有step相加"
+  },
+  "elapsed_ms": 3096.328
+}

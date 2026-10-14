@@ -1,0 +1,1123 @@
+{
+  "id": "aw-07",
+  "split": "dev",
+  "arm": "subgraph",
+  "request": {
+    "session_id": "d4-aw-56d48059eee4460cb6754ae246b7751c-aw-07-subgraph",
+    "message": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。",
+    "scope": {
+      "route": "sql",
+      "db_id": "adventureworks",
+      "doc_ids": []
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "5d9bd08d-511e-45f8-956a-80d1610053e2",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 5 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT p.\"productid\", p.\"name\", p.\"listprice\" FROM \"production\".\"product\" AS p ORDER BY p.\"listprice\" DESC, p.\"productid\" ASC LIMIT 5",
+    "table": [
+      {
+        "productid": 749,
+        "name": "Road-150 Red, 62",
+        "listprice": "3578.2700"
+      },
+      {
+        "productid": 750,
+        "name": "Road-150 Red, 44",
+        "listprice": "3578.2700"
+      },
+      {
+        "productid": 751,
+        "name": "Road-150 Red, 48",
+        "listprice": "3578.2700"
+      },
+      {
+        "productid": 752,
+        "name": "Road-150 Red, 52",
+        "listprice": "3578.2700"
+      },
+      {
+        "productid": 753,
+        "name": "Road-150 Red, 56",
+        "listprice": "3578.2700"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "adventureworks"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "table_count": 68,
+          "db_id": "adventureworks"
+        },
+        "latency_ms": 255
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "reason": "not_registered_for_db",
+          "bindings": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。"
+        },
+        "output_summary": {
+          "rewritten_question": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 7
+      },
+      {
+        "name": "schema_link",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks",
+          "question": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。"
+        },
+        "output_summary": {
+          "selected_tables": [
+            "production.product",
+            "production.productcategory",
+            "production.productcosthistory",
+            "production.productinventory",
+            "production.productlistpricehistory",
+            "production.productsubcategory",
+            "purchasing.productvendor",
+            "sales.salesorderdetail",
+            "sales.specialofferproduct"
+          ],
+          "columns": {
+            "production.product": [
+              "productid",
+              "name",
+              "productnumber",
+              "makeflag",
+              "finishedgoodsflag",
+              "color",
+              "safetystocklevel",
+              "reorderpoint",
+              "standardcost",
+              "listprice",
+              "size",
+              "sizeunitmeasurecode",
+              "weightunitmeasurecode",
+              "weight",
+              "daystomanufacture",
+              "productline",
+              "class",
+              "style",
+              "productsubcategoryid",
+              "productmodelid",
+              "sellstartdate",
+              "sellenddate",
+              "discontinueddate",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.productcategory": [
+              "productcategoryid",
+              "name",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.productcosthistory": [
+              "productid",
+              "startdate",
+              "enddate",
+              "standardcost",
+              "modifieddate"
+            ],
+            "production.productinventory": [
+              "productid",
+              "locationid",
+              "shelf",
+              "bin",
+              "quantity",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.productlistpricehistory": [
+              "productid",
+              "startdate",
+              "enddate",
+              "listprice",
+              "modifieddate"
+            ],
+            "production.productsubcategory": [
+              "productsubcategoryid",
+              "productcategoryid",
+              "name",
+              "rowguid",
+              "modifieddate"
+            ],
+            "purchasing.productvendor": [
+              "productid",
+              "businessentityid",
+              "averageleadtime",
+              "standardprice",
+              "lastreceiptcost",
+              "lastreceiptdate",
+              "minorderqty",
+              "maxorderqty",
+              "onorderqty",
+              "unitmeasurecode",
+              "modifieddate"
+            ],
+            "sales.salesorderdetail": [
+              "salesorderid",
+              "salesorderdetailid",
+              "carriertrackingnumber",
+              "orderqty",
+              "productid",
+              "specialofferid",
+              "unitprice",
+              "unitpricediscount",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.specialofferproduct": [
+              "specialofferid",
+              "productid",
+              "rowguid",
+              "modifieddate"
+            ]
+          },
+          "join_paths": [
+            {
+              "source_table": "production.productcosthistory",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "production.productlistpricehistory",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "production.productinventory",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "production.product",
+              "source_columns": [
+                "productsubcategoryid"
+              ],
+              "target_table": "production.productsubcategory",
+              "target_columns": [
+                "productsubcategoryid"
+              ]
+            },
+            {
+              "source_table": "production.productsubcategory",
+              "source_columns": [
+                "productcategoryid"
+              ],
+              "target_table": "production.productcategory",
+              "target_columns": [
+                "productcategoryid"
+              ]
+            },
+            {
+              "source_table": "purchasing.productvendor",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "sales.specialofferproduct",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderdetail",
+              "source_columns": [
+                "specialofferid",
+                "productid"
+              ],
+              "target_table": "sales.specialofferproduct",
+              "target_columns": [
+                "specialofferid",
+                "productid"
+              ]
+            }
+          ],
+          "reasons": {
+            "production.product": [
+              "表描述向量召回第 2 位",
+              "列描述 Top-20 投票：12 列"
+            ],
+            "production.productcategory": [
+              "表描述向量召回第 8 位"
+            ],
+            "production.productcosthistory": [
+              "表描述向量召回第 3 位"
+            ],
+            "production.productinventory": [
+              "表描述向量召回第 7 位"
+            ],
+            "production.productlistpricehistory": [
+              "表描述向量召回第 1 位",
+              "列描述 Top-20 投票：5 列"
+            ],
+            "production.productsubcategory": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "purchasing.productvendor": [
+              "表描述向量召回第 5 位",
+              "列描述 Top-20 投票：1 列"
+            ],
+            "sales.salesorderdetail": [
+              "表描述向量召回第 6 位"
+            ],
+            "sales.specialofferproduct": [
+              "表描述向量召回第 4 位",
+              "列描述 Top-20 投票：2 列"
+            ]
+          },
+          "table_recall": [
+            "production.productlistpricehistory",
+            "production.product",
+            "production.productcosthistory",
+            "sales.specialofferproduct",
+            "purchasing.productvendor",
+            "sales.salesorderdetail",
+            "production.productinventory",
+            "production.productcategory"
+          ],
+          "column_recall": [
+            "production.productlistpricehistory.listprice",
+            "production.productlistpricehistory.productid",
+            "production.product.listprice",
+            "production.productlistpricehistory.startdate",
+            "production.productlistpricehistory.modifieddate",
+            "production.product.productnumber",
+            "production.product.size",
+            "production.product.standardcost",
+            "production.productlistpricehistory.enddate",
+            "production.product.weight",
+            "production.product.class",
+            "purchasing.productvendor.standardprice",
+            "production.product.safetystocklevel",
+            "sales.specialofferproduct.productid",
+            "production.product.productsubcategoryid",
+            "sales.specialofferproduct.specialofferid",
+            "production.product.productline",
+            "production.product.style",
+            "production.product.color",
+            "production.product.sellstartdate"
+          ],
+          "value_recall": [],
+          "terminal_tables": [
+            "production.product",
+            "production.productlistpricehistory",
+            "sales.specialofferproduct",
+            "purchasing.productvendor",
+            "production.productcosthistory",
+            "sales.salesorderdetail",
+            "production.productinventory",
+            "production.productcategory"
+          ],
+          "bridge_tables": [
+            "production.productsubcategory"
+          ],
+          "disconnected_components": [
+            [
+              "production.product",
+              "production.productcategory",
+              "production.productcosthistory",
+              "production.productinventory",
+              "production.productlistpricehistory",
+              "purchasing.productvendor",
+              "sales.salesorderdetail",
+              "sales.specialofferproduct"
+            ]
+          ],
+          "scores": {
+            "production.product": 0.03252247488101534,
+            "production.productlistpricehistory": 0.03252247488101534,
+            "sales.specialofferproduct": 0.03149801587301587,
+            "purchasing.productvendor": 0.031009615384615385,
+            "production.productcosthistory": 0.015873015873015872,
+            "sales.salesorderdetail": 0.015151515151515152,
+            "production.productinventory": 0.014925373134328358,
+            "production.productcategory": 0.014705882352941176
+          },
+          "query_facets": [
+            "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。"
+          ],
+          "per_query_recall": [
+            {
+              "query": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。",
+              "table_top": [
+                "production.productlistpricehistory",
+                "production.product",
+                "production.productcosthistory",
+                "sales.specialofferproduct",
+                "purchasing.productvendor",
+                "sales.salesorderdetail",
+                "production.productinventory",
+                "production.productcategory"
+              ],
+              "column_top": [
+                "production.productlistpricehistory.listprice",
+                "production.productlistpricehistory.productid",
+                "production.product.listprice",
+                "production.productlistpricehistory.startdate",
+                "production.productlistpricehistory.modifieddate",
+                "production.product.productnumber",
+                "production.product.size",
+                "production.product.standardcost",
+                "production.productlistpricehistory.enddate",
+                "production.product.weight",
+                "production.product.class",
+                "purchasing.productvendor.standardprice",
+                "production.product.safetystocklevel",
+                "sales.specialofferproduct.productid",
+                "production.product.productsubcategoryid",
+                "sales.specialofferproduct.specialofferid",
+                "production.product.productline",
+                "production.product.style",
+                "production.product.color",
+                "production.product.sellstartdate"
+              ]
+            }
+          ],
+          "excluded_tables": {},
+          "pruning": {}
+        },
+        "latency_ms": 43
+      },
+      {
+        "name": "schema_prune",
+        "status": "ok",
+        "input_summary": {
+          "candidate_count": 9
+        },
+        "output_summary": {
+          "selected_tables": [
+            "production.product",
+            "production.productlistpricehistory"
+          ],
+          "columns": {
+            "production.product": [
+              "productid",
+              "name",
+              "listprice"
+            ],
+            "production.productlistpricehistory": [
+              "productid",
+              "startdate",
+              "listprice"
+            ]
+          },
+          "join_paths": [
+            {
+              "source_table": "production.productlistpricehistory",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            }
+          ],
+          "reasons": {
+            "production.product": [
+              "产品主表，提供产品编号、名称和当前目录售价，是查询售价最高产品的基础表"
+            ],
+            "production.productlistpricehistory": [
+              "产品标价历史表，当需要按历史售价口径取最新或特定生效价格时提供售价字段"
+            ]
+          },
+          "table_recall": [
+            "production.productlistpricehistory",
+            "production.product",
+            "production.productcosthistory",
+            "sales.specialofferproduct",
+            "purchasing.productvendor",
+            "sales.salesorderdetail",
+            "production.productinventory",
+            "production.productcategory"
+          ],
+          "column_recall": [
+            "production.productlistpricehistory.listprice",
+            "production.productlistpricehistory.productid",
+            "production.product.listprice",
+            "production.productlistpricehistory.startdate",
+            "production.productlistpricehistory.modifieddate",
+            "production.product.productnumber",
+            "production.product.size",
+            "production.product.standardcost",
+            "production.productlistpricehistory.enddate",
+            "production.product.weight",
+            "production.product.class",
+            "purchasing.productvendor.standardprice",
+            "production.product.safetystocklevel",
+            "sales.specialofferproduct.productid",
+            "production.product.productsubcategoryid",
+            "sales.specialofferproduct.specialofferid",
+            "production.product.productline",
+            "production.product.style",
+            "production.product.color",
+            "production.product.sellstartdate"
+          ],
+          "value_recall": [],
+          "terminal_tables": [
+            "production.product",
+            "production.productlistpricehistory"
+          ],
+          "bridge_tables": [],
+          "disconnected_components": [
+            [
+              "production.product",
+              "production.productlistpricehistory"
+            ]
+          ],
+          "scores": {
+            "production.product": 0.03252247488101534,
+            "production.productlistpricehistory": 0.03252247488101534,
+            "sales.specialofferproduct": 0.03149801587301587,
+            "purchasing.productvendor": 0.031009615384615385,
+            "production.productcosthistory": 0.015873015873015872,
+            "sales.salesorderdetail": 0.015151515151515152,
+            "production.productinventory": 0.014925373134328358,
+            "production.productcategory": 0.014705882352941176
+          },
+          "query_facets": [
+            "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。"
+          ],
+          "per_query_recall": [
+            {
+              "query": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。",
+              "table_top": [
+                "production.productlistpricehistory",
+                "production.product",
+                "production.productcosthistory",
+                "sales.specialofferproduct",
+                "purchasing.productvendor",
+                "sales.salesorderdetail",
+                "production.productinventory",
+                "production.productcategory"
+              ],
+              "column_top": [
+                "production.productlistpricehistory.listprice",
+                "production.productlistpricehistory.productid",
+                "production.product.listprice",
+                "production.productlistpricehistory.startdate",
+                "production.productlistpricehistory.modifieddate",
+                "production.product.productnumber",
+                "production.product.size",
+                "production.product.standardcost",
+                "production.productlistpricehistory.enddate",
+                "production.product.weight",
+                "production.product.class",
+                "purchasing.productvendor.standardprice",
+                "production.product.safetystocklevel",
+                "sales.specialofferproduct.productid",
+                "production.product.productsubcategoryid",
+                "sales.specialofferproduct.specialofferid",
+                "production.product.productline",
+                "production.product.style",
+                "production.product.color",
+                "production.product.sellstartdate"
+              ]
+            }
+          ],
+          "excluded_tables": {
+            "production.productcategory": "产品类别定义表，与查询最高售价产品无关",
+            "production.productcosthistory": "记录标准成本历史，属于成本口径而非售价，无关",
+            "production.productinventory": "记录库存存放位置和数量，与售价排名无关",
+            "production.productsubcategory": "产品子类别定义表，与售价和产品排名无关",
+            "purchasing.productvendor": "记录产品供应商采购价格，属于采购口径而非目录售价，无关",
+            "sales.salesorderdetail": "记录销售订单实际成交明细，属于订单成交价而非目录售价，无关",
+            "sales.specialofferproduct": "记录特殊报价与产品关联，属于促销映射，与目录售价排名无关"
+          },
+          "pruning": {
+            "status": "completed",
+            "candidate_tables": [
+              "production.product",
+              "production.productcategory",
+              "production.productcosthistory",
+              "production.productinventory",
+              "production.productlistpricehistory",
+              "production.productsubcategory",
+              "purchasing.productvendor",
+              "sales.salesorderdetail",
+              "sales.specialofferproduct"
+            ],
+            "candidate_count": 9,
+            "llm_selected_tables": [
+              "production.product",
+              "production.productlistpricehistory"
+            ],
+            "restored_bridge_tables": [],
+            "connected": true,
+            "disconnected_components": [
+              [
+                "production.product",
+                "production.productlistpricehistory"
+              ]
+            ],
+            "connectivity_note": "真实外键组件分别补全；不为互不关联的组件制造连接",
+            "column_count": 6,
+            "selector_gold_input": false
+          }
+        },
+        "latency_ms": 66229
+      },
+      {
+        "name": "llm",
+        "status": "error",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/aw-ablation-live-001/provider/8797c88bdc9b4470aaeef341a1a310fd.json",
+          "error": "Request timed out."
+        },
+        "latency_ms": 61417
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 2,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/aw-ablation-live-001/provider/4d54ab28f9564b5aa635f4d0e298fb12.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 233,
+            "prompt_tokens": 6355,
+            "total_tokens": 6588,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 6144
+            },
+            "prompt_cache_hit_tokens": 6144,
+            "prompt_cache_miss_tokens": 211
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3336
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。",
+          "repair_attempt": 0,
+          "db_id": "adventureworks",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT p.\"productid\", p.\"name\", p.\"listprice\" FROM \"production\".\"product\" AS p ORDER BY p.\"listprice\" DESC, p.\"productid\" ASC LIMIT 5",
+          "explanation": "查询 production.product 表中按目录售价（listprice）降序排列的前五个产品，同价时按产品编号升序，输出产品编号、名称和售价。"
+        },
+        "latency_ms": 3294
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/aw-ablation-live-001/provider/61621eb033a84c7ea55eb432af7c7c5d.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 111,
+            "prompt_tokens": 2437,
+            "total_tokens": 2548,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1664
+            },
+            "prompt_cache_hit_tokens": 1664,
+            "prompt_cache_miss_tokens": 773
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2037
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT p.\"productid\", p.\"name\", p.\"listprice\" FROM \"production\".\"product\" AS p ORDER BY p.\"listprice\" DESC, p.\"productid\" ASC LIMIT 5"
+        },
+        "output_summary": {
+          "tables": [
+            "production.product"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT p.\"productid\", p.\"name\", p.\"listprice\" FROM \"production\".\"product\" AS p ORDER BY p.\"listprice\" DESC, p.\"productid\" ASC LIMIT 5"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT p.\"productid\", p.\"name\", p.\"listprice\" FROM \"production\".\"product\" AS p ORDER BY p.\"listprice\" DESC, p.\"productid\" ASC LIMIT 5",
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "row_count": 5,
+          "columns": [
+            "productid",
+            "name",
+            "listprice"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 31
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "adventureworks",
+      "latency_ms": 69870,
+      "nlu": {
+        "original_question": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。",
+        "rewritten_question": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "not_registered_for_db"
+      },
+      "aw_schema_mode": "subgraph",
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "semantic_contract": {
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": null,
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {}
+        },
+        "patch_history": [],
+        "invalidated_execution": [],
+        "switch": null
+      },
+      "schema_linker": {
+        "selected_tables": [
+          "production.product",
+          "production.productlistpricehistory"
+        ],
+        "columns": {
+          "production.product": [
+            "productid",
+            "name",
+            "listprice"
+          ],
+          "production.productlistpricehistory": [
+            "productid",
+            "startdate",
+            "listprice"
+          ]
+        },
+        "join_paths": [
+          {
+            "source_table": "production.productlistpricehistory",
+            "source_columns": [
+              "productid"
+            ],
+            "target_table": "production.product",
+            "target_columns": [
+              "productid"
+            ]
+          }
+        ],
+        "reasons": {
+          "production.product": [
+            "产品主表，提供产品编号、名称和当前目录售价，是查询售价最高产品的基础表"
+          ],
+          "production.productlistpricehistory": [
+            "产品标价历史表，当需要按历史售价口径取最新或特定生效价格时提供售价字段"
+          ]
+        },
+        "table_recall": [
+          "production.productlistpricehistory",
+          "production.product",
+          "production.productcosthistory",
+          "sales.specialofferproduct",
+          "purchasing.productvendor",
+          "sales.salesorderdetail",
+          "production.productinventory",
+          "production.productcategory"
+        ],
+        "column_recall": [
+          "production.productlistpricehistory.listprice",
+          "production.productlistpricehistory.productid",
+          "production.product.listprice",
+          "production.productlistpricehistory.startdate",
+          "production.productlistpricehistory.modifieddate",
+          "production.product.productnumber",
+          "production.product.size",
+          "production.product.standardcost",
+          "production.productlistpricehistory.enddate",
+          "production.product.weight",
+          "production.product.class",
+          "purchasing.productvendor.standardprice",
+          "production.product.safetystocklevel",
+          "sales.specialofferproduct.productid",
+          "production.product.productsubcategoryid",
+          "sales.specialofferproduct.specialofferid",
+          "production.product.productline",
+          "production.product.style",
+          "production.product.color",
+          "production.product.sellstartdate"
+        ],
+        "value_recall": [],
+        "terminal_tables": [
+          "production.product",
+          "production.productlistpricehistory"
+        ],
+        "bridge_tables": [],
+        "disconnected_components": [
+          [
+            "production.product",
+            "production.productlistpricehistory"
+          ]
+        ],
+        "scores": {
+          "production.product": 0.03252247488101534,
+          "production.productlistpricehistory": 0.03252247488101534,
+          "sales.specialofferproduct": 0.03149801587301587,
+          "purchasing.productvendor": 0.031009615384615385,
+          "production.productcosthistory": 0.015873015873015872,
+          "sales.salesorderdetail": 0.015151515151515152,
+          "production.productinventory": 0.014925373134328358,
+          "production.productcategory": 0.014705882352941176
+        },
+        "query_facets": [
+          "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。"
+        ],
+        "per_query_recall": [
+          {
+            "query": "列出目录售价最高的五个产品，给出产品编号、名称和售价；同价时按产品编号从小到大。",
+            "table_top": [
+              "production.productlistpricehistory",
+              "production.product",
+              "production.productcosthistory",
+              "sales.specialofferproduct",
+              "purchasing.productvendor",
+              "sales.salesorderdetail",
+              "production.productinventory",
+              "production.productcategory"
+            ],
+            "column_top": [
+              "production.productlistpricehistory.listprice",
+              "production.productlistpricehistory.productid",
+              "production.product.listprice",
+              "production.productlistpricehistory.startdate",
+              "production.productlistpricehistory.modifieddate",
+              "production.product.productnumber",
+              "production.product.size",
+              "production.product.standardcost",
+              "production.productlistpricehistory.enddate",
+              "production.product.weight",
+              "production.product.class",
+              "purchasing.productvendor.standardprice",
+              "production.product.safetystocklevel",
+              "sales.specialofferproduct.productid",
+              "production.product.productsubcategoryid",
+              "sales.specialofferproduct.specialofferid",
+              "production.product.productline",
+              "production.product.style",
+              "production.product.color",
+              "production.product.sellstartdate"
+            ]
+          }
+        ],
+        "excluded_tables": {
+          "production.productcategory": "产品类别定义表，与查询最高售价产品无关",
+          "production.productcosthistory": "记录标准成本历史，属于成本口径而非售价，无关",
+          "production.productinventory": "记录库存存放位置和数量，与售价排名无关",
+          "production.productsubcategory": "产品子类别定义表，与售价和产品排名无关",
+          "purchasing.productvendor": "记录产品供应商采购价格，属于采购口径而非目录售价，无关",
+          "sales.salesorderdetail": "记录销售订单实际成交明细，属于订单成交价而非目录售价，无关",
+          "sales.specialofferproduct": "记录特殊报价与产品关联，属于促销映射，与目录售价排名无关"
+        },
+        "pruning": {
+          "status": "completed",
+          "candidate_tables": [
+            "production.product",
+            "production.productcategory",
+            "production.productcosthistory",
+            "production.productinventory",
+            "production.productlistpricehistory",
+            "production.productsubcategory",
+            "purchasing.productvendor",
+            "sales.salesorderdetail",
+            "sales.specialofferproduct"
+          ],
+          "candidate_count": 9,
+          "llm_selected_tables": [
+            "production.product",
+            "production.productlistpricehistory"
+          ],
+          "restored_bridge_tables": [],
+          "connected": true,
+          "disconnected_components": [
+            [
+              "production.product",
+              "production.productlistpricehistory"
+            ]
+          ],
+          "connectivity_note": "真实外键组件分别补全；不为互不关联的组件制造连接",
+          "column_count": 6,
+          "selector_gold_input": false
+        }
+      },
+      "result_columns": [
+        "productid",
+        "name",
+        "listprice"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "cost": {
+    "raw_step_ms": {
+      "route": 0,
+      "config_check": 0,
+      "catalog": 255,
+      "requested_source_check": 0,
+      "value_link": 0,
+      "rewrite": 0,
+      "clarification_gate": 7,
+      "schema_link": 43,
+      "schema_prune": 66229,
+      "llm": 66790,
+      "sql_gen": 3294,
+      "sql_validate": 1,
+      "sql_binding_validate": 0,
+      "sql_exec": 31,
+      "answer": 0
+    },
+    "stages_ms": {
+      "model_calls": 66790,
+      "nlu": 7,
+      "value_link": 0,
+      "schema_selection": 66272,
+      "sql_generation": 3294,
+      "sql_execution": 31,
+      "retrieval": 0,
+      "answer_generation": 0
+    },
+    "model_attempts": {
+      "schema_selection": 2,
+      "all": 3,
+      "sql_generation": 1
+    },
+    "usage": {
+      "prompt_tokens": 8792,
+      "schema_selection_prompt_tokens": 6355,
+      "completion_tokens": 344,
+      "schema_selection_completion_tokens": 233,
+      "total_tokens": 9136,
+      "schema_selection_total_tokens": 6588,
+      "sql_generation_prompt_tokens": 2437,
+      "sql_generation_completion_tokens": 111,
+      "sql_generation_total_tokens": 2548
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "duration_warning": "嵌套步骤有重叠；端到端实测独立计时，不将所有step相加"
+  },
+  "matched": true,
+  "legacy_matched": true,
+  "comparison": {
+    "matched": true,
+    "reason": "equal",
+    "column_mapping": [
+      0,
+      1,
+      2
+    ]
+  },
+  "legacy_comparison": {
+    "matched": true,
+    "reason": "equal",
+    "column_mapping": [
+      0,
+      1,
+      2
+    ]
+  },
+  "failure_category": null,
+  "selected_table_count": 2,
+  "schema_recall": 1.0,
+  "schema_precision": 0.5,
+  "elapsed_ms": 69871.848
+}

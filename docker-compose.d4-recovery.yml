@@ -1,0 +1,49 @@
+name: comagent-d4-recovery
+services:
+  chinook-pg:
+    image: postgres:16.15-alpine3.23@sha256:621a761097839bdb50207afd6b87a72f38e2d718dd46c3d744828d8917c4f1e0
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Existing local configuration required}
+      POSTGRES_DB: chinook
+      POSTGRES_INITDB_ARGS: --encoding=UTF8 --auth-host=scram-sha-256
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - chinook-recovery:/var/lib/postgresql/data
+      - ./data/db/Chinook_PostgreSql.import.sql:/docker-entrypoint-initdb.d/10-chinook.sql:ro
+    labels:
+      comagent.data-purpose: d4-recovery-copy
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d chinook"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  aw-pg:
+    image: postgres:16.15-alpine3.23@sha256:621a761097839bdb50207afd6b87a72f38e2d718dd46c3d744828d8917c4f1e0
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${AW_POSTGRES_PASSWORD:?Existing local AW configuration required}
+      POSTGRES_DB: adventureworks
+      POSTGRES_INITDB_ARGS: --encoding=UTF8 --auth-host=scram-sha-256
+    ports:
+      - "127.0.0.1:55433:5432"
+    volumes:
+      - aw-recovery:/var/lib/postgresql/data
+      - ./data/raw/adventureworks:/awdata:ro
+    labels:
+      comagent.data-purpose: d4-recovery-copy
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d adventureworks"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+volumes:
+  chinook-recovery:
+    labels:
+      comagent.data-purpose: d4-recovery-copy
+  aw-recovery:
+    labels:
+      comagent.data-purpose: d4-recovery-copy

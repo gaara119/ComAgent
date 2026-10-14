@@ -51,7 +51,7 @@ def document_list() -> dict:
             index_hash = index_document if isinstance(index_document, str) else index_document.get("content_hash")
             result.append({
                 **{key: document.get(key, "") for key in
-                   ("doc_id", "title", "format", "domain", "language", "source_url", "content_hash")},
+                   ("doc_id", "title", "format", "domain", "language", "source_url", "content_hash", "entity_ref")},
                 "page_count": _page_count(str(path), stat.st_mtime_ns, stat.st_size) if document["format"] == "pdf" else None,
                 "location_type": "physical_page" if document["format"] == "pdf" else
                                  "image_coordinates" if document["format"] == "png" else "section",

@@ -265,6 +265,24 @@ def render_panels(
             st.caption("结果表为空。")
         if result and result.metadata.get("truncated"):
             st.info("结果超过显示上限，仅展示本次返回的部分记录。")
+        if result:
+            bundle = result.metadata.get("schema_linker", {})
+            if isinstance(bundle, dict) and bundle.get("selected_tables"):
+                st.markdown("**所选表及理由**")
+                reasons = bundle.get("reasons", {})
+                rows = [{"表": name, "理由": "；".join(str(x) for x in reasons.get(name, []))}
+                        for name in bundle["selected_tables"]]
+                st.dataframe(rows, width="stretch", hide_index=True)
+                components = bundle.get("disconnected_components", [])
+                if len(components) > 1:
+                    st.warning("所选对象分属不同关联分量，不能凭相似名称构造关联。")
+                elif bundle.get("join_paths"):
+                    st.caption(f"使用目录中的真实外键补齐关联，保留 {len(bundle['join_paths'])} 条关联路径。")
+                omitted = bundle.get("excluded_tables", {})
+                if omitted:
+                    st.caption("未选表及理由")
+                    st.dataframe([{"表": key, "理由": str(value)} for key, value in omitted.items()],
+                                 width="stretch", hide_index=True)
     with st.expander("引用来源", expanded=bool(result and result.evidences)):
         if result and result.evidences:
             render_evidence(result, base_url, documents)
@@ -351,11 +369,16 @@ def render_result(
     documents: list[dict],
     *,
     db_id: str | None = None,
+    scope: SourceScope | None = None,
 ) -> None:
     labels = {
         "SUCCEEDED": "回答完成", "EMPTY_RESULT": "查询完成，未找到符合条件的记录",
         "NEEDS_CLARIFICATION": "需要补充信息", "UNSUPPORTED": "当前来源不支持此问题", "FAILED": "本次请求未完成",
     }
+    fusion = result.metadata.get("fusion", {})
+    if (result.status == "EMPTY_RESULT" and result.table and isinstance(fusion, dict)
+            and fusion.get("document_status") in {"insufficient", "EMPTY_RESULT"}):
+        labels["EMPTY_RESULT"] = "数据库查询完成，文档证据不足"
     label = labels[result.status]
     if result.status == "SUCCEEDED" and result.metadata.get("faithfulness_uncertain"):
         st.warning("回答已生成，含未核实内容。请根据引用原文核对数字和单位后使用。")
@@ -379,10 +402,23 @@ def render_result(
             st.caption("修改依据")
             for patch in patches:
                 st.text(rewrite_explanation(patch, nlu))
-    scope = SourceScope(route="sql", db_id=db_id, doc_ids=[]) if db_id else SourceScope(route="doc", db_id=None)
+    if scope is None and isinstance(fusion, dict) and fusion.get("original_scope"):
+        scope = SourceScope.model_validate(fusion["original_scope"])
+    scope = scope or (SourceScope(route="sql", db_id=db_id, doc_ids=[]) if db_id else SourceScope(route="doc", db_id=None))
     if db_id:
         render_clarification_controls(result, base_url, scope)
     st.markdown(linked_answer(result.answer, result, base_url))
+    if isinstance(fusion, dict) and fusion.get("plan_stages"):
+        st.markdown("**跨源执行**")
+        completed = fusion.get("completed_stages", 0)
+        for number, label in enumerate(fusion["plan_stages"], 1):
+            st.caption(f"{number}. {safe_text(label)} · {'完成' if number <= completed else '待完成'}")
+        entity = fusion.get("transferred_entity")
+        if entity:
+            st.caption(f"数据库结果传给文档检索：{safe_text(entity['artist_name'])}（artist_id={entity['artist_id']}）")
+        context = fusion.get("definition_context")
+        if context and fusion.get("definition_used_in_generation"):
+            st.caption("实际检索定义已用于SQL生成，并在执行前校验聚合表达式。")
     if result.error:
         st.caption(safe_text(result.error.message))
     render_panels(result, base_url, documents, db_id=db_id)
@@ -408,7 +444,7 @@ def main() -> None:
         documents = document_list(base_url)
     except (httpx.HTTPError, ValueError):
         documents = []
-    source = st.radio("数据来源", ["数据库", "指定文档"], horizontal=True, key="source_choice")
+    source = st.radio("数据来源", ["数据库", "指定文档", "数据库与文档"], horizontal=True, key="source_choice")
     ready_documents = [d for d in documents if d.get("ready")]
     blocked = False
     if source == "数据库":
@@ -421,7 +457,7 @@ def main() -> None:
         if health.get("aw_database_ready" if db_id == "adventureworks" else "database_ready") is False:
             st.warning("数据库暂不可用，请稍后重试。")
             blocked = True
-    else:
+    elif source == "指定文档":
         if not ready_documents:
             st.info("暂无可查询的已处理文档，请完成文档导入后刷新页面。")
             st.stop()
@@ -437,6 +473,17 @@ def main() -> None:
         scope = SourceScope(route="doc", db_id=None, doc_ids=[doc_id])
         context = f"doc:{doc_id}"
         placeholder = "输入与当前文档有关的问题，例如：文档列出了哪些风险？"
+    else:
+        allowed = {d["doc_id"]: d for d in ready_documents if str(d.get("entity_ref", "")).startswith("chinook:")}
+        doc_ids = st.multiselect("允许检索的文档（留空使用全部对应文档）", list(allowed),
+            format_func=lambda key: allowed[key].get("title", key), key="hybrid_documents")
+        scope = SourceScope(route="hybrid", db_id="chinook", doc_ids=doc_ids)
+        context = "hybrid:chinook:" + ",".join(sorted(doc_ids))
+        placeholder = "例如：销售额最高的艺术家是谁？介绍一下他的音乐风格。或：按口径手册定义，计算2024年美国客户的客单价。"
+        st.caption("一次请求依次使用数据库和对应文档，SQL、结果和文档引用都保留在下方。")
+        if health.get("database_ready") is False:
+            st.warning("数据库暂不可用，请稍后重试。")
+            blocked = True
     if not health.get("llm_configured", True):
         st.warning("模型尚未配置，问答请求可能无法完成。")
     if "qa_session_id" not in st.session_state:
@@ -464,7 +511,8 @@ def main() -> None:
                     st.session_state.last_answer = result.model_dump()
                     st.session_state.last_answer_context = context
     if st.session_state.get("last_answer_context") == context and st.session_state.get("last_answer"):
-        render_result(AnswerEnvelope.model_validate(st.session_state.last_answer), base_url, documents, db_id=scope.db_id)
+        render_result(AnswerEnvelope.model_validate(st.session_state.last_answer), base_url, documents,
+                      db_id=scope.db_id, scope=scope)
     else:
         render_panels(None, base_url, documents, db_id=scope.db_id)
 

@@ -1,0 +1,2550 @@
+{
+  "id": "d4-eff-rag-06-original",
+  "original_dev_id": "rag-06",
+  "split": "dev",
+  "pages": 10,
+  "repetition": 1,
+  "request": {
+    "question": "What are the most satisfactory arable crops grown in the soils of the Coal Measures?",
+    "scope_doc_ids": [
+      "ohr-academic-label-words",
+      "ohr-law-affiliate",
+      "ohr-manual-macbook-air",
+      "ohr-news-executive-insight",
+      "ohr-textbook-geology"
+    ]
+  },
+  "semantic_answer_review": "pending_human_review",
+  "matched": true,
+  "legacy_matched": false,
+  "retrieval": {
+    "retrieval_method": "bm25+bge-m3_dense_rrf",
+    "candidate_count": 228,
+    "top_k": 8,
+    "allowed_doc_ids": [
+      "ohr-academic-label-words",
+      "ohr-law-affiliate",
+      "ohr-manual-macbook-air",
+      "ohr-news-executive-insight",
+      "ohr-textbook-geology"
+    ],
+    "searched_page_count": 10,
+    "candidate_k_per_channel": 20,
+    "rrf_k": 60,
+    "rank_starts_at": 1,
+    "rankings": {
+      "bm25": [
+        {
+          "rank": 1,
+          "chunk_id": "3a5de5f37e5dcaf2a798c3b5",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 12.82892981
+        },
+        {
+          "rank": 2,
+          "chunk_id": "d32d32aac3fb3b2dd3c7a260",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 12.67380949
+        },
+        {
+          "rank": 3,
+          "chunk_id": "c70581911c5baea7ca26fe1d",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 10.73011032
+        },
+        {
+          "rank": 4,
+          "chunk_id": "27411190ccc93907f3f394bb",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 8.00581462
+        },
+        {
+          "rank": 5,
+          "chunk_id": "2d57581ca50e97c79fb5fce0",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 5.10390011
+        },
+        {
+          "rank": 6,
+          "chunk_id": "335e47c69c5fcc0b503cfa8e",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 10,
+          "section_path": [],
+          "score": 4.18161962
+        },
+        {
+          "rank": 7,
+          "chunk_id": "ec5d91b1e0abdc47840d7a42",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 3.88018197
+        },
+        {
+          "rank": 8,
+          "chunk_id": "3907edcfe84e8f48bc66ada9",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [],
+          "score": 3.48754153
+        },
+        {
+          "rank": 9,
+          "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 2.56486244
+        }
+      ],
+      "dense": [
+        {
+          "rank": 1,
+          "chunk_id": "3a5de5f37e5dcaf2a798c3b5",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.51145333
+        },
+        {
+          "rank": 2,
+          "chunk_id": "d32d32aac3fb3b2dd3c7a260",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.48250711
+        },
+        {
+          "rank": 3,
+          "chunk_id": "c70581911c5baea7ca26fe1d",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.45942026
+        },
+        {
+          "rank": 4,
+          "chunk_id": "27411190ccc93907f3f394bb",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.39868608
+        },
+        {
+          "rank": 5,
+          "chunk_id": "2d57581ca50e97c79fb5fce0",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.39638799
+        },
+        {
+          "rank": 6,
+          "chunk_id": "973b6a0feb35604d52c8a686",
+          "doc_id": "ohr-textbook-geology",
+          "page": 1,
+          "section_path": [],
+          "score": 0.30494165
+        },
+        {
+          "rank": 7,
+          "chunk_id": "26cf19a8b0c3d7bca129e411",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.29974148
+        },
+        {
+          "rank": 8,
+          "chunk_id": "d9d46860214ebb41122473c4",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.29872742
+        },
+        {
+          "rank": 9,
+          "chunk_id": "56db47618809fac18bb40110",
+          "doc_id": "ohr-textbook-geology",
+          "page": 1,
+          "section_path": [],
+          "score": 0.29036072
+        },
+        {
+          "rank": 10,
+          "chunk_id": "2ba41d60a427d93885ededce",
+          "doc_id": "ohr-textbook-geology",
+          "page": 1,
+          "section_path": [],
+          "score": 0.28094596
+        },
+        {
+          "rank": 11,
+          "chunk_id": "d66918b00a13f248830877d4",
+          "doc_id": "ohr-textbook-geology",
+          "page": 1,
+          "section_path": [],
+          "score": 0.2726672
+        },
+        {
+          "rank": 12,
+          "chunk_id": "e4b1d63166fb39301770ec3d",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.2501291
+        },
+        {
+          "rank": 13,
+          "chunk_id": "a63b01e24770340b6cf278b1",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.24952388
+        },
+        {
+          "rank": 14,
+          "chunk_id": "4b2fbdda0a1ceb463e778253",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.24866806
+        },
+        {
+          "rank": 15,
+          "chunk_id": "1311c1f8217091bdb1f6fa0a",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [
+            "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+          ],
+          "score": 0.2476092
+        },
+        {
+          "rank": 16,
+          "chunk_id": "162c7f0bb2957b512017ce27",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [
+            "RANKINGS OF QUALITY PROGRAMS"
+          ],
+          "score": 0.24532574
+        },
+        {
+          "rank": 17,
+          "chunk_id": "ea8a1905432bac5294b731f8",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.24316441
+        },
+        {
+          "rank": 18,
+          "chunk_id": "e2913560e5004bd0b5ee4bc2",
+          "doc_id": "ohr-textbook-geology",
+          "page": 1,
+          "section_path": [],
+          "score": 0.24093385
+        },
+        {
+          "rank": 19,
+          "chunk_id": "df0ab02d43e4ab8471ce42a3",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [
+            "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+          ],
+          "score": 0.23610179
+        },
+        {
+          "rank": 20,
+          "chunk_id": "33a6e35ead4e06bc7f86f74c",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.23606093
+        }
+      ],
+      "rrf": [
+        {
+          "rank": 1,
+          "chunk_id": "3a5de5f37e5dcaf2a798c3b5",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.03278689
+        },
+        {
+          "rank": 2,
+          "chunk_id": "d32d32aac3fb3b2dd3c7a260",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.03225806
+        },
+        {
+          "rank": 3,
+          "chunk_id": "c70581911c5baea7ca26fe1d",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.03174603
+        },
+        {
+          "rank": 4,
+          "chunk_id": "27411190ccc93907f3f394bb",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.03125
+        },
+        {
+          "rank": 5,
+          "chunk_id": "2d57581ca50e97c79fb5fce0",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.03076923
+        },
+        {
+          "rank": 6,
+          "chunk_id": "335e47c69c5fcc0b503cfa8e",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 10,
+          "section_path": [],
+          "score": 0.01515152
+        },
+        {
+          "rank": 7,
+          "chunk_id": "973b6a0feb35604d52c8a686",
+          "doc_id": "ohr-textbook-geology",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01515152
+        },
+        {
+          "rank": 8,
+          "chunk_id": "26cf19a8b0c3d7bca129e411",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.01492537
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ec5d91b1e0abdc47840d7a42",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01492537
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3907edcfe84e8f48bc66ada9",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [],
+          "score": 0.01470588
+        },
+        {
+          "rank": 11,
+          "chunk_id": "d9d46860214ebb41122473c4",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.01470588
+        },
+        {
+          "rank": 12,
+          "chunk_id": "56db47618809fac18bb40110",
+          "doc_id": "ohr-textbook-geology",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01449275
+        },
+        {
+          "rank": 13,
+          "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.01449275
+        },
+        {
+          "rank": 14,
+          "chunk_id": "2ba41d60a427d93885ededce",
+          "doc_id": "ohr-textbook-geology",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01428571
+        },
+        {
+          "rank": 15,
+          "chunk_id": "d66918b00a13f248830877d4",
+          "doc_id": "ohr-textbook-geology",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01408451
+        },
+        {
+          "rank": 16,
+          "chunk_id": "e4b1d63166fb39301770ec3d",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01388889
+        },
+        {
+          "rank": 17,
+          "chunk_id": "a63b01e24770340b6cf278b1",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01369863
+        },
+        {
+          "rank": 18,
+          "chunk_id": "4b2fbdda0a1ceb463e778253",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01351351
+        },
+        {
+          "rank": 19,
+          "chunk_id": "1311c1f8217091bdb1f6fa0a",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [
+            "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+          ],
+          "score": 0.01333333
+        },
+        {
+          "rank": 20,
+          "chunk_id": "162c7f0bb2957b512017ce27",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [
+            "RANKINGS OF QUALITY PROGRAMS"
+          ],
+          "score": 0.01315789
+        },
+        {
+          "rank": 21,
+          "chunk_id": "ea8a1905432bac5294b731f8",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01298701
+        },
+        {
+          "rank": 22,
+          "chunk_id": "e2913560e5004bd0b5ee4bc2",
+          "doc_id": "ohr-textbook-geology",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01282051
+        },
+        {
+          "rank": 23,
+          "chunk_id": "df0ab02d43e4ab8471ce42a3",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [
+            "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+          ],
+          "score": 0.01265823
+        },
+        {
+          "rank": 24,
+          "chunk_id": "33a6e35ead4e06bc7f86f74c",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.0125
+        }
+      ]
+    },
+    "hit_at_5_scope": [
+      "3a5de5f37e5dcaf2a798c3b5",
+      "d32d32aac3fb3b2dd3c7a260",
+      "c70581911c5baea7ca26fe1d",
+      "27411190ccc93907f3f394bb",
+      "2d57581ca50e97c79fb5fce0"
+    ],
+    "retrieved_count": 8,
+    "index_created_at": "2026-10-13T16:21:30.553017+00:00",
+    "index_chunks_sha256": "e7c4e0f080f7a006869fb3cc4362dad588d5f178ca9f9847a2bdcca68981a68e",
+    "query": "What are the most satisfactory arable crops grown in the soils of the Coal Measures?",
+    "dense_enabled": true
+  },
+  "retrieved_chunks": [
+    {
+      "chunk_id": "3a5de5f37e5dcaf2a798c3b5",
+      "doc_id": "ohr-textbook-geology",
+      "doc_title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+      "page": 8,
+      "section_path": [],
+      "text": "Wheat,\noats and potatoes are perhaps the·most satisfactory arable crops ;\nswedes and turnips are apt to suffer from ‘ finger and toe ′ disease,\nunless liming is liberal.f\nTheCoalMeasures arebetterwooded\nthan the Milistone Grits, oak and elm being prevalent instead of\nbirch,and the fields are often divided by hedgerows, in contrast\nwith thie dry stone walls of the Grits.On the latter the older\nbuildings are of local gritstone, roofed with the more fissile fag-",
+      "bbox": [
+        52.5,
+        83.5,
+        368.5,
+        175.0
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": 5,
+          "bbox": [
+            52.5,
+            83.5,
+            367.5,
+            99.0
+          ],
+          "char_start": 222,
+          "char_end": 287
+        },
+        {
+          "block_id": 6,
+          "bbox": [
+            53.0,
+            95.0,
+            368.0,
+            110.0
+          ],
+          "char_start": 288,
+          "char_end": 354
+        },
+        {
+          "block_id": 7,
+          "bbox": [
+            53.0,
+            105.5,
+            368.0,
+            121.5
+          ],
+          "char_start": 355,
+          "char_end": 424
+        },
+        {
+          "block_id": 8,
+          "bbox": [
+            54.0,
+            118.0,
+            176.5,
+            131.5
+          ],
+          "char_start": 425,
+          "char_end": 451
+        },
+        {
+          "block_id": 9,
+          "bbox": [
+            177.5,
+            116.5,
+            367.5,
+            129.5
+          ],
+          "char_start": 452,
+          "char_end": 483
+        },
+        {
+          "block_id": 10,
+          "bbox": [
+            53.0,
+            127.0,
+            368.5,
+            143.0
+          ],
+          "char_start": 484,
+          "char_end": 548
+        },
+        {
+          "block_id": 11,
+          "bbox": [
+            53.5,
+            139.5,
+            368.0,
+            152.5
+          ],
+          "char_start": 549,
+          "char_end": 613
+        },
+        {
+          "block_id": 12,
+          "bbox": [
+            53.5,
+            149.5,
+            368.0,
+            164.5
+          ],
+          "char_start": 614,
+          "char_end": 676
+        },
+        {
+          "block_id": 13,
+          "bbox": [
+            53.0,
+            160.5,
+            368.0,
+            175.0
+          ],
+          "char_start": 677,
+          "char_end": 744
+        }
+      ],
+      "ocr_confidence_min": 0.946349,
+      "page_bbox": [
+        52.5,
+        35.5,
+        372.0,
+        600.5
+      ],
+      "char_start": 281,
+      "char_end": 744,
+      "source_record_id": "rendered-ocr",
+      "parser": "RapidOCR",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        397.0,
+        665.0
+      ],
+      "warnings": [
+        "Possible multi-column OCR: detector reading order may interleave columns; verify source boxes",
+        "Rendered-page OCR used; hidden text-layer geometry is not trusted"
+      ],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "4eec18a8e4806cb88f476301474e1f57a2cce6dd3a8ca7c3dc773d901659ddd6",
+      "boundary_start": "sentence",
+      "boundary_end": "forced_line",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": true,
+      "overlap_chars": 0,
+      "evidence_id": "E1",
+      "score": 0.03278689,
+      "bm25_score": 12.82893,
+      "dense_score": 0.511453
+    },
+    {
+      "chunk_id": "d32d32aac3fb3b2dd3c7a260",
+      "doc_id": "ohr-textbook-geology",
+      "doc_title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+      "page": 8,
+      "section_path": [],
+      "text": "8\nGEOLOGY OF HOLMFIRTH AND GLOSSOP:\nThe soils of the Coal Measures are on the whole better than\nthose of the Millstone Grits,though they suffer from the same\nlack of lime. The shales often give a heavy clay soil, which is\nmostly under grass, but the sandstones give lighter loams.",
+      "bbox": [
+        52.5,
+        35.5,
+        368.5,
+        99.0
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": 0,
+          "bbox": [
+            52.5,
+            37.5,
+            61.0,
+            47.0
+          ],
+          "char_start": 0,
+          "char_end": 1
+        },
+        {
+          "block_id": 1,
+          "bbox": [
+            116.0,
+            35.5,
+            304.0,
+            48.5
+          ],
+          "char_start": 2,
+          "char_end": 35
+        },
+        {
+          "block_id": 2,
+          "bbox": [
+            69.0,
+            51.0,
+            367.5,
+            65.0
+          ],
+          "char_start": 36,
+          "char_end": 95
+        },
+        {
+          "block_id": 3,
+          "bbox": [
+            53.0,
+            62.0,
+            367.5,
+            76.0
+          ],
+          "char_start": 96,
+          "char_end": 157
+        },
+        {
+          "block_id": 4,
+          "bbox": [
+            53.0,
+            72.5,
+            368.5,
+            88.0
+          ],
+          "char_start": 158,
+          "char_end": 221
+        },
+        {
+          "block_id": 5,
+          "bbox": [
+            52.5,
+            83.5,
+            367.5,
+            99.0
+          ],
+          "char_start": 222,
+          "char_end": 287
+        }
+      ],
+      "ocr_confidence_min": 0.940978,
+      "page_bbox": [
+        52.5,
+        35.5,
+        372.0,
+        600.5
+      ],
+      "char_start": 0,
+      "char_end": 280,
+      "source_record_id": "rendered-ocr",
+      "parser": "RapidOCR",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        397.0,
+        665.0
+      ],
+      "warnings": [
+        "Possible multi-column OCR: detector reading order may interleave columns; verify source boxes",
+        "Rendered-page OCR used; hidden text-layer geometry is not trusted"
+      ],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "e7d3fcb6b7dd9c70f4c41712034fea6e5ed3a66042ab0f412455097f16426d77",
+      "boundary_start": "page_start",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E2",
+      "score": 0.03225806,
+      "bm25_score": 12.673809,
+      "dense_score": 0.482507
+    },
+    {
+      "chunk_id": "c70581911c5baea7ca26fe1d",
+      "doc_id": "ohr-textbook-geology",
+      "doc_title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+      "page": 8,
+      "section_path": [],
+      "text": "Upper Carboniferous:\nMiddle Coal Measures :(top of division not prcsent).\nFt.\nThornhill Rock\n504\nMeasures\n35\nJOANCOAL\nMeasures with TankerslcyIronstone\n50\nFLOCKTON THICK COAL\nMeasureswithEmley Rock.\n35\nFLOCKTON THIN COAL\nMeasureswithParkgateRock\n70\nPARKGATE COAL\nMeasureswith LeptonEdgeRock\n45\n1 Robertson, G. C. A.,“Farming in Yorkshire,' Journ. R. Agric. Soc., vol. 1xxxix (for\n1928),1929.",
+      "bbox": [
+        57.5,
+        447.0,
+        372.0,
+        587.0
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": 43,
+          "bbox": [
+            70.5,
+            447.0,
+            162.5,
+            459.0
+          ],
+          "char_start": 1908,
+          "char_end": 1928
+        },
+        {
+          "block_id": 44,
+          "bbox": [
+            83.5,
+            456.0,
+            299.0,
+            467.5
+          ],
+          "char_start": 1929,
+          "char_end": 1981
+        },
+        {
+          "block_id": 45,
+          "bbox": [
+            331.0,
+            464.5,
+            345.0,
+            474.5
+          ],
+          "char_start": 1982,
+          "char_end": 1985
+        },
+        {
+          "block_id": 46,
+          "bbox": [
+            94.0,
+            474.5,
+            156.0,
+            484.5
+          ],
+          "char_start": 1986,
+          "char_end": 2000
+        },
+        {
+          "block_id": 47,
+          "bbox": [
+            330.5,
+            474.0,
+            350.0,
+            485.5
+          ],
+          "char_start": 2001,
+          "char_end": 2004
+        },
+        {
+          "block_id": 48,
+          "bbox": [
+            93.0,
+            483.5,
+            135.0,
+            495.0
+          ],
+          "char_start": 2005,
+          "char_end": 2013
+        },
+        {
+          "block_id": 49,
+          "bbox": [
+            331.0,
+            484.0,
+            343.5,
+            495.0
+          ],
+          "char_start": 2014,
+          "char_end": 2016
+        },
+        {
+          "block_id": 50,
+          "bbox": [
+            94.5,
+            493.5,
+            143.0,
+            503.0
+          ],
+          "char_start": 2017,
+          "char_end": 2025
+        },
+        {
+          "block_id": 51,
+          "bbox": [
+            93.0,
+            499.5,
+            240.0,
+            512.5
+          ],
+          "char_start": 2026,
+          "char_end": 2059
+        },
+        {
+          "block_id": 52,
+          "bbox": [
+            331.0,
+            502.0,
+            344.0,
+            512.0
+          ],
+          "char_start": 2060,
+          "char_end": 2062
+        },
+        {
+          "block_id": 53,
+          "bbox": [
+            91.5,
+            510.5,
+            187.5,
+            520.5
+          ],
+          "char_start": 2063,
+          "char_end": 2082
+        },
+        {
+          "block_id": 54,
+          "bbox": [
+            90.0,
+            518.5,
+            204.5,
+            530.5
+          ],
+          "char_start": 2083,
+          "char_end": 2106
+        },
+        {
+          "block_id": 55,
+          "bbox": [
+            331.0,
+            520.0,
+            344.5,
+            530.5
+          ],
+          "char_start": 2107,
+          "char_end": 2109
+        },
+        {
+          "block_id": 56,
+          "bbox": [
+            93.5,
+            529.0,
+            188.5,
+            539.0
+          ],
+          "char_start": 2110,
+          "char_end": 2128
+        },
+        {
+          "block_id": 57,
+          "bbox": [
+            93.0,
+            536.5,
+            215.5,
+            548.5
+          ],
+          "char_start": 2129,
+          "char_end": 2153
+        },
+        {
+          "block_id": 58,
+          "bbox": [
+            332.0,
+            538.0,
+            345.0,
+            547.5
+          ],
+          "char_start": 2154,
+          "char_end": 2156
+        },
+        {
+          "block_id": 59,
+          "bbox": [
+            94.5,
+            546.5,
+            165.0,
+            556.5
+          ],
+          "char_start": 2157,
+          "char_end": 2170
+        },
+        {
+          "block_id": 60,
+          "bbox": [
+            93.0,
+            554.0,
+            230.5,
+            566.5
+          ],
+          "char_start": 2171,
+          "char_end": 2198
+        },
+        {
+          "block_id": 61,
+          "bbox": [
+            332.5,
+            556.0,
+            344.5,
+            566.0
+          ],
+          "char_start": 2199,
+          "char_end": 2201
+        },
+        {
+          "block_id": 62,
+          "bbox": [
+            67.0,
+            567.5,
+            372.0,
+            580.5
+          ],
+          "char_start": 2202,
+          "char_end": 2287
+        },
+        {
+          "block_id": 63,
+          "bbox": [
+            57.5,
+            578.5,
+            100.0,
+            587.0
+          ],
+          "char_start": 2288,
+          "char_end": 2299
+        }
+      ],
+      "ocr_confidence_min": 0.919162,
+      "page_bbox": [
+        52.5,
+        35.5,
+        372.0,
+        600.5
+      ],
+      "char_start": 1908,
+      "char_end": 2299,
+      "source_record_id": "rendered-ocr",
+      "parser": "RapidOCR",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        397.0,
+        665.0
+      ],
+      "warnings": [
+        "Possible multi-column OCR: detector reading order may interleave columns; verify source boxes",
+        "Rendered-page OCR used; hidden text-layer geometry is not trusted"
+      ],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "00dd1306d33fd7d3b803c813352d09a18dd070d5b5ca9d603333ec12850daae4",
+      "boundary_start": "heading_line",
+      "boundary_end": "table_line",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 73,
+      "evidence_id": "E3",
+      "score": 0.03174603,
+      "bm25_score": 10.73011,
+      "dense_score": 0.45942
+    },
+    {
+      "chunk_id": "27411190ccc93907f3f394bb",
+      "doc_id": "ohr-textbook-geology",
+      "doc_title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+      "page": 8,
+      "section_path": [],
+      "text": "The following table summarizes the geological formations and\ntheir subdivisions which are represented on the map.\nThe thick-\nnesses are generalized from data collected in various parts of the\narea. On the map the shales and sandstones of the Lower and\nMiddle Coal Measures are distinguished by colour, and the more\ninportant sandstones and coals are individually indicated by\nletters.",
+      "bbox": [
+        53.5,
+        256.0,
+        370.5,
+        335.5
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": 21,
+          "bbox": [
+            70.0,
+            256.0,
+            369.5,
+            270.5
+          ],
+          "char_start": 1121,
+          "char_end": 1181
+        },
+        {
+          "block_id": 22,
+          "bbox": [
+            55.5,
+            269.0,
+            310.5,
+            280.5
+          ],
+          "char_start": 1182,
+          "char_end": 1234
+        },
+        {
+          "block_id": 23,
+          "bbox": [
+            317.5,
+            267.5,
+            368.5,
+            279.0
+          ],
+          "char_start": 1235,
+          "char_end": 1245
+        },
+        {
+          "block_id": 24,
+          "bbox": [
+            53.5,
+            278.0,
+            370.0,
+            293.0
+          ],
+          "char_start": 1246,
+          "char_end": 1312
+        },
+        {
+          "block_id": 25,
+          "bbox": [
+            53.5,
+            289.0,
+            369.5,
+            304.0
+          ],
+          "char_start": 1313,
+          "char_end": 1372
+        },
+        {
+          "block_id": 26,
+          "bbox": [
+            55.0,
+            300.5,
+            370.5,
+            314.0
+          ],
+          "char_start": 1373,
+          "char_end": 1435
+        },
+        {
+          "block_id": 27,
+          "bbox": [
+            54.5,
+            310.5,
+            368.5,
+            325.5
+          ],
+          "char_start": 1436,
+          "char_end": 1496
+        },
+        {
+          "block_id": 28,
+          "bbox": [
+            55.5,
+            324.0,
+            91.5,
+            335.5
+          ],
+          "char_start": 1497,
+          "char_end": 1505
+        }
+      ],
+      "ocr_confidence_min": 0.965877,
+      "page_bbox": [
+        52.5,
+        35.5,
+        372.0,
+        600.5
+      ],
+      "char_start": 1121,
+      "char_end": 1505,
+      "source_record_id": "rendered-ocr",
+      "parser": "RapidOCR",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        397.0,
+        665.0
+      ],
+      "warnings": [
+        "Possible multi-column OCR: detector reading order may interleave columns; verify source boxes",
+        "Rendered-page OCR used; hidden text-layer geometry is not trusted"
+      ],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "0a7d4030c2641865e964c075695d3c2a1047b9c355f058fdfe32224b088bc8c7",
+      "boundary_start": "heading_line",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 113,
+      "evidence_id": "E4",
+      "score": 0.03125,
+      "bm25_score": 8.005815,
+      "dense_score": 0.398686
+    },
+    {
+      "chunk_id": "2d57581ca50e97c79fb5fce0",
+      "doc_id": "ohr-textbook-geology",
+      "doc_title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+      "page": 8,
+      "section_path": [],
+      "text": "In the Millstone Grits the shales are coloured uniformly\nthroughout, but the grits and sandstones are shown by four\ncolours for the main groups, vis., The Rough Rock Series, the\nMiddle Grits,the Kinderscout Grits and the Shale Grit.These\nagain are individually distinguished by letters.\nSUPERFICIAL FORMATIONS\nAlluvium\nRecent:-\nPeat\nlGravel\nPleistocene :-\nSand and Gravel\nBoulder Clay\nSOLID FORMATIONS\nUpper Carboniferous:\nMiddle Coal Measures :(top of division not prcsent).",
+      "bbox": [
+        54.0,
+        322.0,
+        370.0,
+        467.5
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": 29,
+          "bbox": [
+            97.0,
+            322.0,
+            367.5,
+            335.0
+          ],
+          "char_start": 1506,
+          "char_end": 1562
+        },
+        {
+          "block_id": 30,
+          "bbox": [
+            54.0,
+            332.5,
+            370.0,
+            348.0
+          ],
+          "char_start": 1563,
+          "char_end": 1621
+        },
+        {
+          "block_id": 31,
+          "bbox": [
+            54.5,
+            344.0,
+            370.0,
+            358.5
+          ],
+          "char_start": 1622,
+          "char_end": 1683
+        },
+        {
+          "block_id": 32,
+          "bbox": [
+            55.5,
+            355.0,
+            369.5,
+            368.0
+          ],
+          "char_start": 1684,
+          "char_end": 1743
+        },
+        {
+          "block_id": 33,
+          "bbox": [
+            54.5,
+            365.5,
+            282.0,
+            380.5
+          ],
+          "char_start": 1744,
+          "char_end": 1792
+        },
+        {
+          "block_id": 34,
+          "bbox": [
+            158.5,
+            381.0,
+            267.5,
+            391.0
+          ],
+          "char_start": 1793,
+          "char_end": 1815
+        },
+        {
+          "block_id": 35,
+          "bbox": [
+            143.0,
+            391.0,
+            186.0,
+            401.5
+          ],
+          "char_start": 1816,
+          "char_end": 1824
+        },
+        {
+          "block_id": 36,
+          "bbox": [
+            83.0,
+            400.5,
+            118.0,
+            410.5
+          ],
+          "char_start": 1825,
+          "char_end": 1833
+        },
+        {
+          "block_id": 37,
+          "bbox": [
+            144.5,
+            400.0,
+            168.0,
+            410.0
+          ],
+          "char_start": 1834,
+          "char_end": 1838
+        },
+        {
+          "block_id": 38,
+          "bbox": [
+            143.5,
+            408.0,
+            176.5,
+            420.0
+          ],
+          "char_start": 1839,
+          "char_end": 1846
+        },
+        {
+          "block_id": 39,
+          "bbox": [
+            82.5,
+            417.0,
+            137.5,
+            429.5
+          ],
+          "char_start": 1847,
+          "char_end": 1861
+        },
+        {
+          "block_id": 40,
+          "bbox": [
+            143.5,
+            416.5,
+            214.5,
+            429.0
+          ],
+          "char_start": 1862,
+          "char_end": 1877
+        },
+        {
+          "block_id": 41,
+          "bbox": [
+            144.0,
+            425.5,
+            200.5,
+            438.0
+          ],
+          "char_start": 1878,
+          "char_end": 1890
+        },
+        {
+          "block_id": 42,
+          "bbox": [
+            176.0,
+            439.0,
+            258.5,
+            449.0
+          ],
+          "char_start": 1891,
+          "char_end": 1907
+        },
+        {
+          "block_id": 43,
+          "bbox": [
+            70.5,
+            447.0,
+            162.5,
+            459.0
+          ],
+          "char_start": 1908,
+          "char_end": 1928
+        },
+        {
+          "block_id": 44,
+          "bbox": [
+            83.5,
+            456.0,
+            299.0,
+            467.5
+          ],
+          "char_start": 1929,
+          "char_end": 1981
+        }
+      ],
+      "ocr_confidence_min": 0.918318,
+      "page_bbox": [
+        52.5,
+        35.5,
+        372.0,
+        600.5
+      ],
+      "char_start": 1506,
+      "char_end": 1981,
+      "source_record_id": "rendered-ocr",
+      "parser": "RapidOCR",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        397.0,
+        665.0
+      ],
+      "warnings": [
+        "Possible multi-column OCR: detector reading order may interleave columns; verify source boxes",
+        "Rendered-page OCR used; hidden text-layer geometry is not trusted"
+      ],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "6e0be3a7a5394785f05465dae5ada5830f3d7caffba797bffcca3b30b8fa8380",
+      "boundary_start": "sentence",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E5",
+      "score": 0.03076923,
+      "bm25_score": 5.1039,
+      "dense_score": 0.396388
+    },
+    {
+      "chunk_id": "335e47c69c5fcc0b503cfa8e",
+      "doc_id": "ohr-news-executive-insight",
+      "doc_title": "Executive Insight Healthcare Magazine (archival excerpt)",
+      "page": 10,
+      "section_path": [],
+      "text": "limited progress in meeting the most basic need: \nprotecting patients from harm and providing safe \ncare while in our facilities (source: Chassin, Loeb, \nMilbank Quarterly, 2013).",
+      "bbox": [
+        239.63,
+        185.28,
+        420.23,
+        235.52
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "3-0",
+          "bbox": [
+            239.63,
+            185.28,
+            420.23,
+            235.52
+          ],
+          "char_start": 0,
+          "char_end": 179
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        39.34,
+        49.51,
+        561.67,
+        736.58
+      ],
+      "char_start": 0,
+      "char_end": 179,
+      "source_record_id": "native-block-3-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        585.0,
+        756.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "fe814d8f07f7a73db4cdbc70c745c5ddcaaa94f7080303cf2cccab5d3c34442d",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E6",
+      "score": 0.01515152,
+      "bm25_score": 4.18162,
+      "dense_score": 0.190696
+    },
+    {
+      "chunk_id": "973b6a0feb35604d52c8a686",
+      "doc_id": "ohr-textbook-geology",
+      "doc_title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+      "page": 1,
+      "section_path": [],
+      "text": "The\nprimary watershed between the North Sea and the Irish Sea\nentersthe areafrom thenorth about amileand ahalf fromthe\nwestern margin and runs south-east to Black Hil1 (1,908 ft. above\nO.D.),Wike Head and Featherbed Moss;from the north it is\nfollowed by a parish boundary (and therefore shown on the map)\nas far as Wessenden Head Mioor, and from Black Hill to Wike\nHead by the county boundary between Yorkshire and Cheshire.",
+      "bbox": [
+        31.0,
+        259.0,
+        348.0,
+        349.5
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": 10,
+          "bbox": [
+            324.5,
+            259.0,
+            346.0,
+            269.0
+          ],
+          "char_start": 427,
+          "char_end": 430
+        },
+        {
+          "block_id": 11,
+          "bbox": [
+            31.0,
+            268.5,
+            347.0,
+            284.0
+          ],
+          "char_start": 431,
+          "char_end": 488
+        },
+        {
+          "block_id": 12,
+          "bbox": [
+            31.0,
+            280.0,
+            346.0,
+            294.0
+          ],
+          "char_start": 489,
+          "char_end": 545
+        },
+        {
+          "block_id": 13,
+          "bbox": [
+            31.5,
+            290.5,
+            347.5,
+            306.0
+          ],
+          "char_start": 546,
+          "char_end": 611
+        },
+        {
+          "block_id": 14,
+          "bbox": [
+            33.0,
+            302.0,
+            347.5,
+            315.5
+          ],
+          "char_start": 612,
+          "char_end": 668
+        },
+        {
+          "block_id": 15,
+          "bbox": [
+            32.0,
+            312.5,
+            346.5,
+            327.0
+          ],
+          "char_start": 669,
+          "char_end": 731
+        },
+        {
+          "block_id": 16,
+          "bbox": [
+            31.0,
+            323.0,
+            348.0,
+            338.0
+          ],
+          "char_start": 732,
+          "char_end": 791
+        },
+        {
+          "block_id": 17,
+          "bbox": [
+            32.0,
+            334.0,
+            346.5,
+            349.5
+          ],
+          "char_start": 792,
+          "char_end": 851
+        }
+      ],
+      "ocr_confidence_min": 0.947646,
+      "page_bbox": [
+        31.0,
+        74.5,
+        349.0,
+        610.5
+      ],
+      "char_start": 427,
+      "char_end": 851,
+      "source_record_id": "rendered-ocr",
+      "parser": "RapidOCR",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        397.0,
+        665.0
+      ],
+      "warnings": [
+        "Possible multi-column OCR: detector reading order may interleave columns; verify source boxes",
+        "Rendered-page OCR used; hidden text-layer geometry is not trusted"
+      ],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "cd45679ffc8b6b77949d240c11548a0d8e7667ed305adf32d140b4d083de2f98",
+      "boundary_start": "sentence",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E7",
+      "score": 0.01515152,
+      "bm25_score": 0.0,
+      "dense_score": 0.304942
+    },
+    {
+      "chunk_id": "26cf19a8b0c3d7bca129e411",
+      "doc_id": "ohr-textbook-geology",
+      "doc_title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+      "page": 8,
+      "section_path": [],
+      "text": "stones; on the former fine cxamples of timber construction may\nsometimes be secn, the barn at Gunthwaite being famious.Present-\nday construction of brick, concrete, asbestos, etc., though possibly\nnecessary for economic reasons, is apt to produce eyesores, though\nit has been pointed out 1hat these can largely be avoided by a\nsuitable choice of colours.2\nTABLE OF FORMATIONS\nThe following table summarizes the geological formations and\ntheir subdivisions which are represented on the map.",
+      "bbox": [
+        52.5,
+        171.0,
+        370.0,
+        280.5
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": 14,
+          "bbox": [
+            52.5,
+            171.0,
+            368.5,
+            186.5
+          ],
+          "char_start": 745,
+          "char_end": 807
+        },
+        {
+          "block_id": 15,
+          "bbox": [
+            53.5,
+            183.0,
+            367.5,
+            196.5
+          ],
+          "char_start": 808,
+          "char_end": 872
+        },
+        {
+          "block_id": 16,
+          "bbox": [
+            53.5,
+            193.0,
+            368.0,
+            209.0
+          ],
+          "char_start": 873,
+          "char_end": 941
+        },
+        {
+          "block_id": 17,
+          "bbox": [
+            53.5,
+            204.5,
+            368.0,
+            219.0
+          ],
+          "char_start": 942,
+          "char_end": 1008
+        },
+        {
+          "block_id": 18,
+          "bbox": [
+            53.0,
+            215.0,
+            370.0,
+            230.0
+          ],
+          "char_start": 1009,
+          "char_end": 1071
+        },
+        {
+          "block_id": 19,
+          "bbox": [
+            53.5,
+            227.0,
+            181.0,
+            240.0
+          ],
+          "char_start": 1072,
+          "char_end": 1100
+        },
+        {
+          "block_id": 20,
+          "bbox": [
+            156.5,
+            244.0,
+            266.5,
+            255.5
+          ],
+          "char_start": 1101,
+          "char_end": 1120
+        },
+        {
+          "block_id": 21,
+          "bbox": [
+            70.0,
+            256.0,
+            369.5,
+            270.5
+          ],
+          "char_start": 1121,
+          "char_end": 1181
+        },
+        {
+          "block_id": 22,
+          "bbox": [
+            55.5,
+            269.0,
+            310.5,
+            280.5
+          ],
+          "char_start": 1182,
+          "char_end": 1234
+        }
+      ],
+      "ocr_confidence_min": 0.937161,
+      "page_bbox": [
+        52.5,
+        35.5,
+        372.0,
+        600.5
+      ],
+      "char_start": 745,
+      "char_end": 1234,
+      "source_record_id": "rendered-ocr",
+      "parser": "RapidOCR",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        397.0,
+        665.0
+      ],
+      "warnings": [
+        "Possible multi-column OCR: detector reading order may interleave columns; verify source boxes",
+        "Rendered-page OCR used; hidden text-layer geometry is not trusted"
+      ],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "03d9b486650cfc51f31669f50536c8558a4f3a81defbd5dc8003b1f0d86c65db",
+      "boundary_start": "forced_line",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": true,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E8",
+      "score": 0.01492537,
+      "bm25_score": 0.0,
+      "dense_score": 0.299741
+    }
+  ],
+  "hit_at_5": true,
+  "status": "SUCCEEDED",
+  "answer": " Wheat, oats and potatoes are perhaps the most satisfactory arable crops [E1].",
+  "citation_ids": [
+    "E1"
+  ],
+  "used_evidence": [
+    {
+      "chunk_id": "3a5de5f37e5dcaf2a798c3b5",
+      "doc_id": "ohr-textbook-geology",
+      "doc_title": "The Geology of the Country Around Holmfirth and Glossop (excerpt)",
+      "page": 8,
+      "section_path": [],
+      "text": "Wheat,\noats and potatoes are perhaps the·most satisfactory arable crops ;\nswedes and turnips are apt to suffer from ‘ finger and toe ′ disease,\nunless liming is liberal.f\nTheCoalMeasures arebetterwooded\nthan the Milistone Grits, oak and elm being prevalent instead of\nbirch,and the fields are often divided by hedgerows, in contrast\nwith thie dry stone walls of the Grits.On the latter the older\nbuildings are of local gritstone, roofed with the more fissile fag-",
+      "bbox": [
+        52.5,
+        83.5,
+        368.5,
+        175.0
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": 5,
+          "bbox": [
+            52.5,
+            83.5,
+            367.5,
+            99.0
+          ],
+          "char_start": 222,
+          "char_end": 287
+        },
+        {
+          "block_id": 6,
+          "bbox": [
+            53.0,
+            95.0,
+            368.0,
+            110.0
+          ],
+          "char_start": 288,
+          "char_end": 354
+        },
+        {
+          "block_id": 7,
+          "bbox": [
+            53.0,
+            105.5,
+            368.0,
+            121.5
+          ],
+          "char_start": 355,
+          "char_end": 424
+        },
+        {
+          "block_id": 8,
+          "bbox": [
+            54.0,
+            118.0,
+            176.5,
+            131.5
+          ],
+          "char_start": 425,
+          "char_end": 451
+        },
+        {
+          "block_id": 9,
+          "bbox": [
+            177.5,
+            116.5,
+            367.5,
+            129.5
+          ],
+          "char_start": 452,
+          "char_end": 483
+        },
+        {
+          "block_id": 10,
+          "bbox": [
+            53.0,
+            127.0,
+            368.5,
+            143.0
+          ],
+          "char_start": 484,
+          "char_end": 548
+        },
+        {
+          "block_id": 11,
+          "bbox": [
+            53.5,
+            139.5,
+            368.0,
+            152.5
+          ],
+          "char_start": 549,
+          "char_end": 613
+        },
+        {
+          "block_id": 12,
+          "bbox": [
+            53.5,
+            149.5,
+            368.0,
+            164.5
+          ],
+          "char_start": 614,
+          "char_end": 676
+        },
+        {
+          "block_id": 13,
+          "bbox": [
+            53.0,
+            160.5,
+            368.0,
+            175.0
+          ],
+          "char_start": 677,
+          "char_end": 744
+        }
+      ],
+      "ocr_confidence_min": 0.946349,
+      "page_bbox": [
+        52.5,
+        35.5,
+        372.0,
+        600.5
+      ],
+      "char_start": 281,
+      "char_end": 744,
+      "source_record_id": "rendered-ocr",
+      "parser": "RapidOCR",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        397.0,
+        665.0
+      ],
+      "warnings": [
+        "Possible multi-column OCR: detector reading order may interleave columns; verify source boxes",
+        "Rendered-page OCR used; hidden text-layer geometry is not trusted"
+      ],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "4eec18a8e4806cb88f476301474e1f57a2cce6dd3a8ca7c3dc773d901659ddd6",
+      "boundary_start": "sentence",
+      "boundary_end": "forced_line",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": true,
+      "overlap_chars": 0,
+      "evidence_id": "E1",
+      "score": 0.03278689,
+      "bm25_score": 12.82893,
+      "dense_score": 0.511453
+    }
+  ],
+  "surface_answer_match": false,
+  "citation_coverage": {
+    "potential_uncited_statement_count": 0,
+    "potential_uncited_statements": [],
+    "mode": "heuristic_warning_only",
+    "semantic_claim_coverage": "requires_human_review"
+  },
+  "validation_warnings": [],
+  "validation_status": "passed",
+  "failure_category": null,
+  "steps": [
+    {
+      "name": "retrieve",
+      "status": "ok",
+      "input_summary": {
+        "scope_doc_ids": [
+          "ohr-academic-label-words",
+          "ohr-law-affiliate",
+          "ohr-manual-macbook-air",
+          "ohr-news-executive-insight",
+          "ohr-textbook-geology"
+        ]
+      },
+      "output_summary": {
+        "retrieval_method": "bm25+bge-m3_dense_rrf",
+        "candidate_count": 228,
+        "top_k": 8,
+        "allowed_doc_ids": [
+          "ohr-academic-label-words",
+          "ohr-law-affiliate",
+          "ohr-manual-macbook-air",
+          "ohr-news-executive-insight",
+          "ohr-textbook-geology"
+        ],
+        "searched_page_count": 10,
+        "candidate_k_per_channel": 20,
+        "rrf_k": 60,
+        "rank_starts_at": 1,
+        "rankings": {
+          "bm25": [
+            {
+              "rank": 1,
+              "chunk_id": "3a5de5f37e5dcaf2a798c3b5",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 12.82892981
+            },
+            {
+              "rank": 2,
+              "chunk_id": "d32d32aac3fb3b2dd3c7a260",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 12.67380949
+            },
+            {
+              "rank": 3,
+              "chunk_id": "c70581911c5baea7ca26fe1d",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 10.73011032
+            },
+            {
+              "rank": 4,
+              "chunk_id": "27411190ccc93907f3f394bb",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 8.00581462
+            },
+            {
+              "rank": 5,
+              "chunk_id": "2d57581ca50e97c79fb5fce0",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 5.10390011
+            },
+            {
+              "rank": 6,
+              "chunk_id": "335e47c69c5fcc0b503cfa8e",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 10,
+              "section_path": [],
+              "score": 4.18161962
+            },
+            {
+              "rank": 7,
+              "chunk_id": "ec5d91b1e0abdc47840d7a42",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 3.88018197
+            },
+            {
+              "rank": 8,
+              "chunk_id": "3907edcfe84e8f48bc66ada9",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [],
+              "score": 3.48754153
+            },
+            {
+              "rank": 9,
+              "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 2.56486244
+            }
+          ],
+          "dense": [
+            {
+              "rank": 1,
+              "chunk_id": "3a5de5f37e5dcaf2a798c3b5",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.51145333
+            },
+            {
+              "rank": 2,
+              "chunk_id": "d32d32aac3fb3b2dd3c7a260",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.48250711
+            },
+            {
+              "rank": 3,
+              "chunk_id": "c70581911c5baea7ca26fe1d",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.45942026
+            },
+            {
+              "rank": 4,
+              "chunk_id": "27411190ccc93907f3f394bb",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.39868608
+            },
+            {
+              "rank": 5,
+              "chunk_id": "2d57581ca50e97c79fb5fce0",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.39638799
+            },
+            {
+              "rank": 6,
+              "chunk_id": "973b6a0feb35604d52c8a686",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "score": 0.30494165
+            },
+            {
+              "rank": 7,
+              "chunk_id": "26cf19a8b0c3d7bca129e411",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.29974148
+            },
+            {
+              "rank": 8,
+              "chunk_id": "d9d46860214ebb41122473c4",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.29872742
+            },
+            {
+              "rank": 9,
+              "chunk_id": "56db47618809fac18bb40110",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "score": 0.29036072
+            },
+            {
+              "rank": 10,
+              "chunk_id": "2ba41d60a427d93885ededce",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "score": 0.28094596
+            },
+            {
+              "rank": 11,
+              "chunk_id": "d66918b00a13f248830877d4",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "score": 0.2726672
+            },
+            {
+              "rank": 12,
+              "chunk_id": "e4b1d63166fb39301770ec3d",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.2501291
+            },
+            {
+              "rank": 13,
+              "chunk_id": "a63b01e24770340b6cf278b1",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.24952388
+            },
+            {
+              "rank": 14,
+              "chunk_id": "4b2fbdda0a1ceb463e778253",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.24866806
+            },
+            {
+              "rank": 15,
+              "chunk_id": "1311c1f8217091bdb1f6fa0a",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+              ],
+              "score": 0.2476092
+            },
+            {
+              "rank": 16,
+              "chunk_id": "162c7f0bb2957b512017ce27",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "RANKINGS OF QUALITY PROGRAMS"
+              ],
+              "score": 0.24532574
+            },
+            {
+              "rank": 17,
+              "chunk_id": "ea8a1905432bac5294b731f8",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.24316441
+            },
+            {
+              "rank": 18,
+              "chunk_id": "e2913560e5004bd0b5ee4bc2",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "score": 0.24093385
+            },
+            {
+              "rank": 19,
+              "chunk_id": "df0ab02d43e4ab8471ce42a3",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+              ],
+              "score": 0.23610179
+            },
+            {
+              "rank": 20,
+              "chunk_id": "33a6e35ead4e06bc7f86f74c",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.23606093
+            }
+          ],
+          "rrf": [
+            {
+              "rank": 1,
+              "chunk_id": "3a5de5f37e5dcaf2a798c3b5",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.03278689
+            },
+            {
+              "rank": 2,
+              "chunk_id": "d32d32aac3fb3b2dd3c7a260",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.03225806
+            },
+            {
+              "rank": 3,
+              "chunk_id": "c70581911c5baea7ca26fe1d",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.03174603
+            },
+            {
+              "rank": 4,
+              "chunk_id": "27411190ccc93907f3f394bb",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.03125
+            },
+            {
+              "rank": 5,
+              "chunk_id": "2d57581ca50e97c79fb5fce0",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.03076923
+            },
+            {
+              "rank": 6,
+              "chunk_id": "335e47c69c5fcc0b503cfa8e",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 10,
+              "section_path": [],
+              "score": 0.01515152
+            },
+            {
+              "rank": 7,
+              "chunk_id": "973b6a0feb35604d52c8a686",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01515152
+            },
+            {
+              "rank": 8,
+              "chunk_id": "26cf19a8b0c3d7bca129e411",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.01492537
+            },
+            {
+              "rank": 9,
+              "chunk_id": "ec5d91b1e0abdc47840d7a42",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01492537
+            },
+            {
+              "rank": 10,
+              "chunk_id": "3907edcfe84e8f48bc66ada9",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [],
+              "score": 0.01470588
+            },
+            {
+              "rank": 11,
+              "chunk_id": "d9d46860214ebb41122473c4",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.01470588
+            },
+            {
+              "rank": 12,
+              "chunk_id": "56db47618809fac18bb40110",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01449275
+            },
+            {
+              "rank": 13,
+              "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.01449275
+            },
+            {
+              "rank": 14,
+              "chunk_id": "2ba41d60a427d93885ededce",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01428571
+            },
+            {
+              "rank": 15,
+              "chunk_id": "d66918b00a13f248830877d4",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01408451
+            },
+            {
+              "rank": 16,
+              "chunk_id": "e4b1d63166fb39301770ec3d",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01388889
+            },
+            {
+              "rank": 17,
+              "chunk_id": "a63b01e24770340b6cf278b1",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01369863
+            },
+            {
+              "rank": 18,
+              "chunk_id": "4b2fbdda0a1ceb463e778253",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01351351
+            },
+            {
+              "rank": 19,
+              "chunk_id": "1311c1f8217091bdb1f6fa0a",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+              ],
+              "score": 0.01333333
+            },
+            {
+              "rank": 20,
+              "chunk_id": "162c7f0bb2957b512017ce27",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "RANKINGS OF QUALITY PROGRAMS"
+              ],
+              "score": 0.01315789
+            },
+            {
+              "rank": 21,
+              "chunk_id": "ea8a1905432bac5294b731f8",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01298701
+            },
+            {
+              "rank": 22,
+              "chunk_id": "e2913560e5004bd0b5ee4bc2",
+              "doc_id": "ohr-textbook-geology",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01282051
+            },
+            {
+              "rank": 23,
+              "chunk_id": "df0ab02d43e4ab8471ce42a3",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+              ],
+              "score": 0.01265823
+            },
+            {
+              "rank": 24,
+              "chunk_id": "33a6e35ead4e06bc7f86f74c",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.0125
+            }
+          ]
+        },
+        "hit_at_5_scope": [
+          "3a5de5f37e5dcaf2a798c3b5",
+          "d32d32aac3fb3b2dd3c7a260",
+          "c70581911c5baea7ca26fe1d",
+          "27411190ccc93907f3f394bb",
+          "2d57581ca50e97c79fb5fce0"
+        ],
+        "retrieved_count": 8,
+        "index_created_at": "2026-10-13T16:21:30.553017+00:00",
+        "index_chunks_sha256": "e7c4e0f080f7a006869fb3cc4362dad588d5f178ca9f9847a2bdcca68981a68e",
+        "query": "What are the most satisfactory arable crops grown in the soils of the Coal Measures?",
+        "dense_enabled": true
+      },
+      "latency_ms": 58
+    },
+    {
+      "name": "doc_answer",
+      "status": "ok",
+      "input_summary": {
+        "evidence_count": 8
+      },
+      "output_summary": {
+        "status": "SUCCEEDED",
+        "citation_ids": [
+          "E1"
+        ]
+      },
+      "latency_ms": 2980
+    },
+    {
+      "name": "rag_generate",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "evidence_count": 8
+      },
+      "output_summary": {
+        "status": "SUCCEEDED",
+        "citation_ids": [
+          "E1"
+        ]
+      },
+      "latency_ms": 2980
+    },
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "provider_capture": "eval/artifacts/d4/rag-scale-live-001/provider/b3a9976e3e8445bb81519d405106b040.json",
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 41,
+          "prompt_tokens": 1789,
+          "total_tokens": 1830,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 640
+          },
+          "prompt_cache_hit_tokens": 640,
+          "prompt_cache_miss_tokens": 1149
+        },
+        "json_valid": true
+      },
+      "latency_ms": 1882
+    },
+    {
+      "name": "rag_validate",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "checks": [
+          "citation_membership",
+          "inline_ids",
+          "cited_numbers",
+          "explicit_research_attributions"
+        ]
+      },
+      "output_summary": {
+        "passed": true,
+        "status": "SUCCEEDED",
+        "used_evidence_ids": [
+          "E1"
+        ],
+        "citation_coverage": {
+          "potential_uncited_statement_count": 0,
+          "potential_uncited_statements": [],
+          "mode": "heuristic_warning_only",
+          "semantic_claim_coverage": "requires_human_review"
+        },
+        "semantic_faithfulness": "requires_human_review"
+      },
+      "latency_ms": 0
+    }
+  ],
+  "cost": {
+    "raw_step_ms": {
+      "retrieve": 58,
+      "doc_answer": 2980,
+      "rag_generate": 2980,
+      "llm": 1882,
+      "rag_validate": 0
+    },
+    "stages_ms": {
+      "nlu": 0,
+      "value_link": 0,
+      "schema_selection": 0,
+      "sql_generation": 0,
+      "sql_execution": 0,
+      "retrieval": 58,
+      "answer_generation": 2980
+    },
+    "model_attempts": {
+      "other": 1,
+      "all": 1
+    },
+    "usage": {
+      "prompt_tokens": 1789,
+      "other_prompt_tokens": 1789,
+      "completion_tokens": 41,
+      "other_completion_tokens": 41,
+      "total_tokens": 1830,
+      "other_total_tokens": 1830
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "duration_warning": "嵌套步骤有重叠；端到端实测独立计时，不将所有step相加"
+  },
+  "elapsed_ms": 3038.355
+}

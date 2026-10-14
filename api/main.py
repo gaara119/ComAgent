@@ -8,7 +8,7 @@ from qa_agent.config import get_settings
 from qa_agent.pipeline import chat
 from qa_agent.schemas import AnswerEnvelope, ChatRequest
 
-app = FastAPI(title="赛题八 问数问答 API", version="0.3.0", description="共享显式来源入口；D3 增加 AdventureWorks Schema Linking 与分级澄清、版本化条件补丁。")
+app = FastAPI(title="赛题八 问数问答 API", version="0.4.0", description="D4：AdventureWorks 带理由剪枝与外键校验、结构化多轮补丁、SQL与文档两类跨源流程。")
 
 from api.documents import router as documents_router
 app.include_router(documents_router)
@@ -41,7 +41,7 @@ def health() -> dict:
                     aw_ready = cursor.fetchone() == (1,)
     except psycopg.Error:
         pass
-    return {"status": "ok", "stage": "D3", "database_ready": database_ready,
+    return {"status": "ok", "stage": "D4", "database_ready": database_ready,
             "aw_database_ready": aw_ready,
             "sql_prompt_sha256": prompt_hashes,
             **settings.public()}

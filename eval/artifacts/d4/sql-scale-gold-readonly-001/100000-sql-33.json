@@ -1,0 +1,23 @@
+{
+  "id": "sql-33",
+  "scale": "100000",
+  "sql": "SELECT SUM(total) AS total_amount FROM d4_stress_100000.invoice WHERE billing_country = 'Canada'",
+  "result": {
+    "columns": [
+      "total_amount"
+    ],
+    "rows": [
+      [
+        "13567.32"
+      ]
+    ],
+    "table": [
+      {
+        "total_amount": "13567.32"
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "system_prediction": false
+}

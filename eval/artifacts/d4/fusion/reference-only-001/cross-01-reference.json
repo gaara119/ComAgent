@@ -1,0 +1,22 @@
+{
+  "id": "cross-01",
+  "split": "dev",
+  "gold_sql": "SELECT a.artist_id AS artist_id,a.name AS artist_name,SUM(il.unit_price*il.quantity) AS sales_amount FROM public.artist a JOIN public.album al ON al.artist_id=a.artist_id JOIN public.track t ON t.album_id=al.album_id JOIN public.invoice_line il ON il.track_id=t.track_id GROUP BY a.artist_id,a.name ORDER BY sales_amount DESC,a.artist_id ASC LIMIT 1",
+  "result": {
+    "columns": [
+      "artist_id",
+      "artist_name",
+      "sales_amount"
+    ],
+    "rows": [
+      [
+        90,
+        "Iron Maiden",
+        "138.60"
+      ]
+    ]
+  },
+  "reference_review_status": "pending_human_review",
+  "model_calls": 0,
+  "system_predictions": 0
+}

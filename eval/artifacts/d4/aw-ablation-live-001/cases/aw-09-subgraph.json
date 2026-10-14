@@ -1,0 +1,1045 @@
+{
+  "id": "aw-09",
+  "split": "dev",
+  "arm": "subgraph",
+  "request": {
+    "session_id": "d4-aw-86658b43227d4daa9f74ab8ef26f6862-aw-09-subgraph",
+    "message": "供应商档案一共有多少条？不按客户或门店计数。",
+    "scope": {
+      "route": "sql",
+      "db_id": "adventureworks",
+      "doc_ids": []
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "756d47f4-b0c9-4c70-abf6-68a66738bf7f",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：104。",
+    "rewritten_question": null,
+    "sql": "SELECT COUNT(*) AS vendor_count FROM \"purchasing\".\"vendor\"",
+    "table": [
+      {
+        "vendor_count": 104
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "adventureworks"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "table_count": 68,
+          "db_id": "adventureworks"
+        },
+        "latency_ms": 163
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "reason": "not_registered_for_db",
+          "bindings": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "供应商档案一共有多少条？不按客户或门店计数。"
+        },
+        "output_summary": {
+          "rewritten_question": "供应商档案一共有多少条？不按客户或门店计数。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 6
+      },
+      {
+        "name": "schema_link",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks",
+          "question": "供应商档案一共有多少条？不按客户或门店计数。"
+        },
+        "output_summary": {
+          "selected_tables": [
+            "humanresources.employee",
+            "humanresources.jobcandidate",
+            "production.product",
+            "production.transactionhistory",
+            "production.transactionhistoryarchive",
+            "purchasing.productvendor",
+            "purchasing.purchaseorderdetail",
+            "purchasing.purchaseorderheader",
+            "purchasing.vendor"
+          ],
+          "columns": {
+            "humanresources.employee": [
+              "businessentityid",
+              "nationalidnumber",
+              "loginid",
+              "jobtitle",
+              "birthdate",
+              "maritalstatus",
+              "gender",
+              "hiredate",
+              "salariedflag",
+              "vacationhours",
+              "sickleavehours",
+              "currentflag",
+              "rowguid",
+              "modifieddate",
+              "organizationnode"
+            ],
+            "humanresources.jobcandidate": [
+              "jobcandidateid",
+              "businessentityid",
+              "resume",
+              "modifieddate"
+            ],
+            "production.product": [
+              "productid",
+              "name",
+              "productnumber",
+              "makeflag",
+              "finishedgoodsflag",
+              "color",
+              "safetystocklevel",
+              "reorderpoint",
+              "standardcost",
+              "listprice",
+              "size",
+              "sizeunitmeasurecode",
+              "weightunitmeasurecode",
+              "weight",
+              "daystomanufacture",
+              "productline",
+              "class",
+              "style",
+              "productsubcategoryid",
+              "productmodelid",
+              "sellstartdate",
+              "sellenddate",
+              "discontinueddate",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.transactionhistory": [
+              "transactionid",
+              "productid",
+              "referenceorderid",
+              "referenceorderlineid",
+              "transactiondate",
+              "transactiontype",
+              "quantity",
+              "actualcost",
+              "modifieddate"
+            ],
+            "production.transactionhistoryarchive": [
+              "transactionid",
+              "productid",
+              "referenceorderid",
+              "referenceorderlineid",
+              "transactiondate",
+              "transactiontype",
+              "quantity",
+              "actualcost",
+              "modifieddate"
+            ],
+            "purchasing.productvendor": [
+              "productid",
+              "businessentityid",
+              "averageleadtime",
+              "standardprice",
+              "lastreceiptcost",
+              "lastreceiptdate",
+              "minorderqty",
+              "maxorderqty",
+              "onorderqty",
+              "unitmeasurecode",
+              "modifieddate"
+            ],
+            "purchasing.purchaseorderdetail": [
+              "purchaseorderid",
+              "purchaseorderdetailid",
+              "duedate",
+              "orderqty",
+              "productid",
+              "unitprice",
+              "receivedqty",
+              "rejectedqty",
+              "modifieddate"
+            ],
+            "purchasing.purchaseorderheader": [
+              "purchaseorderid",
+              "revisionnumber",
+              "status",
+              "employeeid",
+              "vendorid",
+              "shipmethodid",
+              "orderdate",
+              "shipdate",
+              "subtotal",
+              "taxamt",
+              "freight",
+              "modifieddate"
+            ],
+            "purchasing.vendor": [
+              "businessentityid",
+              "accountnumber",
+              "name",
+              "creditrating",
+              "preferredvendorstatus",
+              "activeflag",
+              "purchasingwebserviceurl",
+              "modifieddate"
+            ]
+          },
+          "join_paths": [
+            {
+              "source_table": "humanresources.jobcandidate",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "humanresources.employee",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "production.transactionhistory",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "purchasing.productvendor",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "purchasing.productvendor",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "purchasing.vendor",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "purchasing.purchaseorderheader",
+              "source_columns": [
+                "employeeid"
+              ],
+              "target_table": "humanresources.employee",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "purchasing.purchaseorderdetail",
+              "source_columns": [
+                "purchaseorderid"
+              ],
+              "target_table": "purchasing.purchaseorderheader",
+              "target_columns": [
+                "purchaseorderid"
+              ]
+            },
+            {
+              "source_table": "purchasing.purchaseorderheader",
+              "source_columns": [
+                "vendorid"
+              ],
+              "target_table": "purchasing.vendor",
+              "target_columns": [
+                "businessentityid"
+              ]
+            }
+          ],
+          "reasons": {
+            "humanresources.employee": [
+              "表描述向量召回第 7 位"
+            ],
+            "humanresources.jobcandidate": [
+              "表描述向量召回第 8 位"
+            ],
+            "production.product": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "production.transactionhistory": [
+              "表描述向量召回第 5 位"
+            ],
+            "production.transactionhistoryarchive": [
+              "表描述向量召回第 6 位"
+            ],
+            "purchasing.productvendor": [
+              "表描述向量召回第 2 位",
+              "列描述 Top-20 投票：11 列"
+            ],
+            "purchasing.purchaseorderdetail": [
+              "表描述向量召回第 4 位"
+            ],
+            "purchasing.purchaseorderheader": [
+              "表描述向量召回第 3 位",
+              "列描述 Top-20 投票：1 列"
+            ],
+            "purchasing.vendor": [
+              "表描述向量召回第 1 位",
+              "列描述 Top-20 投票：8 列"
+            ]
+          },
+          "table_recall": [
+            "purchasing.vendor",
+            "purchasing.productvendor",
+            "purchasing.purchaseorderheader",
+            "purchasing.purchaseorderdetail",
+            "production.transactionhistory",
+            "production.transactionhistoryarchive",
+            "humanresources.employee",
+            "humanresources.jobcandidate"
+          ],
+          "column_recall": [
+            "purchasing.productvendor.onorderqty",
+            "purchasing.vendor.accountnumber",
+            "purchasing.productvendor.lastreceiptdate",
+            "purchasing.productvendor.modifieddate",
+            "purchasing.productvendor.businessentityid",
+            "purchasing.productvendor.lastreceiptcost",
+            "purchasing.productvendor.minorderqty",
+            "purchasing.productvendor.averageleadtime",
+            "purchasing.vendor.name",
+            "purchasing.productvendor.maxorderqty",
+            "purchasing.productvendor.standardprice",
+            "purchasing.vendor.modifieddate",
+            "purchasing.productvendor.unitmeasurecode",
+            "purchasing.vendor.creditrating",
+            "purchasing.vendor.businessentityid",
+            "purchasing.vendor.purchasingwebserviceurl",
+            "purchasing.productvendor.productid",
+            "purchasing.vendor.preferredvendorstatus",
+            "purchasing.vendor.activeflag",
+            "purchasing.purchaseorderheader.vendorid"
+          ],
+          "value_recall": [],
+          "terminal_tables": [
+            "purchasing.productvendor",
+            "purchasing.vendor",
+            "purchasing.purchaseorderheader",
+            "purchasing.purchaseorderdetail",
+            "production.transactionhistory",
+            "production.transactionhistoryarchive",
+            "humanresources.employee",
+            "humanresources.jobcandidate"
+          ],
+          "bridge_tables": [
+            "production.product"
+          ],
+          "disconnected_components": [
+            [
+              "humanresources.employee",
+              "humanresources.jobcandidate",
+              "production.transactionhistory",
+              "purchasing.productvendor",
+              "purchasing.purchaseorderdetail",
+              "purchasing.purchaseorderheader",
+              "purchasing.vendor"
+            ],
+            [
+              "production.transactionhistoryarchive"
+            ]
+          ],
+          "scores": {
+            "purchasing.productvendor": 0.03252247488101534,
+            "purchasing.vendor": 0.03252247488101534,
+            "purchasing.purchaseorderheader": 0.031746031746031744,
+            "purchasing.purchaseorderdetail": 0.015625,
+            "production.transactionhistory": 0.015384615384615385,
+            "production.transactionhistoryarchive": 0.015151515151515152,
+            "humanresources.employee": 0.014925373134328358,
+            "humanresources.jobcandidate": 0.014705882352941176
+          },
+          "query_facets": [
+            "供应商档案一共有多少条？不按客户或门店计数。"
+          ],
+          "per_query_recall": [
+            {
+              "query": "供应商档案一共有多少条？不按客户或门店计数。",
+              "table_top": [
+                "purchasing.vendor",
+                "purchasing.productvendor",
+                "purchasing.purchaseorderheader",
+                "purchasing.purchaseorderdetail",
+                "production.transactionhistory",
+                "production.transactionhistoryarchive",
+                "humanresources.employee",
+                "humanresources.jobcandidate"
+              ],
+              "column_top": [
+                "purchasing.productvendor.onorderqty",
+                "purchasing.vendor.accountnumber",
+                "purchasing.productvendor.lastreceiptdate",
+                "purchasing.productvendor.modifieddate",
+                "purchasing.productvendor.businessentityid",
+                "purchasing.productvendor.lastreceiptcost",
+                "purchasing.productvendor.minorderqty",
+                "purchasing.productvendor.averageleadtime",
+                "purchasing.vendor.name",
+                "purchasing.productvendor.maxorderqty",
+                "purchasing.productvendor.standardprice",
+                "purchasing.vendor.modifieddate",
+                "purchasing.productvendor.unitmeasurecode",
+                "purchasing.vendor.creditrating",
+                "purchasing.vendor.businessentityid",
+                "purchasing.vendor.purchasingwebserviceurl",
+                "purchasing.productvendor.productid",
+                "purchasing.vendor.preferredvendorstatus",
+                "purchasing.vendor.activeflag",
+                "purchasing.purchaseorderheader.vendorid"
+              ]
+            }
+          ],
+          "excluded_tables": {},
+          "pruning": {}
+        },
+        "latency_ms": 28
+      },
+      {
+        "name": "schema_prune",
+        "status": "ok",
+        "input_summary": {
+          "candidate_count": 9
+        },
+        "output_summary": {
+          "selected_tables": [
+            "purchasing.vendor"
+          ],
+          "columns": {
+            "purchasing.vendor": [
+              "businessentityid"
+            ]
+          },
+          "join_paths": [],
+          "reasons": {
+            "purchasing.vendor": [
+              "供应商档案表，每行代表一个供应商，统计行数即为供应商档案数量。"
+            ]
+          },
+          "table_recall": [
+            "purchasing.vendor",
+            "purchasing.productvendor",
+            "purchasing.purchaseorderheader",
+            "purchasing.purchaseorderdetail",
+            "production.transactionhistory",
+            "production.transactionhistoryarchive",
+            "humanresources.employee",
+            "humanresources.jobcandidate"
+          ],
+          "column_recall": [
+            "purchasing.productvendor.onorderqty",
+            "purchasing.vendor.accountnumber",
+            "purchasing.productvendor.lastreceiptdate",
+            "purchasing.productvendor.modifieddate",
+            "purchasing.productvendor.businessentityid",
+            "purchasing.productvendor.lastreceiptcost",
+            "purchasing.productvendor.minorderqty",
+            "purchasing.productvendor.averageleadtime",
+            "purchasing.vendor.name",
+            "purchasing.productvendor.maxorderqty",
+            "purchasing.productvendor.standardprice",
+            "purchasing.vendor.modifieddate",
+            "purchasing.productvendor.unitmeasurecode",
+            "purchasing.vendor.creditrating",
+            "purchasing.vendor.businessentityid",
+            "purchasing.vendor.purchasingwebserviceurl",
+            "purchasing.productvendor.productid",
+            "purchasing.vendor.preferredvendorstatus",
+            "purchasing.vendor.activeflag",
+            "purchasing.purchaseorderheader.vendorid"
+          ],
+          "value_recall": [],
+          "terminal_tables": [
+            "purchasing.vendor"
+          ],
+          "bridge_tables": [],
+          "disconnected_components": [
+            [
+              "purchasing.vendor"
+            ]
+          ],
+          "scores": {
+            "purchasing.productvendor": 0.03252247488101534,
+            "purchasing.vendor": 0.03252247488101534,
+            "purchasing.purchaseorderheader": 0.031746031746031744,
+            "purchasing.purchaseorderdetail": 0.015625,
+            "production.transactionhistory": 0.015384615384615385,
+            "production.transactionhistoryarchive": 0.015151515151515152,
+            "humanresources.employee": 0.014925373134328358,
+            "humanresources.jobcandidate": 0.014705882352941176
+          },
+          "query_facets": [
+            "供应商档案一共有多少条？不按客户或门店计数。"
+          ],
+          "per_query_recall": [
+            {
+              "query": "供应商档案一共有多少条？不按客户或门店计数。",
+              "table_top": [
+                "purchasing.vendor",
+                "purchasing.productvendor",
+                "purchasing.purchaseorderheader",
+                "purchasing.purchaseorderdetail",
+                "production.transactionhistory",
+                "production.transactionhistoryarchive",
+                "humanresources.employee",
+                "humanresources.jobcandidate"
+              ],
+              "column_top": [
+                "purchasing.productvendor.onorderqty",
+                "purchasing.vendor.accountnumber",
+                "purchasing.productvendor.lastreceiptdate",
+                "purchasing.productvendor.modifieddate",
+                "purchasing.productvendor.businessentityid",
+                "purchasing.productvendor.lastreceiptcost",
+                "purchasing.productvendor.minorderqty",
+                "purchasing.productvendor.averageleadtime",
+                "purchasing.vendor.name",
+                "purchasing.productvendor.maxorderqty",
+                "purchasing.productvendor.standardprice",
+                "purchasing.vendor.modifieddate",
+                "purchasing.productvendor.unitmeasurecode",
+                "purchasing.vendor.creditrating",
+                "purchasing.vendor.businessentityid",
+                "purchasing.vendor.purchasingwebserviceurl",
+                "purchasing.productvendor.productid",
+                "purchasing.vendor.preferredvendorstatus",
+                "purchasing.vendor.activeflag",
+                "purchasing.purchaseorderheader.vendorid"
+              ]
+            }
+          ],
+          "excluded_tables": {
+            "humanresources.employee": "员工人事档案，与供应商档案无关。",
+            "humanresources.jobcandidate": "职位候选人记录，与供应商档案无关。",
+            "production.product": "产品主数据，不是供应商档案。",
+            "production.transactionhistory": "库存事务历史，与供应商档案统计无关。",
+            "production.transactionhistoryarchive": "库存事务归档，与供应商档案统计无关。",
+            "purchasing.productvendor": "产品与供应商的供货关系表，每个供应商可能有多行，不能用于统计供应商档案数量。",
+            "purchasing.purchaseorderdetail": "采购订单明细，与供应商档案数量无关。",
+            "purchasing.purchaseorderheader": "采购订单头，记录采购交易，不是供应商档案。"
+          },
+          "pruning": {
+            "status": "completed",
+            "candidate_tables": [
+              "humanresources.employee",
+              "humanresources.jobcandidate",
+              "production.product",
+              "production.transactionhistory",
+              "production.transactionhistoryarchive",
+              "purchasing.productvendor",
+              "purchasing.purchaseorderdetail",
+              "purchasing.purchaseorderheader",
+              "purchasing.vendor"
+            ],
+            "candidate_count": 9,
+            "llm_selected_tables": [
+              "purchasing.vendor"
+            ],
+            "restored_bridge_tables": [],
+            "connected": true,
+            "disconnected_components": [
+              [
+                "purchasing.vendor"
+              ]
+            ],
+            "connectivity_note": "真实外键组件分别补全；不为互不关联的组件制造连接",
+            "column_count": 1,
+            "selector_gold_input": false
+          }
+        },
+        "latency_ms": 4686
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/aw-ablation-live-001/provider/b50775c21bfa4268978801e90239b6f6.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 190,
+            "prompt_tokens": 7071,
+            "total_tokens": 7261,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 256
+            },
+            "prompt_cache_hit_tokens": 256,
+            "prompt_cache_miss_tokens": 6815
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3484
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "供应商档案一共有多少条？不按客户或门店计数。",
+          "repair_attempt": 0,
+          "db_id": "adventureworks",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) AS vendor_count FROM \"purchasing\".\"vendor\"",
+          "explanation": "统计 purchasing.vendor 表中的供应商档案总数，每行对应一个供应商，不涉及客户或门店。"
+        },
+        "latency_ms": 3231
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/aw-ablation-live-001/provider/0bba98611c424048a759415093909b0b.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 62,
+            "prompt_tokens": 1995,
+            "total_tokens": 2057,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1664
+            },
+            "prompt_cache_hit_tokens": 1664,
+            "prompt_cache_miss_tokens": 331
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2004
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS vendor_count FROM \"purchasing\".\"vendor\""
+        },
+        "output_summary": {
+          "tables": [
+            "purchasing.vendor"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) AS vendor_count FROM \"purchasing\".\"vendor\""
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS vendor_count FROM \"purchasing\".\"vendor\"",
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "vendor_count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 42
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "adventureworks",
+      "latency_ms": 8170,
+      "nlu": {
+        "original_question": "供应商档案一共有多少条？不按客户或门店计数。",
+        "rewritten_question": "供应商档案一共有多少条？不按客户或门店计数。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "not_registered_for_db"
+      },
+      "aw_schema_mode": "subgraph",
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "semantic_contract": {
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": null,
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {}
+        },
+        "patch_history": [],
+        "invalidated_execution": [],
+        "switch": null
+      },
+      "schema_linker": {
+        "selected_tables": [
+          "purchasing.vendor"
+        ],
+        "columns": {
+          "purchasing.vendor": [
+            "businessentityid"
+          ]
+        },
+        "join_paths": [],
+        "reasons": {
+          "purchasing.vendor": [
+            "供应商档案表，每行代表一个供应商，统计行数即为供应商档案数量。"
+          ]
+        },
+        "table_recall": [
+          "purchasing.vendor",
+          "purchasing.productvendor",
+          "purchasing.purchaseorderheader",
+          "purchasing.purchaseorderdetail",
+          "production.transactionhistory",
+          "production.transactionhistoryarchive",
+          "humanresources.employee",
+          "humanresources.jobcandidate"
+        ],
+        "column_recall": [
+          "purchasing.productvendor.onorderqty",
+          "purchasing.vendor.accountnumber",
+          "purchasing.productvendor.lastreceiptdate",
+          "purchasing.productvendor.modifieddate",
+          "purchasing.productvendor.businessentityid",
+          "purchasing.productvendor.lastreceiptcost",
+          "purchasing.productvendor.minorderqty",
+          "purchasing.productvendor.averageleadtime",
+          "purchasing.vendor.name",
+          "purchasing.productvendor.maxorderqty",
+          "purchasing.productvendor.standardprice",
+          "purchasing.vendor.modifieddate",
+          "purchasing.productvendor.unitmeasurecode",
+          "purchasing.vendor.creditrating",
+          "purchasing.vendor.businessentityid",
+          "purchasing.vendor.purchasingwebserviceurl",
+          "purchasing.productvendor.productid",
+          "purchasing.vendor.preferredvendorstatus",
+          "purchasing.vendor.activeflag",
+          "purchasing.purchaseorderheader.vendorid"
+        ],
+        "value_recall": [],
+        "terminal_tables": [
+          "purchasing.vendor"
+        ],
+        "bridge_tables": [],
+        "disconnected_components": [
+          [
+            "purchasing.vendor"
+          ]
+        ],
+        "scores": {
+          "purchasing.productvendor": 0.03252247488101534,
+          "purchasing.vendor": 0.03252247488101534,
+          "purchasing.purchaseorderheader": 0.031746031746031744,
+          "purchasing.purchaseorderdetail": 0.015625,
+          "production.transactionhistory": 0.015384615384615385,
+          "production.transactionhistoryarchive": 0.015151515151515152,
+          "humanresources.employee": 0.014925373134328358,
+          "humanresources.jobcandidate": 0.014705882352941176
+        },
+        "query_facets": [
+          "供应商档案一共有多少条？不按客户或门店计数。"
+        ],
+        "per_query_recall": [
+          {
+            "query": "供应商档案一共有多少条？不按客户或门店计数。",
+            "table_top": [
+              "purchasing.vendor",
+              "purchasing.productvendor",
+              "purchasing.purchaseorderheader",
+              "purchasing.purchaseorderdetail",
+              "production.transactionhistory",
+              "production.transactionhistoryarchive",
+              "humanresources.employee",
+              "humanresources.jobcandidate"
+            ],
+            "column_top": [
+              "purchasing.productvendor.onorderqty",
+              "purchasing.vendor.accountnumber",
+              "purchasing.productvendor.lastreceiptdate",
+              "purchasing.productvendor.modifieddate",
+              "purchasing.productvendor.businessentityid",
+              "purchasing.productvendor.lastreceiptcost",
+              "purchasing.productvendor.minorderqty",
+              "purchasing.productvendor.averageleadtime",
+              "purchasing.vendor.name",
+              "purchasing.productvendor.maxorderqty",
+              "purchasing.productvendor.standardprice",
+              "purchasing.vendor.modifieddate",
+              "purchasing.productvendor.unitmeasurecode",
+              "purchasing.vendor.creditrating",
+              "purchasing.vendor.businessentityid",
+              "purchasing.vendor.purchasingwebserviceurl",
+              "purchasing.productvendor.productid",
+              "purchasing.vendor.preferredvendorstatus",
+              "purchasing.vendor.activeflag",
+              "purchasing.purchaseorderheader.vendorid"
+            ]
+          }
+        ],
+        "excluded_tables": {
+          "humanresources.employee": "员工人事档案，与供应商档案无关。",
+          "humanresources.jobcandidate": "职位候选人记录，与供应商档案无关。",
+          "production.product": "产品主数据，不是供应商档案。",
+          "production.transactionhistory": "库存事务历史，与供应商档案统计无关。",
+          "production.transactionhistoryarchive": "库存事务归档，与供应商档案统计无关。",
+          "purchasing.productvendor": "产品与供应商的供货关系表，每个供应商可能有多行，不能用于统计供应商档案数量。",
+          "purchasing.purchaseorderdetail": "采购订单明细，与供应商档案数量无关。",
+          "purchasing.purchaseorderheader": "采购订单头，记录采购交易，不是供应商档案。"
+        },
+        "pruning": {
+          "status": "completed",
+          "candidate_tables": [
+            "humanresources.employee",
+            "humanresources.jobcandidate",
+            "production.product",
+            "production.transactionhistory",
+            "production.transactionhistoryarchive",
+            "purchasing.productvendor",
+            "purchasing.purchaseorderdetail",
+            "purchasing.purchaseorderheader",
+            "purchasing.vendor"
+          ],
+          "candidate_count": 9,
+          "llm_selected_tables": [
+            "purchasing.vendor"
+          ],
+          "restored_bridge_tables": [],
+          "connected": true,
+          "disconnected_components": [
+            [
+              "purchasing.vendor"
+            ]
+          ],
+          "connectivity_note": "真实外键组件分别补全；不为互不关联的组件制造连接",
+          "column_count": 1,
+          "selector_gold_input": false
+        }
+      },
+      "result_columns": [
+        "vendor_count"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "cost": {
+    "raw_step_ms": {
+      "route": 0,
+      "config_check": 0,
+      "catalog": 163,
+      "requested_source_check": 0,
+      "value_link": 0,
+      "rewrite": 0,
+      "clarification_gate": 6,
+      "schema_link": 28,
+      "schema_prune": 4686,
+      "llm": 5488,
+      "sql_gen": 3231,
+      "sql_validate": 1,
+      "sql_binding_validate": 0,
+      "sql_exec": 42,
+      "answer": 0
+    },
+    "stages_ms": {
+      "model_calls": 5488,
+      "nlu": 6,
+      "value_link": 0,
+      "schema_selection": 4714,
+      "sql_generation": 3231,
+      "sql_execution": 42,
+      "retrieval": 0,
+      "answer_generation": 0
+    },
+    "model_attempts": {
+      "schema_selection": 1,
+      "all": 2,
+      "sql_generation": 1
+    },
+    "usage": {
+      "prompt_tokens": 9066,
+      "schema_selection_prompt_tokens": 7071,
+      "completion_tokens": 252,
+      "schema_selection_completion_tokens": 190,
+      "total_tokens": 9318,
+      "schema_selection_total_tokens": 7261,
+      "sql_generation_prompt_tokens": 1995,
+      "sql_generation_completion_tokens": 62,
+      "sql_generation_total_tokens": 2057
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "duration_warning": "嵌套步骤有重叠；端到端实测独立计时，不将所有step相加"
+  },
+  "matched": true,
+  "legacy_matched": true,
+  "comparison": {
+    "matched": true,
+    "reason": "equal",
+    "column_mapping": [
+      0
+    ]
+  },
+  "legacy_comparison": {
+    "matched": true,
+    "reason": "equal",
+    "column_mapping": [
+      0
+    ]
+  },
+  "failure_category": null,
+  "selected_table_count": 1,
+  "schema_recall": 1.0,
+  "schema_precision": 1.0,
+  "elapsed_ms": 8172.456
+}

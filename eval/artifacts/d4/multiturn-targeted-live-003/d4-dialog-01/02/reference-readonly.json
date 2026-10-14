@@ -1,0 +1,15 @@
+{
+  "sql": "SELECT COUNT(i.invoice_id) AS value FROM public.invoice i WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' AND i.billing_country='Canada'",
+  "result": {
+    "columns": [
+      "value"
+    ],
+    "rows": [
+      [
+        11
+      ]
+    ]
+  },
+  "readonly": true,
+  "statement_timeout_ms": 5000
+}

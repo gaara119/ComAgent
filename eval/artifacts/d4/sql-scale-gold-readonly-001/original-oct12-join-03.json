@@ -1,0 +1,23 @@
+{
+  "id": "oct12-join-03",
+  "scale": "original",
+  "sql": "SELECT COUNT(*) AS track_count FROM track AS t JOIN album AS a ON t.album_id = a.album_id JOIN artist AS r ON a.artist_id = r.artist_id WHERE r.name = 'AC/DC'",
+  "result": {
+    "columns": [
+      "track_count"
+    ],
+    "rows": [
+      [
+        18
+      ]
+    ],
+    "table": [
+      {
+        "track_count": 18
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "system_prediction": false
+}

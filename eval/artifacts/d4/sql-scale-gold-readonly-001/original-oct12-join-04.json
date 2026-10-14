@@ -1,0 +1,23 @@
+{
+  "id": "oct12-join-04",
+  "scale": "original",
+  "sql": "SELECT COUNT(*) AS track_count FROM track AS t JOIN media_type AS m ON t.media_type_id = m.media_type_id WHERE m.name = 'Protected AAC audio file'",
+  "result": {
+    "columns": [
+      "track_count"
+    ],
+    "rows": [
+      [
+        237
+      ]
+    ],
+    "table": [
+      {
+        "track_count": 237
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "system_prediction": false
+}

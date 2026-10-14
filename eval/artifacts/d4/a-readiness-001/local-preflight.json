@@ -1,0 +1,80 @@
+{
+  "at_utc": "2026-10-14T02:13:07.897934+00:00",
+  "status": "LOCAL_READINESS_VERIFIED_NOT_MODEL_BENCHMARK",
+  "external_requests": 0,
+  "model_calls": 0,
+  "database_connections": 0,
+  "held_content_read": false,
+  "holdout_predictions": 0,
+  "aw": {
+    "catalog_tables": 68,
+    "catalog_columns": 456,
+    "dev_cases": 21,
+    "expected_predictions": 42,
+    "completed_predictions": 0,
+    "same_questions_two_arms": true,
+    "arms": [
+      "full",
+      "subgraph"
+    ]
+  },
+  "sql": {
+    "dev_cases": 20,
+    "scales": [
+      2240,
+      10000,
+      100000
+    ],
+    "repetitions": 3,
+    "expected_predictions": 180,
+    "completed_predictions": 0,
+    "scope_counts": {
+      "expanded_invoice_line": 3,
+      "expanded_invoice": 7,
+      "nonexpanded_dimension_control": 10
+    },
+    "question_groups": {
+      "expanded_invoice_line": [
+        "oct12-join-08",
+        "oct12-join-11",
+        "oct12-join-12"
+      ],
+      "expanded_invoice": [
+        "oct12-join-09",
+        "oct12-join-10",
+        "sql-09",
+        "sql-15",
+        "sql-18",
+        "sql-33",
+        "sql-39"
+      ],
+      "nonexpanded_dimension_control": [
+        "oct12-join-01",
+        "oct12-join-02",
+        "oct12-join-03",
+        "oct12-join-04",
+        "oct12-join-05",
+        "oct12-join-06",
+        "oct12-join-07",
+        "oct12-join-13",
+        "oct12-join-14",
+        "oct12-join-15"
+      ]
+    },
+    "manifest_status": "ACTUALLY_CREATED_AND_VERIFIED",
+    "original_public_unchanged_at_copy_verification": true
+  },
+  "current_blocker": "Docker engine unavailable; authorization already received; do not send model requests until DB readiness and exclusive-start confirmation.",
+  "source_sha256": {
+    "eval/datasets/d3/aw_schema_link.dev.v2.jsonl": "bfacfc7fec9e2ec32f1f2a2f8c9005502686be11ccb831cbc5242b438415ad88",
+    "data/catalog/adventureworks.yaml": "359edf6b2e89b88f04d9d5a5d95364dd4a0013906e741b39748b28cfc084f69b",
+    "eval/artifacts/d4/sql-scale-data-001/manifest.json": "43d5230fe95250418a77b3d21a8cecb9b93643072740d944892524b5286de560",
+    "eval/datasets/oct12/chinook_join_dev_v1.jsonl": "fedfde55fee4cb64d9257bbb64b1618c8ee46cd67f9e2e0c3e2ddf84257cfba8",
+    "eval/artifacts/d2-final/review/sql-dev-v1.jsonl": "7b4c18f203ce0d88f38837f0c788cbcff142b559dc70d3f281990a2d47175f35",
+    "scripts/d4_bench_utils.py": "fee74fb8f8f481394c20306465b2d169edff5e1092b313ea2af91a8366151d09",
+    "scripts/d4_aw_ablation.py": "5879b3789fb272bcd7a0daf5479e499fd362ee4f50135b20fe46b25a96a31613",
+    "scripts/d4_sql_scale.py": "be5de34e2cec02e4c23a88325c8e63f50df1163fb86498581af133a22e8c9c40",
+    "eval/metrics.py": "c9227ffaa16f91bb3ef07e3d9338a813aea396d659e6862457c2321aa1432317"
+  },
+  "claims_limit": "Past copy/gold evidence is retained; this preflight does not revalidate current engine availability, SQL results or model accuracy/latency."
+}

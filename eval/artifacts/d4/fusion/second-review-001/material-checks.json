@@ -1,0 +1,163 @@
+{
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "eval/artifacts/d4/fusion/second-review-001/verify-materials.py"
+  ],
+  "sources": [
+    {
+      "doc_id": "project-metric-manual",
+      "entity_ref": "chinook:business-metrics",
+      "actual_source_sha256": "b50f5683e735baa3ca6fe08bde3b437377d810732357e2a4898d6820b0456a9a"
+    },
+    {
+      "doc_id": "artist-iron-maiden",
+      "entity_ref": "chinook:artist:90:Iron Maiden",
+      "actual_source_sha256": "4f071c465c5417f5867e8571fb4ea37098dd8829d86b9b253ac26184a145b270"
+    },
+    {
+      "doc_id": "artist-u2",
+      "entity_ref": "chinook:artist:150:U2",
+      "actual_source_sha256": "b2390ce8d232a9030e6dea5a7f43650b843108be0e26c876ed2d9572a653757e"
+    }
+  ],
+  "definition_quote": "本项目将客单价主口径写全为平均每张发票金额，表达式 AVG(invoice.total)，每张发票权重相同。",
+  "definition_chunk": "ca07b3c089c99383c97a3600",
+  "reference_checks": [
+    {
+      "id": "cross-01",
+      "source": "eval/artifacts/d4/fusion/reference-only-001/cross-01-reference.json",
+      "source_sha256": "dc759e4d256a6c5a569121ad3c12dd0f195a190b3821f40b08a2ba0949157beb",
+      "reference_plan_guard": "passed",
+      "system_prediction": "not_run"
+    },
+    {
+      "id": "cross-02",
+      "source": "eval/artifacts/d4/fusion/reference-only-001/cross-02-reference.json",
+      "source_sha256": "a110b524a18c2685df1b14189a66eb336f1f2c2c4b855fb2c60dc5049e945a60",
+      "reference_plan_guard": "passed",
+      "system_prediction": "not_run"
+    },
+    {
+      "id": "cross-03",
+      "source": "eval/artifacts/d4/fusion/reference-only-001/cross-03-reference.json",
+      "source_sha256": "a9c8edf7fe7187f864b4ec0684fdd78600c0503726a903516dc93b043fbd3116",
+      "reference_plan_guard": "passed",
+      "system_prediction": "not_run"
+    },
+    {
+      "id": "cross-04",
+      "source": "eval/artifacts/d4/fusion/reference-only-001/cross-04-reference.json",
+      "source_sha256": "7186ed0399e8e315b1215180ece34044f6b2ef3edc52eb1a0427dede9886be8c",
+      "reference_plan_guard": "passed",
+      "system_prediction": "not_run"
+    },
+    {
+      "id": "cross-05",
+      "source": "eval/artifacts/d4/fusion/reference-only-001/cross-05-reference.json",
+      "source_sha256": "ca802e8785941d01a1ba6ed06aba45406d43068fa9528c354b6e836d1206526f",
+      "reference_plan_guard": "passed",
+      "system_prediction": "not_run"
+    },
+    {
+      "id": "cross-06",
+      "source": "eval/artifacts/d4/fusion/reference-only-001/cross-06-reference.json",
+      "source_sha256": "4027dfc9b90e09c2630b5a143be41809444ca8ccf42e555e923815e4b9e6873c",
+      "reference_plan_guard": "passed",
+      "system_prediction": "not_run"
+    }
+  ],
+  "readonly_probes": [
+    {
+      "purpose": "cross-01: verify unique winner in current snapshot",
+      "sql": "SELECT a.artist_id AS artist_id,a.name AS artist_name,SUM(il.unit_price*il.quantity) AS sales_amount FROM public.artist a JOIN public.album al ON al.artist_id=a.artist_id JOIN public.track t ON t.album_id=al.album_id JOIN public.invoice_line il ON il.track_id=t.track_id GROUP BY a.artist_id,a.name ORDER BY sales_amount DESC,a.artist_id ASC LIMIT 2",
+      "rows": [
+        [
+          90,
+          "Iron Maiden",
+          "138.60"
+        ],
+        [
+          150,
+          "U2",
+          "105.93"
+        ]
+      ],
+      "columns": [
+        "artist_id",
+        "artist_name",
+        "sales_amount"
+      ],
+      "unique_winner": true
+    },
+    {
+      "purpose": "cross-02: verify unique winner in current snapshot",
+      "sql": "SELECT a.artist_id AS artist_id,a.name AS artist_name,SUM(il.unit_price*il.quantity) AS sales_amount FROM public.artist a JOIN public.album al ON al.artist_id=a.artist_id JOIN public.track t ON t.album_id=al.album_id JOIN public.invoice_line il ON il.track_id=t.track_id JOIN public.invoice i ON i.invoice_id=il.invoice_id WHERE i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' GROUP BY a.artist_id,a.name ORDER BY sales_amount DESC,a.artist_id ASC LIMIT 2",
+      "rows": [
+        [
+          90,
+          "Iron Maiden",
+          "33.66"
+        ],
+        [
+          150,
+          "U2",
+          "27.72"
+        ]
+      ],
+      "columns": [
+        "artist_id",
+        "artist_name",
+        "sales_amount"
+      ],
+      "unique_winner": true
+    },
+    {
+      "purpose": "cross-04: verify per-invoice equal weight",
+      "sql": "SELECT COUNT(*) AS invoice_count,COUNT(DISTINCT i.customer_id) AS buying_customers,SUM(i.total) AS total_amount,AVG(i.total) AS average_invoice_amount FROM public.invoice i JOIN public.customer c ON c.customer_id=i.customer_id WHERE c.country='USA' AND i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01'",
+      "columns": [
+        "invoice_count",
+        "buying_customers",
+        "total_amount",
+        "average_invoice_amount"
+      ],
+      "rows": [
+        [
+          21,
+          13,
+          "127.98",
+          "6.0942857142857143"
+        ]
+      ],
+      "independent_sum_div_count": "6.0942857142857143",
+      "average_matches": true,
+      "different_customer_grain_amount": "9.844615384615384615384615385"
+    },
+    {
+      "purpose": "cross-05: verify per-invoice equal weight",
+      "sql": "SELECT COUNT(*) AS invoice_count,COUNT(DISTINCT i.customer_id) AS buying_customers,SUM(i.total) AS total_amount,AVG(i.total) AS average_invoice_amount FROM public.invoice i JOIN public.customer c ON c.customer_id=i.customer_id WHERE c.country='Canada' AND i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01'",
+      "columns": [
+        "invoice_count",
+        "buying_customers",
+        "total_amount",
+        "average_invoice_amount"
+      ],
+      "rows": [
+        [
+          11,
+          6,
+          "55.44",
+          "5.0400000000000000"
+        ]
+      ],
+      "independent_sum_div_count": "5.0400000000000000",
+      "average_matches": true,
+      "different_customer_grain_amount": "9.24"
+    }
+  ],
+  "model_calls": 0,
+  "http_questions": 0,
+  "held_predictions": 0,
+  "human_review_status": "pending_human_review",
+  "production_changes": false,
+  "method": "Second source-and-query check; handcrafted definition guard input, not model extraction/prediction"
+}

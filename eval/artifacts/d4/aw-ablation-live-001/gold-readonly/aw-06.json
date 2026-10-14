@@ -1,0 +1,27 @@
+{
+  "id": "aw-06",
+  "sql": "SELECT COUNT(DISTINCT color) AS color_count FROM production.product WHERE color IS NOT NULL",
+  "result": {
+    "columns": [
+      "color_count"
+    ],
+    "rows": [
+      [
+        9
+      ]
+    ],
+    "table": [
+      {
+        "color_count": 9
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "source_gold_review": {
+    "status": "pending_human_review",
+    "reviewer": null,
+    "review_date": null
+  },
+  "prediction": false
+}

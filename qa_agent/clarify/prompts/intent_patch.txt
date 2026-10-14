@@ -8,6 +8,7 @@ numerator 和 denominator 是两个独立的字符串范围描述，不能用全
 filters 的单项使用真实 column、operator、value 键，不能另造 field、op 等键。匹配到一个合法值只证明该值可引用，不证明它应当成为整个查询的筛选；先核对它在本次句子中是全局条件、比例分子条件还是比例分母条件。回答当前缺项不能顺带改 task_type、comparison、已确认期间或其它未被本次文字修改的字段。
 真实筛选值只能来自 verified_value_bindings 或 current_card 的候选；用户没有确定候选时不强制选择。用户明确标准英文名称可使用候选中的相同标准值；只给“摇滚”仍有 Rock/Rock And Roll 歧义。
 改年份或月份时 path 只写顶层 time_scope，value={"current":{"start":"明确日期","end":"不含的结束日期","grain":"year|month|custom"}}；不把 time_scope.current 或 time_scope.current.start 写成 path。旧推导基期不沿用，由后续规则重新推导。改指标时保留期间与地区；改国家时保留 metric 与 time_scope。
-指标 ID：invoice_revenue、detail_revenue、purchased_quantity、playlist_memberships、average_invoice_amount、repeat_customer_count、customer_count、track_count、record_count。用户明确“按销售额”且对象曲目时 detail_revenue；对象发票或客户金额时 invoice_revenue。
+指标 ID：invoice_revenue、detail_revenue、purchased_quantity、playlist_memberships、average_invoice_amount、repeat_customer_count、customer_count、track_count、invoice_count、record_count。invoice_count=COUNT(invoice.invoice_id)，只用于发票张数；不能把金额与计数混用。用户明确“按销售额”且对象曲目时 detail_revenue；对象发票或客户金额时 invoice_revenue。
+“改成流派 Metal”等明确替换对象时，只替换旧对象的名称筛选，保留期间、指标和独立国家条件；不要把替换对象当作增加两个对象的交集，也不要无关地修改国家。
 国家字段 customer.country 表示客户所在地；invoice.billing_country 表示账单国家，不能自行互换。只有用户本次明确切换这两个归属时，region_scope 写实际目标字段，国家值沿用已确认值并保留其它筛选；选择一个地区归属应同时把 region_ambiguous=false。地区归属切换只需 set region_scope，不输出 remove filters；程序负责把已确认国家值迁移到目标字段，不能把切换归属理解为取消国家筛选。
 用户明确说删除筛选才删除；不能因为新国家替换而删除年份、指标、其它对象。只输出补丁及原文依据，不输出隐藏思维链。

@@ -1,0 +1,484 @@
+{
+  "status": "ACTUALLY_BUILT_VERIFIED",
+  "build_ms": 116.317,
+  "actual_model_build_calls": 0,
+  "dense_source": "verified original BGE-M3 vectors, original row subset",
+  "holdout_predictions": 0,
+  "questions": 20,
+  "original_dev_families": 10,
+  "new_equal_meaning_variants": 10,
+  "new_variants_human_status": "pending_human_review",
+  "source_safe_dev_view": "eval/artifacts/d2-final/review/rag-dev-view.jsonl",
+  "source_safe_dev_sha256": "12b8cc7de87ea73bc60a2e9b7d527d0721956ef1bf4256ccf6a70331a7f57f63",
+  "doc_ids": [
+    "ohr-academic-label-words",
+    "ohr-law-affiliate",
+    "ohr-manual-macbook-air",
+    "ohr-news-executive-insight",
+    "ohr-textbook-geology"
+  ],
+  "libraries": [
+    {
+      "pages": 10,
+      "chunks": 228,
+      "documents": 5,
+      "index": "data/indexes/d4-rag-scale-002/pages-10",
+      "manifest": "data/indexes/d4-rag-scale-002/pages-10/manifest.csv",
+      "selected_pages": [
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 6
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 12
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 1
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 2
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 10
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 1
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 8
+        }
+      ],
+      "all_twenty_questions_evidence_available": true,
+      "source_hash_and_dense_dimensions_verified": true
+    },
+    {
+      "pages": 100,
+      "chunks": 1876,
+      "documents": 5,
+      "index": "data/indexes/d4-rag-scale-002/pages-100",
+      "manifest": "data/indexes/d4-rag-scale-002/pages-100/manifest.csv",
+      "selected_pages": [
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 1
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 2
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 3
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 4
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 5
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 6
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 7
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 8
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 9
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 10
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 11
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 12
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 13
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 14
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 15
+        },
+        {
+          "doc_id": "ohr-academic-label-words",
+          "page": 16
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 1
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 2
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 3
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 4
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 5
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 6
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 7
+        },
+        {
+          "doc_id": "ohr-law-affiliate",
+          "page": 8
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 1
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 2
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 5
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 6
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 7
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 8
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 9
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 10
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 11
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 12
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 13
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 14
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 15
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 16
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 17
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 18
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 19
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 20
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 21
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 22
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 23
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 25
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 26
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 27
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 28
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 29
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 30
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 31
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 32
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 33
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 34
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 35
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 36
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 37
+        },
+        {
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 1
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 3
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 4
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 5
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 6
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 7
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 8
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 9
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 10
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 12
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 13
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 14
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 15
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 16
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 17
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 18
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 19
+        },
+        {
+          "doc_id": "ohr-news-executive-insight",
+          "page": 20
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 1
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 2
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 3
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 4
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 5
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 6
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 7
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 8
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 9
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 10
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 11
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 12
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 13
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 14
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 15
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 16
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 17
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 18
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 19
+        },
+        {
+          "doc_id": "ohr-textbook-geology",
+          "page": 20
+        }
+      ],
+      "all_twenty_questions_evidence_available": true,
+      "source_hash_and_dense_dimensions_verified": true
+    }
+  ]
+}

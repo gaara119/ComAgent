@@ -1,0 +1,15 @@
+{
+  "sql": "SELECT SUM(CASE WHEN c.country='Germany' THEN i.total END)/NULLIF(SUM(i.total),0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id=c.customer_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01'",
+  "result": {
+    "columns": [
+      "share"
+    ],
+    "rows": [
+      [
+        "0.10343285489160526428"
+      ]
+    ]
+  },
+  "readonly": true,
+  "statement_timeout_ms": 5000
+}

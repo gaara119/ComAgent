@@ -1,0 +1,33 @@
+{
+  "sql": "SELECT t.track_id,SUM(il.unit_price*il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id WHERE i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' AND i.billing_country='France' GROUP BY t.track_id ORDER BY value DESC,t.track_id ASC LIMIT 5",
+  "result": {
+    "columns": [
+      "track_id",
+      "value"
+    ],
+    "rows": [
+      [
+        3337,
+        "1.99"
+      ],
+      [
+        3346,
+        "1.99"
+      ],
+      [
+        3364,
+        "1.99"
+      ],
+      [
+        165,
+        "0.99"
+      ],
+      [
+        167,
+        "0.99"
+      ]
+    ]
+  },
+  "readonly": true,
+  "statement_timeout_ms": 5000
+}

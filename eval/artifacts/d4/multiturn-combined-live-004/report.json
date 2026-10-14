@@ -1,0 +1,4249 @@
+{
+  "state": "COMPLETED",
+  "created_at": "2026-10-14T02:49:31.381370+00:00",
+  "held_predictions": 0,
+  "scoring_contract_version": "d4-multiturn-v4-explicit-primary-and-tie-order",
+  "scoring_rule": "Plan §5.2: numeric two decimal places, ignore column names/order, preserve requested row ordering; strict full-precision diagnostic separately.",
+  "case_count": 8,
+  "all_turns_success": 8,
+  "new_conversations": 5,
+  "new_all_turns_success": 5,
+  "condition_correct_turns": 30,
+  "condition_turns": 30,
+  "result_correct_turns": 30,
+  "result_turns": 30,
+  "strict_result_correct_turns": 30,
+  "records": [
+    {
+      "id": "sp03-26",
+      "split": "dev",
+      "completed_all_turns": true,
+      "turns": [
+        {
+          "index": 0,
+          "message": "同比增长多少？",
+          "status": "NEEDS_CLARIFICATION",
+          "intent_version": 1,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": null,
+            "reason": "no SQL expected at incomplete clarification turn"
+          },
+          "strict_result_check": {
+            "matched": null,
+            "reason": "no SQL expected at incomplete clarification turn"
+          },
+          "trace_id": "27523436-08b2-41c5-9b0e-893f3a2d900c",
+          "latency_ms": 4198.526299966034,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-26\\00\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-26\\00\\response.raw.json",
+          "expected": {
+            "status": "NEEDS_CLARIFICATION",
+            "task_type": "growth",
+            "metric": null,
+            "time_scope": null,
+            "filters": []
+          },
+          "sql": null,
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": null,
+            "time_scope": null,
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": true,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "comparison": "同比"
+            }
+          },
+          "invalidated_execution": []
+        },
+        {
+          "index": 1,
+          "message": "2024年全年。",
+          "status": "NEEDS_CLARIFICATION",
+          "intent_version": 2,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": null,
+            "reason": "no SQL expected at incomplete clarification turn"
+          },
+          "strict_result_check": {
+            "matched": null,
+            "reason": "no SQL expected at incomplete clarification turn"
+          },
+          "trace_id": "a3777479-9659-4dfe-a3b0-9ff0b1795025",
+          "latency_ms": 3478.0714000226,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-26\\01\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-26\\01\\response.raw.json",
+          "expected": {
+            "task_type": "growth",
+            "metric": null,
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "base": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "filters": [],
+            "comparison": {
+              "type": "yoy"
+            }
+          },
+          "sql": null,
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": null,
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              },
+              "base": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "comparison": "同比"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 2,
+          "message": "按发票销售额算。",
+          "status": "SUCCEEDED",
+          "intent_version": 3,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "2ede33ff-334b-4014-a695-85a383f0ee00",
+          "latency_ms": 7751.201000006404,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-26\\02\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-26\\02\\response.raw.json",
+          "expected": {
+            "task_type": "growth",
+            "metric": "invoice_revenue",
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "base": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "filters": [],
+            "comparison": {
+              "type": "yoy"
+            }
+          },
+          "sql": "SELECT (SUM(CASE WHEN i.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2025-01-01' AS TIMESTAMP) THEN i.total ELSE 0 END) - SUM(CASE WHEN i.invoice_date >= CAST('2023-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2024-01-01' AS TIMESTAMP) THEN i.total ELSE 0 END)) / NULLIF(SUM(CASE WHEN i.invoice_date >= CAST('2023-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2024-01-01' AS TIMESTAMP) THEN i.total ELSE 0 END), 0) AS yoy_growth_rate FROM \"public\".\"invoice\" AS i WHERE i.invoice_date >= CAST('2023-01-01' AS TIMESTAMP) AND i.invoice_date < CAST('2025-01-01' AS TIMESTAMP)",
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              },
+              "base": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "comparison": "同比"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 3,
+          "message": "改成2025年同比。",
+          "status": "SUCCEEDED",
+          "intent_version": 4,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "7de2284b-ec83-4a33-a354-bf45f722a114",
+          "latency_ms": 8186.1817999742925,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-26\\03\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-26\\03\\response.raw.json",
+          "expected": {
+            "task_type": "growth",
+            "metric": "invoice_revenue",
+            "current": {
+              "start": "2025-01-01",
+              "end": "2026-01-01"
+            },
+            "base": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "filters": [],
+            "comparison": {
+              "type": "yoy"
+            }
+          },
+          "sql": "WITH cur AS (SELECT SUM(invoice.total) AS rev FROM \"public\".\"invoice\" WHERE invoice.invoice_date >= CAST('2025-01-01' AS DATE) AND invoice.invoice_date < CAST('2026-01-01' AS DATE)), base AS (SELECT SUM(invoice.total) AS rev FROM \"public\".\"invoice\" WHERE invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE)) SELECT (cur.rev - base.rev) / NULLIF(base.rev, 0) AS yoy_growth FROM cur, base LIMIT 200",
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2025-01-01",
+                "end": "2026-01-01",
+                "label": "2025年",
+                "grain": "year"
+              },
+              "base": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "comparison": "同比"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 4,
+          "message": "指标换成平均每张发票金额。",
+          "status": "SUCCEEDED",
+          "intent_version": 5,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "59544cb0-4a1a-4e09-8875-040836b4b0c9",
+          "latency_ms": 8115.495899983216,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-26\\04\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-26\\04\\response.raw.json",
+          "expected": {
+            "task_type": "growth",
+            "metric": "average_invoice_amount",
+            "current": {
+              "start": "2025-01-01",
+              "end": "2026-01-01"
+            },
+            "base": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "filters": [],
+            "comparison": {
+              "type": "yoy"
+            }
+          },
+          "sql": "WITH current_year AS (SELECT AVG(total) AS avg_total FROM \"public\".\"invoice\" WHERE invoice_date >= '2025-01-01' AND invoice_date < '2026-01-01'), base_year AS (SELECT AVG(total) AS avg_total FROM \"public\".\"invoice\" WHERE invoice_date >= '2024-01-01' AND invoice_date < '2025-01-01') SELECT (c.avg_total - b.avg_total) / NULLIF(b.avg_total, 0) AS yoy_growth FROM current_year AS c CROSS JOIN base_year AS b LIMIT 200",
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": "average_invoice_amount",
+            "time_scope": {
+              "current": {
+                "start": "2025-01-01",
+                "end": "2026-01-01",
+                "label": "2025年",
+                "grain": "year"
+              },
+              "base": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "comparison": "同比"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sp03-27",
+      "split": "dev",
+      "completed_all_turns": true,
+      "turns": [
+        {
+          "index": 0,
+          "message": "2023年销售额占比是多少？",
+          "status": "NEEDS_CLARIFICATION",
+          "intent_version": 1,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": null,
+            "reason": "no SQL expected at incomplete clarification turn"
+          },
+          "strict_result_check": {
+            "matched": null,
+            "reason": "no SQL expected at incomplete clarification turn"
+          },
+          "trace_id": "a361d0fd-5246-4836-8e19-5e1efc52604a",
+          "latency_ms": 4577.07230001688,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-27\\00\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-27\\00\\response.raw.json",
+          "expected": {
+            "status": "NEEDS_CLARIFICATION",
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "numerator": null,
+            "filters": []
+          },
+          "sql": null,
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": "同期全部发票金额（SUM(invoice.total)，分母不加分子地区筛选）",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [],
+            "assumptions": [
+              "销售额占比默认以同期全部发票金额作分母（10月12日已确认）。"
+            ],
+            "default_assumptions": [
+              "销售额占比默认以同期全部发票金额作分母（10月12日已确认）。"
+            ],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "销售额",
+              "ratio": "占比"
+            }
+          },
+          "invalidated_execution": []
+        },
+        {
+          "index": 1,
+          "message": "巴西居住客户的销售额。",
+          "status": "SUCCEEDED",
+          "intent_version": 2,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "d2c59088-fb31-44dc-b2be-1208aa2a4e5e",
+          "latency_ms": 7711.168300011195,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-27\\01\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-27\\01\\response.raw.json",
+          "expected": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Brazil",
+                "binding_scope": "numerator"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(CASE WHEN \"customer\".\"country\" = 'Brazil' THEN \"invoice\".\"total\" ELSE 0 END) / NULLIF(SUM(\"invoice\".\"total\"), 0) AS revenue_ratio FROM \"public\".\"invoice\" INNER JOIN \"public\".\"customer\" ON \"invoice\".\"customer_id\" = \"customer\".\"customer_id\" WHERE \"invoice\".\"invoice_date\" >= '2023-01-01' AND \"invoice\".\"invoice_date\" < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": "Brazil居住客户的销售额（SUM(invoice.total)，客户所在地为Brazil）",
+            "denominator": "同期全部发票金额（SUM(invoice.total)，分母不加分子地区筛选）",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Brazil",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-cf1b483ec6900d1a",
+                "source": "verified_value_index",
+                "binding_scope": "numerator",
+                "scope_evidence": "巴西居住客户的销售额",
+                "scope_basis": "explicit_user_scope"
+              }
+            ],
+            "assumptions": [
+              "销售额占比默认以同期全部发票金额作分母（10月12日已确认）。"
+            ],
+            "default_assumptions": [
+              "销售额占比默认以同期全部发票金额作分母（10月12日已确认）。"
+            ],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "销售额",
+              "ratio": "占比",
+              "numerator": "巴西居住客户的销售额"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 2,
+          "message": "分母是2023年全库的发票总销售额。",
+          "status": "SUCCEEDED",
+          "intent_version": 3,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "46884817-da45-4842-a304-e2e80c06c4cb",
+          "latency_ms": 7835.741900024004,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-27\\02\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-27\\02\\response.raw.json",
+          "expected": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Brazil",
+                "binding_scope": "numerator"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": "Brazil居住客户的销售额（SUM(invoice.total)，客户所在地为Brazil）",
+            "denominator": "2023年全库的发票总销售额（SUM(invoice.total)，不加地区筛选）",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Brazil",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-cf1b483ec6900d1a",
+                "source": "verified_value_index",
+                "binding_scope": "numerator",
+                "scope_evidence": "巴西居住客户的销售额",
+                "scope_basis": "explicit_user_scope"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "销售额",
+              "ratio": "占比",
+              "numerator": "巴西居住客户的销售额"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 3,
+          "message": "分子换成德国居住客户的销售额。",
+          "status": "SUCCEEDED",
+          "intent_version": 4,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "784823b7-93e6-44ce-8e1d-de1b5f79cc4c",
+          "latency_ms": 7103.793199989013,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-27\\03\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-27\\03\\response.raw.json",
+          "expected": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Germany",
+                "binding_scope": "numerator"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": "Germany居住客户的销售额（SUM(invoice.total)，客户所在地为Germany）",
+            "denominator": "2023年全库的发票总销售额（SUM(invoice.total)，不加地区筛选）",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-e4d835eae26ef07e",
+                "source": "verified_value_index",
+                "binding_scope": "numerator",
+                "scope_evidence": "分子换成德国居住客户的销售额。",
+                "scope_basis": "explicit_user_scope"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "销售额",
+              "ratio": "占比",
+              "numerator": "分子换成德国居住客户的销售额。"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 4,
+          "message": "分母改成2023年账单国为德国的销售额。",
+          "status": "SUCCEEDED",
+          "intent_version": 5,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "73636cf9-7579-4e56-b752-92663d1e617b",
+          "latency_ms": 12738.436400017235,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-27\\04\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-27\\04\\response.raw.json",
+          "expected": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Germany",
+                "binding_scope": "numerator"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "binding_scope": "denominator"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total ELSE 0 END) / NULLIF(SUM(CASE WHEN i.billing_country = 'Germany' THEN i.total ELSE 0 END), 0) AS ratio FROM public.invoice AS i INNER JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": "Germany居住客户的销售额（SUM(invoice.total)，客户所在地为Germany）",
+            "denominator": "2023年账单国为Germany的销售额（SUM(invoice.total)，账单国家为Germany）",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-e4d835eae26ef07e",
+                "source": "verified_value_index",
+                "binding_scope": "numerator",
+                "scope_evidence": "分子换成德国居住客户的销售额。",
+                "scope_basis": "explicit_user_scope"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "source": "verified_value_index",
+                "binding_scope": "denominator",
+                "scope_evidence": "分母改成2023年账单国为德国的销售额。",
+                "scope_basis": "explicit_user_scope"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "销售额",
+              "ratio": "占比",
+              "numerator": "分子换成德国居住客户的销售额。",
+              "denominator": "分母改成2023年账单国为德国的销售额。"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sp03-28",
+      "split": "dev",
+      "completed_all_turns": true,
+      "turns": [
+        {
+          "index": 0,
+          "message": "2022年金属乐队的销售额是多少？",
+          "status": "NEEDS_CLARIFICATION",
+          "intent_version": 1,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": null,
+            "reason": "no SQL expected at incomplete clarification turn"
+          },
+          "strict_result_check": {
+            "matched": null,
+            "reason": "no SQL expected at incomplete clarification turn"
+          },
+          "trace_id": "594c82f7-842e-4b60-9a79-8cbd9946afa0",
+          "latency_ms": 43.68619999149814,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-28\\00\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-28\\00\\response.raw.json",
+          "expected": {
+            "metric": "detail_revenue",
+            "current": {
+              "start": "2022-01-01",
+              "end": "2023-01-01"
+            },
+            "filters": []
+          },
+          "sql": null,
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2022-01-01",
+                "end": "2023-01-01",
+                "label": "2022年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": []
+        },
+        {
+          "index": 1,
+          "message": "Metallica（artist.name）",
+          "status": "SUCCEEDED",
+          "intent_version": 2,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "363c1ef5-ecd0-4adb-8347-706dae58a22f",
+          "latency_ms": 4390.533600002527,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-28\\01\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-28\\01\\response.raw.json",
+          "expected": {
+            "metric": "detail_revenue",
+            "current": {
+              "start": "2022-01-01",
+              "end": "2023-01-01"
+            },
+            "filters": [
+              {
+                "column": "artist.name",
+                "operator": "=",
+                "value": "Metallica"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(\"public\".\"invoice_line\".\"unit_price\" * \"public\".\"invoice_line\".\"quantity\") AS \"revenue\" FROM \"public\".\"invoice_line\" INNER JOIN \"public\".\"invoice\" ON \"public\".\"invoice_line\".\"invoice_id\" = \"public\".\"invoice\".\"invoice_id\" INNER JOIN \"public\".\"track\" ON \"public\".\"invoice_line\".\"track_id\" = \"public\".\"track\".\"track_id\" INNER JOIN \"public\".\"album\" ON \"public\".\"track\".\"album_id\" = \"public\".\"album\".\"album_id\" INNER JOIN \"public\".\"artist\" ON \"public\".\"album\".\"artist_id\" = \"public\".\"artist\".\"artist_id\" WHERE \"public\".\"artist\".\"name\" = 'Metallica' AND \"public\".\"invoice\".\"invoice_date\" >= '2022-01-01T00:00:00' AND \"public\".\"invoice\".\"invoice_date\" < '2023-01-01T00:00:00'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2022-01-01",
+                "end": "2023-01-01",
+                "label": "2022年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "mention_id": "issue-346fcbfe5011f2f9",
+                "column": "artist.name",
+                "operator": "=",
+                "value": "Metallica",
+                "candidate_id": "v-8cfcf0e35bfb7532e28a",
+                "method": "explicit_user_choice",
+                "evidence_ref": "clarification:e4fcab4a-74ec-4470-b841-bcb62bd6d97d:value:issue-346fcbfe5011f2f9:v-8cfcf0e35bfb7532e28a"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 2,
+          "message": "改成流派 Metal。",
+          "status": "SUCCEEDED",
+          "intent_version": 3,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "84b64d30-be0e-4519-a0db-907be2b71d7b",
+          "latency_ms": 8371.514800004661,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-28\\02\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-28\\02\\response.raw.json",
+          "expected": {
+            "metric": "detail_revenue",
+            "current": {
+              "start": "2022-01-01",
+              "end": "2023-01-01"
+            },
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS inv ON il.invoice_id = inv.invoice_id JOIN \"public\".\"track\" AS t ON il.track_id = t.track_id JOIN \"public\".\"genre\" AS g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND inv.invoice_date >= '2022-01-01' AND inv.invoice_date < '2023-01-01'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2022-01-01",
+                "end": "2023-01-01",
+                "label": "2022年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "v-bf1c51869eccaa9deddc",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 3,
+          "message": "期间改成2023年，限定账单国为德国。",
+          "status": "SUCCEEDED",
+          "intent_version": 4,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "e9da82c5-549c-41e3-8f85-751d68d49b03",
+          "latency_ms": 8837.377699965145,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-28\\03\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\sp03-28\\03\\response.raw.json",
+          "expected": {
+            "metric": "detail_revenue",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice\" AS inv JOIN \"public\".\"invoice_line\" AS il ON il.invoice_id = inv.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"genre\" AS g ON g.genre_id = t.genre_id WHERE inv.invoice_date >= CAST('2023-01-01 00:00:00' AS TIMESTAMP) AND inv.invoice_date < CAST('2024-01-01 00:00:00' AS TIMESTAMP) AND g.name = 'Metal' AND inv.billing_country = 'Germany'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "v-bf1c51869eccaa9deddc",
+                "source": "verified_value_index"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d4-dialog-01",
+      "split": "dev",
+      "completed_all_turns": true,
+      "turns": [
+        {
+          "index": 0,
+          "message": "2023年账单国为美国的发票销售额是多少？",
+          "status": "SUCCEEDED",
+          "intent_version": 1,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "c81df2fa-2099-4650-be37-9efd51d71e53",
+          "latency_ms": 4225.614900002256,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\00\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\00\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "USA"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(invoice.total) AS invoice_revenue FROM \"public\".\"invoice\" WHERE invoice.billing_country = 'USA' AND invoice.invoice_date >= '2023-01-01' AND invoice.invoice_date < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "USA",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-dca9d898c8a31e37",
+                "source": "verified_value_index",
+                "scope_evidence": "explicit_user_country_scope"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": []
+        },
+        {
+          "index": 1,
+          "message": "换成加拿大。",
+          "status": "SUCCEEDED",
+          "intent_version": 2,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "8d4f32d4-dec6-4a6e-8767-3059e19090d9",
+          "latency_ms": 8525.274799962062,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\01\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\01\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(\"invoice\".\"total\") AS invoice_revenue FROM \"public\".\"invoice\" WHERE \"invoice\".\"billing_country\" = 'Canada' AND \"invoice\".\"invoice_date\" >= '2023-01-01' AND \"invoice\".\"invoice_date\" < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-b33ce127772f748d",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 2,
+          "message": "改看发票张数。",
+          "status": "SUCCEEDED",
+          "intent_version": 3,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "83c6723b-665c-4570-b69b-c9477f1c72ff",
+          "latency_ms": 7428.490299964324,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\02\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\02\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "invoice_count",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada"
+              }
+            ]
+          },
+          "sql": "SELECT COUNT(\"invoice\".\"invoice_id\") AS invoice_count FROM \"public\".\"invoice\" WHERE \"invoice\".\"invoice_date\" >= '2023-01-01' AND \"invoice\".\"invoice_date\" < '2024-01-01' AND \"invoice\".\"billing_country\" = 'Canada'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "invoice_count",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-b33ce127772f748d",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 3,
+          "message": "期间改成2024年。",
+          "status": "SUCCEEDED",
+          "intent_version": 4,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "14c0cd2a-ade9-4e9b-aefa-55bd2a52a4b5",
+          "latency_ms": 7923.681499960367,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\03\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\03\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "metric": "invoice_count",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada"
+              }
+            ]
+          },
+          "sql": "SELECT COUNT(\"invoice\".\"invoice_id\") AS \"invoice_count\" FROM \"public\".\"invoice\" WHERE \"invoice\".\"invoice_date\" >= '2024-01-01' AND \"invoice\".\"invoice_date\" < '2025-01-01' AND \"invoice\".\"billing_country\" = 'Canada'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "invoice_count",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-b33ce127772f748d",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 4,
+          "message": "改按客户所在地统计。",
+          "status": "SUCCEEDED",
+          "intent_version": 5,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "b77dd68f-4a8e-46c9-97d7-68df92bae7a6",
+          "latency_ms": 8030.41220002342,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\04\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\04\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "metric": "invoice_count",
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Canada"
+              }
+            ]
+          },
+          "sql": "SELECT COUNT(\"invoice\".\"invoice_id\") AS \"invoice_count\" FROM \"public\".\"invoice\" INNER JOIN \"public\".\"customer\" ON \"invoice\".\"customer_id\" = \"customer\".\"customer_id\" WHERE \"customer\".\"country\" = 'Canada' AND \"invoice\".\"invoice_date\" >= '2024-01-01' AND \"invoice\".\"invoice_date\" < '2025-01-01'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "invoice_count",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Canada",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-b33ce127772f748d",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 5,
+          "message": "去掉客户所在地限制。",
+          "status": "SUCCEEDED",
+          "intent_version": 6,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "555f57a7-9a32-478f-ad44-860a6918284a",
+          "latency_ms": 6499.711600015871,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\05\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-01\\05\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "metric": "invoice_count",
+            "filters": []
+          },
+          "sql": "SELECT COUNT(\"invoice\".\"invoice_id\") AS invoice_count FROM \"public\".\"invoice\" WHERE \"invoice\".\"invoice_date\" >= '2024-01-01' AND \"invoice\".\"invoice_date\" < '2025-01-01'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "invoice_count",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d4-dialog-02",
+      "split": "dev",
+      "completed_all_turns": true,
+      "turns": [
+        {
+          "index": 0,
+          "message": "2024年账单国为美国的发票销售额同比增长率是多少？",
+          "status": "SUCCEEDED",
+          "intent_version": 1,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "3b3ecd59-eec5-4603-920d-04ba4d789738",
+          "latency_ms": 10699.55989997834,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\00\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\00\\response.raw.json",
+          "expected": {
+            "task_type": "growth",
+            "base": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "USA"
+              }
+            ]
+          },
+          "sql": "SELECT (SUM(CASE WHEN \"invoice_date\" >= CAST('2024-01-01' AS TIMESTAMP) AND \"invoice_date\" < CAST('2025-01-01' AS TIMESTAMP) THEN \"total\" ELSE 0 END) - SUM(CASE WHEN \"invoice_date\" >= CAST('2023-01-01' AS TIMESTAMP) AND \"invoice_date\" < CAST('2024-01-01' AS TIMESTAMP) THEN \"total\" ELSE 0 END)) / NULLIF(SUM(CASE WHEN \"invoice_date\" >= CAST('2023-01-01' AS TIMESTAMP) AND \"invoice_date\" < CAST('2024-01-01' AS TIMESTAMP) THEN \"total\" ELSE 0 END), 0) AS yoy_growth_rate FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'USA'",
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              },
+              "base": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "USA",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-dca9d898c8a31e37",
+                "source": "verified_value_index",
+                "scope_evidence": "explicit_user_country_scope"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2024年",
+              "metric": "发票销售额",
+              "comparison": "同比增长率",
+              "region_scope": "账单国为美国",
+              "filters": "账单国为美国"
+            }
+          },
+          "invalidated_execution": []
+        },
+        {
+          "index": 1,
+          "message": "换成加拿大。",
+          "status": "SUCCEEDED",
+          "intent_version": 2,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "7d9f09a3-a7df-4479-a422-83a53499b781",
+          "latency_ms": 7708.183399983682,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\01\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\01\\response.raw.json",
+          "expected": {
+            "task_type": "growth",
+            "base": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada"
+              }
+            ]
+          },
+          "sql": "SELECT (SUM(CASE WHEN invoice_date >= '2024-01-01' AND invoice_date < '2025-01-01' THEN total ELSE 0 END) - SUM(CASE WHEN invoice_date >= '2023-01-01' AND invoice_date < '2024-01-01' THEN total ELSE 0 END)) / NULLIF(SUM(CASE WHEN invoice_date >= '2023-01-01' AND invoice_date < '2024-01-01' THEN total ELSE 0 END), 0) AS revenue_yoy_growth FROM \"public\".\"invoice\" WHERE billing_country = 'Canada'",
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              },
+              "base": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-b33ce127772f748d",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2024年",
+              "metric": "发票销售额",
+              "comparison": "同比增长率",
+              "region_scope": "账单国为美国",
+              "filters": "账单国为美国"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 2,
+          "message": "改成2025年同比。",
+          "status": "SUCCEEDED",
+          "intent_version": 3,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "5026a825-efb0-4b58-98d8-f01c082f2d91",
+          "latency_ms": 7495.987800008152,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\02\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\02\\response.raw.json",
+          "expected": {
+            "task_type": "growth",
+            "base": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "current": {
+              "start": "2025-01-01",
+              "end": "2026-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada"
+              }
+            ]
+          },
+          "sql": "SELECT (SUM(CASE WHEN invoice.invoice_date >= CAST('2025-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2026-01-01' AS TIMESTAMP) THEN invoice.total ELSE 0 END) - SUM(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2025-01-01' AS TIMESTAMP) THEN invoice.total ELSE 0 END)) / NULLIF(SUM(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2025-01-01' AS TIMESTAMP) THEN invoice.total ELSE 0 END), 0) AS yoy_growth_rate FROM \"public\".\"invoice\" WHERE invoice.billing_country = 'Canada'",
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2025-01-01",
+                "end": "2026-01-01",
+                "label": "2025年",
+                "grain": "year"
+              },
+              "base": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-b33ce127772f748d",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2024年",
+              "metric": "发票销售额",
+              "comparison": "同比增长率",
+              "region_scope": "账单国为美国",
+              "filters": "账单国为美国"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 3,
+          "message": "指标换成平均每张发票金额。",
+          "status": "SUCCEEDED",
+          "intent_version": 4,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "d8e25df0-7336-466c-b10e-94e824bf1f41",
+          "latency_ms": 7261.984900047537,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\03\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\03\\response.raw.json",
+          "expected": {
+            "task_type": "growth",
+            "base": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "current": {
+              "start": "2025-01-01",
+              "end": "2026-01-01"
+            },
+            "metric": "average_invoice_amount",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada"
+              }
+            ]
+          },
+          "sql": "SELECT (AVG(CASE WHEN \"invoice_date\" >= '2025-01-01' AND \"invoice_date\" < '2026-01-01' THEN \"total\" END) - AVG(CASE WHEN \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' THEN \"total\" END)) / NULLIF(AVG(CASE WHEN \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' THEN \"total\" END), 0) AS yoy_growth_rate FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'Canada'",
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": "average_invoice_amount",
+            "time_scope": {
+              "current": {
+                "start": "2025-01-01",
+                "end": "2026-01-01",
+                "label": "2025年",
+                "grain": "year"
+              },
+              "base": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Canada",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-b33ce127772f748d",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2024年",
+              "metric": "发票销售额",
+              "comparison": "同比增长率",
+              "region_scope": "账单国为美国",
+              "filters": "账单国为美国"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 4,
+          "message": "国家换成德国。",
+          "status": "SUCCEEDED",
+          "intent_version": 5,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "ad4faeb3-c307-4cfc-867b-60e8e4ef9219",
+          "latency_ms": 7949.024999979883,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\04\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\04\\response.raw.json",
+          "expected": {
+            "task_type": "growth",
+            "base": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "current": {
+              "start": "2025-01-01",
+              "end": "2026-01-01"
+            },
+            "metric": "average_invoice_amount",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany"
+              }
+            ]
+          },
+          "sql": "SELECT (AVG(CASE WHEN \"invoice_date\" >= CAST('2025-01-01' AS TIMESTAMP) AND \"invoice_date\" < CAST('2026-01-01' AS TIMESTAMP) THEN \"total\" END) - AVG(CASE WHEN \"invoice_date\" >= CAST('2024-01-01' AS TIMESTAMP) AND \"invoice_date\" < CAST('2025-01-01' AS TIMESTAMP) THEN \"total\" END)) / NULLIF(AVG(CASE WHEN \"invoice_date\" >= CAST('2024-01-01' AS TIMESTAMP) AND \"invoice_date\" < CAST('2025-01-01' AS TIMESTAMP) THEN \"total\" END), 0) AS yoy_growth_rate FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'Germany'",
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": "average_invoice_amount",
+            "time_scope": {
+              "current": {
+                "start": "2025-01-01",
+                "end": "2026-01-01",
+                "label": "2025年",
+                "grain": "year"
+              },
+              "base": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2024年",
+              "metric": "发票销售额",
+              "comparison": "同比增长率",
+              "region_scope": "账单国为美国",
+              "filters": "账单国为美国"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 5,
+          "message": "期间改成2023年。",
+          "status": "SUCCEEDED",
+          "intent_version": 6,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "5b23a04c-d3fc-4bf2-9465-1903c19c2c88",
+          "latency_ms": 7834.753200004343,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\05\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-02\\05\\response.raw.json",
+          "expected": {
+            "task_type": "growth",
+            "base": {
+              "start": "2022-01-01",
+              "end": "2023-01-01"
+            },
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "average_invoice_amount",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany"
+              }
+            ]
+          },
+          "sql": "SELECT (AVG(CASE WHEN invoice.invoice_date >= CAST('2023-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2024-01-01' AS TIMESTAMP) THEN invoice.total END) - AVG(CASE WHEN invoice.invoice_date >= CAST('2022-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2023-01-01' AS TIMESTAMP) THEN invoice.total END)) / NULLIF(AVG(CASE WHEN invoice.invoice_date >= CAST('2022-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2023-01-01' AS TIMESTAMP) THEN invoice.total END), 0) AS yoy_growth FROM \"public\".\"invoice\" WHERE invoice.billing_country = 'Germany'",
+          "semantic_contract": {
+            "task_type": "growth",
+            "metric": "average_invoice_amount",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              },
+              "base": {
+                "start": "2022-01-01",
+                "end": "2023-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "comparison": {
+              "type": "yoy"
+            },
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2024年",
+              "metric": "发票销售额",
+              "comparison": "同比增长率",
+              "region_scope": "账单国为美国",
+              "filters": "账单国为美国"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d4-dialog-03",
+      "split": "dev",
+      "completed_all_turns": true,
+      "turns": [
+        {
+          "index": 0,
+          "message": "2022年艺术家 Metallica 的销售额是多少？",
+          "status": "SUCCEEDED",
+          "intent_version": 1,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "d82e3fa7-54c5-4cb5-a80d-06f005e6db5d",
+          "latency_ms": 4139.224599988665,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\00\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\00\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2022-01-01",
+              "end": "2023-01-01"
+            },
+            "metric": "detail_revenue",
+            "filters": [
+              {
+                "column": "artist.name",
+                "operator": "=",
+                "value": "Metallica"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS inv ON inv.invoice_id = il.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"album\" AS al ON al.album_id = t.album_id JOIN \"public\".\"artist\" AS ar ON ar.artist_id = al.artist_id WHERE ar.\"name\" = 'Metallica' AND inv.invoice_date >= '2022-01-01' AND inv.invoice_date < '2023-01-01'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2022-01-01",
+                "end": "2023-01-01",
+                "label": "2022年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "artist.name",
+                "operator": "=",
+                "value": "Metallica",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "v-8cfcf0e35bfb7532e28a",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": []
+        },
+        {
+          "index": 1,
+          "message": "改成流派 Metal。",
+          "status": "SUCCEEDED",
+          "intent_version": 2,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "a7360b8c-3b58-4c09-8cb3-c8605111a402",
+          "latency_ms": 7709.407899994403,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\01\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\01\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2022-01-01",
+              "end": "2023-01-01"
+            },
+            "metric": "detail_revenue",
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON i.invoice_id = il.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"genre\" AS g ON g.genre_id = t.genre_id WHERE i.invoice_date >= '2022-01-01' AND i.invoice_date < '2023-01-01' AND g.name = 'Metal'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2022-01-01",
+                "end": "2023-01-01",
+                "label": "2022年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "v-bf1c51869eccaa9deddc",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 2,
+          "message": "期间改成2023年，限定账单国为德国。",
+          "status": "SUCCEEDED",
+          "intent_version": 3,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "f4b1961e-74ff-4671-b314-3e28415a10a5",
+          "latency_ms": 8161.7380999960005,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\02\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\02\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "detail_revenue",
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.invoice_id = i.invoice_id JOIN \"public\".\"track\" AS t ON il.track_id = t.track_id JOIN \"public\".\"genre\" AS g ON t.genre_id = g.genre_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' AND g.name = 'Metal' AND i.billing_country = 'Germany'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "v-bf1c51869eccaa9deddc",
+                "source": "verified_value_index"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 3,
+          "message": "指标改成购买数量。",
+          "status": "SUCCEEDED",
+          "intent_version": 4,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "9903290b-4128-4649-b3f6-6e6098710501",
+          "latency_ms": 7627.90760002099,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\03\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\03\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "purchased_quantity",
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(il.quantity) AS purchased_quantity FROM \"public\".\"invoice\" AS i JOIN \"public\".\"invoice_line\" AS il ON il.invoice_id = i.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"genre\" AS g ON g.genre_id = t.genre_id WHERE i.invoice_date >= CAST('2023-01-01 00:00:00' AS TIMESTAMP) AND i.invoice_date < CAST('2024-01-01 00:00:00' AS TIMESTAMP) AND i.billing_country = 'Germany' AND g.name = 'Metal'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "purchased_quantity",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "v-bf1c51869eccaa9deddc",
+                "source": "verified_value_index"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 4,
+          "message": "期间改成2024年。",
+          "status": "SUCCEEDED",
+          "intent_version": 5,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "02b4cdc1-65fc-4d34-9b0f-65e3cc56a6d8",
+          "latency_ms": 8371.424299955834,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\04\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\04\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "metric": "purchased_quantity",
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(invoice_line.quantity) AS purchased_quantity FROM \"public\".\"invoice_line\" INNER JOIN \"public\".\"invoice\" ON \"public\".\"invoice_line\".\"invoice_id\" = \"public\".\"invoice\".\"invoice_id\" INNER JOIN \"public\".\"track\" ON \"public\".\"invoice_line\".\"track_id\" = \"public\".\"track\".\"track_id\" INNER JOIN \"public\".\"genre\" ON \"public\".\"track\".\"genre_id\" = \"public\".\"genre\".\"genre_id\" WHERE \"public\".\"invoice\".\"invoice_date\" >= '2024-01-01' AND \"public\".\"invoice\".\"invoice_date\" < '2025-01-01' AND \"public\".\"genre\".\"name\" = 'Metal' AND \"public\".\"invoice\".\"billing_country\" = 'Germany'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "purchased_quantity",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "v-bf1c51869eccaa9deddc",
+                "source": "verified_value_index"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 5,
+          "message": "账单国家换成巴西。",
+          "status": "SUCCEEDED",
+          "intent_version": 6,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "cbac2a66-3b45-4dcc-ac57-156b20f880f1",
+          "latency_ms": 8138.249900017399,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\05\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\05\\response.raw.json",
+          "expected": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "metric": "purchased_quantity",
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Brazil"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(invoice_line.quantity) AS purchased_quantity FROM \"public\".\"invoice_line\" INNER JOIN \"public\".\"invoice\" ON invoice_line.invoice_id = invoice.invoice_id INNER JOIN \"public\".\"track\" ON invoice_line.track_id = track.track_id INNER JOIN \"public\".\"genre\" ON track.genre_id = genre.genre_id WHERE invoice.invoice_date >= '2024-01-01' AND invoice.invoice_date < '2025-01-01' AND genre.name = 'Metal' AND invoice.billing_country = 'Brazil'",
+          "semantic_contract": {
+            "task_type": "lookup",
+            "metric": "purchased_quantity",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "genre.name",
+                "operator": "=",
+                "value": "Metal",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "v-bf1c51869eccaa9deddc",
+                "source": "verified_value_index"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Brazil",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-bfc3cf35431dcceb",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {}
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d4-dialog-04-v2",
+      "split": "dev",
+      "completed_all_turns": true,
+      "turns": [
+        {
+          "index": 0,
+          "message": "2023年按购买数量降序排名前3的曲目，返回曲目编号和购买数量；并列按曲目编号升序。",
+          "status": "SUCCEEDED",
+          "intent_version": 1,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "trace_id": "7afbb0a2-ca6e-4157-a092-831595a16a92",
+          "latency_ms": 7697.517399967182,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\00\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\00\\response.raw.json",
+          "expected": {
+            "top_n": 3,
+            "task_type": "ranking",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "purchased_quantity",
+            "filters": [],
+            "order": {
+              "field": "purchased_quantity",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            }
+          },
+          "sql": "SELECT il.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY il.track_id ORDER BY purchased_quantity DESC, il.track_id ASC LIMIT 3",
+          "semantic_contract": {
+            "task_type": "ranking",
+            "metric": "purchased_quantity",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": "track",
+            "top_n": 3,
+            "order": {
+              "field": "purchased_quantity",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            },
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [
+              "track.track_id"
+            ],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "购买数量",
+              "rank_object": "曲目",
+              "top_n": "前3",
+              "order": "按购买数量降序",
+              "grouping": "曲目编号"
+            }
+          },
+          "invalidated_execution": []
+        },
+        {
+          "index": 1,
+          "message": "改成前5首。",
+          "status": "SUCCEEDED",
+          "intent_version": 2,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "trace_id": "4cdf0da7-b2d1-4127-b662-32263687f133",
+          "latency_ms": 7499.339899979532,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\01\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\01\\response.raw.json",
+          "expected": {
+            "top_n": 5,
+            "task_type": "ranking",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "purchased_quantity",
+            "filters": [],
+            "order": {
+              "field": "purchased_quantity",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            }
+          },
+          "sql": "SELECT il.track_id, SUM(il.quantity) AS purchased_quantity FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY il.track_id ORDER BY purchased_quantity DESC, il.track_id ASC LIMIT 5",
+          "semantic_contract": {
+            "task_type": "ranking",
+            "metric": "purchased_quantity",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": "track",
+            "top_n": 5,
+            "order": {
+              "field": "purchased_quantity",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            },
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [
+              "track.track_id"
+            ],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "购买数量",
+              "rank_object": "曲目",
+              "top_n": "前3",
+              "order": "按购买数量降序",
+              "grouping": "曲目编号"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 2,
+          "message": "指标改成销售额。",
+          "status": "SUCCEEDED",
+          "intent_version": 3,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "trace_id": "90e13fa7-ff72-49a7-a636-6dfba17ee842",
+          "latency_ms": 6997.6932000136,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\02\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\02\\response.raw.json",
+          "expected": {
+            "top_n": 5,
+            "task_type": "ranking",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "detail_revenue",
+            "filters": [],
+            "order": {
+              "field": "detail_revenue",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            }
+          },
+          "sql": "SELECT il.track_id, SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS inv ON il.invoice_id = inv.invoice_id WHERE inv.invoice_date >= '2023-01-01' AND inv.invoice_date < '2024-01-01' GROUP BY il.track_id ORDER BY detail_revenue DESC, il.track_id ASC LIMIT 5",
+          "semantic_contract": {
+            "task_type": "ranking",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": "track",
+            "top_n": 5,
+            "order": {
+              "field": "detail_revenue",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            },
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [
+              "track.track_id"
+            ],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "购买数量",
+              "rank_object": "曲目",
+              "top_n": "前3",
+              "order": "按购买数量降序",
+              "grouping": "曲目编号"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 3,
+          "message": "期间改成2024年。",
+          "status": "SUCCEEDED",
+          "intent_version": 4,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "trace_id": "be77d608-af2b-4d9d-96c0-1d879ded2f21",
+          "latency_ms": 9264.880300033838,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\03\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\03\\response.raw.json",
+          "expected": {
+            "top_n": 5,
+            "task_type": "ranking",
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "metric": "detail_revenue",
+            "filters": [],
+            "order": {
+              "field": "detail_revenue",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            }
+          },
+          "sql": "SELECT il.track_id, SUM(il.unit_price * il.quantity) AS detail_revenue FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY il.track_id ORDER BY detail_revenue DESC, il.track_id ASC LIMIT 5",
+          "semantic_contract": {
+            "task_type": "ranking",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": "track",
+            "top_n": 5,
+            "order": {
+              "field": "detail_revenue",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            },
+            "region_scope": null,
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [
+              "track.track_id"
+            ],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "购买数量",
+              "rank_object": "曲目",
+              "top_n": "前3",
+              "order": "按购买数量降序",
+              "grouping": "曲目编号"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 4,
+          "message": "加上账单国家为法国。",
+          "status": "SUCCEEDED",
+          "intent_version": 5,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "trace_id": "4071ad5d-025d-46ac-8f04-40e5f015a9e6",
+          "latency_ms": 8685.633999994025,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\04\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\04\\response.raw.json",
+          "expected": {
+            "top_n": 5,
+            "task_type": "ranking",
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "metric": "detail_revenue",
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "France"
+              }
+            ],
+            "order": {
+              "field": "detail_revenue",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            }
+          },
+          "sql": "SELECT il.track_id, SUM(il.unit_price * il.quantity) AS detail_revenue FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id WHERE i.billing_country = 'France' AND i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY il.track_id ORDER BY detail_revenue DESC, il.track_id ASC LIMIT 5",
+          "semantic_contract": {
+            "task_type": "ranking",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": "track",
+            "top_n": 5,
+            "order": {
+              "field": "detail_revenue",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            },
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [
+              "track.track_id"
+            ],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "France",
+                "mention_id": "mention-2",
+                "method": "exact",
+                "evidence_ref": "a-1146eff0ef203810",
+                "source": "verified_value_index"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "购买数量",
+              "rank_object": "曲目",
+              "top_n": "前3",
+              "order": "按购买数量降序",
+              "grouping": "曲目编号"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 5,
+          "message": "去掉账单国家限制。",
+          "status": "SUCCEEDED",
+          "intent_version": 6,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0,
+              1
+            ]
+          },
+          "trace_id": "c91f5d1b-cff6-487e-9113-1fcea26ca45b",
+          "latency_ms": 7654.880099988077,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\05\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-04-v2\\05\\response.raw.json",
+          "expected": {
+            "top_n": 5,
+            "task_type": "ranking",
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "metric": "detail_revenue",
+            "filters": [],
+            "order": {
+              "field": "detail_revenue",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            }
+          },
+          "sql": "SELECT il.track_id, SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY il.track_id ORDER BY detail_revenue DESC, il.track_id ASC LIMIT 5",
+          "semantic_contract": {
+            "task_type": "ranking",
+            "metric": "detail_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2024-01-01",
+                "end": "2025-01-01",
+                "label": "2024年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": null,
+            "denominator": null,
+            "rank_object": "track",
+            "top_n": 5,
+            "order": {
+              "field": "detail_revenue",
+              "direction": "desc",
+              "tie_breakers": [
+                {
+                  "field": "track.track_id",
+                  "direction": "asc"
+                }
+              ]
+            },
+            "region_scope": "invoice.billing_country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [
+              "track.track_id"
+            ],
+            "filters": [],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "time_scope": "2023年",
+              "metric": "购买数量",
+              "rank_object": "曲目",
+              "top_n": "前3",
+              "order": "按购买数量降序",
+              "grouping": "曲目编号"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d4-dialog-05",
+      "split": "dev",
+      "completed_all_turns": true,
+      "turns": [
+        {
+          "index": 0,
+          "message": "2023年巴西居住客户的销售额占当年全部发票金额的比例是多少？",
+          "status": "SUCCEEDED",
+          "intent_version": 1,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "dddf2bc1-20d4-4133-b4d7-de11d7820ecf",
+          "latency_ms": 9116.500600008294,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\00\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\00\\response.raw.json",
+          "expected": {
+            "task_type": "ratio",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Brazil",
+                "binding_scope": "numerator"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": "2023年巴西居住客户的销售额占当年全部发票金额的比例",
+            "denominator": "2023年全部发票金额",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Brazil",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-cf1b483ec6900d1a",
+                "source": "verified_value_index",
+                "scope_evidence": "explicit_user_country_scope",
+                "binding_scope": "numerator"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "numerator": "巴西居住客户的销售额",
+              "denominator": "当年全部发票金额",
+              "time_scope": "2023年",
+              "region_scope": "巴西居住客户",
+              "filters": "巴西居住客户"
+            }
+          },
+          "invalidated_execution": []
+        },
+        {
+          "index": 1,
+          "message": "分子换成德国居住客户的销售额。",
+          "status": "SUCCEEDED",
+          "intent_version": 2,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "2c32400f-6d9c-4d6d-bb9b-674db2d3729f",
+          "latency_ms": 8188.802599965129,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\01\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\01\\response.raw.json",
+          "expected": {
+            "task_type": "ratio",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Germany",
+                "binding_scope": "numerator"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": "2023年Germany居住客户的销售额占当年全部发票金额的比例",
+            "denominator": "2023年全部发票金额",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-e4d835eae26ef07e",
+                "source": "verified_value_index",
+                "binding_scope": "numerator",
+                "scope_evidence": "分子换成德国居住客户的销售额。",
+                "scope_basis": "explicit_user_scope"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "numerator": "分子换成德国居住客户的销售额。",
+              "denominator": "当年全部发票金额",
+              "time_scope": "2023年",
+              "region_scope": "巴西居住客户",
+              "filters": "巴西居住客户"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 2,
+          "message": "分母改成2023年账单国为德国的销售额。",
+          "status": "SUCCEEDED",
+          "intent_version": 3,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "99bd6ffc-f383-4946-86d8-1eb5cd436bb1",
+          "latency_ms": 8802.014300017618,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\02\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\02\\response.raw.json",
+          "expected": {
+            "task_type": "ratio",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Germany",
+                "binding_scope": "numerator"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "binding_scope": "denominator"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total ELSE 0 END) / NULLIF(SUM(CASE WHEN i.billing_country = 'Germany' THEN i.total ELSE 0 END), 0) AS ratio FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": "2023年Germany居住客户的销售额占当年全部发票金额的比例",
+            "denominator": "2023年账单国为Germany的销售额",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-e4d835eae26ef07e",
+                "source": "verified_value_index",
+                "binding_scope": "numerator",
+                "scope_evidence": "分子换成德国居住客户的销售额。",
+                "scope_basis": "explicit_user_scope"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "source": "verified_value_index",
+                "binding_scope": "denominator",
+                "scope_evidence": "分母改成2023年账单国为德国的销售额。",
+                "scope_basis": "explicit_user_scope"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "numerator": "分子换成德国居住客户的销售额。",
+              "denominator": "分母改成2023年账单国为德国的销售额。",
+              "time_scope": "2023年",
+              "region_scope": "巴西居住客户",
+              "filters": "巴西居住客户"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 3,
+          "message": "分子换成法国居住客户的销售额。",
+          "status": "SUCCEEDED",
+          "intent_version": 4,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "fa8fd5f1-b905-4231-ae1d-702a26e6c72c",
+          "latency_ms": 7937.6304999459535,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\03\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\03\\response.raw.json",
+          "expected": {
+            "task_type": "ratio",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "France",
+                "binding_scope": "numerator"
+              },
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "binding_scope": "denominator"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(CASE WHEN c.country = 'France' THEN i.total ELSE 0 END) / NULLIF(SUM(CASE WHEN i.billing_country = 'Germany' THEN i.total ELSE 0 END), 0) AS revenue_ratio FROM \"public\".\"invoice\" AS i INNER JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE)",
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": "2023年France居住客户的销售额",
+            "denominator": "2023年账单国为Germany的销售额",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "source": "verified_value_index",
+                "binding_scope": "denominator",
+                "scope_evidence": "分母改成2023年账单国为德国的销售额。",
+                "scope_basis": "explicit_user_scope"
+              },
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "France",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-b25098af9fa5b17a",
+                "source": "verified_value_index",
+                "binding_scope": "numerator",
+                "scope_evidence": "分子换成法国居住客户的销售额。",
+                "scope_basis": "explicit_user_scope"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "numerator": "分子换成法国居住客户的销售额。",
+              "denominator": "分母改成2023年账单国为德国的销售额。",
+              "time_scope": "2023年",
+              "region_scope": "巴西居住客户",
+              "filters": "巴西居住客户"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 4,
+          "message": "分母改成2023年全部发票金额。",
+          "status": "SUCCEEDED",
+          "intent_version": 5,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "ee138429-be08-4205-894c-4bf10af8d6d9",
+          "latency_ms": 7225.469500001054,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\04\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\04\\response.raw.json",
+          "expected": {
+            "task_type": "ratio",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "France",
+                "binding_scope": "numerator"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(CASE WHEN \"customer\".\"country\" = 'France' THEN \"invoice\".\"total\" ELSE 0 END) / NULLIF(SUM(\"invoice\".\"total\"), 0) AS ratio FROM \"public\".\"invoice\" INNER JOIN \"public\".\"customer\" ON \"invoice\".\"customer_id\" = \"customer\".\"customer_id\" WHERE \"invoice\".\"invoice_date\" >= '2023-01-01' AND \"invoice\".\"invoice_date\" < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": "2023年France居住客户的销售额",
+            "denominator": "2023年全部发票金额",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "France",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-b25098af9fa5b17a",
+                "source": "verified_value_index",
+                "binding_scope": "numerator",
+                "scope_evidence": "分子换成法国居住客户的销售额。",
+                "scope_basis": "explicit_user_scope"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "numerator": "分子换成法国居住客户的销售额。",
+              "denominator": "分母改成2023年账单国为德国的销售额。",
+              "time_scope": "2023年",
+              "region_scope": "巴西居住客户",
+              "filters": "巴西居住客户"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        },
+        {
+          "index": 5,
+          "message": "分子换成巴西居住客户的销售额。",
+          "status": "SUCCEEDED",
+          "intent_version": 6,
+          "version_correct": true,
+          "condition_check": {
+            "matched": true,
+            "issues": []
+          },
+          "result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "strict_result_check": {
+            "matched": true,
+            "reason": "equal",
+            "column_mapping": [
+              0
+            ]
+          },
+          "trace_id": "b57fa4cb-eb4c-4903-9a7c-4855e464d68d",
+          "latency_ms": 7325.0152000109665,
+          "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\05\\request.json",
+          "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-05\\05\\response.raw.json",
+          "expected": {
+            "task_type": "ratio",
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01"
+            },
+            "metric": "invoice_revenue",
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Brazil",
+                "binding_scope": "numerator"
+              }
+            ]
+          },
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'",
+          "semantic_contract": {
+            "task_type": "ratio",
+            "metric": "invoice_revenue",
+            "time_scope": {
+              "current": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "label": "2023年",
+                "grain": "year"
+              }
+            },
+            "comparison": null,
+            "numerator": "2023年Brazil居住客户的销售额",
+            "denominator": "2023年全部发票金额",
+            "rank_object": null,
+            "top_n": null,
+            "order": null,
+            "region_scope": "customer.country",
+            "region_ambiguous": false,
+            "scope_missing": false,
+            "time_ambiguous": false,
+            "conflicts": [],
+            "grouping": [],
+            "filters": [
+              {
+                "column": "customer.country",
+                "operator": "=",
+                "value": "Brazil",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-cf1b483ec6900d1a",
+                "source": "verified_value_index",
+                "binding_scope": "numerator",
+                "scope_evidence": "分子换成巴西居住客户的销售额。",
+                "scope_basis": "explicit_user_scope"
+              }
+            ],
+            "assumptions": [],
+            "default_assumptions": [],
+            "evidence_spans": {
+              "numerator": "分子换成巴西居住客户的销售额。",
+              "denominator": "分母改成2023年账单国为德国的销售额。",
+              "time_scope": "2023年",
+              "region_scope": "巴西居住客户",
+              "filters": "巴西居住客户"
+            }
+          },
+          "invalidated_execution": [
+            "sql_plan",
+            "sql",
+            "result"
+          ]
+        }
+      ]
+    }
+  ]
+}

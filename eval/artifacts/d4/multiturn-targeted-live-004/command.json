@@ -1,0 +1,73 @@
+{
+  "argv": [
+    "E:\\中国电子杯-赛题八\\system\\.venv\\Scripts\\python.exe",
+    "scripts/run_d4_multiturn.py",
+    "--only",
+    "d4-dialog-04-v2",
+    "--output",
+    "eval/artifacts/d4/multiturn-targeted-live-004"
+  ],
+  "cwd": "E:\\中国电子杯-赛题八\\system",
+  "source_snapshot": [
+    {
+      "path": "qa_agent/clarify/service.py",
+      "sha256": "f576c67f247e22f63e4f35db5f091ac3efc6cc58c203e96780720d4a69aa8f21",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\qa_agent\\clarify\\service.py"
+    },
+    {
+      "path": "qa_agent/clarify/state.py",
+      "sha256": "f8c55cec4487754542971d4bc8f32cc460f165b1a119bedc579cfa53ecc07f6a",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\qa_agent\\clarify\\state.py"
+    },
+    {
+      "path": "qa_agent/clarify/extractor.py",
+      "sha256": "6732e65c7e7a36e49ee2f52d2ad7d20a8b2623f12b9c52a1e3c2b54102a7405c",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\qa_agent\\clarify\\extractor.py"
+    },
+    {
+      "path": "qa_agent/clarify/sql_guard.py",
+      "sha256": "1631c1ec73c8d6057ba9b38ccaa3596bc46ffc46d28286c87e951d9e66fa7e66",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\qa_agent\\clarify\\sql_guard.py"
+    },
+    {
+      "path": "qa_agent/clarify/prompts/intent_patch.txt",
+      "sha256": "0101c10fc14dbbabd6caf27ba8a21d3e20c4d4e1574cd8407c5c0439f24a8640",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\qa_agent\\clarify\\prompts\\intent_patch.txt"
+    },
+    {
+      "path": "qa_agent/pipeline.py",
+      "sha256": "e36e7fe9e5e8a8ffb24439733f76e02ce46ffbb780add9ebfd84c94bd8089cad",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\qa_agent\\pipeline.py"
+    },
+    {
+      "path": "qa_agent/sql/generator.py",
+      "sha256": "a5fb7b68054cb147cf3bb4d803c3ea227425c85b97620b0bb421beb9e66cf117",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\qa_agent\\sql\\generator.py"
+    },
+    {
+      "path": "qa_agent/sql/ratio_guard.py",
+      "sha256": "caf7fe8eab4223a6c5adc74c9a2afe8f171981c1ac09d93640973d77f9475ccf",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\qa_agent\\sql\\ratio_guard.py"
+    },
+    {
+      "path": "qa_agent/sql/prompts/multi_table.txt",
+      "sha256": "1b27c6a7e75d1443f998227e8cc0e3d9345ca380598708aa40d31d9804feed60",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\qa_agent\\sql\\prompts\\multi_table.txt"
+    },
+    {
+      "path": "scripts/run_d4_multiturn.py",
+      "sha256": "f8c305c67f3472f158075134de61eac5b00c0a8e6b1880104b57070179058b62",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\scripts\\run_d4_multiturn.py"
+    },
+    {
+      "path": "tests/test_d4_multiturn.py",
+      "sha256": "1822b14bed8f5fdf291acfbb692202e4b876dec588e51d9022d6ea9d68191802",
+      "snapshot": "eval\\artifacts\\d4\\multiturn-targeted-live-004\\source_snapshot\\tests\\test_d4_multiturn.py"
+    }
+  ],
+  "split": "dev",
+  "held_predictions": 0,
+  "scoring_contract_version": "d4-multiturn-v4-explicit-primary-and-tie-order",
+  "scoring_contract_change": "V3 initial clarification checks retained. V4 current conditions check primary order + independent tie_breakers. New DEV d4-dialog-04-v2 only initial question makes DESC explicit; following five messages and all SQL gold/results unchanged. Original04 and historical001/002/003 scores untouched; original direction/gold needs human final confirmation.",
+  "note": "No environment values or private config copied."
+}

@@ -1,0 +1,2178 @@
+{
+  "id": "d4-eff-rag-11-variant",
+  "original_dev_id": "rag-11",
+  "split": "dev",
+  "pages": 10,
+  "repetition": 2,
+  "request": {
+    "question": "What application enables movies to be created and shared in just minutes?",
+    "scope_doc_ids": [
+      "ohr-academic-label-words",
+      "ohr-law-affiliate",
+      "ohr-manual-macbook-air",
+      "ohr-news-executive-insight",
+      "ohr-textbook-geology"
+    ]
+  },
+  "semantic_answer_review": "pending_human_review",
+  "matched": true,
+  "legacy_matched": false,
+  "retrieval": {
+    "retrieval_method": "bm25+bge-m3_dense_rrf",
+    "candidate_count": 228,
+    "top_k": 8,
+    "allowed_doc_ids": [
+      "ohr-academic-label-words",
+      "ohr-law-affiliate",
+      "ohr-manual-macbook-air",
+      "ohr-news-executive-insight",
+      "ohr-textbook-geology"
+    ],
+    "searched_page_count": 10,
+    "candidate_k_per_channel": 20,
+    "rrf_k": 60,
+    "rank_starts_at": 1,
+    "rankings": {
+      "bm25": [
+        {
+          "rank": 1,
+          "chunk_id": "ed685ef489425c5fee8423f6",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iMovie"
+          ],
+          "score": 11.24344889
+        },
+        {
+          "rank": 2,
+          "chunk_id": "378ba7286bc150fa32c3ad65",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iWeb"
+          ],
+          "score": 5.31773159
+        },
+        {
+          "rank": 3,
+          "chunk_id": "1685ed0a64c4da01e7db92be",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [],
+          "score": 3.64889706
+        },
+        {
+          "rank": 4,
+          "chunk_id": "1311c1f8217091bdb1f6fa0a",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [
+            "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+          ],
+          "score": 3.36598705
+        },
+        {
+          "rank": 5,
+          "chunk_id": "9cbf024b2394401a7e6d12fd",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 2.21101674
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8e637d07faf916df34469aaa",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.1 Method"
+          ],
+          "score": 2.16623333
+        },
+        {
+          "rank": 7,
+          "chunk_id": "2b02af77b7f69784e06cbf57",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 2.12637702
+        },
+        {
+          "rank": 8,
+          "chunk_id": "50c8d3a9b39bb6732f4de314",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 2.08644158
+        },
+        {
+          "rank": 9,
+          "chunk_id": "1a590886d7ccd8bfa2b0b353",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 2.04797855
+        },
+        {
+          "rank": 10,
+          "chunk_id": "35d498384e949fce1b758490",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.2 Experiments"
+          ],
+          "score": 2.00949873
+        },
+        {
+          "rank": 11,
+          "chunk_id": "816e7bc59dfb1299b364411f",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 1.9393397
+        },
+        {
+          "rank": 12,
+          "chunk_id": "626a16bef7efae89b0e92827",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.1 Method"
+          ],
+          "score": 1.9060658
+        },
+        {
+          "rank": 13,
+          "chunk_id": "26cf19a8b0c3d7bca129e411",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 1.8440148
+        },
+        {
+          "rank": 14,
+          "chunk_id": "a2b746ee9d6f50818f35126d",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 1.81390616
+        },
+        {
+          "rank": 15,
+          "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 1.81390616
+        },
+        {
+          "rank": 16,
+          "chunk_id": "42e45c907545d6b93b78f809",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 1.81275944
+        },
+        {
+          "rank": 17,
+          "chunk_id": "78f960be0268e5b9794b4244",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 1.81275944
+        },
+        {
+          "rank": 18,
+          "chunk_id": "c14c6fe907b79c6181c2034b",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 1.81275944
+        },
+        {
+          "rank": 19,
+          "chunk_id": "9286f0a9356421c1b5061684",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [
+            "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+          ],
+          "score": 1.62692828
+        },
+        {
+          "rank": 20,
+          "chunk_id": "7db13fb4cf522af094eef7b1",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 1.58063252
+        }
+      ],
+      "dense": [
+        {
+          "rank": 1,
+          "chunk_id": "ed685ef489425c5fee8423f6",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iMovie"
+          ],
+          "score": 0.62559336
+        },
+        {
+          "rank": 2,
+          "chunk_id": "378ba7286bc150fa32c3ad65",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iWeb"
+          ],
+          "score": 0.44483846
+        },
+        {
+          "rank": 3,
+          "chunk_id": "479b43b5b920663ae7add19d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iPhoto"
+          ],
+          "score": 0.44316357
+        },
+        {
+          "rank": 4,
+          "chunk_id": "3b4e5cc532f6ace3b5ff31ab",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "GarageBand"
+          ],
+          "score": 0.43261272
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fe4ffb97900e4e7339463a54",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "movie"
+          ],
+          "score": 0.40815562
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7f14c79a417a8ad0004c8135",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "www.apple.com/ilife/imovie"
+          ],
+          "score": 0.39445272
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7efda4996c905fb7beb0c355",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iMovie Help"
+          ],
+          "score": 0.39325625
+        },
+        {
+          "rank": 8,
+          "chunk_id": "daad0edc93ef7fb0cd5e30a0",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "www.apple.com/ilife/iphoto"
+          ],
+          "score": 0.32962683
+        },
+        {
+          "rank": 9,
+          "chunk_id": "b5c0160a2778c118bd59d737",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.32647476
+        },
+        {
+          "rank": 10,
+          "chunk_id": "f2b91a70974a15d7aec2590c",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.32647476
+        },
+        {
+          "rank": 11,
+          "chunk_id": "6f6c9ee3c14cdb3cbe53315c",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.32098785
+        },
+        {
+          "rank": 12,
+          "chunk_id": "74473c5f52ca37a679642f2f",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.32098785
+        },
+        {
+          "rank": 13,
+          "chunk_id": "d4650616adc48aeb0cceae87",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.32098785
+        },
+        {
+          "rank": 14,
+          "chunk_id": "1f1799e252ec17a7746af808",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iPhoto Help"
+          ],
+          "score": 0.31833306
+        },
+        {
+          "rank": 15,
+          "chunk_id": "3dd5e57c54d36f145aed4043",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.31822494
+        },
+        {
+          "rank": 16,
+          "chunk_id": "c7ae4fdcb7ad8ccfb228c4db",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.31822494
+        },
+        {
+          "rank": 17,
+          "chunk_id": "8bc50e68736da11312430f2b",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.3156969
+        },
+        {
+          "rank": 18,
+          "chunk_id": "faf1a365ff8fdf018faea2a5",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.3156969
+        },
+        {
+          "rank": 19,
+          "chunk_id": "4ef31b9e1ca66e94b5080a28",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.31483275
+        },
+        {
+          "rank": 20,
+          "chunk_id": "7c701f7c1c2bf39113e9af7a",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.31483275
+        }
+      ],
+      "rrf": [
+        {
+          "rank": 1,
+          "chunk_id": "ed685ef489425c5fee8423f6",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iMovie"
+          ],
+          "score": 0.03278689
+        },
+        {
+          "rank": 2,
+          "chunk_id": "378ba7286bc150fa32c3ad65",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iWeb"
+          ],
+          "score": 0.03225806
+        },
+        {
+          "rank": 3,
+          "chunk_id": "1685ed0a64c4da01e7db92be",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [],
+          "score": 0.01587302
+        },
+        {
+          "rank": 4,
+          "chunk_id": "479b43b5b920663ae7add19d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iPhoto"
+          ],
+          "score": 0.01587302
+        },
+        {
+          "rank": 5,
+          "chunk_id": "1311c1f8217091bdb1f6fa0a",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [
+            "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+          ],
+          "score": 0.015625
+        },
+        {
+          "rank": 6,
+          "chunk_id": "3b4e5cc532f6ace3b5ff31ab",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "GarageBand"
+          ],
+          "score": 0.015625
+        },
+        {
+          "rank": 7,
+          "chunk_id": "9cbf024b2394401a7e6d12fd",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01538462
+        },
+        {
+          "rank": 8,
+          "chunk_id": "fe4ffb97900e4e7339463a54",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "movie"
+          ],
+          "score": 0.01538462
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7f14c79a417a8ad0004c8135",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "www.apple.com/ilife/imovie"
+          ],
+          "score": 0.01515152
+        },
+        {
+          "rank": 10,
+          "chunk_id": "8e637d07faf916df34469aaa",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.1 Method"
+          ],
+          "score": 0.01515152
+        },
+        {
+          "rank": 11,
+          "chunk_id": "2b02af77b7f69784e06cbf57",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01492537
+        },
+        {
+          "rank": 12,
+          "chunk_id": "7efda4996c905fb7beb0c355",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iMovie Help"
+          ],
+          "score": 0.01492537
+        },
+        {
+          "rank": 13,
+          "chunk_id": "50c8d3a9b39bb6732f4de314",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01470588
+        },
+        {
+          "rank": 14,
+          "chunk_id": "daad0edc93ef7fb0cd5e30a0",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "www.apple.com/ilife/iphoto"
+          ],
+          "score": 0.01470588
+        },
+        {
+          "rank": 15,
+          "chunk_id": "1a590886d7ccd8bfa2b0b353",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01449275
+        },
+        {
+          "rank": 16,
+          "chunk_id": "b5c0160a2778c118bd59d737",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.01449275
+        },
+        {
+          "rank": 17,
+          "chunk_id": "35d498384e949fce1b758490",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.2 Experiments"
+          ],
+          "score": 0.01428571
+        },
+        {
+          "rank": 18,
+          "chunk_id": "f2b91a70974a15d7aec2590c",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.01428571
+        },
+        {
+          "rank": 19,
+          "chunk_id": "6f6c9ee3c14cdb3cbe53315c",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.01408451
+        },
+        {
+          "rank": 20,
+          "chunk_id": "816e7bc59dfb1299b364411f",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.01408451
+        },
+        {
+          "rank": 21,
+          "chunk_id": "626a16bef7efae89b0e92827",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.1 Method"
+          ],
+          "score": 0.01388889
+        },
+        {
+          "rank": 22,
+          "chunk_id": "74473c5f52ca37a679642f2f",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.01388889
+        },
+        {
+          "rank": 23,
+          "chunk_id": "26cf19a8b0c3d7bca129e411",
+          "doc_id": "ohr-textbook-geology",
+          "page": 8,
+          "section_path": [],
+          "score": 0.01369863
+        },
+        {
+          "rank": 24,
+          "chunk_id": "d4650616adc48aeb0cceae87",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.01369863
+        },
+        {
+          "rank": 25,
+          "chunk_id": "1f1799e252ec17a7746af808",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 3,
+          "section_path": [
+            "iPhoto Help"
+          ],
+          "score": 0.01351351
+        },
+        {
+          "rank": 26,
+          "chunk_id": "a2b746ee9d6f50818f35126d",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01351351
+        },
+        {
+          "rank": 27,
+          "chunk_id": "3dd5e57c54d36f145aed4043",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.01333333
+        },
+        {
+          "rank": 28,
+          "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.01333333
+        },
+        {
+          "rank": 29,
+          "chunk_id": "42e45c907545d6b93b78f809",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01315789
+        },
+        {
+          "rank": 30,
+          "chunk_id": "c7ae4fdcb7ad8ccfb228c4db",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [],
+          "score": 0.01315789
+        },
+        {
+          "rank": 31,
+          "chunk_id": "78f960be0268e5b9794b4244",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01298701
+        },
+        {
+          "rank": 32,
+          "chunk_id": "8bc50e68736da11312430f2b",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.01298701
+        },
+        {
+          "rank": 33,
+          "chunk_id": "c14c6fe907b79c6181c2034b",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01282051
+        },
+        {
+          "rank": 34,
+          "chunk_id": "faf1a365ff8fdf018faea2a5",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.01282051
+        },
+        {
+          "rank": 35,
+          "chunk_id": "4ef31b9e1ca66e94b5080a28",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.01265823
+        },
+        {
+          "rank": 36,
+          "chunk_id": "9286f0a9356421c1b5061684",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [
+            "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+          ],
+          "score": 0.01265823
+        },
+        {
+          "rank": 37,
+          "chunk_id": "7c701f7c1c2bf39113e9af7a",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.0125
+        },
+        {
+          "rank": 38,
+          "chunk_id": "7db13fb4cf522af094eef7b1",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.0125
+        }
+      ]
+    },
+    "hit_at_5_scope": [
+      "ed685ef489425c5fee8423f6",
+      "378ba7286bc150fa32c3ad65",
+      "1685ed0a64c4da01e7db92be",
+      "479b43b5b920663ae7add19d",
+      "1311c1f8217091bdb1f6fa0a"
+    ],
+    "retrieved_count": 8,
+    "index_created_at": "2026-10-13T16:21:30.553017+00:00",
+    "index_chunks_sha256": "e7c4e0f080f7a006869fb3cc4362dad588d5f178ca9f9847a2bdcca68981a68e",
+    "query": "What application enables movies to be created and shared in just minutes?",
+    "dense_enabled": true
+  },
+  "retrieved_chunks": [
+    {
+      "chunk_id": "ed685ef489425c5fee8423f6",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 3,
+      "section_path": [
+        "iMovie"
+      ],
+      "text": "iMovie\nCollect all your video in \none library. Create and \nshare movies in minutes.",
+      "bbox": [
+        27.04,
+        60.72,
+        103.24,
+        95.21
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "134-0",
+          "bbox": [
+            27.04,
+            60.72,
+            103.24,
+            95.21
+          ],
+          "char_start": 0,
+          "char_end": 83
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        26.69,
+        60.72,
+        334.83,
+        339.22
+      ],
+      "char_start": 0,
+      "char_end": 83,
+      "source_record_id": "native-block-134-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "0937f1d0cc6f63dbee777e1614cfa819aa1a834d44be88b5646d28528ea8289a",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E1",
+      "score": 0.03278689,
+      "bm25_score": 11.243449,
+      "dense_score": 0.625593
+    },
+    {
+      "chunk_id": "378ba7286bc150fa32c3ad65",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 3,
+      "section_path": [
+        "iWeb"
+      ],
+      "text": "iWeb\nCreate beautiful websites \nwith photos, movies, blogs, \npodcasts, and dynamic \nweb widgets.",
+      "bbox": [
+        249.93,
+        273.02,
+        334.83,
+        316.52
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "5-0",
+          "bbox": [
+            249.93,
+            273.02,
+            334.83,
+            316.52
+          ],
+          "char_start": 0,
+          "char_end": 96
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        26.69,
+        60.72,
+        334.83,
+        339.22
+      ],
+      "char_start": 0,
+      "char_end": 96,
+      "source_record_id": "native-block-5-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "5b1327dda4e9625769f69bd0ce70d1b3466d53ee1f0cb30c36e56c05506bbbf6",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E2",
+      "score": 0.03225806,
+      "bm25_score": 5.317732,
+      "dense_score": 0.444838
+    },
+    {
+      "chunk_id": "1685ed0a64c4da01e7db92be",
+      "doc_id": "ohr-news-executive-insight",
+      "doc_title": "Executive Insight Healthcare Magazine (archival excerpt)",
+      "page": 11,
+      "section_path": [],
+      "text": "“Organizations range from those where quality is just a slogan to \nthose where quality is a deep focus for everyone from the CEO on \ndown,” said Bruce Rogers, Chief Insights Officer at Forbes Media. \n“This study shows which elements are vital for a strong culture of \nquality.” The survey results also reveal gaps between senior leaders’ \nand quality professionals’ views on culture of quality.",
+      "bbox": [
+        36.0,
+        437.28,
+        282.32,
+        547.52
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "3-0",
+          "bbox": [
+            36.0,
+            437.28,
+            282.32,
+            547.52
+          ],
+          "char_start": 0,
+          "char_end": 590
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        36.0,
+        50.71,
+        545.3,
+        737.61
+      ],
+      "char_start": 0,
+      "char_end": 394,
+      "source_record_id": "native-block-3-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        585.0,
+        756.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "bd7b3539bc12fa5163f07956b3b3d160544f23833b1c1035677ae8e724cf2fd3",
+      "boundary_start": "page_start",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E3",
+      "score": 0.01587302,
+      "bm25_score": 3.648897,
+      "dense_score": 0.256461
+    },
+    {
+      "chunk_id": "479b43b5b920663ae7add19d",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 3,
+      "section_path": [
+        "iPhoto"
+      ],
+      "text": "iPhoto\nOrganize all your photos \nwith Events. Publish to a \nWeb Gallery with a click.",
+      "bbox": [
+        248.69,
+        60.75,
+        326.1,
+        95.24
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "8-0",
+          "bbox": [
+            248.69,
+            60.75,
+            326.1,
+            95.24
+          ],
+          "char_start": 0,
+          "char_end": 85
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        26.69,
+        60.72,
+        334.83,
+        339.22
+      ],
+      "char_start": 0,
+      "char_end": 85,
+      "source_record_id": "native-block-8-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "b4e5d09972a6feb31bf285eb45b9796c9b6e235a3151fdc48d1c1d85dc5f5169",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E4",
+      "score": 0.01587302,
+      "bm25_score": 0.0,
+      "dense_score": 0.443164
+    },
+    {
+      "chunk_id": "1311c1f8217091bdb1f6fa0a",
+      "doc_id": "ohr-news-executive-insight",
+      "doc_title": "Executive Insight Healthcare Magazine (archival excerpt)",
+      "page": 11,
+      "section_path": [
+        "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+      ],
+      "text": "Sowers led an effort to renew and define a new vision and mis-\nsion for DUH, engaging the physicians and workforce widely in \ncreating a picture of the future that everyone at DUH can feel \npassionate about. Over the last several years, the organization has \nbuilt mature processes for strategy and implementation, managed \noversight of excellence in their clinical service units, and created \nrobust process improvement.",
+      "bbox": [
+        297.89,
+        473.28,
+        544.18,
+        595.52
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "8-0",
+          "bbox": [
+            297.89,
+            473.28,
+            544.18,
+            595.52
+          ],
+          "char_start": 0,
+          "char_end": 623
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        36.0,
+        50.71,
+        545.3,
+        737.61
+      ],
+      "char_start": 0,
+      "char_end": 421,
+      "source_record_id": "native-block-8-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        585.0,
+        756.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "6dd1ae4355cfb9cf39bd75b254f81cece7bd4eb02a0549b2694a6a262b1b483e",
+      "boundary_start": "page_start",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E5",
+      "score": 0.015625,
+      "bm25_score": 3.365987,
+      "dense_score": 0.290775
+    },
+    {
+      "chunk_id": "3b4e5cc532f6ace3b5ff31ab",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 3,
+      "section_path": [
+        "GarageBand"
+      ],
+      "text": "GarageBand\nCreate music by adding \nmusicians to a virtual stage.  \nEnhance your song to sound \nlike a pro.",
+      "bbox": [
+        26.69,
+        273.03,
+        116.75,
+        316.52
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "0-0",
+          "bbox": [
+            26.69,
+            273.03,
+            116.75,
+            316.52
+          ],
+          "char_start": 0,
+          "char_end": 106
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        26.69,
+        60.72,
+        334.83,
+        339.22
+      ],
+      "char_start": 0,
+      "char_end": 106,
+      "source_record_id": "native-block-0-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "96761cd5ba1c11f55756af801d6a0cb0b96e98f7de88884da506d7dcab1780bf",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E6",
+      "score": 0.015625,
+      "bm25_score": 0.0,
+      "dense_score": 0.432613
+    },
+    {
+      "chunk_id": "9cbf024b2394401a7e6d12fd",
+      "doc_id": "ohr-law-affiliate",
+      "doc_title": "Gulf South Medical Supply Affiliate Agreement (1997)",
+      "page": 1,
+      "section_path": [],
+      "text": "Under the terms of the Agreement,\nMerger Corp. will be merged into and with GSMS (the \"Merger\"), and the shares of\nthe $.01 par value common stock of GSMS (\"GSMS Common Stock\") will be converted\ninto and exchanged for shares of the $.01 par value common stock of PSS (\"PSS\nCommon Stock\").",
+      "bbox": [
+        13.44,
+        196.12,
+        357.14,
+        303.53
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "4-0",
+          "bbox": [
+            13.44,
+            196.12,
+            357.14,
+            303.53
+          ],
+          "char_start": 0,
+          "char_end": 1023
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        13.44,
+        80.12,
+        357.14,
+        790.73
+      ],
+      "char_start": 495,
+      "char_end": 783,
+      "source_record_id": "native-block-4-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.0,
+        842.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "b30863b1c18537df42213a4fc8e48e99ee8b9c2995b920b8c85ea317dcdfeeea",
+      "boundary_start": "sentence",
+      "boundary_end": "sentence",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E7",
+      "score": 0.01538462,
+      "bm25_score": 2.211017,
+      "dense_score": 0.257022
+    },
+    {
+      "chunk_id": "fe4ffb97900e4e7339463a54",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 3,
+      "section_path": [
+        "movie"
+      ],
+      "text": "movie",
+      "bbox": [
+        71.08,
+        111.31,
+        87.85,
+        117.81
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "135-1",
+          "bbox": [
+            71.08,
+            111.31,
+            87.85,
+            117.81
+          ],
+          "char_start": 0,
+          "char_end": 5
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        26.69,
+        60.72,
+        334.83,
+        339.22
+      ],
+      "char_start": 0,
+      "char_end": 5,
+      "source_record_id": "native-block-135-1",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "8a6ba32c9bed6ce703f999f9af6ec23686d44e144e4da572d94c8daca4a9cbab",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": true,
+      "overlap_chars": 0,
+      "evidence_id": "E8",
+      "score": 0.01538462,
+      "bm25_score": 0.0,
+      "dense_score": 0.408156
+    }
+  ],
+  "hit_at_5": true,
+  "status": "SUCCEEDED",
+  "answer": "iMovie is the application that enables movies to be created and shared in minutes. [E1]",
+  "citation_ids": [
+    "E1"
+  ],
+  "used_evidence": [
+    {
+      "chunk_id": "ed685ef489425c5fee8423f6",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 3,
+      "section_path": [
+        "iMovie"
+      ],
+      "text": "iMovie\nCollect all your video in \none library. Create and \nshare movies in minutes.",
+      "bbox": [
+        27.04,
+        60.72,
+        103.24,
+        95.21
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "134-0",
+          "bbox": [
+            27.04,
+            60.72,
+            103.24,
+            95.21
+          ],
+          "char_start": 0,
+          "char_end": 83
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        26.69,
+        60.72,
+        334.83,
+        339.22
+      ],
+      "char_start": 0,
+      "char_end": 83,
+      "source_record_id": "native-block-134-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "0937f1d0cc6f63dbee777e1614cfa819aa1a834d44be88b5646d28528ea8289a",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E1",
+      "score": 0.03278689,
+      "bm25_score": 11.243449,
+      "dense_score": 0.625593
+    }
+  ],
+  "surface_answer_match": true,
+  "citation_coverage": {
+    "potential_uncited_statement_count": 0,
+    "potential_uncited_statements": [],
+    "mode": "heuristic_warning_only",
+    "semantic_claim_coverage": "requires_human_review"
+  },
+  "validation_warnings": [],
+  "validation_status": "passed",
+  "failure_category": null,
+  "steps": [
+    {
+      "name": "retrieve",
+      "status": "ok",
+      "input_summary": {
+        "scope_doc_ids": [
+          "ohr-academic-label-words",
+          "ohr-law-affiliate",
+          "ohr-manual-macbook-air",
+          "ohr-news-executive-insight",
+          "ohr-textbook-geology"
+        ]
+      },
+      "output_summary": {
+        "retrieval_method": "bm25+bge-m3_dense_rrf",
+        "candidate_count": 228,
+        "top_k": 8,
+        "allowed_doc_ids": [
+          "ohr-academic-label-words",
+          "ohr-law-affiliate",
+          "ohr-manual-macbook-air",
+          "ohr-news-executive-insight",
+          "ohr-textbook-geology"
+        ],
+        "searched_page_count": 10,
+        "candidate_k_per_channel": 20,
+        "rrf_k": 60,
+        "rank_starts_at": 1,
+        "rankings": {
+          "bm25": [
+            {
+              "rank": 1,
+              "chunk_id": "ed685ef489425c5fee8423f6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie"
+              ],
+              "score": 11.24344889
+            },
+            {
+              "rank": 2,
+              "chunk_id": "378ba7286bc150fa32c3ad65",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iWeb"
+              ],
+              "score": 5.31773159
+            },
+            {
+              "rank": 3,
+              "chunk_id": "1685ed0a64c4da01e7db92be",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [],
+              "score": 3.64889706
+            },
+            {
+              "rank": 4,
+              "chunk_id": "1311c1f8217091bdb1f6fa0a",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+              ],
+              "score": 3.36598705
+            },
+            {
+              "rank": 5,
+              "chunk_id": "9cbf024b2394401a7e6d12fd",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 2.21101674
+            },
+            {
+              "rank": 6,
+              "chunk_id": "8e637d07faf916df34469aaa",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.1 Method"
+              ],
+              "score": 2.16623333
+            },
+            {
+              "rank": 7,
+              "chunk_id": "2b02af77b7f69784e06cbf57",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 2.12637702
+            },
+            {
+              "rank": 8,
+              "chunk_id": "50c8d3a9b39bb6732f4de314",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 2.08644158
+            },
+            {
+              "rank": 9,
+              "chunk_id": "1a590886d7ccd8bfa2b0b353",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 2.04797855
+            },
+            {
+              "rank": 10,
+              "chunk_id": "35d498384e949fce1b758490",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.2 Experiments"
+              ],
+              "score": 2.00949873
+            },
+            {
+              "rank": 11,
+              "chunk_id": "816e7bc59dfb1299b364411f",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 1.9393397
+            },
+            {
+              "rank": 12,
+              "chunk_id": "626a16bef7efae89b0e92827",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.1 Method"
+              ],
+              "score": 1.9060658
+            },
+            {
+              "rank": 13,
+              "chunk_id": "26cf19a8b0c3d7bca129e411",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 1.8440148
+            },
+            {
+              "rank": 14,
+              "chunk_id": "a2b746ee9d6f50818f35126d",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 1.81390616
+            },
+            {
+              "rank": 15,
+              "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 1.81390616
+            },
+            {
+              "rank": 16,
+              "chunk_id": "42e45c907545d6b93b78f809",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 1.81275944
+            },
+            {
+              "rank": 17,
+              "chunk_id": "78f960be0268e5b9794b4244",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 1.81275944
+            },
+            {
+              "rank": 18,
+              "chunk_id": "c14c6fe907b79c6181c2034b",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 1.81275944
+            },
+            {
+              "rank": 19,
+              "chunk_id": "9286f0a9356421c1b5061684",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+              ],
+              "score": 1.62692828
+            },
+            {
+              "rank": 20,
+              "chunk_id": "7db13fb4cf522af094eef7b1",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 1.58063252
+            }
+          ],
+          "dense": [
+            {
+              "rank": 1,
+              "chunk_id": "ed685ef489425c5fee8423f6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie"
+              ],
+              "score": 0.62559336
+            },
+            {
+              "rank": 2,
+              "chunk_id": "378ba7286bc150fa32c3ad65",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iWeb"
+              ],
+              "score": 0.44483846
+            },
+            {
+              "rank": 3,
+              "chunk_id": "479b43b5b920663ae7add19d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iPhoto"
+              ],
+              "score": 0.44316357
+            },
+            {
+              "rank": 4,
+              "chunk_id": "3b4e5cc532f6ace3b5ff31ab",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "GarageBand"
+              ],
+              "score": 0.43261272
+            },
+            {
+              "rank": 5,
+              "chunk_id": "fe4ffb97900e4e7339463a54",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "movie"
+              ],
+              "score": 0.40815562
+            },
+            {
+              "rank": 6,
+              "chunk_id": "7f14c79a417a8ad0004c8135",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "www.apple.com/ilife/imovie"
+              ],
+              "score": 0.39445272
+            },
+            {
+              "rank": 7,
+              "chunk_id": "7efda4996c905fb7beb0c355",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie Help"
+              ],
+              "score": 0.39325625
+            },
+            {
+              "rank": 8,
+              "chunk_id": "daad0edc93ef7fb0cd5e30a0",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "www.apple.com/ilife/iphoto"
+              ],
+              "score": 0.32962683
+            },
+            {
+              "rank": 9,
+              "chunk_id": "b5c0160a2778c118bd59d737",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.32647476
+            },
+            {
+              "rank": 10,
+              "chunk_id": "f2b91a70974a15d7aec2590c",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.32647476
+            },
+            {
+              "rank": 11,
+              "chunk_id": "6f6c9ee3c14cdb3cbe53315c",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.32098785
+            },
+            {
+              "rank": 12,
+              "chunk_id": "74473c5f52ca37a679642f2f",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.32098785
+            },
+            {
+              "rank": 13,
+              "chunk_id": "d4650616adc48aeb0cceae87",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.32098785
+            },
+            {
+              "rank": 14,
+              "chunk_id": "1f1799e252ec17a7746af808",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iPhoto Help"
+              ],
+              "score": 0.31833306
+            },
+            {
+              "rank": 15,
+              "chunk_id": "3dd5e57c54d36f145aed4043",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.31822494
+            },
+            {
+              "rank": 16,
+              "chunk_id": "c7ae4fdcb7ad8ccfb228c4db",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.31822494
+            },
+            {
+              "rank": 17,
+              "chunk_id": "8bc50e68736da11312430f2b",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.3156969
+            },
+            {
+              "rank": 18,
+              "chunk_id": "faf1a365ff8fdf018faea2a5",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.3156969
+            },
+            {
+              "rank": 19,
+              "chunk_id": "4ef31b9e1ca66e94b5080a28",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.31483275
+            },
+            {
+              "rank": 20,
+              "chunk_id": "7c701f7c1c2bf39113e9af7a",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.31483275
+            }
+          ],
+          "rrf": [
+            {
+              "rank": 1,
+              "chunk_id": "ed685ef489425c5fee8423f6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie"
+              ],
+              "score": 0.03278689
+            },
+            {
+              "rank": 2,
+              "chunk_id": "378ba7286bc150fa32c3ad65",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iWeb"
+              ],
+              "score": 0.03225806
+            },
+            {
+              "rank": 3,
+              "chunk_id": "1685ed0a64c4da01e7db92be",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [],
+              "score": 0.01587302
+            },
+            {
+              "rank": 4,
+              "chunk_id": "479b43b5b920663ae7add19d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iPhoto"
+              ],
+              "score": 0.01587302
+            },
+            {
+              "rank": 5,
+              "chunk_id": "1311c1f8217091bdb1f6fa0a",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+              ],
+              "score": 0.015625
+            },
+            {
+              "rank": 6,
+              "chunk_id": "3b4e5cc532f6ace3b5ff31ab",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "GarageBand"
+              ],
+              "score": 0.015625
+            },
+            {
+              "rank": 7,
+              "chunk_id": "9cbf024b2394401a7e6d12fd",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01538462
+            },
+            {
+              "rank": 8,
+              "chunk_id": "fe4ffb97900e4e7339463a54",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "movie"
+              ],
+              "score": 0.01538462
+            },
+            {
+              "rank": 9,
+              "chunk_id": "7f14c79a417a8ad0004c8135",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "www.apple.com/ilife/imovie"
+              ],
+              "score": 0.01515152
+            },
+            {
+              "rank": 10,
+              "chunk_id": "8e637d07faf916df34469aaa",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.1 Method"
+              ],
+              "score": 0.01515152
+            },
+            {
+              "rank": 11,
+              "chunk_id": "2b02af77b7f69784e06cbf57",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01492537
+            },
+            {
+              "rank": 12,
+              "chunk_id": "7efda4996c905fb7beb0c355",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iMovie Help"
+              ],
+              "score": 0.01492537
+            },
+            {
+              "rank": 13,
+              "chunk_id": "50c8d3a9b39bb6732f4de314",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01470588
+            },
+            {
+              "rank": 14,
+              "chunk_id": "daad0edc93ef7fb0cd5e30a0",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "www.apple.com/ilife/iphoto"
+              ],
+              "score": 0.01470588
+            },
+            {
+              "rank": 15,
+              "chunk_id": "1a590886d7ccd8bfa2b0b353",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01449275
+            },
+            {
+              "rank": 16,
+              "chunk_id": "b5c0160a2778c118bd59d737",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.01449275
+            },
+            {
+              "rank": 17,
+              "chunk_id": "35d498384e949fce1b758490",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.2 Experiments"
+              ],
+              "score": 0.01428571
+            },
+            {
+              "rank": 18,
+              "chunk_id": "f2b91a70974a15d7aec2590c",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.01428571
+            },
+            {
+              "rank": 19,
+              "chunk_id": "6f6c9ee3c14cdb3cbe53315c",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.01408451
+            },
+            {
+              "rank": 20,
+              "chunk_id": "816e7bc59dfb1299b364411f",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.01408451
+            },
+            {
+              "rank": 21,
+              "chunk_id": "626a16bef7efae89b0e92827",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.1 Method"
+              ],
+              "score": 0.01388889
+            },
+            {
+              "rank": 22,
+              "chunk_id": "74473c5f52ca37a679642f2f",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.01388889
+            },
+            {
+              "rank": 23,
+              "chunk_id": "26cf19a8b0c3d7bca129e411",
+              "doc_id": "ohr-textbook-geology",
+              "page": 8,
+              "section_path": [],
+              "score": 0.01369863
+            },
+            {
+              "rank": 24,
+              "chunk_id": "d4650616adc48aeb0cceae87",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.01369863
+            },
+            {
+              "rank": 25,
+              "chunk_id": "1f1799e252ec17a7746af808",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 3,
+              "section_path": [
+                "iPhoto Help"
+              ],
+              "score": 0.01351351
+            },
+            {
+              "rank": 26,
+              "chunk_id": "a2b746ee9d6f50818f35126d",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01351351
+            },
+            {
+              "rank": 27,
+              "chunk_id": "3dd5e57c54d36f145aed4043",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.01333333
+            },
+            {
+              "rank": 28,
+              "chunk_id": "e4679e3dc3c31ed8c45cdc37",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.01333333
+            },
+            {
+              "rank": 29,
+              "chunk_id": "42e45c907545d6b93b78f809",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01315789
+            },
+            {
+              "rank": 30,
+              "chunk_id": "c7ae4fdcb7ad8ccfb228c4db",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [],
+              "score": 0.01315789
+            },
+            {
+              "rank": 31,
+              "chunk_id": "78f960be0268e5b9794b4244",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01298701
+            },
+            {
+              "rank": 32,
+              "chunk_id": "8bc50e68736da11312430f2b",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.01298701
+            },
+            {
+              "rank": 33,
+              "chunk_id": "c14c6fe907b79c6181c2034b",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01282051
+            },
+            {
+              "rank": 34,
+              "chunk_id": "faf1a365ff8fdf018faea2a5",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.01282051
+            },
+            {
+              "rank": 35,
+              "chunk_id": "4ef31b9e1ca66e94b5080a28",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.01265823
+            },
+            {
+              "rank": 36,
+              "chunk_id": "9286f0a9356421c1b5061684",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [
+                "DUKE UNIVERSITY HOSPITAL’S EXPERIENCE"
+              ],
+              "score": 0.01265823
+            },
+            {
+              "rank": 37,
+              "chunk_id": "7c701f7c1c2bf39113e9af7a",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.0125
+            },
+            {
+              "rank": 38,
+              "chunk_id": "7db13fb4cf522af094eef7b1",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.0125
+            }
+          ]
+        },
+        "hit_at_5_scope": [
+          "ed685ef489425c5fee8423f6",
+          "378ba7286bc150fa32c3ad65",
+          "1685ed0a64c4da01e7db92be",
+          "479b43b5b920663ae7add19d",
+          "1311c1f8217091bdb1f6fa0a"
+        ],
+        "retrieved_count": 8,
+        "index_created_at": "2026-10-13T16:21:30.553017+00:00",
+        "index_chunks_sha256": "e7c4e0f080f7a006869fb3cc4362dad588d5f178ca9f9847a2bdcca68981a68e",
+        "query": "What application enables movies to be created and shared in just minutes?",
+        "dense_enabled": true
+      },
+      "latency_ms": 47
+    },
+    {
+      "name": "doc_answer",
+      "status": "ok",
+      "input_summary": {
+        "evidence_count": 8
+      },
+      "output_summary": {
+        "status": "SUCCEEDED",
+        "citation_ids": [
+          "E1"
+        ]
+      },
+      "latency_ms": 2613
+    },
+    {
+      "name": "rag_generate",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "evidence_count": 8
+      },
+      "output_summary": {
+        "status": "SUCCEEDED",
+        "citation_ids": [
+          "E1"
+        ]
+      },
+      "latency_ms": 2613
+    },
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "provider_capture": "eval/artifacts/d4/rag-scale-live-001/provider/cb971b8c0b824cdd9a747a6ad21ee099.json",
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 43,
+          "prompt_tokens": 1329,
+          "total_tokens": 1372,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 1152
+          },
+          "prompt_cache_hit_tokens": 1152,
+          "prompt_cache_miss_tokens": 177
+        },
+        "json_valid": true
+      },
+      "latency_ms": 1683
+    },
+    {
+      "name": "rag_validate",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "checks": [
+          "citation_membership",
+          "inline_ids",
+          "cited_numbers",
+          "explicit_research_attributions"
+        ]
+      },
+      "output_summary": {
+        "passed": true,
+        "status": "SUCCEEDED",
+        "used_evidence_ids": [
+          "E1"
+        ],
+        "citation_coverage": {
+          "potential_uncited_statement_count": 0,
+          "potential_uncited_statements": [],
+          "mode": "heuristic_warning_only",
+          "semantic_claim_coverage": "requires_human_review"
+        },
+        "semantic_faithfulness": "requires_human_review"
+      },
+      "latency_ms": 0
+    }
+  ],
+  "cost": {
+    "raw_step_ms": {
+      "retrieve": 47,
+      "doc_answer": 2613,
+      "rag_generate": 2613,
+      "llm": 1683,
+      "rag_validate": 0
+    },
+    "stages_ms": {
+      "nlu": 0,
+      "value_link": 0,
+      "schema_selection": 0,
+      "sql_generation": 0,
+      "sql_execution": 0,
+      "retrieval": 47,
+      "answer_generation": 2613
+    },
+    "model_attempts": {
+      "other": 1,
+      "all": 1
+    },
+    "usage": {
+      "prompt_tokens": 1329,
+      "other_prompt_tokens": 1329,
+      "completion_tokens": 43,
+      "other_completion_tokens": 43,
+      "total_tokens": 1372,
+      "other_total_tokens": 1372
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "duration_warning": "嵌套步骤有重叠；端到端实测独立计时，不将所有step相加"
+  },
+  "elapsed_ms": 2660.885
+}

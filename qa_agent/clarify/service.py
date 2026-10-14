@@ -16,6 +16,7 @@ from qa_agent.clarify.state import (DEFAULT_STORE, IntentPatch, PatchResponse, S
 
 PATCH_PROMPT = Path(__file__).with_name("prompts") / "intent_patch.txt"
 FOLLOWUP_PREFIX = re.compile(r"^\s*(?:那(?:就)?|改(?:成|为|按)|换(?:成|为)|还是|同样(?:的)?|再(?:看|查)|把.{0,24}改|按(?:销售额|购买数量|歌单)|换一个|(?:分子|分母|指标|期间|年份|国家|对象)(?:换成|改成|改为|换为))")
+EDIT_PREFIX = re.compile(r'^\s*(?:(?:再)?(?:加上|增加|添加|去掉|移除|删除|取消|不再限制|不限|保留|改看|改查|换看|换查)|(?:分子|分母)(?:是|为)|(?:账单国家|账单国|客户所在地|客户所在国)(?:换成|改成|改为|换为))')
 
 
 @dataclass
@@ -27,7 +28,8 @@ class GateResult:
 
 
 def is_followup(question: str) -> bool:
-    return bool(FOLLOWUP_PREFIX.search(question))
+    return bool(FOLLOWUP_PREFIX.search(question) or EDIT_PREFIX.search(question) or
+                re.fullmatch(r'\s*\d{4}\s*年(?:\s*\d{1,2}\s*月)?\s*呢[？?。]*\s*',question))
 
 
 def source_dict(request) -> dict:
@@ -72,10 +74,12 @@ def available_years(catalog) -> list[int]:
 
 
 def _binding_key(item: dict) -> tuple:
-    return (item.get("column"), item.get("operator"), json.dumps(item.get("value"), sort_keys=True, ensure_ascii=False))
+    return (item.get("column"), item.get("operator"), json.dumps(item.get("value"), sort_keys=True, ensure_ascii=False),
+            item.get("binding_scope"))
 
 
-def _ground_patch_filters(patches: list[IntentPatch], state: SessionState, linked, *, derived_scope: str | None = None) -> None:
+def _ground_patch_filters(patches: list[IntentPatch], state: SessionState, linked, *, derived_scope: str | None = None,
+                          replace_columns: set[str] | None = None) -> None:
     allowed = list(state.bindings) + list(linked.bindings)
     if derived_scope:
         allowed += [{**item,'column':derived_scope} for item in state.bindings
@@ -84,16 +88,28 @@ def _ground_patch_filters(patches: list[IntentPatch], state: SessionState, linke
         if patch.path != "filters" or patch.op == "remove":
             continue
         values = patch.value if isinstance(patch.value, list) else [patch.value]
+        trusted=[]
         for binding in values:
-            if not isinstance(binding, dict) or not any(
-                _binding_key(item) == _binding_key(binding)
-                for item in allowed
-            ):
+            if not isinstance(binding,dict):
                 raise SessionConflict("补丁中的筛选值没有真实值链接或此前用户确认依据。")
+            matches=[item for item in allowed if _binding_key(item)==_binding_key(binding)]
+            if not matches:
+                # Scope metadata is trusted program evidence. If the model
+                # invents a role for one uniquely grounded global value, strip
+                # it by recovering the actual record; never collapse two real
+                # numerator/denominator records into an arbitrary one.
+                physical=[item for item in allowed if _binding_key(item)[:3]==_binding_key(binding)[:3]]
+                if len({_binding_key(item) for item in physical})==1:
+                    matches=physical
+            if not matches:
+                raise SessionConflict("补丁中的筛选值没有真实值链接或此前用户确认依据。")
+            trusted.append(dict(matches[0]))
         if patch.op == "set":
             new_columns = {item.get("column") for item in values if isinstance(item, dict)}
-            if any((derived_scope if derived_scope and old.get('column') in {'invoice.billing_country','customer.country'} else old.get('column')) not in new_columns for old in state.bindings):
+            if any(old.get('column') not in (replace_columns or set()) and
+                   (derived_scope if derived_scope and old.get('column') in {'invoice.billing_country','customer.country'} else old.get('column')) not in new_columns for old in state.bindings):
                 raise SessionConflict("替换筛选时丢失了未被用户修改的其它条件；删除条件需要明确 remove 补丁。")
+        patch.value=trusted
 
 
 def _persistent_ambiguities(linked, question: str) -> list[dict]:
@@ -123,8 +139,48 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
     cancels_period=bool(re.search(r'全部数据|所有数据|(?:取消|去掉|删除|不限|全部|所有).{0,8}(?:期间|日期|年份|时间)|(?:期间|日期|年份|时间).{0,8}(?:不限|取消|全部|所有)',message))
     result.patches=[patch for patch in result.patches
                     if patch.path!='time_scope' or has_calendar_text or cancels_period]
-    if '同比' in message or '环比' in message:
-        evidence='同比' if '同比' in message else '环比'
+    # Plain country/date/top-N edits cannot authorize model-generated changes
+    # to the measure, task or comparison. Literal metric edits are grounded
+    # below, while unfamiliar user-written measures remain model proposals.
+    measure_text=bool(re.search(r'指标|口径|金额|销售额|客单价|平均|复购|数量|张数|次数|销量|购买量|购买数量|计数|总额',message))
+    object_text=bool(re.search(r'(?:对象|改成|换成|改为|换为|改看|改查|换看|换查).{0,4}(?:流派|艺术家|乐队|专辑|曲目|歌曲|客户|顾客|发票|账单)',message))
+    result.patches=[patch for patch in result.patches if
+                    (patch.path!='metric' or measure_text) and
+                    (patch.path!='rank_object' or object_text) and
+                    (patch.path!='order' or bool(re.search(r'排序|升序|降序|倒序|正序|并列|asc|desc',message,re.I))) and
+                    (patch.path!='grouping' or bool(re.search(r'分组|分别|每个|按年|按月|逐年|逐月',message))) and
+                    (patch.path!='scope_missing' or bool(re.search(r'这批|这些|这部分|这组|全部|所有|全库',message))) and
+                    (patch.path!='time_ambiguous' or has_calendar_text or cancels_period) and
+                    (patch.path not in {'task_type','comparison'} or
+                     bool(re.search(r'同比|环比|增长|占比|比例|排名|排行|前\s*\d+|top\s*\d+|不看|不算|取消',message,re.I)))]
+    if re.search(r'平均每张发票金额|平均(?:发票|账单)金额|客单价',message):
+        result.patches=[patch for patch in result.patches if patch.path!='metric']
+        result.patches.append(IntentPatch(op='set',path='metric',value='average_invoice_amount',evidence=re.search(r'平均每张发票金额|平均(?:发票|账单)金额|客单价',message).group()))
+    elif re.search(r'(?:发票|账单)(?:销售额|金额|总额)|销售额',message):
+        metric='detail_revenue' if state.analysis.metric=='detail_revenue' or state.analysis.rank_object in {'track','artist','album','genre'} or any(item.get('column') in {'artist.name','genre.name','album.title','track.name'} for item in state.bindings) else 'invoice_revenue'
+        result.patches=[patch for patch in result.patches if patch.path!='metric']
+        result.patches.append(IntentPatch(op='set',path='metric',value=metric,evidence=re.search(r'(?:发票|账单)(?:销售额|金额|总额)|销售额',message).group()))
+    elif re.search(r'(?:发票|账单)(?:张数|数量|次数)|(?:张数|计数)',message):
+        result.patches=[patch for patch in result.patches if patch.path!='metric']
+        result.patches.append(IntentPatch(op='set',path='metric',value='invoice_count',evidence=re.search(r'(?:发票|账单)(?:张数|数量|次数)|(?:张数|计数)',message).group()))
+    # Ratio operands own independent local scopes. A country mentioned while
+    # changing one operand must not move or overwrite the other operand.
+    local_ratio=state.analysis.task_type=='ratio' and any(patch.path in {'numerator','denominator'} for patch in result.patches)
+    if local_ratio and not re.search(r'全局|整个查询|整体地区',message):
+        result.patches=[patch for patch in result.patches if patch.path not in {'filters','region_scope','region_ambiguous'}]
+    cancellation=re.search(r'(?:^|[，,。；;])\s*(?:那就|请|现在|先|我|改成|换成)?\s*(?:取消|不看|不算|不要)\s*(?:同比|环比|比较|增长率|增长)',message)
+    positive_comparisons=[match for match in re.finditer(r'同比|环比',message)
+                          if not re.search(r'不是|并非|(?:不看|不算|不要|取消|非)\s*$',message[max(0,match.start()-4):match.start()])]
+    if cancellation and (state.analysis.task_type=='growth' or state.analysis.comparison):
+        evidence=cancellation.group().lstrip('，,。；;').strip()
+        result.patches=[patch for patch in result.patches if patch.path not in {'task_type','comparison'}]
+        result.patches.extend([IntentPatch(op='set',path='task_type',value='aggregation',evidence=evidence),
+                               IntentPatch(op='remove',path='comparison',evidence=evidence)])
+        if state.analysis.time_scope and state.analysis.time_scope.get('base'):
+            result.patches=[patch for patch in result.patches if patch.path!='time_scope']
+            result.patches.append(IntentPatch(op='set',path='time_scope',value={key:value for key,value in state.analysis.time_scope.items() if key!='base'},evidence=evidence))
+    elif positive_comparisons:
+        evidence=positive_comparisons[0].group()
         result.patches=[patch for patch in result.patches if patch.path not in {'task_type','comparison'}]
         result.patches.extend([IntentPatch(op='set',path='task_type',value='growth',evidence=evidence),
                                IntentPatch(op='set',path='comparison',value={'type':'yoy' if evidence=='同比' else 'mom'},evidence=evidence)])
@@ -141,8 +197,32 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
                    '乐队':'artist','专辑':'album','流派':'genre','发票':'invoice','账单':'invoice'}
             if patch.value in names and patch.value in patch.evidence:
                 patch.value=names[patch.value]
+    cancel_region=re.search(r'(?:删除|取消|去掉|移除|不再限制|不限)\s*'
+                            r'(?:invoice\.billing_country|billing_country|账单国家|账单所在国|账单国|'
+                            r'customer\.country|客户所在地|客户所在国|客户居住国)\s*(?:限制|筛选|条件)?',message)
+    if cancel_region and not re.search(r'(?:不要|不能|别|不应|不需要|不)\s*$',
+                                      message[max(0,cancel_region.start()-6):cancel_region.start()]):
+        target_scope=explicit_region_scope(cancel_region.group())
+        # Canceling a country filter does not cancel the meaning of the
+        # country field. The real model correctly removed Canada but added
+        # region_scope=null, which must not be mistaken for a field migration.
+        result.patches=[patch for patch in result.patches if not
+                        (patch.path=='region_scope' and (patch.op=='remove' or patch.value is None))]
+        if not any(patch.path=='filters' for patch in result.patches):
+            removable=[dict(item) for item in state.bindings if item.get('column')==target_scope and
+                       item.get('binding_scope') not in {'numerator','denominator'}]
+            if removable:
+                result.patches.append(IntentPatch(op='remove',path='filters',value=removable,evidence=cancel_region.group()))
     scope_patches=[patch for patch in result.patches if patch.path=='region_scope' and patch.op=='set']
     derived_scope=None
+    object_fields={'流派':'genre.name','艺术家':'artist.name','乐队':'artist.name','专辑':'album.title','曲目':'track.name','歌曲':'track.name'}
+    replacement=re.search(r'(?:改成|换成|改为|换为)\s*(流派|艺术家|乐队|专辑|曲目|歌曲)',message)
+    target=object_fields[replacement.group(1)] if replacement else None
+    new_values=[binding for binding in linked.bindings if binding.get('column')==target]
+    old_objects=[binding for binding in state.bindings if binding.get('column') in set(object_fields.values())]
+    # Replacing exactly one old object is explicit in “改成流派 Metal”. Never
+    # extend that deletion to countries, employees or other independent fields.
+    replace_columns={item['column'] for item in old_objects if item['column']!=target} if replacement and len(old_objects)==1 and len(new_values)==1 else set()
     if scope_patches:
         written_scope=explicit_region_scope(message)
         if written_scope is None or any(patch.value!=written_scope for patch in scope_patches):
@@ -173,7 +253,7 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
         migration=(derived_scope is not None and originals and all(
             item.get('column') in {'invoice.billing_country','customer.country'} and item.get('column')!=derived_scope
             for item in originals))
-        if migration and not cancellation:
+        if (migration or originals and all(item.get('column') in replace_columns for item in originals)) and not cancellation:
             continue
         if not cancellation:
             raise SessionConflict('本次输入没有明确取消该筛选条件，不能删除此前已确认的条件。')
@@ -186,7 +266,54 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
         patch.value=originals
         retained.append(patch)
     result.patches=retained
-    _ground_patch_filters(result.patches, state, linked,derived_scope=derived_scope)
+    if derived_scope:
+        for patch in result.patches:
+            if patch.path=='filters' and patch.op=='set' and isinstance(patch.value,list):
+                columns={item.get('column') for item in patch.value if isinstance(item,dict)}
+                if derived_scope not in columns:
+                    patch.value += [{**item,'column':derived_scope} for item in state.bindings
+                                    if item.get('column') in {'invoice.billing_country','customer.country'}]
+    # A model's whole-list set is a proposal, not permission to erase other
+    # fields. Merge columns with actual current-turn bindings and retain the
+    # remaining previously confirmed records. Explicit removals are separate.
+    for patch in result.patches:
+        if patch.path=='filters' and patch.op=='set' and isinstance(patch.value,list):
+            written_columns={item.get('column') for item in linked.bindings}
+            present_columns={item.get('column') for item in patch.value if isinstance(item,dict)}
+            untouched=[item for item in state.bindings if item.get('column') not in written_columns and
+                       item.get('column') not in present_columns and item.get('column') not in replace_columns and
+                       not (derived_scope and item.get('column') in {'invoice.billing_country','customer.country'})]
+            patch.value=untouched+patch.value
+    if replace_columns:
+        others=[item for item in state.bindings if item.get('column') not in replace_columns and item.get('column')!=target]
+        result.patches=[patch for patch in result.patches if patch.path!='filters']
+        result.patches.append(IntentPatch(op='set',path='filters',value=others+new_values,evidence=message))
+    _ground_patch_filters(result.patches, state, linked,derived_scope=derived_scope,replace_columns=replace_columns)
+    # A verified current-turn value is input evidence, not an optional model
+    # proposal. In real DEV runs the model sometimes emitted only the year
+    # patch for “期间改成2023年，限定账单国为德国”, dropping Germany altogether.
+    # Apply positive linked values by their field/local scope while retaining
+    # independent filters. Cancellation and ratio-operand edits have their own
+    # explicit handling and cannot be interpreted as additions here.
+    removal_text=bool(re.search(r'删除|取消|去掉|移除|不再限制|不限',message))
+    if linked.bindings and not local_ratio and not removal_text:
+        current_values=[dict(item) for item in linked.bindings]
+        if derived_scope:
+            current_values=[{**item,'column':derived_scope} if item.get('column') in
+                            {'invoice.billing_country','customer.country'} else item for item in current_values]
+        current_keys={(item.get('column'),item.get('binding_scope')) for item in current_values}
+        retained_values=[dict(item) for item in state.bindings
+                         if (item.get('column'),item.get('binding_scope')) not in current_keys and
+                         item.get('column') not in replace_columns and
+                         not (derived_scope and item.get('column') in {'invoice.billing_country','customer.country'})]
+        result.patches=[item for item in result.patches if item.path!='filters']
+        result.patches.append(IntentPatch(op='set',path='filters',value=retained_values+current_values,evidence=message))
+    # The requested ranking size is independent of the executor's display cap.
+    # Do not rely on the model to notice an explicit “前5首” edit or clamp it.
+    top_match=re.search(r'(?:前\s*|top\s*)(\d+)\s*(?:首|个|名|条|位)?',message,re.I)
+    if top_match and int(top_match.group(1))>0:
+        result.patches=[item for item in result.patches if item.path!='top_n']
+        result.patches.append(IntentPatch(op='set',path='top_n',value=int(top_match.group(1)),evidence=top_match.group()))
     # Explicit calendar text is converted by code and takes precedence over model dates.
     period = explicit_period(message) or explicit_comparison_period(message,(state.analysis.comparison or {}).get('type'))
     if period:
@@ -211,7 +338,16 @@ def execution_question(state: SessionState) -> str:
                "order":state.analysis.order,
                "region_scope": state.analysis.region_scope, "filters": state.bindings}
     context['assumptions']=state.analysis.assumptions
-    return state.effective_question + "\n当前执行条件（用户显式条件优先；已批准默认只补缺项；替代改动的旧条件，其余保留）：" + json.dumps(context, ensure_ascii=False)
+    if state.resolutions:
+        # Once a patch has been applied, the original prose may name retired
+        # countries, artists, years or TopN. It must not be the primary question
+        # again. Keep it solely as a labeled background for unchanged output
+        # shape; the complete merged contract is the execution authority.
+        return ("根据以下当前已合并的执行合同生成查询；合同已包含保留条件和本轮修改，不能恢复历史条件：" +
+                json.dumps(context,ensure_ascii=False) +
+                "\n历史首轮原文（仅供保留未修改的返回字段和输出形式，不作为筛选、指标、期间、对象或TopN依据）：" +
+                state.original_question)
+    return state.effective_question + "\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：" + json.dumps(context, ensure_ascii=False)
 
 
 def _refresh_ratio_numerator_binding(state: SessionState, patches: list[IntentPatch], linked, message: str) -> None:
@@ -221,30 +357,39 @@ def _refresh_ratio_numerator_binding(state: SessionState, patches: list[IntentPa
     binding for a ratio is therefore tagged as numerator-only; the SQL guard
     proves it inside the numerator aggregate rather than a global WHERE.
     """
-    numerator_patch=next((patch for patch in patches if patch.path=='numerator' and patch.op=='set'),None)
-    if state.analysis.task_type!='ratio' or numerator_patch is None:
+    operand_patches=[patch for patch in patches if patch.path in {'numerator','denominator'} and patch.op=='set']
+    if state.analysis.task_type!='ratio' or not operand_patches:
         return
-    verified=[item for item in linked.bindings if item.get('column') in {'customer.country','invoice.billing_country'}]
-    if not verified:
-        return
-    if len(verified)!=1 or verified[0].get('operator')!='=':
-        raise SessionConflict('比例分子含多个地区候选，请先明确本次分子范围。')
-    binding=verified[0]
     mentions={item.mention_id:item for item in linked.mentions}
-    mention=mentions.get(binding.get('mention_id'))
-    if mention is None or mention.original_text not in numerator_patch.evidence:
-        raise SessionConflict('分子地区修改缺少本次真实原文与值链接证据。')
-    scope=explicit_region_scope(numerator_patch.evidence) or state.analysis.region_scope or binding['column']
-    updated={**binding,'column':scope,'binding_scope':'numerator','scope_evidence':numerator_patch.evidence}
-    state.bindings=[item for item in state.bindings if item.get('column') not in {'customer.country','invoice.billing_country'}]+[updated]
+    for patch in operand_patches:
+        verified=[item for item in linked.bindings if item.get('column') in {'customer.country','invoice.billing_country'} and
+                  mentions.get(item.get('mention_id')) is not None and mentions[item['mention_id']].original_text in patch.evidence]
+        if not verified:
+            if patch.path=='denominator' and re.search(r'全部|全库|所有|同期全部',patch.evidence):
+                state.bindings=[item for item in state.bindings if item.get('binding_scope')!='denominator']
+            continue
+        if len(verified)!=1 or verified[0].get('operator')!='=':
+            raise SessionConflict('比例操作数含多个地区候选，请先明确本次范围。')
+        binding=verified[0]
+        mention=mentions[binding['mention_id']]
+        explicit_scope=explicit_region_scope(patch.evidence)
+        prior=[item for item in state.bindings if item.get('binding_scope')==patch.path]
+        retained_scope=prior[0]['column'] if len(prior)==1 else (state.analysis.region_scope if patch.path=='numerator' else None)
+        scope=explicit_scope or retained_scope or binding['column']
+        scope_basis=('explicit_user_scope' if explicit_scope else 'retained_operand_scope' if retained_scope else
+                     'oct12_approved_invoice_default' if scope=='invoice.billing_country' and re.search(r'发票|账单|销售额|金额|总额',patch.evidence) else 'verified_value_scope')
+        updated={**binding,'column':scope,'binding_scope':patch.path,'scope_evidence':patch.evidence,'scope_basis':scope_basis}
+        state.bindings=[item for item in state.bindings if item.get('binding_scope')!=patch.path and
+                        not (patch.path=='numerator' and item.get('column') in {'customer.country','invoice.billing_country'} and not item.get('binding_scope'))]+[updated]
+        if patch.path=='numerator':
+            state.analysis.region_scope=scope
+            state.analysis.region_ambiguous=False
+        setattr(state.analysis,patch.path,str(patch.value).replace(mention.original_text,str(binding['value'])))
+        state.analysis.evidence_spans[patch.path]=patch.evidence
+        state.invalidated=sorted(set(state.invalidated)|{'fields','schema','result'})
+        state.history.append({'event':'ratio_'+patch.path+'_binding_refreshed','binding':updated,
+                              'intent_version':state.intent.intent_version})
     state.analysis.filters=state.bindings
-    state.analysis.region_scope=scope
-    state.analysis.region_ambiguous=False
-    # Canonical spelling only replaces the actually linked user span.
-    state.analysis.numerator=str(numerator_patch.value).replace(mention.original_text,str(binding['value']))
-    state.invalidated=sorted(set(state.invalidated)|{'fields','schema','result'})
-    state.history.append({'event':'ratio_numerator_binding_refreshed','binding':updated,
-                          'intent_version':state.intent.intent_version})
     sync_contract(state)
 
 
@@ -334,5 +479,8 @@ def public_metadata(gate: GateResult) -> dict[str, Any]:
             "state": gate.state.phase, "assumptions": gate.decision.assumptions,
             "region_scope": gate.state.analysis.region_scope,
             "derived": gate.decision.derived, "invalidated": gate.state.invalidated,
+            "semantic_contract": gate.state.analysis.model_dump(),
+            "patch_history": [item for item in gate.state.history if item.get('event')=='patch'],
+            "invalidated_execution": (["sql_plan","sql","result"] if gate.state.invalidated else []),
             "switch": ({key: value for key, value in switches.items() if key != "trusted_options"}
                        if switches else None)}

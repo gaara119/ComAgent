@@ -1,0 +1,424 @@
+{
+  "started_at_utc": "2026-10-14T02:25:58.550657+00:00",
+  "finished_at_utc": "2026-10-14T02:26:02.877550+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d4-multiturn-7f4152e98d3c4d8eb042fbdcf9264ed0",
+    "message": "Metallica（artist.name）",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    },
+    "clarification_id": "bb32de1d-2a48-4d77-8258-e3aa66aa802f",
+    "intent_version": 1,
+    "choice_id": "value:issue-346fcbfe5011f2f9:v-8cfcf0e35bfb7532e28a"
+  },
+  "response": {
+    "trace_id": "93a17e7b-b938-4b3a-a80c-f28cf2b2f47f",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：22.77。",
+    "rewritten_question": null,
+    "sql": "SELECT SUM(\"invoice_line\".\"unit_price\" * \"invoice_line\".\"quantity\") AS detail_revenue FROM \"public\".\"invoice_line\" INNER JOIN \"public\".\"invoice\" ON \"invoice_line\".\"invoice_id\" = \"invoice\".\"invoice_id\" INNER JOIN \"public\".\"track\" ON \"invoice_line\".\"track_id\" = \"track\".\"track_id\" INNER JOIN \"public\".\"album\" ON \"track\".\"album_id\" = \"album\".\"album_id\" INNER JOIN \"public\".\"artist\" ON \"album\".\"artist_id\" = \"artist\".\"artist_id\" WHERE \"invoice\".\"invoice_date\" >= '2022-01-01' AND \"invoice\".\"invoice_date\" < '2023-01-01' AND \"artist\".\"name\" = 'Metallica'",
+    "table": [
+      {
+        "detail_revenue": "22.77"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 2,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": "detail_revenue",
+      "time_scope": {
+        "current": {
+          "start": "2022-01-01",
+          "end": "2023-01-01",
+          "label": "2022年",
+          "grain": "year"
+        }
+      },
+      "filters": [
+        {
+          "mention_id": "issue-346fcbfe5011f2f9",
+          "column": "artist.name",
+          "operator": "=",
+          "value": "Metallica",
+          "candidate_id": "v-8cfcf0e35bfb7532e28a",
+          "method": "explicit_user_choice",
+          "evidence_ref": "clarification:bb32de1d-2a48-4d77-8258-e3aa66aa802f:value:issue-346fcbfe5011f2f9:v-8cfcf0e35bfb7532e28a"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_version_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "verified": true,
+          "intent_version": 1
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 24
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "reason": "explicit_card_choice",
+          "bindings": []
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "Metallica（artist.name）"
+        },
+        "output_summary": {
+          "rewritten_question": "Metallica（artist.name）",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 2,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [
+            "fields",
+            "result",
+            "schema"
+          ],
+          "resume_supported": true
+        },
+        "latency_ms": 5
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "根据以下当前已合并的执行合同生成查询；合同已包含保留条件和本轮修改，不能恢复历史条件：{\"task_type\": \"lookup\", \"metric\": \"detail_revenue\", \"time_scope\": {\"current\": {\"start\": \"2022-01-01\", \"end\": \"2023-01-01\", \"label\": \"2022年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": null, \"filters\": [{\"mention_id\": \"issue-346fcbfe5011f2f9\", \"column\": \"artist.name\", \"operator\": \"=\", \"value\": \"Metallica\", \"candidate_id\": \"v-8cfcf0e35bfb7532e28a\", \"method\": \"explicit_user_choice\", \"evidence_ref\": \"clarification:bb32de1d-2a48-4d77-8258-e3aa66aa802f:value:issue-346fcbfe5011f2f9:v-8cfcf0e35bfb7532e28a\"}], \"assumptions\": []}\n历史首轮原文（仅供保留未修改的返回字段和输出形式，不作为筛选、指标、期间、对象或TopN依据）：2022年金属乐队的销售额是多少？",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(\"invoice_line\".\"unit_price\" * \"invoice_line\".\"quantity\") AS detail_revenue FROM \"public\".\"invoice_line\" INNER JOIN \"public\".\"invoice\" ON \"invoice_line\".\"invoice_id\" = \"invoice\".\"invoice_id\" INNER JOIN \"public\".\"track\" ON \"invoice_line\".\"track_id\" = \"track\".\"track_id\" INNER JOIN \"public\".\"album\" ON \"track\".\"album_id\" = \"album\".\"album_id\" INNER JOIN \"public\".\"artist\" ON \"album\".\"artist_id\" = \"artist\".\"artist_id\" WHERE \"invoice\".\"invoice_date\" >= '2022-01-01' AND \"invoice\".\"invoice_date\" < '2023-01-01' AND \"artist\".\"name\" = 'Metallica'",
+          "explanation": "按明细口径（单价×数量）汇总 2022 年 Metallica 的销售额，通过明细→发票→曲目→专辑→艺术家链路关联并过滤期间与艺术家。"
+        },
+        "latency_ms": 4239
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/provider-api-006/ed31e5859b1642828e99750150a7dd72.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 281,
+            "prompt_tokens": 5956,
+            "total_tokens": 6237,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1664
+            },
+            "prompt_cache_hit_tokens": 1664,
+            "prompt_cache_miss_tokens": 4292
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3109
+      },
+      {
+        "name": "sql_current_contract_validate",
+        "status": "ok",
+        "input_summary": {
+          "intent_version": 2
+        },
+        "output_summary": {
+          "verified": true,
+          "before_repair_filter_capture": true
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(\"invoice_line\".\"unit_price\" * \"invoice_line\".\"quantity\") AS detail_revenue FROM \"public\".\"invoice_line\" INNER JOIN \"public\".\"invoice\" ON \"invoice_line\".\"invoice_id\" = \"invoice\".\"invoice_id\" INNER JOIN \"public\".\"track\" ON \"invoice_line\".\"track_id\" = \"track\".\"track_id\" INNER JOIN \"public\".\"album\" ON \"track\".\"album_id\" = \"album\".\"album_id\" INNER JOIN \"public\".\"artist\" ON \"album\".\"artist_id\" = \"artist\".\"artist_id\" WHERE \"invoice\".\"invoice_date\" >= '2022-01-01' AND \"invoice\".\"invoice_date\" < '2023-01-01' AND \"artist\".\"name\" = 'Metallica'"
+        },
+        "output_summary": {
+          "tables": [
+            "album",
+            "artist",
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(\"invoice_line\".\"unit_price\" * \"invoice_line\".\"quantity\") AS detail_revenue FROM \"public\".\"invoice_line\" INNER JOIN \"public\".\"invoice\" ON \"invoice_line\".\"invoice_id\" = \"invoice\".\"invoice_id\" INNER JOIN \"public\".\"track\" ON \"invoice_line\".\"track_id\" = \"track\".\"track_id\" INNER JOIN \"public\".\"album\" ON \"track\".\"album_id\" = \"album\".\"album_id\" INNER JOIN \"public\".\"artist\" ON \"album\".\"artist_id\" = \"artist\".\"artist_id\" WHERE \"invoice\".\"invoice_date\" >= '2022-01-01' AND \"invoice\".\"invoice_date\" < '2023-01-01' AND \"artist\".\"name\" = 'Metallica'"
+        },
+        "latency_ms": 6
+      },
+      {
+        "name": "sql_period_validate",
+        "status": "ok",
+        "input_summary": {
+          "current": {
+            "start": "2022-01-01",
+            "end": "2023-01-01",
+            "label": "2022年",
+            "grain": "year"
+          },
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "verified": true,
+          "mode": "qualified_invoice_where_period",
+          "current": {
+            "start": "2022-01-01",
+            "end": "2023-01-01",
+            "label": "2022年",
+            "grain": "year"
+          }
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "mention_id": "issue-346fcbfe5011f2f9",
+              "column": "artist.name",
+              "operator": "=",
+              "value": "Metallica",
+              "candidate_id": "v-8cfcf0e35bfb7532e28a",
+              "method": "explicit_user_choice",
+              "evidence_ref": "clarification:bb32de1d-2a48-4d77-8258-e3aa66aa802f:value:issue-346fcbfe5011f2f9:v-8cfcf0e35bfb7532e28a"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(\"invoice_line\".\"unit_price\" * \"invoice_line\".\"quantity\") AS detail_revenue FROM \"public\".\"invoice_line\" INNER JOIN \"public\".\"invoice\" ON \"invoice_line\".\"invoice_id\" = \"invoice\".\"invoice_id\" INNER JOIN \"public\".\"track\" ON \"invoice_line\".\"track_id\" = \"track\".\"track_id\" INNER JOIN \"public\".\"album\" ON \"track\".\"album_id\" = \"album\".\"album_id\" INNER JOIN \"public\".\"artist\" ON \"album\".\"artist_id\" = \"artist\".\"artist_id\" WHERE \"invoice\".\"invoice_date\" >= %(qa_value_1)s AND \"invoice\".\"invoice_date\" < %(qa_value_2)s AND \"artist\".\"name\" = %(qa_value_0)s",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "detail_revenue"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 34
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 4320,
+      "nlu": {
+        "original_question": "Metallica（artist.name）",
+        "rewritten_question": "Metallica（artist.name）",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "explicit_card_choice"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 2,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [
+          "fields",
+          "result",
+          "schema"
+        ],
+        "semantic_contract": {
+          "task_type": "lookup",
+          "metric": "detail_revenue",
+          "time_scope": {
+            "current": {
+              "start": "2022-01-01",
+              "end": "2023-01-01",
+              "label": "2022年",
+              "grain": "year"
+            }
+          },
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [
+            {
+              "mention_id": "issue-346fcbfe5011f2f9",
+              "column": "artist.name",
+              "operator": "=",
+              "value": "Metallica",
+              "candidate_id": "v-8cfcf0e35bfb7532e28a",
+              "method": "explicit_user_choice",
+              "evidence_ref": "clarification:bb32de1d-2a48-4d77-8258-e3aa66aa802f:value:issue-346fcbfe5011f2f9:v-8cfcf0e35bfb7532e28a"
+            }
+          ],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {}
+        },
+        "patch_history": [
+          {
+            "event": "patch",
+            "patches": [
+              {
+                "op": "set",
+                "path": "filters",
+                "value": [
+                  {
+                    "mention_id": "issue-346fcbfe5011f2f9",
+                    "column": "artist.name",
+                    "operator": "=",
+                    "value": "Metallica",
+                    "candidate_id": "v-8cfcf0e35bfb7532e28a",
+                    "method": "explicit_user_choice",
+                    "evidence_ref": "clarification:bb32de1d-2a48-4d77-8258-e3aa66aa802f:value:issue-346fcbfe5011f2f9:v-8cfcf0e35bfb7532e28a"
+                  }
+                ],
+                "evidence": ""
+              }
+            ],
+            "intent_version": 2,
+            "invalidated": [
+              "fields",
+              "result",
+              "schema"
+            ]
+          }
+        ],
+        "invalidated_execution": [
+          "sql_plan",
+          "sql",
+          "result"
+        ],
+        "switch": null
+      },
+      "result_columns": [
+        "detail_revenue"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

@@ -1,0 +1,1239 @@
+{
+  "id": "aw-01",
+  "split": "dev",
+  "arm": "subgraph",
+  "request": {
+    "session_id": "d4-aw-a6aab4e23ceb40549d02807843d4fa95-aw-01-subgraph",
+    "message": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。",
+    "scope": {
+      "route": "sql",
+      "db_id": "adventureworks",
+      "doc_ids": []
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "16ef60d2-28aa-4efc-9409-25bd7f4f95e0",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：31465。",
+    "rewritten_question": null,
+    "sql": "SELECT COUNT(*) AS sales_order_count FROM \"sales\".\"salesorderheader\"",
+    "table": [
+      {
+        "sales_order_count": 31465
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "adventureworks"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "table_count": 68,
+          "db_id": "adventureworks"
+        },
+        "latency_ms": 173
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "reason": "not_registered_for_db",
+          "bindings": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。"
+        },
+        "output_summary": {
+          "rewritten_question": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 7
+      },
+      {
+        "name": "schema_link",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks",
+          "question": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。"
+        },
+        "output_summary": {
+          "selected_tables": [
+            "humanresources.employee",
+            "person.address",
+            "person.person",
+            "person.personphone",
+            "person.phonenumbertype",
+            "person.stateprovince",
+            "production.product",
+            "production.productlistpricehistory",
+            "production.productmodel",
+            "sales.salesorderdetail",
+            "sales.salesorderheader",
+            "sales.salesperson",
+            "sales.salestaxrate",
+            "sales.salesterritory",
+            "sales.specialofferproduct"
+          ],
+          "columns": {
+            "humanresources.employee": [
+              "businessentityid",
+              "nationalidnumber",
+              "loginid",
+              "jobtitle",
+              "birthdate",
+              "maritalstatus",
+              "gender",
+              "hiredate",
+              "salariedflag",
+              "vacationhours",
+              "sickleavehours",
+              "currentflag",
+              "rowguid",
+              "modifieddate",
+              "organizationnode"
+            ],
+            "person.address": [
+              "addressid",
+              "addressline1",
+              "addressline2",
+              "city",
+              "stateprovinceid",
+              "postalcode",
+              "spatiallocation",
+              "rowguid",
+              "modifieddate"
+            ],
+            "person.person": [
+              "businessentityid",
+              "persontype",
+              "namestyle",
+              "title",
+              "firstname",
+              "middlename",
+              "lastname",
+              "suffix",
+              "emailpromotion",
+              "additionalcontactinfo",
+              "demographics",
+              "rowguid",
+              "modifieddate"
+            ],
+            "person.personphone": [
+              "businessentityid",
+              "phonenumber",
+              "phonenumbertypeid",
+              "modifieddate"
+            ],
+            "person.phonenumbertype": [
+              "phonenumbertypeid",
+              "name",
+              "modifieddate"
+            ],
+            "person.stateprovince": [
+              "stateprovinceid",
+              "stateprovincecode",
+              "countryregioncode",
+              "isonlystateprovinceflag",
+              "name",
+              "territoryid",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.product": [
+              "productid",
+              "name",
+              "productnumber",
+              "makeflag",
+              "finishedgoodsflag",
+              "color",
+              "safetystocklevel",
+              "reorderpoint",
+              "standardcost",
+              "listprice",
+              "size",
+              "sizeunitmeasurecode",
+              "weightunitmeasurecode",
+              "weight",
+              "daystomanufacture",
+              "productline",
+              "class",
+              "style",
+              "productsubcategoryid",
+              "productmodelid",
+              "sellstartdate",
+              "sellenddate",
+              "discontinueddate",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.productlistpricehistory": [
+              "productid",
+              "startdate",
+              "enddate",
+              "listprice",
+              "modifieddate"
+            ],
+            "production.productmodel": [
+              "productmodelid",
+              "name",
+              "catalogdescription",
+              "instructions",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesorderdetail": [
+              "salesorderid",
+              "salesorderdetailid",
+              "carriertrackingnumber",
+              "orderqty",
+              "productid",
+              "specialofferid",
+              "unitprice",
+              "unitpricediscount",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesorderheader": [
+              "salesorderid",
+              "revisionnumber",
+              "orderdate",
+              "duedate",
+              "shipdate",
+              "status",
+              "onlineorderflag",
+              "purchaseordernumber",
+              "accountnumber",
+              "customerid",
+              "salespersonid",
+              "territoryid",
+              "billtoaddressid",
+              "shiptoaddressid",
+              "shipmethodid",
+              "creditcardid",
+              "creditcardapprovalcode",
+              "currencyrateid",
+              "subtotal",
+              "taxamt",
+              "freight",
+              "totaldue",
+              "comment",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesperson": [
+              "businessentityid",
+              "territoryid",
+              "salesquota",
+              "bonus",
+              "commissionpct",
+              "salesytd",
+              "saleslastyear",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salestaxrate": [
+              "salestaxrateid",
+              "stateprovinceid",
+              "taxtype",
+              "taxrate",
+              "name",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesterritory": [
+              "territoryid",
+              "name",
+              "countryregioncode",
+              "group",
+              "salesytd",
+              "saleslastyear",
+              "costytd",
+              "costlastyear",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.specialofferproduct": [
+              "specialofferid",
+              "productid",
+              "rowguid",
+              "modifieddate"
+            ]
+          },
+          "join_paths": [
+            {
+              "source_table": "humanresources.employee",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "person.person",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "sales.salesperson",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "humanresources.employee",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "person.address",
+              "source_columns": [
+                "stateprovinceid"
+              ],
+              "target_table": "person.stateprovince",
+              "target_columns": [
+                "stateprovinceid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "billtoaddressid"
+              ],
+              "target_table": "person.address",
+              "target_columns": [
+                "addressid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "shiptoaddressid"
+              ],
+              "target_table": "person.address",
+              "target_columns": [
+                "addressid"
+              ]
+            },
+            {
+              "source_table": "person.personphone",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "person.person",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "person.personphone",
+              "source_columns": [
+                "phonenumbertypeid"
+              ],
+              "target_table": "person.phonenumbertype",
+              "target_columns": [
+                "phonenumbertypeid"
+              ]
+            },
+            {
+              "source_table": "sales.salestaxrate",
+              "source_columns": [
+                "stateprovinceid"
+              ],
+              "target_table": "person.stateprovince",
+              "target_columns": [
+                "stateprovinceid"
+              ]
+            },
+            {
+              "source_table": "production.product",
+              "source_columns": [
+                "productmodelid"
+              ],
+              "target_table": "production.productmodel",
+              "target_columns": [
+                "productmodelid"
+              ]
+            },
+            {
+              "source_table": "production.productlistpricehistory",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderdetail",
+              "source_columns": [
+                "salesorderid"
+              ],
+              "target_table": "sales.salesorderheader",
+              "target_columns": [
+                "salesorderid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "salespersonid"
+              ],
+              "target_table": "sales.salesperson",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "sales.salesperson",
+              "source_columns": [
+                "territoryid"
+              ],
+              "target_table": "sales.salesterritory",
+              "target_columns": [
+                "territoryid"
+              ]
+            },
+            {
+              "source_table": "sales.specialofferproduct",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderdetail",
+              "source_columns": [
+                "specialofferid",
+                "productid"
+              ],
+              "target_table": "sales.specialofferproduct",
+              "target_columns": [
+                "specialofferid",
+                "productid"
+              ]
+            }
+          ],
+          "reasons": {
+            "humanresources.employee": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "person.address": [
+              "表描述向量召回第 6 位"
+            ],
+            "person.person": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "person.personphone": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "person.phonenumbertype": [
+              "真实目录示例值或已核验值命中对应列；仅提供定位候选"
+            ],
+            "person.stateprovince": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "production.product": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "production.productlistpricehistory": [
+              "表描述向量召回第 4 位"
+            ],
+            "production.productmodel": [
+              "表描述向量召回第 7 位"
+            ],
+            "sales.salesorderdetail": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "sales.salesorderheader": [
+              "表描述向量召回第 1 位",
+              "列描述 Top-20 投票：20 列"
+            ],
+            "sales.salesperson": [
+              "表描述向量召回第 3 位"
+            ],
+            "sales.salestaxrate": [
+              "表描述向量召回第 2 位"
+            ],
+            "sales.salesterritory": [
+              "表描述向量召回第 5 位"
+            ],
+            "sales.specialofferproduct": [
+              "真实外键图 Steiner 补全的桥接表"
+            ]
+          },
+          "table_recall": [
+            "sales.salesorderheader",
+            "sales.salestaxrate",
+            "sales.salesperson",
+            "production.productlistpricehistory",
+            "sales.salesterritory",
+            "person.address",
+            "production.productmodel",
+            "production.location"
+          ],
+          "column_recall": [
+            "sales.salesorderheader.comment",
+            "sales.salesorderheader.taxamt",
+            "sales.salesorderheader.totaldue",
+            "sales.salesorderheader.subtotal",
+            "sales.salesorderheader.salesorderid",
+            "sales.salesorderheader.shipmethodid",
+            "sales.salesorderheader.purchaseordernumber",
+            "sales.salesorderheader.shiptoaddressid",
+            "sales.salesorderheader.customerid",
+            "sales.salesorderheader.modifieddate",
+            "sales.salesorderheader.accountnumber",
+            "sales.salesorderheader.creditcardapprovalcode",
+            "sales.salesorderheader.freight",
+            "sales.salesorderheader.revisionnumber",
+            "sales.salesorderheader.rowguid",
+            "sales.salesorderheader.salespersonid",
+            "sales.salesorderheader.shipdate",
+            "sales.salesorderheader.currencyrateid",
+            "sales.salesorderheader.onlineorderflag",
+            "sales.salesorderheader.creditcardid"
+          ],
+          "value_recall": [
+            "person.phonenumbertype.name"
+          ],
+          "terminal_tables": [
+            "sales.salesorderheader",
+            "person.phonenumbertype",
+            "sales.salestaxrate",
+            "sales.salesperson",
+            "production.productlistpricehistory",
+            "sales.salesterritory",
+            "person.address",
+            "production.productmodel"
+          ],
+          "bridge_tables": [
+            "humanresources.employee",
+            "person.person",
+            "person.personphone",
+            "person.stateprovince",
+            "production.product",
+            "sales.salesorderdetail",
+            "sales.specialofferproduct"
+          ],
+          "disconnected_components": [
+            [
+              "person.address",
+              "person.phonenumbertype",
+              "production.productlistpricehistory",
+              "production.productmodel",
+              "sales.salesorderheader",
+              "sales.salesperson",
+              "sales.salestaxrate",
+              "sales.salesterritory"
+            ]
+          ],
+          "scores": {
+            "sales.salesorderheader": 0.03278688524590164,
+            "person.phonenumbertype": 0.01639344262295082,
+            "sales.salestaxrate": 0.016129032258064516,
+            "sales.salesperson": 0.015873015873015872,
+            "production.productlistpricehistory": 0.015625,
+            "sales.salesterritory": 0.015384615384615385,
+            "person.address": 0.015151515151515152,
+            "production.productmodel": 0.014925373134328358,
+            "production.location": 0.014705882352941176
+          },
+          "query_facets": [
+            "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。"
+          ],
+          "per_query_recall": [
+            {
+              "query": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。",
+              "table_top": [
+                "sales.salesorderheader",
+                "sales.salestaxrate",
+                "sales.salesperson",
+                "production.productlistpricehistory",
+                "sales.salesterritory",
+                "person.address",
+                "production.productmodel",
+                "production.location"
+              ],
+              "column_top": [
+                "sales.salesorderheader.comment",
+                "sales.salesorderheader.taxamt",
+                "sales.salesorderheader.totaldue",
+                "sales.salesorderheader.subtotal",
+                "sales.salesorderheader.salesorderid",
+                "sales.salesorderheader.shipmethodid",
+                "sales.salesorderheader.purchaseordernumber",
+                "sales.salesorderheader.shiptoaddressid",
+                "sales.salesorderheader.customerid",
+                "sales.salesorderheader.modifieddate",
+                "sales.salesorderheader.accountnumber",
+                "sales.salesorderheader.creditcardapprovalcode",
+                "sales.salesorderheader.freight",
+                "sales.salesorderheader.revisionnumber",
+                "sales.salesorderheader.rowguid",
+                "sales.salesorderheader.salespersonid",
+                "sales.salesorderheader.shipdate",
+                "sales.salesorderheader.currencyrateid",
+                "sales.salesorderheader.onlineorderflag",
+                "sales.salesorderheader.creditcardid"
+              ]
+            }
+          ],
+          "excluded_tables": {},
+          "pruning": {}
+        },
+        "latency_ms": 177
+      },
+      {
+        "name": "schema_prune",
+        "status": "ok",
+        "input_summary": {
+          "candidate_count": 10
+        },
+        "output_summary": {
+          "selected_tables": [
+            "sales.salesorderheader"
+          ],
+          "columns": {
+            "sales.salesorderheader": [
+              "salesorderid"
+            ]
+          },
+          "join_paths": [],
+          "reasons": {
+            "sales.salesorderheader": [
+              "每行代表一张销售订单，统计订单头记录数即统计该表行数"
+            ]
+          },
+          "table_recall": [
+            "sales.salesorderheader",
+            "sales.salestaxrate",
+            "sales.salesperson",
+            "production.productlistpricehistory",
+            "sales.salesterritory",
+            "person.address",
+            "production.productmodel",
+            "production.location"
+          ],
+          "column_recall": [
+            "sales.salesorderheader.comment",
+            "sales.salesorderheader.taxamt",
+            "sales.salesorderheader.totaldue",
+            "sales.salesorderheader.subtotal",
+            "sales.salesorderheader.salesorderid",
+            "sales.salesorderheader.shipmethodid",
+            "sales.salesorderheader.purchaseordernumber",
+            "sales.salesorderheader.shiptoaddressid",
+            "sales.salesorderheader.customerid",
+            "sales.salesorderheader.modifieddate",
+            "sales.salesorderheader.accountnumber",
+            "sales.salesorderheader.creditcardapprovalcode",
+            "sales.salesorderheader.freight",
+            "sales.salesorderheader.revisionnumber",
+            "sales.salesorderheader.rowguid",
+            "sales.salesorderheader.salespersonid",
+            "sales.salesorderheader.shipdate",
+            "sales.salesorderheader.currencyrateid",
+            "sales.salesorderheader.onlineorderflag",
+            "sales.salesorderheader.creditcardid"
+          ],
+          "value_recall": [
+            "person.phonenumbertype.name"
+          ],
+          "terminal_tables": [
+            "sales.salesorderheader"
+          ],
+          "bridge_tables": [],
+          "disconnected_components": [
+            [
+              "sales.salesorderheader"
+            ]
+          ],
+          "scores": {
+            "sales.salesorderheader": 0.03278688524590164,
+            "person.phonenumbertype": 0.01639344262295082,
+            "sales.salestaxrate": 0.016129032258064516,
+            "sales.salesperson": 0.015873015873015872,
+            "production.productlistpricehistory": 0.015625,
+            "sales.salesterritory": 0.015384615384615385,
+            "person.address": 0.015151515151515152,
+            "production.productmodel": 0.014925373134328358,
+            "production.location": 0.014705882352941176
+          },
+          "query_facets": [
+            "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。"
+          ],
+          "per_query_recall": [
+            {
+              "query": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。",
+              "table_top": [
+                "sales.salesorderheader",
+                "sales.salestaxrate",
+                "sales.salesperson",
+                "production.productlistpricehistory",
+                "sales.salesterritory",
+                "person.address",
+                "production.productmodel",
+                "production.location"
+              ],
+              "column_top": [
+                "sales.salesorderheader.comment",
+                "sales.salesorderheader.taxamt",
+                "sales.salesorderheader.totaldue",
+                "sales.salesorderheader.subtotal",
+                "sales.salesorderheader.salesorderid",
+                "sales.salesorderheader.shipmethodid",
+                "sales.salesorderheader.purchaseordernumber",
+                "sales.salesorderheader.shiptoaddressid",
+                "sales.salesorderheader.customerid",
+                "sales.salesorderheader.modifieddate",
+                "sales.salesorderheader.accountnumber",
+                "sales.salesorderheader.creditcardapprovalcode",
+                "sales.salesorderheader.freight",
+                "sales.salesorderheader.revisionnumber",
+                "sales.salesorderheader.rowguid",
+                "sales.salesorderheader.salespersonid",
+                "sales.salesorderheader.shipdate",
+                "sales.salesorderheader.currencyrateid",
+                "sales.salesorderheader.onlineorderflag",
+                "sales.salesorderheader.creditcardid"
+              ]
+            }
+          ],
+          "excluded_tables": {
+            "humanresources.employee": "员工人事档案，与销售订单数量统计无关",
+            "person.address": "地址信息，与统计订单头记录数无关",
+            "person.person": "人员姓名信息，与销售订单数量统计无关",
+            "person.personphone": "人员电话信息，与销售订单数量统计无关",
+            "person.phonenumbertype": "电话号码类型参考表，与销售订单数量统计无关",
+            "person.stateprovince": "州省行政区划参考表，与销售订单数量统计无关",
+            "production.product": "候选超过12表预算，未进入模型剪枝输入",
+            "production.productlistpricehistory": "候选超过12表预算，未进入模型剪枝输入",
+            "production.productmodel": "候选超过12表预算，未进入模型剪枝输入",
+            "sales.salesorderdetail": "候选超过12表预算，未进入模型剪枝输入",
+            "sales.salesperson": "销售人员补充信息表，与统计订单头记录数无关",
+            "sales.salestaxrate": "销售税税率参考表，与销售订单数量统计无关",
+            "sales.salesterritory": "销售区域维度表，与统计订单头记录数无关",
+            "sales.specialofferproduct": "候选超过12表预算，未进入模型剪枝输入"
+          },
+          "pruning": {
+            "status": "completed",
+            "candidate_tables": [
+              "humanresources.employee",
+              "person.address",
+              "person.person",
+              "person.personphone",
+              "person.phonenumbertype",
+              "person.stateprovince",
+              "sales.salesorderheader",
+              "sales.salesperson",
+              "sales.salestaxrate",
+              "sales.salesterritory"
+            ],
+            "candidate_count": 10,
+            "llm_selected_tables": [
+              "sales.salesorderheader"
+            ],
+            "restored_bridge_tables": [],
+            "connected": true,
+            "disconnected_components": [
+              [
+                "sales.salesorderheader"
+              ]
+            ],
+            "connectivity_note": "真实外键组件分别补全；不为互不关联的组件制造连接",
+            "column_count": 1,
+            "selector_gold_input": false
+          }
+        },
+        "latency_ms": 4032
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/aw-ablation-live-001/provider/75334510a9ec47f6ac4e549757c2b976.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 202,
+            "prompt_tokens": 7677,
+            "total_tokens": 7879,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 7424
+            },
+            "prompt_cache_hit_tokens": 7424,
+            "prompt_cache_miss_tokens": 253
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3097
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。",
+          "repair_attempt": 0,
+          "db_id": "adventureworks",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT COUNT(*) AS sales_order_count FROM \"sales\".\"salesorderheader\"",
+          "explanation": "统计 sales.salesorderheader 表头记录数，每行代表一张销售订单，返回订单总数。"
+        },
+        "latency_ms": 3030
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/aw-ablation-live-001/provider/66c456e213974c44aeb121565fa11590.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 2047,
+            "total_tokens": 2111,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1664
+            },
+            "prompt_cache_hit_tokens": 1664,
+            "prompt_cache_miss_tokens": 383
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2133
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS sales_order_count FROM \"sales\".\"salesorderheader\""
+        },
+        "output_summary": {
+          "tables": [
+            "sales.salesorderheader"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT COUNT(*) AS sales_order_count FROM \"sales\".\"salesorderheader\""
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT COUNT(*) AS sales_order_count FROM \"sales\".\"salesorderheader\"",
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "sales_order_count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 24
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "adventureworks",
+      "latency_ms": 7457,
+      "nlu": {
+        "original_question": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。",
+        "rewritten_question": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "not_registered_for_db"
+      },
+      "aw_schema_mode": "subgraph",
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "semantic_contract": {
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": null,
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {}
+        },
+        "patch_history": [],
+        "invalidated_execution": [],
+        "switch": null
+      },
+      "schema_linker": {
+        "selected_tables": [
+          "sales.salesorderheader"
+        ],
+        "columns": {
+          "sales.salesorderheader": [
+            "salesorderid"
+          ]
+        },
+        "join_paths": [],
+        "reasons": {
+          "sales.salesorderheader": [
+            "每行代表一张销售订单，统计订单头记录数即统计该表行数"
+          ]
+        },
+        "table_recall": [
+          "sales.salesorderheader",
+          "sales.salestaxrate",
+          "sales.salesperson",
+          "production.productlistpricehistory",
+          "sales.salesterritory",
+          "person.address",
+          "production.productmodel",
+          "production.location"
+        ],
+        "column_recall": [
+          "sales.salesorderheader.comment",
+          "sales.salesorderheader.taxamt",
+          "sales.salesorderheader.totaldue",
+          "sales.salesorderheader.subtotal",
+          "sales.salesorderheader.salesorderid",
+          "sales.salesorderheader.shipmethodid",
+          "sales.salesorderheader.purchaseordernumber",
+          "sales.salesorderheader.shiptoaddressid",
+          "sales.salesorderheader.customerid",
+          "sales.salesorderheader.modifieddate",
+          "sales.salesorderheader.accountnumber",
+          "sales.salesorderheader.creditcardapprovalcode",
+          "sales.salesorderheader.freight",
+          "sales.salesorderheader.revisionnumber",
+          "sales.salesorderheader.rowguid",
+          "sales.salesorderheader.salespersonid",
+          "sales.salesorderheader.shipdate",
+          "sales.salesorderheader.currencyrateid",
+          "sales.salesorderheader.onlineorderflag",
+          "sales.salesorderheader.creditcardid"
+        ],
+        "value_recall": [
+          "person.phonenumbertype.name"
+        ],
+        "terminal_tables": [
+          "sales.salesorderheader"
+        ],
+        "bridge_tables": [],
+        "disconnected_components": [
+          [
+            "sales.salesorderheader"
+          ]
+        ],
+        "scores": {
+          "sales.salesorderheader": 0.03278688524590164,
+          "person.phonenumbertype": 0.01639344262295082,
+          "sales.salestaxrate": 0.016129032258064516,
+          "sales.salesperson": 0.015873015873015872,
+          "production.productlistpricehistory": 0.015625,
+          "sales.salesterritory": 0.015384615384615385,
+          "person.address": 0.015151515151515152,
+          "production.productmodel": 0.014925373134328358,
+          "production.location": 0.014705882352941176
+        },
+        "query_facets": [
+          "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。"
+        ],
+        "per_query_recall": [
+          {
+            "query": "AdventureWorks 数据库共有多少张销售订单？请统计订单头记录数。",
+            "table_top": [
+              "sales.salesorderheader",
+              "sales.salestaxrate",
+              "sales.salesperson",
+              "production.productlistpricehistory",
+              "sales.salesterritory",
+              "person.address",
+              "production.productmodel",
+              "production.location"
+            ],
+            "column_top": [
+              "sales.salesorderheader.comment",
+              "sales.salesorderheader.taxamt",
+              "sales.salesorderheader.totaldue",
+              "sales.salesorderheader.subtotal",
+              "sales.salesorderheader.salesorderid",
+              "sales.salesorderheader.shipmethodid",
+              "sales.salesorderheader.purchaseordernumber",
+              "sales.salesorderheader.shiptoaddressid",
+              "sales.salesorderheader.customerid",
+              "sales.salesorderheader.modifieddate",
+              "sales.salesorderheader.accountnumber",
+              "sales.salesorderheader.creditcardapprovalcode",
+              "sales.salesorderheader.freight",
+              "sales.salesorderheader.revisionnumber",
+              "sales.salesorderheader.rowguid",
+              "sales.salesorderheader.salespersonid",
+              "sales.salesorderheader.shipdate",
+              "sales.salesorderheader.currencyrateid",
+              "sales.salesorderheader.onlineorderflag",
+              "sales.salesorderheader.creditcardid"
+            ]
+          }
+        ],
+        "excluded_tables": {
+          "humanresources.employee": "员工人事档案，与销售订单数量统计无关",
+          "person.address": "地址信息，与统计订单头记录数无关",
+          "person.person": "人员姓名信息，与销售订单数量统计无关",
+          "person.personphone": "人员电话信息，与销售订单数量统计无关",
+          "person.phonenumbertype": "电话号码类型参考表，与销售订单数量统计无关",
+          "person.stateprovince": "州省行政区划参考表，与销售订单数量统计无关",
+          "production.product": "候选超过12表预算，未进入模型剪枝输入",
+          "production.productlistpricehistory": "候选超过12表预算，未进入模型剪枝输入",
+          "production.productmodel": "候选超过12表预算，未进入模型剪枝输入",
+          "sales.salesorderdetail": "候选超过12表预算，未进入模型剪枝输入",
+          "sales.salesperson": "销售人员补充信息表，与统计订单头记录数无关",
+          "sales.salestaxrate": "销售税税率参考表，与销售订单数量统计无关",
+          "sales.salesterritory": "销售区域维度表，与统计订单头记录数无关",
+          "sales.specialofferproduct": "候选超过12表预算，未进入模型剪枝输入"
+        },
+        "pruning": {
+          "status": "completed",
+          "candidate_tables": [
+            "humanresources.employee",
+            "person.address",
+            "person.person",
+            "person.personphone",
+            "person.phonenumbertype",
+            "person.stateprovince",
+            "sales.salesorderheader",
+            "sales.salesperson",
+            "sales.salestaxrate",
+            "sales.salesterritory"
+          ],
+          "candidate_count": 10,
+          "llm_selected_tables": [
+            "sales.salesorderheader"
+          ],
+          "restored_bridge_tables": [],
+          "connected": true,
+          "disconnected_components": [
+            [
+              "sales.salesorderheader"
+            ]
+          ],
+          "connectivity_note": "真实外键组件分别补全；不为互不关联的组件制造连接",
+          "column_count": 1,
+          "selector_gold_input": false
+        }
+      },
+      "result_columns": [
+        "sales_order_count"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "cost": {
+    "raw_step_ms": {
+      "route": 0,
+      "config_check": 0,
+      "catalog": 173,
+      "requested_source_check": 0,
+      "value_link": 0,
+      "rewrite": 0,
+      "clarification_gate": 7,
+      "schema_link": 177,
+      "schema_prune": 4032,
+      "llm": 5230,
+      "sql_gen": 3030,
+      "sql_validate": 1,
+      "sql_binding_validate": 0,
+      "sql_exec": 24,
+      "answer": 0
+    },
+    "stages_ms": {
+      "model_calls": 5230,
+      "nlu": 7,
+      "value_link": 0,
+      "schema_selection": 4209,
+      "sql_generation": 3030,
+      "sql_execution": 24,
+      "retrieval": 0,
+      "answer_generation": 0
+    },
+    "model_attempts": {
+      "schema_selection": 1,
+      "all": 2,
+      "sql_generation": 1
+    },
+    "usage": {
+      "prompt_tokens": 9724,
+      "schema_selection_prompt_tokens": 7677,
+      "completion_tokens": 266,
+      "schema_selection_completion_tokens": 202,
+      "total_tokens": 9990,
+      "schema_selection_total_tokens": 7879,
+      "sql_generation_prompt_tokens": 2047,
+      "sql_generation_completion_tokens": 64,
+      "sql_generation_total_tokens": 2111
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "duration_warning": "嵌套步骤有重叠；端到端实测独立计时，不将所有step相加"
+  },
+  "matched": true,
+  "legacy_matched": true,
+  "comparison": {
+    "matched": true,
+    "reason": "equal",
+    "column_mapping": [
+      0
+    ]
+  },
+  "legacy_comparison": {
+    "matched": true,
+    "reason": "equal",
+    "column_mapping": [
+      0
+    ]
+  },
+  "failure_category": null,
+  "selected_table_count": 1,
+  "schema_recall": 1.0,
+  "schema_precision": 1.0,
+  "elapsed_ms": 7458.178
+}

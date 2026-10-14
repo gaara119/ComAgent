@@ -1,0 +1,638 @@
+{
+  "started_at_utc": "2026-10-13T23:38:07.644672+00:00",
+  "finished_at_utc": "2026-10-13T23:38:14.427273+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d4-multiturn-636f0af5a2514284a82d23f1c78c9d4a",
+    "message": "改成流派 Metal。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "5f0f46ee-5d3a-4d25-aba6-6be594bfe11b",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：53.46。",
+    "rewritten_question": null,
+    "sql": "SELECT SUM(il.unit_price * il.quantity) AS metal_revenue FROM \"public\".\"invoice\" AS inv JOIN \"public\".\"invoice_line\" AS il ON il.invoice_id = inv.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"genre\" AS g ON g.genre_id = t.genre_id WHERE g.name = 'Metal' AND inv.invoice_date >= CAST('2022-01-01' AS DATE) AND inv.invoice_date < CAST('2023-01-01' AS DATE)",
+    "table": [
+      {
+        "metal_revenue": "53.46"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 3,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": "detail_revenue",
+      "time_scope": {
+        "current": {
+          "start": "2022-01-01",
+          "end": "2023-01-01",
+          "label": "2022年",
+          "grain": "year"
+        }
+      },
+      "filters": [
+        {
+          "column": "genre.name",
+          "operator": "=",
+          "value": "Metal",
+          "mention_id": "mention-2",
+          "method": "exact",
+          "evidence_ref": "v-bf1c51869eccaa9deddc",
+          "source": "verified_value_index"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 23
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 2,
+          "bindings": [
+            {
+              "column": "genre.name",
+              "operator": "=",
+              "value": "Metal",
+              "mention_id": "mention-2",
+              "method": "exact",
+              "evidence_ref": "v-bf1c51869eccaa9deddc",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 16
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "改成"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_pinyin",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "改成"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_fuzzy",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "改成"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_vector",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "改成"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 13
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-2",
+          "original_text": "Metal"
+        },
+        "output_summary": {
+          "candidate_count": 1,
+          "candidate_ids": [
+            "v-bf1c51869eccaa9deddc"
+          ],
+          "scores": [
+            1.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "改成流派 Metal。"
+        },
+        "output_summary": {
+          "rewritten_question": "改成流派 Metal。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 3,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [
+            "fields",
+            "result",
+            "schema"
+          ],
+          "resume_supported": true
+        },
+        "latency_ms": 2902
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/provider-api-004/aefe0c6340cd4c298127fc32984bb8f7.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 39,
+            "prompt_tokens": 1536,
+            "total_tokens": 1575,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1024
+            },
+            "prompt_cache_hit_tokens": 1024,
+            "prompt_cache_miss_tokens": 512
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1644
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2022年金属乐队的销售额是多少？\n当前执行条件（用户显式条件优先；已批准默认只补缺项；替代改动的旧条件，其余保留）：{\"task_type\": \"lookup\", \"metric\": \"detail_revenue\", \"time_scope\": {\"current\": {\"start\": \"2022-01-01\", \"end\": \"2023-01-01\", \"label\": \"2022年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": null, \"filters\": [{\"column\": \"genre.name\", \"operator\": \"=\", \"value\": \"Metal\", \"mention_id\": \"mention-2\", \"method\": \"exact\", \"evidence_ref\": \"v-bf1c51869eccaa9deddc\", \"source\": \"verified_value_index\"}], \"assumptions\": []}",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS metal_revenue\nFROM \"public\".\"invoice\" inv\nJOIN \"public\".\"invoice_line\" il ON il.invoice_id = inv.invoice_id\nJOIN \"public\".\"track\" t ON t.track_id = il.track_id\nJOIN \"public\".\"genre\" g ON g.genre_id = t.genre_id\nWHERE g.name = 'Metal'\n  AND inv.invoice_date >= DATE '2022-01-01'\n  AND inv.invoice_date < DATE '2023-01-01'",
+          "explanation": "按 2022 年发票日期区间 [2022-01-01, 2023-01-01) 汇总 Metal 流派曲目的销售额，销售额按明细实际成交单价乘数量（unit_price × quantity）计算，通过 track→genre 关联取得流派。"
+        },
+        "latency_ms": 3784
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/provider-api-004/f73be25baac84e17a8ecfeec662217a8.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 229,
+            "prompt_tokens": 5547,
+            "total_tokens": 5776,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1408
+            },
+            "prompt_cache_hit_tokens": 1408,
+            "prompt_cache_miss_tokens": 4139
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2611
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS metal_revenue\nFROM \"public\".\"invoice\" inv\nJOIN \"public\".\"invoice_line\" il ON il.invoice_id = inv.invoice_id\nJOIN \"public\".\"track\" t ON t.track_id = il.track_id\nJOIN \"public\".\"genre\" g ON g.genre_id = t.genre_id\nWHERE g.name = 'Metal'\n  AND inv.invoice_date >= DATE '2022-01-01'\n  AND inv.invoice_date < DATE '2023-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "genre",
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS metal_revenue FROM \"public\".\"invoice\" AS inv JOIN \"public\".\"invoice_line\" AS il ON il.invoice_id = inv.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"genre\" AS g ON g.genre_id = t.genre_id WHERE g.name = 'Metal' AND inv.invoice_date >= CAST('2022-01-01' AS DATE) AND inv.invoice_date < CAST('2023-01-01' AS DATE)"
+        },
+        "latency_ms": 8
+      },
+      {
+        "name": "sql_period_validate",
+        "status": "ok",
+        "input_summary": {
+          "current": {
+            "start": "2022-01-01",
+            "end": "2023-01-01",
+            "label": "2022年",
+            "grain": "year"
+          },
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "verified": true,
+          "mode": "qualified_invoice_where_period",
+          "current": {
+            "start": "2022-01-01",
+            "end": "2023-01-01",
+            "label": "2022年",
+            "grain": "year"
+          }
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "genre.name",
+              "operator": "=",
+              "value": "Metal",
+              "mention_id": "mention-2",
+              "method": "exact",
+              "evidence_ref": "v-bf1c51869eccaa9deddc",
+              "source": "verified_value_index"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(il.unit_price * il.quantity) AS metal_revenue FROM \"public\".\"invoice\" AS inv JOIN \"public\".\"invoice_line\" AS il ON il.invoice_id = inv.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"genre\" AS g ON g.genre_id = t.genre_id WHERE g.name = %(qa_value_0)s AND inv.invoice_date >= CAST(%(qa_value_2)s AS DATE) AND inv.invoice_date < CAST(%(qa_value_1)s AS DATE)",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "metal_revenue"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 40
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 6781,
+      "nlu": {
+        "original_question": "改成流派 Metal。",
+        "rewritten_question": "改成流派 Metal。",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "改成",
+            "span": [
+              0,
+              2
+            ],
+            "status": "unmatched",
+            "field_candidates": [
+              "genre.name"
+            ],
+            "candidates": [],
+            "selected_candidate_id": null,
+            "match_method": null,
+            "evidence_ref": null,
+            "canonical_value": null,
+            "column": null,
+            "stages": [
+              {
+                "method": "exact",
+                "minimum_score": 0.0,
+                "candidates": []
+              },
+              {
+                "method": "pinyin",
+                "minimum_score": 0.0,
+                "candidates": []
+              },
+              {
+                "method": "fuzzy",
+                "minimum_score": 0.6,
+                "candidates": []
+              },
+              {
+                "method": "vector",
+                "minimum_score": 0.65,
+                "candidates": []
+              }
+            ],
+            "guard_source": null
+          },
+          {
+            "mention_id": "mention-2",
+            "original_text": "Metal",
+            "span": [
+              5,
+              10
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "genre.name"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-bf1c51869eccaa9deddc",
+                "column": "genre.name",
+                "standard_value": "Metal",
+                "surface": "Metal",
+                "score": 1.0,
+                "source": "catalog:genre.name",
+                "evidence_ref": "v-bf1c51869eccaa9deddc",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": "v-bf1c51869eccaa9deddc",
+            "match_method": "exact",
+            "evidence_ref": "v-bf1c51869eccaa9deddc",
+            "canonical_value": "Metal",
+            "column": "genre.name",
+            "stages": [
+              {
+                "method": "exact",
+                "minimum_score": 0.0,
+                "candidates": [
+                  {
+                    "candidate_id": "v-bf1c51869eccaa9deddc",
+                    "column": "genre.name",
+                    "standard_value": "Metal",
+                    "surface": "Metal",
+                    "score": 1.0,
+                    "source": "catalog:genre.name",
+                    "evidence_ref": "v-bf1c51869eccaa9deddc",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal",
+            "mention_id": "mention-2",
+            "method": "exact",
+            "evidence_ref": "v-bf1c51869eccaa9deddc",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 3,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [
+          "fields",
+          "result",
+          "schema"
+        ],
+        "semantic_contract": {
+          "task_type": "lookup",
+          "metric": "detail_revenue",
+          "time_scope": {
+            "current": {
+              "start": "2022-01-01",
+              "end": "2023-01-01",
+              "label": "2022年",
+              "grain": "year"
+            }
+          },
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [
+            {
+              "column": "genre.name",
+              "operator": "=",
+              "value": "Metal",
+              "mention_id": "mention-2",
+              "method": "exact",
+              "evidence_ref": "v-bf1c51869eccaa9deddc",
+              "source": "verified_value_index"
+            }
+          ],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {}
+        },
+        "patch_history": [
+          {
+            "event": "patch",
+            "patches": [
+              {
+                "op": "set",
+                "path": "filters",
+                "value": [
+                  {
+                    "mention_id": "issue-346fcbfe5011f2f9",
+                    "column": "artist.name",
+                    "operator": "=",
+                    "value": "Metallica",
+                    "candidate_id": "v-8cfcf0e35bfb7532e28a",
+                    "method": "explicit_user_choice",
+                    "evidence_ref": "clarification:4bcbfeed-4267-44ee-8667-3304934030c0:value:issue-346fcbfe5011f2f9:v-8cfcf0e35bfb7532e28a"
+                  }
+                ],
+                "evidence": ""
+              }
+            ],
+            "intent_version": 2,
+            "invalidated": [
+              "fields",
+              "result",
+              "schema"
+            ]
+          },
+          {
+            "event": "patch",
+            "patches": [
+              {
+                "op": "set",
+                "path": "filters",
+                "value": [
+                  {
+                    "column": "genre.name",
+                    "operator": "=",
+                    "value": "Metal",
+                    "mention_id": "mention-2",
+                    "method": "exact",
+                    "evidence_ref": "v-bf1c51869eccaa9deddc",
+                    "source": "verified_value_index"
+                  }
+                ],
+                "evidence": "改成流派 Metal。"
+              }
+            ],
+            "intent_version": 3,
+            "invalidated": [
+              "fields",
+              "result",
+              "schema"
+            ]
+          }
+        ],
+        "invalidated_execution": [
+          "sql_plan",
+          "sql",
+          "result"
+        ],
+        "switch": null
+      },
+      "result_columns": [
+        "metal_revenue"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

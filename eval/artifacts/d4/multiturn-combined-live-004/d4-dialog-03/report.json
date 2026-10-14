@@ -1,0 +1,581 @@
+{
+  "id": "d4-dialog-03",
+  "split": "dev",
+  "completed_all_turns": true,
+  "turns": [
+    {
+      "index": 0,
+      "message": "2022年艺术家 Metallica 的销售额是多少？",
+      "status": "SUCCEEDED",
+      "intent_version": 1,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "d82e3fa7-54c5-4cb5-a80d-06f005e6db5d",
+      "latency_ms": 4139.224599988665,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\00\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\00\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2022-01-01",
+          "end": "2023-01-01"
+        },
+        "metric": "detail_revenue",
+        "filters": [
+          {
+            "column": "artist.name",
+            "operator": "=",
+            "value": "Metallica"
+          }
+        ]
+      },
+      "sql": "SELECT SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS inv ON inv.invoice_id = il.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"album\" AS al ON al.album_id = t.album_id JOIN \"public\".\"artist\" AS ar ON ar.artist_id = al.artist_id WHERE ar.\"name\" = 'Metallica' AND inv.invoice_date >= '2022-01-01' AND inv.invoice_date < '2023-01-01'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "detail_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2022-01-01",
+            "end": "2023-01-01",
+            "label": "2022年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "artist.name",
+            "operator": "=",
+            "value": "Metallica",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-8cfcf0e35bfb7532e28a",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": []
+    },
+    {
+      "index": 1,
+      "message": "改成流派 Metal。",
+      "status": "SUCCEEDED",
+      "intent_version": 2,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "a7360b8c-3b58-4c09-8cb3-c8605111a402",
+      "latency_ms": 7709.407899994403,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\01\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\01\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2022-01-01",
+          "end": "2023-01-01"
+        },
+        "metric": "detail_revenue",
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal"
+          }
+        ]
+      },
+      "sql": "SELECT SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON i.invoice_id = il.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"genre\" AS g ON g.genre_id = t.genre_id WHERE i.invoice_date >= '2022-01-01' AND i.invoice_date < '2023-01-01' AND g.name = 'Metal'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "detail_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2022-01-01",
+            "end": "2023-01-01",
+            "label": "2022年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal",
+            "mention_id": "mention-2",
+            "method": "exact",
+            "evidence_ref": "v-bf1c51869eccaa9deddc",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 2,
+      "message": "期间改成2023年，限定账单国为德国。",
+      "status": "SUCCEEDED",
+      "intent_version": 3,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "f4b1961e-74ff-4671-b314-3e28415a10a5",
+      "latency_ms": 8161.7380999960005,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\02\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\02\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "metric": "detail_revenue",
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal"
+          },
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Germany"
+          }
+        ]
+      },
+      "sql": "SELECT SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.invoice_id = i.invoice_id JOIN \"public\".\"track\" AS t ON il.track_id = t.track_id JOIN \"public\".\"genre\" AS g ON t.genre_id = g.genre_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' AND g.name = 'Metal' AND i.billing_country = 'Germany'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "detail_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "label": "2023年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal",
+            "mention_id": "mention-2",
+            "method": "exact",
+            "evidence_ref": "v-bf1c51869eccaa9deddc",
+            "source": "verified_value_index"
+          },
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Germany",
+            "mention_id": "mention-2",
+            "method": "exact",
+            "evidence_ref": "a-3414db81951a6279",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 3,
+      "message": "指标改成购买数量。",
+      "status": "SUCCEEDED",
+      "intent_version": 4,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "9903290b-4128-4649-b3f6-6e6098710501",
+      "latency_ms": 7627.90760002099,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\03\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\03\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "metric": "purchased_quantity",
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal"
+          },
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Germany"
+          }
+        ]
+      },
+      "sql": "SELECT SUM(il.quantity) AS purchased_quantity FROM \"public\".\"invoice\" AS i JOIN \"public\".\"invoice_line\" AS il ON il.invoice_id = i.invoice_id JOIN \"public\".\"track\" AS t ON t.track_id = il.track_id JOIN \"public\".\"genre\" AS g ON g.genre_id = t.genre_id WHERE i.invoice_date >= CAST('2023-01-01 00:00:00' AS TIMESTAMP) AND i.invoice_date < CAST('2024-01-01 00:00:00' AS TIMESTAMP) AND i.billing_country = 'Germany' AND g.name = 'Metal'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "purchased_quantity",
+        "time_scope": {
+          "current": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "label": "2023年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal",
+            "mention_id": "mention-2",
+            "method": "exact",
+            "evidence_ref": "v-bf1c51869eccaa9deddc",
+            "source": "verified_value_index"
+          },
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Germany",
+            "mention_id": "mention-2",
+            "method": "exact",
+            "evidence_ref": "a-3414db81951a6279",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 4,
+      "message": "期间改成2024年。",
+      "status": "SUCCEEDED",
+      "intent_version": 5,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "02b4cdc1-65fc-4d34-9b0f-65e3cc56a6d8",
+      "latency_ms": 8371.424299955834,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\04\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\04\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "metric": "purchased_quantity",
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal"
+          },
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Germany"
+          }
+        ]
+      },
+      "sql": "SELECT SUM(invoice_line.quantity) AS purchased_quantity FROM \"public\".\"invoice_line\" INNER JOIN \"public\".\"invoice\" ON \"public\".\"invoice_line\".\"invoice_id\" = \"public\".\"invoice\".\"invoice_id\" INNER JOIN \"public\".\"track\" ON \"public\".\"invoice_line\".\"track_id\" = \"public\".\"track\".\"track_id\" INNER JOIN \"public\".\"genre\" ON \"public\".\"track\".\"genre_id\" = \"public\".\"genre\".\"genre_id\" WHERE \"public\".\"invoice\".\"invoice_date\" >= '2024-01-01' AND \"public\".\"invoice\".\"invoice_date\" < '2025-01-01' AND \"public\".\"genre\".\"name\" = 'Metal' AND \"public\".\"invoice\".\"billing_country\" = 'Germany'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "purchased_quantity",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal",
+            "mention_id": "mention-2",
+            "method": "exact",
+            "evidence_ref": "v-bf1c51869eccaa9deddc",
+            "source": "verified_value_index"
+          },
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Germany",
+            "mention_id": "mention-2",
+            "method": "exact",
+            "evidence_ref": "a-3414db81951a6279",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 5,
+      "message": "账单国家换成巴西。",
+      "status": "SUCCEEDED",
+      "intent_version": 6,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "cbac2a66-3b45-4dcc-ac57-156b20f880f1",
+      "latency_ms": 8138.249900017399,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\05\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-004\\d4-dialog-03\\05\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "metric": "purchased_quantity",
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal"
+          },
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Brazil"
+          }
+        ]
+      },
+      "sql": "SELECT SUM(invoice_line.quantity) AS purchased_quantity FROM \"public\".\"invoice_line\" INNER JOIN \"public\".\"invoice\" ON invoice_line.invoice_id = invoice.invoice_id INNER JOIN \"public\".\"track\" ON invoice_line.track_id = track.track_id INNER JOIN \"public\".\"genre\" ON track.genre_id = genre.genre_id WHERE invoice.invoice_date >= '2024-01-01' AND invoice.invoice_date < '2025-01-01' AND genre.name = 'Metal' AND invoice.billing_country = 'Brazil'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "purchased_quantity",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Metal",
+            "mention_id": "mention-2",
+            "method": "exact",
+            "evidence_ref": "v-bf1c51869eccaa9deddc",
+            "source": "verified_value_index"
+          },
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "a-bfc3cf35431dcceb",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    }
+  ]
+}

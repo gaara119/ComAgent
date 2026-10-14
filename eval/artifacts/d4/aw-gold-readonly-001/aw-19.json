@@ -1,0 +1,57 @@
+{
+  "id": "aw-19",
+  "sql": "SELECT s.name AS ship_method, COUNT(*) AS order_count FROM purchasing.purchaseorderheader AS h JOIN purchasing.shipmethod AS s ON h.shipmethodid = s.shipmethodid GROUP BY s.shipmethodid, s.name ORDER BY order_count DESC, s.name ASC LIMIT 200",
+  "result": {
+    "columns": [
+      "ship_method",
+      "order_count"
+    ],
+    "rows": [
+      [
+        "CARGO TRANSPORT 5",
+        1523
+      ],
+      [
+        "OVERNIGHT J-FAST",
+        1085
+      ],
+      [
+        "ZY - EXPRESS",
+        655
+      ],
+      [
+        "XRQ - TRUCK GROUND",
+        589
+      ],
+      [
+        "OVERSEAS - DELUXE",
+        160
+      ]
+    ],
+    "table": [
+      {
+        "ship_method": "CARGO TRANSPORT 5",
+        "order_count": 1523
+      },
+      {
+        "ship_method": "OVERNIGHT J-FAST",
+        "order_count": 1085
+      },
+      {
+        "ship_method": "ZY - EXPRESS",
+        "order_count": 655
+      },
+      {
+        "ship_method": "XRQ - TRUCK GROUND",
+        "order_count": 589
+      },
+      {
+        "ship_method": "OVERSEAS - DELUXE",
+        "order_count": 160
+      }
+    ],
+    "row_count": 5,
+    "truncated": false
+  },
+  "system_prediction": false
+}

@@ -1,0 +1,547 @@
+{
+  "id": "d4-dialog-04",
+  "split": "dev",
+  "completed_all_turns": true,
+  "turns": [
+    {
+      "index": 0,
+      "message": "2023年按购买数量排名前3的曲目，返回曲目编号和购买数量；并列按曲目编号升序。",
+      "status": "SUCCEEDED",
+      "intent_version": 1,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "trace_id": "678e980d-1301-4896-a251-a8c28b79849b",
+      "latency_ms": 8574.822299997322,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\00\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\00\\response.raw.json",
+      "expected": {
+        "top_n": 3,
+        "task_type": "ranking",
+        "current": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "metric": "purchased_quantity",
+        "filters": []
+      },
+      "sql": "SELECT il.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= CAST('2023-01-01 00:00:00' AS TIMESTAMP) AND i.invoice_date < CAST('2024-01-01 00:00:00' AS TIMESTAMP) GROUP BY il.track_id ORDER BY purchased_quantity DESC, il.track_id ASC LIMIT 3",
+      "semantic_contract": {
+        "task_type": "ranking",
+        "metric": "purchased_quantity",
+        "time_scope": {
+          "current": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "label": "2023年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "track",
+        "top_n": 3,
+        "order": {
+          "field": "purchased_quantity",
+          "direction": "desc",
+          "tie_breaker": "track_id",
+          "tie_direction": "asc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [
+          "track_id"
+        ],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "time_scope": "2023年",
+          "metric": "曲目...购买数量",
+          "rank_object": "曲目",
+          "top_n": "排名前3",
+          "order": "按购买数量排名...并列按曲目编号升序"
+        }
+      },
+      "invalidated_execution": []
+    },
+    {
+      "index": 1,
+      "message": "改成前5首。",
+      "status": "SUCCEEDED",
+      "intent_version": 2,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "trace_id": "06d67793-3c74-4fd2-a644-7ffa3a4113fc",
+      "latency_ms": 8022.752599965315,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\01\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\01\\response.raw.json",
+      "expected": {
+        "top_n": 5,
+        "task_type": "ranking",
+        "current": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "metric": "purchased_quantity",
+        "filters": []
+      },
+      "sql": "SELECT il.track_id, SUM(il.quantity) AS purchased_quantity FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01' GROUP BY il.track_id ORDER BY purchased_quantity DESC, il.track_id ASC LIMIT 5",
+      "semantic_contract": {
+        "task_type": "ranking",
+        "metric": "purchased_quantity",
+        "time_scope": {
+          "current": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "label": "2023年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "track",
+        "top_n": 5,
+        "order": {
+          "field": "purchased_quantity",
+          "direction": "desc",
+          "tie_breaker": "track_id",
+          "tie_direction": "asc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [
+          "track_id"
+        ],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "time_scope": "2023年",
+          "metric": "曲目...购买数量",
+          "rank_object": "曲目",
+          "top_n": "排名前3",
+          "order": "按购买数量排名...并列按曲目编号升序"
+        }
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 2,
+      "message": "指标改成销售额。",
+      "status": "SUCCEEDED",
+      "intent_version": 3,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "trace_id": "b1ae318b-267d-4eb7-ac76-6c48ccd0d5e5",
+      "latency_ms": 7981.484599993564,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\02\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\02\\response.raw.json",
+      "expected": {
+        "top_n": 5,
+        "task_type": "ranking",
+        "current": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "metric": "detail_revenue",
+        "filters": []
+      },
+      "sql": "SELECT il.track_id, SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON i.invoice_id = il.invoice_id WHERE i.invoice_date >= CAST('2023-01-01 00:00:00' AS TIMESTAMP) AND i.invoice_date < CAST('2024-01-01 00:00:00' AS TIMESTAMP) GROUP BY il.track_id ORDER BY detail_revenue DESC, il.track_id ASC LIMIT 5",
+      "semantic_contract": {
+        "task_type": "ranking",
+        "metric": "detail_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "label": "2023年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "track",
+        "top_n": 5,
+        "order": {
+          "field": "detail_revenue",
+          "direction": "desc",
+          "tie_breaker": "track_id",
+          "tie_direction": "asc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [
+          "track_id"
+        ],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "time_scope": "2023年",
+          "metric": "曲目...购买数量",
+          "rank_object": "曲目",
+          "top_n": "排名前3",
+          "order": "按购买数量排名...并列按曲目编号升序"
+        }
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 3,
+      "message": "期间改成2024年。",
+      "status": "SUCCEEDED",
+      "intent_version": 4,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "trace_id": "1b477d08-d4c7-403b-9af8-6dc38f9bf962",
+      "latency_ms": 7317.505000042729,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\03\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\03\\response.raw.json",
+      "expected": {
+        "top_n": 5,
+        "task_type": "ranking",
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "metric": "detail_revenue",
+        "filters": []
+      },
+      "sql": "SELECT t.track_id, SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.invoice_id = i.invoice_id JOIN \"public\".\"track\" AS t ON il.track_id = t.track_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' GROUP BY t.track_id ORDER BY detail_revenue DESC, t.track_id ASC LIMIT 5",
+      "semantic_contract": {
+        "task_type": "ranking",
+        "metric": "detail_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "track",
+        "top_n": 5,
+        "order": {
+          "field": "detail_revenue",
+          "direction": "desc",
+          "tie_breaker": "track_id",
+          "tie_direction": "asc"
+        },
+        "region_scope": null,
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [
+          "track_id"
+        ],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "time_scope": "2023年",
+          "metric": "曲目...购买数量",
+          "rank_object": "曲目",
+          "top_n": "排名前3",
+          "order": "按购买数量排名...并列按曲目编号升序"
+        }
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 4,
+      "message": "加上账单国家为法国。",
+      "status": "SUCCEEDED",
+      "intent_version": 5,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "trace_id": "041a3f00-4970-4ac5-aeaa-0d7fe0b9d4bf",
+      "latency_ms": 9892.244899994694,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\04\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\04\\response.raw.json",
+      "expected": {
+        "top_n": 5,
+        "task_type": "ranking",
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "metric": "detail_revenue",
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "France"
+          }
+        ]
+      },
+      "sql": "SELECT il.track_id, SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' AND i.billing_country = 'France' GROUP BY il.track_id ORDER BY detail_revenue DESC, il.track_id ASC LIMIT 5",
+      "semantic_contract": {
+        "task_type": "ranking",
+        "metric": "detail_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "track",
+        "top_n": 5,
+        "order": {
+          "field": "detail_revenue",
+          "direction": "desc",
+          "tie_breaker": "track_id",
+          "tie_direction": "asc"
+        },
+        "region_scope": "invoice.billing_country",
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [
+          "track_id"
+        ],
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "France",
+            "mention_id": "mention-2",
+            "method": "exact",
+            "evidence_ref": "a-1146eff0ef203810",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "time_scope": "2023年",
+          "metric": "曲目...购买数量",
+          "rank_object": "曲目",
+          "top_n": "排名前3",
+          "order": "按购买数量排名...并列按曲目编号升序"
+        }
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 5,
+      "message": "去掉账单国家限制。",
+      "status": "SUCCEEDED",
+      "intent_version": 6,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0,
+          1
+        ]
+      },
+      "trace_id": "3c519f4a-e095-4a99-8492-b748e46dc18d",
+      "latency_ms": 7239.513399952557,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\05\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-04\\05\\response.raw.json",
+      "expected": {
+        "top_n": 5,
+        "task_type": "ranking",
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "metric": "detail_revenue",
+        "filters": []
+      },
+      "sql": "SELECT il.track_id, SUM(il.unit_price * il.quantity) AS detail_revenue FROM \"public\".\"invoice_line\" AS il JOIN \"public\".\"invoice\" AS i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= CAST('2024-01-01 00:00:00' AS TIMESTAMP) AND i.invoice_date < CAST('2025-01-01 00:00:00' AS TIMESTAMP) GROUP BY il.track_id ORDER BY detail_revenue DESC, il.track_id ASC LIMIT 5",
+      "semantic_contract": {
+        "task_type": "ranking",
+        "metric": "detail_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": "track",
+        "top_n": 5,
+        "order": {
+          "field": "detail_revenue",
+          "direction": "desc",
+          "tie_breaker": "track_id",
+          "tie_direction": "asc"
+        },
+        "region_scope": "invoice.billing_country",
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [
+          "track_id"
+        ],
+        "filters": [],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {
+          "time_scope": "2023年",
+          "metric": "曲目...购买数量",
+          "rank_object": "曲目",
+          "top_n": "排名前3",
+          "order": "按购买数量排名...并列按曲目编号升序"
+        }
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    }
+  ]
+}

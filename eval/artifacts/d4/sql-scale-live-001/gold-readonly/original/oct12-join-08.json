@@ -1,0 +1,52 @@
+{
+  "id": "oct12-join-08",
+  "schema": "public",
+  "sql": "SELECT t.track_id, t.name, SUM(l.quantity) AS purchased_quantity FROM public.track AS t JOIN public.invoice_line AS l ON l.track_id = t.track_id GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 3",
+  "result": {
+    "columns": [
+      "track_id",
+      "name",
+      "purchased_quantity"
+    ],
+    "rows": [
+      [
+        2,
+        "Balls to the Wall",
+        2
+      ],
+      [
+        8,
+        "Inject The Venom",
+        2
+      ],
+      [
+        9,
+        "Snowballed",
+        2
+      ]
+    ],
+    "table": [
+      {
+        "track_id": 2,
+        "name": "Balls to the Wall",
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 8,
+        "name": "Inject The Venom",
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 9,
+        "name": "Snowballed",
+        "purchased_quantity": 2
+      }
+    ],
+    "row_count": 3,
+    "truncated": false
+  },
+  "source_gold_review": {
+    "status": "pending_human_review"
+  },
+  "derivation": "same SQL business logic, only physical schema remapped"
+}

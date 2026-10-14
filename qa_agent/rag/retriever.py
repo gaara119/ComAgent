@@ -32,13 +32,19 @@ def tokenize(text: str) -> list[str]:
     return output
 
 
-def retrieve(question: str, doc_id: str, *, settings=None, query: str | None = None) -> tuple[list[dict], dict]:
+def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: str | None = None) -> tuple[list[dict], dict]:
     from rank_bm25 import BM25Okapi
 
     settings = settings or get_settings()
     chunks, metadata = load_index(settings=settings)
     # Candidate restriction happens before scoring for both retrieval channels.
-    selected = [(index, chunk) for index, chunk in enumerate(chunks) if chunk["doc_id"] == doc_id]
+    allowed = {doc_id} if isinstance(doc_id, str) else set(doc_id)
+    if not allowed or any(not isinstance(value, str) or not value for value in allowed):
+        raise DocumentError("检索需要非空的明确文档范围。", "rag_scope_invalid")
+    indexed_ids = {chunk["doc_id"] for chunk in chunks}
+    if not allowed.issubset(indexed_ids):
+        raise DocumentError("指定文档尚未建立索引。", "document_not_indexed")
+    selected = [(index, chunk) for index, chunk in enumerate(chunks) if chunk["doc_id"] in allowed]
     if not selected:
         raise DocumentError("指定文档尚未建立索引。", "document_not_indexed")
     corpus = [tokenize("\n".join([chunk["doc_title"], *chunk["section_path"], chunk["text"]])) for _, chunk in selected]
@@ -100,6 +106,8 @@ def retrieve(question: str, doc_id: str, *, settings=None, query: str | None = N
                  "page": selected[i][1]["page"], "section_path": selected[i][1]["section_path"],
                  "score": round(float(scores[i]), 8)} for rank, i in enumerate(order, 1)]
     return results, {"retrieval_method": method, "candidate_count": len(selected), "top_k": settings.rag_top_k,
+                     "allowed_doc_ids": sorted(allowed),
+                     "searched_page_count": len({(c["doc_id"], c["page"]) for _, c in selected}),
                      "candidate_k_per_channel": candidate_k, "rrf_k": rrf_k, "rank_starts_at": 1,
                      "rankings": {"bm25": ranking_records(lexical_order, lexical_scores),
                                   "dense": ranking_records(dense_order, dense_scores) if dense_scores is not None else [],

@@ -1,0 +1,69 @@
+{
+  "id": "oct12-join-14",
+  "scale": "10000",
+  "sql": "SELECT m.media_type_id, m.name, COUNT(t.track_id) AS track_count FROM d4_stress_10000.media_type AS m LEFT JOIN d4_stress_10000.track AS t ON t.media_type_id = m.media_type_id GROUP BY m.media_type_id, m.name ORDER BY m.media_type_id ASC LIMIT 200",
+  "result": {
+    "columns": [
+      "media_type_id",
+      "name",
+      "track_count"
+    ],
+    "rows": [
+      [
+        1,
+        "MPEG audio file",
+        3034
+      ],
+      [
+        2,
+        "Protected AAC audio file",
+        237
+      ],
+      [
+        3,
+        "Protected MPEG-4 video file",
+        214
+      ],
+      [
+        4,
+        "Purchased AAC audio file",
+        7
+      ],
+      [
+        5,
+        "AAC audio file",
+        11
+      ]
+    ],
+    "table": [
+      {
+        "media_type_id": 1,
+        "name": "MPEG audio file",
+        "track_count": 3034
+      },
+      {
+        "media_type_id": 2,
+        "name": "Protected AAC audio file",
+        "track_count": 237
+      },
+      {
+        "media_type_id": 3,
+        "name": "Protected MPEG-4 video file",
+        "track_count": 214
+      },
+      {
+        "media_type_id": 4,
+        "name": "Purchased AAC audio file",
+        "track_count": 7
+      },
+      {
+        "media_type_id": 5,
+        "name": "AAC audio file",
+        "track_count": 11
+      }
+    ],
+    "row_count": 5,
+    "truncated": false
+  },
+  "system_prediction": false
+}

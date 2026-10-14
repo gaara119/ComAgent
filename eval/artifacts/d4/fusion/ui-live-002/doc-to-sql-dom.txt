@@ -1,0 +1,156 @@
+Deploy
+精准问数问答
+
+选择数据来源，输入问题，查看答案和对应依据。
+
+数据来源
+
+数据库
+
+指定文档
+
+数据库与文档
+
+允许检索的文档（留空使用全部对应文档）
+
+一次请求依次使用数据库和对应文档，SQL、结果和文档引用都保留在下方。
+
+你的问题
+
+提交问题
+
+回答完成
+
+当前国家口径：客户所在地（customer.country）
+
+按《Chinook 业务指标口径手册 项目自编》的定义：本项目将客单价主口径写全为平均每张发票金额，表达式 AVG(invoice.total)，每张发票权重相同。 [E1]
+
+查询结果：6.0942857142857143。
+
+跨源执行
+
+手册定义检索与提取 · 完成
+按定义生成并校验SQL · 完成
+
+实际检索定义已用于SQL生成，并在执行前校验聚合表达式。
+
+keyboard_arrow_down
+
+SQL 与结果
+
+数据库：chinook
+
+执行的 SQL
+
+SELECT AVG(invoice.total) AS average_invoice_amount FROM public.invoice JOIN public.customer ON invoice.customer_id = customer.customer_id WHERE customer.country = 'USA' AND invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE)
+keyboard_arrow_down
+
+引用来源
+
+引用依据
+
+[E1] Chinook 业务指标口径手册 项目自编 · 章节：四项指标的定义与限制 / 平均每张发票金额
+
+[E1] 原文
+
+四项指标的定义与限制 / 平均每张发票金额
+
+平均每张发票金额
+本项目将客单价主口径写全为平均每张发票金额，表达式 AVG(invoice.total)，每张发票权重相同。
+平均每位购买客户金额另命名为 SUM(invoice.total) / COUNT(DISTINCT invoice.customer_id)，不与每张发票平均金额混用。无发票或零分母时保留 NULL。
+
+打开原始文件
+
+下载原始文件
+
+keyboard_arrow_down
+
+处理步骤与耗时
+
+请求编号：01d57a3c-a120-4bac-8e62-9366d3a1a762
+
+服务端总耗时：12255 毫秒
+
+1. route · 完成 · 0 毫秒
+
+展开第 1 步详情
+
+2. fusion_route · 完成 · 0 毫秒
+
+展开第 2 步详情
+
+3. fusion_definition_retrieve · 完成 · 195 毫秒
+
+展开第 3 步详情
+
+4. fusion_definition_extract · 完成 · 3720 毫秒
+
+展开第 4 步详情
+
+5. llm · 完成 · 2346 毫秒
+
+展开第 5 步详情
+
+6. fusion_sql · 完成 · 8331 毫秒
+
+展开第 6 步详情
+
+7. config_check · 完成 · 0 毫秒
+
+展开第 7 步详情
+
+8. catalog · 完成 · 23 毫秒
+
+展开第 8 步详情
+
+9. requested_source_check · 完成 · 0 毫秒
+
+展开第 9 步详情
+
+10. value_link · 完成 · 4 毫秒
+
+展开第 10 步详情
+
+11. value_link_exact · 完成 · 0 毫秒
+
+展开第 11 步详情
+
+12. rewrite · 未执行 · 0 毫秒
+
+展开第 12 步详情
+
+13. clarification_gate · 完成 · 4140 毫秒
+
+展开第 13 步详情
+
+14. llm · 完成 · 2953 毫秒
+
+展开第 14 步详情
+
+15. sql_gen · 完成 · 4121 毫秒
+
+展开第 15 步详情
+
+16. llm · 完成 · 2751 毫秒
+
+展开第 16 步详情
+
+17. sql_validate · 完成 · 7 毫秒
+
+展开第 17 步详情
+
+18. sql_binding_validate · 完成 · 3 毫秒
+
+展开第 18 步详情
+
+19. fusion_plan_validate · 完成 · 2 毫秒
+
+展开第 19 步详情
+
+20. sql_exec · 完成 · 23 毫秒
+
+展开第 20 步详情
+
+21. answer · 完成 · 0 毫秒
+
+展开第 21 步详情

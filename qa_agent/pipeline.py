@@ -67,7 +67,7 @@ def _doc(request: ChatRequest, trace: TraceRecorder, settings: Settings) -> Answ
 
 
 def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
-         llm: JsonLLM) -> AnswerEnvelope:
+         llm: JsonLLM, *, generation_context: dict | None = None) -> AnswerEnvelope:
     from qa_agent.sql.catalog import load_catalog
     from qa_agent.sql.executor import SQLExecutionError, SQLTimeoutError, execute_sql
     from qa_agent.sql.generator import generate_sql
@@ -93,6 +93,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
     def metadata():
         result = {"model": settings.llm_model, "db_id": db_id, "latency_ms": trace.latency_ms,
                   "nlu": linked.as_dict()}
+        if db_id == "adventureworks":
+            result["aw_schema_mode"] = settings.aw_schema_mode
         if gate:
             result["clarify"] = public_metadata(gate)
         if schema_bundle:
@@ -182,7 +184,21 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
         if gate.state.original_question != request.message:
             requested_tables = validate_question_sources(gate.state.original_question, catalog)
         selected_catalog = catalog
-        if db_id == "adventureworks":
+        # Only remap an unqualified value-index binding when a stress catalog
+        # contains one uniquely identified table. Canonical values and scopes
+        # are preserved, and normal public/AW catalogs retain their bindings.
+        bindings = [dict(item) for item in bindings]
+        for binding in bindings:
+            parts = str(binding.get("column", "")).split(".")
+            if len(parts) == 2:
+                table_name, column_name = parts
+                matches = [table for table in catalog.tables
+                           if table.name == table_name and column_name in table.column_names]
+                if len(matches) == 1 and matches[0].schema != "public":
+                    binding["column"] = f"{matches[0].schema}.{table_name}.{column_name}"
+        if db_id == "adventureworks" and settings.aw_schema_mode not in {"full", "subgraph"}:
+            raise ValueError("AW_SCHEMA_MODE 必须为 full 或 subgraph。")
+        if db_id == "adventureworks" and settings.aw_schema_mode == "subgraph":
             with trace.step("schema_link", {"db_id": db_id, "question": question}) as step:
                 from qa_agent.sql.schema_linker import SchemaLinker
                 from qa_agent.rag.embeddings import get_embedder
@@ -195,6 +211,11 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                                                    value_columns=[item["column"] for item in bindings])
                 selected_catalog = schema_bundle.selected_catalog
                 step.output_summary = schema_bundle.as_dict()
+            from qa_agent.sql.pruner import SchemaPruner
+            schema_bundle = SchemaPruner(catalog).prune(
+                question, schema_bundle, llm, trace,
+                required_columns=[item["column"] for item in bindings])
+            selected_catalog = schema_bundle.selected_catalog
         # Lookup names need FK joins even when no alias/candidate was bound.
         # The catalog, FK proof and mandatory-filter checks still govern access.
         allow_joins = db_id in {"chinook", "adventureworks"}
@@ -205,12 +226,25 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                                        "db_id": db_id, "allow_joins": allow_joins}) as step:
                 generation = generate_sql(question, selected_catalog, llm, trace,
                                           previous_sql=last_sql, error=repair_error,
-                                          intent=intent, bindings=bindings, allow_joins=allow_joins)
+                                          intent=intent, bindings=bindings, allow_joins=allow_joins,
+                                          context=generation_context)
                 last_sql = generation.sql
                 step.output_summary = {"sql": generation.sql, "explanation": generation.explanation}
-            if repair_filters is None:
-                repair_filters = string_filter_contract(last_sql, selected_catalog)
             try:
+                current_order = gate.state.analysis.order or {}
+                explicit_ranking_order = (gate.state.analysis.task_type == "ranking"
+                                          and current_order.get("field")
+                                          and current_order.get("direction") in {"asc", "desc"})
+                if db_id == "chinook" and (gate.state.resolutions or explicit_ranking_order):
+                    from qa_agent.clarify.sql_guard import validate_current_patch_contract
+                    with trace.step("sql_current_contract_validate", {"intent_version": gate.state.intent.intent_version}) as step:
+                        validate_current_patch_contract(last_sql, selected_catalog,
+                                                        gate.state.analysis, gate.state.resolutions)
+                        step.output_summary = {"verified": True, "before_repair_filter_capture": True}
+                # A rejected draft can contain retired conditions. Do not make
+                # them mandatory for subsequent technical repair attempts.
+                if repair_filters is None:
+                    repair_filters = string_filter_contract(last_sql, selected_catalog)
                 with trace.step("sql_validate", {"sql": last_sql}) as step:
                     validated = validate_sql(last_sql, selected_catalog, max_rows=settings.max_rows)
                     last_sql = validated.sql
@@ -260,6 +294,11 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                     step.output_summary = {"verified": True, "bindings": bindings,
                                            "mode": "qualified_ast_scoped_ratio_or_mandatory_filters" if ratio_context
                                            else "qualified_ast_mandatory_filters"}
+                if generation_context:
+                    from qa_agent.fusion.planner import validate_fusion_sql
+                    with trace.step("fusion_plan_validate", {"kind": generation_context.get("kind")}) as step:
+                        validate_fusion_sql(last_sql, selected_catalog, generation_context)
+                        step.output_summary = {"verified": True, "before_readonly_execution": True}
             except SQLValidationError as exc:
                 if attempt >= settings.sql_repair_attempts:
                     raise
@@ -331,6 +370,14 @@ def chat(request: ChatRequest, llm: JsonLLM | None = None,
         step.output_summary = {"route": request.scope.route, "mode": "explicit_source_scope"}
     if request.scope.route == "doc":
         return _doc(request, trace, settings)
+    if request.scope.route in {"auto", "hybrid"}:
+        from qa_agent.fusion.planner import classify_route, run_hybrid
+        from qa_agent.clarify.state import DEFAULT_STORE
+        route = classify_route(request)
+        if route in {"sql_to_doc", "doc_to_sql"}:
+            with DEFAULT_STORE.locked(request.session_id):
+                return run_hybrid(request, trace, settings, llm or JsonLLM(settings), _sql)
+        return _unsupported(trace, "请选择已支持的跨源流程：艺术家销售排名与介绍，或手册客单价定义与计算。")
     if request.scope.route != "sql":
         return _unsupported(trace, "D1 先使用显式来源范围，请选择 sql 或指定单文档 doc。")
     if request.scope.db_id not in {"chinook", "adventureworks"}:

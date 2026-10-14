@@ -1,0 +1,215 @@
+{
+  "id": "sql-15",
+  "schema": "public",
+  "sql": "SELECT billing_country, SUM(total) AS sales_total FROM public.invoice GROUP BY billing_country ORDER BY sales_total DESC, billing_country ASC LIMIT 200",
+  "result": {
+    "columns": [
+      "billing_country",
+      "sales_total"
+    ],
+    "rows": [
+      [
+        "USA",
+        "523.06"
+      ],
+      [
+        "Canada",
+        "303.96"
+      ],
+      [
+        "France",
+        "195.10"
+      ],
+      [
+        "Brazil",
+        "190.10"
+      ],
+      [
+        "Germany",
+        "156.48"
+      ],
+      [
+        "United Kingdom",
+        "112.86"
+      ],
+      [
+        "Czech Republic",
+        "90.24"
+      ],
+      [
+        "Portugal",
+        "77.24"
+      ],
+      [
+        "India",
+        "75.26"
+      ],
+      [
+        "Chile",
+        "46.62"
+      ],
+      [
+        "Hungary",
+        "45.62"
+      ],
+      [
+        "Ireland",
+        "45.62"
+      ],
+      [
+        "Austria",
+        "42.62"
+      ],
+      [
+        "Finland",
+        "41.62"
+      ],
+      [
+        "Netherlands",
+        "40.62"
+      ],
+      [
+        "Norway",
+        "39.62"
+      ],
+      [
+        "Sweden",
+        "38.62"
+      ],
+      [
+        "Argentina",
+        "37.62"
+      ],
+      [
+        "Australia",
+        "37.62"
+      ],
+      [
+        "Belgium",
+        "37.62"
+      ],
+      [
+        "Denmark",
+        "37.62"
+      ],
+      [
+        "Italy",
+        "37.62"
+      ],
+      [
+        "Poland",
+        "37.62"
+      ],
+      [
+        "Spain",
+        "37.62"
+      ]
+    ],
+    "table": [
+      {
+        "billing_country": "USA",
+        "sales_total": "523.06"
+      },
+      {
+        "billing_country": "Canada",
+        "sales_total": "303.96"
+      },
+      {
+        "billing_country": "France",
+        "sales_total": "195.10"
+      },
+      {
+        "billing_country": "Brazil",
+        "sales_total": "190.10"
+      },
+      {
+        "billing_country": "Germany",
+        "sales_total": "156.48"
+      },
+      {
+        "billing_country": "United Kingdom",
+        "sales_total": "112.86"
+      },
+      {
+        "billing_country": "Czech Republic",
+        "sales_total": "90.24"
+      },
+      {
+        "billing_country": "Portugal",
+        "sales_total": "77.24"
+      },
+      {
+        "billing_country": "India",
+        "sales_total": "75.26"
+      },
+      {
+        "billing_country": "Chile",
+        "sales_total": "46.62"
+      },
+      {
+        "billing_country": "Hungary",
+        "sales_total": "45.62"
+      },
+      {
+        "billing_country": "Ireland",
+        "sales_total": "45.62"
+      },
+      {
+        "billing_country": "Austria",
+        "sales_total": "42.62"
+      },
+      {
+        "billing_country": "Finland",
+        "sales_total": "41.62"
+      },
+      {
+        "billing_country": "Netherlands",
+        "sales_total": "40.62"
+      },
+      {
+        "billing_country": "Norway",
+        "sales_total": "39.62"
+      },
+      {
+        "billing_country": "Sweden",
+        "sales_total": "38.62"
+      },
+      {
+        "billing_country": "Argentina",
+        "sales_total": "37.62"
+      },
+      {
+        "billing_country": "Australia",
+        "sales_total": "37.62"
+      },
+      {
+        "billing_country": "Belgium",
+        "sales_total": "37.62"
+      },
+      {
+        "billing_country": "Denmark",
+        "sales_total": "37.62"
+      },
+      {
+        "billing_country": "Italy",
+        "sales_total": "37.62"
+      },
+      {
+        "billing_country": "Poland",
+        "sales_total": "37.62"
+      },
+      {
+        "billing_country": "Spain",
+        "sales_total": "37.62"
+      }
+    ],
+    "row_count": 24,
+    "truncated": false
+  },
+  "source_gold_review": {
+    "status": "accepted",
+    "reviewer": "user-attested-D2-audit",
+    "content_sha256": "dccf3d65716d6c514f4eabfcc7bce7e97c8c12570f99ead40bcaf52dbe7f1b16"
+  },
+  "derivation": "same SQL business logic, only physical schema remapped"
+}

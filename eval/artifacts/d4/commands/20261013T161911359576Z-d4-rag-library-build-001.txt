@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "E:\中国电子杯-赛题八\system\scripts\d4_rag_scale.py", line 277, in <module>
+    main()
+  File "E:\中国电子杯-赛题八\system\scripts\d4_rag_scale.py", line 269, in main
+    prepare(args.output)
+  File "E:\中国电子杯-赛题八\system\scripts\d4_rag_scale.py", line 147, in prepare
+    "index":library.relative_to(ROOT).as_posix(),"manifest":manifest.relative_to(ROOT).as_posix(),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\郭乾冥\AppData\Local\Programs\Python\Python312\Lib\pathlib.py", line 682, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: 'data\\indexes\\d4-rag-scale-001\\pages-10' is not in the subpath of 'E:\\中国电子杯-赛题八\\system'

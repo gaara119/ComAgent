@@ -1,0 +1,22 @@
+{
+  "id": "aw-12",
+  "sql": "SELECT SUM(subtotal) AS subtotal_sum FROM purchasing.purchaseorderheader WHERE orderdate >= CAST('2024-01-01' AS DATE) AND orderdate < CAST('2025-01-01' AS DATE)",
+  "result": {
+    "columns": [
+      "subtotal_sum"
+    ],
+    "rows": [
+      [
+        "20315203.2850"
+      ]
+    ],
+    "table": [
+      {
+        "subtotal_sum": "20315203.2850"
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "system_prediction": false
+}

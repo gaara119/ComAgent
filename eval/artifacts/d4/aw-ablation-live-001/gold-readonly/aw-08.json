@@ -1,0 +1,54 @@
+{
+  "id": "aw-08",
+  "sql": "SELECT c.name AS category_name, COUNT(*) AS product_count FROM production.product AS p JOIN production.productsubcategory AS s ON p.productsubcategoryid = s.productsubcategoryid JOIN production.productcategory AS c ON s.productcategoryid = c.productcategoryid GROUP BY c.productcategoryid, c.name ORDER BY product_count DESC, c.name ASC LIMIT 200",
+  "result": {
+    "columns": [
+      "category_name",
+      "product_count"
+    ],
+    "rows": [
+      [
+        "Components",
+        134
+      ],
+      [
+        "Bikes",
+        97
+      ],
+      [
+        "Clothing",
+        35
+      ],
+      [
+        "Accessories",
+        29
+      ]
+    ],
+    "table": [
+      {
+        "category_name": "Components",
+        "product_count": 134
+      },
+      {
+        "category_name": "Bikes",
+        "product_count": 97
+      },
+      {
+        "category_name": "Clothing",
+        "product_count": 35
+      },
+      {
+        "category_name": "Accessories",
+        "product_count": 29
+      }
+    ],
+    "row_count": 4,
+    "truncated": false
+  },
+  "source_gold_review": {
+    "status": "pending_human_review",
+    "reviewer": null,
+    "review_date": null
+  },
+  "prediction": false
+}

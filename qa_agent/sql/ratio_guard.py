@@ -68,13 +68,32 @@ def validate_invoice_share(sql, catalog, bindings, context):
     # A customer-count share cannot inherit invoice-amount defaults.
     if any(word in metric for word in ("客户数", "customer_count")):
         return False
-    if not (any(word in denominator for word in ("全部", "所有", "全球", "全库", "all")) and
+    if metric in {'invoice_count','record_count','purchased_quantity','playlist_memberships','track_count','repeat_customer_count','detail_revenue','average_invoice_amount'}:
+        deny('当前指标不是发票金额合计，不能以金额SQL代替已确认指标')
+    denominator_bindings=[b for b in bindings if b.get('binding_scope')=='denominator']
+    restricted_denominator=len(denominator_bindings)==1
+    if not restricted_denominator and not (any(word in denominator for word in ("全部", "所有", "全球", "全库", "all")) and
             any(word in denominator for word in ("发票", "invoice")) and
             any(word in denominator for word in ("金额", "销售额", "总额", "收入", "amount", "revenue"))):
         return False
-    if len(bindings) != 1 or bindings[0].get("operator") != "=":
+    numerator_bindings=[b for b in bindings if b.get('binding_scope') in {None,'numerator'}]
+    if (len(numerator_bindings)!=1 or len(bindings)!=(2 if restricted_denominator else 1) or
+            any(b.get('operator')!='=' or b.get('column') not in {'customer.country','invoice.billing_country'} for b in bindings)):
         deny("目前只证明单国家等值分子，其它筛选不能丢失")
-    bound = bindings[0]
+    bound = numerator_bindings[0]
+    denominator_bound=denominator_bindings[0] if restricted_denominator else None
+    if denominator_bound:
+        evidence=str(denominator_bound.get('scope_evidence') or '')
+        if (not evidence or not any(word in evidence for word in ('分母','除以')) or
+                str(denominator_bound['value']).casefold() not in denominator.casefold() or
+                not any(word in denominator for word in ('金额','销售额','总额','收入','amount','revenue'))):
+            deny('限定分母缺少本次显式范围与已核验国家依据')
+        retained=denominator_bound.get('scope_basis')=='retained_operand_scope'
+        billing_default=denominator_bound.get('scope_basis')=='oct12_approved_invoice_default' and any(word in evidence for word in ('发票','账单','销售额','金额','总额'))
+        if denominator_bound['column']=='customer.country' and not retained and not any(word in evidence for word in ('客户所在地','客户所在国','客户居住国','居住客户','居住的客户','customer.country')):
+            deny('限定分母客户国家归属缺少用户原文')
+        if denominator_bound['column']=='invoice.billing_country' and not (retained or billing_default) and not any(word in evidence for word in ('账单国','账单国家','账单所在国','billing_country')):
+            deny('限定分母账单国家归属缺少用户原文')
     table, column_name = bound["column"].split(".")[-2:]
     numerator_text = str(context.get("numerator") or "")
     known_surfaces = [str(bound["value"]), *(str(value) for value in context.get("verified_original_surfaces") or [])]
@@ -89,7 +108,8 @@ def validate_invoice_share(sql, catalog, bindings, context):
             any(isinstance(node, (exp.Window, exp.Subquery)) for node in tree.walk())):
         deny("需要单个 SELECT、单比例列、无额外分组/子查询")
     sources = {alias: source for alias, (_, source) in scopes[0].selected_sources.items()}
-    expected_tables = ["invoice"] if table == "invoice" else ["customer", "invoice"]
+    needs_customer=any(b['column']=='customer.country' for b in bindings)
+    expected_tables = ["customer", "invoice"] if needs_customer else ["invoice"]
     if (sorted(source.name for source in sources.values() if isinstance(source, exp.Table)) != expected_tables or
             any(not isinstance(source, exp.Table) or source.db != "public" for source in sources.values())):
         deny("真实发票及客户来源不能重复扫描或换成明细")
@@ -103,8 +123,25 @@ def validate_invoice_share(sql, catalog, bindings, context):
         node = _unparen(node)
         return isinstance(node, exp.Sum) and col(node.this, "invoice", "total")
 
+    def conditional_total(node,binding):
+        node=_unparen(node)
+        case=_unparen(node.this) if isinstance(node,exp.Sum) else None
+        if not isinstance(case,exp.Case) or len(case.args.get('ifs') or [])!=1:
+            return False
+        branch=case.args['ifs'][0]
+        condition=_unparen(branch.this)
+        owner,field=binding['column'].split('.')[-2:]
+        default=_unparen(case.args.get('default'))
+        return (col(branch.args.get('true'),'invoice','total') and isinstance(condition,exp.EQ) and
+                any(col(a,owner,field) and isinstance(b,exp.Literal) and b.is_string and b.this==str(binding['value'])
+                    for a,b in ((condition.left,condition.right),(condition.right,condition.left))) and
+                (default is None or isinstance(default,exp.Null) or _number(default,0)))
+
+    def denominator_total(node):
+        return conditional_total(node,denominator_bound) if denominator_bound else total(node)
+
     joins = tree.args.get("joins") or []
-    if table == "customer":
+    if needs_customer:
         invoice = catalog.get_table("invoice")
         customer = catalog.get_table("customer")
         valid_fk = any(fk["columns"] == ["customer_id"] and fk["references"]["table"] == "customer" and
@@ -160,8 +197,8 @@ def validate_invoice_share(sql, catalog, bindings, context):
             if isinstance(node, exp.Or):
                 return zero_guard(node.left) and zero_guard(node.right)
             if isinstance(node, exp.EQ):
-                return any(total(a) and _number(b, 0) for a, b in ((node.left, node.right), (node.right, node.left)))
-            return isinstance(node, exp.Is) and total(node.this) and isinstance(node.expression, exp.Null)
+                return any(denominator_total(a) and _number(b, 0) for a, b in ((node.left, node.right), (node.right, node.left)))
+            return isinstance(node, exp.Is) and denominator_total(node.this) and isinstance(node.expression, exp.Null)
 
         if not zero_guard(branches[0].this):
             deny("CASE 保护必须检查真实全部发票金额")
@@ -181,9 +218,9 @@ def validate_invoice_share(sql, catalog, bindings, context):
         numerator = (_unparen(numerator.right) if _number(numerator.left, 100) else
                      _unparen(numerator.left) if _number(numerator.right, 100) else numerator)
     if isinstance(divisor, exp.Nullif):
-        if not total(divisor.this) or not _number(divisor.expression, 0):
+        if not denominator_total(divisor.this) or not _number(divisor.expression, 0):
             deny("NULLIF 必须保护全部发票金额的零分母")
-    elif not (protected and total(divisor)):
+    elif not (protected and denominator_total(divisor)):
         deny("分母必须是无条件 SUM(invoice.total) 且有零保护")
     case = _unparen(numerator.this) if isinstance(numerator, exp.Sum) else None
     if not isinstance(case, exp.Case) or len(case.args.get("ifs") or []) != 1:

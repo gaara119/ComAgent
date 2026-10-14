@@ -1,0 +1,26 @@
+{
+  "id": "oct12-join-13",
+  "schema": "d4_stress_10000",
+  "sql": "SELECT COUNT(*) AS customer_count FROM d4_stress_10000.customer AS c JOIN d4_stress_10000.employee AS e ON c.support_rep_id = e.employee_id WHERE e.first_name = 'Jane' AND e.last_name = 'Peacock'",
+  "result": {
+    "columns": [
+      "customer_count"
+    ],
+    "rows": [
+      [
+        21
+      ]
+    ],
+    "table": [
+      {
+        "customer_count": 21
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "source_gold_review": {
+    "status": "pending_human_review"
+  },
+  "derivation": "same SQL business logic, only physical schema remapped"
+}

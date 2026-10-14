@@ -1,0 +1,214 @@
+........................................................................ [ 10%]
+........................................................................ [ 21%]
+........................................................................ [ 31%]
+........................................................................ [ 42%]
+........................................................................ [ 53%]
+........................................................................ [ 63%]
+........................................................................ [ 74%]
+........................................................................ [ 84%]
+................................................sssss................... [ 95%]
+.......................F.F.....                                          [100%]
+================================== FAILURES ===================================
+____ test_real_executor_records_actual_result_without_connection_arguments ____
+
+sql = 'SELECT COUNT(*) AS n FROM customer'
+db_url = '[redacted]'
+statement_timeout_ms = 5000, max_rows = 200
+trace = <qa_agent.trace.TraceRecorder object at 0x000001B707BA0C20>
+parameters = None, db_id = 'chinook'
+
+    @traced(
+        "sql_exec",
+        input_summary=lambda arguments: {"sql": arguments.arguments["sql"], "db_id": arguments.arguments["db_id"]},
+        output_summary=lambda result: {"row_count": result.row_count, "columns": result.columns,
+                                       "truncated": result.truncated},
+    )
+    def execute_sql(
+        sql: str,
+        db_url: str,
+        statement_timeout_ms: int = 5000,
+        max_rows: int = 200,
+        trace: TraceRecorder | None = None,
+        parameters: dict[str, Any] | None = None,
+        db_id: str = "chinook",
+    ) -> SQLResult:
+        """Run a previously validated query; caller must call validate_sql first.
+    
+        The server cursor fetches at most max_rows + 1 rows. If an explicit SQL
+        LIMIT exceeds the response cap, SQL is preserved and truncated is reported.
+        row_count is the number of returned rows, never an invented total count.
+        """
+        if not db_url:
+            raise SQLExecutionError(f"未配置 {db_id} 的只读数据库连接。")
+        if statement_timeout_ms < 1 or max_rows < 1:
+            raise SQLExecutionError("数据库超时和结果行数上限必须大于 0。")
+        try:
+>           with psycopg.connect(db_url, connect_timeout=5) as connection:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+qa_agent\sql\executor.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'psycopg.Connection'>
+conninfo = 'user=qa_reader password=[redacted] dbname=chinook host=127.0.0.1 port=55432 connect_timeout=5 hostaddr=127.0.0.1'
+autocommit = False, prepare_threshold = 5, context = None, row_factory = None
+cursor_factory = None, kwargs = {'connect_timeout': 5}
+
+    @classmethod
+    def connect(
+        cls,
+        conninfo: str = "",
+        *,
+        autocommit: bool = False,
+        prepare_threshold: int | None = 5,
+        context: AdaptContext | None = None,
+        row_factory: RowFactory[Row] | None = None,
+        cursor_factory: type[Cursor[Row]] | None = None,
+        **kwargs: ConnParam,
+    ) -> Self:
+        """
+        Connect to a database server and return a new `Connection` instance.
+        """
+    
+        params = cls._get_connection_params(conninfo, **kwargs)
+        timeout = timeout_from_conninfo(params)
+        rv = None
+        attempts = conninfo_attempts(params)
+        conn_errors: list[tuple[e.Error, str]] = []
+        for attempt in attempts:
+            tdescr = (attempt.get("host"), attempt.get("port"), attempt.get("hostaddr"))
+            descr = "host: %r, port: %r, hostaddr: %r" % tdescr
+            logger.debug("connection attempt: %s", descr)
+            try:
+                conninfo = make_conninfo("", **attempt)
+                gen = cls._connect_gen(conninfo)
+                rv = waiting.wait_conn(gen, interval=_WAIT_INTERVAL, timeout=timeout)
+            except e._WaitTimeout:
+                tex = e.ConnectionTimeout("connection timeout expired")
+                logger.debug("connection failed: %s: %s", descr, str(tex))
+                conn_errors.append((tex, descr))
+            except e.Error as ex:
+                logger.debug("connection failed: %s: %s", descr, str(ex))
+                conn_errors.append((ex, descr))
+            except e._NO_TRACEBACK as ex:
+                raise ex.with_traceback(None)
+            else:
+                logger.debug("connection succeeded: %s", descr)
+                break
+    
+        if not rv:
+            last_ex = conn_errors[-1][0]
+            if len(conn_errors) == 1:
+>               raise last_ex.with_traceback(None)
+E               psycopg.errors.ConnectionTimeout: connection timeout expired
+
+.venv\Lib\site-packages\psycopg\connection.py:126: ConnectionTimeout
+
+The above exception was the direct cause of the following exception:
+
+    def test_real_executor_records_actual_result_without_connection_arguments():
+        settings = get_settings()
+        trace = TraceRecorder(settings=settings)
+>       result = execute_sql("SELECT COUNT(*) AS n FROM customer", settings.db_url, trace=trace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_trace.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+qa_agent\trace.py:104: in sync_wrapper
+    result = function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+sql = 'SELECT COUNT(*) AS n FROM customer'
+db_url = '[redacted]'
+statement_timeout_ms = 5000, max_rows = 200
+trace = <qa_agent.trace.TraceRecorder object at 0x000001B707BA0C20>
+parameters = None, db_id = 'chinook'
+
+    @traced(
+        "sql_exec",
+        input_summary=lambda arguments: {"sql": arguments.arguments["sql"], "db_id": arguments.arguments["db_id"]},
+        output_summary=lambda result: {"row_count": result.row_count, "columns": result.columns,
+                                       "truncated": result.truncated},
+    )
+    def execute_sql(
+        sql: str,
+        db_url: str,
+        statement_timeout_ms: int = 5000,
+        max_rows: int = 200,
+        trace: TraceRecorder | None = None,
+        parameters: dict[str, Any] | None = None,
+        db_id: str = "chinook",
+    ) -> SQLResult:
+        """Run a previously validated query; caller must call validate_sql first.
+    
+        The server cursor fetches at most max_rows + 1 rows. If an explicit SQL
+        LIMIT exceeds the response cap, SQL is preserved and truncated is reported.
+        row_count is the number of returned rows, never an invented total count.
+        """
+        if not db_url:
+            raise SQLExecutionError(f"未配置 {db_id} 的只读数据库连接。")
+        if statement_timeout_ms < 1 or max_rows < 1:
+            raise SQLExecutionError("数据库超时和结果行数上限必须大于 0。")
+        try:
+            with psycopg.connect(db_url, connect_timeout=5) as connection:
+                connection.read_only = True
+                with connection.transaction():
+                    with connection.cursor() as control:
+                        control.execute(
+                            "SELECT set_config('statement_timeout', %s, true)",
+                            (str(statement_timeout_ms),),
+                        )
+                        control.execute("SET LOCAL search_path TO pg_catalog, public")
+                    with connection.cursor(name="qa_d1_result") as cursor:
+                        cursor.execute(sql, parameters) if parameters else cursor.execute(sql)
+                        columns = unique_columns([column.name for column in cursor.description or []])
+                        fetched = cursor.fetchmany(max_rows + 1)
+                        truncated = len(fetched) > max_rows
+                        rows = [
+                            [serialize_value(value) for value in row]
+                            for row in fetched[:max_rows]
+                        ]
+                        table = [dict(zip(columns, row, strict=True)) for row in rows]
+            return SQLResult(columns=columns, rows=rows, table=table, row_count=len(rows), truncated=truncated)
+        except psycopg.errors.QueryCanceled as exc:
+            raise SQLTimeoutError(
+                f"数据库查询超过 {statement_timeout_ms} 毫秒，已被 PostgreSQL 取消。", exc.sqlstate
+            ) from exc
+        except psycopg.Error as exc:
+            primary = exc.diag.message_primary if exc.diag else None
+            if exc.sqlstate and primary:
+                message = f"数据库查询失败（SQLSTATE {exc.sqlstate}）：{primary}"
+            else:
+                # libpq connection messages are not copied into user-visible logs:
+                # a driver/server failure must never expose the configured DSN.
+                message = "无法连接数据库，请检查 Docker 服务、端口及本地 DB_URL 配置。"
+>           raise SQLExecutionError(message, exc.sqlstate) from exc
+E           qa_agent.sql.executor.SQLExecutionError: 无法连接数据库，请检查 Docker 服务、端口及本地 DB_URL 配置。
+
+qa_agent\sql\executor.py:127: SQLExecutionError
+_ test_real_pipeline_uses_one_automatic_sql_exec_step_without_duplicate_timing _
+
+    def test_real_pipeline_uses_one_automatic_sql_exec_step_without_duplicate_timing():
+        class ScriptedSQL:
+            def complete_json(self, system_prompt, user_prompt, response_model, trace=None):
+                return response_model(sql="SELECT COUNT(*) AS n FROM customer", tables_used=["customer"],
+                                      explanation="固定 SQL 仅验证工程链路，不计模型准确率")
+    
+        answer = chat(ChatRequest(message="工程检查客户数量"), llm=ScriptedSQL())
+>       assert answer.status == "SUCCEEDED" and answer.table == [{"n": 59}]
+E       AssertionError: assert ('FAILED' == 'SUCCEEDED'
+E         
+E         - SUCCEEDED
+E         + FAILED)
+
+tests\test_trace.py:132: AssertionError
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_sql_executor.py:53: 真实 PostgreSQL 暂不可连接；该集成测试没有伪造通过。
+SKIPPED [1] tests\test_sql_executor.py:63: 真实 PostgreSQL 暂不可连接；该集成测试没有伪造通过。
+SKIPPED [1] tests\test_sql_executor.py:70: 真实 PostgreSQL 暂不可连接；该集成测试没有伪造通过。
+SKIPPED [1] tests\test_sql_executor.py:80: 真实 PostgreSQL 暂不可连接；该集成测试没有伪造通过。
+SKIPPED [1] tests\test_sql_executor.py:86: 真实 PostgreSQL 暂不可连接；该集成测试没有伪造通过。
+FAILED tests/test_trace.py::test_real_executor_records_actual_result_without_connection_arguments
+FAILED tests/test_trace.py::test_real_pipeline_uses_one_automatic_sql_exec_step_without_duplicate_timing
+2 failed, 672 passed, 5 skipped, 6 deselected in 35.04s

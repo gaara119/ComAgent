@@ -1,0 +1,102 @@
+{
+  "id": "aw-10",
+  "sql": "SELECT jobtitle, COUNT(*) AS employee_count FROM humanresources.employee GROUP BY jobtitle ORDER BY employee_count DESC, jobtitle ASC LIMIT 10",
+  "result": {
+    "columns": [
+      "jobtitle",
+      "employee_count"
+    ],
+    "rows": [
+      [
+        "Production Technician - WC40",
+        26
+      ],
+      [
+        "Production Technician - WC50",
+        26
+      ],
+      [
+        "Production Technician - WC60",
+        26
+      ],
+      [
+        "Production Technician - WC30",
+        25
+      ],
+      [
+        "Production Technician - WC20",
+        22
+      ],
+      [
+        "Production Technician - WC10",
+        17
+      ],
+      [
+        "Production Technician - WC45",
+        15
+      ],
+      [
+        "Sales Representative",
+        14
+      ],
+      [
+        "Buyer",
+        9
+      ],
+      [
+        "Marketing Specialist",
+        5
+      ]
+    ],
+    "table": [
+      {
+        "jobtitle": "Production Technician - WC40",
+        "employee_count": 26
+      },
+      {
+        "jobtitle": "Production Technician - WC50",
+        "employee_count": 26
+      },
+      {
+        "jobtitle": "Production Technician - WC60",
+        "employee_count": 26
+      },
+      {
+        "jobtitle": "Production Technician - WC30",
+        "employee_count": 25
+      },
+      {
+        "jobtitle": "Production Technician - WC20",
+        "employee_count": 22
+      },
+      {
+        "jobtitle": "Production Technician - WC10",
+        "employee_count": 17
+      },
+      {
+        "jobtitle": "Production Technician - WC45",
+        "employee_count": 15
+      },
+      {
+        "jobtitle": "Sales Representative",
+        "employee_count": 14
+      },
+      {
+        "jobtitle": "Buyer",
+        "employee_count": 9
+      },
+      {
+        "jobtitle": "Marketing Specialist",
+        "employee_count": 5
+      }
+    ],
+    "row_count": 10,
+    "truncated": false
+  },
+  "source_gold_review": {
+    "status": "pending_human_review",
+    "reviewer": null,
+    "review_date": null
+  },
+  "prediction": false
+}

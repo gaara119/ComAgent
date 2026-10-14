@@ -1,0 +1,172 @@
+[
+  {
+    "id": "oct12-join-01",
+    "question": "Metallica有多少张专辑？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-02",
+    "question": "Metallcia有多少张专辑？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-03",
+    "question": "AC/DC一共有几首曲目？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-04",
+    "question": "Protected AAC audio file这种媒体类型有多少首曲目？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-05",
+    "question": "Vaporwave流派有多少首曲目？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-06",
+    "question": "Iron Maiden的专辑有哪些？按专辑编号从小到大列出编号和标题。",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-07",
+    "question": "专辑最多的5位艺术家是谁？列出艺术家编号、名字和专辑数，同数量时按艺术家编号从小到大。",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-08",
+    "question": "按购买数量排，最热门的3首曲目是什么？列出曲目编号、名称和购买数量，同数量按曲目编号升序。",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-09",
+    "question": "每位客户开过几张发票？没有发票的也要，列出客户编号、名字、姓氏和发票数，按客户编号升序。",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-10",
+    "question": "客户所在地在巴西的客户一共开过多少张发票？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-11",
+    "question": "账单国家是France的发票一共买了多少首Rock流派的曲目？按购买数量计。",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-12",
+    "question": "Led Zeppelin所有曲目的销售额合计是多少？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-13",
+    "question": "名字叫Jane、姓氏为Peacock的员工负责几位客户？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-14",
+    "question": "每种媒体类型有几首曲目？没有曲目的也保留，列出类型编号、名称和曲目数，按类型编号升序。",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "oct12-join-15",
+    "question": "哪些专辑没有曲目？列出专辑编号和标题，按专辑编号升序。",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "pending_human_review"
+    }
+  },
+  {
+    "id": "sql-09",
+    "question": "全部发票的总金额是多少？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "accepted",
+      "reviewer": "user-attested-D2-audit",
+      "content_sha256": "cc71c3a3f492305cca9a4bed87177c0cc530679b219e5d27aa8b292899571e96"
+    }
+  },
+  {
+    "id": "sql-15",
+    "question": "按发票的账单国家统计销售总额，先按销售总额降序，并列时按国家名称升序。",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "accepted",
+      "reviewer": "user-attested-D2-audit",
+      "content_sha256": "dccf3d65716d6c514f4eabfcc7bce7e97c8c12570f99ead40bcaf52dbe7f1b16"
+    }
+  },
+  {
+    "id": "sql-18",
+    "question": "找出总额最高的 5 张发票，返回编号和总额；按总额降序，并列按编号升序。",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "accepted",
+      "reviewer": "user-attested-D2-audit",
+      "content_sha256": "6cd681436f418c01f2c7bad444d0efcb368d74f1adefd05e5f070b90e0c53d8d"
+    }
+  },
+  {
+    "id": "sql-33",
+    "question": "账单国家为 Canada 的全部发票总额是多少？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "accepted",
+      "reviewer": "user-attested-D2-audit",
+      "content_sha256": "e918e1c0150a7a8efedda0eb7ea39668b401488f02554bc6d2a509900b9e167a"
+    }
+  },
+  {
+    "id": "sql-39",
+    "question": "2023 年一共开了多少张发票？",
+    "split": "dev",
+    "source_gold_review": {
+      "status": "accepted",
+      "reviewer": "user-attested-D2-audit",
+      "content_sha256": "96fdc80a5f5da248a63e91a016eac9b8c7bb2cedb65831645f06d0541bb2ef9c"
+    }
+  }
+]

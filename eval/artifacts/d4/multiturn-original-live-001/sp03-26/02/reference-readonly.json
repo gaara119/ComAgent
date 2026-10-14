@@ -1,0 +1,15 @@
+{
+  "sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+  "result": {
+    "columns": [
+      "yoy_growth_rate"
+    ],
+    "rows": [
+      [
+        "0.01693002257336343115"
+      ]
+    ]
+  },
+  "readonly": true,
+  "statement_timeout_ms": 5000
+}

@@ -1,0 +1,682 @@
+{
+  "started_at_utc": "2026-10-14T02:49:24.019146+00:00",
+  "finished_at_utc": "2026-10-14T02:49:31.337869+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "d4-multiturn-3f335e72e3b2490d81b193edfbc0b862",
+    "message": "分子换成巴西居住客户的销售额。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "b57fa4cb-eb4c-4903-9a7c-4855e464d68d",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：4.22%。",
+    "rewritten_question": "分子换成Brazil居住客户的销售额。",
+    "sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'",
+    "table": [
+      {
+        "ratio": "0.04216533923932024362"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 6,
+      "route": "sql",
+      "task_type": "ratio",
+      "metric": "invoice_revenue",
+      "time_scope": {
+        "current": {
+          "start": "2023-01-01",
+          "end": "2024-01-01",
+          "label": "2023年",
+          "grain": "year"
+        }
+      },
+      "filters": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "Brazil",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "a-cf1b483ec6900d1a",
+          "source": "verified_value_index",
+          "binding_scope": "numerator",
+          "scope_evidence": "分子换成巴西居住客户的销售额。",
+          "scope_basis": "explicit_user_scope"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 28
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [
+            {
+              "column": "customer.country",
+              "operator": "=",
+              "value": "Brazil",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-cf1b483ec6900d1a",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "巴西"
+        },
+        "output_summary": {
+          "candidate_count": 1,
+          "candidate_ids": [
+            "v-95ff10c443473368bada"
+          ],
+          "scores": [
+            1.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "ok",
+        "input_summary": {
+          "original_question": "分子换成巴西居住客户的销售额。"
+        },
+        "output_summary": {
+          "rewritten_question": "分子换成Brazil居住客户的销售额。",
+          "patches": [
+            {
+              "start": 4,
+              "end": 6,
+              "original": "巴西",
+              "replacement": "Brazil",
+              "method": "exact",
+              "evidence_ref": "a-cf1b483ec6900d1a"
+            }
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 6,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [
+            "aggregation",
+            "fields",
+            "grain",
+            "result",
+            "schema"
+          ],
+          "resume_supported": true
+        },
+        "latency_ms": 3273
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/provider-api-007/69dd492e875e4cc289c94df313529539.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 35,
+            "prompt_tokens": 1579,
+            "total_tokens": 1614,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1280
+            },
+            "prompt_cache_hit_tokens": 1280,
+            "prompt_cache_miss_tokens": 299
+          },
+          "json_valid": true
+        },
+        "latency_ms": 1958
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "根据以下当前已合并的执行合同生成查询；合同已包含保留条件和本轮修改，不能恢复历史条件：{\"task_type\": \"ratio\", \"metric\": \"invoice_revenue\", \"time_scope\": {\"current\": {\"start\": \"2023-01-01\", \"end\": \"2024-01-01\", \"label\": \"2023年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": \"2023年Brazil居住客户的销售额\", \"denominator\": \"2023年全部发票金额\", \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"customer.country\", \"filters\": [{\"column\": \"customer.country\", \"operator\": \"=\", \"value\": \"Brazil\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"a-cf1b483ec6900d1a\", \"source\": \"verified_value_index\", \"binding_scope\": \"numerator\", \"scope_evidence\": \"分子换成巴西居住客户的销售额。\", \"scope_basis\": \"explicit_user_scope\"}], \"assumptions\": []}\n历史首轮原文（仅供保留未修改的返回字段和输出形式，不作为筛选、指标、期间、对象或TopN依据）：2023年巴西居住客户的销售额占当年全部发票金额的比例是多少？",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM \"public\".\"invoice\" i JOIN \"public\".\"customer\" c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'",
+          "explanation": "计算 2023 年 Brazil 居住客户发票金额占当年全部发票金额的比例（原始分数，未乘 100）。分子使用 customer.country='Brazil' 的 CASE 聚合，分母为同期全部发票金额，WHERE 仅限定 2023 年期间。"
+        },
+        "latency_ms": 3981
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/provider-api-007/2ed0c49839e14e4f93ad16b02d1b4b83.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 175,
+            "prompt_tokens": 5961,
+            "total_tokens": 6136,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1664
+            },
+            "prompt_cache_hit_tokens": 1664,
+            "prompt_cache_miss_tokens": 4297
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2842
+      },
+      {
+        "name": "sql_current_contract_validate",
+        "status": "ok",
+        "input_summary": {
+          "intent_version": 6
+        },
+        "output_summary": {
+          "verified": true,
+          "before_repair_filter_capture": true
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM \"public\".\"invoice\" i JOIN \"public\".\"customer\" c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "customer",
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2023-01-01' AND i.invoice_date < '2024-01-01'"
+        },
+        "latency_ms": 6
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "customer.country",
+              "operator": "=",
+              "value": "Brazil",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-cf1b483ec6900d1a",
+              "source": "verified_value_index",
+              "binding_scope": "numerator",
+              "scope_evidence": "分子换成巴西居住客户的销售额。",
+              "scope_basis": "explicit_user_scope"
+            }
+          ],
+          "mode": "qualified_ast_scoped_ratio_or_mandatory_filters"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(CASE WHEN c.country = %(qa_value_2)s THEN i.total ELSE 0 END) / NULLIF(SUM(i.total), 0) AS ratio FROM \"public\".\"invoice\" AS i JOIN \"public\".\"customer\" AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= %(qa_value_0)s AND i.invoice_date < %(qa_value_1)s",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "ratio"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 15
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 7316,
+      "nlu": {
+        "original_question": "分子换成巴西居住客户的销售额。",
+        "rewritten_question": "分子换成Brazil居住客户的销售额。",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "巴西",
+            "span": [
+              4,
+              6
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "customer.country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-95ff10c443473368bada",
+                "column": "customer.country",
+                "standard_value": "Brazil",
+                "surface": "巴西",
+                "score": 1.0,
+                "source": "llm_draft:deepseek-flash",
+                "evidence_ref": "a-cf1b483ec6900d1a",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": "v-95ff10c443473368bada",
+            "match_method": "exact",
+            "evidence_ref": "a-cf1b483ec6900d1a",
+            "canonical_value": "Brazil",
+            "column": "customer.country",
+            "stages": [
+              {
+                "method": "exact",
+                "minimum_score": 0.0,
+                "candidates": [
+                  {
+                    "candidate_id": "v-95ff10c443473368bada",
+                    "column": "customer.country",
+                    "standard_value": "Brazil",
+                    "surface": "巴西",
+                    "score": 1.0,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-cf1b483ec6900d1a",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Brazil",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "a-cf1b483ec6900d1a",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [
+          {
+            "start": 4,
+            "end": 6,
+            "original": "巴西",
+            "replacement": "Brazil",
+            "method": "exact",
+            "evidence_ref": "a-cf1b483ec6900d1a"
+          }
+        ],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 6,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": "customer.country",
+        "derived": {},
+        "invalidated": [
+          "aggregation",
+          "fields",
+          "grain",
+          "result",
+          "schema"
+        ],
+        "semantic_contract": {
+          "task_type": "ratio",
+          "metric": "invoice_revenue",
+          "time_scope": {
+            "current": {
+              "start": "2023-01-01",
+              "end": "2024-01-01",
+              "label": "2023年",
+              "grain": "year"
+            }
+          },
+          "comparison": null,
+          "numerator": "2023年Brazil居住客户的销售额",
+          "denominator": "2023年全部发票金额",
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": "customer.country",
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [
+            {
+              "column": "customer.country",
+              "operator": "=",
+              "value": "Brazil",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-cf1b483ec6900d1a",
+              "source": "verified_value_index",
+              "binding_scope": "numerator",
+              "scope_evidence": "分子换成巴西居住客户的销售额。",
+              "scope_basis": "explicit_user_scope"
+            }
+          ],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {
+            "numerator": "分子换成巴西居住客户的销售额。",
+            "denominator": "分母改成2023年账单国为德国的销售额。",
+            "time_scope": "2023年",
+            "region_scope": "巴西居住客户",
+            "filters": "巴西居住客户"
+          }
+        },
+        "patch_history": [
+          {
+            "event": "patch",
+            "patches": [
+              {
+                "op": "set",
+                "path": "numerator",
+                "value": "2023年德国居住客户的销售额占当年全部发票金额的比例",
+                "evidence": "分子换成德国居住客户的销售额。"
+              },
+              {
+                "op": "set",
+                "path": "metric",
+                "value": "invoice_revenue",
+                "evidence": "销售额"
+              }
+            ],
+            "intent_version": 2,
+            "invalidated": [
+              "aggregation",
+              "fields",
+              "grain",
+              "result",
+              "schema"
+            ]
+          },
+          {
+            "event": "patch",
+            "patches": [
+              {
+                "op": "set",
+                "path": "denominator",
+                "value": "2023年账单国为德国的销售额",
+                "evidence": "分母改成2023年账单国为德国的销售额。"
+              },
+              {
+                "op": "set",
+                "path": "metric",
+                "value": "invoice_revenue",
+                "evidence": "销售额"
+              },
+              {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2023-01-01",
+                    "end": "2024-01-01",
+                    "label": "2023年",
+                    "grain": "year"
+                  }
+                },
+                "evidence": "2023年"
+              },
+              {
+                "op": "set",
+                "path": "time_ambiguous",
+                "value": false,
+                "evidence": "2023年"
+              }
+            ],
+            "intent_version": 3,
+            "invalidated": [
+              "aggregation",
+              "derived_period",
+              "fields",
+              "grain",
+              "result",
+              "schema"
+            ]
+          },
+          {
+            "event": "patch",
+            "patches": [
+              {
+                "op": "set",
+                "path": "numerator",
+                "value": "2023年France居住客户的销售额",
+                "evidence": "分子换成法国居住客户的销售额。"
+              },
+              {
+                "op": "set",
+                "path": "metric",
+                "value": "invoice_revenue",
+                "evidence": "销售额"
+              }
+            ],
+            "intent_version": 4,
+            "invalidated": [
+              "aggregation",
+              "fields",
+              "grain",
+              "result",
+              "schema"
+            ]
+          },
+          {
+            "event": "patch",
+            "patches": [
+              {
+                "op": "set",
+                "path": "denominator",
+                "value": "2023年全部发票金额",
+                "evidence": "分母改成2023年全部发票金额。"
+              },
+              {
+                "op": "set",
+                "path": "metric",
+                "value": "invoice_revenue",
+                "evidence": "发票金额"
+              },
+              {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2023-01-01",
+                    "end": "2024-01-01",
+                    "label": "2023年",
+                    "grain": "year"
+                  }
+                },
+                "evidence": "2023年"
+              },
+              {
+                "op": "set",
+                "path": "time_ambiguous",
+                "value": false,
+                "evidence": "2023年"
+              }
+            ],
+            "intent_version": 5,
+            "invalidated": [
+              "aggregation",
+              "derived_period",
+              "fields",
+              "grain",
+              "result",
+              "schema"
+            ]
+          },
+          {
+            "event": "patch",
+            "patches": [
+              {
+                "op": "set",
+                "path": "numerator",
+                "value": "2023年Brazil居住客户的销售额",
+                "evidence": "分子换成巴西居住客户的销售额。"
+              },
+              {
+                "op": "set",
+                "path": "metric",
+                "value": "invoice_revenue",
+                "evidence": "销售额"
+              }
+            ],
+            "intent_version": 6,
+            "invalidated": [
+              "aggregation",
+              "fields",
+              "grain",
+              "result",
+              "schema"
+            ]
+          }
+        ],
+        "invalidated_execution": [
+          "sql_plan",
+          "sql",
+          "result"
+        ],
+        "switch": null
+      },
+      "result_columns": [
+        "ratio"
+      ],
+      "truncated": false,
+      "result_format": {
+        "ratio": {
+          "kind": "percentage",
+          "scale": 100,
+          "raw_values_preserved": true,
+          "source": "sql_projection"
+        }
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

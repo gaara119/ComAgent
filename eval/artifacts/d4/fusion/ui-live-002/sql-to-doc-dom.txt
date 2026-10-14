@@ -1,0 +1,163 @@
+Deploy
+精准问数问答
+
+选择数据来源，输入问题，查看答案和对应依据。
+
+数据来源
+
+数据库
+
+指定文档
+
+数据库与文档
+
+允许检索的文档（留空使用全部对应文档）
+
+一次请求依次使用数据库和对应文档，SQL、结果和文档引用都保留在下方。
+
+你的问题
+
+提交问题
+
+回答完成
+
+查询到销售额最高的艺术家是 Iron Maiden（artist_id=90），明细销售额为 138.60（数据库金额单位）。
+
+Iron Maiden（铁娘子乐队）是英国重金属乐队，由贝斯手及主要创作者 Steve Harris 于1975年在伦敦东部的 Leyton 组建。[E1] 乐队是英国重金属新浪潮的重要代表，其音乐和歌词涉及历史、文学、战争、神话及科幻等题材。[E1] 同名首张录音室专辑于1980年发行；1982年的 The Number of the Beast 是其早期重要作品。[E1]
+
+跨源执行
+
+数据库排名 · 完成
+对应艺术家文档检索与回答 · 完成
+
+数据库结果传给文档检索：Iron Maiden（artist_id=90）
+
+keyboard_arrow_down
+
+SQL 与结果
+
+数据库：chinook
+
+执行的 SQL
+
+SELECT ar."artist_id", ar."name" AS artist_name, SUM(il."unit_price" * il."quantity") AS sales_amount FROM "public"."invoice_line" AS il JOIN "public"."track" AS t ON il."track_id" = t."track_id" JOIN "public"."album" AS al ON t."album_id" = al."album_id" JOIN "public"."artist" AS ar ON al."artist_id" = ar."artist_id" GROUP BY ar."artist_id", ar."name" ORDER BY sales_amount DESC, ar."artist_id" ASC LIMIT 1
+keyboard_arrow_down
+
+引用来源
+
+引用依据
+
+[E1] Iron Maiden 铁娘子乐队公开简介 · 章节：Iron Maiden 铁娘子乐队公开简介 / 公开背景
+
+[E1] 原文
+
+Iron Maiden 铁娘子乐队公开简介 / 公开背景
+
+公开背景
+Iron Maiden（铁娘子乐队）是英国重金属乐队，由贝斯手及主要创作者 Steve Harris 于1975年在伦敦东部的 Leyton 组建。
+乐队是英国重金属新浪潮的重要代表。其音乐和歌词涉及历史、文学、战争、神话及科幻等题材。
+同名首张录音室专辑于1980年发行；1982年的 The Number of the Beast 是其早期重要作品。这里介绍的是公开音乐背景，不包含 Chinook 销售排名或当代巡演收入。
+
+打开原始文件
+
+下载原始文件
+
+keyboard_arrow_down
+
+处理步骤与耗时
+
+请求编号：757ffcd5-8970-4512-9a47-e64c75fd5288
+
+服务端总耗时：16629 毫秒
+
+1. route · 完成 · 0 毫秒
+
+展开第 1 步详情
+
+2. fusion_route · 完成 · 0 毫秒
+
+展开第 2 步详情
+
+3. fusion_sql · 完成 · 9619 毫秒
+
+展开第 3 步详情
+
+4. config_check · 完成 · 1 毫秒
+
+展开第 4 步详情
+
+5. catalog · 完成 · 93 毫秒
+
+展开第 5 步详情
+
+6. requested_source_check · 完成 · 3 毫秒
+
+展开第 6 步详情
+
+7. value_link · 完成 · 365 毫秒
+
+展开第 7 步详情
+
+8. rewrite · 未执行 · 0 毫秒
+
+展开第 8 步详情
+
+9. clarification_gate · 完成 · 4874 毫秒
+
+展开第 9 步详情
+
+10. llm · 完成 · 3224 毫秒
+
+展开第 10 步详情
+
+11. sql_gen · 完成 · 4091 毫秒
+
+展开第 11 步详情
+
+12. llm · 完成 · 2785 毫秒
+
+展开第 12 步详情
+
+13. sql_validate · 完成 · 4 毫秒
+
+展开第 13 步详情
+
+14. sql_binding_validate · 完成 · 0 毫秒
+
+展开第 14 步详情
+
+15. fusion_plan_validate · 完成 · 2 毫秒
+
+展开第 15 步详情
+
+16. sql_exec · 完成 · 38 毫秒
+
+展开第 16 步详情
+
+17. answer · 完成 · 0 毫秒
+
+展开第 17 步详情
+
+18. fusion_entity_transfer · 完成 · 0 毫秒
+
+展开第 18 步详情
+
+19. fusion_artist_retrieve · 完成 · 3361 毫秒
+
+展开第 19 步详情
+
+20. fusion_artist_answer · 完成 · 3517 毫秒
+
+展开第 20 步详情
+
+21. rag_generate · 完成 · 3515 毫秒
+
+展开第 21 步详情
+
+22. llm · 完成 · 1977 毫秒
+
+展开第 22 步详情
+
+23. rag_validate · 完成 · 2 毫秒
+
+展开第 23 步详情

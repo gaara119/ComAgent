@@ -1,0 +1,49 @@
+{
+  "id": "oct12-join-08",
+  "scale": "10000",
+  "sql": "SELECT t.track_id, t.name, SUM(l.quantity) AS purchased_quantity FROM d4_stress_10000.track AS t JOIN d4_stress_10000.invoice_line AS l ON l.track_id = t.track_id GROUP BY t.track_id, t.name ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 3",
+  "result": {
+    "columns": [
+      "track_id",
+      "name",
+      "purchased_quantity"
+    ],
+    "rows": [
+      [
+        207,
+        "Meditação",
+        10
+      ],
+      [
+        439,
+        "Sure Know Something",
+        10
+      ],
+      [
+        671,
+        "As Rosas Não Falam (Beth Carvalho)",
+        10
+      ]
+    ],
+    "table": [
+      {
+        "track_id": 207,
+        "name": "Meditação",
+        "purchased_quantity": 10
+      },
+      {
+        "track_id": 439,
+        "name": "Sure Know Something",
+        "purchased_quantity": 10
+      },
+      {
+        "track_id": 671,
+        "name": "As Rosas Não Falam (Beth Carvalho)",
+        "purchased_quantity": 10
+      }
+    ],
+    "row_count": 3,
+    "truncated": false
+  },
+  "system_prediction": false
+}

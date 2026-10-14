@@ -1,0 +1,15 @@
+{
+  "sql": "SELECT SUM(il.unit_price*il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id JOIN public.genre g ON t.genre_id=g.genre_id WHERE i.invoice_date>=DATE '2022-01-01' AND i.invoice_date<DATE '2023-01-01' AND g.name='Metal'",
+  "result": {
+    "columns": [
+      "value"
+    ],
+    "rows": [
+      [
+        "53.46"
+      ]
+    ]
+  },
+  "readonly": true,
+  "statement_timeout_ms": 5000
+}

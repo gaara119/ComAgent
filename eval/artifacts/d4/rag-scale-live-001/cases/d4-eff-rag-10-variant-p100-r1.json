@@ -1,0 +1,2146 @@
+{
+  "id": "d4-eff-rag-10-variant",
+  "original_dev_id": "rag-10",
+  "split": "dev",
+  "pages": 100,
+  "repetition": 1,
+  "request": {
+    "question": "Under the FCC rules, what digital-device class is specified for this equipment?",
+    "scope_doc_ids": [
+      "ohr-academic-label-words",
+      "ohr-law-affiliate",
+      "ohr-manual-macbook-air",
+      "ohr-news-executive-insight",
+      "ohr-textbook-geology"
+    ]
+  },
+  "semantic_answer_review": "pending_human_review",
+  "matched": true,
+  "legacy_matched": false,
+  "retrieval": {
+    "retrieval_method": "bm25+bge-m3_dense_rrf",
+    "candidate_count": 1876,
+    "top_k": 8,
+    "allowed_doc_ids": [
+      "ohr-academic-label-words",
+      "ohr-law-affiliate",
+      "ohr-manual-macbook-air",
+      "ohr-news-executive-insight",
+      "ohr-textbook-geology"
+    ],
+    "searched_page_count": 100,
+    "candidate_k_per_channel": 20,
+    "rrf_k": 60,
+    "rank_starts_at": 1,
+    "rankings": {
+      "bm25": [
+        {
+          "rank": 1,
+          "chunk_id": "06621d235469b7d1be20d1da",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [
+            "Radio and Television Interference"
+          ],
+          "score": 23.54369736
+        },
+        {
+          "rank": 2,
+          "chunk_id": "9f28e5ee94e2380542d6dad8",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [
+            "FCC Compliance Statement"
+          ],
+          "score": 19.88258244
+        },
+        {
+          "rank": 3,
+          "chunk_id": "0a35e2c2c4d0ad9d617700da",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 11.36198011
+        },
+        {
+          "rank": 4,
+          "chunk_id": "e1116c62928a6362bd22581d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [],
+          "score": 10.6461133
+        },
+        {
+          "rank": 5,
+          "chunk_id": "ededbd263240e1c9febbbce6",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 10.44907559
+        },
+        {
+          "rank": 6,
+          "chunk_id": "fdd9965fd36d7e2791d0af17",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 9.59509923
+        },
+        {
+          "rank": 7,
+          "chunk_id": "2c1634c16a633c42f214648a",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 21,
+          "section_path": [],
+          "score": 8.52955121
+        },
+        {
+          "rank": 8,
+          "chunk_id": "19b25379d7eb852b7f38ba54",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 7,
+          "section_path": [],
+          "score": 7.65783208
+        },
+        {
+          "rank": 9,
+          "chunk_id": "4b047812c272610f63514b45",
+          "doc_id": "ohr-academic-label-words",
+          "page": 7,
+          "section_path": [],
+          "score": 7.08885933
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a2b746ee9d6f50818f35126d",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 6.74106825
+        },
+        {
+          "rank": 11,
+          "chunk_id": "02480ddb3951b75a11f2c27a",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [
+            "Radio and Television Interference"
+          ],
+          "score": 6.73242598
+        },
+        {
+          "rank": 12,
+          "chunk_id": "570c8e52cbebc94177f27f19",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 6.27637581
+        },
+        {
+          "rank": 13,
+          "chunk_id": "8b5d77c87cc0b0ffbc0509b4",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 26,
+          "section_path": [],
+          "score": 5.88038786
+        },
+        {
+          "rank": 14,
+          "chunk_id": "e53a3f4b5c44a261f604696c",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.1 Experiments"
+          ],
+          "score": 5.59553571
+        },
+        {
+          "rank": 15,
+          "chunk_id": "de51545feb10fbbdbc6c54af",
+          "doc_id": "ohr-academic-label-words",
+          "page": 8,
+          "section_path": [
+            "3.3.2 Experiments"
+          ],
+          "score": 5.42732488
+        },
+        {
+          "rank": 16,
+          "chunk_id": "7db13fb4cf522af094eef7b1",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 5.25205771
+        },
+        {
+          "rank": 17,
+          "chunk_id": "228f13238a320940db73f445",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [],
+          "score": 5.03764957
+        },
+        {
+          "rank": 18,
+          "chunk_id": "ea8a1905432bac5294b731f8",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 5.02762267
+        },
+        {
+          "rank": 19,
+          "chunk_id": "a7af07b8e0dbe64d9614bfac",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.2 Experiments"
+          ],
+          "score": 5.01409046
+        },
+        {
+          "rank": 20,
+          "chunk_id": "a9127795bad16d48aff0ba94",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [],
+          "score": 4.96146519
+        }
+      ],
+      "dense": [
+        {
+          "rank": 1,
+          "chunk_id": "06621d235469b7d1be20d1da",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [
+            "Radio and Television Interference"
+          ],
+          "score": 0.58449632
+        },
+        {
+          "rank": 2,
+          "chunk_id": "8efa3989308600afd323aec6",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [
+            "FCC Compliance Statement"
+          ],
+          "score": 0.51575464
+        },
+        {
+          "rank": 3,
+          "chunk_id": "9f28e5ee94e2380542d6dad8",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [
+            "FCC Compliance Statement"
+          ],
+          "score": 0.50045025
+        },
+        {
+          "rank": 4,
+          "chunk_id": "e1116c62928a6362bd22581d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [],
+          "score": 0.47623348
+        },
+        {
+          "rank": 5,
+          "chunk_id": "48c33abc348fb0ea6b2a39ba",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [],
+          "score": 0.43228307
+        },
+        {
+          "rank": 6,
+          "chunk_id": "4bada7226480d254325eb21d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 31,
+          "section_path": [
+            "Port hatch"
+          ],
+          "score": 0.4191238
+        },
+        {
+          "rank": 7,
+          "chunk_id": "d67e85ffcd56ae807c624aff",
+          "doc_id": "ohr-academic-label-words",
+          "page": 3,
+          "section_path": [],
+          "score": 0.41714349
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7d72a0ce70182a308d88645c",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 15,
+          "section_path": [
+            "Setting Up DVD or CD Sharing"
+          ],
+          "score": 0.41546366
+        },
+        {
+          "rank": 9,
+          "chunk_id": "936a57b8336d4791968c9f68",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.1 Method"
+          ],
+          "score": 0.41470841
+        },
+        {
+          "rank": 10,
+          "chunk_id": "4698e387d09c98963204f6a7",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [],
+          "score": 0.40845999
+        },
+        {
+          "rank": 11,
+          "chunk_id": "bc49801945bc1cf1d34b126b",
+          "doc_id": "ohr-academic-label-words",
+          "page": 15,
+          "section_path": [],
+          "score": 0.40462095
+        },
+        {
+          "rank": 12,
+          "chunk_id": "955ea2d8af0fa6b8485000e3",
+          "doc_id": "ohr-academic-label-words",
+          "page": 8,
+          "section_path": [
+            "3.3.2 Experiments"
+          ],
+          "score": 0.40369788
+        },
+        {
+          "rank": 13,
+          "chunk_id": "5571b2dc41bafc066fcdbf81",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 8,
+          "section_path": [
+            "Welcome"
+          ],
+          "score": 0.40159148
+        },
+        {
+          "rank": 14,
+          "chunk_id": "de51545feb10fbbdbc6c54af",
+          "doc_id": "ohr-academic-label-words",
+          "page": 8,
+          "section_path": [
+            "3.3.2 Experiments"
+          ],
+          "score": 0.39795539
+        },
+        {
+          "rank": 15,
+          "chunk_id": "dc4d09f31f6754381b93f9a9",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 31,
+          "section_path": [
+            "Port hatch"
+          ],
+          "score": 0.39789239
+        },
+        {
+          "rank": 16,
+          "chunk_id": "536607f01dff9bfa3e97f45d",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [
+            "F.1 Results with More Demonstrations"
+          ],
+          "score": 0.39765361
+        },
+        {
+          "rank": 17,
+          "chunk_id": "fb0f98023429c6ed1c9e45b5",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 9,
+          "section_path": [
+            "What’s in the Box"
+          ],
+          "score": 0.39758536
+        },
+        {
+          "rank": 18,
+          "chunk_id": "228f13238a320940db73f445",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [],
+          "score": 0.39547279
+        },
+        {
+          "rank": 19,
+          "chunk_id": "cd588f456368d7f282c5f49e",
+          "doc_id": "ohr-academic-label-words",
+          "page": 11,
+          "section_path": [
+            "A Experimental Settings"
+          ],
+          "score": 0.39498612
+        },
+        {
+          "rank": 20,
+          "chunk_id": "f52a29e71063affcbf64282f",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [],
+          "score": 0.39352471
+        }
+      ],
+      "rrf": [
+        {
+          "rank": 1,
+          "chunk_id": "06621d235469b7d1be20d1da",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [
+            "Radio and Television Interference"
+          ],
+          "score": 0.03278689
+        },
+        {
+          "rank": 2,
+          "chunk_id": "9f28e5ee94e2380542d6dad8",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [
+            "FCC Compliance Statement"
+          ],
+          "score": 0.03200205
+        },
+        {
+          "rank": 3,
+          "chunk_id": "e1116c62928a6362bd22581d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [],
+          "score": 0.03125
+        },
+        {
+          "rank": 4,
+          "chunk_id": "de51545feb10fbbdbc6c54af",
+          "doc_id": "ohr-academic-label-words",
+          "page": 8,
+          "section_path": [
+            "3.3.2 Experiments"
+          ],
+          "score": 0.02684685
+        },
+        {
+          "rank": 5,
+          "chunk_id": "228f13238a320940db73f445",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 2,
+          "section_path": [],
+          "score": 0.02580753
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8efa3989308600afd323aec6",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [
+            "FCC Compliance Statement"
+          ],
+          "score": 0.01612903
+        },
+        {
+          "rank": 7,
+          "chunk_id": "0a35e2c2c4d0ad9d617700da",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01587302
+        },
+        {
+          "rank": 8,
+          "chunk_id": "48c33abc348fb0ea6b2a39ba",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [],
+          "score": 0.01538462
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ededbd263240e1c9febbbce6",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01538462
+        },
+        {
+          "rank": 10,
+          "chunk_id": "4bada7226480d254325eb21d",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 31,
+          "section_path": [
+            "Port hatch"
+          ],
+          "score": 0.01515152
+        },
+        {
+          "rank": 11,
+          "chunk_id": "fdd9965fd36d7e2791d0af17",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01515152
+        },
+        {
+          "rank": 12,
+          "chunk_id": "2c1634c16a633c42f214648a",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 21,
+          "section_path": [],
+          "score": 0.01492537
+        },
+        {
+          "rank": 13,
+          "chunk_id": "d67e85ffcd56ae807c624aff",
+          "doc_id": "ohr-academic-label-words",
+          "page": 3,
+          "section_path": [],
+          "score": 0.01492537
+        },
+        {
+          "rank": 14,
+          "chunk_id": "19b25379d7eb852b7f38ba54",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 7,
+          "section_path": [],
+          "score": 0.01470588
+        },
+        {
+          "rank": 15,
+          "chunk_id": "7d72a0ce70182a308d88645c",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 15,
+          "section_path": [
+            "Setting Up DVD or CD Sharing"
+          ],
+          "score": 0.01470588
+        },
+        {
+          "rank": 16,
+          "chunk_id": "4b047812c272610f63514b45",
+          "doc_id": "ohr-academic-label-words",
+          "page": 7,
+          "section_path": [],
+          "score": 0.01449275
+        },
+        {
+          "rank": 17,
+          "chunk_id": "936a57b8336d4791968c9f68",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.1 Method"
+          ],
+          "score": 0.01449275
+        },
+        {
+          "rank": 18,
+          "chunk_id": "4698e387d09c98963204f6a7",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [],
+          "score": 0.01428571
+        },
+        {
+          "rank": 19,
+          "chunk_id": "a2b746ee9d6f50818f35126d",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01428571
+        },
+        {
+          "rank": 20,
+          "chunk_id": "02480ddb3951b75a11f2c27a",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 65,
+          "section_path": [
+            "Radio and Television Interference"
+          ],
+          "score": 0.01408451
+        },
+        {
+          "rank": 21,
+          "chunk_id": "bc49801945bc1cf1d34b126b",
+          "doc_id": "ohr-academic-label-words",
+          "page": 15,
+          "section_path": [],
+          "score": 0.01408451
+        },
+        {
+          "rank": 22,
+          "chunk_id": "570c8e52cbebc94177f27f19",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [],
+          "score": 0.01388889
+        },
+        {
+          "rank": 23,
+          "chunk_id": "955ea2d8af0fa6b8485000e3",
+          "doc_id": "ohr-academic-label-words",
+          "page": 8,
+          "section_path": [
+            "3.3.2 Experiments"
+          ],
+          "score": 0.01388889
+        },
+        {
+          "rank": 24,
+          "chunk_id": "5571b2dc41bafc066fcdbf81",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 8,
+          "section_path": [
+            "Welcome"
+          ],
+          "score": 0.01369863
+        },
+        {
+          "rank": 25,
+          "chunk_id": "8b5d77c87cc0b0ffbc0509b4",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 26,
+          "section_path": [],
+          "score": 0.01369863
+        },
+        {
+          "rank": 26,
+          "chunk_id": "e53a3f4b5c44a261f604696c",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [
+            "2.3.1 Experiments"
+          ],
+          "score": 0.01351351
+        },
+        {
+          "rank": 27,
+          "chunk_id": "dc4d09f31f6754381b93f9a9",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 31,
+          "section_path": [
+            "Port hatch"
+          ],
+          "score": 0.01333333
+        },
+        {
+          "rank": 28,
+          "chunk_id": "536607f01dff9bfa3e97f45d",
+          "doc_id": "ohr-academic-label-words",
+          "page": 12,
+          "section_path": [
+            "F.1 Results with More Demonstrations"
+          ],
+          "score": 0.01315789
+        },
+        {
+          "rank": 29,
+          "chunk_id": "7db13fb4cf522af094eef7b1",
+          "doc_id": "ohr-law-affiliate",
+          "page": 1,
+          "section_path": [],
+          "score": 0.01315789
+        },
+        {
+          "rank": 30,
+          "chunk_id": "fb0f98023429c6ed1c9e45b5",
+          "doc_id": "ohr-manual-macbook-air",
+          "page": 9,
+          "section_path": [
+            "What’s in the Box"
+          ],
+          "score": 0.01298701
+        },
+        {
+          "rank": 31,
+          "chunk_id": "ea8a1905432bac5294b731f8",
+          "doc_id": "ohr-law-affiliate",
+          "page": 2,
+          "section_path": [],
+          "score": 0.01282051
+        },
+        {
+          "rank": 32,
+          "chunk_id": "a7af07b8e0dbe64d9614bfac",
+          "doc_id": "ohr-academic-label-words",
+          "page": 6,
+          "section_path": [
+            "3.1.2 Experiments"
+          ],
+          "score": 0.01265823
+        },
+        {
+          "rank": 33,
+          "chunk_id": "cd588f456368d7f282c5f49e",
+          "doc_id": "ohr-academic-label-words",
+          "page": 11,
+          "section_path": [
+            "A Experimental Settings"
+          ],
+          "score": 0.01265823
+        },
+        {
+          "rank": 34,
+          "chunk_id": "a9127795bad16d48aff0ba94",
+          "doc_id": "ohr-news-executive-insight",
+          "page": 11,
+          "section_path": [],
+          "score": 0.0125
+        },
+        {
+          "rank": 35,
+          "chunk_id": "f52a29e71063affcbf64282f",
+          "doc_id": "ohr-academic-label-words",
+          "page": 5,
+          "section_path": [],
+          "score": 0.0125
+        }
+      ]
+    },
+    "hit_at_5_scope": [
+      "06621d235469b7d1be20d1da",
+      "9f28e5ee94e2380542d6dad8",
+      "e1116c62928a6362bd22581d",
+      "de51545feb10fbbdbc6c54af",
+      "228f13238a320940db73f445"
+    ],
+    "retrieved_count": 8,
+    "index_created_at": "2026-10-13T16:21:30.604523+00:00",
+    "index_chunks_sha256": "18f3d8e595e5d5e7a3872da33b3e9a80c247f5f6f4c4648c97b1a2f4371ce3b7",
+    "query": "Under the FCC rules, what digital-device class is specified for this equipment?",
+    "dense_enabled": true
+  },
+  "retrieved_chunks": [
+    {
+      "chunk_id": "06621d235469b7d1be20d1da",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 65,
+      "section_path": [
+        "Radio and Television Interference"
+      ],
+      "text": "This equipment has been tested and found to comply \nwith the limits for a Class B digital device in accordance \nwith the specifications in Part 15 of FCC rules. These \nspecifications are designed to provide reasonable \nprotection against such interference in a residential \ninstallation. However, there is no guarantee that \ninterference will not occur in a particular installation.",
+      "bbox": [
+        39.84,
+        211.19,
+        176.2,
+        265.19
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "5-0",
+          "bbox": [
+            39.84,
+            211.19,
+            176.2,
+            265.19
+          ],
+          "char_start": 0,
+          "char_end": 382
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        39.84,
+        28.98,
+        335.98,
+        337.25
+      ],
+      "char_start": 0,
+      "char_end": 382,
+      "source_record_id": "native-block-5-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "cbd4dc24a1b6cde8e28c9abaa063e0e7d7626f20f6a744ac1fd535b46cfb2841",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E1",
+      "score": 0.03278689,
+      "bm25_score": 23.543697,
+      "dense_score": 0.584496
+    },
+    {
+      "chunk_id": "9f28e5ee94e2380542d6dad8",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 65,
+      "section_path": [
+        "FCC Compliance Statement"
+      ],
+      "text": "FCC Compliance Statement\nThis device complies with part 15 of the FCC rules. \nOperation is subject to the following two conditions:  (1) \nThis device may not cause harmful interference, and (2) \nthis device must accept any interference received, \nincluding interference that may cause undesired \noperation. See instructions if interference to radio or \ntelevision reception is suspected.",
+      "bbox": [
+        39.84,
+        43.59,
+        178.08,
+        105.69
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "2-0",
+          "bbox": [
+            39.84,
+            43.59,
+            178.08,
+            105.69
+          ],
+          "char_start": 0,
+          "char_end": 387
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        39.84,
+        28.98,
+        335.98,
+        337.25
+      ],
+      "char_start": 0,
+      "char_end": 387,
+      "source_record_id": "native-block-2-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "5043abedfa41c21ee3a69e177fc33ca6bcd4b57a7eaa856ad9f108c49ddc6841",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E2",
+      "score": 0.03200205,
+      "bm25_score": 19.882582,
+      "dense_score": 0.50045
+    },
+    {
+      "chunk_id": "e1116c62928a6362bd22581d",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 65,
+      "section_path": [],
+      "text": "This product has demonstrated EMC compliance under \nconditions that included the use of compliant peripheral \ndevices and shielded cables (including Ethernet network \ncables) between system components. It is important \nthat you use compliant peripheral devices and shielded \ncables between system components to reduce the \npossibility of causing interference to radios, television \nsets, and other electronic devices.",
+      "bbox": [
+        186.0,
+        241.69,
+        324.31,
+        303.68
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "14-0",
+          "bbox": [
+            186.0,
+            241.69,
+            324.31,
+            303.68
+          ],
+          "char_start": 0,
+          "char_end": 417
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        39.84,
+        28.98,
+        335.98,
+        337.25
+      ],
+      "char_start": 0,
+      "char_end": 417,
+      "source_record_id": "native-block-14-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "f051846a1383ec94c7055ba00cbb04d5eeb74f1324ff7a9c439ae823a7e92b14",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E3",
+      "score": 0.03125,
+      "bm25_score": 10.646113,
+      "dense_score": 0.476233
+    },
+    {
+      "chunk_id": "de51545feb10fbbdbc6c54af",
+      "doc_id": "ohr-academic-label-words",
+      "doc_title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+      "page": 8,
+      "section_path": [
+        "3.3.2 Experiments"
+      ],
+      "text": "as the model displays varying confusion levels be-\ntween categories on this dataset. We use all 500\nsamples of the TREC test set and use 1 demonstra-\ntion per class for convenience of analysis.",
+      "bbox": [
+        70.87,
+        640.27,
+        290.95,
+        691.83
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "16-0",
+          "bbox": [
+            70.87,
+            640.27,
+            290.95,
+            691.83
+          ],
+          "char_start": 0,
+          "char_end": 193
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        70.35,
+        75.1,
+        526.23,
+        774.4
+      ],
+      "char_start": 0,
+      "char_end": 193,
+      "source_record_id": "native-block-16-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "e910283af9c7e1c0d961bfd395bf8e1813deddce3623543dad30f1749db26abf",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E4",
+      "score": 0.02684685,
+      "bm25_score": 5.427325,
+      "dense_score": 0.397955
+    },
+    {
+      "chunk_id": "228f13238a320940db73f445",
+      "doc_id": "ohr-news-executive-insight",
+      "doc_title": "Executive Insight Healthcare Magazine (archival excerpt)",
+      "page": 2,
+      "section_path": [],
+      "text": "THE PRODUCTS — We partner \nwith leading healthcare \ntechnology providers \nto bring you the latest in \ntelehealth technologies such \nas digital tools, VoIP and UC \napplications, and wireless \nnetworking support.",
+      "bbox": [
+        253.05,
+        515.98,
+        365.25,
+        603.6
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "8-0",
+          "bbox": [
+            253.05,
+            515.98,
+            365.25,
+            603.6
+          ],
+          "char_start": 0,
+          "char_end": 210
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        42.36,
+        19.71,
+        520.39,
+        721.17
+      ],
+      "char_start": 0,
+      "char_end": 210,
+      "source_record_id": "native-block-8-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        585.0,
+        756.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "f5f436eb4169d585c449bcd4f854f9db4a4a65432dfec4b748a4114f7b1c01cf",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E5",
+      "score": 0.02580753,
+      "bm25_score": 5.03765,
+      "dense_score": 0.395473
+    },
+    {
+      "chunk_id": "8efa3989308600afd323aec6",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 65,
+      "section_path": [
+        "FCC Compliance Statement"
+      ],
+      "text": "L‘utilisation de ce dispositif est autorisée seulement aux \nconditions suivantes:  (1) il ne doit pas produire de \nbrouillage et (2) l’utilisateur du dispositif doit étre prêt à \naccepter tout brouillage radioélectrique reçu, même si \nce brouillage est susceptible de compromettre le \nfonctionnement du dispositif.",
+      "bbox": [
+        39.84,
+        109.69,
+        177.39,
+        155.69
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "3-0",
+          "bbox": [
+            39.84,
+            109.69,
+            177.39,
+            155.69
+          ],
+          "char_start": 0,
+          "char_end": 314
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        39.84,
+        28.98,
+        335.98,
+        337.25
+      ],
+      "char_start": 0,
+      "char_end": 314,
+      "source_record_id": "native-block-3-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "93ebed66d58c8c6b48e639ca29912e112be6671c3b910be2d06c7d5c632afbee",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E6",
+      "score": 0.01612903,
+      "bm25_score": 3.766396,
+      "dense_score": 0.515755
+    },
+    {
+      "chunk_id": "0a35e2c2c4d0ad9d617700da",
+      "doc_id": "ohr-law-affiliate",
+      "doc_title": "Gulf South Medical Supply Affiliate Agreement (1997)",
+      "page": 1,
+      "section_path": [],
+      "text": "1.  Affiliate Status.  The undersigned understands and agrees that as to\n         ----------------                                                    \nGSMS he is an \"affiliate\" under Rule 145(c) as defined in Rule 405 of the Rules\nand Regulations of the Securities and Exchange Commission (\"SEC\") under the\nSecurities Act of 1933, as amended (\"1933 Act\"), and the undersigned anticipates\nthat he will be such an \"affiliate\" at the time of the Merger.",
+      "bbox": [
+        13.44,
+        335.32,
+        357.14,
+        380.86
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "6-0",
+          "bbox": [
+            13.44,
+            335.32,
+            357.14,
+            380.86
+          ],
+          "char_start": 0,
+          "char_end": 450
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        13.44,
+        80.12,
+        357.14,
+        790.73
+      ],
+      "char_start": 0,
+      "char_end": 450,
+      "source_record_id": "native-block-6-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        0.0,
+        0.0,
+        595.0,
+        842.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "08c06b5c8881859bbd66579139495e44446d0096924f2c82d66fcd11c63950ab",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E7",
+      "score": 0.01587302,
+      "bm25_score": 11.36198,
+      "dense_score": 0.389608
+    },
+    {
+      "chunk_id": "48c33abc348fb0ea6b2a39ba",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 65,
+      "section_path": [],
+      "text": "Important:  Changes or modifications to this product \nnot authorized by Apple Inc., could void the EMC \ncompliance and negate your authority to operate the \nproduct.",
+      "bbox": [
+        186.0,
+        207.69,
+        317.47,
+        237.69
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "13-0",
+          "bbox": [
+            186.0,
+            207.69,
+            317.47,
+            237.69
+          ],
+          "char_start": 0,
+          "char_end": 165
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        39.84,
+        28.98,
+        335.98,
+        337.25
+      ],
+      "char_start": 0,
+      "char_end": 165,
+      "source_record_id": "native-block-13-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "unknown",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "c74752e5a2823854037124815d84a3b51520a3b7f89e1965068648eb91ce381b",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E8",
+      "score": 0.01538462,
+      "bm25_score": 2.32987,
+      "dense_score": 0.432283
+    }
+  ],
+  "hit_at_5": true,
+  "status": "SUCCEEDED",
+  "answer": "Under the FCC rules, this equipment is specified as a Class B digital device. [E1]",
+  "citation_ids": [
+    "E1"
+  ],
+  "used_evidence": [
+    {
+      "chunk_id": "06621d235469b7d1be20d1da",
+      "doc_id": "ohr-manual-macbook-air",
+      "doc_title": "MacBook Air User Guide (archival edition)",
+      "page": 65,
+      "section_path": [
+        "Radio and Television Interference"
+      ],
+      "text": "This equipment has been tested and found to comply \nwith the limits for a Class B digital device in accordance \nwith the specifications in Part 15 of FCC rules. These \nspecifications are designed to provide reasonable \nprotection against such interference in a residential \ninstallation. However, there is no guarantee that \ninterference will not occur in a particular installation.",
+      "bbox": [
+        39.84,
+        211.19,
+        176.2,
+        265.19
+      ],
+      "bbox_scope": "union_of_text_blocks",
+      "source_blocks": [
+        {
+          "block_id": "5-0",
+          "bbox": [
+            39.84,
+            211.19,
+            176.2,
+            265.19
+          ],
+          "char_start": 0,
+          "char_end": 382
+        }
+      ],
+      "ocr_confidence_min": null,
+      "page_bbox": [
+        39.84,
+        28.98,
+        335.98,
+        337.25
+      ],
+      "char_start": 0,
+      "char_end": 382,
+      "source_record_id": "native-block-5-0",
+      "parser": "pdfplumber+PyMuPDF",
+      "coordinate_system": "visible CropBox PDF points; top-left origin; unrotated",
+      "location_status": "source_block_geometry",
+      "section_location_status": "same_column_heading",
+      "rotation": 0,
+      "cropbox": [
+        129.0,
+        219.0,
+        483.0,
+        573.0
+      ],
+      "warnings": [],
+      "source_url": "https://huggingface.co/datasets/opendatalab/OHR-Bench/resolve/7f833e3eda9a571a9ea545a8f6d476fa1685033d/pdfs.zip",
+      "content_hash": "cbd4dc24a1b6cde8e28c9abaa063e0e7d7626f20f6a744ac1fd535b46cfb2841",
+      "boundary_start": "page_start",
+      "boundary_end": "page_end",
+      "incomplete_sentence_start": false,
+      "incomplete_sentence_end": false,
+      "overlap_chars": 0,
+      "evidence_id": "E1",
+      "score": 0.03278689,
+      "bm25_score": 23.543697,
+      "dense_score": 0.584496
+    }
+  ],
+  "surface_answer_match": true,
+  "citation_coverage": {
+    "potential_uncited_statement_count": 0,
+    "potential_uncited_statements": [],
+    "mode": "heuristic_warning_only",
+    "semantic_claim_coverage": "requires_human_review"
+  },
+  "validation_warnings": [],
+  "validation_status": "passed",
+  "failure_category": null,
+  "steps": [
+    {
+      "name": "retrieve",
+      "status": "ok",
+      "input_summary": {
+        "scope_doc_ids": [
+          "ohr-academic-label-words",
+          "ohr-law-affiliate",
+          "ohr-manual-macbook-air",
+          "ohr-news-executive-insight",
+          "ohr-textbook-geology"
+        ]
+      },
+      "output_summary": {
+        "retrieval_method": "bm25+bge-m3_dense_rrf",
+        "candidate_count": 1876,
+        "top_k": 8,
+        "allowed_doc_ids": [
+          "ohr-academic-label-words",
+          "ohr-law-affiliate",
+          "ohr-manual-macbook-air",
+          "ohr-news-executive-insight",
+          "ohr-textbook-geology"
+        ],
+        "searched_page_count": 100,
+        "candidate_k_per_channel": 20,
+        "rrf_k": 60,
+        "rank_starts_at": 1,
+        "rankings": {
+          "bm25": [
+            {
+              "rank": 1,
+              "chunk_id": "06621d235469b7d1be20d1da",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "Radio and Television Interference"
+              ],
+              "score": 23.54369736
+            },
+            {
+              "rank": 2,
+              "chunk_id": "9f28e5ee94e2380542d6dad8",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "FCC Compliance Statement"
+              ],
+              "score": 19.88258244
+            },
+            {
+              "rank": 3,
+              "chunk_id": "0a35e2c2c4d0ad9d617700da",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 11.36198011
+            },
+            {
+              "rank": 4,
+              "chunk_id": "e1116c62928a6362bd22581d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [],
+              "score": 10.6461133
+            },
+            {
+              "rank": 5,
+              "chunk_id": "ededbd263240e1c9febbbce6",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 10.44907559
+            },
+            {
+              "rank": 6,
+              "chunk_id": "fdd9965fd36d7e2791d0af17",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 9.59509923
+            },
+            {
+              "rank": 7,
+              "chunk_id": "2c1634c16a633c42f214648a",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 21,
+              "section_path": [],
+              "score": 8.52955121
+            },
+            {
+              "rank": 8,
+              "chunk_id": "19b25379d7eb852b7f38ba54",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 7,
+              "section_path": [],
+              "score": 7.65783208
+            },
+            {
+              "rank": 9,
+              "chunk_id": "4b047812c272610f63514b45",
+              "doc_id": "ohr-academic-label-words",
+              "page": 7,
+              "section_path": [],
+              "score": 7.08885933
+            },
+            {
+              "rank": 10,
+              "chunk_id": "a2b746ee9d6f50818f35126d",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 6.74106825
+            },
+            {
+              "rank": 11,
+              "chunk_id": "02480ddb3951b75a11f2c27a",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "Radio and Television Interference"
+              ],
+              "score": 6.73242598
+            },
+            {
+              "rank": 12,
+              "chunk_id": "570c8e52cbebc94177f27f19",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 6.27637581
+            },
+            {
+              "rank": 13,
+              "chunk_id": "8b5d77c87cc0b0ffbc0509b4",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 26,
+              "section_path": [],
+              "score": 5.88038786
+            },
+            {
+              "rank": 14,
+              "chunk_id": "e53a3f4b5c44a261f604696c",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.1 Experiments"
+              ],
+              "score": 5.59553571
+            },
+            {
+              "rank": 15,
+              "chunk_id": "de51545feb10fbbdbc6c54af",
+              "doc_id": "ohr-academic-label-words",
+              "page": 8,
+              "section_path": [
+                "3.3.2 Experiments"
+              ],
+              "score": 5.42732488
+            },
+            {
+              "rank": 16,
+              "chunk_id": "7db13fb4cf522af094eef7b1",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 5.25205771
+            },
+            {
+              "rank": 17,
+              "chunk_id": "228f13238a320940db73f445",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [],
+              "score": 5.03764957
+            },
+            {
+              "rank": 18,
+              "chunk_id": "ea8a1905432bac5294b731f8",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 5.02762267
+            },
+            {
+              "rank": 19,
+              "chunk_id": "a7af07b8e0dbe64d9614bfac",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.2 Experiments"
+              ],
+              "score": 5.01409046
+            },
+            {
+              "rank": 20,
+              "chunk_id": "a9127795bad16d48aff0ba94",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [],
+              "score": 4.96146519
+            }
+          ],
+          "dense": [
+            {
+              "rank": 1,
+              "chunk_id": "06621d235469b7d1be20d1da",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "Radio and Television Interference"
+              ],
+              "score": 0.58449632
+            },
+            {
+              "rank": 2,
+              "chunk_id": "8efa3989308600afd323aec6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "FCC Compliance Statement"
+              ],
+              "score": 0.51575464
+            },
+            {
+              "rank": 3,
+              "chunk_id": "9f28e5ee94e2380542d6dad8",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "FCC Compliance Statement"
+              ],
+              "score": 0.50045025
+            },
+            {
+              "rank": 4,
+              "chunk_id": "e1116c62928a6362bd22581d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [],
+              "score": 0.47623348
+            },
+            {
+              "rank": 5,
+              "chunk_id": "48c33abc348fb0ea6b2a39ba",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [],
+              "score": 0.43228307
+            },
+            {
+              "rank": 6,
+              "chunk_id": "4bada7226480d254325eb21d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 31,
+              "section_path": [
+                "Port hatch"
+              ],
+              "score": 0.4191238
+            },
+            {
+              "rank": 7,
+              "chunk_id": "d67e85ffcd56ae807c624aff",
+              "doc_id": "ohr-academic-label-words",
+              "page": 3,
+              "section_path": [],
+              "score": 0.41714349
+            },
+            {
+              "rank": 8,
+              "chunk_id": "7d72a0ce70182a308d88645c",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 15,
+              "section_path": [
+                "Setting Up DVD or CD Sharing"
+              ],
+              "score": 0.41546366
+            },
+            {
+              "rank": 9,
+              "chunk_id": "936a57b8336d4791968c9f68",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.1 Method"
+              ],
+              "score": 0.41470841
+            },
+            {
+              "rank": 10,
+              "chunk_id": "4698e387d09c98963204f6a7",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [],
+              "score": 0.40845999
+            },
+            {
+              "rank": 11,
+              "chunk_id": "bc49801945bc1cf1d34b126b",
+              "doc_id": "ohr-academic-label-words",
+              "page": 15,
+              "section_path": [],
+              "score": 0.40462095
+            },
+            {
+              "rank": 12,
+              "chunk_id": "955ea2d8af0fa6b8485000e3",
+              "doc_id": "ohr-academic-label-words",
+              "page": 8,
+              "section_path": [
+                "3.3.2 Experiments"
+              ],
+              "score": 0.40369788
+            },
+            {
+              "rank": 13,
+              "chunk_id": "5571b2dc41bafc066fcdbf81",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 8,
+              "section_path": [
+                "Welcome"
+              ],
+              "score": 0.40159148
+            },
+            {
+              "rank": 14,
+              "chunk_id": "de51545feb10fbbdbc6c54af",
+              "doc_id": "ohr-academic-label-words",
+              "page": 8,
+              "section_path": [
+                "3.3.2 Experiments"
+              ],
+              "score": 0.39795539
+            },
+            {
+              "rank": 15,
+              "chunk_id": "dc4d09f31f6754381b93f9a9",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 31,
+              "section_path": [
+                "Port hatch"
+              ],
+              "score": 0.39789239
+            },
+            {
+              "rank": 16,
+              "chunk_id": "536607f01dff9bfa3e97f45d",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [
+                "F.1 Results with More Demonstrations"
+              ],
+              "score": 0.39765361
+            },
+            {
+              "rank": 17,
+              "chunk_id": "fb0f98023429c6ed1c9e45b5",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 9,
+              "section_path": [
+                "What’s in the Box"
+              ],
+              "score": 0.39758536
+            },
+            {
+              "rank": 18,
+              "chunk_id": "228f13238a320940db73f445",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [],
+              "score": 0.39547279
+            },
+            {
+              "rank": 19,
+              "chunk_id": "cd588f456368d7f282c5f49e",
+              "doc_id": "ohr-academic-label-words",
+              "page": 11,
+              "section_path": [
+                "A Experimental Settings"
+              ],
+              "score": 0.39498612
+            },
+            {
+              "rank": 20,
+              "chunk_id": "f52a29e71063affcbf64282f",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [],
+              "score": 0.39352471
+            }
+          ],
+          "rrf": [
+            {
+              "rank": 1,
+              "chunk_id": "06621d235469b7d1be20d1da",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "Radio and Television Interference"
+              ],
+              "score": 0.03278689
+            },
+            {
+              "rank": 2,
+              "chunk_id": "9f28e5ee94e2380542d6dad8",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "FCC Compliance Statement"
+              ],
+              "score": 0.03200205
+            },
+            {
+              "rank": 3,
+              "chunk_id": "e1116c62928a6362bd22581d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [],
+              "score": 0.03125
+            },
+            {
+              "rank": 4,
+              "chunk_id": "de51545feb10fbbdbc6c54af",
+              "doc_id": "ohr-academic-label-words",
+              "page": 8,
+              "section_path": [
+                "3.3.2 Experiments"
+              ],
+              "score": 0.02684685
+            },
+            {
+              "rank": 5,
+              "chunk_id": "228f13238a320940db73f445",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 2,
+              "section_path": [],
+              "score": 0.02580753
+            },
+            {
+              "rank": 6,
+              "chunk_id": "8efa3989308600afd323aec6",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "FCC Compliance Statement"
+              ],
+              "score": 0.01612903
+            },
+            {
+              "rank": 7,
+              "chunk_id": "0a35e2c2c4d0ad9d617700da",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01587302
+            },
+            {
+              "rank": 8,
+              "chunk_id": "48c33abc348fb0ea6b2a39ba",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [],
+              "score": 0.01538462
+            },
+            {
+              "rank": 9,
+              "chunk_id": "ededbd263240e1c9febbbce6",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01538462
+            },
+            {
+              "rank": 10,
+              "chunk_id": "4bada7226480d254325eb21d",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 31,
+              "section_path": [
+                "Port hatch"
+              ],
+              "score": 0.01515152
+            },
+            {
+              "rank": 11,
+              "chunk_id": "fdd9965fd36d7e2791d0af17",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01515152
+            },
+            {
+              "rank": 12,
+              "chunk_id": "2c1634c16a633c42f214648a",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 21,
+              "section_path": [],
+              "score": 0.01492537
+            },
+            {
+              "rank": 13,
+              "chunk_id": "d67e85ffcd56ae807c624aff",
+              "doc_id": "ohr-academic-label-words",
+              "page": 3,
+              "section_path": [],
+              "score": 0.01492537
+            },
+            {
+              "rank": 14,
+              "chunk_id": "19b25379d7eb852b7f38ba54",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 7,
+              "section_path": [],
+              "score": 0.01470588
+            },
+            {
+              "rank": 15,
+              "chunk_id": "7d72a0ce70182a308d88645c",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 15,
+              "section_path": [
+                "Setting Up DVD or CD Sharing"
+              ],
+              "score": 0.01470588
+            },
+            {
+              "rank": 16,
+              "chunk_id": "4b047812c272610f63514b45",
+              "doc_id": "ohr-academic-label-words",
+              "page": 7,
+              "section_path": [],
+              "score": 0.01449275
+            },
+            {
+              "rank": 17,
+              "chunk_id": "936a57b8336d4791968c9f68",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.1 Method"
+              ],
+              "score": 0.01449275
+            },
+            {
+              "rank": 18,
+              "chunk_id": "4698e387d09c98963204f6a7",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [],
+              "score": 0.01428571
+            },
+            {
+              "rank": 19,
+              "chunk_id": "a2b746ee9d6f50818f35126d",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01428571
+            },
+            {
+              "rank": 20,
+              "chunk_id": "02480ddb3951b75a11f2c27a",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 65,
+              "section_path": [
+                "Radio and Television Interference"
+              ],
+              "score": 0.01408451
+            },
+            {
+              "rank": 21,
+              "chunk_id": "bc49801945bc1cf1d34b126b",
+              "doc_id": "ohr-academic-label-words",
+              "page": 15,
+              "section_path": [],
+              "score": 0.01408451
+            },
+            {
+              "rank": 22,
+              "chunk_id": "570c8e52cbebc94177f27f19",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [],
+              "score": 0.01388889
+            },
+            {
+              "rank": 23,
+              "chunk_id": "955ea2d8af0fa6b8485000e3",
+              "doc_id": "ohr-academic-label-words",
+              "page": 8,
+              "section_path": [
+                "3.3.2 Experiments"
+              ],
+              "score": 0.01388889
+            },
+            {
+              "rank": 24,
+              "chunk_id": "5571b2dc41bafc066fcdbf81",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 8,
+              "section_path": [
+                "Welcome"
+              ],
+              "score": 0.01369863
+            },
+            {
+              "rank": 25,
+              "chunk_id": "8b5d77c87cc0b0ffbc0509b4",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 26,
+              "section_path": [],
+              "score": 0.01369863
+            },
+            {
+              "rank": 26,
+              "chunk_id": "e53a3f4b5c44a261f604696c",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [
+                "2.3.1 Experiments"
+              ],
+              "score": 0.01351351
+            },
+            {
+              "rank": 27,
+              "chunk_id": "dc4d09f31f6754381b93f9a9",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 31,
+              "section_path": [
+                "Port hatch"
+              ],
+              "score": 0.01333333
+            },
+            {
+              "rank": 28,
+              "chunk_id": "536607f01dff9bfa3e97f45d",
+              "doc_id": "ohr-academic-label-words",
+              "page": 12,
+              "section_path": [
+                "F.1 Results with More Demonstrations"
+              ],
+              "score": 0.01315789
+            },
+            {
+              "rank": 29,
+              "chunk_id": "7db13fb4cf522af094eef7b1",
+              "doc_id": "ohr-law-affiliate",
+              "page": 1,
+              "section_path": [],
+              "score": 0.01315789
+            },
+            {
+              "rank": 30,
+              "chunk_id": "fb0f98023429c6ed1c9e45b5",
+              "doc_id": "ohr-manual-macbook-air",
+              "page": 9,
+              "section_path": [
+                "What’s in the Box"
+              ],
+              "score": 0.01298701
+            },
+            {
+              "rank": 31,
+              "chunk_id": "ea8a1905432bac5294b731f8",
+              "doc_id": "ohr-law-affiliate",
+              "page": 2,
+              "section_path": [],
+              "score": 0.01282051
+            },
+            {
+              "rank": 32,
+              "chunk_id": "a7af07b8e0dbe64d9614bfac",
+              "doc_id": "ohr-academic-label-words",
+              "page": 6,
+              "section_path": [
+                "3.1.2 Experiments"
+              ],
+              "score": 0.01265823
+            },
+            {
+              "rank": 33,
+              "chunk_id": "cd588f456368d7f282c5f49e",
+              "doc_id": "ohr-academic-label-words",
+              "page": 11,
+              "section_path": [
+                "A Experimental Settings"
+              ],
+              "score": 0.01265823
+            },
+            {
+              "rank": 34,
+              "chunk_id": "a9127795bad16d48aff0ba94",
+              "doc_id": "ohr-news-executive-insight",
+              "page": 11,
+              "section_path": [],
+              "score": 0.0125
+            },
+            {
+              "rank": 35,
+              "chunk_id": "f52a29e71063affcbf64282f",
+              "doc_id": "ohr-academic-label-words",
+              "page": 5,
+              "section_path": [],
+              "score": 0.0125
+            }
+          ]
+        },
+        "hit_at_5_scope": [
+          "06621d235469b7d1be20d1da",
+          "9f28e5ee94e2380542d6dad8",
+          "e1116c62928a6362bd22581d",
+          "de51545feb10fbbdbc6c54af",
+          "228f13238a320940db73f445"
+        ],
+        "retrieved_count": 8,
+        "index_created_at": "2026-10-13T16:21:30.604523+00:00",
+        "index_chunks_sha256": "18f3d8e595e5d5e7a3872da33b3e9a80c247f5f6f4c4648c97b1a2f4371ce3b7",
+        "query": "Under the FCC rules, what digital-device class is specified for this equipment?",
+        "dense_enabled": true
+      },
+      "latency_ms": 124
+    },
+    {
+      "name": "doc_answer",
+      "status": "ok",
+      "input_summary": {
+        "evidence_count": 8
+      },
+      "output_summary": {
+        "status": "SUCCEEDED",
+        "citation_ids": [
+          "E1"
+        ]
+      },
+      "latency_ms": 2759
+    },
+    {
+      "name": "rag_generate",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "evidence_count": 8
+      },
+      "output_summary": {
+        "status": "SUCCEEDED",
+        "citation_ids": [
+          "E1"
+        ]
+      },
+      "latency_ms": 2759
+    },
+    {
+      "name": "llm",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "model": "deepseek-flash"
+      },
+      "output_summary": {
+        "provider_capture": "eval/artifacts/d4/rag-scale-live-001/provider/14a02d2206284e6fbc80b91753777db5.json",
+        "model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 43,
+          "prompt_tokens": 1541,
+          "total_tokens": 1584,
+          "completion_tokens_details": null,
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cache_write_tokens": null,
+            "cached_tokens": 768
+          },
+          "prompt_cache_hit_tokens": 768,
+          "prompt_cache_miss_tokens": 773
+        },
+        "json_valid": true
+      },
+      "latency_ms": 1779
+    },
+    {
+      "name": "rag_validate",
+      "status": "ok",
+      "input_summary": {
+        "attempt": 1,
+        "checks": [
+          "citation_membership",
+          "inline_ids",
+          "cited_numbers",
+          "explicit_research_attributions"
+        ]
+      },
+      "output_summary": {
+        "passed": true,
+        "status": "SUCCEEDED",
+        "used_evidence_ids": [
+          "E1"
+        ],
+        "citation_coverage": {
+          "potential_uncited_statement_count": 0,
+          "potential_uncited_statements": [],
+          "mode": "heuristic_warning_only",
+          "semantic_claim_coverage": "requires_human_review"
+        },
+        "semantic_faithfulness": "requires_human_review"
+      },
+      "latency_ms": 0
+    }
+  ],
+  "cost": {
+    "raw_step_ms": {
+      "retrieve": 124,
+      "doc_answer": 2759,
+      "rag_generate": 2759,
+      "llm": 1779,
+      "rag_validate": 0
+    },
+    "stages_ms": {
+      "nlu": 0,
+      "value_link": 0,
+      "schema_selection": 0,
+      "sql_generation": 0,
+      "sql_execution": 0,
+      "retrieval": 124,
+      "answer_generation": 2759
+    },
+    "model_attempts": {
+      "other": 1,
+      "all": 1
+    },
+    "usage": {
+      "prompt_tokens": 1541,
+      "other_prompt_tokens": 1541,
+      "completion_tokens": 43,
+      "other_completion_tokens": 43,
+      "total_tokens": 1584,
+      "other_total_tokens": 1584
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "duration_warning": "嵌套步骤有重叠；端到端实测独立计时，不将所有step相加"
+  },
+  "elapsed_ms": 2883.556
+}

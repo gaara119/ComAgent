@@ -45,6 +45,7 @@ def generate_sql(
     intent: IntentContract | None = None,
     bindings: list[dict] | None = None,
     allow_joins: bool = False,
+    context: dict | None = None,
 ) -> SQLGeneration:
     prompt = {
         "question": question,
@@ -54,6 +55,8 @@ def generate_sql(
         prompt["intent"] = intent.model_dump(mode="json")
     if bindings:
         prompt["verified_value_bindings"] = bindings
+    if context:
+        prompt["verified_fusion_context"] = context
     if previous_sql is not None:
         prompt["previous_sql"] = previous_sql
         prompt["technical_error"] = error or "SQL 需要技术修复"

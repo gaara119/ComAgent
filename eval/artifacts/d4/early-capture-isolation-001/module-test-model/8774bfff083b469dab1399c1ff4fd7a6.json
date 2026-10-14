@@ -1,0 +1,58 @@
+{
+  "trace_id": "fc84f6ea-3529-4bfc-a40c-dae137252203",
+  "attempt": 1,
+  "request": {
+    "model": "deepseek-flash",
+    "messages": [
+      {
+        "role": "system",
+        "content": "prompt\n只输出一个 JSON 对象，不输出 Markdown。字段遵守以下 JSON Schema：\n{\"properties\": {\"ok\": {\"title\": \"Ok\", \"type\": \"boolean\"}}, \"required\": [\"ok\"], \"title\": \"Probe\", \"type\": \"object\"}"
+      },
+      {
+        "role": "user",
+        "content": "question"
+      }
+    ],
+    "response_format": {
+      "type": "json_object"
+    },
+    "max_tokens": 2048,
+    "extra_body": {
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "response": {
+    "id": "chatcmpl-test",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "{\"ok\":true}",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 0,
+    "model": "test-model",
+    "object": "chat.completion",
+    "moderation": null,
+    "service_tier": null,
+    "system_fingerprint": null,
+    "usage": {
+      "completion_tokens": 3,
+      "prompt_tokens": 10,
+      "total_tokens": 13,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

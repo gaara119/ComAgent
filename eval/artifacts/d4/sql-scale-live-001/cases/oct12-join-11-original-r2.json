@@ -1,0 +1,584 @@
+{
+  "id": "oct12-join-11",
+  "scale": "original",
+  "schema": "public",
+  "repetition": 2,
+  "split": "dev",
+  "request": {
+    "session_id": "d4-scale-e5d651a3cb124930b773a2c5c22f1ff8-oct12-join-11",
+    "message": "账单国家是France的发票一共买了多少首Rock流派的曲目？按购买数量计。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "c431dd9a-1736-4563-911d-011324374a4c",
+    "status": "SUCCEEDED",
+    "answer": "查询结果：65。",
+    "rewritten_question": null,
+    "sql": "SELECT SUM(invoice_line.quantity) AS total_quantity FROM \"public\".\"invoice\" JOIN \"public\".\"invoice_line\" ON \"invoice\".\"invoice_id\" = \"invoice_line\".\"invoice_id\" JOIN \"public\".\"track\" ON \"invoice_line\".\"track_id\" = \"track\".\"track_id\" JOIN \"public\".\"genre\" ON \"track\".\"genre_id\" = \"genre\".\"genre_id\" WHERE \"invoice\".\"billing_country\" = 'France' AND \"genre\".\"name\" = 'Rock'",
+    "table": [
+      {
+        "total_quantity": 65
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [
+        {
+          "column": "invoice.billing_country",
+          "operator": "=",
+          "value": "France",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "v-da1995626f6b421035ba",
+          "source": "verified_value_index",
+          "scope_evidence": "explicit_user_country_scope"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 18
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 2,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "France",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "v-da1995626f6b421035ba",
+              "source": "verified_value_index"
+            }
+          ],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 14
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "France"
+        },
+        "output_summary": {
+          "candidate_count": 1,
+          "candidate_ids": [
+            "v-da1995626f6b421035ba"
+          ],
+          "scores": [
+            1.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_exact",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-2",
+          "original_text": "Rock"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_pinyin",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-2",
+          "original_text": "Rock"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_fuzzy",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-2",
+          "original_text": "Rock"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link_vector",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-2",
+          "original_text": "Rock"
+        },
+        "output_summary": {
+          "candidate_count": 0,
+          "candidate_ids": [],
+          "scores": []
+        },
+        "latency_ms": 12
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "账单国家是France的发票一共买了多少首Rock流派的曲目？按购买数量计。"
+        },
+        "output_summary": {
+          "rewritten_question": "账单国家是France的发票一共买了多少首Rock流派的曲目？按购买数量计。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 7
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "账单国家是France的发票一共买了多少首Rock流派的曲目？按购买数量计。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": null, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"invoice.billing_country\", \"filters\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"France\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"v-da1995626f6b421035ba\", \"source\": \"verified_value_index\", \"scope_evidence\": \"explicit_user_country_scope\"}], \"assumptions\": []}",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(invoice_line.quantity) AS total_quantity FROM \"public\".\"invoice\" JOIN \"public\".\"invoice_line\" ON \"invoice\".\"invoice_id\" = \"invoice_line\".\"invoice_id\" JOIN \"public\".\"track\" ON \"invoice_line\".\"track_id\" = \"track\".\"track_id\" JOIN \"public\".\"genre\" ON \"track\".\"genre_id\" = \"genre\".\"genre_id\" WHERE \"invoice\".\"billing_country\" = 'France' AND \"genre\".\"name\" = 'Rock'",
+          "explanation": "按发票账单国家为 France（invoice.billing_country）并限定曲目流派为 Rock（genre.name），对发票明细的购买数量 invoice_line.quantity 求和，返回购买数量合计。"
+        },
+        "latency_ms": 3707
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/d4/sql-scale-live-001/provider/aae20a7a28324e2b90a239d83353465d.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 208,
+            "prompt_tokens": 5778,
+            "total_tokens": 5986,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 5632
+            },
+            "prompt_cache_hit_tokens": 5632,
+            "prompt_cache_miss_tokens": 146
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2784
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(invoice_line.quantity) AS total_quantity FROM \"public\".\"invoice\" JOIN \"public\".\"invoice_line\" ON \"invoice\".\"invoice_id\" = \"invoice_line\".\"invoice_id\" JOIN \"public\".\"track\" ON \"invoice_line\".\"track_id\" = \"track\".\"track_id\" JOIN \"public\".\"genre\" ON \"track\".\"genre_id\" = \"genre\".\"genre_id\" WHERE \"invoice\".\"billing_country\" = 'France' AND \"genre\".\"name\" = 'Rock'"
+        },
+        "output_summary": {
+          "tables": [
+            "genre",
+            "invoice",
+            "invoice_line",
+            "track"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(invoice_line.quantity) AS total_quantity FROM \"public\".\"invoice\" JOIN \"public\".\"invoice_line\" ON \"invoice\".\"invoice_id\" = \"invoice_line\".\"invoice_id\" JOIN \"public\".\"track\" ON \"invoice_line\".\"track_id\" = \"track\".\"track_id\" JOIN \"public\".\"genre\" ON \"track\".\"genre_id\" = \"genre\".\"genre_id\" WHERE \"invoice\".\"billing_country\" = 'France' AND \"genre\".\"name\" = 'Rock'"
+        },
+        "latency_ms": 5
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "France",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "v-da1995626f6b421035ba",
+              "source": "verified_value_index",
+              "scope_evidence": "explicit_user_country_scope"
+            }
+          ],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(invoice_line.quantity) AS total_quantity FROM \"public\".\"invoice\" JOIN \"public\".\"invoice_line\" ON \"invoice\".\"invoice_id\" = \"invoice_line\".\"invoice_id\" JOIN \"public\".\"track\" ON \"invoice_line\".\"track_id\" = \"track\".\"track_id\" JOIN \"public\".\"genre\" ON \"track\".\"genre_id\" = \"genre\".\"genre_id\" WHERE \"invoice\".\"billing_country\" = %(qa_value_0)s AND \"genre\".\"name\" = %(qa_value_1)s",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 1,
+          "columns": [
+            "total_quantity"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 33
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 3790,
+      "nlu": {
+        "original_question": "账单国家是France的发票一共买了多少首Rock流派的曲目？按购买数量计。",
+        "rewritten_question": "账单国家是France的发票一共买了多少首Rock流派的曲目？按购买数量计。",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "France",
+            "span": [
+              5,
+              11
+            ],
+            "status": "resolved",
+            "field_candidates": [
+              "invoice.billing_country"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-da1995626f6b421035ba",
+                "column": "invoice.billing_country",
+                "standard_value": "France",
+                "surface": "France",
+                "score": 1.0,
+                "source": "catalog:invoice.billing_country",
+                "evidence_ref": "v-da1995626f6b421035ba",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": "v-da1995626f6b421035ba",
+            "match_method": "exact",
+            "evidence_ref": "v-da1995626f6b421035ba",
+            "canonical_value": "France",
+            "column": "invoice.billing_country",
+            "stages": [
+              {
+                "method": "exact",
+                "minimum_score": 0.0,
+                "candidates": [
+                  {
+                    "candidate_id": "v-da1995626f6b421035ba",
+                    "column": "invoice.billing_country",
+                    "standard_value": "France",
+                    "surface": "France",
+                    "score": 1.0,
+                    "source": "catalog:invoice.billing_country",
+                    "evidence_ref": "v-da1995626f6b421035ba",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": null
+          },
+          {
+            "mention_id": "mention-2",
+            "original_text": "Rock",
+            "span": [
+              21,
+              25
+            ],
+            "status": "unmatched",
+            "field_candidates": [
+              "invoice.billing_country"
+            ],
+            "candidates": [],
+            "selected_candidate_id": null,
+            "match_method": null,
+            "evidence_ref": null,
+            "canonical_value": null,
+            "column": null,
+            "stages": [
+              {
+                "method": "exact",
+                "minimum_score": 0.0,
+                "candidates": []
+              },
+              {
+                "method": "pinyin",
+                "minimum_score": 0.0,
+                "candidates": []
+              },
+              {
+                "method": "fuzzy",
+                "minimum_score": 0.6,
+                "candidates": []
+              },
+              {
+                "method": "vector",
+                "minimum_score": 0.65,
+                "candidates": []
+              }
+            ],
+            "guard_source": null
+          }
+        ],
+        "bindings": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "France",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "v-da1995626f6b421035ba",
+            "source": "verified_value_index"
+          }
+        ],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": "invoice.billing_country",
+        "derived": {},
+        "invalidated": [],
+        "semantic_contract": {
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": null,
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": "invoice.billing_country",
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "France",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "v-da1995626f6b421035ba",
+              "source": "verified_value_index",
+              "scope_evidence": "explicit_user_country_scope"
+            }
+          ],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {}
+        },
+        "patch_history": [],
+        "invalidated_execution": [],
+        "switch": null
+      },
+      "result_columns": [
+        "total_quantity"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "cost": {
+    "raw_step_ms": {
+      "route": 0,
+      "config_check": 0,
+      "catalog": 18,
+      "requested_source_check": 0,
+      "value_link": 14,
+      "value_link_exact": 0,
+      "value_link_pinyin": 0,
+      "value_link_fuzzy": 0,
+      "value_link_vector": 12,
+      "rewrite": 0,
+      "clarification_gate": 7,
+      "sql_gen": 3707,
+      "llm": 2784,
+      "sql_validate": 5,
+      "sql_binding_validate": 1,
+      "sql_exec": 33,
+      "answer": 0
+    },
+    "stages_ms": {
+      "model_calls": 2784,
+      "nlu": 7,
+      "value_link": 14,
+      "schema_selection": 0,
+      "sql_generation": 3707,
+      "sql_execution": 33,
+      "retrieval": 0,
+      "answer_generation": 0
+    },
+    "model_attempts": {
+      "sql_generation": 1,
+      "all": 1
+    },
+    "usage": {
+      "prompt_tokens": 5778,
+      "sql_generation_prompt_tokens": 5778,
+      "completion_tokens": 208,
+      "sql_generation_completion_tokens": 208,
+      "total_tokens": 5986,
+      "sql_generation_total_tokens": 5986
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "duration_warning": "嵌套步骤有重叠；端到端实测独立计时，不将所有step相加"
+  },
+  "matched": true,
+  "legacy_matched": true,
+  "comparison": {
+    "matched": true,
+    "reason": "equal",
+    "column_mapping": [
+      0
+    ]
+  },
+  "legacy_comparison": {
+    "matched": true,
+    "reason": "equal",
+    "column_mapping": [
+      0
+    ]
+  },
+  "failure_category": null,
+  "executed_source_tables": [
+    [
+      "genre",
+      "invoice",
+      "invoice_line",
+      "track"
+    ]
+  ],
+  "elapsed_ms": 3791.499
+}

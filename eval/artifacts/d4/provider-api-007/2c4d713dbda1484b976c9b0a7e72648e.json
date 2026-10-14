@@ -1,0 +1,64 @@
+{
+  "trace_id": "2c32400f-6d9c-4d6d-bb9b-674db2d3729f",
+  "attempt": 1,
+  "request": {
+    "model": "deepseek-flash",
+    "messages": [
+      {
+        "role": "system",
+        "content": "将用户本次补充或修改转换为语义意图补丁，只输出严格 PatchResponse JSON。\n输入 current_intent 是此前保存的条件，current_card 是当前需要用户说明的条件。你只能解析实际用户消息中的信息。\n先核对 current_card.issues 中实际询问的 field，再判断本次用户文字回答了哪个字段。问题同时列出多个缺项，不等于用户已经回答全部缺项；只输出本次有原文依据的补丁，未回答的缺项继续保持原状态。没有当前卡片时仍只表达本次明确修改，不重新生成完整意图。\nnumerator 和 denominator 是两个独立的字符串范围描述，不能用全局地区或普通筛选补丁代替。当前询问比例分子或分母，而用户答复其中一个范围时，使用 set 对应的 numerator 或 denominator，value 为保留对象、指标、范围和本次明确条件的短字符串；未说明另一个范围就不输出另一个补丁。字符串保留用户对客户所在地或账单所在地的明确区分，标准值只来自已核验绑定。分子内部的国家、对象或其他局部限制不能自动提升为全局 filters 或 region_scope，否则会同时改变用户还没有修改的分母。只有用户另行明确修改整个查询的地区归属或全局范围，才输出对应全局补丁。\n补丁 op 只能 set/add/remove；path 只允许字段：task_type、metric、time_scope、comparison、numerator、denominator、rank_object、top_n、order、region_scope、region_ambiguous、scope_missing、time_ambiguous、conflicts、grouping、filters。不能更改 assumptions/default_assumptions 或审核依据，这些由程序管理。\n保持用户没有修改的地区、时期、指标和对象。不能输出整个猜测的新问题，不能补最大年份、完整年度或未知对象；无真实修改则 patches=[]。\n每个补丁 evidence 是用户本次原文连续片段。set 替换字段；add/remove 只用于列表条件。filters 若修改地区，保留现有不相关过滤条件，仅替换同一国家字段的旧值。\nfilters 的单项使用真实 column、operator、value 键，不能另造 field、op 等键。匹配到一个合法值只证明该值可引用，不证明它应当成为整个查询的筛选；先核对它在本次句子中是全局条件、比例分子条件还是比例分母条件。回答当前缺项不能顺带改 task_type、comparison、已确认期间或其它未被本次文字修改的字段。\n真实筛选值只能来自 verified_value_bindings 或 current_card 的候选；用户没有确定候选时不强制选择。用户明确标准英文名称可使用候选中的相同标准值；只给“摇滚”仍有 Rock/Rock And Roll 歧义。\n改年份或月份时 path 只写顶层 time_scope，value={\"current\":{\"start\":\"明确日期\",\"end\":\"不含的结束日期\",\"grain\":\"year|month|custom\"}}；不把 time_scope.current 或 time_scope.current.start 写成 path。旧推导基期不沿用，由后续规则重新推导。改指标时保留期间与地区；改国家时保留 metric 与 time_scope。\n指标 ID：invoice_revenue、detail_revenue、purchased_quantity、playlist_memberships、average_invoice_amount、repeat_customer_count、customer_count、track_count、invoice_count、record_count。invoice_count=COUNT(invoice.invoice_id)，只用于发票张数；不能把金额与计数混用。用户明确“按销售额”且对象曲目时 detail_revenue；对象发票或客户金额时 invoice_revenue。\n“改成流派 Metal”等明确替换对象时，只替换旧对象的名称筛选，保留期间、指标和独立国家条件；不要把替换对象当作增加两个对象的交集，也不要无关地修改国家。\n国家字段 customer.country 表示客户所在地；invoice.billing_country 表示账单国家，不能自行互换。只有用户本次明确切换这两个归属时，region_scope 写实际目标字段，国家值沿用已确认值并保留其它筛选；选择一个地区归属应同时把 region_ambiguous=false。地区归属切换只需 set region_scope，不输出 remove filters；程序负责把已确认国家值迁移到目标字段，不能把切换归属理解为取消国家筛选。\n用户明确说删除筛选才删除；不能因为新国家替换而删除年份、指标、其它对象。只输出补丁及原文依据，不输出隐藏思维链。\n\n只输出一个 JSON 对象，不输出 Markdown。字段遵守以下 JSON Schema：\n{\"$defs\": {\"IntentPatch\": {\"additionalProperties\": false, \"properties\": {\"op\": {\"enum\": [\"set\", \"add\", \"remove\"], \"title\": \"Op\", \"type\": \"string\"}, \"path\": {\"title\": \"Path\", \"type\": \"string\"}, \"value\": {\"default\": null, \"title\": \"Value\"}, \"evidence\": {\"default\": \"\", \"title\": \"Evidence\", \"type\": \"string\"}}, \"required\": [\"op\", \"path\"], \"title\": \"IntentPatch\", \"type\": \"object\"}}, \"additionalProperties\": false, \"properties\": {\"patches\": {\"items\": {\"$ref\": \"#/$defs/IntentPatch\"}, \"title\": \"Patches\", \"type\": \"array\"}}, \"title\": \"PatchResponse\", \"type\": \"object\"}"
+      },
+      {
+        "role": "user",
+        "content": "{\"message\": \"分子换成德国居住客户的销售额。\", \"current_intent\": {\"task_type\": \"ratio\", \"metric\": \"invoice_revenue\", \"time_scope\": {\"current\": {\"start\": \"2023-01-01\", \"end\": \"2024-01-01\", \"label\": \"2023年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": \"2023年巴西居住客户的销售额占当年全部发票金额的比例\", \"denominator\": \"2023年全部发票金额\", \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"customer.country\", \"region_ambiguous\": false, \"scope_missing\": false, \"time_ambiguous\": false, \"conflicts\": [], \"grouping\": [], \"filters\": [{\"column\": \"customer.country\", \"operator\": \"=\", \"value\": \"Brazil\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"a-cf1b483ec6900d1a\", \"source\": \"verified_value_index\", \"scope_evidence\": \"explicit_user_country_scope\", \"binding_scope\": \"numerator\"}], \"assumptions\": [], \"default_assumptions\": [], \"evidence_spans\": {\"numerator\": \"巴西居住客户的销售额\", \"denominator\": \"当年全部发票金额\", \"time_scope\": \"2023年\", \"region_scope\": \"巴西居住客户\", \"filters\": \"巴西居住客户\"}}, \"current_card\": {}, \"verified_value_bindings\": [{\"column\": \"customer.country\", \"operator\": \"=\", \"value\": \"Germany\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"a-e4d835eae26ef07e\", \"source\": \"verified_value_index\"}]}"
+      }
+    ],
+    "response_format": {
+      "type": "json_object"
+    },
+    "max_tokens": 2048,
+    "extra_body": {
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "response": {
+    "id": "85103094-a314-4f4b-aae4-d585725f9a0f",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "{\"patches\":[{\"op\":\"set\",\"path\":\"numerator\",\"value\":\"2023年德国居住客户的销售额占当年全部发票金额的比例\",\"evidence\":\"分子换成德国居住客户的销售额。\"}]}",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1791946135,
+    "model": "deepseek-flash",
+    "object": "chat.completion",
+    "moderation": null,
+    "service_tier": null,
+    "system_fingerprint": "aeb56401ca74e127821c4f9126dcb669",
+    "usage": {
+      "completion_tokens": 41,
+      "prompt_tokens": 1563,
+      "total_tokens": 1604,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cache_write_tokens": null,
+        "cached_tokens": 1280
+      },
+      "prompt_cache_hit_tokens": 1280,
+      "prompt_cache_miss_tokens": 283
+    }
+  }
+}

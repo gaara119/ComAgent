@@ -1,0 +1,23 @@
+{
+  "id": "oct12-join-01",
+  "scale": "10000",
+  "sql": "SELECT COUNT(*) AS album_count FROM d4_stress_10000.album AS a JOIN d4_stress_10000.artist AS r ON a.artist_id = r.artist_id WHERE r.name = 'Metallica'",
+  "result": {
+    "columns": [
+      "album_count"
+    ],
+    "rows": [
+      [
+        10
+      ]
+    ],
+    "table": [
+      {
+        "album_count": 10
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "system_prediction": false
+}

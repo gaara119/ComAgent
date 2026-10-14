@@ -193,6 +193,7 @@ def verify_resume(state: SessionState, clarification_id: str | None,
 
 def apply_patches(state: SessionState, patches: list[IntentPatch], *, user_message: str) -> None:
     payload = state.analysis.model_dump()
+    previous_filters=[dict(item) for item in state.bindings]
     original_columns={item.get('column') for item in state.bindings}
     if (any(patch.path=='region_scope' for patch in patches) and
         len(original_columns & {'invoice.billing_country','customer.country'})>1):
@@ -224,6 +225,22 @@ def apply_patches(state: SessionState, patches: list[IntentPatch], *, user_messa
         actual.append(patch.model_dump())
     if actual:
         if any(patch.path=="metric" for patch in patches):
+            # In a ranking, the ordinary primary sort is derived from the
+            # chosen measure. The observed DEV contract changed metric to
+            # detail_revenue but retained order.field=purchased_quantity.
+            # Update only an old metric-ID reference, preserving direction and
+            # tie-breakers. An explicit independent order edit remains intact.
+            if (payload.get('task_type')=='ranking' and payload.get('order') and
+                    not any(patch.path=='order' for patch in patches) and
+                    payload.get('metric')!=state.analysis.metric):
+                order=dict(payload['order'])
+                changed=False
+                for key in ('field','by','metric'):
+                    if order.get(key)==state.analysis.metric:
+                        order[key]=payload['metric'];changed=True
+                if changed:
+                    payload['order']=order
+                    invalidated.update({'order','result'})
             # Confirmed old choices belong in history, not in the current
             # assumptions after a free-text metric change. A trusted card
             # supplies the new current confirmation in its assumptions patch.
@@ -269,7 +286,8 @@ def apply_patches(state: SessionState, patches: list[IntentPatch], *, user_messa
         state.invalidated = sorted(invalidated)
         state.history.append({"event": "patch", "patches": actual,
                               "intent_version": state.intent.intent_version, "invalidated": state.invalidated})
-        state.resolutions.append({"message": user_message, "patches": actual})
+        state.resolutions.append({"message": user_message, "patches": actual,
+                                  "previous_filters":previous_filters})
     state.pending_card = None
     state.switch_card = None
     transition(state, "CHECKING")

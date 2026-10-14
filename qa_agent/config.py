@@ -58,6 +58,7 @@ class Settings:
     aw_db_url: str = field(default="", repr=False)
     aw_catalog_path: Path = PROJECT_ROOT / "data/catalog/adventureworks.yaml"
     aw_schema_index_path: Path = PROJECT_ROOT / "data/indexes/schema-aw-d3-v2"
+    aw_schema_mode: str = "subgraph"
     rag_manifest_path: Path = PROJECT_ROOT / "data/docs/manifest.csv"
     rag_index_path: Path = PROJECT_ROOT / "data/processed/rag/ohr"
     bge_model_path: Path = PROJECT_ROOT / "data/models/bge-m3"
@@ -95,6 +96,7 @@ class Settings:
             "aw_configured": bool(self.aw_db_url),
             "aw_catalog_exists": self.aw_catalog_path.is_file(),
             "aw_schema_index_exists": self.aw_schema_index_path.is_dir(),
+            "aw_schema_mode": self.aw_schema_mode,
         }
 
 
@@ -128,6 +130,7 @@ def get_settings() -> Settings:
         aw_db_url=os.getenv("AW_DB_URL", ""),
         aw_catalog_path=_project_path("AW_CATALOG_PATH", "data/catalog/adventureworks.yaml"),
         aw_schema_index_path=_project_path("AW_SCHEMA_INDEX_PATH", "data/indexes/schema-aw-d3-v2"),
+        aw_schema_mode=os.getenv("AW_SCHEMA_MODE", "subgraph"),
         rag_manifest_path=_project_path("RAG_MANIFEST_PATH", "data/docs/manifest.csv"),
         rag_index_path=_project_path("RAG_INDEX_PATH", "data/processed/rag/ohr"),
         bge_model_path=_project_path("BGE_MODEL_PATH", "data/models/bge-m3"),

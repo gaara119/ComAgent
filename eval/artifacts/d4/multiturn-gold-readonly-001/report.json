@@ -1,0 +1,1103 @@
+{
+  "state": "COMPLETED",
+  "created_at_utc": "2026-10-13T16:39:07.925857+00:00",
+  "reference_count": 39,
+  "executed_readonly": 39,
+  "statement_timeout_ms": 5000,
+  "model_calls": 0,
+  "system_predictions": 0,
+  "held_queries": 0,
+  "records": [
+    {
+      "id": "sp03-26:final",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+      "validated_sql": "SELECT (SUM(CASE WHEN invoice_date >= CAST('2024-01-01' AS DATE) AND invoice_date < CAST('2025-01-01' AS DATE) THEN total END) - SUM(CASE WHEN invoice_date >= CAST('2023-01-01' AS DATE) AND invoice_date < CAST('2024-01-01' AS DATE) THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= CAST('2023-01-01' AS DATE) AND invoice_date < CAST('2024-01-01' AS DATE) THEN total END), 0) AS yoy_growth_rate FROM public.invoice",
+      "sql_sha256": "655ea29f6b717febd96029bb93ce9e37301bf313be2867bb5e8dc0c537e8e30c",
+      "columns": [
+        "yoy_growth_rate"
+      ],
+      "rows": [
+        [
+          "0.01693002257336343115"
+        ]
+      ],
+      "table": [
+        {
+          "yoy_growth_rate": "0.01693002257336343115"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 24.3874000152573
+    },
+    {
+      "id": "sp03-26:post-1",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2025-01-01' AND invoice_date < DATE '2026-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+      "validated_sql": "SELECT (SUM(CASE WHEN invoice_date >= CAST('2025-01-01' AS DATE) AND invoice_date < CAST('2026-01-01' AS DATE) THEN total END) - SUM(CASE WHEN invoice_date >= CAST('2024-01-01' AS DATE) AND invoice_date < CAST('2025-01-01' AS DATE) THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= CAST('2024-01-01' AS DATE) AND invoice_date < CAST('2025-01-01' AS DATE) THEN total END), 0) AS yoy_growth_rate FROM public.invoice",
+      "sql_sha256": "a6679db690fb6c0af688cfa61d57c3f02cb36048c8b511191dd1797d967bb064",
+      "columns": [
+        "yoy_growth_rate"
+      ],
+      "rows": [
+        [
+          "-0.05643624484325592109"
+        ]
+      ],
+      "table": [
+        {
+          "yoy_growth_rate": "-0.05643624484325592109"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 41.67890001554042
+    },
+    {
+      "id": "sp03-26:post-2",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT (AVG(CASE WHEN invoice_date >= DATE '2025-01-01' AND invoice_date < DATE '2026-01-01' THEN total END) - AVG(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END)) / NULLIF(AVG(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+      "validated_sql": "SELECT (AVG(CASE WHEN invoice_date >= CAST('2025-01-01' AS DATE) AND invoice_date < CAST('2026-01-01' AS DATE) THEN total END) - AVG(CASE WHEN invoice_date >= CAST('2024-01-01' AS DATE) AND invoice_date < CAST('2025-01-01' AS DATE) THEN total END)) / NULLIF(AVG(CASE WHEN invoice_date >= CAST('2024-01-01' AS DATE) AND invoice_date < CAST('2025-01-01' AS DATE) THEN total END), 0) AS yoy_growth_rate FROM public.invoice",
+      "sql_sha256": "2673c408e5ea80fe21fa40b8d72e4c7c03164f743c4598b0c79b6460f3f0fb42",
+      "columns": [
+        "yoy_growth_rate"
+      ],
+      "rows": [
+        [
+          "-0.02105260402487801567"
+        ]
+      ],
+      "table": [
+        {
+          "yoy_growth_rate": "-0.02105260402487801567"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 15.786800009664148
+    },
+    {
+      "id": "sp03-27:final",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';",
+      "validated_sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE)",
+      "sql_sha256": "18a46391386cb049ef654c0efbf4d7e0060d26f23df835434b1b3e7adaf9b70b",
+      "columns": [
+        "share"
+      ],
+      "rows": [
+        [
+          "0.04216533923932024362"
+        ]
+      ],
+      "table": [
+        {
+          "share": "0.04216533923932024362"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 15.789700031746179
+    },
+    {
+      "id": "sp03-27:post-1",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';",
+      "validated_sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE)",
+      "sql_sha256": "e08da98242abc2afe81d34deeb60a0722c19b119eaf5b70d0f570ffdc835e7ce",
+      "columns": [
+        "share"
+      ],
+      "rows": [
+        [
+          "0.10343285489160526428"
+        ]
+      ],
+      "table": [
+        {
+          "share": "0.10343285489160526428"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 15.594500000588596
+    },
+    {
+      "id": "sp03-27:post-2",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total END) / NULLIF(SUM(CASE WHEN i.billing_country = 'Germany' THEN i.total END), 0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';",
+      "validated_sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total END) / NULLIF(SUM(CASE WHEN i.billing_country = 'Germany' THEN i.total END), 0) AS share FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE)",
+      "sql_sha256": "0b8812c54921b35e9685332efe9d5a8d0941174b47db4646fb2710501a6cbffe",
+      "columns": [
+        "share"
+      ],
+      "rows": [
+        [
+          "1.00000000000000000000"
+        ]
+      ],
+      "table": [
+        {
+          "share": "1.00000000000000000000"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 33.68440002668649
+    },
+    {
+      "id": "sp03-28:final",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(il.unit_price * il.quantity) AS artist_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.album al ON t.album_id = al.album_id JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE ar.name = 'Metallica' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+      "validated_sql": "SELECT SUM(il.unit_price * il.quantity) AS artist_revenue FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id JOIN public.album AS al ON t.album_id = al.album_id JOIN public.artist AS ar ON al.artist_id = ar.artist_id WHERE ar.name = 'Metallica' AND i.invoice_date >= CAST('2022-01-01' AS DATE) AND i.invoice_date < CAST('2023-01-01' AS DATE)",
+      "sql_sha256": "56a6cf96952a8ae337bb6746ab918aa3759eacedf751bffdc6da2e8f260b7cb2",
+      "columns": [
+        "artist_revenue"
+      ],
+      "rows": [
+        [
+          "22.77"
+        ]
+      ],
+      "table": [
+        {
+          "artist_revenue": "22.77"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 33.07999996468425
+    },
+    {
+      "id": "sp03-28:post-1",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+      "validated_sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id JOIN public.genre AS g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= CAST('2022-01-01' AS DATE) AND i.invoice_date < CAST('2023-01-01' AS DATE)",
+      "sql_sha256": "28f1b743c3c352091633eb5c6247abb894548bfd2006a1d3ceb18fc0fa1fbdac",
+      "columns": [
+        "genre_revenue"
+      ],
+      "rows": [
+        [
+          "53.46"
+        ]
+      ],
+      "table": [
+        {
+          "genre_revenue": "53.46"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 28.122799994889647
+    },
+    {
+      "id": "sp03-28:post-2",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' AND i.billing_country = 'Germany';",
+      "validated_sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON il.track_id = t.track_id JOIN public.genre AS g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) AND i.billing_country = 'Germany'",
+      "sql_sha256": "75a51c42d86f41a578bfbb9fd50d4be413639a26045100970e78567df4e662ae",
+      "columns": [
+        "genre_revenue"
+      ],
+      "rows": [
+        [
+          "5.94"
+        ]
+      ],
+      "table": [
+        {
+          "genre_revenue": "5.94"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 30.3004999877885
+    },
+    {
+      "id": "d4-dialog-01:turn-1",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(i.total) AS value FROM public.invoice i WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' AND i.billing_country='USA'",
+      "validated_sql": "SELECT SUM(i.total) AS value FROM public.invoice AS i WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) AND i.billing_country = 'USA'",
+      "sql_sha256": "9b0c40d52ee18bce6dcc838d477fb2646ac7e99c86af2f35c1ed7fae1d62495e",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "103.01"
+        ]
+      ],
+      "table": [
+        {
+          "value": "103.01"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 14.903699979186058
+    },
+    {
+      "id": "d4-dialog-01:turn-2",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(i.total) AS value FROM public.invoice i WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' AND i.billing_country='Canada'",
+      "validated_sql": "SELECT SUM(i.total) AS value FROM public.invoice AS i WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) AND i.billing_country = 'Canada'",
+      "sql_sha256": "7d58c6fb4de7a8b463918540f187c8e0c5c50cdf9a9e47eb90e30406626d71ae",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "55.44"
+        ]
+      ],
+      "table": [
+        {
+          "value": "55.44"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 14.83990001725033
+    },
+    {
+      "id": "d4-dialog-01:turn-3",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT COUNT(i.invoice_id) AS value FROM public.invoice i WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' AND i.billing_country='Canada'",
+      "validated_sql": "SELECT COUNT(i.invoice_id) AS value FROM public.invoice AS i WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) AND i.billing_country = 'Canada'",
+      "sql_sha256": "acf7ac9c1a6f6360f38d0d6d5e7b10afeeb9d4f89b0e89f1e9c2d9ca914d60a3",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          11
+        ]
+      ],
+      "table": [
+        {
+          "value": 11
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 15.87100001052022
+    },
+    {
+      "id": "d4-dialog-01:turn-4",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT COUNT(i.invoice_id) AS value FROM public.invoice i WHERE i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' AND i.billing_country='Canada'",
+      "validated_sql": "SELECT COUNT(i.invoice_id) AS value FROM public.invoice AS i WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) AND i.billing_country = 'Canada'",
+      "sql_sha256": "484f52da388735f088a870f6f69b2b17fcfe442b93d4d3d57aaa4f169e39e4a9",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          9
+        ]
+      ],
+      "table": [
+        {
+          "value": 9
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 40.850099991075695
+    },
+    {
+      "id": "d4-dialog-01:turn-5",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT COUNT(i.invoice_id) AS value FROM public.invoice i JOIN public.customer c ON i.customer_id=c.customer_id WHERE i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' AND c.country='Canada'",
+      "validated_sql": "SELECT COUNT(i.invoice_id) AS value FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) AND c.country = 'Canada'",
+      "sql_sha256": "7bbb08116124444e485ae7d97efbbad6cccd12f97694959cff95b81e0e373c3e",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          9
+        ]
+      ],
+      "table": [
+        {
+          "value": 9
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 38.62939996179193
+    },
+    {
+      "id": "d4-dialog-01:turn-6",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT COUNT(i.invoice_id) AS value FROM public.invoice i WHERE i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01'",
+      "validated_sql": "SELECT COUNT(i.invoice_id) AS value FROM public.invoice AS i WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE)",
+      "sql_sha256": "1a5c4aebae06e1fabaf613ac7c06d46653fff94fa05378ab740586f3c3cb2d5d",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          83
+        ]
+      ],
+      "table": [
+        {
+          "value": 83
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 12.667400005739182
+    },
+    {
+      "id": "d4-dialog-02:turn-1",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT (SUM(CASE WHEN i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' THEN i.total END)-SUM(CASE WHEN i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' THEN i.total END))/NULLIF(SUM(CASE WHEN i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' THEN i.total END),0) AS value FROM public.invoice i WHERE i.billing_country='USA'",
+      "validated_sql": "SELECT (SUM(CASE WHEN i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) THEN i.total END) - SUM(CASE WHEN i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) THEN i.total END)) / NULLIF(SUM(CASE WHEN i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) THEN i.total END), 0) AS value FROM public.invoice AS i WHERE i.billing_country = 'USA'",
+      "sql_sha256": "a20ef8c4ca6c3f04278e531dbe67f279fb7f29cadae725dbfb467ff5da888392",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "0.24240365013105523736"
+        ]
+      ],
+      "table": [
+        {
+          "value": "0.24240365013105523736"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 16.009100014343858
+    },
+    {
+      "id": "d4-dialog-02:turn-2",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT (SUM(CASE WHEN i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' THEN i.total END)-SUM(CASE WHEN i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' THEN i.total END))/NULLIF(SUM(CASE WHEN i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' THEN i.total END),0) AS value FROM public.invoice i WHERE i.billing_country='Canada'",
+      "validated_sql": "SELECT (SUM(CASE WHEN i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) THEN i.total END) - SUM(CASE WHEN i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) THEN i.total END)) / NULLIF(SUM(CASE WHEN i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) THEN i.total END), 0) AS value FROM public.invoice AS i WHERE i.billing_country = 'Canada'",
+      "sql_sha256": "55262716fa2456ffe01dfc54c670824fab218805f904a75115f44dca18ee3f81",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "-0.23214285714285714286"
+        ]
+      ],
+      "table": [
+        {
+          "value": "-0.23214285714285714286"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 33.30900002038106
+    },
+    {
+      "id": "d4-dialog-02:turn-3",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT (SUM(CASE WHEN i.invoice_date>=DATE '2025-01-01' AND i.invoice_date<DATE '2026-01-01' THEN i.total END)-SUM(CASE WHEN i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' THEN i.total END))/NULLIF(SUM(CASE WHEN i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' THEN i.total END),0) AS value FROM public.invoice i WHERE i.billing_country='Canada'",
+      "validated_sql": "SELECT (SUM(CASE WHEN i.invoice_date >= CAST('2025-01-01' AS DATE) AND i.invoice_date < CAST('2026-01-01' AS DATE) THEN i.total END) - SUM(CASE WHEN i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) THEN i.total END)) / NULLIF(SUM(CASE WHEN i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) THEN i.total END), 0) AS value FROM public.invoice AS i WHERE i.billing_country = 'Canada'",
+      "sql_sha256": "fde779decb37174aba8dfb23680f12c3815d86dced999fd4a4954a3823c0418c",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "0.69767441860465116279"
+        ]
+      ],
+      "table": [
+        {
+          "value": "0.69767441860465116279"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 30.963199969846755
+    },
+    {
+      "id": "d4-dialog-02:turn-4",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT (AVG(CASE WHEN i.invoice_date>=DATE '2025-01-01' AND i.invoice_date<DATE '2026-01-01' THEN i.total END)-AVG(CASE WHEN i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' THEN i.total END))/NULLIF(AVG(CASE WHEN i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' THEN i.total END),0) AS value FROM public.invoice i WHERE i.billing_country='Canada'",
+      "validated_sql": "SELECT (AVG(CASE WHEN i.invoice_date >= CAST('2025-01-01' AS DATE) AND i.invoice_date < CAST('2026-01-01' AS DATE) THEN i.total END) - AVG(CASE WHEN i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) THEN i.total END)) / NULLIF(AVG(CASE WHEN i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) THEN i.total END), 0) AS value FROM public.invoice AS i WHERE i.billing_country = 'Canada'",
+      "sql_sha256": "5e71e3bc704be6435cfe74ccf07c5e13a8d9b79cd691b6654905e63cad8e08b8",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "0.09136212624584716702"
+        ]
+      ],
+      "table": [
+        {
+          "value": "0.09136212624584716702"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 30.606199987232685
+    },
+    {
+      "id": "d4-dialog-02:turn-5",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT (AVG(CASE WHEN i.invoice_date>=DATE '2025-01-01' AND i.invoice_date<DATE '2026-01-01' THEN i.total END)-AVG(CASE WHEN i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' THEN i.total END))/NULLIF(AVG(CASE WHEN i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' THEN i.total END),0) AS value FROM public.invoice i WHERE i.billing_country='Germany'",
+      "validated_sql": "SELECT (AVG(CASE WHEN i.invoice_date >= CAST('2025-01-01' AS DATE) AND i.invoice_date < CAST('2026-01-01' AS DATE) THEN i.total END) - AVG(CASE WHEN i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) THEN i.total END)) / NULLIF(AVG(CASE WHEN i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) THEN i.total END), 0) AS value FROM public.invoice AS i WHERE i.billing_country = 'Germany'",
+      "sql_sha256": "f987b4081c43742ffa0dab170e522c94461889a0b1518aca3b3002dbcd4c659d",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "0.31578947368421052632"
+        ]
+      ],
+      "table": [
+        {
+          "value": "0.31578947368421052632"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 16.2014999659732
+    },
+    {
+      "id": "d4-dialog-02:turn-6",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT (AVG(CASE WHEN i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' THEN i.total END)-AVG(CASE WHEN i.invoice_date>=DATE '2022-01-01' AND i.invoice_date<DATE '2023-01-01' THEN i.total END))/NULLIF(AVG(CASE WHEN i.invoice_date>=DATE '2022-01-01' AND i.invoice_date<DATE '2023-01-01' THEN i.total END),0) AS value FROM public.invoice i WHERE i.billing_country='Germany'",
+      "validated_sql": "SELECT (AVG(CASE WHEN i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) THEN i.total END) - AVG(CASE WHEN i.invoice_date >= CAST('2022-01-01' AS DATE) AND i.invoice_date < CAST('2023-01-01' AS DATE) THEN i.total END)) / NULLIF(AVG(CASE WHEN i.invoice_date >= CAST('2022-01-01' AS DATE) AND i.invoice_date < CAST('2023-01-01' AS DATE) THEN i.total END), 0) AS value FROM public.invoice AS i WHERE i.billing_country = 'Germany'",
+      "sql_sha256": "2fec028e50dedbb0f7db7f2fc49e0bb4ddad5eebbc4899decf943fa0a6d2d2f4",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "-0.05652680652680652681"
+        ]
+      ],
+      "table": [
+        {
+          "value": "-0.05652680652680652681"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 29.592900013085455
+    },
+    {
+      "id": "d4-dialog-03:turn-1",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(il.unit_price*il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id JOIN public.album a ON t.album_id=a.album_id JOIN public.artist ar ON a.artist_id=ar.artist_id WHERE i.invoice_date>=DATE '2022-01-01' AND i.invoice_date<DATE '2023-01-01' AND ar.name='Metallica'",
+      "validated_sql": "SELECT SUM(il.unit_price * il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id JOIN public.album AS a ON t.album_id = a.album_id JOIN public.artist AS ar ON a.artist_id = ar.artist_id WHERE i.invoice_date >= CAST('2022-01-01' AS DATE) AND i.invoice_date < CAST('2023-01-01' AS DATE) AND ar.name = 'Metallica'",
+      "sql_sha256": "e22937e4e4c6bfdeb5f25aa5c3d3f7cc00e904fc62fdb07b8c3ad898ec2a5416",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "22.77"
+        ]
+      ],
+      "table": [
+        {
+          "value": "22.77"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 35.05199996288866
+    },
+    {
+      "id": "d4-dialog-03:turn-2",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(il.unit_price*il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id JOIN public.genre g ON t.genre_id=g.genre_id WHERE i.invoice_date>=DATE '2022-01-01' AND i.invoice_date<DATE '2023-01-01' AND g.name='Metal'",
+      "validated_sql": "SELECT SUM(il.unit_price * il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id JOIN public.genre AS g ON t.genre_id = g.genre_id WHERE i.invoice_date >= CAST('2022-01-01' AS DATE) AND i.invoice_date < CAST('2023-01-01' AS DATE) AND g.name = 'Metal'",
+      "sql_sha256": "c058916dc5f1d7e196e0ca5b5db14f296a0baedadb424c2f0ed653e6a8beec37",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "53.46"
+        ]
+      ],
+      "table": [
+        {
+          "value": "53.46"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 17.476400011219084
+    },
+    {
+      "id": "d4-dialog-03:turn-3",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(il.unit_price*il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id JOIN public.genre g ON t.genre_id=g.genre_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' AND g.name='Metal' AND i.billing_country='Germany'",
+      "validated_sql": "SELECT SUM(il.unit_price * il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id JOIN public.genre AS g ON t.genre_id = g.genre_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) AND g.name = 'Metal' AND i.billing_country = 'Germany'",
+      "sql_sha256": "ab8eb4d6f9de75a4655a40feba1482c09f5c8ee2c87249069d2d721b3e6d3e21",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          "5.94"
+        ]
+      ],
+      "table": [
+        {
+          "value": "5.94"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 27.559999958612025
+    },
+    {
+      "id": "d4-dialog-03:turn-4",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id JOIN public.genre g ON t.genre_id=g.genre_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' AND g.name='Metal' AND i.billing_country='Germany'",
+      "validated_sql": "SELECT SUM(il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id JOIN public.genre AS g ON t.genre_id = g.genre_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) AND g.name = 'Metal' AND i.billing_country = 'Germany'",
+      "sql_sha256": "c3cfe76a2411ac3d90a6a32493eaa36b9e9094cd45b11e62f191db5e5e4b92eb",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          6
+        ]
+      ],
+      "table": [
+        {
+          "value": 6
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 31.64400003151968
+    },
+    {
+      "id": "d4-dialog-03:turn-5",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id JOIN public.genre g ON t.genre_id=g.genre_id WHERE i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' AND g.name='Metal' AND i.billing_country='Germany'",
+      "validated_sql": "SELECT SUM(il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id JOIN public.genre AS g ON t.genre_id = g.genre_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) AND g.name = 'Metal' AND i.billing_country = 'Germany'",
+      "sql_sha256": "10b62ef0e61f9a6bc8f1daaf7c3e09a26c7ced87072d741631732338bddbd149",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          11
+        ]
+      ],
+      "table": [
+        {
+          "value": 11
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 34.34410004410893
+    },
+    {
+      "id": "d4-dialog-03:turn-6",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id JOIN public.genre g ON t.genre_id=g.genre_id WHERE i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' AND g.name='Metal' AND i.billing_country='Brazil'",
+      "validated_sql": "SELECT SUM(il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id JOIN public.genre AS g ON t.genre_id = g.genre_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) AND g.name = 'Metal' AND i.billing_country = 'Brazil'",
+      "sql_sha256": "1c1b7e26ebe9939b66274031ae275894adc14177f824a321c311e5c918c5cbcc",
+      "columns": [
+        "value"
+      ],
+      "rows": [
+        [
+          5
+        ]
+      ],
+      "table": [
+        {
+          "value": 5
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 29.82620004331693
+    },
+    {
+      "id": "d4-dialog-04:turn-1",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT t.track_id,SUM(il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' GROUP BY t.track_id ORDER BY value DESC,t.track_id ASC LIMIT 3",
+      "validated_sql": "SELECT t.track_id, SUM(il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) GROUP BY t.track_id ORDER BY value DESC, t.track_id ASC LIMIT 3",
+      "sql_sha256": "c91cf308a2a59068f31751f79a4dac73bd6ca4ef783f74537ad0605647e0f704",
+      "columns": [
+        "track_id",
+        "value"
+      ],
+      "rows": [
+        [
+          2,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          14,
+          1
+        ]
+      ],
+      "table": [
+        {
+          "track_id": 2,
+          "value": 1
+        },
+        {
+          "track_id": 8,
+          "value": 1
+        },
+        {
+          "track_id": 14,
+          "value": 1
+        }
+      ],
+      "row_count": 3,
+      "truncated": false,
+      "elapsed_ms": 17.498600005637854
+    },
+    {
+      "id": "d4-dialog-04:turn-2",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT t.track_id,SUM(il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' GROUP BY t.track_id ORDER BY value DESC,t.track_id ASC LIMIT 5",
+      "validated_sql": "SELECT t.track_id, SUM(il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) GROUP BY t.track_id ORDER BY value DESC, t.track_id ASC LIMIT 5",
+      "sql_sha256": "a56f24ff3ae30d9d57c224c8eac8065502808c4eb1be31cc7de859de411dfc8e",
+      "columns": [
+        "track_id",
+        "value"
+      ],
+      "rows": [
+        [
+          2,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          14,
+          1
+        ],
+        [
+          20,
+          1
+        ],
+        [
+          26,
+          1
+        ]
+      ],
+      "table": [
+        {
+          "track_id": 2,
+          "value": 1
+        },
+        {
+          "track_id": 8,
+          "value": 1
+        },
+        {
+          "track_id": 14,
+          "value": 1
+        },
+        {
+          "track_id": 20,
+          "value": 1
+        },
+        {
+          "track_id": 26,
+          "value": 1
+        }
+      ],
+      "row_count": 5,
+      "truncated": false,
+      "elapsed_ms": 27.812100015580654
+    },
+    {
+      "id": "d4-dialog-04:turn-3",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT t.track_id,SUM(il.unit_price*il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01' GROUP BY t.track_id ORDER BY value DESC,t.track_id ASC LIMIT 5",
+      "validated_sql": "SELECT t.track_id, SUM(il.unit_price * il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) GROUP BY t.track_id ORDER BY value DESC, t.track_id ASC LIMIT 5",
+      "sql_sha256": "7fc21fdd7cd23a4947d828d41795e73388e5b35885d64d94b596e4e9ee6a14ca",
+      "columns": [
+        "track_id",
+        "value"
+      ],
+      "rows": [
+        [
+          2821,
+          "1.99"
+        ],
+        [
+          2827,
+          "1.99"
+        ],
+        [
+          2833,
+          "1.99"
+        ],
+        [
+          2839,
+          "1.99"
+        ],
+        [
+          2845,
+          "1.99"
+        ]
+      ],
+      "table": [
+        {
+          "track_id": 2821,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2827,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2833,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2839,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2845,
+          "value": "1.99"
+        }
+      ],
+      "row_count": 5,
+      "truncated": false,
+      "elapsed_ms": 32.243299996480346
+    },
+    {
+      "id": "d4-dialog-04:turn-4",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT t.track_id,SUM(il.unit_price*il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id WHERE i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' GROUP BY t.track_id ORDER BY value DESC,t.track_id ASC LIMIT 5",
+      "validated_sql": "SELECT t.track_id, SUM(il.unit_price * il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) GROUP BY t.track_id ORDER BY value DESC, t.track_id ASC LIMIT 5",
+      "sql_sha256": "4be3889ad277f0b2974fc25e4b6302a52fd411f654c92627a428d2722d0e11fc",
+      "columns": [
+        "track_id",
+        "value"
+      ],
+      "rows": [
+        [
+          2822,
+          "1.99"
+        ],
+        [
+          2828,
+          "1.99"
+        ],
+        [
+          2837,
+          "1.99"
+        ],
+        [
+          2846,
+          "1.99"
+        ],
+        [
+          2855,
+          "1.99"
+        ]
+      ],
+      "table": [
+        {
+          "track_id": 2822,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2828,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2837,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2846,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2855,
+          "value": "1.99"
+        }
+      ],
+      "row_count": 5,
+      "truncated": false,
+      "elapsed_ms": 31.069000018760562
+    },
+    {
+      "id": "d4-dialog-04:turn-5",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT t.track_id,SUM(il.unit_price*il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id WHERE i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' AND i.billing_country='France' GROUP BY t.track_id ORDER BY value DESC,t.track_id ASC LIMIT 5",
+      "validated_sql": "SELECT t.track_id, SUM(il.unit_price * il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) AND i.billing_country = 'France' GROUP BY t.track_id ORDER BY value DESC, t.track_id ASC LIMIT 5",
+      "sql_sha256": "a653f5a6b79c265a8fa68c4549da76612e182d09ef44fb942b34065141d17d60",
+      "columns": [
+        "track_id",
+        "value"
+      ],
+      "rows": [
+        [
+          3337,
+          "1.99"
+        ],
+        [
+          3346,
+          "1.99"
+        ],
+        [
+          3364,
+          "1.99"
+        ],
+        [
+          165,
+          "0.99"
+        ],
+        [
+          167,
+          "0.99"
+        ]
+      ],
+      "table": [
+        {
+          "track_id": 3337,
+          "value": "1.99"
+        },
+        {
+          "track_id": 3346,
+          "value": "1.99"
+        },
+        {
+          "track_id": 3364,
+          "value": "1.99"
+        },
+        {
+          "track_id": 165,
+          "value": "0.99"
+        },
+        {
+          "track_id": 167,
+          "value": "0.99"
+        }
+      ],
+      "row_count": 5,
+      "truncated": false,
+      "elapsed_ms": 16.765399952419102
+    },
+    {
+      "id": "d4-dialog-04:turn-6",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT t.track_id,SUM(il.unit_price*il.quantity) AS value FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id=i.invoice_id JOIN public.track t ON t.track_id=il.track_id WHERE i.invoice_date>=DATE '2024-01-01' AND i.invoice_date<DATE '2025-01-01' GROUP BY t.track_id ORDER BY value DESC,t.track_id ASC LIMIT 5",
+      "validated_sql": "SELECT t.track_id, SUM(il.unit_price * il.quantity) AS value FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id JOIN public.track AS t ON t.track_id = il.track_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) GROUP BY t.track_id ORDER BY value DESC, t.track_id ASC LIMIT 5",
+      "sql_sha256": "4be3889ad277f0b2974fc25e4b6302a52fd411f654c92627a428d2722d0e11fc",
+      "columns": [
+        "track_id",
+        "value"
+      ],
+      "rows": [
+        [
+          2822,
+          "1.99"
+        ],
+        [
+          2828,
+          "1.99"
+        ],
+        [
+          2837,
+          "1.99"
+        ],
+        [
+          2846,
+          "1.99"
+        ],
+        [
+          2855,
+          "1.99"
+        ]
+      ],
+      "table": [
+        {
+          "track_id": 2822,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2828,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2837,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2846,
+          "value": "1.99"
+        },
+        {
+          "track_id": 2855,
+          "value": "1.99"
+        }
+      ],
+      "row_count": 5,
+      "truncated": false,
+      "elapsed_ms": 28.51340000052005
+    },
+    {
+      "id": "d4-dialog-05:turn-1",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(CASE WHEN c.country='Brazil' THEN i.total END)/NULLIF(SUM(i.total),0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id=c.customer_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01'",
+      "validated_sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE)",
+      "sql_sha256": "4ca9c0bd70abe12ca3ee998203c8980d2d5bb0091a53a17aa31a6b09b1083bd0",
+      "columns": [
+        "share"
+      ],
+      "rows": [
+        [
+          "0.04216533923932024362"
+        ]
+      ],
+      "table": [
+        {
+          "share": "0.04216533923932024362"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 15.312000003177673
+    },
+    {
+      "id": "d4-dialog-05:turn-2",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(CASE WHEN c.country='Germany' THEN i.total END)/NULLIF(SUM(i.total),0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id=c.customer_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01'",
+      "validated_sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE)",
+      "sql_sha256": "b8fab668a6e661d333d3002fa74889aa2871264efa55062fd8a6ad65713ea0d6",
+      "columns": [
+        "share"
+      ],
+      "rows": [
+        [
+          "0.10343285489160526428"
+        ]
+      ],
+      "table": [
+        {
+          "share": "0.10343285489160526428"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 16.64890005486086
+    },
+    {
+      "id": "d4-dialog-05:turn-3",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(CASE WHEN c.country='Germany' THEN i.total END)/NULLIF(SUM(CASE WHEN i.billing_country='Germany' THEN i.total END),0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id=c.customer_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01'",
+      "validated_sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total END) / NULLIF(SUM(CASE WHEN i.billing_country = 'Germany' THEN i.total END), 0) AS share FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE)",
+      "sql_sha256": "6607a7a7f13412b63f203865bb341d69204bc70dc7a7faa33e8fc13b83f8a94c",
+      "columns": [
+        "share"
+      ],
+      "rows": [
+        [
+          "1.00000000000000000000"
+        ]
+      ],
+      "table": [
+        {
+          "share": "1.00000000000000000000"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 35.042300005443394
+    },
+    {
+      "id": "d4-dialog-05:turn-4",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(CASE WHEN c.country='France' THEN i.total END)/NULLIF(SUM(CASE WHEN i.billing_country='Germany' THEN i.total END),0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id=c.customer_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01'",
+      "validated_sql": "SELECT SUM(CASE WHEN c.country = 'France' THEN i.total END) / NULLIF(SUM(CASE WHEN i.billing_country = 'Germany' THEN i.total END), 0) AS share FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE)",
+      "sql_sha256": "242f5fc26f67fa40b40d4406d28a617a493e27b1f4120126fd95c6efd744f6c7",
+      "columns": [
+        "share"
+      ],
+      "rows": [
+        [
+          "0.87729050854436895203"
+        ]
+      ],
+      "table": [
+        {
+          "share": "0.87729050854436895203"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 16.040799964684993
+    },
+    {
+      "id": "d4-dialog-05:turn-5",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(CASE WHEN c.country='France' THEN i.total END)/NULLIF(SUM(i.total),0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id=c.customer_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01'",
+      "validated_sql": "SELECT SUM(CASE WHEN c.country = 'France' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE)",
+      "sql_sha256": "158a27a84343c189ffed3cc48034c5e50946e4d558a349bced61c956a954ddaf",
+      "columns": [
+        "share"
+      ],
+      "rows": [
+        [
+          "0.09074066186805230206"
+        ]
+      ],
+      "table": [
+        {
+          "share": "0.09074066186805230206"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 15.94650000333786
+    },
+    {
+      "id": "d4-dialog-05:turn-6",
+      "status": "EXECUTED_READONLY",
+      "sql": "SELECT SUM(CASE WHEN c.country='Brazil' THEN i.total END)/NULLIF(SUM(i.total),0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id=c.customer_id WHERE i.invoice_date>=DATE '2023-01-01' AND i.invoice_date<DATE '2024-01-01'",
+      "validated_sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE)",
+      "sql_sha256": "4ca9c0bd70abe12ca3ee998203c8980d2d5bb0091a53a17aa31a6b09b1083bd0",
+      "columns": [
+        "share"
+      ],
+      "rows": [
+        [
+          "0.04216533923932024362"
+        ]
+      ],
+      "table": [
+        {
+          "share": "0.04216533923932024362"
+        }
+      ],
+      "row_count": 1,
+      "truncated": false,
+      "elapsed_ms": 30.227100010961294
+    }
+  ]
+}

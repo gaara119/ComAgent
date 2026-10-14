@@ -1,0 +1,23 @@
+{
+  "id": "oct12-join-10",
+  "scale": "original",
+  "sql": "SELECT COUNT(*) AS invoice_count FROM invoice AS i JOIN customer AS c ON i.customer_id = c.customer_id WHERE c.country = 'Brazil'",
+  "result": {
+    "columns": [
+      "invoice_count"
+    ],
+    "rows": [
+      [
+        35
+      ]
+    ],
+    "table": [
+      {
+        "invoice_count": 35
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "system_prediction": false
+}

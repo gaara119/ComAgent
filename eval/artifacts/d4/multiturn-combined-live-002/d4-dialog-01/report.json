@@ -1,0 +1,487 @@
+{
+  "id": "d4-dialog-01",
+  "split": "dev",
+  "completed_all_turns": false,
+  "turns": [
+    {
+      "index": 0,
+      "message": "2023年账单国为美国的发票销售额是多少？",
+      "status": "SUCCEEDED",
+      "intent_version": 1,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "46c326c1-5289-401f-81a6-1d4e2e39e8e0",
+      "latency_ms": 4167.701099999249,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\00\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\00\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "metric": "invoice_revenue",
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "USA"
+          }
+        ]
+      },
+      "sql": "SELECT SUM(invoice.total) AS invoice_revenue FROM public.invoice WHERE invoice.invoice_date >= '2023-01-01' AND invoice.invoice_date < '2024-01-01' AND invoice.billing_country = 'USA'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "invoice_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "label": "2023年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": "invoice.billing_country",
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "USA",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "a-dca9d898c8a31e37",
+            "source": "verified_value_index",
+            "scope_evidence": "explicit_user_country_scope"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": []
+    },
+    {
+      "index": 1,
+      "message": "换成加拿大。",
+      "status": "SUCCEEDED",
+      "intent_version": 2,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "cde58304-fabf-4145-ae11-fe629407a5fa",
+      "latency_ms": 7691.130499995779,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\01\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\01\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "metric": "invoice_revenue",
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Canada"
+          }
+        ]
+      },
+      "sql": "SELECT SUM(\"invoice\".\"total\") AS invoice_revenue FROM \"public\".\"invoice\" WHERE \"invoice\".\"billing_country\" = 'Canada' AND \"invoice\".\"invoice_date\" >= '2023-01-01' AND \"invoice\".\"invoice_date\" < '2024-01-01'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "invoice_revenue",
+        "time_scope": {
+          "current": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "label": "2023年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": "invoice.billing_country",
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Canada",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "a-b33ce127772f748d",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 2,
+      "message": "改看发票张数。",
+      "status": "SUCCEEDED",
+      "intent_version": 3,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "db73e0c0-352b-4173-817c-7128b60dabc6",
+      "latency_ms": 7603.625999996439,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\02\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\02\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "metric": "invoice_count",
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Canada"
+          }
+        ]
+      },
+      "sql": "SELECT COUNT(\"invoice\".\"invoice_id\") AS invoice_count FROM \"public\".\"invoice\" WHERE \"invoice\".\"invoice_date\" >= '2023-01-01' AND \"invoice\".\"invoice_date\" < '2024-01-01' AND \"invoice\".\"billing_country\" = 'Canada'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "invoice_count",
+        "time_scope": {
+          "current": {
+            "start": "2023-01-01",
+            "end": "2024-01-01",
+            "label": "2023年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": "invoice.billing_country",
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Canada",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "a-b33ce127772f748d",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 3,
+      "message": "期间改成2024年。",
+      "status": "SUCCEEDED",
+      "intent_version": 4,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "953cff6a-922f-42b6-8c71-2254c014101d",
+      "latency_ms": 6983.862599998247,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\03\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\03\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "metric": "invoice_count",
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Canada"
+          }
+        ]
+      },
+      "sql": "SELECT COUNT(invoice.invoice_id) AS invoice_count FROM \"public\".\"invoice\" WHERE invoice.invoice_date >= CAST('2024-01-01 00:00:00' AS TIMESTAMP) AND invoice.invoice_date < CAST('2025-01-01 00:00:00' AS TIMESTAMP) AND invoice.billing_country = 'Canada'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "invoice_count",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": "invoice.billing_country",
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "invoice.billing_country",
+            "operator": "=",
+            "value": "Canada",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "a-b33ce127772f748d",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 4,
+      "message": "改按客户所在地统计。",
+      "status": "SUCCEEDED",
+      "intent_version": 5,
+      "version_correct": true,
+      "condition_check": {
+        "matched": true,
+        "issues": []
+      },
+      "result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "strict_result_check": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "trace_id": "d6243321-163c-43b3-b129-e59e85db10c0",
+      "latency_ms": 7159.858200000599,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\04\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\04\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "metric": "invoice_count",
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Canada"
+          }
+        ]
+      },
+      "sql": "SELECT COUNT(i.invoice_id) AS invoice_count FROM public.invoice AS i JOIN public.customer AS c ON i.customer_id = c.customer_id WHERE i.invoice_date >= '2024-01-01' AND i.invoice_date < '2025-01-01' AND c.country = 'Canada'",
+      "semantic_contract": {
+        "task_type": "lookup",
+        "metric": "invoice_count",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end": "2025-01-01",
+            "label": "2024年",
+            "grain": "year"
+          }
+        },
+        "comparison": null,
+        "numerator": null,
+        "denominator": null,
+        "rank_object": null,
+        "top_n": null,
+        "order": null,
+        "region_scope": "customer.country",
+        "region_ambiguous": false,
+        "scope_missing": false,
+        "time_ambiguous": false,
+        "conflicts": [],
+        "grouping": [],
+        "filters": [
+          {
+            "column": "customer.country",
+            "operator": "=",
+            "value": "Canada",
+            "mention_id": "mention-1",
+            "method": "exact",
+            "evidence_ref": "a-b33ce127772f748d",
+            "source": "verified_value_index"
+          }
+        ],
+        "assumptions": [],
+        "default_assumptions": [],
+        "evidence_spans": {}
+      },
+      "invalidated_execution": [
+        "sql_plan",
+        "sql",
+        "result"
+      ]
+    },
+    {
+      "index": 5,
+      "message": "去掉客户所在地限制。",
+      "status": "FAILED",
+      "intent_version": 1,
+      "version_correct": false,
+      "condition_check": {
+        "matched": false,
+        "issues": [
+          {
+            "field": "current",
+            "expected": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            },
+            "actual": {}
+          },
+          {
+            "field": "metric",
+            "expected": "invoice_count",
+            "actual": null
+          }
+        ]
+      },
+      "result_check": {
+        "matched": false,
+        "reason": "FAILED"
+      },
+      "strict_result_check": {
+        "matched": false,
+        "reason": "FAILED"
+      },
+      "trace_id": "4f40cf53-ef76-4036-8c1b-b479b3b30423",
+      "latency_ms": 3477.8907999861985,
+      "request_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\05\\request.json",
+      "response_file": "eval\\artifacts\\d4\\multiturn-combined-live-002\\d4-dialog-01\\05\\response.raw.json",
+      "expected": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        },
+        "metric": "invoice_count",
+        "filters": []
+      },
+      "sql": null,
+      "semantic_contract": null,
+      "invalidated_execution": null
+    }
+  ]
+}

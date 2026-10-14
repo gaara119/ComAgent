@@ -1,0 +1,243 @@
+[
+  {
+    "id": "sp03-26",
+    "split": "dev",
+    "purpose": "原失败对话逐字复测",
+    "initial": "同比增长多少？",
+    "supplements": {
+      "metric": {
+        "answer": "按发票销售额算。",
+        "value": {
+          "metric": "sales_revenue",
+          "expression": "SUM(invoice.total)"
+        }
+      },
+      "time_scope.current": {
+        "answer": "2024年全年。",
+        "value": {
+          "current_start": "2024-01-01",
+          "current_end_exclusive": "2025-01-01",
+          "base_start": "2023-01-01",
+          "base_end_exclusive": "2024-01-01"
+        }
+      },
+      "year": {
+        "answer": "2024年。",
+        "value": {
+          "year": 2024
+        }
+      },
+      "indicator": {
+        "answer": "销售额。",
+        "value": {
+          "metric": "sales_revenue"
+        }
+      }
+    },
+    "gold_sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+    "post_completion_turns": [
+      {
+        "message": "改成2025年同比。",
+        "expected_intent": {
+          "task_type": "growth",
+          "comparison": "yoy",
+          "metric": "sales_revenue",
+          "expression": "SUM(invoice.total)",
+          "time_scope": {
+            "current": {
+              "start": "2025-01-01",
+              "end_exclusive": "2026-01-01"
+            },
+            "base": {
+              "start": "2024-01-01",
+              "end_exclusive": "2025-01-01"
+            }
+          },
+          "zero_denominator": "null"
+        },
+        "gold_sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2025-01-01' AND invoice_date < DATE '2026-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;"
+      },
+      {
+        "message": "指标换成平均每张发票金额。",
+        "expected_intent": {
+          "task_type": "growth",
+          "comparison": "yoy",
+          "metric": "average_invoice_amount",
+          "expression": "AVG(invoice.total)",
+          "time_scope": {
+            "current": {
+              "start": "2025-01-01",
+              "end_exclusive": "2026-01-01"
+            },
+            "base": {
+              "start": "2024-01-01",
+              "end_exclusive": "2025-01-01"
+            }
+          },
+          "zero_denominator": "null"
+        },
+        "gold_sql": "SELECT (AVG(CASE WHEN invoice_date >= DATE '2025-01-01' AND invoice_date < DATE '2026-01-01' THEN total END) - AVG(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END)) / NULLIF(AVG(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;"
+      }
+    ],
+    "source": "eval\\experiments\\after_d2_01_03\\data\\cases-v6-reviewed.jsonl",
+    "source_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1"
+  },
+  {
+    "id": "sp03-27",
+    "split": "dev",
+    "purpose": "原失败对话逐字复测",
+    "initial": "2023年销售额占比是多少？",
+    "supplements": {
+      "numerator": {
+        "answer": "巴西居住客户的销售额。",
+        "value": {
+          "object": "customer_residence_country:Brazil",
+          "expression": "SUM(invoice.total)"
+        }
+      },
+      "denominator": {
+        "answer": "分母是2023年全库的发票总销售额。",
+        "value": {
+          "scope": "all_countries",
+          "expression": "SUM(invoice.total)"
+        }
+      },
+      "numerator_object": {
+        "answer": "巴西。",
+        "value": {
+          "country": "Brazil",
+          "column": "customer.country"
+        }
+      },
+      "denominator_scope": {
+        "answer": "用全库当年销售额做分母。",
+        "value": {
+          "scope": "all"
+        }
+      }
+    },
+    "gold_sql": "SELECT SUM(CASE WHEN c.country = 'Brazil' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';",
+    "post_completion_turns": [
+      {
+        "message": "分子换成德国居住客户的销售额。",
+        "expected_intent": {
+          "task_type": "ratio",
+          "numerator": {
+            "object": "customer_residence_country:Germany",
+            "expression": "SUM(invoice.total)"
+          },
+          "denominator": {
+            "object": "all_invoices_in_period",
+            "expression": "SUM(invoice.total)"
+          },
+          "time_scope": {
+            "start": "2023-01-01",
+            "end_exclusive": "2024-01-01"
+          },
+          "zero_denominator": "null"
+        },
+        "gold_sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total END) / NULLIF(SUM(i.total), 0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';"
+      },
+      {
+        "message": "分母改成2023年账单国为德国的销售额。",
+        "expected_intent": {
+          "task_type": "ratio",
+          "numerator": {
+            "object": "customer_residence_country:Germany",
+            "expression": "SUM(invoice.total)"
+          },
+          "denominator": {
+            "object": "billing_country:Germany",
+            "expression": "SUM(invoice.total)"
+          },
+          "time_scope": {
+            "start": "2023-01-01",
+            "end_exclusive": "2024-01-01"
+          },
+          "zero_denominator": "null"
+        },
+        "gold_sql": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN i.total END) / NULLIF(SUM(CASE WHEN i.billing_country = 'Germany' THEN i.total END), 0) AS share FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01';"
+      }
+    ],
+    "source": "eval\\experiments\\after_d2_01_03\\data\\cases-v6-reviewed.jsonl",
+    "source_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1"
+  },
+  {
+    "id": "sp03-28",
+    "split": "dev",
+    "purpose": "原失败对话逐字复测",
+    "initial": "2022年金属乐队的销售额是多少？",
+    "supplements": {
+      "object": {
+        "answer": "是艺术家 Metallica。",
+        "value": {
+          "object_type": "artist",
+          "name": "Metallica"
+        }
+      },
+      "artist_or_genre": {
+        "answer": "Metallica 这个乐队。",
+        "value": {
+          "object_type": "artist",
+          "name": "Metallica"
+        }
+      },
+      "region_scope": {
+        "answer": "不限定地区，全库即可。",
+        "value": {
+          "region_scope": "none"
+        }
+      },
+      "region_column": {
+        "answer": "按账单国来算。",
+        "value": {
+          "region_column": "invoice.billing_country"
+        }
+      }
+    },
+    "gold_sql": "SELECT SUM(il.unit_price * il.quantity) AS artist_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.album al ON t.album_id = al.album_id JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE ar.name = 'Metallica' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+    "post_completion_turns": [
+      {
+        "message": "改成流派 Metal。",
+        "expected_intent": {
+          "task_type": "aggregate",
+          "metric": "detail_revenue",
+          "object": {
+            "object_type": "genre",
+            "name": "Metal"
+          },
+          "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+          "time_scope": {
+            "start": "2022-01-01",
+            "end_exclusive": "2023-01-01"
+          },
+          "region_scope": "none"
+        },
+        "gold_sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';"
+      },
+      {
+        "message": "期间改成2023年，限定账单国为德国。",
+        "expected_intent": {
+          "task_type": "aggregate",
+          "metric": "detail_revenue",
+          "object": {
+            "object_type": "genre",
+            "name": "Metal"
+          },
+          "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+          "time_scope": {
+            "start": "2023-01-01",
+            "end_exclusive": "2024-01-01"
+          },
+          "region_scope": {
+            "column": "invoice.billing_country",
+            "value": "Germany"
+          }
+        },
+        "gold_sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' AND i.billing_country = 'Germany';"
+      }
+    ],
+    "source": "eval\\experiments\\after_d2_01_03\\data\\cases-v6-reviewed.jsonl",
+    "source_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1"
+  }
+]

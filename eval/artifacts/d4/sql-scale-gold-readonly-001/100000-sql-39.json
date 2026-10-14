@@ -1,0 +1,23 @@
+{
+  "id": "sql-39",
+  "scale": "100000",
+  "sql": "SELECT COUNT(*) AS invoice_count FROM d4_stress_100000.invoice WHERE invoice_date >= '2023-01-01' AND invoice_date < '2024-01-01'",
+  "result": {
+    "columns": [
+      "invoice_count"
+    ],
+    "rows": [
+      [
+        83
+      ]
+    ],
+    "table": [
+      {
+        "invoice_count": 83
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "system_prediction": false
+}

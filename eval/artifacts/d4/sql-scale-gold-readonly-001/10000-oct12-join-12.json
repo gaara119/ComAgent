@@ -1,0 +1,23 @@
+{
+  "id": "oct12-join-12",
+  "scale": "10000",
+  "sql": "SELECT SUM(l.unit_price * l.quantity) AS revenue FROM d4_stress_10000.invoice_line AS l JOIN d4_stress_10000.track AS t ON l.track_id = t.track_id JOIN d4_stress_10000.album AS a ON t.album_id = a.album_id JOIN d4_stress_10000.artist AS r ON a.artist_id = r.artist_id WHERE r.name = 'Led Zeppelin'",
+  "result": {
+    "columns": [
+      "revenue"
+    ],
+    "rows": [
+      [
+        "389.07"
+      ]
+    ],
+    "table": [
+      {
+        "revenue": "389.07"
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "system_prediction": false
+}
