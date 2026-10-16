@@ -97,7 +97,11 @@ if (-not $SkipDatabaseStart) {
 }
 $apiListening = Assert-ProjectListener 8000 @('api.main:app', 'scripts.d2_capture_api:app')
 if (-not $apiListening) {
-    $api = Start-Process -FilePath $projectPython -ArgumentList @('-m','uvicorn','api.main:app','--host','127.0.0.1','--port','8000') -WorkingDirectory $projectRoot -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $projectLogs ($projectStamp + '-api.stdout.log')) -RedirectStandardError (Join-Path $projectLogs ($projectStamp + '-api.stderr.log'))
+    $previousCaptureDir = $env:LLM_CAPTURE_DIR
+    if ([string]::IsNullOrWhiteSpace($previousCaptureDir)) { $env:LLM_CAPTURE_DIR = '.runtime/provider-captures' }
+    try {
+        $api = Start-Process -FilePath $projectPython -ArgumentList @('-m','uvicorn','api.main:app','--host','127.0.0.1','--port','8000') -WorkingDirectory $projectRoot -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $projectLogs ($projectStamp + '-api.stdout.log')) -RedirectStandardError (Join-Path $projectLogs ($projectStamp + '-api.stderr.log'))
+    } finally { $env:LLM_CAPTURE_DIR = $previousCaptureDir }
     $api.Id | Set-Content -LiteralPath (Join-Path $projectRuntime 'd2-api.pid')
     Write-Host 'Started project API.'
 } else { Write-Host 'Reusing project API.' }
@@ -111,21 +115,31 @@ if (-not $health) { throw 'API did not become healthy. See .runtime/project-star
 if (-not $SkipDatabaseStart -and (-not $health.database_ready -or ($health.aw_configured -and -not $health.aw_database_ready))) {
     Write-Warning 'The interface is available, but SQL databases are not ready. Existing data has not been recreated or imported.'
 }
-$uiListening = Assert-ProjectListener 8501 @('streamlit run ui/app.py')
+$uiEntrypoint = Join-Path $projectRoot 'frontend-workbench\run_ui.py'
+if (-not (Test-Path -LiteralPath $uiEntrypoint -PathType Leaf)) { throw 'Workbench UI is missing. Restore frontend-workbench before starting.' }
+# Stop only the former UI belonging to this workspace when migrating port 8501.
+foreach ($legacyListener in @(Get-NetTCPConnection -LocalPort 8501 -State Listen -ErrorAction SilentlyContinue)) {
+    $legacyProcess = Get-CimInstance Win32_Process -Filter ('ProcessId=' + $legacyListener.OwningProcess)
+    $legacyParent = if ($legacyProcess) { Get-CimInstance Win32_Process -Filter ('ProcessId=' + $legacyProcess.ParentProcessId) }
+    $legacyCommand = [string]$legacyProcess.CommandLine
+    if ($legacyCommand.Contains('streamlit') -and $legacyCommand.Contains('ui/app.py') -and
+        ($legacyCommand.Contains($projectPython) -or ([string]$legacyParent.CommandLine).Contains($projectPython))) {
+        Stop-Process -Id $legacyListener.OwningProcess -ErrorAction Stop
+        Write-Host 'Stopped the previous workspace UI to migrate port 8501.'
+    }
+}
+$uiListening = Assert-ProjectListener 8501 @('frontend-workbench', 'run_ui.py')
 if (-not $uiListening) {
-    $previousApiBase = $env:QA_API_BASE_URL
-    $env:QA_API_BASE_URL = $projectApiUrl
-    try {
-        $ui = Start-Process -FilePath $projectPython -ArgumentList @('-m','streamlit','run','ui/app.py','--server.address','127.0.0.1','--server.port','8501','--server.headless','true','--browser.gatherUsageStats','false') -WorkingDirectory $projectRoot -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $projectLogs ($projectStamp + '-ui.stdout.log')) -RedirectStandardError (Join-Path $projectLogs ($projectStamp + '-ui.stderr.log'))
-        $ui.Id | Set-Content -LiteralPath (Join-Path $projectRuntime 'd2-ui.pid')
-    } finally { $env:QA_API_BASE_URL = $previousApiBase }
+    $ui = Start-Process -FilePath $projectPython -ArgumentList @('frontend-workbench/run_ui.py','--api-url',$projectApiUrl,'--port','8501') -WorkingDirectory $projectRoot -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $projectLogs ($projectStamp + '-ui.stdout.log')) -RedirectStandardError (Join-Path $projectLogs ($projectStamp + '-ui.stderr.log'))
+    $ui.Id | Set-Content -LiteralPath (Join-Path $projectRuntime 'workbench-ui.pid')
     Write-Host 'Started project interface.'
 } else { Write-Host 'Reusing project interface.' }
 $uiReady = $false
 for ($attempt = 0; $attempt -lt 30; $attempt++) {
     try {
-        $uiStatus = Invoke-RestMethod -Uri ($projectUiUrl + '_stcore/health') -TimeoutSec 3
-        if ($uiStatus -eq 'ok') { $uiReady = $true; break }
+        $uiStatus = Invoke-RestMethod -Uri ($projectUiUrl + 'ui-health') -TimeoutSec 3
+        if ($uiStatus.status -eq 'ok' -and $uiStatus.service -eq 'comagent-workbench-ui' -and
+            ([string]$uiStatus.api_url).TrimEnd('/') -eq $projectApiUrl) { $uiReady = $true; break }
     } catch { }
     Start-Sleep -Milliseconds 500
 }

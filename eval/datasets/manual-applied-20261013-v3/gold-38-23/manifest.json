@@ -1,0 +1,38 @@
+{
+  "version": "manual-applied-20261013-v3",
+  "materials": [
+    {
+      "id": "sql-38",
+      "json": "eval/datasets/manual-applied-20261013-v3/gold-38-23/sql-38.json",
+      "json_sha256": "82fba63eecd0c41e232b94c500ac3e9c518088ebade4ad1a411c582652545080",
+      "sql": "eval/datasets/manual-applied-20261013-v3/gold-38-23/sql-38.sql",
+      "sql_sha256": "a9a83d9d6cc90c8cdb73e53c23ae21deb17fbbf58e4771345bb68cce06389105"
+    },
+    {
+      "id": "robust-23",
+      "json": "eval/datasets/manual-applied-20261013-v3/gold-38-23/robust-23.json",
+      "json_sha256": "0b4a971a07585fca6984b30402a21deb17a18da6028d99b75bb38c40d507edd0",
+      "sql": "eval/datasets/manual-applied-20261013-v3/gold-38-23/robust-23.sql",
+      "sql_sha256": "b3c03263abfe92454dbd3c0494455ee20de270837012f9c4c86ad9fae99f4b4e"
+    }
+  ],
+  "existing_files_sha256_before": {
+    "eval\\datasets\\manual-applied-20261013-v3\\nl2sql-dev.jsonl": "92a386f3f17d603dab913ce32d9287abdc93d7d4c777d1137e3f0b767108995a",
+    "eval\\datasets\\manual-applied-20261013-v3\\robust-dev.jsonl": "0ca7ee1f07a7e18fc5541792408cddad35526c65cccad17a60831cc54bcd575a",
+    "eval\\datasets\\manual-applied-20261013-v3\\manifest.json": "b182e04a7c3df89fb6c6a2a7979fc9700263a0bf69827e47bdc1e76e5d248d14",
+    "eval\\datasets\\current.json": "4b73988953dcdc3b67e11b57186ae77f9afceb754d2c7e5e4273a66147a68dfd"
+  },
+  "existing_files_sha256_after": {
+    "eval\\datasets\\manual-applied-20261013-v3\\nl2sql-dev.jsonl": "92a386f3f17d603dab913ce32d9287abdc93d7d4c777d1137e3f0b767108995a",
+    "eval\\datasets\\manual-applied-20261013-v3\\robust-dev.jsonl": "0ca7ee1f07a7e18fc5541792408cddad35526c65cccad17a60831cc54bcd575a",
+    "eval\\datasets\\manual-applied-20261013-v3\\manifest.json": "b182e04a7c3df89fb6c6a2a7979fc9700263a0bf69827e47bdc1e76e5d248d14",
+    "eval\\datasets\\current.json": "4b73988953dcdc3b67e11b57186ae77f9afceb754d2c7e5e4273a66147a68dfd"
+  },
+  "existing_dataset_manifest_current_unchanged": true,
+  "new_llm_calls": 0,
+  "new_sql_queries": 0,
+  "actual_regression": "gold-two-v3-live-002",
+  "actual_regression_correct": 2,
+  "actual_regression_denominator": 2,
+  "signature_or_confirmation_date_added": false
+}

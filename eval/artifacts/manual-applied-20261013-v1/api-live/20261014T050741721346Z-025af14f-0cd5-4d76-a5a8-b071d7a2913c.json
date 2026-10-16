@@ -1,0 +1,371 @@
+{
+  "started_at_utc": "2026-10-14T05:07:32.966015+00:00",
+  "finished_at_utc": "2026-10-14T05:07:41.721346+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "eval-20261014T050614886289Z-sql-22",
+    "message": "列出 2004 年 1 月 1 日之前入职的员工编号、名字（不包含姓氏）和入职日期，按员工编号升序。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    },
+    "clarification_id": null,
+    "intent_version": null,
+    "choice_id": null
+  },
+  "response": {
+    "trace_id": "8518858a-9e09-4015-b088-bafde2dd0948",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 6 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT \"employee_id\", \"first_name\", \"hire_date\" FROM \"public\".\"employee\" WHERE \"hire_date\" < CAST('2004-01-01 00:00:00' AS TIMESTAMP) ORDER BY \"employee_id\" ASC LIMIT 200",
+    "table": [
+      {
+        "employee_id": 1,
+        "first_name": "Andrew",
+        "hire_date": "2002-08-14T00:00:00"
+      },
+      {
+        "employee_id": 2,
+        "first_name": "Nancy",
+        "hire_date": "2002-05-01T00:00:00"
+      },
+      {
+        "employee_id": 3,
+        "first_name": "Jane",
+        "hire_date": "2002-04-01T00:00:00"
+      },
+      {
+        "employee_id": 4,
+        "first_name": "Margaret",
+        "hire_date": "2003-05-03T00:00:00"
+      },
+      {
+        "employee_id": 5,
+        "first_name": "Steve",
+        "hire_date": "2003-10-17T00:00:00"
+      },
+      {
+        "employee_id": 6,
+        "first_name": "Michael",
+        "hire_date": "2003-10-17T00:00:00"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": {
+        "current": {
+          "end": "2004-01-01",
+          "grain": "before",
+          "label": "2004 年 1 月 1 日之前"
+        }
+      },
+      "filters": [],
+      "grouping": [],
+      "order": {
+        "field": "employee_id",
+        "direction": "asc"
+      },
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 28
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 16
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "列出 2004 年 1 月 1 日之前入职的员工编号、名字（不包含姓氏）和入职日期，按员工编号升序。"
+        },
+        "output_summary": {
+          "rewritten_question": "列出 2004 年 1 月 1 日之前入职的员工编号、名字（不包含姓氏）和入职日期，按员工编号升序。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 4777
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/41f046a90ad540099196de67a537c72f.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 237,
+            "prompt_tokens": 5373,
+            "total_tokens": 5610,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1536
+            },
+            "prompt_cache_hit_tokens": 1536,
+            "prompt_cache_miss_tokens": 3837
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3314
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "列出 2004 年 1 月 1 日之前入职的员工编号、名字（不包含姓氏）和入职日期，按员工编号升序。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"end\": \"2004-01-01\", \"grain\": \"before\", \"label\": \"2004 年 1 月 1 日之前\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": {\"field\": \"employee_id\", \"direction\": \"asc\"}, \"region_scope\": null, \"filters\": [], \"assumptions\": []}",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT \"employee_id\", \"first_name\", \"hire_date\" FROM \"public\".\"employee\" WHERE \"hire_date\" < TIMESTAMP '2004-01-01 00:00:00' ORDER BY \"employee_id\" ASC",
+          "explanation": "从 employee 表筛选入职日期早于 2004-01-01 的员工，返回员工编号、名字和入职日期，按员工编号升序排列，不包含姓氏。"
+        },
+        "latency_ms": 3891
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/45dfcf0789ad46c6a7904af9d1094e55.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 111,
+            "prompt_tokens": 5644,
+            "total_tokens": 5755,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1536
+            },
+            "prompt_cache_hit_tokens": 1536,
+            "prompt_cache_miss_tokens": 4108
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3006
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"employee_id\", \"first_name\", \"hire_date\" FROM \"public\".\"employee\" WHERE \"hire_date\" < TIMESTAMP '2004-01-01 00:00:00' ORDER BY \"employee_id\" ASC"
+        },
+        "output_summary": {
+          "tables": [
+            "employee"
+          ],
+          "default_limit_added": true,
+          "sql": "SELECT \"employee_id\", \"first_name\", \"hire_date\" FROM \"public\".\"employee\" WHERE \"hire_date\" < CAST('2004-01-01 00:00:00' AS TIMESTAMP) ORDER BY \"employee_id\" ASC LIMIT 200"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT \"employee_id\", \"first_name\", \"hire_date\" FROM \"public\".\"employee\" WHERE \"hire_date\" < CAST('2004-01-01 00:00:00' AS TIMESTAMP) ORDER BY \"employee_id\" ASC LIMIT 200",
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "row_count": 6,
+          "columns": [
+            "employee_id",
+            "first_name",
+            "hire_date"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 36
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 8754,
+      "nlu": {
+        "original_question": "列出 2004 年 1 月 1 日之前入职的员工编号、名字（不包含姓氏）和入职日期，按员工编号升序。",
+        "rewritten_question": "列出 2004 年 1 月 1 日之前入职的员工编号、名字（不包含姓氏）和入职日期，按员工编号升序。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "semantic_contract": {
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": {
+            "current": {
+              "end": "2004-01-01",
+              "grain": "before",
+              "label": "2004 年 1 月 1 日之前"
+            }
+          },
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": {
+            "field": "employee_id",
+            "direction": "asc"
+          },
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {
+            "time_scope": "2004 年 1 月 1 日之前入职",
+            "order": "按员工编号升序"
+          }
+        },
+        "patch_history": [],
+        "invalidated_execution": [],
+        "switch": null
+      },
+      "result_columns": [
+        "employee_id",
+        "first_name",
+        "hire_date"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

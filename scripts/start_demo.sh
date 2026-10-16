@@ -20,7 +20,7 @@ import json, os, urllib.request
 try:
     with urllib.request.urlopen(os.environ['QA_API_BASE_URL'] + '/health', timeout=3) as response:
         value = json.load(response)
-    raise SystemExit(0 if value.get('status') == 'ok' and value.get('stage') == 'D1' else 1)
+    raise SystemExit(0 if value.get('status') == 'ok' and value.get('stage') in {'D1', 'D2', 'D3', 'D4'} else 1)
 except Exception:
     raise SystemExit(1)
 PY
@@ -60,4 +60,4 @@ except (ValueError, OSError):
     raise SystemExit('UI port is invalid or occupied. Select another UI_PORT; no process was stopped.')
 PY
 printf 'API: %s/docs\nDemo: http://127.0.0.1:%s\n' "$QA_API_BASE_URL" "$ui_port"
-exec "$project_python" -m streamlit run ui/app.py --server.address 127.0.0.1 --server.port "$ui_port" --browser.gatherUsageStats false
+exec "$project_python" frontend-workbench/run_ui.py --api-url "$QA_API_BASE_URL" --port "$ui_port"

@@ -1,0 +1,553 @@
+{
+  "id": "sp03-24",
+  "family_id": "special-fam-26-l2-region-semantics-residence-vs-billing-australia",
+  "task": "03",
+  "category": "L1",
+  "input": "2022年澳大利亚的发票销售额是多少？",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "execute_with_declared_defaults",
+  "allowed_interpretations": [
+    {
+      "stage": "initial_request",
+      "intent": {
+        "task_type": "aggregation",
+        "metric": "sales_revenue",
+        "metric_expression": "SUM(invoice.total)",
+        "region": {
+          "column": "invoice.billing_country",
+          "value": "Australia"
+        },
+        "period": {
+          "start": "2022-01-01",
+          "end": "2023-01-01"
+        }
+      },
+      "default_declaration_required": true
+    },
+    {
+      "stage": "later_user_request",
+      "policy": "Apply only explicitly supplied later changes; do not use old hidden target as initial facts"
+    }
+  ],
+  "expected_bindings": [],
+  "missing_conditions": [],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n初始题按账单国家默认可执行并声明；旧控制器通过反问后指定客户所在地，是另一套对话版本。历史后续显式改账单国应服从，不把两者同值当作状态更新证据。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n"
+  ],
+  "reference_intent": {
+    "task_type": "aggregation",
+    "metric": "sales_revenue",
+    "metric_expression": "SUM(invoice.total)",
+    "region": {
+      "column": "invoice.billing_country",
+      "value": "Australia"
+    },
+    "period": {
+      "start": "2022-01-01",
+      "end": "2023-01-01"
+    }
+  },
+  "gold_sql": "SELECT SUM(i.total) AS revenue FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01' AND i.billing_country = 'Australia';",
+  "controller": {
+    "hidden_goal": "首轮依据本条新版 reference_intent 与 gold_sql执行；只有post_completion_turns中明确提供的新条件改变目标。",
+    "allowed_user_supplements": {},
+    "final_intent": {
+      "task_type": "aggregation",
+      "metric": "sales_revenue",
+      "metric_expression": "SUM(invoice.total)",
+      "region": {
+        "column": "invoice.billing_country",
+        "value": "Australia"
+      },
+      "period": {
+        "start": "2022-01-01",
+        "end": "2023-01-01"
+      }
+    },
+    "expected_state_changes": [
+      "Execute initial request without mandatory clarification; preserve explicit subsequent changes"
+    ],
+    "max_clarification_followups": 0,
+    "post_completion_turns": [
+      {
+        "message": "改成按账单国家算。",
+        "expected_intent": {
+          "task_type": "aggregation",
+          "metric": "sales_revenue",
+          "region": {
+            "column": "invoice.billing_country",
+            "value": "Australia"
+          },
+          "period": {
+            "start": "2022-01-01",
+            "end": "2023-01-01"
+          }
+        },
+        "gold_sql": "SELECT SUM(i.total) AS revenue FROM public.invoice i WHERE i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01' AND i.billing_country = 'Australia';",
+        "gold_result": {
+          "columns": [
+            "revenue"
+          ],
+          "rows": [
+            [
+              "0.99"
+            ]
+          ],
+          "table": [
+            {
+              "revenue": "0.99"
+            }
+          ],
+          "row_count": 1,
+          "truncated": false
+        },
+        "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-24-post-01.json"
+      }
+    ]
+  },
+  "case_style": "region_semantics_conflict",
+  "secondary_tags": [
+    "居住地vs账单国",
+    "澳大利亚",
+    "2022"
+  ],
+  "generation_protocol_recovery": "Earliest syntactically valid provider JSON with the fixed 5 IDs/categories, after failed protocol attempts; original failure preserved; no claim of valid labels",
+  "generation_call_id": "generate-03-expansion-03",
+  "generation_stage": "expansion",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "ai_suggested_pass_two_contexts",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "auto_status": "passed",
+  "auto_issues": [],
+  "original_missing_gold_sql": null,
+  "dataset_version": "manual-applied-20261013-v3",
+  "gold_result": {
+    "columns": [
+      "revenue"
+    ],
+    "rows": [
+      [
+        "0.99"
+      ]
+    ],
+    "table": [
+      {
+        "revenue": "0.99"
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "raw_expected_bindings": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": ">=",
+      "value": "DATE '2022-01-01'"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": "<",
+      "value": "DATE '2023-01-01'"
+    }
+  ],
+  "expected_predicates": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": ">=",
+      "value": "DATE '2022-01-01'"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": "<",
+      "value": "DATE '2023-01-01'"
+    }
+  ],
+  "expected_aggregations": [],
+  "expected_unresolved_constraints": [],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "task_type": "aggregation",
+    "metric": "sales_revenue",
+    "metric_expression": "SUM(invoice.total)",
+    "region": {
+      "column": "invoice.billing_country",
+      "value": "Australia"
+    },
+    "period": {
+      "start": "2022-01-01",
+      "end": "2023-01-01"
+    }
+  },
+  "scorable": true,
+  "final_source_guard_issues": [],
+  "review_label": "L1／默认账单国；显式切换优先",
+  "review_label_tags": [
+    "L1",
+    "默认账单国；显式切换优先"
+  ],
+  "canonical_input": "2022年澳大利亚的发票销售额是多少？",
+  "effective_region_default": {
+    "column": "invoice.billing_country",
+    "source": "submitted notes + Oct12 joint defaults",
+    "explicit_user_scope_takes_priority": true
+  },
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      {
+        "type": "region_scope",
+        "note": "可能按客户居住地或账单地址国家。"
+      },
+      {
+        "type": "period",
+        "note": "2022整年左闭右开。"
+      }
+    ],
+    "business_basis": [
+      "通用约定: customer.country与invoice.billing_country保留各自含义；当前快照相等不等于合并",
+      "已确认口径: 销售额SUM(invoice.total)"
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp03-24",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "输入2022年澳大利亚发票销售额，地区语义存在customer.country居住地与invoice.billing_country账单国冲突，二者不合并，L2正确。澄清为customer.country='Australia'后SQL按SUM(invoice.total)、2022左闭右开执行；post_completion改为billing_country也正确保留期间与指标。",
+        "evidence": [
+          "confirmed_business_rules.general.region",
+          "actual_program_checks sp03-24 final/post_completion_1"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      },
+      {
+        "id": "sp03-24",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "地区语义冲突：澳大利亚可指 customer.country 或 invoice.billing_country，二者含义不同且规则禁止因当前快照相等而合并，故 region_scope 缺失属真实 L2 歧义。补充为居住地后 gold SQL 用 JOIN customer 且 c.country='Australia'，发票粒度 SUM(invoice.total)，期间 [2022-01-01,2023-01-01) 半开。post_completion_turn 改为账单国时正确移除 customer JOIN 只保留 billing_country='Australia'，未改期间与指标，未改条件保留。程序实跑 final 与 post 结果均为 0.99，仅为执行验证（快照相等不改变语义判断）。",
+        "evidence": [
+          "input: 2022年澳大利亚的发票销售额是多少？",
+          "通用约定: customer.country 与 invoice.billing_country 保留各自含义，快照相等不等于合并",
+          "gold_sql: JOIN customer WHERE c.country='Australia'，期间 2022 半开",
+          "post_completion_turn gold_sql: WHERE billing_country='Australia'，无 customer JOIN",
+          "actual_program_checks.sp03-24: final 与 post 均 0.99"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      }
+    ],
+    "gold_completion_business_basis": [
+      "controller.final_intent明确region.column=customer.country, value=Australia，来自allowed_user_supplements“按客户所在国家算，customer.country”与“客户居住地那边”",
+      "已确认口径：销售额采用发票粒度SUM(invoice.total)",
+      "期间使用invoice_date左闭右开[2022-01-01,2023-01-01)",
+      "通用约定：customer.country是客户所在地，invoice.billing_country是账单地址，两者含义不合并；本SQL按最终意图使用customer.country"
+    ],
+    "gold_completion_issues": [
+      "原始输入“2022年澳大利亚的发票销售额”未说明住址还是账单国家，初始标注missing region_scope只能依赖程序外补充；已给定allowed_user_supplements后SQL按customer.country表达，但初始分类/模拟用户规则对地区口径覆盖不足"
+    ],
+    "gold_revision_reason": "Generation returned empty/null L2 gold; separate context supplied SQL for unchanged already explicit offline final intent before any tested-system run. Original preserved. Both AI passes must still independently verify semantics.",
+    "original_operational_reference": {
+      "reference_intent": {
+        "task_type": "aggregation",
+        "metric": "sales_revenue",
+        "region": {
+          "value": "Australia",
+          "column": null
+        },
+        "period": {
+          "start": "2022-01-01",
+          "end": "2023-01-01"
+        },
+        "missing": [
+          "region_scope"
+        ]
+      },
+      "expected_final_intent": {
+        "task_type": "aggregation",
+        "metric": "sales_revenue",
+        "metric_expression": "SUM(invoice.total)",
+        "region": {
+          "column": "customer.country",
+          "value": "Australia"
+        },
+        "period": {
+          "start": "2022-01-01",
+          "end": "2023-01-01"
+        }
+      },
+      "expected_bindings": [],
+      "raw_expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "DATE '2022-01-01'"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "DATE '2023-01-01'"
+        }
+      ],
+      "expected_predicates": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "DATE '2022-01-01'"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "DATE '2023-01-01'"
+        }
+      ],
+      "expected_unresolved_constraints": [],
+      "controller": {
+        "hidden_goal": "计算2022年澳大利亚地区发票销售额，需先澄清地区是按客户居住国还是账单国口径。",
+        "allowed_user_supplements": {
+          "region_scope": {
+            "answer": "按客户所在国家算，customer.country。",
+            "value": "customer.country"
+          },
+          "region": {
+            "answer": "客户居住地那边。",
+            "value": {
+              "column": "customer.country",
+              "value": "Australia"
+            }
+          }
+        },
+        "final_intent": {
+          "task_type": "aggregation",
+          "metric": "sales_revenue",
+          "metric_expression": "SUM(invoice.total)",
+          "region": {
+            "column": "customer.country",
+            "value": "Australia"
+          },
+          "period": {
+            "start": "2022-01-01",
+            "end": "2023-01-01"
+          }
+        },
+        "expected_state_changes": [
+          "set region_scope=customer.country",
+          "check_constraints_ready → EXECUTING"
+        ],
+        "max_clarification_followups": 3,
+        "post_completion_turns": [
+          {
+            "message": "改成按账单国家算。",
+            "expected_intent": {
+              "task_type": "aggregation",
+              "metric": "sales_revenue",
+              "region": {
+                "column": "invoice.billing_country",
+                "value": "Australia"
+              },
+              "period": {
+                "start": "2022-01-01",
+                "end": "2023-01-01"
+              }
+            },
+            "gold_sql": "SELECT SUM(i.total) AS revenue FROM public.invoice i WHERE i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01' AND i.billing_country = 'Australia';"
+          }
+        ]
+      },
+      "gold_sql": "SELECT SUM(i.total) AS revenue FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01' AND c.country = 'Australia';",
+      "gold_result": {
+        "columns": [
+          "revenue"
+        ],
+        "rows": [
+          [
+            "0.99"
+          ]
+        ],
+        "table": [
+          {
+            "revenue": "0.99"
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        {
+          "type": "region_scope",
+          "note": "可能按客户居住地或账单地址国家。"
+        },
+        {
+          "type": "period",
+          "note": "2022整年左闭右开。"
+        }
+      ],
+      "canonical_input": null
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp03-24",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "标签修订提案"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "e290905682eaaa5d7b1c94be6b95885eb2cf7704ebcebd0ecf6be4ebebaeefd0"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "1086bb8ddbf0cab585540f4004eeda22f4aa70381df4226ede6329c366810eda"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "bb0b0b70f32f3592bc3ab55228120bbb80573a38ceb52a1c0f7b333d64d732db"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "6bf8920bd1c87c30bae224027540d10da0b4861fcf500323aad735e808410eda"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "694372e188f6749ebdfab150848f883d36d963b7f765538c43c3c31aabbf3508"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "3de76179bcd2673117edd5d9904ff0ef256748fce4c833556907b94342a640aa"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "7bea667452a4d5a4f2bf12fa4b96fc787d3433d09c96dd050f802d21f227c099"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "c0162113efa22c31b18b9758ce0b033c785718990d6a9ae122be3913135c908e"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "b579613b5529ac3e2c9641eedca4dc31b11b3b930907e1ffa386eaca82697492"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n初始题按账单国家默认可执行并声明；旧控制器通过反问后指定客户所在地，是另一套对话版本。历史后续显式改账单国应服从，不把两者同值当作状态更新证据。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\ne290905682｜专项历史 V0 / turn0：历史版仍按旧缺口策略追问：国家按客户所在地还是发票账单国家？；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n1086bb8ddb｜专项历史 V0 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\nbb0b0b70f3｜专项历史 V0 / turn2：续问显式改为账单国家，SQL改billing_country并保留Australia、2022和金额；旧值相同不是唯一依据，字段变化也已核对。\n6bf8920bd1｜专项历史 V1 / turn0：历史版仍按旧缺口策略追问：国家按客户所在地还是发票账单国家？；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n694372e188｜专项历史 V1 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n3de76179bc｜专项历史 V1 / turn2：续问显式改为账单国家，SQL改billing_country并保留Australia、2022和金额；旧值相同不是唯一依据，字段变化也已核对。\n7bea667452｜专项历史 V2 / turn0：历史版仍按旧缺口策略追问：国家按客户所在地还是发票账单国家？；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\nc0162113ef｜专项历史 V2 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\nb579613b55｜专项历史 V2 / turn2：续问显式改为账单国家，SQL改billing_country并保留Australia、2022和金额；旧值相同不是唯一依据，字段变化也已核对。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "有条件通过",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Default invoice revenue/count region uses billing_country; explicitly scoped later user turns stay independent",
+      "Operational category, missing_conditions and required clarification slots synchronized with submitted level",
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "revenue"
+  ],
+  "column_types": [
+    "number"
+  ],
+  "integer_columns": [],
+  "ordered": false,
+  "monetary_columns": [],
+  "expected_status": "SUCCEEDED",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-24.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "2c2d2d52a90da2840595d2cbf13226bfbc5ad8b5e2b78197d8d9c784f125de04",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n初始题按账单国家默认可执行并声明；旧控制器通过反问后指定客户所在地，是另一套对话版本。历史后续显式改账单国应服从，不把两者同值当作状态更新证据。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\ne290905682｜专项历史 V0 / turn0：历史版仍按旧缺口策略追问：国家按客户所在地还是发票账单国家？；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n1086bb8ddb｜专项历史 V0 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\nbb0b0b70f3｜专项历史 V0 / turn2：续问显式改为账单国家，SQL改billing_country并保留Australia、2022和金额；旧值相同不是唯一依据，字段变化也已核对。\n6bf8920bd1｜专项历史 V1 / turn0：历史版仍按旧缺口策略追问：国家按客户所在地还是发票账单国家？；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n694372e188｜专项历史 V1 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n3de76179bc｜专项历史 V1 / turn2：续问显式改为账单国家，SQL改billing_country并保留Australia、2022和金额；旧值相同不是唯一依据，字段变化也已核对。\n7bea667452｜专项历史 V2 / turn0：历史版仍按旧缺口策略追问：国家按客户所在地还是发票账单国家？；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\nc0162113ef｜专项历史 V2 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\nb579613b55｜专项历史 V2 / turn2：续问显式改为账单国家，SQL改billing_country并保留Australia、2022和金额；旧值相同不是唯一依据，字段变化也已核对。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "L1",
+        "默认账单国；显式切换优先"
+      ],
+      "initial_level": "L1",
+      "missing_conditions": [],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

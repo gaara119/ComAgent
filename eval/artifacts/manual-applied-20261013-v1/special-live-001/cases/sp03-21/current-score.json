@@ -1,0 +1,98 @@
+{
+  "id": "sp03-21",
+  "task": "03",
+  "category": "L2",
+  "turn_count": 2,
+  "initial_status": "NEEDS_CLARIFICATION",
+  "observed_initial_level": "L2",
+  "initial_level_correct": true,
+  "initial_status_correct": true,
+  "declared_default_observed": null,
+  "outcome": "finished",
+  "candidate_contract": null,
+  "query": {
+    "executed": true,
+    "matched": false,
+    "comparison": {
+      "matched": false,
+      "reason": "column_count_mismatch",
+      "column_mapping": null
+    },
+    "legacy_comparison": {
+      "matched": false,
+      "reason": "column_count_mismatch",
+      "column_mapping": null
+    },
+    "semantic_check": {
+      "correct": null,
+      "status": "AI_pending",
+      "reason": "Qualified AST differs; semantic equivalence needs independent review",
+      "predicate_match": false,
+      "gold": {
+        "ast": "WITH cur AS (SELECT SUM(invoice.total) FROM invoice JOIN customer ON customer.customer_id = invoice.customer_id WHERE invoice.billing_country = 'Germany' AND invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE)), base AS (SELECT SUM(invoice.total) FROM invoice JOIN customer ON customer.customer_id = invoice.customer_id WHERE invoice.billing_country = 'Germany' AND invoice.invoice_date >= CAST('2023-01-01' AS DATE) AND invoice.invoice_date < CAST('2024-01-01' AS DATE)) SELECT cur.revenue, base.revenue, CASE WHEN base.revenue IS NULL OR base.revenue = 0 THEN NULL ELSE (cur.revenue - base.revenue) / base.revenue END FROM cur AS cur CROSS JOIN base AS base",
+        "predicates": {
+          "base.revenue = 0": 1,
+          "customer.customer_id = invoice.customer_id": 2,
+          "invoice.billing_country = 'Germany'": 2,
+          "invoice.invoice_date < CAST('2024-01-01' AS DATE)": 1,
+          "invoice.invoice_date < CAST('2025-01-01' AS DATE)": 1,
+          "invoice.invoice_date >= CAST('2023-01-01' AS DATE)": 1,
+          "invoice.invoice_date >= CAST('2024-01-01' AS DATE)": 1
+        },
+        "aggregates": [
+          "SUM(invoice.total)",
+          "SUM(invoice.total)"
+        ],
+        "tables": [
+          "base",
+          "cur",
+          "customer",
+          "invoice"
+        ],
+        "limit": null
+      },
+      "actual": {
+        "ast": "SELECT (SUM(CASE WHEN invoice.invoice_date >= '2024-01-01' AND invoice.invoice_date < '2025-01-01' THEN invoice.total ELSE 0 END) - SUM(CASE WHEN invoice.invoice_date >= '2023-01-01' AND invoice.invoice_date < '2024-01-01' THEN invoice.total ELSE 0 END)) / NULLIF(SUM(CASE WHEN invoice.invoice_date >= '2023-01-01' AND invoice.invoice_date < '2024-01-01' THEN invoice.total ELSE 0 END), 0) FROM invoice WHERE invoice.billing_country = 'Germany'",
+        "predicates": {
+          "invoice.billing_country = 'Germany'": 1,
+          "invoice.invoice_date < '2024-01-01'": 2,
+          "invoice.invoice_date < '2025-01-01'": 1,
+          "invoice.invoice_date >= '2023-01-01'": 2,
+          "invoice.invoice_date >= '2024-01-01'": 1
+        },
+        "aggregates": [
+          "SUM(CASE WHEN invoice.invoice_date >= '2023-01-01' AND invoice.invoice_date < '2024-01-01' THEN invoice.total ELSE 0 END)",
+          "SUM(CASE WHEN invoice.invoice_date >= '2023-01-01' AND invoice.invoice_date < '2024-01-01' THEN invoice.total ELSE 0 END)",
+          "SUM(CASE WHEN invoice.invoice_date >= '2024-01-01' AND invoice.invoice_date < '2025-01-01' THEN invoice.total ELSE 0 END)"
+        ],
+        "tables": [
+          "invoice"
+        ],
+        "limit": null
+      }
+    }
+  },
+  "post_completion": [],
+  "whole_dialogue_success": false,
+  "controller_events": [
+    {
+      "after_turn": 0,
+      "outcome": "answer",
+      "request": {
+        "session_id": "special-reviewed-dev-v3-e624b0ba-3e66-45ad-ac9d-c501b9445969",
+        "message": "2024年（该年有数据，不代表完整年度）",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "a8e89d12-6652-4966-9aa7-a3603149147f",
+        "intent_version": 1,
+        "choice_id": "year:2024"
+      },
+      "asked_key": "time_scope.current",
+      "supplement_key": "time_scope",
+      "reason": ""
+    }
+  ]
+}

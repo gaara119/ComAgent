@@ -1,0 +1,351 @@
+{
+  "id": "sp01-10",
+  "family_id": "special-fam-10-explicit-absent-genre",
+  "task": "01",
+  "category": "explicit_absent",
+  "input": "Vaporwave流派的曲目有多少首？",
+  "canonical_input": "Vaporwave流派的曲目有多少首？",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "用户显式说明按字面值查且无记录就报告无记录；不得替换为附近流派或自行扩充。保留不存在值。",
+  "allowed_interpretations": [
+    "精确按 genre.name='Vaporwave' 统计曲目数；无匹配则报告没有记录"
+  ],
+  "expected_bindings": [
+    {
+      "column": "genre.name",
+      "operator": "=",
+      "value": "Vaporwave",
+      "surface": "Vaporwave"
+    }
+  ],
+  "missing_conditions": [],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n原题对象与条件有对应参考依据；保留其语义、单位和排序，仅按独立审查范围给出首轮意见。\n题面草案变化是新版本提案；保留原题与原预测，不能把旧输出冒充对清洗后问题的实测。\n"
+  ],
+  "reference_intent": {
+    "task_type": "count",
+    "metric": "track_count",
+    "filters": [
+      {
+        "column": "genre.name",
+        "operator": "=",
+        "value": "Vaporwave"
+      }
+    ],
+    "time_scope": "none",
+    "grouping": "none",
+    "top_n": null
+  },
+  "gold_sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Vaporwave';",
+  "controller": null,
+  "secondary_tags": [
+    "genre",
+    "track_count",
+    "no_match"
+  ],
+  "case_style": "technical_boundary",
+  "generation_call_id": "generate-01-pilot-02",
+  "generation_stage": "pilot",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "ai_suggested_pass_two_contexts",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "gold_result": {
+    "columns": [
+      "track_count"
+    ],
+    "rows": [
+      [
+        0
+      ]
+    ],
+    "table": [
+      {
+        "track_count": 0
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "auto_status": "passed",
+  "auto_issues": [],
+  "dataset_version": "manual-applied-20261013-v3",
+  "raw_expected_bindings": [
+    {
+      "column": "genre.name",
+      "operator": "=",
+      "value": "Vaporwave",
+      "surface": "Vaporwave"
+    }
+  ],
+  "expected_predicates": [],
+  "expected_aggregations": [],
+  "expected_unresolved_constraints": [],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "task_type": "count",
+    "metric": "track_count",
+    "filters": [
+      {
+        "column": "genre.name",
+        "operator": "=",
+        "value": "Vaporwave"
+      }
+    ],
+    "time_scope": "none",
+    "grouping": "none",
+    "top_n": null
+  },
+  "scorable": true,
+  "final_source_guard_issues": [],
+  "review_label": "explicit_absent",
+  "review_label_tags": [
+    "explicit_absent"
+  ],
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      "精确按 genre.name='Vaporwave' 统计曲目数；无匹配则报告没有记录"
+    ],
+    "business_basis": [
+      "live_database_facts.genres 列出 25 个流派（Rock、Jazz、Metal、…、Opera），不含 'Vaporwave'",
+      "口径：明确不存在的值按字面值查、无记录即报告；不替换附近对象；COUNT=0 不需追问"
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp01-10",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "not_applicable",
+        "reason": "用户显式要求按字面值 genre.name='Vaporwave' 查询、无记录就报告没有记录，不得替换相近流派。live_database_facts.genres 的 25 个流派不含 'Vaporwave'。gold_sql 正确按精确等值统计 COUNT(*)，不替换、不扩充，实跑得 0，符合'明确不存在不替换'原则。必要条件齐全，属 L0 直接执行，controller=not_applicable；用户已给出空结果处理指令故不需追问。",
+        "evidence": [
+          "cases[sp01-10].input 明确'如果数据库里根本没有这个流派，请直接报告没有记录'",
+          "live_database_facts.genres 无 'Vaporwave'",
+          "actual_program_checks[sp01-10] executed_readonly 结果 0"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      },
+      {
+        "id": "sp01-10",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "not_applicable",
+        "reason": "用户显式要求按字面值 genre.name='Vaporwave' 查询，且如果不存在就直接报告无记录，不能替换成相近流派。live_database_facts.genres 的 25 个值中没有 Vaporwave，因此按字面值执行是正确边界；JOIN track 与 genre 后 COUNT(*) 返回 0，符合'无记录即报告'的约束。此题的 0 是真实计数结果，不能误判为 NULL 或触发澄清。",
+        "evidence": [
+          "用户输入明确'没有这个流派，请直接报告没有记录'",
+          "live_database_facts.genres 25 个流派中无 Vaporwave",
+          "gold_sql 精确过滤 genre.name='Vaporwave'",
+          "actual_program_checks.sp01-10 executed_readonly result 0"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      }
+    ],
+    "original_operational_reference": {
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "track_count",
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Vaporwave"
+          }
+        ],
+        "time_scope": "none",
+        "grouping": "none",
+        "top_n": null
+      },
+      "expected_final_intent": {
+        "task_type": "count",
+        "metric": "track_count",
+        "filters": [
+          {
+            "column": "genre.name",
+            "operator": "=",
+            "value": "Vaporwave"
+          }
+        ],
+        "time_scope": "none",
+        "grouping": "none",
+        "top_n": null
+      },
+      "expected_bindings": [
+        {
+          "column": "genre.name",
+          "operator": "=",
+          "value": "Vaporwave",
+          "surface": "Vaporwave"
+        }
+      ],
+      "raw_expected_bindings": [
+        {
+          "column": "genre.name",
+          "operator": "=",
+          "value": "Vaporwave",
+          "surface": "Vaporwave"
+        }
+      ],
+      "expected_predicates": [],
+      "expected_unresolved_constraints": [],
+      "controller": null,
+      "gold_sql": "SELECT COUNT(*) AS track_count FROM public.track t JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Vaporwave';",
+      "gold_result": {
+        "columns": [
+          "track_count"
+        ],
+        "rows": [
+          [
+            0
+          ]
+        ],
+        "table": [
+          {
+            "track_count": 0
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        "精确按 genre.name='Vaporwave' 统计曲目数；无匹配则报告没有记录"
+      ],
+      "canonical_input": "按字面值 genre.name='Vaporwave' 查询曲目数；无记录就报告无记录，不替换成相近流派。"
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp01-10",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "题面清洗提案"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "77915f8f3d12f24f3ecad49712d87076cc8720bec74c35766a25645eae41a03d"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "b1cefa7851ade04f9f646fb1f798c9d3783a38a2eb0f14fb3adb4fd4cd6f8909"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "da2824e2dbb65ed43fea04e45e52eb63c39c005d001e28a459786e2e03101aa5"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "2dab0b248979c662c346f19f793bfc4e792a46b631c3f8c74bbcb8ffeb111bc0"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "176fcb93e33b3ef3c1ebb3d3f1b43afcb4e731b5397f5855036f4cf013f7746f"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n原题对象与条件有对应参考依据；保留其语义、单位和排序，仅按独立审查范围给出首轮意见。\n题面草案变化是新版本提案；保留原题与原预测，不能把旧输出冒充对清洗后问题的实测。\n逐版本（同题不同输出分别保留）：\n77915f8f3d｜专项历史 V0 / turn0：实际响应失败：SQL 未通过校验：该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。；记录保留，不因后续版本成功抹去。\nb1cefa7851｜专项历史 V1 / turn0：实际响应失败：SQL 未通过校验：该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。；记录保留，不因后续版本成功抹去。\nda2824e2db｜专项历史 V2 / turn0：实际响应失败：SQL 未通过校验：该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。；记录保留，不因后续版本成功抹去。\n2dab0b2489｜targets-live-001 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n176fcb93e3｜targets-live-002 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；eval/artifacts/oct12/targets-live-001/sp01-10.json；eval/artifacts/oct12/targets-live-002/sp01-10.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "通过",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "track_count"
+  ],
+  "column_types": [
+    "number"
+  ],
+  "integer_columns": [
+    0
+  ],
+  "ordered": false,
+  "monetary_columns": [],
+  "expected_status": "SUCCEEDED",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp01-10.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "275045d6652be40ad1ff09c5f885a63717f90aac29f30e9628b33ff04ae13e8f",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n原题对象与条件有对应参考依据；保留其语义、单位和排序，仅按独立审查范围给出首轮意见。\n题面草案变化是新版本提案；保留原题与原预测，不能把旧输出冒充对清洗后问题的实测。\n逐版本（同题不同输出分别保留）：\n77915f8f3d｜专项历史 V0 / turn0：实际响应失败：SQL 未通过校验：该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。；记录保留，不因后续版本成功抹去。\nb1cefa7851｜专项历史 V1 / turn0：实际响应失败：SQL 未通过校验：该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。；记录保留，不因后续版本成功抹去。\nda2824e2db｜专项历史 V2 / turn0：实际响应失败：SQL 未通过校验：该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。；记录保留，不因后续版本成功抹去。\n2dab0b2489｜targets-live-001 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n176fcb93e3｜targets-live-002 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；eval/artifacts/oct12/targets-live-001/sp01-10.json；eval/artifacts/oct12/targets-live-002/sp01-10.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "explicit_absent"
+      ],
+      "initial_level": "explicit_absent",
+      "missing_conditions": [],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

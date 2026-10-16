@@ -245,11 +245,16 @@ def parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = parser().parse_args()
-    if args.dataset is None:
-        args.dataset = ROOT / "eval/datasets" / {"nl2sql":"nl2sql_chinook_d2.jsonl", "robust":"robust.jsonl", "rag":"rag_single.jsonl"}.get(args.suite, DEFAULT_DATASET.name)
-    if args.run_id and not args.output:
-        args.output = ROOT / "eval/artifacts/d2" / (args.suite or "nl2sql") / args.run_id
     try:
+        if args.dataset is None:
+            fallback = ROOT / "eval/datasets" / {"nl2sql":"nl2sql_chinook_d2.jsonl", "robust":"robust.jsonl", "rag":"rag_single.jsonl"}.get(args.suite, DEFAULT_DATASET.name)
+            if args.suite:
+                from eval.active_datasets import active_dataset_path
+                args.dataset = active_dataset_path(args.suite, fallback)
+            else:
+                args.dataset = fallback
+        if args.run_id and not args.output:
+            args.output = ROOT / "eval/artifacts/d2" / (args.suite or "nl2sql") / args.run_id
         if args.suite == "rag":
             from eval.d2_rag_eval import evaluate_rag
             report, directory = evaluate_rag(args)

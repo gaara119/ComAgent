@@ -1,0 +1,241 @@
+{
+  "id": "sp03-26",
+  "task": "03",
+  "category": "L2",
+  "turn_count": 5,
+  "initial_status": "NEEDS_CLARIFICATION",
+  "observed_initial_level": "L2",
+  "initial_level_correct": true,
+  "initial_status_correct": true,
+  "declared_default_observed": null,
+  "outcome": "finished",
+  "candidate_contract": null,
+  "query": {
+    "executed": true,
+    "matched": true,
+    "comparison": {
+      "matched": true,
+      "reason": "equal",
+      "column_mapping": [
+        0
+      ]
+    },
+    "legacy_comparison": {
+      "matched": true,
+      "reason": "equal",
+      "column_mapping": [
+        0
+      ]
+    },
+    "semantic_check": {
+      "correct": null,
+      "status": "AI_pending",
+      "reason": "Qualified AST differs; semantic equivalence needs independent review",
+      "predicate_match": false,
+      "gold": {
+        "ast": "SELECT (SUM(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE) THEN invoice.total END) - SUM(CASE WHEN invoice.invoice_date >= CAST('2023-01-01' AS DATE) AND invoice.invoice_date < CAST('2024-01-01' AS DATE) THEN invoice.total END)) / NULLIF(SUM(CASE WHEN invoice.invoice_date >= CAST('2023-01-01' AS DATE) AND invoice.invoice_date < CAST('2024-01-01' AS DATE) THEN invoice.total END), 0) FROM invoice",
+        "predicates": {
+          "invoice.invoice_date < CAST('2024-01-01' AS DATE)": 2,
+          "invoice.invoice_date < CAST('2025-01-01' AS DATE)": 1,
+          "invoice.invoice_date >= CAST('2023-01-01' AS DATE)": 2,
+          "invoice.invoice_date >= CAST('2024-01-01' AS DATE)": 1
+        },
+        "aggregates": [
+          "SUM(CASE WHEN invoice.invoice_date >= CAST('2023-01-01' AS DATE) AND invoice.invoice_date < CAST('2024-01-01' AS DATE) THEN invoice.total END)",
+          "SUM(CASE WHEN invoice.invoice_date >= CAST('2023-01-01' AS DATE) AND invoice.invoice_date < CAST('2024-01-01' AS DATE) THEN invoice.total END)",
+          "SUM(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE) THEN invoice.total END)"
+        ],
+        "tables": [
+          "invoice"
+        ],
+        "limit": null
+      },
+      "actual": {
+        "ast": "WITH cur AS (SELECT SUM(invoice.total) FROM invoice WHERE invoice.invoice_date >= CAST('2024-01-01 00:00:00' AS TIMESTAMP) AND invoice.invoice_date < CAST('2025-01-01 00:00:00' AS TIMESTAMP)), base AS (SELECT SUM(invoice.total) FROM invoice WHERE invoice.invoice_date >= CAST('2023-01-01 00:00:00' AS TIMESTAMP) AND invoice.invoice_date < CAST('2024-01-01 00:00:00' AS TIMESTAMP)) SELECT (cur.revenue - base.revenue) / NULLIF(base.revenue, 0) FROM cur AS cur CROSS JOIN base AS base",
+        "predicates": {
+          "invoice.invoice_date < CAST('2024-01-01 00:00:00' AS TIMESTAMP)": 1,
+          "invoice.invoice_date < CAST('2025-01-01 00:00:00' AS TIMESTAMP)": 1,
+          "invoice.invoice_date >= CAST('2023-01-01 00:00:00' AS TIMESTAMP)": 1,
+          "invoice.invoice_date >= CAST('2024-01-01 00:00:00' AS TIMESTAMP)": 1
+        },
+        "aggregates": [
+          "SUM(invoice.total)",
+          "SUM(invoice.total)"
+        ],
+        "tables": [
+          "base",
+          "cur",
+          "invoice"
+        ],
+        "limit": null
+      }
+    }
+  },
+  "post_completion": [
+    {
+      "index": 0,
+      "message": "改成2025年同比。",
+      "executed": true,
+      "matched": true,
+      "comparison": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "legacy_comparison": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "semantic_check": {
+        "correct": null,
+        "status": "AI_pending",
+        "reason": "Qualified AST differs; semantic equivalence needs independent review",
+        "predicate_match": false,
+        "gold": {
+          "ast": "SELECT (SUM(CASE WHEN invoice.invoice_date >= CAST('2025-01-01' AS DATE) AND invoice.invoice_date < CAST('2026-01-01' AS DATE) THEN invoice.total END) - SUM(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE) THEN invoice.total END)) / NULLIF(SUM(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE) THEN invoice.total END), 0) FROM invoice",
+          "predicates": {
+            "invoice.invoice_date < CAST('2025-01-01' AS DATE)": 2,
+            "invoice.invoice_date < CAST('2026-01-01' AS DATE)": 1,
+            "invoice.invoice_date >= CAST('2024-01-01' AS DATE)": 2,
+            "invoice.invoice_date >= CAST('2025-01-01' AS DATE)": 1
+          },
+          "aggregates": [
+            "SUM(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE) THEN invoice.total END)",
+            "SUM(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE) THEN invoice.total END)",
+            "SUM(CASE WHEN invoice.invoice_date >= CAST('2025-01-01' AS DATE) AND invoice.invoice_date < CAST('2026-01-01' AS DATE) THEN invoice.total END)"
+          ],
+          "tables": [
+            "invoice"
+          ],
+          "limit": null
+        },
+        "actual": {
+          "ast": "WITH cur AS (SELECT SUM(invoice.total) FROM invoice WHERE invoice.invoice_date >= CAST('2025-01-01 00:00:00' AS TIMESTAMP) AND invoice.invoice_date < CAST('2026-01-01 00:00:00' AS TIMESTAMP)), base AS (SELECT SUM(invoice.total) FROM invoice WHERE invoice.invoice_date >= CAST('2024-01-01 00:00:00' AS TIMESTAMP) AND invoice.invoice_date < CAST('2025-01-01 00:00:00' AS TIMESTAMP)) SELECT (cur.amt - base.amt) / NULLIF(base.amt, 0) FROM cur AS cur CROSS JOIN base AS base",
+          "predicates": {
+            "invoice.invoice_date < CAST('2025-01-01 00:00:00' AS TIMESTAMP)": 1,
+            "invoice.invoice_date < CAST('2026-01-01 00:00:00' AS TIMESTAMP)": 1,
+            "invoice.invoice_date >= CAST('2024-01-01 00:00:00' AS TIMESTAMP)": 1,
+            "invoice.invoice_date >= CAST('2025-01-01 00:00:00' AS TIMESTAMP)": 1
+          },
+          "aggregates": [
+            "SUM(invoice.total)",
+            "SUM(invoice.total)"
+          ],
+          "tables": [
+            "base",
+            "cur",
+            "invoice"
+          ],
+          "limit": null
+        }
+      }
+    },
+    {
+      "index": 1,
+      "message": "指标换成平均每张发票金额。",
+      "executed": true,
+      "matched": true,
+      "comparison": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "legacy_comparison": {
+        "matched": true,
+        "reason": "equal",
+        "column_mapping": [
+          0
+        ]
+      },
+      "semantic_check": {
+        "correct": null,
+        "status": "AI_pending",
+        "reason": "Qualified AST differs; semantic equivalence needs independent review",
+        "predicate_match": false,
+        "gold": {
+          "ast": "SELECT (AVG(CASE WHEN invoice.invoice_date >= CAST('2025-01-01' AS DATE) AND invoice.invoice_date < CAST('2026-01-01' AS DATE) THEN invoice.total END) - AVG(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE) THEN invoice.total END)) / NULLIF(AVG(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE) THEN invoice.total END), 0) FROM invoice",
+          "predicates": {
+            "invoice.invoice_date < CAST('2025-01-01' AS DATE)": 2,
+            "invoice.invoice_date < CAST('2026-01-01' AS DATE)": 1,
+            "invoice.invoice_date >= CAST('2024-01-01' AS DATE)": 2,
+            "invoice.invoice_date >= CAST('2025-01-01' AS DATE)": 1
+          },
+          "aggregates": [
+            "AVG(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE) THEN invoice.total END)",
+            "AVG(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE) THEN invoice.total END)",
+            "AVG(CASE WHEN invoice.invoice_date >= CAST('2025-01-01' AS DATE) AND invoice.invoice_date < CAST('2026-01-01' AS DATE) THEN invoice.total END)"
+          ],
+          "tables": [
+            "invoice"
+          ],
+          "limit": null
+        },
+        "actual": {
+          "ast": "SELECT (AVG(CASE WHEN invoice.invoice_date >= CAST('2025-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2026-01-01' AS TIMESTAMP) THEN invoice.total END) - AVG(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2025-01-01' AS TIMESTAMP) THEN invoice.total END)) / NULLIF(AVG(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2025-01-01' AS TIMESTAMP) THEN invoice.total END), 0) FROM invoice",
+          "predicates": {
+            "invoice.invoice_date < CAST('2025-01-01' AS TIMESTAMP)": 2,
+            "invoice.invoice_date < CAST('2026-01-01' AS TIMESTAMP)": 1,
+            "invoice.invoice_date >= CAST('2024-01-01' AS TIMESTAMP)": 2,
+            "invoice.invoice_date >= CAST('2025-01-01' AS TIMESTAMP)": 1
+          },
+          "aggregates": [
+            "AVG(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2025-01-01' AS TIMESTAMP) THEN invoice.total END)",
+            "AVG(CASE WHEN invoice.invoice_date >= CAST('2024-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2025-01-01' AS TIMESTAMP) THEN invoice.total END)",
+            "AVG(CASE WHEN invoice.invoice_date >= CAST('2025-01-01' AS TIMESTAMP) AND invoice.invoice_date < CAST('2026-01-01' AS TIMESTAMP) THEN invoice.total END)"
+          ],
+          "tables": [
+            "invoice"
+          ],
+          "limit": null
+        }
+      }
+    }
+  ],
+  "whole_dialogue_success": true,
+  "controller_events": [
+    {
+      "after_turn": 0,
+      "outcome": "answer",
+      "request": {
+        "session_id": "special-reviewed-dev-v3-26a114ce-087e-4663-aa76-62684b653580",
+        "message": "2024年（该年有数据，不代表完整年度）",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "4f8ffea7-d6d9-4bf7-b024-0cb70e4cfbd7",
+        "intent_version": 1,
+        "choice_id": "year:2024"
+      },
+      "asked_key": "time_scope.current",
+      "supplement_key": "time_scope.current",
+      "reason": ""
+    },
+    {
+      "after_turn": 1,
+      "outcome": "answer",
+      "request": {
+        "session_id": "special-reviewed-dev-v3-26a114ce-087e-4663-aa76-62684b653580",
+        "message": "按发票销售额算。",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "d2f23d8f-ec7e-4ca7-9421-9a6a723f9fb2",
+        "intent_version": 2
+      },
+      "asked_key": "metric",
+      "supplement_key": "metric",
+      "reason": ""
+    }
+  ]
+}

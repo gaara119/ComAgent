@@ -1,0 +1,535 @@
+{
+  "id": "sp03-20",
+  "family_id": "special-fam-22-l1-artist-revenue-top10-technical-default",
+  "task": "03",
+  "category": "L0",
+  "input": "2023年按销售额排名最高的艺术家，取前10名。",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "execute",
+  "allowed_interpretations": [
+    {
+      "stage": "initial_request",
+      "intent": {
+        "metric": "artist_revenue",
+        "object": "artist",
+        "time_scope": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "ranking": {
+          "order_by": "revenue DESC, artist_id ASC",
+          "limit": 10
+        }
+      },
+      "default_declaration_required": false
+    },
+    {
+      "stage": "later_user_request",
+      "policy": "Apply only explicitly supplied later changes; do not use old hidden target as initial facts"
+    }
+  ],
+  "expected_bindings": [],
+  "missing_conditions": [],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n题面已经写“取前10名”，旧参考仍称“数量未定”、标L1，与文字冲突。应改为L0；结果按明细金额汇总到艺术家，不把发票总额重复统计。\n原记录scorable=false保持原样；是否新纳入计分须完成参考/控制器核对，不能按本轮建议自动改历史分母。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n"
+  ],
+  "reference_intent": {
+    "metric": "artist_revenue",
+    "object": "artist",
+    "time_scope": {
+      "start": "2023-01-01",
+      "end": "2024-01-01"
+    },
+    "ranking": {
+      "order_by": "revenue DESC, artist_id ASC",
+      "limit": 10
+    }
+  },
+  "gold_sql": "SELECT ar.artist_id, SUM(il.unit_price * il.quantity) AS revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.album al ON t.album_id = al.album_id JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY ar.artist_id ORDER BY revenue DESC, ar.artist_id ASC LIMIT 10;",
+  "controller": null,
+  "case_style": "排名技术默认",
+  "secondary_tags": [
+    "artist",
+    "revenue",
+    "top_n_default"
+  ],
+  "generation_call_id": "generate-03-expansion-02",
+  "generation_stage": "expansion",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "ai_suggested_pass_two_contexts",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "gold_result": {
+    "columns": [
+      "artist_id",
+      "revenue"
+    ],
+    "rows": [
+      [
+        150,
+        "26.73"
+      ],
+      [
+        149,
+        "21.89"
+      ],
+      [
+        158,
+        "17.91"
+      ],
+      [
+        81,
+        "13.86"
+      ],
+      [
+        124,
+        "12.87"
+      ],
+      [
+        113,
+        "11.88"
+      ],
+      [
+        51,
+        "10.89"
+      ],
+      [
+        252,
+        "10.89"
+      ],
+      [
+        156,
+        "9.95"
+      ],
+      [
+        58,
+        "9.90"
+      ]
+    ],
+    "table": [
+      {
+        "artist_id": 150,
+        "revenue": "26.73"
+      },
+      {
+        "artist_id": 149,
+        "revenue": "21.89"
+      },
+      {
+        "artist_id": 158,
+        "revenue": "17.91"
+      },
+      {
+        "artist_id": 81,
+        "revenue": "13.86"
+      },
+      {
+        "artist_id": 124,
+        "revenue": "12.87"
+      },
+      {
+        "artist_id": 113,
+        "revenue": "11.88"
+      },
+      {
+        "artist_id": 51,
+        "revenue": "10.89"
+      },
+      {
+        "artist_id": 252,
+        "revenue": "10.89"
+      },
+      {
+        "artist_id": 156,
+        "revenue": "9.95"
+      },
+      {
+        "artist_id": 58,
+        "revenue": "9.90"
+      }
+    ],
+    "row_count": 10,
+    "truncated": false
+  },
+  "auto_status": "disputed",
+  "auto_issues": [
+    "L1_has_no_applicable_registered_default: explicit metric/object/count do not invoke an omitted-count default"
+  ],
+  "dataset_version": "manual-applied-20261013-v3",
+  "raw_expected_bindings": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": ">=",
+      "value": "2023-01-01"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": "<",
+      "value": "2024-01-01"
+    },
+    {
+      "column": "invoice_line.unit_price",
+      "operator": "SUM(unit_price*quantity)",
+      "value": null
+    }
+  ],
+  "expected_predicates": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": ">=",
+      "value": "2023-01-01"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": "<",
+      "value": "2024-01-01"
+    }
+  ],
+  "expected_aggregations": [
+    {
+      "column": "invoice_line.unit_price",
+      "operator": "SUM(unit_price*quantity)",
+      "value": null
+    }
+  ],
+  "expected_unresolved_constraints": [],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "metric": "artist_revenue",
+    "object": "artist",
+    "time_scope": {
+      "start": "2023-01-01",
+      "end": "2024-01-01"
+    },
+    "ranking": {
+      "order_by": "revenue DESC, artist_id ASC",
+      "limit": 10
+    }
+  },
+  "scorable": true,
+  "final_source_guard_issues": [
+    "L1_has_no_applicable_registered_default: explicit metric/object/count do not invoke an omitted-count default"
+  ],
+  "auto_status_before_final_source_guard": "passed",
+  "review_label": "L0／显式艺术家销售额Top10",
+  "review_label_tags": [
+    "L0",
+    "显式艺术家销售额Top10"
+  ],
+  "canonical_input": "2023年按销售额排名最高的艺术家，取前10名。",
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      "按 SUM(invoice_line.unit_price*quantity) 的艺术家排名"
+    ],
+    "business_basis": [
+      "总计划 3.6.4 ranking.defaults.top_n=10：排名 metric/object 明确而数量未定时取 Top10",
+      "confirmed_business_rules：曲目/艺术家金额 SUM(invoice_line.unit_price*quantity)，避免 JOIN 头金额重复"
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp03-20",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "not_applicable",
+        "reason": "艺术家金额用明细 SUM(unit_price*quantity)，避免重复累加 invoice.total；2023 显式期间，左闭右开；Top10 为总计划明确技术默认；tie-break artist_id asc。SQL JOIN 链完整正确，结果与实跑一致。",
+        "evidence": [
+          "confirmed_business_rules.metrics.sales_revenue.alternative",
+          "total_plan_semantic_gate ranking.defaults.top_n=10",
+          "actual_program_checks sp03-20 结果 10 行",
+          "adjudication_notes Top10 技术默认"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      },
+      {
+        "id": "sp03-20",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "not_applicable",
+        "reason": "输入“2023年按销售额排名最高的艺术家，取前10名”已明确 metric=artist_revenue、object=artist、period=2023、limit=10。艺术家的销售额应使用明细 SUM(invoice_line.unit_price*quantity)，gold SQL 经 invoice_line->invoice->track->album->artist 链路聚合并按 revenue DESC, artist_id ASC LIMIT 10，未重复 SUM(invoice.total)，无 NULL/分母问题。数量未定但总计划 3.6.4 ranking.defaults.top_n=10 提供技术默认，属正当 L1，并且输入本身已写“取前10名”，无隐藏澄清必要。",
+        "evidence": [
+          "cases[4].input:2023年按销售额排名最高的艺术家，取前10名",
+          "total_plan_semantic_gate:ranking.defaults: {top_n: 10}",
+          "confirmed_business_rules.metrics.sales_revenue.alternative:track/artist analysis use SUM(invoice_line.unit_price * invoice_line.quantity)",
+          "cases[4].gold_sql:SUM(il.unit_price * il.quantity) ... ORDER BY revenue DESC, ar.artist_id ASC LIMIT 10",
+          "actual_program_checks[4].result:10 rows"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      }
+    ],
+    "original_operational_reference": {
+      "reference_intent": {
+        "metric": "artist_revenue",
+        "object": "artist",
+        "time_scope": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "ranking": {
+          "order_by": "revenue DESC, artist_id ASC",
+          "limit": 10
+        }
+      },
+      "expected_final_intent": {
+        "metric": "artist_revenue",
+        "object": "artist",
+        "time_scope": {
+          "start": "2023-01-01",
+          "end": "2024-01-01"
+        },
+        "ranking": {
+          "order_by": "revenue DESC, artist_id ASC",
+          "limit": 10
+        }
+      },
+      "expected_bindings": [],
+      "raw_expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "2023-01-01"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "2024-01-01"
+        },
+        {
+          "column": "invoice_line.unit_price",
+          "operator": "SUM(unit_price*quantity)",
+          "value": null
+        }
+      ],
+      "expected_predicates": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "2023-01-01"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "2024-01-01"
+        }
+      ],
+      "expected_unresolved_constraints": [],
+      "controller": null,
+      "gold_sql": "SELECT ar.artist_id, SUM(il.unit_price * il.quantity) AS revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.album al ON t.album_id = al.album_id JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY ar.artist_id ORDER BY revenue DESC, ar.artist_id ASC LIMIT 10;",
+      "gold_result": {
+        "columns": [
+          "artist_id",
+          "revenue"
+        ],
+        "rows": [
+          [
+            150,
+            "26.73"
+          ],
+          [
+            149,
+            "21.89"
+          ],
+          [
+            158,
+            "17.91"
+          ],
+          [
+            81,
+            "13.86"
+          ],
+          [
+            124,
+            "12.87"
+          ],
+          [
+            113,
+            "11.88"
+          ],
+          [
+            51,
+            "10.89"
+          ],
+          [
+            252,
+            "10.89"
+          ],
+          [
+            156,
+            "9.95"
+          ],
+          [
+            58,
+            "9.90"
+          ]
+        ],
+        "table": [
+          {
+            "artist_id": 150,
+            "revenue": "26.73"
+          },
+          {
+            "artist_id": 149,
+            "revenue": "21.89"
+          },
+          {
+            "artist_id": 158,
+            "revenue": "17.91"
+          },
+          {
+            "artist_id": 81,
+            "revenue": "13.86"
+          },
+          {
+            "artist_id": 124,
+            "revenue": "12.87"
+          },
+          {
+            "artist_id": 113,
+            "revenue": "11.88"
+          },
+          {
+            "artist_id": 51,
+            "revenue": "10.89"
+          },
+          {
+            "artist_id": 252,
+            "revenue": "10.89"
+          },
+          {
+            "artist_id": 156,
+            "revenue": "9.95"
+          },
+          {
+            "artist_id": 58,
+            "revenue": "9.90"
+          }
+        ],
+        "row_count": 10,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        "按 SUM(invoice_line.unit_price*quantity) 的艺术家排名"
+      ],
+      "canonical_input": null
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp03-20",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "251a144fe56ddcb089b7c23f9d49857322e6ba593465fb4709e3c436ec6fc62b"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "fed96013c336968250e7686ce3f140754400308dba915dcb63cb56399fa78a54"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "88020873199127b982c1bea355bcfcc856a5f3e5c5f324310a8ed7ecab0015c9"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n题面已经写“取前10名”，旧参考仍称“数量未定”、标L1，与文字冲突。应改为L0；结果按明细金额汇总到艺术家，不把发票总额重复统计。\n原记录scorable=false保持原样；是否新纳入计分须完成参考/控制器核对，不能按本轮建议自动改历史分母。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n251a144fe5｜专项历史 V0 / turn0：核心结果一致，额外列：name。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\nfed96013c3｜专项历史 V1 / turn0：核心结果一致，额外列：name。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\n8802087319｜专项历史 V2 / turn0：核心结果一致，额外列：name。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "拒绝/发现错误",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Operational category, missing_conditions and required clarification slots synchronized with submitted level",
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "artist_id",
+    "revenue"
+  ],
+  "column_types": [
+    "number",
+    "number"
+  ],
+  "integer_columns": [
+    0
+  ],
+  "ordered": true,
+  "monetary_columns": [],
+  "expected_status": "SUCCEEDED",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-20.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "2f5b6d06df5a95f2a55ce1d1a8785fc8097f5f0711dde926ace1ed3323ba2ae5",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n题面已经写“取前10名”，旧参考仍称“数量未定”、标L1，与文字冲突。应改为L0；结果按明细金额汇总到艺术家，不把发票总额重复统计。\n原记录scorable=false保持原样；是否新纳入计分须完成参考/控制器核对，不能按本轮建议自动改历史分母。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n251a144fe5｜专项历史 V0 / turn0：核心结果一致，额外列：name。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\nfed96013c3｜专项历史 V1 / turn0：核心结果一致，额外列：name。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\n8802087319｜专项历史 V2 / turn0：核心结果一致，额外列：name。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "L0",
+        "显式艺术家销售额Top10"
+      ],
+      "initial_level": "L0",
+      "missing_conditions": [],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

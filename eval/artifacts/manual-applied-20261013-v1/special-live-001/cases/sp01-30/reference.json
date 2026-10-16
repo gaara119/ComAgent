@@ -1,0 +1,412 @@
+{
+  "id": "sp01-30",
+  "family_id": "special-fam-30-explicit-absent-date",
+  "task": "01",
+  "category": "explicit_absent",
+  "input": "统计从2030年1月1日（含）到2030年12月31日（不含）的发票张数。",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "保留不存在：用户显式给出 2030 年区间并按左闭右开查询，数据库发票日期范围只到 2025-12-22，应返回 COUNT=0 并报告没有记录，不补默认时期也不换附近年份。",
+  "allowed_interpretations": [
+    {
+      "interpretation": "invoice_date 属于 [2030-01-01, 2031-01-01) 的发票计数",
+      "start": "2030-01-01",
+      "end_exclusive": "2031-01-01",
+      "result_hint": "0 张，报告无记录"
+    }
+  ],
+  "expected_bindings": [],
+  "missing_conditions": [],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n原题范围是[2030-01-01,2030-12-31)，旧gold写到<2031-01-01，多含一天。建议修gold上界为2030-12-31；两个查询当前都为0不能掩盖范围错误。\n题面草案变化是新版本提案；保留原题与原预测，不能把旧输出冒充对清洗后问题的实测。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n"
+  ],
+  "reference_intent": {
+    "task_type": "count",
+    "metric": "invoice_count",
+    "time_scope": {
+      "start": "2030-01-01",
+      "end_exclusive": "2030-12-31"
+    },
+    "filters": [
+      {
+        "column": "invoice.invoice_date",
+        "operator": ">=",
+        "value": "2030-01-01"
+      },
+      {
+        "column": "invoice.invoice_date",
+        "operator": "<",
+        "value": "2030-12-31"
+      }
+    ]
+  },
+  "gold_sql": "SELECT COUNT(*) AS invoice_count FROM public.invoice WHERE invoice_date >= DATE '2030-01-01' AND invoice_date < DATE '2030-12-31';",
+  "controller": null,
+  "canonical_input": "统计从2030年1月1日（含）到2030年12月31日（不含）的发票张数。",
+  "secondary_tags": [
+    "exact_no_match",
+    "half_open"
+  ],
+  "case_style": "technical_boundary",
+  "generation_call_id": "generate-01-expansion-04",
+  "generation_stage": "expansion",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "ai_suggested_pass_two_contexts",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "gold_result": {
+    "columns": [
+      "invoice_count"
+    ],
+    "rows": [
+      [
+        0
+      ]
+    ],
+    "table": [
+      {
+        "invoice_count": 0
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "auto_status": "passed",
+  "auto_issues": [],
+  "dataset_version": "manual-applied-20261013-v3",
+  "raw_expected_bindings": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": ">=",
+      "value": "2030-01-01"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": "<",
+      "value": "2030-12-31"
+    }
+  ],
+  "expected_predicates": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": ">=",
+      "value": "2030-01-01"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": "<",
+      "value": "2030-12-31"
+    }
+  ],
+  "expected_aggregations": [],
+  "expected_unresolved_constraints": [],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "task_type": "count",
+    "metric": "invoice_count",
+    "time_scope": {
+      "start": "2030-01-01",
+      "end_exclusive": "2030-12-31"
+    },
+    "filters": [
+      {
+        "column": "invoice.invoice_date",
+        "operator": ">=",
+        "value": "2030-01-01"
+      },
+      {
+        "column": "invoice.invoice_date",
+        "operator": "<",
+        "value": "2030-12-31"
+      }
+    ]
+  },
+  "scorable": true,
+  "final_source_guard_issues": [],
+  "review_label": "明确半开区间／无匹配计数",
+  "review_label_tags": [
+    "明确半开区间",
+    "无匹配计数"
+  ],
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      {
+        "interpretation": "invoice_date 属于 [2030-01-01, 2031-01-01) 的发票计数",
+        "start": "2030-01-01",
+        "end_exclusive": "2031-01-01",
+        "result_hint": "0 张，报告无记录"
+      }
+    ],
+    "business_basis": [
+      "live_database_facts.date_evidence: MIN(invoice_date)=2021-01-01, MAX(invoice_date)=2025-12-22",
+      "confirmed_business_rules.general.period：左闭右开 [start_date, end_date)，不悄悄补时期",
+      "用户消息显式说明按这个时间范围查、无记录就报告无记录"
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp01-30",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "not_applicable",
+        "reason": "用户给出 2030-01-01 至 2030-12-31（左闭右开），用户正确表达 end_exclusive 为 2031-01-01，边界语义清晰。live facts 显示发票日期最大 2025-12-22，该区间无记录，应保留不存在返回 0 报告无记录，不补默认时期。gold_sql 使用 >= 2030-01-01 AND < 2031-01-01，左闭右开正确。",
+        "evidence": [
+          "cases[sp01-30].input/expected_behavior",
+          "live_database_facts.date_evidence: 2021-01-01 至 2025-12-22",
+          "actual_program_checks[sp01-30] final 返回 0"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      },
+      {
+        "id": "sp01-30",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "not_applicable",
+        "reason": "用户显式给出 [2030-01-01, 2031-01-01) 左闭右开期间并说明无记录就报告无记录。confirmed_business_rules.general.period 确认左闭右开且不悄悄补时期；live_database_facts.date_evidence 显示发票日期范围仅 2021-01-01 至 2025-12-22，该期间无记录。gold_sql 使用 invoice_date >= 2030-01-01 AND invoice_date < 2031-01-01 正确，COUNT(*) 应为 0，不应默认替换为其他年份或期间。",
+        "evidence": [
+          "cases[4].input: 统计 invoice_date 在 2030-01-01 到 2030-12-31（左闭右开）之间的发票张数；如果那段时间没有发票，就按这个时间范围查询并报告没有记录。",
+          "confirmed_business_rules.general.period: Half-open [start_date, end_date); no missing period is silently filled",
+          "live_database_facts.date_evidence: first_date=2021-01-01, last_date=2025-12-22",
+          "cases[4].gold_sql: SELECT COUNT(*) AS invoice_count FROM public.invoice WHERE invoice_date >= DATE '2030-01-01' AND invoice_date < DATE '2031-01-01';",
+          "cases[4].gold_result: [0]",
+          "cases[4].secondary_tags: exact_no_match, half_open"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      }
+    ],
+    "original_operational_reference": {
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "invoice_count",
+        "filters": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2030-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2031-01-01"
+          }
+        ],
+        "time_scope": {
+          "start": "2030-01-01",
+          "end_exclusive": "2031-01-01"
+        },
+        "grouping": "none"
+      },
+      "expected_final_intent": {
+        "task_type": "count",
+        "metric": "invoice_count",
+        "filters": [
+          {
+            "column": "invoice.invoice_date",
+            "operator": ">=",
+            "value": "2030-01-01"
+          },
+          {
+            "column": "invoice.invoice_date",
+            "operator": "<",
+            "value": "2031-01-01"
+          }
+        ],
+        "time_scope": {
+          "start": "2030-01-01",
+          "end_exclusive": "2031-01-01"
+        },
+        "grouping": "none"
+      },
+      "expected_bindings": [],
+      "raw_expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "2030-01-01",
+          "surface": "2030-01-01"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "2031-01-01",
+          "surface": "2030-12-31 左闭右开"
+        }
+      ],
+      "expected_predicates": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "2030-01-01",
+          "surface": "2030-01-01"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "2031-01-01",
+          "surface": "2030-12-31 左闭右开"
+        }
+      ],
+      "expected_unresolved_constraints": [],
+      "controller": null,
+      "gold_sql": "SELECT COUNT(*) AS invoice_count FROM public.invoice WHERE invoice_date >= DATE '2030-01-01' AND invoice_date < DATE '2030-12-31';",
+      "gold_result": {
+        "columns": [
+          "invoice_count"
+        ],
+        "rows": [
+          [
+            0
+          ]
+        ],
+        "table": [
+          {
+            "invoice_count": 0
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        {
+          "interpretation": "invoice_date 属于 [2030-01-01, 2031-01-01) 的发票计数",
+          "start": "2030-01-01",
+          "end_exclusive": "2031-01-01",
+          "result_hint": "0 张，报告无记录"
+        }
+      ],
+      "canonical_input": "统计 invoice_date 属于 [2030-01-01, 2031-01-01) 的发票张数；无记录则报告无记录。"
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp01-30",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "题面清洗提案"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "标签修订提案"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "6a1a6248a23351c48e0cbab75f7d0e0281daee731759edd50695818548388d8f"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "3e89b73140f9b22b9b19840331121430e56211b61eca9414063652c94251fa19"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "2a376635404ad21121b1aaf24528cb2b2188a3c5b9f579f08665e62530262047"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n原题范围是[2030-01-01,2030-12-31)，旧gold写到<2031-01-01，多含一天。建议修gold上界为2030-12-31；两个查询当前都为0不能掩盖范围错误。\n题面草案变化是新版本提案；保留原题与原预测，不能把旧输出冒充对清洗后问题的实测。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n6a1a6248a2｜专项历史 V0 / turn0：SQL上界为2031-01-01，与原题2030-12-31不含相差一天；0的巧合不能证明范围正确。\n3e89b73140｜专项历史 V1 / turn0：SQL上界为2031-01-01，与原题2030-12-31不含相差一天；0的巧合不能证明范围正确。\n2a37663540｜专项历史 V2 / turn0：明确半开区间被误解析为“之间”实体并追问。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "拒绝/发现错误",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Half-open interval fixed to [2030-01-01,2030-12-31), including structured intent and predicates",
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "invoice_count"
+  ],
+  "column_types": [
+    "number"
+  ],
+  "integer_columns": [
+    0
+  ],
+  "ordered": false,
+  "monetary_columns": [],
+  "expected_status": "SUCCEEDED",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp01-30.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "f26cf8d2d77760cbaf5cb5901d3f6a5a8a1dc65da0bb40519d674c531836471c",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n原题范围是[2030-01-01,2030-12-31)，旧gold写到<2031-01-01，多含一天。建议修gold上界为2030-12-31；两个查询当前都为0不能掩盖范围错误。\n题面草案变化是新版本提案；保留原题与原预测，不能把旧输出冒充对清洗后问题的实测。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n6a1a6248a2｜专项历史 V0 / turn0：SQL上界为2031-01-01，与原题2030-12-31不含相差一天；0的巧合不能证明范围正确。\n3e89b73140｜专项历史 V1 / turn0：SQL上界为2031-01-01，与原题2030-12-31不含相差一天；0的巧合不能证明范围正确。\n2a37663540｜专项历史 V2 / turn0：明确半开区间被误解析为“之间”实体并追问。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "明确半开区间",
+        "无匹配计数"
+      ],
+      "initial_level": "explicit_absent",
+      "missing_conditions": [],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true,
+      "start_inclusive": "2030-01-01",
+      "end_exclusive": "2030-12-31"
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

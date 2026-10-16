@@ -1,0 +1,61 @@
+{
+  "domain_matches_actual_candidates": true,
+  "not_a_new_full21_batch": true,
+  "selected_table_domain": [
+    "production.product",
+    "production.transactionhistory",
+    "production.transactionhistoryarchive",
+    "production.workorder",
+    "production.workorderrouting",
+    "purchasing.productvendor",
+    "purchasing.purchaseorderdetail",
+    "purchasing.purchaseorderheader",
+    "purchasing.shipmethod",
+    "purchasing.vendor"
+  ],
+  "actual_case_status": "SUCCEEDED",
+  "scope": "Actual provider request proves restarted API loaded constrained candidate response model",
+  "candidate_tables": [
+    "production.product",
+    "production.transactionhistory",
+    "production.transactionhistoryarchive",
+    "production.workorder",
+    "production.workorderrouting",
+    "purchasing.productvendor",
+    "purchasing.purchaseorderdetail",
+    "purchasing.purchaseorderheader",
+    "purchasing.shipmethod",
+    "purchasing.vendor"
+  ],
+  "old_21_case_batch_overwritten": false,
+  "provider_source": "eval/artifacts/manual-applied-20261013-v1/provider-live-002/9f7f55f8324b45969b9805725e3af096.json",
+  "excluded_key_domain": [
+    "production.product",
+    "production.transactionhistory",
+    "production.transactionhistoryarchive",
+    "production.workorder",
+    "production.workorderrouting",
+    "purchasing.productvendor",
+    "purchasing.purchaseorderdetail",
+    "purchasing.purchaseorderheader",
+    "purchasing.shipmethod",
+    "purchasing.vendor"
+  ],
+  "main_ex": true,
+  "source_trace_id": "70c0f6c1-00f0-4b95-abe1-4afdd9de6371",
+  "reported_model_usage": {
+    "prompt_tokens": 11838,
+    "schema_selection_prompt_tokens": 9468,
+    "completion_tokens": 373,
+    "schema_selection_completion_tokens": 211,
+    "total_tokens": 12211,
+    "schema_selection_total_tokens": 9679,
+    "sql_generation_prompt_tokens": 2370,
+    "sql_generation_completion_tokens": 162,
+    "sql_generation_total_tokens": 2532
+  },
+  "new_response_model_observed": true,
+  "legacy_ex": true,
+  "actual_llm_attempts": 2,
+  "actual_e2e_ms": 11571.617
+}

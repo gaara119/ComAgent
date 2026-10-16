@@ -1,0 +1,42 @@
+{
+  "id": "sp03-30",
+  "suite": "special",
+  "db_id": "chinook",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT customer_id, SUM(total) AS amount FROM public.invoice GROUP BY customer_id ORDER BY amount DESC, customer_id ASC LIMIT 1;",
+  "validated_sql": "SELECT customer_id, SUM(total) AS amount FROM public.invoice GROUP BY customer_id ORDER BY amount DESC, customer_id ASC LIMIT 1",
+  "columns": [
+    "customer_id",
+    "amount"
+  ],
+  "column_type_oids": [
+    23,
+    1700
+  ],
+  "postgres_column_types": [
+    "int4",
+    "numeric"
+  ],
+  "rows": [
+    [
+      6,
+      "49.62"
+    ]
+  ],
+  "table": [
+    {
+      "customer_id": 6,
+      "amount": "49.62"
+    }
+  ],
+  "row_count": 1,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 12.833
+}

@@ -1,0 +1,895 @@
+{
+  "id": "sp03-29",
+  "family_id": "special-fam-31-l2-popular-tracks-missing-period",
+  "task": "03",
+  "category": "L1",
+  "input": "最受欢迎的10首曲目是哪些？",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "execute_with_declared_defaults",
+  "allowed_interpretations": [
+    {
+      "stage": "initial_request",
+      "intent": {
+        "task_type": "ranking",
+        "metric": "by_quantity",
+        "expression": "SUM(invoice_line.quantity)",
+        "object": "track",
+        "time_scope": {
+          "kind": "all_existing_data",
+          "explicit_period": false
+        },
+        "top_n": 10,
+        "tie_breaker": "track_id asc"
+      },
+      "default_declaration_required": true
+    },
+    {
+      "stage": "later_user_request",
+      "policy": "Apply only explicitly supplied later changes; do not use old hidden target as initial facts"
+    }
+  ],
+  "expected_bindings": [],
+  "missing_conditions": [],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n按已授权新规则缺期间默认全部现有数据，不应L2，也不应标L0而省略默认声明。旧2023年gold仅对应用户补充后的历史场景，不是新首轮全库答案；需另核新gold。\n新gold SQL草案是全部期间首轮参考；没有在本次连接数据库执行，新结果需补核验，不能套旧2023结果。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n"
+  ],
+  "reference_intent": {
+    "task_type": "ranking",
+    "metric": "by_quantity",
+    "expression": "SUM(invoice_line.quantity)",
+    "object": "track",
+    "time_scope": {
+      "kind": "all_existing_data",
+      "explicit_period": false
+    },
+    "top_n": 10,
+    "tie_breaker": "track_id asc"
+  },
+  "gold_sql": "SELECT track_id, SUM(quantity) AS purchased_quantity FROM public.invoice_line GROUP BY track_id ORDER BY purchased_quantity DESC, track_id ASC LIMIT 10;",
+  "controller": {
+    "hidden_goal": "首轮依据本条新版 reference_intent 与 gold_sql执行；只有post_completion_turns中明确提供的新条件改变目标。",
+    "allowed_user_supplements": {},
+    "final_intent": {
+      "task_type": "ranking",
+      "metric": "by_quantity",
+      "expression": "SUM(invoice_line.quantity)",
+      "object": "track",
+      "time_scope": {
+        "kind": "all_existing_data",
+        "explicit_period": false
+      },
+      "top_n": 10,
+      "tie_breaker": "track_id asc"
+    },
+    "expected_state_changes": [
+      "Execute initial request without mandatory clarification; preserve explicit subsequent changes"
+    ],
+    "max_clarification_followups": 0,
+    "post_completion_turns": [
+      {
+        "message": "改成2024年。",
+        "expected_intent": {
+          "task_type": "ranking",
+          "metric": "by_quantity",
+          "expression": "SUM(invoice_line.quantity)",
+          "object": "track",
+          "time_scope": {
+            "start": "2024-01-01",
+            "end_exclusive": "2025-01-01"
+          },
+          "top_n": 10,
+          "tie_breaker": "track_id asc"
+        },
+        "gold_sql": "SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+        "gold_result": {
+          "columns": [
+            "track_id",
+            "purchased_quantity"
+          ],
+          "rows": [
+            [
+              3,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              15,
+              1
+            ],
+            [
+              21,
+              1
+            ],
+            [
+              30,
+              1
+            ],
+            [
+              39,
+              1
+            ],
+            [
+              48,
+              1
+            ],
+            [
+              57,
+              1
+            ],
+            [
+              66,
+              1
+            ],
+            [
+              75,
+              1
+            ]
+          ],
+          "table": [
+            {
+              "track_id": 3,
+              "purchased_quantity": 1
+            },
+            {
+              "track_id": 9,
+              "purchased_quantity": 1
+            },
+            {
+              "track_id": 15,
+              "purchased_quantity": 1
+            },
+            {
+              "track_id": 21,
+              "purchased_quantity": 1
+            },
+            {
+              "track_id": 30,
+              "purchased_quantity": 1
+            },
+            {
+              "track_id": 39,
+              "purchased_quantity": 1
+            },
+            {
+              "track_id": 48,
+              "purchased_quantity": 1
+            },
+            {
+              "track_id": 57,
+              "purchased_quantity": 1
+            },
+            {
+              "track_id": 66,
+              "purchased_quantity": 1
+            },
+            {
+              "track_id": 75,
+              "purchased_quantity": 1
+            }
+          ],
+          "row_count": 10,
+          "truncated": false
+        },
+        "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-29-post-01.json"
+      },
+      {
+        "message": "换成按销售额算热门。",
+        "expected_intent": {
+          "task_type": "ranking",
+          "metric": "by_revenue",
+          "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+          "object": "track",
+          "time_scope": {
+            "start": "2024-01-01",
+            "end_exclusive": "2025-01-01"
+          },
+          "top_n": 10,
+          "tie_breaker": "track_id asc"
+        },
+        "gold_sql": "SELECT t.track_id, SUM(il.unit_price * il.quantity) AS track_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY t.track_id ORDER BY track_revenue DESC, t.track_id ASC LIMIT 10;",
+        "gold_result": {
+          "columns": [
+            "track_id",
+            "track_revenue"
+          ],
+          "rows": [
+            [
+              2822,
+              "1.99"
+            ],
+            [
+              2828,
+              "1.99"
+            ],
+            [
+              2837,
+              "1.99"
+            ],
+            [
+              2846,
+              "1.99"
+            ],
+            [
+              2855,
+              "1.99"
+            ],
+            [
+              2864,
+              "1.99"
+            ],
+            [
+              2873,
+              "1.99"
+            ],
+            [
+              2882,
+              "1.99"
+            ],
+            [
+              2891,
+              "1.99"
+            ],
+            [
+              2900,
+              "1.99"
+            ]
+          ],
+          "table": [
+            {
+              "track_id": 2822,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2828,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2837,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2846,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2855,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2864,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2873,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2882,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2891,
+              "track_revenue": "1.99"
+            },
+            {
+              "track_id": 2900,
+              "track_revenue": "1.99"
+            }
+          ],
+          "row_count": 10,
+          "truncated": false
+        },
+        "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-29-post-02.json"
+      }
+    ]
+  },
+  "case_style": "澄清后多轮修改",
+  "secondary_tags": [
+    "popularity",
+    "missing_period",
+    "multi_turn_metric_change",
+    "multi_turn_year_change"
+  ],
+  "generation_call_id": "generate-03-expansion-04",
+  "generation_stage": "expansion",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "ai_suggested_pass_two_contexts",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "gold_result": {
+    "columns": [
+      "track_id",
+      "purchased_quantity"
+    ],
+    "rows": [
+      [
+        2,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        9,
+        2
+      ],
+      [
+        20,
+        2
+      ],
+      [
+        32,
+        2
+      ],
+      [
+        48,
+        2
+      ],
+      [
+        66,
+        2
+      ],
+      [
+        84,
+        2
+      ],
+      [
+        161,
+        2
+      ],
+      [
+        162,
+        2
+      ]
+    ],
+    "table": [
+      {
+        "track_id": 2,
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 8,
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 9,
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 20,
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 32,
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 48,
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 66,
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 84,
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 161,
+        "purchased_quantity": 2
+      },
+      {
+        "track_id": 162,
+        "purchased_quantity": 2
+      }
+    ],
+    "row_count": 10,
+    "truncated": false
+  },
+  "auto_status": "passed",
+  "auto_issues": [],
+  "dataset_version": "manual-applied-20261013-v3",
+  "raw_expected_bindings": [],
+  "expected_predicates": [],
+  "expected_aggregations": [
+    {
+      "column": "invoice_line.quantity",
+      "operator": "SUM",
+      "value": "popularity_default_by_quantity"
+    }
+  ],
+  "expected_unresolved_constraints": [],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "task_type": "ranking",
+    "metric": "by_quantity",
+    "expression": "SUM(invoice_line.quantity)",
+    "object": "track",
+    "time_scope": {
+      "kind": "all_existing_data",
+      "explicit_period": false
+    },
+    "top_n": 10,
+    "tie_breaker": "track_id asc"
+  },
+  "scorable": true,
+  "final_source_guard_issues": [],
+  "review_label": "L1／购买数量／全部数据／Top10",
+  "review_label_tags": [
+    "L1",
+    "购买数量",
+    "全部数据",
+    "Top10"
+  ],
+  "canonical_input": "最受欢迎的10首曲目是哪些？",
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      "默认口径 by_quantity：SUM(invoice_line.quantity)",
+      "可切换口径 by_revenue：SUM(invoice_line.unit_price*quantity)",
+      "可切换口径 by_playlist：COUNT(playlist_track.playlist_id)",
+      "时间范围为2023年或2024年或2021-2025全库"
+    ],
+    "business_basis": [
+      "clarify_rules.yaml ambiguities.popularity level=L1 default=by_quantity options=[by_quantity,by_revenue,by_playlist]",
+      "both defaults and metric definitions require explicit period; missing period is not silently filled",
+      "popular_tracks: SUM(invoice_line.quantity) with track_id tie-breaker; available dates 2021-01-01 to 2025-12-22"
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp03-29",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "“最受欢迎的10首曲目”命中 popularity 歧义，按登记默认可按购买数量执行；但复购/热门等指标要求明确期间，本题无时间范围，不能悄悄补全，因此暂停澄清期间正确。gold_sql 以 2023 年为澄清后期间，SUM(invoice_line.quantity) 按 track_id 分组，ORDER BY purchased_quantity DESC, track_id ASC LIMIT 10，join invoice 过滤日期且无重复计数，与 final_intent 一致。controller 只在缺失项 time_scope/year 上请求补充，并允许确认默认口径；post_completion_turns 改为 2024 年及按销售额，均保留对象 track 与 top_n 10。",
+        "evidence": [
+          "input: 最受欢迎的10首曲目是哪些？",
+          "business_basis: popularity level=L1 default=by_quantity；但 metric definitions 要求热门曲目 explicit period，缺期间不得静默填充",
+          "clarify_rules.yaml ranking.defaults.top_n=10",
+          "gold_sql: SELECT t.track_id, SUM(il.quantity) ... WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+          "actual_program_checks.sp03-29: final 与 post_completion_1/2 均 executed_readonly"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      },
+      {
+        "id": "sp03-29",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "热门曲目 popularity 有 L1 默认 by_quantity，但 metric definitions 与 popular_tracks 要求“explicitly given period”；缺 time_scope 时 L1 默认无有效期间依据，判 L2 追问时间范围正确，未悄悄补全年份，也未采用错误默认。Top10 来自总计划 ranking.defaults.top_n=10，controller 记录该依据。gold_sql 按 invoice_date 过滤 invoice_line 销量，tie_breaker track_id asc，LIMIT 10 与总计划一致；post_completion 换 2024/销售额口径保留期间修改。",
+        "evidence": [
+          "cases[sp03-29].input “最受欢迎的10首曲目是哪些？”",
+          "general.period 与 popular_tracks ‘explicitly given period’",
+          "总计划 ranking.defaults.top_n:10",
+          "sp03-29.gold_sql SUM(quantity) ORDER track_id"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      }
+    ],
+    "original_operational_reference": {
+      "reference_intent": {
+        "task_type": "ranking",
+        "metric": "popularity",
+        "metric_default": "by_quantity",
+        "object": "track",
+        "time_scope": null,
+        "top_n": 10,
+        "tie_breaker": "track_id asc"
+      },
+      "expected_final_intent": {
+        "task_type": "ranking",
+        "metric": "by_quantity",
+        "expression": "SUM(invoice_line.quantity)",
+        "object": "track",
+        "time_scope": {
+          "start": "2023-01-01",
+          "end_exclusive": "2024-01-01"
+        },
+        "top_n": 10,
+        "tie_breaker": "track_id asc"
+      },
+      "expected_bindings": [],
+      "raw_expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": "half-open-range",
+          "value": "period_from_clarification"
+        },
+        {
+          "column": "invoice_line.quantity",
+          "operator": "SUM",
+          "value": "popularity_default_by_quantity"
+        }
+      ],
+      "expected_predicates": [],
+      "expected_unresolved_constraints": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": "half-open-range",
+          "value": "period_from_clarification"
+        }
+      ],
+      "controller": {
+        "hidden_goal": "找2023年最受欢迎的10首曲目，默认按购买数量 SUM(invoice_line.quantity)；列 track_id，稳定按 track_id 升序断并列，LIMIT 10。",
+        "allowed_user_supplements": {
+          "time_scope": {
+            "answer": "2023年全年。",
+            "value": {
+              "start": "2023-01-01",
+              "end_exclusive": "2024-01-01"
+            }
+          },
+          "year": {
+            "answer": "2023年。",
+            "value": {
+              "year": 2023
+            }
+          },
+          "metric": {
+            "answer": "按购买数量。",
+            "value": {
+              "metric": "by_quantity",
+              "expression": "SUM(invoice_line.quantity)"
+            }
+          },
+          "popularity": {
+            "answer": "默认按购买数量就行。",
+            "value": {
+              "metric": "by_quantity"
+            }
+          }
+        },
+        "final_intent": {
+          "task_type": "ranking",
+          "metric": "by_quantity",
+          "expression": "SUM(invoice_line.quantity)",
+          "object": "track",
+          "time_scope": {
+            "start": "2023-01-01",
+            "end_exclusive": "2024-01-01"
+          },
+          "top_n": 10,
+          "tie_breaker": "track_id asc"
+        },
+        "expected_state_changes": [
+          "set time_scope=2023",
+          "keep metric=by_quantity default",
+          "top_n=10"
+        ],
+        "max_clarification_followups": 3,
+        "post_completion_turns": [
+          {
+            "message": "改成2024年。",
+            "expected_intent": {
+              "task_type": "ranking",
+              "metric": "by_quantity",
+              "expression": "SUM(invoice_line.quantity)",
+              "object": "track",
+              "time_scope": {
+                "start": "2024-01-01",
+                "end_exclusive": "2025-01-01"
+              },
+              "top_n": 10,
+              "tie_breaker": "track_id asc"
+            },
+            "gold_sql": "SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;"
+          },
+          {
+            "message": "换成按销售额算热门。",
+            "expected_intent": {
+              "task_type": "ranking",
+              "metric": "by_revenue",
+              "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+              "object": "track",
+              "time_scope": {
+                "start": "2024-01-01",
+                "end_exclusive": "2025-01-01"
+              },
+              "top_n": 10,
+              "tie_breaker": "track_id asc"
+            },
+            "gold_sql": "SELECT t.track_id, SUM(il.unit_price * il.quantity) AS track_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY t.track_id ORDER BY track_revenue DESC, t.track_id ASC LIMIT 10;"
+          }
+        ]
+      },
+      "gold_sql": "SELECT track_id, SUM(quantity) AS purchased_quantity FROM public.invoice_line GROUP BY track_id ORDER BY purchased_quantity DESC, track_id ASC LIMIT 10;",
+      "gold_result": {
+        "columns": [
+          "track_id",
+          "purchased_quantity"
+        ],
+        "rows": [
+          [
+            2,
+            1
+          ],
+          [
+            8,
+            1
+          ],
+          [
+            14,
+            1
+          ],
+          [
+            20,
+            1
+          ],
+          [
+            26,
+            1
+          ],
+          [
+            32,
+            1
+          ],
+          [
+            38,
+            1
+          ],
+          [
+            44,
+            1
+          ],
+          [
+            53,
+            1
+          ],
+          [
+            62,
+            1
+          ]
+        ],
+        "table": [
+          {
+            "track_id": 2,
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 8,
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 14,
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 20,
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 26,
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 32,
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 38,
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 44,
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 53,
+            "purchased_quantity": 1
+          },
+          {
+            "track_id": 62,
+            "purchased_quantity": 1
+          }
+        ],
+        "row_count": 10,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        "默认口径 by_quantity：SUM(invoice_line.quantity)",
+        "可切换口径 by_revenue：SUM(invoice_line.unit_price*quantity)",
+        "可切换口径 by_playlist：COUNT(playlist_track.playlist_id)",
+        "时间范围为2023年或2024年或2021-2025全库"
+      ],
+      "canonical_input": null
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp03-29",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "标签修订提案"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "a4f69a3a92d5494bf98f37c9ac7f797e8fcd531cddc89ba129c0708ce79b2349"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "db16530ea4787bb53b31dd236938f994a2d3c0f1ef9335d7320c21874503b98a"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "4fd046953c547e4a90aeaeae4bb4206adfb07be066b6ac7c498e91578ff8c528"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "261ac2d433210395899771a9eae0b78be99a91431136708229380271e01c18bf"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "393f802892c67db3cd151f2c292ae42d2e1b339889be851a6b1368cb18aacda6"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "00cef8bc9cf4c57943f7398fa7c2274a65d113b36c57f8b0cb80645fc63ff430"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "b33f3d1d1bf6e6af466e6cd8bd40ddd6350ce9bc69bafdc44447892cde8d6889"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "018f3100b75ffdd7e8774050ff4cbe6ebe5a82e9c271ee1a6e4e4f0ff5c02577"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "d53da5dd5f536e093614fa764a009cef3098830b0b7ea63ae35787a87b913526"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "4306bfeaa598c5c579c7b64d32c1e82b469bb6939f3ce69ebc23e9a3156b7d1d"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "791abf433ced67538ec0fda03438f4b3f729f5c529546c723e6f1d54dd4750fc"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "a4fbacf1749a3f656cd2f146241725379e529f151a049d0bb037ed87a5e6267c"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n按已授权新规则缺期间默认全部现有数据，不应L2，也不应标L0而省略默认声明。旧2023年gold仅对应用户补充后的历史场景，不是新首轮全库答案；需另核新gold。\n新gold SQL草案是全部期间首轮参考；没有在本次连接数据库执行，新结果需补核验，不能套旧2023结果。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\na4f69a3a92｜专项历史 V0 / turn0：历史版仍按旧缺口策略追问：请明确统计期间。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\ndb16530ea4｜专项历史 V0 / turn1：核心结果一致，额外列：track_name；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n4fd046953c｜专项历史 V0 / turn2：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\n261ac2d433｜专项历史 V0 / turn3：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\n393f802892｜专项历史 V1 / turn0：历史版仍按旧缺口策略追问：请明确统计期间。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n00cef8bc9c｜专项历史 V1 / turn1：核心结果一致，额外列：track_name；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\nb33f3d1d1b｜专项历史 V1 / turn2：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\n018f3100b7｜专项历史 V1 / turn3：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\nd53da5dd5f｜专项历史 V2 / turn0：历史版仍按旧缺口策略追问：请明确统计期间。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n4306bfeaa5｜专项历史 V2 / turn1：核心结果一致，额外列：name；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n791abf433c｜专项历史 V2 / turn2：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\na4fbacf174｜专项历史 V2 / turn3：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "有条件通过",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Operational category, missing_conditions and required clarification slots synchronized with submitted level",
+      "Initial all-data gold and intent replace unspoken hidden 2023 goal; original later messages and SQL remain",
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "track_id",
+    "purchased_quantity"
+  ],
+  "column_types": [
+    "number",
+    "number"
+  ],
+  "integer_columns": [
+    0,
+    1
+  ],
+  "ordered": true,
+  "monetary_columns": [],
+  "expected_status": "SUCCEEDED",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-29.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "451cbe8c5921b4d6f8e51a9baf4279d85d7c8986b5e5c9a2869ac5374429f6b2",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n按已授权新规则缺期间默认全部现有数据，不应L2，也不应标L0而省略默认声明。旧2023年gold仅对应用户补充后的历史场景，不是新首轮全库答案；需另核新gold。\n新gold SQL草案是全部期间首轮参考；没有在本次连接数据库执行，新结果需补核验，不能套旧2023结果。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\na4f69a3a92｜专项历史 V0 / turn0：历史版仍按旧缺口策略追问：请明确统计期间。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\ndb16530ea4｜专项历史 V0 / turn1：核心结果一致，额外列：track_name；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n4fd046953c｜专项历史 V0 / turn2：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\n261ac2d433｜专项历史 V0 / turn3：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\n393f802892｜专项历史 V1 / turn0：历史版仍按旧缺口策略追问：请明确统计期间。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n00cef8bc9c｜专项历史 V1 / turn1：核心结果一致，额外列：track_name；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\nb33f3d1d1b｜专项历史 V1 / turn2：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\n018f3100b7｜专项历史 V1 / turn3：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\nd53da5dd5f｜专项历史 V2 / turn0：历史版仍按旧缺口策略追问：请明确统计期间。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n4306bfeaa5｜专项历史 V2 / turn1：核心结果一致，额外列：name；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n791abf433c｜专项历史 V2 / turn2：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\na4fbacf174｜专项历史 V2 / turn3：续问SQL保持曲目Top10，按该轮修改年份/数量或收入；已对照控制器期望SQL。附件缺逐轮独立gold表，具体数值待复算，原参考分数不自动替换。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "L1",
+        "购买数量",
+        "全部数据",
+        "Top10"
+      ],
+      "initial_level": "L1",
+      "missing_conditions": [],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

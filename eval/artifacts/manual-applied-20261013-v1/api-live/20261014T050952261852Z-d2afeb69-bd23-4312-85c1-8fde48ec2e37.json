@@ -1,0 +1,563 @@
+{
+  "started_at_utc": "2026-10-14T05:09:37.243212+00:00",
+  "finished_at_utc": "2026-10-14T05:09:52.261852+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "special-reviewed-dev-v3-762b49d1-af5b-4b15-9e22-a5fcf41be15b",
+    "message": "改成 2021 年吧。",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "a6582ed1-5deb-45f2-855d-da88022913a4",
+    "status": "FAILED",
+    "answer": "SQL 未通过校验：发票金额占比作用域未通过：当前分子文字与实际已核验国家绑定不一致；不能把分子国家放入全局 WHERE 改变分母。",
+    "rewritten_question": null,
+    "sql": "SELECT SUM(CASE WHEN invoice.billing_country = 'USA' THEN invoice.total ELSE 0 END) / NULLIF(SUM(invoice.total), 0) AS ratio FROM public.invoice WHERE invoice.invoice_date >= '2021-01-01' AND invoice.invoice_date < '2022-01-01'",
+    "table": null,
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 2,
+      "route": "sql",
+      "task_type": "ratio",
+      "metric": "invoice_revenue",
+      "time_scope": {
+        "current": {
+          "start": "2021-01-01",
+          "end": "2022-01-01",
+          "label": "2021年",
+          "grain": "year"
+        }
+      },
+      "filters": [
+        {
+          "column": "invoice.billing_country",
+          "operator": "=",
+          "value": "USA",
+          "mention_id": "mention-1",
+          "method": "exact",
+          "evidence_ref": "a-dca9d898c8a31e37",
+          "source": "verified_value_index",
+          "scope_evidence": "explicit_user_country_scope",
+          "binding_scope": "numerator"
+        }
+      ],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 23
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 0,
+          "bindings": [],
+          "ambiguous_count": 0,
+          "index_status": "ready"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "改成 2021 年吧。"
+        },
+        "output_summary": {
+          "rewritten_question": "改成 2021 年吧。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 2,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [
+            "derived_period",
+            "result"
+          ],
+          "resume_supported": true
+        },
+        "latency_ms": 3239
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/d2ff5f2d3a504e17ba086ac5e6988bbf.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 56,
+            "prompt_tokens": 1497,
+            "total_tokens": 1553,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1024
+            },
+            "prompt_cache_hit_tokens": 1024,
+            "prompt_cache_miss_tokens": 473
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2072
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "根据以下当前已合并的执行合同生成查询；合同已包含保留条件和本轮修改，不能恢复历史条件：{\"task_type\": \"ratio\", \"metric\": \"invoice_revenue\", \"time_scope\": {\"current\": {\"start\": \"2021-01-01\", \"end\": \"2022-01-01\", \"label\": \"2021年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": \"2024年账单国是美国的发票销售额占比\", \"denominator\": \"同期全部发票金额\", \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"invoice.billing_country\", \"filters\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"USA\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"a-dca9d898c8a31e37\", \"source\": \"verified_value_index\", \"scope_evidence\": \"explicit_user_country_scope\", \"binding_scope\": \"numerator\"}], \"assumptions\": []}\n历史首轮原文（仅供保留未修改的返回字段和输出形式，不作为筛选、指标、期间、对象或TopN依据）：2024年账单国是美国的发票销售额占比是多少？",
+          "repair_attempt": 0,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(CASE WHEN invoice.billing_country = 'USA' THEN invoice.total ELSE 0 END) / NULLIF(SUM(invoice.total), 0) AS ratio FROM public.invoice WHERE invoice.invoice_date >= '2021-01-01' AND invoice.invoice_date < '2022-01-01'",
+          "explanation": "计算2021年账单国为USA的发票销售额占同期全部发票金额的比值（未乘100的原始分数）。国家条件按已核验绑定仅放入分子CASE，期间用左闭右开区间过滤，分母用NULLIF防止除零。"
+        },
+        "latency_ms": 3984
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/b1d6bdd0cf17416cb01301130f8d971e.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 146,
+            "prompt_tokens": 5931,
+            "total_tokens": 6077,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1664
+            },
+            "prompt_cache_hit_tokens": 1664,
+            "prompt_cache_miss_tokens": 4267
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3048
+      },
+      {
+        "name": "sql_current_contract_validate",
+        "status": "ok",
+        "input_summary": {
+          "intent_version": 2
+        },
+        "output_summary": {
+          "verified": true,
+          "before_repair_filter_capture": true
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(CASE WHEN invoice.billing_country = 'USA' THEN invoice.total ELSE 0 END) / NULLIF(SUM(invoice.total), 0) AS ratio FROM public.invoice WHERE invoice.invoice_date >= '2021-01-01' AND invoice.invoice_date < '2022-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(CASE WHEN invoice.billing_country = 'USA' THEN invoice.total ELSE 0 END) / NULLIF(SUM(invoice.total), 0) AS ratio FROM public.invoice WHERE invoice.invoice_date >= '2021-01-01' AND invoice.invoice_date < '2022-01-01'"
+        },
+        "latency_ms": 4
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "error",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "error": "发票金额占比作用域未通过：当前分子文字与实际已核验国家绑定不一致；不能把分子国家放入全局 WHERE 改变分母。"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_repair",
+        "status": "warn",
+        "input_summary": {
+          "attempt": 1
+        },
+        "output_summary": {
+          "reason": "发票金额占比作用域未通过：当前分子文字与实际已核验国家绑定不一致；不能把分子国家放入全局 WHERE 改变分母。",
+          "preserve_bindings": true
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "根据以下当前已合并的执行合同生成查询；合同已包含保留条件和本轮修改，不能恢复历史条件：{\"task_type\": \"ratio\", \"metric\": \"invoice_revenue\", \"time_scope\": {\"current\": {\"start\": \"2021-01-01\", \"end\": \"2022-01-01\", \"label\": \"2021年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": \"2024年账单国是美国的发票销售额占比\", \"denominator\": \"同期全部发票金额\", \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"invoice.billing_country\", \"filters\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"USA\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"a-dca9d898c8a31e37\", \"source\": \"verified_value_index\", \"scope_evidence\": \"explicit_user_country_scope\", \"binding_scope\": \"numerator\"}], \"assumptions\": []}\n历史首轮原文（仅供保留未修改的返回字段和输出形式，不作为筛选、指标、期间、对象或TopN依据）：2024年账单国是美国的发票销售额占比是多少？",
+          "repair_attempt": 1,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(CASE WHEN invoice.billing_country = 'USA' THEN invoice.total ELSE 0 END) / NULLIF(SUM(invoice.total), 0) AS ratio FROM public.invoice WHERE invoice.invoice_date >= '2021-01-01' AND invoice.invoice_date < '2022-01-01'",
+          "explanation": "计算 2021 年（左闭右开区间 2021-01-01 至 2022-01-01）账单国为 USA 的发票金额占同期全部发票金额的比例。国家条件仅作用于分子 CASE，分母保持全部发票，WHERE 只限定期间；返回未乘 100 的原始分数。"
+        },
+        "latency_ms": 4072
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/de4c58640b7e43c5b01a930801f8600e.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 160,
+            "prompt_tokens": 6068,
+            "total_tokens": 6228,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 5888
+            },
+            "prompt_cache_hit_tokens": 5888,
+            "prompt_cache_miss_tokens": 180
+          },
+          "json_valid": true
+        },
+        "latency_ms": 3154
+      },
+      {
+        "name": "sql_current_contract_validate",
+        "status": "ok",
+        "input_summary": {
+          "intent_version": 2
+        },
+        "output_summary": {
+          "verified": true,
+          "before_repair_filter_capture": true
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(CASE WHEN invoice.billing_country = 'USA' THEN invoice.total ELSE 0 END) / NULLIF(SUM(invoice.total), 0) AS ratio FROM public.invoice WHERE invoice.invoice_date >= '2021-01-01' AND invoice.invoice_date < '2022-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(CASE WHEN invoice.billing_country = 'USA' THEN invoice.total ELSE 0 END) / NULLIF(SUM(invoice.total), 0) AS ratio FROM public.invoice WHERE invoice.invoice_date >= '2021-01-01' AND invoice.invoice_date < '2022-01-01'"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "error",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "error": "发票金额占比作用域未通过：当前分子文字与实际已核验国家绑定不一致；不能把分子国家放入全局 WHERE 改变分母。"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_repair",
+        "status": "warn",
+        "input_summary": {
+          "attempt": 2
+        },
+        "output_summary": {
+          "reason": "发票金额占比作用域未通过：当前分子文字与实际已核验国家绑定不一致；不能把分子国家放入全局 WHERE 改变分母。",
+          "preserve_bindings": true
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "根据以下当前已合并的执行合同生成查询；合同已包含保留条件和本轮修改，不能恢复历史条件：{\"task_type\": \"ratio\", \"metric\": \"invoice_revenue\", \"time_scope\": {\"current\": {\"start\": \"2021-01-01\", \"end\": \"2022-01-01\", \"label\": \"2021年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": \"2024年账单国是美国的发票销售额占比\", \"denominator\": \"同期全部发票金额\", \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"invoice.billing_country\", \"filters\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"USA\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"a-dca9d898c8a31e37\", \"source\": \"verified_value_index\", \"scope_evidence\": \"explicit_user_country_scope\", \"binding_scope\": \"numerator\"}], \"assumptions\": []}\n历史首轮原文（仅供保留未修改的返回字段和输出形式，不作为筛选、指标、期间、对象或TopN依据）：2024年账单国是美国的发票销售额占比是多少？",
+          "repair_attempt": 2,
+          "db_id": "chinook",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT SUM(CASE WHEN invoice.billing_country = 'USA' THEN invoice.total ELSE 0 END) / NULLIF(SUM(invoice.total), 0) AS ratio FROM public.invoice WHERE invoice.invoice_date >= '2021-01-01' AND invoice.invoice_date < '2022-01-01'",
+          "explanation": "计算2021年账单国为美国的发票销售额占同期全部发票金额的比例。国家条件仅作为分子CASE聚合，WHERE仅限定2021年期间，返回未乘100的原始分数。"
+        },
+        "latency_ms": 3682
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/c3bd20819f9d4f04a054e39a9906e04e.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 132,
+            "prompt_tokens": 6068,
+            "total_tokens": 6200,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 5888
+            },
+            "prompt_cache_hit_tokens": 5888,
+            "prompt_cache_miss_tokens": 180
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2785
+      },
+      {
+        "name": "sql_current_contract_validate",
+        "status": "ok",
+        "input_summary": {
+          "intent_version": 2
+        },
+        "output_summary": {
+          "verified": true,
+          "before_repair_filter_capture": true
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT SUM(CASE WHEN invoice.billing_country = 'USA' THEN invoice.total ELSE 0 END) / NULLIF(SUM(invoice.total), 0) AS ratio FROM public.invoice WHERE invoice.invoice_date >= '2021-01-01' AND invoice.invoice_date < '2022-01-01'"
+        },
+        "output_summary": {
+          "tables": [
+            "invoice"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT SUM(CASE WHEN invoice.billing_country = 'USA' THEN invoice.total ELSE 0 END) / NULLIF(SUM(invoice.total), 0) AS ratio FROM public.invoice WHERE invoice.invoice_date >= '2021-01-01' AND invoice.invoice_date < '2022-01-01'"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "error",
+        "input_summary": {
+          "binding_count": 1
+        },
+        "output_summary": {
+          "error": "发票金额占比作用域未通过：当前分子文字与实际已核验国家绑定不一致；不能把分子国家放入全局 WHERE 改变分母。"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": {
+      "code": "sql_rejected",
+      "message": "SQL 未通过校验：发票金额占比作用域未通过：当前分子文字与实际已核验国家绑定不一致；不能把分子国家放入全局 WHERE 改变分母。",
+      "retryable": false
+    },
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 15018,
+      "nlu": {
+        "original_question": "改成 2021 年吧。",
+        "rewritten_question": "改成 2021 年吧。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L0",
+        "intent_version": 2,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": "invoice.billing_country",
+        "derived": {},
+        "invalidated": [
+          "derived_period",
+          "result"
+        ],
+        "semantic_contract": {
+          "task_type": "ratio",
+          "metric": "invoice_revenue",
+          "time_scope": {
+            "current": {
+              "start": "2021-01-01",
+              "end": "2022-01-01",
+              "label": "2021年",
+              "grain": "year"
+            }
+          },
+          "comparison": null,
+          "numerator": "2024年账单国是美国的发票销售额占比",
+          "denominator": "同期全部发票金额",
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": "invoice.billing_country",
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "USA",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-dca9d898c8a31e37",
+              "source": "verified_value_index",
+              "scope_evidence": "explicit_user_country_scope",
+              "binding_scope": "numerator"
+            }
+          ],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {
+            "metric": "发票销售额",
+            "time_scope": "2024年",
+            "numerator": "账单国是美国的发票销售额",
+            "denominator": "占比",
+            "region_scope": "账单国"
+          }
+        },
+        "patch_history": [
+          {
+            "event": "patch",
+            "patches": [
+              {
+                "op": "set",
+                "path": "time_scope",
+                "value": {
+                  "current": {
+                    "start": "2021-01-01",
+                    "end": "2022-01-01",
+                    "label": "2021年",
+                    "grain": "year"
+                  }
+                },
+                "evidence": "2021 年"
+              },
+              {
+                "op": "set",
+                "path": "time_ambiguous",
+                "value": false,
+                "evidence": "2021 年"
+              }
+            ],
+            "intent_version": 2,
+            "invalidated": [
+              "derived_period",
+              "result"
+            ]
+          }
+        ],
+        "invalidated_execution": [
+          "sql_plan",
+          "sql",
+          "result"
+        ],
+        "switch": null
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

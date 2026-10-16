@@ -1,0 +1,37 @@
+{
+  "id": "robust-23",
+  "suite": "robust",
+  "db_id": "chinook",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT AVG(milliseconds) AS average_milliseconds FROM public.track;",
+  "validated_sql": "SELECT AVG(milliseconds) AS average_milliseconds FROM public.track",
+  "columns": [
+    "average_milliseconds"
+  ],
+  "column_type_oids": [
+    1700
+  ],
+  "postgres_column_types": [
+    "numeric"
+  ],
+  "rows": [
+    [
+      "393599.212103910933"
+    ]
+  ],
+  "table": [
+    {
+      "average_milliseconds": "393599.212103910933"
+    }
+  ],
+  "row_count": 1,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 19.144
+}

@@ -1,0 +1,27 @@
+{
+  "trace_id": "81b3fc25-5441-4fba-9115-5f5c4ca82489",
+  "attempt": 1,
+  "request": {
+    "model": "deepseek-flash",
+    "messages": [
+      {
+        "role": "system",
+        "content": "prompt\n只输出一个 JSON 对象，不输出 Markdown。字段遵守以下 JSON Schema：\n{\"properties\": {\"ok\": {\"title\": \"Ok\", \"type\": \"boolean\"}}, \"required\": [\"ok\"], \"title\": \"Probe\", \"type\": \"object\"}"
+      },
+      {
+        "role": "user",
+        "content": "question"
+      }
+    ],
+    "response_format": {
+      "type": "json_object"
+    },
+    "max_tokens": 2048,
+    "extra_body": {
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "error": "Error code: 401 - {'error': {'message': 'provider error'}}"
+}

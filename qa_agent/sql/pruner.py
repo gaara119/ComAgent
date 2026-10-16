@@ -7,9 +7,9 @@ from __future__ import annotations
 
 from dataclasses import replace
 import json
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, create_model, model_validator
 
 from qa_agent.sql.catalog import Catalog
 from qa_agent.sql.schema_linker import SchemaBundle, build_fk_graph, complete_steiner, qualified
@@ -44,6 +44,27 @@ PRUNER_PROMPT = """你负责 PostgreSQL 查询的表字段定位，不生成SQL�
 已核验筛选字段必须保留。连接只使用目录真实外键；程序会恢复必要桥接表和关联键。
 输出 JSON：{"selected":[{"table":"schema.table","columns":["column"],"reason":"用途"}],
 "excluded":{"schema.other":"为何无关"}}。不提供隐藏思考，不参考未提供的答案。"""
+
+
+def make_pruning_decision_model(candidate_names: list[str]) -> type[PruningDecision]:
+    """Put genuine candidate-domain checks inside the existing bounded JSON retry."""
+    if not candidate_names or len(candidate_names) > 12 or len(set(candidate_names)) != len(candidate_names):
+        raise SchemaPruningError("Candidate domain must contain 1 to 12 distinct authentic tables")
+    allowed = Literal[tuple(candidate_names)]
+    selected_model = create_model("CandidateTableChoice", __base__=TableChoice, table=(allowed, ...))
+
+    def valid_partition(decision):
+        chosen = [choice.table for choice in decision.selected]
+        if len(chosen) != len(set(chosen)):
+            raise ValueError("Selected tables must be distinct authentic candidates")
+        if set(decision.excluded) & set(chosen):
+            raise ValueError("A candidate cannot be both selected and excluded")
+        return decision
+
+    return create_model("CandidatePruningDecision", __base__=PruningDecision,
+        __validators__={"valid_partition": model_validator(mode="after")(valid_partition)},
+        selected=(list[selected_model], Field(min_length=1, max_length=12)),
+        excluded=(dict[allowed, str], Field(default_factory=dict)))
 
 
 class SchemaPruner:
@@ -102,7 +123,7 @@ class SchemaPruner:
         context = trace.step("schema_prune", {"candidate_count": len(candidate_names)}) if trace else nullcontext()
         with context as step:
             decision = llm.complete_json(system_prompt=PRUNER_PROMPT,
-                user_prompt=json.dumps(payload, ensure_ascii=False), response_model=PruningDecision, trace=trace)
+                user_prompt=json.dumps(payload, ensure_ascii=False), response_model=make_pruning_decision_model(candidate_names), trace=trace)
             chosen = {}
             for choice in decision.selected:
                 if choice.table not in candidate_names or choice.table in chosen:

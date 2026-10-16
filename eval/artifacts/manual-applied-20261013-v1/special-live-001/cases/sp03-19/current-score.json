@@ -1,0 +1,73 @@
+{
+  "id": "sp03-19",
+  "task": "03",
+  "category": "L1",
+  "turn_count": 1,
+  "initial_status": "SUCCEEDED",
+  "observed_initial_level": "L0",
+  "initial_level_correct": false,
+  "initial_status_correct": true,
+  "declared_default_observed": false,
+  "outcome": "finished",
+  "candidate_contract": null,
+  "query": {
+    "executed": true,
+    "matched": true,
+    "comparison": {
+      "matched": true,
+      "reason": "equal_with_descriptive_extras",
+      "column_mapping": [
+        0,
+        3
+      ]
+    },
+    "legacy_comparison": {
+      "matched": false,
+      "reason": "column_count_mismatch",
+      "column_mapping": null
+    },
+    "semantic_check": {
+      "correct": null,
+      "status": "AI_pending",
+      "reason": "Qualified AST differs; semantic equivalence needs independent review",
+      "predicate_match": false,
+      "gold": {
+        "ast": "SELECT customer.customer_id, SUM(invoice.total) FROM customer JOIN invoice ON customer.customer_id = invoice.customer_id WHERE invoice.invoice_date >= CAST('2022-01-01' AS DATE) AND invoice.invoice_date < CAST('2023-01-01' AS DATE) GROUP BY customer.customer_id ORDER BY SUM(i.total) DESC, c.customer_id ASC LIMIT 1",
+        "predicates": {
+          "customer.customer_id = invoice.customer_id": 1,
+          "invoice.invoice_date < CAST('2023-01-01' AS DATE)": 1,
+          "invoice.invoice_date >= CAST('2022-01-01' AS DATE)": 1
+        },
+        "aggregates": [
+          "SUM(i.total)",
+          "SUM(invoice.total)"
+        ],
+        "tables": [
+          "customer",
+          "invoice"
+        ],
+        "limit": "LIMIT 1"
+      },
+      "actual": {
+        "ast": "SELECT customer.customer_id, customer.first_name, customer.last_name, SUM(invoice.total) FROM invoice JOIN customer ON customer.customer_id = invoice.customer_id WHERE invoice.invoice_date >= CAST('2022-01-01 00:00:00' AS TIMESTAMP) AND invoice.invoice_date < CAST('2023-01-01 00:00:00' AS TIMESTAMP) GROUP BY customer.customer_id, customer.first_name, customer.last_name ORDER BY SUM(i.total) DESC, c.customer_id ASC LIMIT 1",
+        "predicates": {
+          "customer.customer_id = invoice.customer_id": 1,
+          "invoice.invoice_date < CAST('2023-01-01 00:00:00' AS TIMESTAMP)": 1,
+          "invoice.invoice_date >= CAST('2022-01-01 00:00:00' AS TIMESTAMP)": 1
+        },
+        "aggregates": [
+          "SUM(i.total)",
+          "SUM(invoice.total)"
+        ],
+        "tables": [
+          "customer",
+          "invoice"
+        ],
+        "limit": "LIMIT 1"
+      }
+    }
+  },
+  "post_completion": [],
+  "whole_dialogue_success": false,
+  "controller_events": []
+}

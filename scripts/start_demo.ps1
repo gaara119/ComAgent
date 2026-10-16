@@ -14,8 +14,18 @@ $apiUrl = "http://127.0.0.1:$ApiPort"
 function Test-ProjectApi {
     try {
         $health = Invoke-RestMethod -Uri "$apiUrl/health" -TimeoutSec 3
-        return ($health.status -eq 'ok' -and $health.stage -in @('D1', 'D2'))
+        return ($health.status -eq 'ok' -and $health.stage -in @('D1', 'D2', 'D3', 'D4'))
     } catch { return $false }
+}
+
+foreach ($listener in @(Get-NetTCPConnection -LocalPort $ApiPort -State Listen -ErrorAction SilentlyContinue)) {
+    $owner = Get-CimInstance Win32_Process -Filter ('ProcessId=' + $listener.OwningProcess)
+    $ownerParent = if ($owner) { Get-CimInstance Win32_Process -Filter ('ProcessId=' + $owner.ParentProcessId) }
+    $ownerCommand = [string]$owner.CommandLine
+    if (-not $ownerCommand.Contains('api.main:app') -or
+        -not ($ownerCommand.Contains($projectPython) -or ([string]$ownerParent.CommandLine).Contains($projectPython))) {
+        throw "Port $ApiPort belongs to another application or workspace. No process was stopped."
+    }
 }
 
 if (-not (Test-ProjectApi)) {
@@ -36,14 +46,8 @@ if (-not (Test-ProjectApi)) {
 
 $existingUiListener = Get-NetTCPConnection -LocalPort $UiPort -State Listen -ErrorAction SilentlyContinue
 if ($existingUiListener) { throw "Port $UiPort is already occupied. Open http://127.0.0.1:$UiPort if the demo is running, or select another UiPort; no process was stopped." }
-$previousApiBase = $env:QA_API_BASE_URL
-$env:QA_API_BASE_URL = $apiUrl
-try {
-    Write-Host "API: $apiUrl/docs"
-    Write-Host "Demo: http://127.0.0.1:$UiPort"
-    Write-Host 'Press Ctrl+C to stop the demo. The API remains available.'
-    & $projectPython -m streamlit run ui/app.py --server.address 127.0.0.1 --server.port $UiPort --server.headless true --browser.gatherUsageStats false
-    if ($LASTEXITCODE -ne 0) { throw "Streamlit exited with code $LASTEXITCODE." }
-} finally {
-    $env:QA_API_BASE_URL = $previousApiBase
-}
+Write-Host "API: $apiUrl/docs"
+Write-Host "Workbench: http://127.0.0.1:$UiPort"
+Write-Host 'Press Ctrl+C to stop the workbench. The API remains available.'
+& $projectPython frontend-workbench/run_ui.py --api-url $apiUrl --port $UiPort
+if ($LASTEXITCODE -ne 0) { throw "Workbench exited with code $LASTEXITCODE." }

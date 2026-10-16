@@ -1,0 +1,689 @@
+{
+  "id": "sp03-26",
+  "family_id": "special-fam-28-l2-growth-missing-metric-and-current-year",
+  "task": "03",
+  "category": "L2",
+  "input": "同比增长多少？",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "暂停并弹出澄清卡片：缺少指标（销售额/复购客户数/客单价等）、当前期间与同比类型。至少追问当前年份与指标；基期可由当前年份与“同比”唯一推导。不允许用默认年份或默认指标直接执行。",
+  "allowed_interpretations": [
+    {
+      "stage": "initial_request",
+      "missing_conditions": [
+        "metric",
+        "time_scope.current"
+      ],
+      "no_initial_sql_execution": true
+    },
+    {
+      "stage": "after_explicit_supplement",
+      "intent": {
+        "task_type": "growth",
+        "comparison": "yoy",
+        "metric": "sales_revenue",
+        "expression": "SUM(invoice.total)",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end_exclusive": "2025-01-01"
+          },
+          "base": {
+            "start": "2023-01-01",
+            "end_exclusive": "2024-01-01"
+          }
+        },
+        "zero_denominator": "null"
+      }
+    }
+  ],
+  "expected_bindings": [],
+  "missing_conditions": [
+    "metric",
+    "time_scope.current"
+  ],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n原文已是“同比”，不应再标缺同比类型。补齐后基期由当前年推导；改2025年保留指标，改平均每张发票金额仍保留2025对2024的同比关系，不可变成全库AVG。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n"
+  ],
+  "reference_intent": {
+    "task_type": "growth",
+    "comparison": "yoy",
+    "metric": null,
+    "time_scope": {
+      "current": null,
+      "base": "derive_from_current"
+    },
+    "region_scope": null
+  },
+  "gold_sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+  "controller": {
+    "hidden_goal": "计算发票销售额的同比增长率，当前期间为2024年全年，基期为2023年全年，口径为 SUM(invoice.total)，零分母返回 NULL。",
+    "allowed_user_supplements": {
+      "metric": {
+        "answer": "按发票销售额算。",
+        "value": {
+          "metric": "sales_revenue",
+          "expression": "SUM(invoice.total)"
+        }
+      },
+      "time_scope.current": {
+        "answer": "2024年全年。",
+        "value": {
+          "current_start": "2024-01-01",
+          "current_end_exclusive": "2025-01-01",
+          "base_start": "2023-01-01",
+          "base_end_exclusive": "2024-01-01"
+        }
+      },
+      "year": {
+        "answer": "2024年。",
+        "value": {
+          "year": 2024
+        }
+      },
+      "indicator": {
+        "answer": "销售额。",
+        "value": {
+          "metric": "sales_revenue"
+        }
+      }
+    },
+    "final_intent": {
+      "task_type": "growth",
+      "comparison": "yoy",
+      "metric": "sales_revenue",
+      "expression": "SUM(invoice.total)",
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end_exclusive": "2025-01-01"
+        },
+        "base": {
+          "start": "2023-01-01",
+          "end_exclusive": "2024-01-01"
+        }
+      },
+      "zero_denominator": "null"
+    },
+    "expected_state_changes": [
+      "set metric=sales_revenue",
+      "set time_scope.current=2024",
+      "derive time_scope.base=2023"
+    ],
+    "max_clarification_followups": 3,
+    "post_completion_turns": [
+      {
+        "message": "改成2025年同比。",
+        "expected_intent": {
+          "task_type": "growth",
+          "comparison": "yoy",
+          "metric": "sales_revenue",
+          "expression": "SUM(invoice.total)",
+          "time_scope": {
+            "current": {
+              "start": "2025-01-01",
+              "end_exclusive": "2026-01-01"
+            },
+            "base": {
+              "start": "2024-01-01",
+              "end_exclusive": "2025-01-01"
+            }
+          },
+          "zero_denominator": "null"
+        },
+        "gold_sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2025-01-01' AND invoice_date < DATE '2026-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+        "gold_result": {
+          "columns": [
+            "yoy_growth_rate"
+          ],
+          "rows": [
+            [
+              "-0.05643624484325592109"
+            ]
+          ],
+          "table": [
+            {
+              "yoy_growth_rate": "-0.05643624484325592109"
+            }
+          ],
+          "row_count": 1,
+          "truncated": false
+        },
+        "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-26-post-01.json"
+      },
+      {
+        "message": "指标换成平均每张发票金额。",
+        "expected_intent": {
+          "task_type": "growth",
+          "comparison": "yoy",
+          "metric": "average_invoice_amount",
+          "expression": "AVG(invoice.total)",
+          "time_scope": {
+            "current": {
+              "start": "2025-01-01",
+              "end_exclusive": "2026-01-01"
+            },
+            "base": {
+              "start": "2024-01-01",
+              "end_exclusive": "2025-01-01"
+            }
+          },
+          "zero_denominator": "null"
+        },
+        "gold_sql": "SELECT (AVG(CASE WHEN invoice_date >= DATE '2025-01-01' AND invoice_date < DATE '2026-01-01' THEN total END) - AVG(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END)) / NULLIF(AVG(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+        "gold_result": {
+          "columns": [
+            "yoy_growth_rate"
+          ],
+          "rows": [
+            [
+              "-0.02105260402487801567"
+            ]
+          ],
+          "table": [
+            {
+              "yoy_growth_rate": "-0.02105260402487801567"
+            }
+          ],
+          "row_count": 1,
+          "truncated": false
+        },
+        "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-26-post-02.json"
+      }
+    ]
+  },
+  "case_style": "澄清后多轮修改",
+  "secondary_tags": [
+    "growth",
+    "yoy",
+    "multi_turn_metric_change",
+    "multi_turn_year_change"
+  ],
+  "generation_call_id": "generate-03-expansion-04",
+  "generation_stage": "expansion",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "ai_suggested_pass_two_contexts",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "gold_result": {
+    "columns": [
+      "yoy_growth_rate"
+    ],
+    "rows": [
+      [
+        "0.01693002257336343115"
+      ]
+    ],
+    "table": [
+      {
+        "yoy_growth_rate": "0.01693002257336343115"
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "auto_status": "passed",
+  "auto_issues": [],
+  "dataset_version": "manual-applied-20261013-v3",
+  "raw_expected_bindings": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": "half-open-range",
+      "value": "current_period_from_clarification"
+    },
+    {
+      "column": "invoice.total",
+      "operator": "SUM",
+      "value": "metric_from_clarification"
+    }
+  ],
+  "expected_predicates": [],
+  "expected_aggregations": [
+    {
+      "column": "invoice.total",
+      "operator": "SUM",
+      "value": "metric_from_clarification"
+    }
+  ],
+  "expected_unresolved_constraints": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": "half-open-range",
+      "value": "current_period_from_clarification"
+    }
+  ],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "task_type": "growth",
+    "comparison": "yoy",
+    "metric": "sales_revenue",
+    "expression": "SUM(invoice.total)",
+    "time_scope": {
+      "current": {
+        "start": "2024-01-01",
+        "end_exclusive": "2025-01-01"
+      },
+      "base": {
+        "start": "2023-01-01",
+        "end_exclusive": "2024-01-01"
+      }
+    },
+    "zero_denominator": "null"
+  },
+  "scorable": true,
+  "final_source_guard_issues": [],
+  "review_label": "L2／缺指标和当前期间；同比已明示",
+  "review_label_tags": [
+    "L2",
+    "缺指标和当前期间；同比已明示"
+  ],
+  "canonical_input": "同比增长多少？",
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      "指标为发票销售额 SUM(invoice.total)",
+      "指标为平均每张发票金额 AVG(invoice.total)",
+      "指标为期间复购客户数",
+      "当前期间为2024年全年，基期2023年全年",
+      "当前期间为2025年，基期2024年"
+    ],
+    "business_basis": [
+      "clarify_rules.yaml growth.required=[metric,time_scope.current,comparison.type]; time_scope.base 由 current 与 comparison.type 推导",
+      "general.period 左闭右开 [start,end)",
+      "sales_revenue 定义 SUM(invoice.total)；average_invoice_amount 定义 AVG(invoice.total)"
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp03-26",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "输入“同比增长多少？”为增长率任务，指标与当前期间均未给出；按 clarify_rules.yaml growth.required=[metric,time_scope.current,comparison.type] 且 time_scope.base 可由 current 与 yoy 推导，最低必要条件缺失且无默认，L2 暂停澄清正确。gold_sql 左右边界左闭右开、零分母 NULL、两期均为 SUM(invoice.total)，与 final_intent 一致；controller 仅在实际 asked_key 上询问，allowed_user_supplements 覆盖 metric/time_scope.current 并给出 2024 明确值及基期推导，post_completion_turns 保留其他条件并更新 2025 同比与 AVG 口径，均与 gold 一致。",
+        "evidence": [
+          "input: 同比增长多少？",
+          "business_basis: clarify_rules.yaml growth.required=[metric,time_scope.current,comparison.type]; time_scope.base 由 current 与 comparison.type 推导",
+          "gold_sql: SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(... ,0) AS yoy_growth_rate FROM public.invoice;",
+          "actual_program_checks.sp03-26: final/post_completion_1/post_completion_2 均 executed_readonly，列与行形态正确"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      },
+      {
+        "id": "sp03-26",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "“同比增长多少？”缺指标与当前期间，clarify_rules growth.required=[metric,time_scope.current,comparison.type] 且 level_if_missing=L2；同比本身给定 comparison.type，基期可由 current 唯一推导，L2 只追问既有必要项（指标、当前年份/期间）不越权。reference_intent metric=null/current=null/base=derive_from_current 与多轮修改保留未改条件一致。gold_sql 用半开区间 [2024,2025) 与 [2023,2024)，SUM 条件聚合，零分母 NULLIF 返回 NULL，语义正确；JOIN 无重复累加问题。controller 键为 metric/time_scope.current，与 asked_key 一致。",
+        "evidence": [
+          "cases[sp03-26].input “同比增长多少？”",
+          "clarify_rules.yaml growth required/derivable",
+          "sp03-26.gold_sql 半开区间 NULLIF",
+          "actual_program_checks sp03-26 final 0.0169…"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      }
+    ],
+    "original_operational_reference": {
+      "reference_intent": {
+        "task_type": "growth",
+        "comparison": "yoy",
+        "metric": null,
+        "time_scope": {
+          "current": null,
+          "base": "derive_from_current"
+        },
+        "region_scope": null
+      },
+      "expected_final_intent": {
+        "task_type": "growth",
+        "comparison": "yoy",
+        "metric": "sales_revenue",
+        "expression": "SUM(invoice.total)",
+        "time_scope": {
+          "current": {
+            "start": "2024-01-01",
+            "end_exclusive": "2025-01-01"
+          },
+          "base": {
+            "start": "2023-01-01",
+            "end_exclusive": "2024-01-01"
+          }
+        },
+        "zero_denominator": "null"
+      },
+      "expected_bindings": [],
+      "raw_expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": "half-open-range",
+          "value": "current_period_from_clarification"
+        },
+        {
+          "column": "invoice.total",
+          "operator": "SUM",
+          "value": "metric_from_clarification"
+        }
+      ],
+      "expected_predicates": [],
+      "expected_unresolved_constraints": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": "half-open-range",
+          "value": "current_period_from_clarification"
+        }
+      ],
+      "controller": {
+        "hidden_goal": "计算发票销售额的同比增长率，当前期间为2024年全年，基期为2023年全年，口径为 SUM(invoice.total)，零分母返回 NULL。",
+        "allowed_user_supplements": {
+          "metric": {
+            "answer": "按发票销售额算。",
+            "value": {
+              "metric": "sales_revenue",
+              "expression": "SUM(invoice.total)"
+            }
+          },
+          "time_scope.current": {
+            "answer": "2024年全年。",
+            "value": {
+              "current_start": "2024-01-01",
+              "current_end_exclusive": "2025-01-01",
+              "base_start": "2023-01-01",
+              "base_end_exclusive": "2024-01-01"
+            }
+          },
+          "year": {
+            "answer": "2024年。",
+            "value": {
+              "year": 2024
+            }
+          },
+          "indicator": {
+            "answer": "销售额。",
+            "value": {
+              "metric": "sales_revenue"
+            }
+          }
+        },
+        "final_intent": {
+          "task_type": "growth",
+          "comparison": "yoy",
+          "metric": "sales_revenue",
+          "expression": "SUM(invoice.total)",
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end_exclusive": "2025-01-01"
+            },
+            "base": {
+              "start": "2023-01-01",
+              "end_exclusive": "2024-01-01"
+            }
+          },
+          "zero_denominator": "null"
+        },
+        "expected_state_changes": [
+          "set metric=sales_revenue",
+          "set time_scope.current=2024",
+          "derive time_scope.base=2023"
+        ],
+        "max_clarification_followups": 3,
+        "post_completion_turns": [
+          {
+            "message": "改成2025年同比。",
+            "expected_intent": {
+              "task_type": "growth",
+              "comparison": "yoy",
+              "metric": "sales_revenue",
+              "expression": "SUM(invoice.total)",
+              "time_scope": {
+                "current": {
+                  "start": "2025-01-01",
+                  "end_exclusive": "2026-01-01"
+                },
+                "base": {
+                  "start": "2024-01-01",
+                  "end_exclusive": "2025-01-01"
+                }
+              },
+              "zero_denominator": "null"
+            },
+            "gold_sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2025-01-01' AND invoice_date < DATE '2026-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;"
+          },
+          {
+            "message": "指标换成平均每张发票金额。",
+            "expected_intent": {
+              "task_type": "growth",
+              "comparison": "yoy",
+              "metric": "average_invoice_amount",
+              "expression": "AVG(invoice.total)",
+              "time_scope": {
+                "current": {
+                  "start": "2025-01-01",
+                  "end_exclusive": "2026-01-01"
+                },
+                "base": {
+                  "start": "2024-01-01",
+                  "end_exclusive": "2025-01-01"
+                }
+              },
+              "zero_denominator": "null"
+            },
+            "gold_sql": "SELECT (AVG(CASE WHEN invoice_date >= DATE '2025-01-01' AND invoice_date < DATE '2026-01-01' THEN total END) - AVG(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END)) / NULLIF(AVG(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;"
+          }
+        ]
+      },
+      "gold_sql": "SELECT (SUM(CASE WHEN invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01' THEN total END) - SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END)) / NULLIF(SUM(CASE WHEN invoice_date >= DATE '2023-01-01' AND invoice_date < DATE '2024-01-01' THEN total END), 0) AS yoy_growth_rate FROM public.invoice;",
+      "gold_result": {
+        "columns": [
+          "yoy_growth_rate"
+        ],
+        "rows": [
+          [
+            "0.01693002257336343115"
+          ]
+        ],
+        "table": [
+          {
+            "yoy_growth_rate": "0.01693002257336343115"
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        "指标为发票销售额 SUM(invoice.total)",
+        "指标为平均每张发票金额 AVG(invoice.total)",
+        "指标为期间复购客户数",
+        "当前期间为2024年全年，基期2023年全年",
+        "当前期间为2025年，基期2024年"
+      ],
+      "canonical_input": null
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp03-26",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "d9b535886c5b592a9d3c556de539bd4aaffdaa550dedb2dc9721c48623d48175"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "d1a3a68f3f5a79092fb0bf1fadac13c90c0702c2d3b9f908b339039f01299794"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "453da0b75ecc7fcf5fd8e5f333080bc561dfebcd3dcafe55a06a110011e4bdb5"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "27a1d64ccd5c7fd896603dd96974a9f7f5ff7fb00f8b99efab28d4d9a4fe9b68"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "6f252661d8a3a154999c3dcf35cabb61456f344d23605fa2398ff4540a26066b"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "712c83bb95d92cb0569029c1cb86075114b5f5c38f2e2367ec5f05a02c88d81a"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "7edf7256d0dff6ce6889b7cfa3f7913bc798839d9e088d57f66117cf6e3f8e3f"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "f48c81ddd1e055f79c19b177d9312eb1f3333a44ef8207fac3b9880e8697790e"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "576ae77f021ca9d6495aefa3f0f6557b2648324baefbfd7555cade739dff1bca"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "f0203bfc5a2f292cf8b08a9e599319f27eb59e04181ba4190a299f5c198b4a24"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "f1d0594ca781549cac4496d68e08f8aa632acf4efe56d83e3df720f91e651d7c"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "7f7dbd77ca770e9b413d2c071f788511b5d27387e0b2c2443117af4527ead397"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "cce85df8c712bf4938dd9b7c9cb031c5bdb8aa5c691e6da04a6702988cb8b661"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n原文已是“同比”，不应再标缺同比类型。补齐后基期由当前年推导；改2025年保留指标，改平均每张发票金额仍保留2025对2024的同比关系，不可变成全库AVG。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\nd9b535886c｜专项历史 V0 / turn0：本轮询问剩余指标/当前期间，与尚未补齐的条件对应；不从隐藏目标猜值。\nd1a3a68f3f｜专项历史 V0 / turn1：本轮询问剩余指标/当前期间，与尚未补齐的条件对应；不从隐藏目标猜值。\n453da0b75e｜专项历史 V0 / turn2：核心结果一致，额外列：base_revenue,curr_revenue；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n27a1d64ccd｜专项历史 V0 / turn3：续问SQL保留同比任务并更新2025/2024范围；附件中的两期金额与比例可对应，独立逐轮gold结果及比例单位仍需二轮复核。\n6f252661d8｜专项历史 V0 / turn4：改指标后变成全库AVG(total)，丢失2025/2024同比与期间。\n712c83bb95｜专项历史 V1 / turn0：本轮询问剩余指标/当前期间，与尚未补齐的条件对应；不从隐藏目标猜值。\n7edf7256d0｜专项历史 V1 / turn1：本轮询问剩余指标/当前期间，与尚未补齐的条件对应；不从隐藏目标猜值。\nf48c81ddd1｜专项历史 V1 / turn2：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n576ae77f02｜专项历史 V1 / turn3：续问SQL保留同比任务并更新2025/2024范围；附件中的两期金额与比例可对应，独立逐轮gold结果及比例单位仍需二轮复核。\nf0203bfc5a｜专项历史 V1 / turn4：改指标后变成全库AVG(total)，丢失2025/2024同比与期间。\nf1d0594ca7｜专项历史 V2 / turn0：原题只有同比请求，凭空生成“这批/这些”范围缺失并重复问期间。\n7f7dbd77ca｜专项历史 V2 / turn1：继续要求原题没有的“这批/这些”范围；有效补充后仍有伪缺口。\ncce85df8c7｜专项历史 V2 / turn2：补充后仍卡在无依据的指代范围追问，未完成任务。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "有条件通过",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Year-over-year comparison already stated; only metric and current period remain missing",
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "yoy_growth_rate"
+  ],
+  "column_types": [
+    "number"
+  ],
+  "integer_columns": [],
+  "ordered": false,
+  "monetary_columns": [],
+  "expected_status": "SUCCEEDED",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-26.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "e09da1a13fff195aa38e85d5793e8d3d923bc118542d1e33273552024402b9b6",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n原文已是“同比”，不应再标缺同比类型。补齐后基期由当前年推导；改2025年保留指标，改平均每张发票金额仍保留2025对2024的同比关系，不可变成全库AVG。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\nd9b535886c｜专项历史 V0 / turn0：本轮询问剩余指标/当前期间，与尚未补齐的条件对应；不从隐藏目标猜值。\nd1a3a68f3f｜专项历史 V0 / turn1：本轮询问剩余指标/当前期间，与尚未补齐的条件对应；不从隐藏目标猜值。\n453da0b75e｜专项历史 V0 / turn2：核心结果一致，额外列：base_revenue,curr_revenue；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n27a1d64ccd｜专项历史 V0 / turn3：续问SQL保留同比任务并更新2025/2024范围；附件中的两期金额与比例可对应，独立逐轮gold结果及比例单位仍需二轮复核。\n6f252661d8｜专项历史 V0 / turn4：改指标后变成全库AVG(total)，丢失2025/2024同比与期间。\n712c83bb95｜专项历史 V1 / turn0：本轮询问剩余指标/当前期间，与尚未补齐的条件对应；不从隐藏目标猜值。\n7edf7256d0｜专项历史 V1 / turn1：本轮询问剩余指标/当前期间，与尚未补齐的条件对应；不从隐藏目标猜值。\nf48c81ddd1｜专项历史 V1 / turn2：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n576ae77f02｜专项历史 V1 / turn3：续问SQL保留同比任务并更新2025/2024范围；附件中的两期金额与比例可对应，独立逐轮gold结果及比例单位仍需二轮复核。\nf0203bfc5a｜专项历史 V1 / turn4：改指标后变成全库AVG(total)，丢失2025/2024同比与期间。\nf1d0594ca7｜专项历史 V2 / turn0：原题只有同比请求，凭空生成“这批/这些”范围缺失并重复问期间。\n7f7dbd77ca｜专项历史 V2 / turn1：继续要求原题没有的“这批/这些”范围；有效补充后仍有伪缺口。\ncce85df8c7｜专项历史 V2 / turn2：补充后仍卡在无依据的指代范围追问，未完成任务。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "L2",
+        "缺指标和当前期间；同比已明示"
+      ],
+      "initial_level": "L2",
+      "missing_conditions": [
+        "metric",
+        "time_scope.current"
+      ],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

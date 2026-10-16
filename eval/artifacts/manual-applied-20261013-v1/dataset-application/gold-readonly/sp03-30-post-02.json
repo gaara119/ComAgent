@@ -1,0 +1,39 @@
+{
+  "id": "sp03-30",
+  "turn": 2,
+  "db_id": "chinook",
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT il.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY il.track_id ORDER BY purchased_quantity DESC, il.track_id ASC LIMIT 1;",
+  "validated_sql": "SELECT il.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line AS il JOIN public.invoice AS i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) GROUP BY il.track_id ORDER BY purchased_quantity DESC, il.track_id ASC LIMIT 1",
+  "columns": [
+    "track_id",
+    "purchased_quantity"
+  ],
+  "column_type_oids": [
+    23,
+    20
+  ],
+  "postgres_column_types": [
+    "int4",
+    "int8"
+  ],
+  "rows": [
+    [
+      3,
+      1
+    ]
+  ],
+  "table": [
+    {
+      "track_id": 3,
+      "purchased_quantity": 1
+    }
+  ],
+  "row_count": 1,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 44.519
+}

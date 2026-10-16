@@ -1,0 +1,10 @@
+{
+  "name": "comagent-workbench-ui",
+  "version": "1.1.0",
+  "private": true,
+  "description": "ComAgent React workbench for the existing explicit-source FastAPI contract",
+  "type": "module",
+  "scripts": { "build": "node scripts/build.mjs", "test": "node --test tests/contract.test.mjs" },
+  "dependencies": { "antd": "^6.0.0", "react": "^19.2.0", "react-dom": "^19.2.0" },
+  "devDependencies": { "esbuild": "^0.27.0" }
+}

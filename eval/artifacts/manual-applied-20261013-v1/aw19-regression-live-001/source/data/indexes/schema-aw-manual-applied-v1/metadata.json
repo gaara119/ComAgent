@@ -1,0 +1,3270 @@
+{
+  "format": "d3_schema_dense_v1",
+  "database": "adventureworks",
+  "catalog_path": "E:\\中国电子杯-赛题八\\system\\data\\catalog\\adventureworks-manual-applied-v1.yaml",
+  "catalog_sha256": "ef2ed4a5567e3ee70877f39d5881012cf3509eb8fb4c6bdc9fd69ea02ef02091",
+  "table_names": [
+    "humanresources.department",
+    "humanresources.employee",
+    "humanresources.employeedepartmenthistory",
+    "humanresources.employeepayhistory",
+    "humanresources.jobcandidate",
+    "humanresources.shift",
+    "person.address",
+    "person.addresstype",
+    "person.businessentity",
+    "person.businessentityaddress",
+    "person.businessentitycontact",
+    "person.contacttype",
+    "person.countryregion",
+    "person.emailaddress",
+    "person.password",
+    "person.person",
+    "person.personphone",
+    "person.phonenumbertype",
+    "person.stateprovince",
+    "production.billofmaterials",
+    "production.culture",
+    "production.document",
+    "production.illustration",
+    "production.location",
+    "production.product",
+    "production.productcategory",
+    "production.productcosthistory",
+    "production.productdescription",
+    "production.productdocument",
+    "production.productinventory",
+    "production.productlistpricehistory",
+    "production.productmodel",
+    "production.productmodelillustration",
+    "production.productmodelproductdescriptionculture",
+    "production.productphoto",
+    "production.productproductphoto",
+    "production.productreview",
+    "production.productsubcategory",
+    "production.scrapreason",
+    "production.transactionhistory",
+    "production.transactionhistoryarchive",
+    "production.unitmeasure",
+    "production.workorder",
+    "production.workorderrouting",
+    "purchasing.productvendor",
+    "purchasing.purchaseorderdetail",
+    "purchasing.purchaseorderheader",
+    "purchasing.shipmethod",
+    "purchasing.vendor",
+    "sales.countryregioncurrency",
+    "sales.creditcard",
+    "sales.currency",
+    "sales.currencyrate",
+    "sales.customer",
+    "sales.personcreditcard",
+    "sales.salesorderdetail",
+    "sales.salesorderheader",
+    "sales.salesorderheadersalesreason",
+    "sales.salesperson",
+    "sales.salespersonquotahistory",
+    "sales.salesreason",
+    "sales.salestaxrate",
+    "sales.salesterritory",
+    "sales.salesterritoryhistory",
+    "sales.shoppingcartitem",
+    "sales.specialoffer",
+    "sales.specialofferproduct",
+    "sales.store"
+  ],
+  "column_names": [
+    "humanresources.department.departmentid",
+    "humanresources.department.name",
+    "humanresources.department.groupname",
+    "humanresources.department.modifieddate",
+    "humanresources.employee.businessentityid",
+    "humanresources.employee.nationalidnumber",
+    "humanresources.employee.loginid",
+    "humanresources.employee.jobtitle",
+    "humanresources.employee.birthdate",
+    "humanresources.employee.maritalstatus",
+    "humanresources.employee.gender",
+    "humanresources.employee.hiredate",
+    "humanresources.employee.salariedflag",
+    "humanresources.employee.vacationhours",
+    "humanresources.employee.sickleavehours",
+    "humanresources.employee.currentflag",
+    "humanresources.employee.rowguid",
+    "humanresources.employee.modifieddate",
+    "humanresources.employee.organizationnode",
+    "humanresources.employeedepartmenthistory.businessentityid",
+    "humanresources.employeedepartmenthistory.departmentid",
+    "humanresources.employeedepartmenthistory.shiftid",
+    "humanresources.employeedepartmenthistory.startdate",
+    "humanresources.employeedepartmenthistory.enddate",
+    "humanresources.employeedepartmenthistory.modifieddate",
+    "humanresources.employeepayhistory.businessentityid",
+    "humanresources.employeepayhistory.ratechangedate",
+    "humanresources.employeepayhistory.rate",
+    "humanresources.employeepayhistory.payfrequency",
+    "humanresources.employeepayhistory.modifieddate",
+    "humanresources.jobcandidate.jobcandidateid",
+    "humanresources.jobcandidate.businessentityid",
+    "humanresources.jobcandidate.resume",
+    "humanresources.jobcandidate.modifieddate",
+    "humanresources.shift.shiftid",
+    "humanresources.shift.name",
+    "humanresources.shift.starttime",
+    "humanresources.shift.endtime",
+    "humanresources.shift.modifieddate",
+    "person.address.addressid",
+    "person.address.addressline1",
+    "person.address.addressline2",
+    "person.address.city",
+    "person.address.stateprovinceid",
+    "person.address.postalcode",
+    "person.address.spatiallocation",
+    "person.address.rowguid",
+    "person.address.modifieddate",
+    "person.addresstype.addresstypeid",
+    "person.addresstype.name",
+    "person.addresstype.rowguid",
+    "person.addresstype.modifieddate",
+    "person.businessentity.businessentityid",
+    "person.businessentity.rowguid",
+    "person.businessentity.modifieddate",
+    "person.businessentityaddress.businessentityid",
+    "person.businessentityaddress.addressid",
+    "person.businessentityaddress.addresstypeid",
+    "person.businessentityaddress.rowguid",
+    "person.businessentityaddress.modifieddate",
+    "person.businessentitycontact.businessentityid",
+    "person.businessentitycontact.personid",
+    "person.businessentitycontact.contacttypeid",
+    "person.businessentitycontact.rowguid",
+    "person.businessentitycontact.modifieddate",
+    "person.contacttype.contacttypeid",
+    "person.contacttype.name",
+    "person.contacttype.modifieddate",
+    "person.countryregion.countryregioncode",
+    "person.countryregion.name",
+    "person.countryregion.modifieddate",
+    "person.emailaddress.businessentityid",
+    "person.emailaddress.emailaddressid",
+    "person.emailaddress.emailaddress",
+    "person.emailaddress.rowguid",
+    "person.emailaddress.modifieddate",
+    "person.password.businessentityid",
+    "person.password.passwordhash",
+    "person.password.passwordsalt",
+    "person.password.rowguid",
+    "person.password.modifieddate",
+    "person.person.businessentityid",
+    "person.person.persontype",
+    "person.person.namestyle",
+    "person.person.title",
+    "person.person.firstname",
+    "person.person.middlename",
+    "person.person.lastname",
+    "person.person.suffix",
+    "person.person.emailpromotion",
+    "person.person.additionalcontactinfo",
+    "person.person.demographics",
+    "person.person.rowguid",
+    "person.person.modifieddate",
+    "person.personphone.businessentityid",
+    "person.personphone.phonenumber",
+    "person.personphone.phonenumbertypeid",
+    "person.personphone.modifieddate",
+    "person.phonenumbertype.phonenumbertypeid",
+    "person.phonenumbertype.name",
+    "person.phonenumbertype.modifieddate",
+    "person.stateprovince.stateprovinceid",
+    "person.stateprovince.stateprovincecode",
+    "person.stateprovince.countryregioncode",
+    "person.stateprovince.isonlystateprovinceflag",
+    "person.stateprovince.name",
+    "person.stateprovince.territoryid",
+    "person.stateprovince.rowguid",
+    "person.stateprovince.modifieddate",
+    "production.billofmaterials.billofmaterialsid",
+    "production.billofmaterials.productassemblyid",
+    "production.billofmaterials.componentid",
+    "production.billofmaterials.startdate",
+    "production.billofmaterials.enddate",
+    "production.billofmaterials.unitmeasurecode",
+    "production.billofmaterials.bomlevel",
+    "production.billofmaterials.perassemblyqty",
+    "production.billofmaterials.modifieddate",
+    "production.culture.cultureid",
+    "production.culture.name",
+    "production.culture.modifieddate",
+    "production.document.title",
+    "production.document.owner",
+    "production.document.folderflag",
+    "production.document.filename",
+    "production.document.fileextension",
+    "production.document.revision",
+    "production.document.changenumber",
+    "production.document.status",
+    "production.document.documentsummary",
+    "production.document.document",
+    "production.document.rowguid",
+    "production.document.modifieddate",
+    "production.document.documentnode",
+    "production.illustration.illustrationid",
+    "production.illustration.diagram",
+    "production.illustration.modifieddate",
+    "production.location.locationid",
+    "production.location.name",
+    "production.location.costrate",
+    "production.location.availability",
+    "production.location.modifieddate",
+    "production.product.productid",
+    "production.product.name",
+    "production.product.productnumber",
+    "production.product.makeflag",
+    "production.product.finishedgoodsflag",
+    "production.product.color",
+    "production.product.safetystocklevel",
+    "production.product.reorderpoint",
+    "production.product.standardcost",
+    "production.product.listprice",
+    "production.product.size",
+    "production.product.sizeunitmeasurecode",
+    "production.product.weightunitmeasurecode",
+    "production.product.weight",
+    "production.product.daystomanufacture",
+    "production.product.productline",
+    "production.product.class",
+    "production.product.style",
+    "production.product.productsubcategoryid",
+    "production.product.productmodelid",
+    "production.product.sellstartdate",
+    "production.product.sellenddate",
+    "production.product.discontinueddate",
+    "production.product.rowguid",
+    "production.product.modifieddate",
+    "production.productcategory.productcategoryid",
+    "production.productcategory.name",
+    "production.productcategory.rowguid",
+    "production.productcategory.modifieddate",
+    "production.productcosthistory.productid",
+    "production.productcosthistory.startdate",
+    "production.productcosthistory.enddate",
+    "production.productcosthistory.standardcost",
+    "production.productcosthistory.modifieddate",
+    "production.productdescription.productdescriptionid",
+    "production.productdescription.description",
+    "production.productdescription.rowguid",
+    "production.productdescription.modifieddate",
+    "production.productdocument.productid",
+    "production.productdocument.modifieddate",
+    "production.productdocument.documentnode",
+    "production.productinventory.productid",
+    "production.productinventory.locationid",
+    "production.productinventory.shelf",
+    "production.productinventory.bin",
+    "production.productinventory.quantity",
+    "production.productinventory.rowguid",
+    "production.productinventory.modifieddate",
+    "production.productlistpricehistory.productid",
+    "production.productlistpricehistory.startdate",
+    "production.productlistpricehistory.enddate",
+    "production.productlistpricehistory.listprice",
+    "production.productlistpricehistory.modifieddate",
+    "production.productmodel.productmodelid",
+    "production.productmodel.name",
+    "production.productmodel.catalogdescription",
+    "production.productmodel.instructions",
+    "production.productmodel.rowguid",
+    "production.productmodel.modifieddate",
+    "production.productmodelillustration.productmodelid",
+    "production.productmodelillustration.illustrationid",
+    "production.productmodelillustration.modifieddate",
+    "production.productmodelproductdescriptionculture.productmodelid",
+    "production.productmodelproductdescriptionculture.productdescriptionid",
+    "production.productmodelproductdescriptionculture.cultureid",
+    "production.productmodelproductdescriptionculture.modifieddate",
+    "production.productphoto.productphotoid",
+    "production.productphoto.thumbnailphoto",
+    "production.productphoto.thumbnailphotofilename",
+    "production.productphoto.largephoto",
+    "production.productphoto.largephotofilename",
+    "production.productphoto.modifieddate",
+    "production.productproductphoto.productid",
+    "production.productproductphoto.productphotoid",
+    "production.productproductphoto.primary",
+    "production.productproductphoto.modifieddate",
+    "production.productreview.productreviewid",
+    "production.productreview.productid",
+    "production.productreview.reviewername",
+    "production.productreview.reviewdate",
+    "production.productreview.emailaddress",
+    "production.productreview.rating",
+    "production.productreview.comments",
+    "production.productreview.modifieddate",
+    "production.productsubcategory.productsubcategoryid",
+    "production.productsubcategory.productcategoryid",
+    "production.productsubcategory.name",
+    "production.productsubcategory.rowguid",
+    "production.productsubcategory.modifieddate",
+    "production.scrapreason.scrapreasonid",
+    "production.scrapreason.name",
+    "production.scrapreason.modifieddate",
+    "production.transactionhistory.transactionid",
+    "production.transactionhistory.productid",
+    "production.transactionhistory.referenceorderid",
+    "production.transactionhistory.referenceorderlineid",
+    "production.transactionhistory.transactiondate",
+    "production.transactionhistory.transactiontype",
+    "production.transactionhistory.quantity",
+    "production.transactionhistory.actualcost",
+    "production.transactionhistory.modifieddate",
+    "production.transactionhistoryarchive.transactionid",
+    "production.transactionhistoryarchive.productid",
+    "production.transactionhistoryarchive.referenceorderid",
+    "production.transactionhistoryarchive.referenceorderlineid",
+    "production.transactionhistoryarchive.transactiondate",
+    "production.transactionhistoryarchive.transactiontype",
+    "production.transactionhistoryarchive.quantity",
+    "production.transactionhistoryarchive.actualcost",
+    "production.transactionhistoryarchive.modifieddate",
+    "production.unitmeasure.unitmeasurecode",
+    "production.unitmeasure.name",
+    "production.unitmeasure.modifieddate",
+    "production.workorder.workorderid",
+    "production.workorder.productid",
+    "production.workorder.orderqty",
+    "production.workorder.scrappedqty",
+    "production.workorder.startdate",
+    "production.workorder.enddate",
+    "production.workorder.duedate",
+    "production.workorder.scrapreasonid",
+    "production.workorder.modifieddate",
+    "production.workorderrouting.workorderid",
+    "production.workorderrouting.productid",
+    "production.workorderrouting.operationsequence",
+    "production.workorderrouting.locationid",
+    "production.workorderrouting.scheduledstartdate",
+    "production.workorderrouting.scheduledenddate",
+    "production.workorderrouting.actualstartdate",
+    "production.workorderrouting.actualenddate",
+    "production.workorderrouting.actualresourcehrs",
+    "production.workorderrouting.plannedcost",
+    "production.workorderrouting.actualcost",
+    "production.workorderrouting.modifieddate",
+    "purchasing.productvendor.productid",
+    "purchasing.productvendor.businessentityid",
+    "purchasing.productvendor.averageleadtime",
+    "purchasing.productvendor.standardprice",
+    "purchasing.productvendor.lastreceiptcost",
+    "purchasing.productvendor.lastreceiptdate",
+    "purchasing.productvendor.minorderqty",
+    "purchasing.productvendor.maxorderqty",
+    "purchasing.productvendor.onorderqty",
+    "purchasing.productvendor.unitmeasurecode",
+    "purchasing.productvendor.modifieddate",
+    "purchasing.purchaseorderdetail.purchaseorderid",
+    "purchasing.purchaseorderdetail.purchaseorderdetailid",
+    "purchasing.purchaseorderdetail.duedate",
+    "purchasing.purchaseorderdetail.orderqty",
+    "purchasing.purchaseorderdetail.productid",
+    "purchasing.purchaseorderdetail.unitprice",
+    "purchasing.purchaseorderdetail.receivedqty",
+    "purchasing.purchaseorderdetail.rejectedqty",
+    "purchasing.purchaseorderdetail.modifieddate",
+    "purchasing.purchaseorderheader.purchaseorderid",
+    "purchasing.purchaseorderheader.revisionnumber",
+    "purchasing.purchaseorderheader.status",
+    "purchasing.purchaseorderheader.employeeid",
+    "purchasing.purchaseorderheader.vendorid",
+    "purchasing.purchaseorderheader.shipmethodid",
+    "purchasing.purchaseorderheader.orderdate",
+    "purchasing.purchaseorderheader.shipdate",
+    "purchasing.purchaseorderheader.subtotal",
+    "purchasing.purchaseorderheader.taxamt",
+    "purchasing.purchaseorderheader.freight",
+    "purchasing.purchaseorderheader.modifieddate",
+    "purchasing.shipmethod.shipmethodid",
+    "purchasing.shipmethod.name",
+    "purchasing.shipmethod.shipbase",
+    "purchasing.shipmethod.shiprate",
+    "purchasing.shipmethod.rowguid",
+    "purchasing.shipmethod.modifieddate",
+    "purchasing.vendor.businessentityid",
+    "purchasing.vendor.accountnumber",
+    "purchasing.vendor.name",
+    "purchasing.vendor.creditrating",
+    "purchasing.vendor.preferredvendorstatus",
+    "purchasing.vendor.activeflag",
+    "purchasing.vendor.purchasingwebserviceurl",
+    "purchasing.vendor.modifieddate",
+    "sales.countryregioncurrency.countryregioncode",
+    "sales.countryregioncurrency.currencycode",
+    "sales.countryregioncurrency.modifieddate",
+    "sales.creditcard.creditcardid",
+    "sales.creditcard.cardtype",
+    "sales.creditcard.cardnumber",
+    "sales.creditcard.expmonth",
+    "sales.creditcard.expyear",
+    "sales.creditcard.modifieddate",
+    "sales.currency.currencycode",
+    "sales.currency.name",
+    "sales.currency.modifieddate",
+    "sales.currencyrate.currencyrateid",
+    "sales.currencyrate.currencyratedate",
+    "sales.currencyrate.fromcurrencycode",
+    "sales.currencyrate.tocurrencycode",
+    "sales.currencyrate.averagerate",
+    "sales.currencyrate.endofdayrate",
+    "sales.currencyrate.modifieddate",
+    "sales.customer.customerid",
+    "sales.customer.personid",
+    "sales.customer.storeid",
+    "sales.customer.territoryid",
+    "sales.customer.rowguid",
+    "sales.customer.modifieddate",
+    "sales.personcreditcard.businessentityid",
+    "sales.personcreditcard.creditcardid",
+    "sales.personcreditcard.modifieddate",
+    "sales.salesorderdetail.salesorderid",
+    "sales.salesorderdetail.salesorderdetailid",
+    "sales.salesorderdetail.carriertrackingnumber",
+    "sales.salesorderdetail.orderqty",
+    "sales.salesorderdetail.productid",
+    "sales.salesorderdetail.specialofferid",
+    "sales.salesorderdetail.unitprice",
+    "sales.salesorderdetail.unitpricediscount",
+    "sales.salesorderdetail.rowguid",
+    "sales.salesorderdetail.modifieddate",
+    "sales.salesorderheader.salesorderid",
+    "sales.salesorderheader.revisionnumber",
+    "sales.salesorderheader.orderdate",
+    "sales.salesorderheader.duedate",
+    "sales.salesorderheader.shipdate",
+    "sales.salesorderheader.status",
+    "sales.salesorderheader.onlineorderflag",
+    "sales.salesorderheader.purchaseordernumber",
+    "sales.salesorderheader.accountnumber",
+    "sales.salesorderheader.customerid",
+    "sales.salesorderheader.salespersonid",
+    "sales.salesorderheader.territoryid",
+    "sales.salesorderheader.billtoaddressid",
+    "sales.salesorderheader.shiptoaddressid",
+    "sales.salesorderheader.shipmethodid",
+    "sales.salesorderheader.creditcardid",
+    "sales.salesorderheader.creditcardapprovalcode",
+    "sales.salesorderheader.currencyrateid",
+    "sales.salesorderheader.subtotal",
+    "sales.salesorderheader.taxamt",
+    "sales.salesorderheader.freight",
+    "sales.salesorderheader.totaldue",
+    "sales.salesorderheader.comment",
+    "sales.salesorderheader.rowguid",
+    "sales.salesorderheader.modifieddate",
+    "sales.salesorderheadersalesreason.salesorderid",
+    "sales.salesorderheadersalesreason.salesreasonid",
+    "sales.salesorderheadersalesreason.modifieddate",
+    "sales.salesperson.businessentityid",
+    "sales.salesperson.territoryid",
+    "sales.salesperson.salesquota",
+    "sales.salesperson.bonus",
+    "sales.salesperson.commissionpct",
+    "sales.salesperson.salesytd",
+    "sales.salesperson.saleslastyear",
+    "sales.salesperson.rowguid",
+    "sales.salesperson.modifieddate",
+    "sales.salespersonquotahistory.businessentityid",
+    "sales.salespersonquotahistory.quotadate",
+    "sales.salespersonquotahistory.salesquota",
+    "sales.salespersonquotahistory.rowguid",
+    "sales.salespersonquotahistory.modifieddate",
+    "sales.salesreason.salesreasonid",
+    "sales.salesreason.name",
+    "sales.salesreason.reasontype",
+    "sales.salesreason.modifieddate",
+    "sales.salestaxrate.salestaxrateid",
+    "sales.salestaxrate.stateprovinceid",
+    "sales.salestaxrate.taxtype",
+    "sales.salestaxrate.taxrate",
+    "sales.salestaxrate.name",
+    "sales.salestaxrate.rowguid",
+    "sales.salestaxrate.modifieddate",
+    "sales.salesterritory.territoryid",
+    "sales.salesterritory.name",
+    "sales.salesterritory.countryregioncode",
+    "sales.salesterritory.group",
+    "sales.salesterritory.salesytd",
+    "sales.salesterritory.saleslastyear",
+    "sales.salesterritory.costytd",
+    "sales.salesterritory.costlastyear",
+    "sales.salesterritory.rowguid",
+    "sales.salesterritory.modifieddate",
+    "sales.salesterritoryhistory.businessentityid",
+    "sales.salesterritoryhistory.territoryid",
+    "sales.salesterritoryhistory.startdate",
+    "sales.salesterritoryhistory.enddate",
+    "sales.salesterritoryhistory.rowguid",
+    "sales.salesterritoryhistory.modifieddate",
+    "sales.shoppingcartitem.shoppingcartitemid",
+    "sales.shoppingcartitem.shoppingcartid",
+    "sales.shoppingcartitem.quantity",
+    "sales.shoppingcartitem.productid",
+    "sales.shoppingcartitem.datecreated",
+    "sales.shoppingcartitem.modifieddate",
+    "sales.specialoffer.specialofferid",
+    "sales.specialoffer.description",
+    "sales.specialoffer.discountpct",
+    "sales.specialoffer.type",
+    "sales.specialoffer.category",
+    "sales.specialoffer.startdate",
+    "sales.specialoffer.enddate",
+    "sales.specialoffer.minqty",
+    "sales.specialoffer.maxqty",
+    "sales.specialoffer.rowguid",
+    "sales.specialoffer.modifieddate",
+    "sales.specialofferproduct.specialofferid",
+    "sales.specialofferproduct.productid",
+    "sales.specialofferproduct.rowguid",
+    "sales.specialofferproduct.modifieddate",
+    "sales.store.businessentityid",
+    "sales.store.name",
+    "sales.store.salespersonid",
+    "sales.store.demographics",
+    "sales.store.rowguid",
+    "sales.store.modifieddate"
+  ],
+  "table_count": 68,
+  "column_count": 456,
+  "table_vector_shape": [
+    68,
+    1024
+  ],
+  "column_vector_shape": [
+    456,
+    1024
+  ],
+  "embedder": {
+    "model": "BAAI/bge-m3",
+    "conversion_repo": "Xenova/bge-m3",
+    "revision": "4de13258303883538bd53b696b452bf8099f0858",
+    "source": "https://huggingface.co/Xenova/bge-m3/tree/4de13258303883538bd53b696b452bf8099f0858",
+    "license": "MIT",
+    "runtime": "onnxruntime",
+    "device": "cpu",
+    "weight_type": "QInt8",
+    "pooling": "CLS",
+    "normalization": "L2",
+    "dimensions": 1024,
+    "downloaded_at_utc": "2026-10-10T12:06:50.568592+00:00",
+    "files": [
+      {
+        "path": "onnx/model_quantized.onnx",
+        "size": 569694530,
+        "sha256": "0826f8c1ab9edf1801db86c61919d4d108e8bfc0b809ec823ad366882ff0b77d"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 17082821,
+        "sha256": "6710678b12670bc442b99edc952c4d996ae309a7020c1fa0096dd245c2faf790"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 1173,
+        "sha256": "7e4c1cc848840aeccdd763458c18dd525eb0f795c992e00ebe9c28554e7db2d4"
+      },
+      {
+        "path": "config.json",
+        "size": 770,
+        "sha256": "734a79bf12d388c1467a4e3ab625f45de7f6906cffcfb93a1eca1787504bed95"
+      },
+      {
+        "path": "quantize_config.json",
+        "size": 834,
+        "sha256": "4d98142624026cf78a40b36896ae1b1bada4faf185b77784a03b6995324aa176"
+      }
+    ],
+    "max_length": 512,
+    "batch_size": 2,
+    "providers": [
+      "CPUExecutionProvider"
+    ],
+    "mode": "bge-m3_onnx_int8",
+    "model_id": "BAAI/bge-m3",
+    "model_revision": "4de13258303883538bd53b696b452bf8099f0858",
+    "model_sha256": "0826f8c1ab9edf1801db86c61919d4d108e8bfc0b809ec823ad366882ff0b77d"
+  },
+  "value_hints": [
+    {
+      "column": "humanresources.department.name",
+      "value": "Document Control"
+    },
+    {
+      "column": "humanresources.department.name",
+      "value": "Engineering"
+    },
+    {
+      "column": "humanresources.department.name",
+      "value": "Executive"
+    },
+    {
+      "column": "humanresources.department.groupname",
+      "value": "Executive General and Administration"
+    },
+    {
+      "column": "humanresources.department.groupname",
+      "value": "Inventory Management"
+    },
+    {
+      "column": "humanresources.department.groupname",
+      "value": "Manufacturing"
+    },
+    {
+      "column": "humanresources.department.modifieddate",
+      "value": "2008-04-30T00:00:00"
+    },
+    {
+      "column": "humanresources.employee.loginid",
+      "value": "adventure-works\\alan0"
+    },
+    {
+      "column": "humanresources.employee.loginid",
+      "value": "adventure-works\\alejandro0"
+    },
+    {
+      "column": "humanresources.employee.loginid",
+      "value": "adventure-works\\alex0"
+    },
+    {
+      "column": "humanresources.employee.jobtitle",
+      "value": "Accountant"
+    },
+    {
+      "column": "humanresources.employee.jobtitle",
+      "value": "Accounts Manager"
+    },
+    {
+      "column": "humanresources.employee.jobtitle",
+      "value": "Accounts Payable Specialist"
+    },
+    {
+      "column": "humanresources.employee.birthdate",
+      "value": "1951-10-17"
+    },
+    {
+      "column": "humanresources.employee.birthdate",
+      "value": "1952-03-02"
+    },
+    {
+      "column": "humanresources.employee.birthdate",
+      "value": "1952-05-12"
+    },
+    {
+      "column": "humanresources.employee.hiredate",
+      "value": "2006-06-30"
+    },
+    {
+      "column": "humanresources.employee.hiredate",
+      "value": "2007-01-26"
+    },
+    {
+      "column": "humanresources.employee.hiredate",
+      "value": "2007-11-11"
+    },
+    {
+      "column": "humanresources.employee.rowguid",
+      "value": "00027a8c-c2f8-4a31-aba8-8a203638b8f1"
+    },
+    {
+      "column": "humanresources.employee.rowguid",
+      "value": "01b119a2-2af3-4775-818e-b421fecb07a7"
+    },
+    {
+      "column": "humanresources.employee.rowguid",
+      "value": "01bcce22-d63a-4c3f-9ba8-d3d5a4c3bd52"
+    },
+    {
+      "column": "humanresources.employee.modifieddate",
+      "value": "2014-06-30T00:00:00"
+    },
+    {
+      "column": "humanresources.employee.modifieddate",
+      "value": "2014-12-26T09:17:08.637000"
+    },
+    {
+      "column": "humanresources.employee.organizationnode",
+      "value": "/1/"
+    },
+    {
+      "column": "humanresources.employee.organizationnode",
+      "value": "/1/1/"
+    },
+    {
+      "column": "humanresources.employeedepartmenthistory.startdate",
+      "value": "2006-06-30"
+    },
+    {
+      "column": "humanresources.employeedepartmenthistory.startdate",
+      "value": "2007-01-26"
+    },
+    {
+      "column": "humanresources.employeedepartmenthistory.startdate",
+      "value": "2007-11-11"
+    },
+    {
+      "column": "humanresources.employeedepartmenthistory.enddate",
+      "value": "2009-07-14"
+    },
+    {
+      "column": "humanresources.employeedepartmenthistory.enddate",
+      "value": "2010-05-30"
+    },
+    {
+      "column": "humanresources.employeedepartmenthistory.enddate",
+      "value": "2011-07-30"
+    },
+    {
+      "column": "humanresources.employeedepartmenthistory.modifieddate",
+      "value": "2006-06-29T00:00:00"
+    },
+    {
+      "column": "humanresources.employeedepartmenthistory.modifieddate",
+      "value": "2007-01-25T00:00:00"
+    },
+    {
+      "column": "humanresources.employeedepartmenthistory.modifieddate",
+      "value": "2007-11-10T00:00:00"
+    },
+    {
+      "column": "humanresources.employeepayhistory.ratechangedate",
+      "value": "2006-06-30T00:00:00"
+    },
+    {
+      "column": "humanresources.employeepayhistory.ratechangedate",
+      "value": "2007-01-26T00:00:00"
+    },
+    {
+      "column": "humanresources.employeepayhistory.ratechangedate",
+      "value": "2007-11-11T00:00:00"
+    },
+    {
+      "column": "humanresources.employeepayhistory.rate",
+      "value": "6.5000"
+    },
+    {
+      "column": "humanresources.employeepayhistory.rate",
+      "value": "6.7500"
+    },
+    {
+      "column": "humanresources.employeepayhistory.rate",
+      "value": "7.0000"
+    },
+    {
+      "column": "humanresources.employeepayhistory.modifieddate",
+      "value": "2007-11-21T00:00:00"
+    },
+    {
+      "column": "humanresources.employeepayhistory.modifieddate",
+      "value": "2007-12-06T00:00:00"
+    },
+    {
+      "column": "humanresources.employeepayhistory.modifieddate",
+      "value": "2007-12-25T00:00:00"
+    },
+    {
+      "column": "humanresources.jobcandidate.modifieddate",
+      "value": "2007-06-23T00:00:00"
+    },
+    {
+      "column": "humanresources.jobcandidate.modifieddate",
+      "value": "2013-12-22T18:32:21.267000"
+    },
+    {
+      "column": "humanresources.jobcandidate.modifieddate",
+      "value": "2013-12-22T18:32:21.313000"
+    },
+    {
+      "column": "humanresources.shift.name",
+      "value": "Day"
+    },
+    {
+      "column": "humanresources.shift.name",
+      "value": "Evening"
+    },
+    {
+      "column": "humanresources.shift.name",
+      "value": "Night"
+    },
+    {
+      "column": "humanresources.shift.starttime",
+      "value": "07:00:00"
+    },
+    {
+      "column": "humanresources.shift.starttime",
+      "value": "15:00:00"
+    },
+    {
+      "column": "humanresources.shift.starttime",
+      "value": "23:00:00"
+    },
+    {
+      "column": "humanresources.shift.endtime",
+      "value": "07:00:00"
+    },
+    {
+      "column": "humanresources.shift.endtime",
+      "value": "15:00:00"
+    },
+    {
+      "column": "humanresources.shift.endtime",
+      "value": "23:00:00"
+    },
+    {
+      "column": "humanresources.shift.modifieddate",
+      "value": "2008-04-30T00:00:00"
+    },
+    {
+      "column": "person.address.addressline1",
+      "value": "#500-75 O'Connor Street"
+    },
+    {
+      "column": "person.address.addressline1",
+      "value": "#9900 2700 Production Way"
+    },
+    {
+      "column": "person.address.addressline1",
+      "value": "00, rue Saint-Lazare"
+    },
+    {
+      "column": "person.address.addressline2",
+      "value": "# 1"
+    },
+    {
+      "column": "person.address.addressline2",
+      "value": "# 10"
+    },
+    {
+      "column": "person.address.addressline2",
+      "value": "# 101"
+    },
+    {
+      "column": "person.address.city",
+      "value": "Abingdon"
+    },
+    {
+      "column": "person.address.city",
+      "value": "Albany"
+    },
+    {
+      "column": "person.address.city",
+      "value": "Alexandria"
+    },
+    {
+      "column": "person.address.postalcode",
+      "value": "01071"
+    },
+    {
+      "column": "person.address.postalcode",
+      "value": "01906"
+    },
+    {
+      "column": "person.address.postalcode",
+      "value": "02062"
+    },
+    {
+      "column": "person.address.rowguid",
+      "value": "00093f9c-0487-4723-b376-d90ff565ad6f"
+    },
+    {
+      "column": "person.address.rowguid",
+      "value": "000a2255-2d8e-4d99-b82f-7013b256ee31"
+    },
+    {
+      "column": "person.address.rowguid",
+      "value": "000a5a3e-e89a-4b5d-a3f8-3d8595d8a7f0"
+    },
+    {
+      "column": "person.address.modifieddate",
+      "value": "2017-06-22T00:00:00"
+    },
+    {
+      "column": "person.address.modifieddate",
+      "value": "2018-01-18T00:00:00"
+    },
+    {
+      "column": "person.address.modifieddate",
+      "value": "2018-11-03T00:00:00"
+    },
+    {
+      "column": "person.addresstype.name",
+      "value": "Archive"
+    },
+    {
+      "column": "person.addresstype.name",
+      "value": "Billing"
+    },
+    {
+      "column": "person.addresstype.name",
+      "value": "Home"
+    },
+    {
+      "column": "person.addresstype.rowguid",
+      "value": "24cb3088-4345-47c4-86c5-17b535133d1e"
+    },
+    {
+      "column": "person.addresstype.rowguid",
+      "value": "41bc2ff6-f0fc-475f-8eb9-cec0805aa0f2"
+    },
+    {
+      "column": "person.addresstype.rowguid",
+      "value": "8eeec28c-07a2-4fb9-ad0a-42d4a0bbc575"
+    },
+    {
+      "column": "person.addresstype.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "person.businessentity.rowguid",
+      "value": "00021813-91ef-4a97-9682-0d2ac8c9ea97"
+    },
+    {
+      "column": "person.businessentity.rowguid",
+      "value": "000392b5-933e-4bff-945b-ff50aabbb7c0"
+    },
+    {
+      "column": "person.businessentity.rowguid",
+      "value": "00046b88-5fab-4922-b671-c080fd04cdc9"
+    },
+    {
+      "column": "person.businessentity.modifieddate",
+      "value": "2017-12-13T13:20:24.150000"
+    },
+    {
+      "column": "person.businessentity.modifieddate",
+      "value": "2017-12-13T13:20:24.430000"
+    },
+    {
+      "column": "person.businessentity.modifieddate",
+      "value": "2017-12-13T13:20:24.540000"
+    },
+    {
+      "column": "person.businessentityaddress.rowguid",
+      "value": "00013363-e32f-4615-9439-aff156d480ae"
+    },
+    {
+      "column": "person.businessentityaddress.rowguid",
+      "value": "0001ccda-ad2b-4bbe-8047-cac51efdbb53"
+    },
+    {
+      "column": "person.businessentityaddress.rowguid",
+      "value": "0006a62c-c87f-448e-ae91-f01a2f34466c"
+    },
+    {
+      "column": "person.businessentityaddress.modifieddate",
+      "value": "2022-04-24T00:00:00"
+    },
+    {
+      "column": "person.businessentityaddress.modifieddate",
+      "value": "2022-05-08T00:00:00"
+    },
+    {
+      "column": "person.businessentityaddress.modifieddate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "person.businessentitycontact.rowguid",
+      "value": "0022434c-e325-47b0-92a0-7302ffa5046f"
+    },
+    {
+      "column": "person.businessentitycontact.rowguid",
+      "value": "00a811e1-d1a5-47b0-8d94-1c6fbac4c743"
+    },
+    {
+      "column": "person.businessentitycontact.rowguid",
+      "value": "01422957-23ae-4079-afba-07000f64b4a1"
+    },
+    {
+      "column": "person.businessentitycontact.modifieddate",
+      "value": "2017-12-13T13:21:02.243000"
+    },
+    {
+      "column": "person.businessentitycontact.modifieddate",
+      "value": "2017-12-13T13:21:02.320000"
+    },
+    {
+      "column": "person.businessentitycontact.modifieddate",
+      "value": "2017-12-13T13:21:02.383000"
+    },
+    {
+      "column": "person.contacttype.name",
+      "value": "Accounting Manager"
+    },
+    {
+      "column": "person.contacttype.name",
+      "value": "Assistant Sales Agent"
+    },
+    {
+      "column": "person.contacttype.name",
+      "value": "Assistant Sales Representative"
+    },
+    {
+      "column": "person.contacttype.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "person.countryregion.name",
+      "value": "Afghanistan"
+    },
+    {
+      "column": "person.countryregion.name",
+      "value": "Albania"
+    },
+    {
+      "column": "person.countryregion.name",
+      "value": "Algeria"
+    },
+    {
+      "column": "person.countryregion.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "person.emailaddress.emailaddress",
+      "value": "a0@adventure-works.com"
+    },
+    {
+      "column": "person.emailaddress.emailaddress",
+      "value": "a1@adventure-works.com"
+    },
+    {
+      "column": "person.emailaddress.emailaddress",
+      "value": "aaron0@adventure-works.com"
+    },
+    {
+      "column": "person.emailaddress.rowguid",
+      "value": "0000ed61-c256-496a-b3ab-50ba5b2cb441"
+    },
+    {
+      "column": "person.emailaddress.rowguid",
+      "value": "0003d22b-11a8-4560-b30d-3f360098759d"
+    },
+    {
+      "column": "person.emailaddress.rowguid",
+      "value": "00049740-8028-4926-9c8a-874a5a9f7312"
+    },
+    {
+      "column": "person.emailaddress.modifieddate",
+      "value": "2015-04-15T16:33:33.060000"
+    },
+    {
+      "column": "person.emailaddress.modifieddate",
+      "value": "2015-04-15T16:33:33.077000"
+    },
+    {
+      "column": "person.emailaddress.modifieddate",
+      "value": "2015-04-15T16:33:33.090000"
+    },
+    {
+      "column": "person.password.rowguid",
+      "value": "000b8d5e-6c0a-456b-9d4c-94bfc05e2d24"
+    },
+    {
+      "column": "person.password.rowguid",
+      "value": "000cf6bf-b5cd-4ba1-8219-fe6c4699f291"
+    },
+    {
+      "column": "person.password.rowguid",
+      "value": "0010c31a-6195-4fdb-85fc-f1300d2c0edc"
+    },
+    {
+      "column": "person.password.modifieddate",
+      "value": "2015-04-15T16:33:33.060000"
+    },
+    {
+      "column": "person.password.modifieddate",
+      "value": "2015-04-15T16:33:33.077000"
+    },
+    {
+      "column": "person.password.modifieddate",
+      "value": "2015-04-15T16:33:33.090000"
+    },
+    {
+      "column": "person.person.title",
+      "value": "Mr."
+    },
+    {
+      "column": "person.person.title",
+      "value": "Mrs."
+    },
+    {
+      "column": "person.person.firstname",
+      "value": "A. Scott"
+    },
+    {
+      "column": "person.person.firstname",
+      "value": "Aaron"
+    },
+    {
+      "column": "person.person.middlename",
+      "value": "Ann"
+    },
+    {
+      "column": "person.person.lastname",
+      "value": "Abbas"
+    },
+    {
+      "column": "person.person.lastname",
+      "value": "Abel"
+    },
+    {
+      "column": "person.person.lastname",
+      "value": "Abercrombie"
+    },
+    {
+      "column": "person.person.suffix",
+      "value": "III"
+    },
+    {
+      "column": "person.person.rowguid",
+      "value": "000191ef-7424-4a5f-ab19-0852b1f0b78d"
+    },
+    {
+      "column": "person.person.rowguid",
+      "value": "00034881-67fa-4cca-908a-b1d42030979e"
+    },
+    {
+      "column": "person.person.rowguid",
+      "value": "00061ffe-1635-48c6-88dd-fc1e2127b838"
+    },
+    {
+      "column": "person.person.modifieddate",
+      "value": "2015-04-15T16:33:33.060000"
+    },
+    {
+      "column": "person.person.modifieddate",
+      "value": "2015-04-15T16:33:33.077000"
+    },
+    {
+      "column": "person.person.modifieddate",
+      "value": "2015-04-15T16:33:33.090000"
+    },
+    {
+      "column": "person.personphone.phonenumber",
+      "value": "1 (11) 500 555-0110"
+    },
+    {
+      "column": "person.personphone.phonenumber",
+      "value": "1 (11) 500 555-0111"
+    },
+    {
+      "column": "person.personphone.phonenumber",
+      "value": "1 (11) 500 555-0112"
+    },
+    {
+      "column": "person.personphone.modifieddate",
+      "value": "2015-04-15T16:33:33.060000"
+    },
+    {
+      "column": "person.personphone.modifieddate",
+      "value": "2015-04-15T16:33:33.077000"
+    },
+    {
+      "column": "person.personphone.modifieddate",
+      "value": "2015-04-15T16:33:33.090000"
+    },
+    {
+      "column": "person.phonenumbertype.name",
+      "value": "Cell"
+    },
+    {
+      "column": "person.phonenumbertype.name",
+      "value": "Home"
+    },
+    {
+      "column": "person.phonenumbertype.name",
+      "value": "Work"
+    },
+    {
+      "column": "person.phonenumbertype.modifieddate",
+      "value": "2017-12-13T13:19:22.273000"
+    },
+    {
+      "column": "person.stateprovince.name",
+      "value": "Ain"
+    },
+    {
+      "column": "person.stateprovince.name",
+      "value": "Aisne"
+    },
+    {
+      "column": "person.stateprovince.name",
+      "value": "Alabama"
+    },
+    {
+      "column": "person.stateprovince.rowguid",
+      "value": "00723e00-c976-401d-a92b-e582df3d6e01"
+    },
+    {
+      "column": "person.stateprovince.rowguid",
+      "value": "01cec802-20ce-4f96-b475-2ad263cea9d0"
+    },
+    {
+      "column": "person.stateprovince.rowguid",
+      "value": "0374fd8e-3a19-4a9b-bb9e-db5871503afe"
+    },
+    {
+      "column": "person.stateprovince.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "person.stateprovince.modifieddate",
+      "value": "2025-02-07T10:17:21.587000"
+    },
+    {
+      "column": "production.billofmaterials.startdate",
+      "value": "2021-03-03T00:00:00"
+    },
+    {
+      "column": "production.billofmaterials.startdate",
+      "value": "2021-03-17T00:00:00"
+    },
+    {
+      "column": "production.billofmaterials.startdate",
+      "value": "2021-05-03T00:00:00"
+    },
+    {
+      "column": "production.billofmaterials.enddate",
+      "value": "2021-05-02T00:00:00"
+    },
+    {
+      "column": "production.billofmaterials.enddate",
+      "value": "2021-05-16T00:00:00"
+    },
+    {
+      "column": "production.billofmaterials.enddate",
+      "value": "2021-07-24T00:00:00"
+    },
+    {
+      "column": "production.billofmaterials.perassemblyqty",
+      "value": "1.00"
+    },
+    {
+      "column": "production.billofmaterials.perassemblyqty",
+      "value": "2.00"
+    },
+    {
+      "column": "production.billofmaterials.perassemblyqty",
+      "value": "3.00"
+    },
+    {
+      "column": "production.billofmaterials.modifieddate",
+      "value": "2021-02-17T00:00:00"
+    },
+    {
+      "column": "production.billofmaterials.modifieddate",
+      "value": "2021-03-03T00:00:00"
+    },
+    {
+      "column": "production.billofmaterials.modifieddate",
+      "value": "2021-04-19T00:00:00"
+    },
+    {
+      "column": "production.culture.name",
+      "value": "Arabic"
+    },
+    {
+      "column": "production.culture.name",
+      "value": "Chinese"
+    },
+    {
+      "column": "production.culture.name",
+      "value": "English"
+    },
+    {
+      "column": "production.culture.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "production.document.title",
+      "value": "Assembly"
+    },
+    {
+      "column": "production.document.title",
+      "value": "Crank Arm and Tire Maintenance"
+    },
+    {
+      "column": "production.document.title",
+      "value": "Documents"
+    },
+    {
+      "column": "production.document.filename",
+      "value": "Assembly"
+    },
+    {
+      "column": "production.document.filename",
+      "value": "Crank Arm and Tire Maintenance.doc"
+    },
+    {
+      "column": "production.document.filename",
+      "value": "Documents"
+    },
+    {
+      "column": "production.document.fileextension",
+      "value": ".doc"
+    },
+    {
+      "column": "production.document.rowguid",
+      "value": "26a266f1-1d23-40e2-af48-6ab8d954fe37"
+    },
+    {
+      "column": "production.document.rowguid",
+      "value": "27cf33af-c338-4842-966c-75ca11aaa6a3"
+    },
+    {
+      "column": "production.document.rowguid",
+      "value": "2a8bd319-36fb-4fba-9e07-e303839f1974"
+    },
+    {
+      "column": "production.document.modifieddate",
+      "value": "2017-12-13T13:58:03.943000"
+    },
+    {
+      "column": "production.document.modifieddate",
+      "value": "2017-12-13T13:58:03.977000"
+    },
+    {
+      "column": "production.document.modifieddate",
+      "value": "2017-12-13T13:58:04.007000"
+    },
+    {
+      "column": "production.document.documentnode",
+      "value": "/1/"
+    },
+    {
+      "column": "production.document.documentnode",
+      "value": "/1/1/"
+    },
+    {
+      "column": "production.illustration.modifieddate",
+      "value": "2025-01-08T13:06:11.780000"
+    },
+    {
+      "column": "production.illustration.modifieddate",
+      "value": "2025-01-08T13:06:11.903000"
+    },
+    {
+      "column": "production.illustration.modifieddate",
+      "value": "2025-01-08T13:06:11.950000"
+    },
+    {
+      "column": "production.location.name",
+      "value": "Debur and Polish"
+    },
+    {
+      "column": "production.location.name",
+      "value": "Final Assembly"
+    },
+    {
+      "column": "production.location.name",
+      "value": "Finished Goods Storage"
+    },
+    {
+      "column": "production.location.costrate",
+      "value": "0.0000"
+    },
+    {
+      "column": "production.location.costrate",
+      "value": "12.2500"
+    },
+    {
+      "column": "production.location.costrate",
+      "value": "14.5000"
+    },
+    {
+      "column": "production.location.availability",
+      "value": "0.00"
+    },
+    {
+      "column": "production.location.availability",
+      "value": "80.00"
+    },
+    {
+      "column": "production.location.availability",
+      "value": "96.00"
+    },
+    {
+      "column": "production.location.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "production.product.name",
+      "value": "AWC Logo Cap"
+    },
+    {
+      "column": "production.product.name",
+      "value": "Adjustable Race"
+    },
+    {
+      "column": "production.product.name",
+      "value": "All-Purpose Bike Stand"
+    },
+    {
+      "column": "production.product.productnumber",
+      "value": "AR-5381"
+    },
+    {
+      "column": "production.product.productnumber",
+      "value": "BA-8327"
+    },
+    {
+      "column": "production.product.productnumber",
+      "value": "BB-7421"
+    },
+    {
+      "column": "production.product.color",
+      "value": "Black"
+    },
+    {
+      "column": "production.product.color",
+      "value": "Blue"
+    },
+    {
+      "column": "production.product.color",
+      "value": "Grey"
+    },
+    {
+      "column": "production.product.standardcost",
+      "value": "0.0000"
+    },
+    {
+      "column": "production.product.standardcost",
+      "value": "0.8565"
+    },
+    {
+      "column": "production.product.standardcost",
+      "value": "1.4923"
+    },
+    {
+      "column": "production.product.listprice",
+      "value": "0.0000"
+    },
+    {
+      "column": "production.product.listprice",
+      "value": "2.2900"
+    },
+    {
+      "column": "production.product.listprice",
+      "value": "3.9900"
+    },
+    {
+      "column": "production.product.weight",
+      "value": "2.12"
+    },
+    {
+      "column": "production.product.weight",
+      "value": "2.16"
+    },
+    {
+      "column": "production.product.weight",
+      "value": "2.18"
+    },
+    {
+      "column": "production.product.sellstartdate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "production.product.sellstartdate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "production.product.sellstartdate",
+      "value": "2023-05-30T00:00:00"
+    },
+    {
+      "column": "production.product.sellenddate",
+      "value": "2023-05-29T00:00:00"
+    },
+    {
+      "column": "production.product.sellenddate",
+      "value": "2024-05-28T00:00:00"
+    },
+    {
+      "column": "production.product.rowguid",
+      "value": "01a8c3fc-ed52-458e-a634-d5b6e2accfed"
+    },
+    {
+      "column": "production.product.rowguid",
+      "value": "01c901e3-4323-48ed-ab9e-9bfda28bdef6"
+    },
+    {
+      "column": "production.product.rowguid",
+      "value": "02935111-a546-4c6d-941f-be12d42c158e"
+    },
+    {
+      "column": "production.product.modifieddate",
+      "value": "2025-02-07T10:01:36.827000"
+    },
+    {
+      "column": "production.product.modifieddate",
+      "value": "2025-02-07T10:03:55.510000"
+    },
+    {
+      "column": "production.productcategory.name",
+      "value": "Accessories"
+    },
+    {
+      "column": "production.productcategory.name",
+      "value": "Bikes"
+    },
+    {
+      "column": "production.productcategory.name",
+      "value": "Clothing"
+    },
+    {
+      "column": "production.productcategory.rowguid",
+      "value": "10a7c342-ca82-48d4-8a38-46a2eb089b74"
+    },
+    {
+      "column": "production.productcategory.rowguid",
+      "value": "2be3be36-d9a2-4eee-b593-ed895d97c2a6"
+    },
+    {
+      "column": "production.productcategory.rowguid",
+      "value": "c657828d-d808-4aba-91a3-af2ce02300e9"
+    },
+    {
+      "column": "production.productcategory.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "production.productcosthistory.startdate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "production.productcosthistory.startdate",
+      "value": "2023-05-30T00:00:00"
+    },
+    {
+      "column": "production.productcosthistory.startdate",
+      "value": "2024-05-29T00:00:00"
+    },
+    {
+      "column": "production.productcosthistory.enddate",
+      "value": "2023-05-29T00:00:00"
+    },
+    {
+      "column": "production.productcosthistory.enddate",
+      "value": "2024-05-28T00:00:00"
+    },
+    {
+      "column": "production.productcosthistory.standardcost",
+      "value": "0.8565"
+    },
+    {
+      "column": "production.productcosthistory.standardcost",
+      "value": "1.4923"
+    },
+    {
+      "column": "production.productcosthistory.standardcost",
+      "value": "1.8663"
+    },
+    {
+      "column": "production.productcosthistory.modifieddate",
+      "value": "2023-05-29T00:00:00"
+    },
+    {
+      "column": "production.productcosthistory.modifieddate",
+      "value": "2024-05-15T00:00:00"
+    },
+    {
+      "column": "production.productcosthistory.modifieddate",
+      "value": "2024-05-28T00:00:00"
+    },
+    {
+      "column": "production.productdescription.description",
+      "value": "10-speed aluminum derailleur with sealed pulley bearings."
+    },
+    {
+      "column": "production.productdescription.description",
+      "value": "A light yet stiff aluminum bar for long distance riding."
+    },
+    {
+      "column": "production.productdescription.description",
+      "value": "A stable pedal for all-day riding."
+    },
+    {
+      "column": "production.productdescription.rowguid",
+      "value": "00ffdfac-0207-4df0-8051-7d3c884816f3"
+    },
+    {
+      "column": "production.productdescription.rowguid",
+      "value": "016cbbe9-d51b-4a50-94cd-5ff2da577c5b"
+    },
+    {
+      "column": "production.productdescription.rowguid",
+      "value": "01fc4bee-5ee9-4b2a-a5c3-eaba6036a705"
+    },
+    {
+      "column": "production.productdescription.modifieddate",
+      "value": "2024-04-29T00:00:00"
+    },
+    {
+      "column": "production.productdescription.modifieddate",
+      "value": "2025-02-07T10:32:17.973000"
+    },
+    {
+      "column": "production.productdocument.modifieddate",
+      "value": "2024-12-28T13:51:58.103000"
+    },
+    {
+      "column": "production.productdocument.modifieddate",
+      "value": "2024-12-28T13:51:58.120000"
+    },
+    {
+      "column": "production.productdocument.documentnode",
+      "value": "/1/1/"
+    },
+    {
+      "column": "production.productdocument.documentnode",
+      "value": "/2/1/"
+    },
+    {
+      "column": "production.productdocument.documentnode",
+      "value": "/3/1/"
+    },
+    {
+      "column": "production.productinventory.rowguid",
+      "value": "000c77ab-c1d6-4f8e-a66d-ed8068140d8c"
+    },
+    {
+      "column": "production.productinventory.rowguid",
+      "value": "00740703-f4b3-4a25-9ee9-249ddd1f2596"
+    },
+    {
+      "column": "production.productinventory.rowguid",
+      "value": "0077a261-a5a8-44a0-aa20-e3adb9a66409"
+    },
+    {
+      "column": "production.productinventory.modifieddate",
+      "value": "2019-03-31T00:00:00"
+    },
+    {
+      "column": "production.productinventory.modifieddate",
+      "value": "2022-04-30T00:00:00"
+    },
+    {
+      "column": "production.productinventory.modifieddate",
+      "value": "2023-04-30T00:00:00"
+    },
+    {
+      "column": "production.productlistpricehistory.startdate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "production.productlistpricehistory.startdate",
+      "value": "2023-05-30T00:00:00"
+    },
+    {
+      "column": "production.productlistpricehistory.startdate",
+      "value": "2024-05-29T00:00:00"
+    },
+    {
+      "column": "production.productlistpricehistory.enddate",
+      "value": "2023-05-29T00:00:00"
+    },
+    {
+      "column": "production.productlistpricehistory.enddate",
+      "value": "2024-05-28T00:00:00"
+    },
+    {
+      "column": "production.productlistpricehistory.listprice",
+      "value": "2.2900"
+    },
+    {
+      "column": "production.productlistpricehistory.listprice",
+      "value": "3.9900"
+    },
+    {
+      "column": "production.productlistpricehistory.listprice",
+      "value": "4.9900"
+    },
+    {
+      "column": "production.productlistpricehistory.modifieddate",
+      "value": "2023-05-29T00:00:00"
+    },
+    {
+      "column": "production.productlistpricehistory.modifieddate",
+      "value": "2024-05-08T00:00:00"
+    },
+    {
+      "column": "production.productlistpricehistory.modifieddate",
+      "value": "2024-05-28T00:00:00"
+    },
+    {
+      "column": "production.productmodel.name",
+      "value": "All-Purpose Bike Stand"
+    },
+    {
+      "column": "production.productmodel.name",
+      "value": "Bike Wash"
+    },
+    {
+      "column": "production.productmodel.name",
+      "value": "Cable Lock"
+    },
+    {
+      "column": "production.productmodel.rowguid",
+      "value": "00ce9171-8944-4d49-ba37-485c1d122f5c"
+    },
+    {
+      "column": "production.productmodel.rowguid",
+      "value": "02200aa0-c369-4d77-a67c-75973efda81b"
+    },
+    {
+      "column": "production.productmodel.rowguid",
+      "value": "02a562e2-4dfa-4778-bbac-bbddcecf99b0"
+    },
+    {
+      "column": "production.productmodel.modifieddate",
+      "value": "2015-04-15T16:34:28.980000"
+    },
+    {
+      "column": "production.productmodel.modifieddate",
+      "value": "2015-04-15T16:34:28.997000"
+    },
+    {
+      "column": "production.productmodel.modifieddate",
+      "value": "2015-04-15T16:34:29.010000"
+    },
+    {
+      "column": "production.productmodelillustration.modifieddate",
+      "value": "2025-01-08T14:41:02.167000"
+    },
+    {
+      "column": "production.productmodelillustration.modifieddate",
+      "value": "2025-01-08T14:41:02.183000"
+    },
+    {
+      "column": "production.productmodelillustration.modifieddate",
+      "value": "2025-01-08T14:41:02.200000"
+    },
+    {
+      "column": "production.productmodelproductdescriptionculture.modifieddate",
+      "value": "2024-04-29T00:00:00"
+    },
+    {
+      "column": "production.productphoto.thumbnailphotofilename",
+      "value": "awc_jersey_female_small.gif"
+    },
+    {
+      "column": "production.productphoto.thumbnailphotofilename",
+      "value": "awc_jersey_male_small.gif"
+    },
+    {
+      "column": "production.productphoto.thumbnailphotofilename",
+      "value": "awc_tee_female_small.gif"
+    },
+    {
+      "column": "production.productphoto.largephotofilename",
+      "value": "awc_jersey_female_large.gif"
+    },
+    {
+      "column": "production.productphoto.largephotofilename",
+      "value": "awc_jersey_male_large.gif"
+    },
+    {
+      "column": "production.productphoto.largephotofilename",
+      "value": "awc_tee_female_large.gif"
+    },
+    {
+      "column": "production.productphoto.modifieddate",
+      "value": "2019-03-31T00:00:00"
+    },
+    {
+      "column": "production.productphoto.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "production.productphoto.modifieddate",
+      "value": "2022-04-30T00:00:00"
+    },
+    {
+      "column": "production.productproductphoto.modifieddate",
+      "value": "2019-03-31T00:00:00"
+    },
+    {
+      "column": "production.productproductphoto.modifieddate",
+      "value": "2022-04-30T00:00:00"
+    },
+    {
+      "column": "production.productproductphoto.modifieddate",
+      "value": "2023-04-30T00:00:00"
+    },
+    {
+      "column": "production.productreview.reviewername",
+      "value": "David"
+    },
+    {
+      "column": "production.productreview.reviewername",
+      "value": "Jill"
+    },
+    {
+      "column": "production.productreview.reviewername",
+      "value": "John Smith"
+    },
+    {
+      "column": "production.productreview.reviewdate",
+      "value": "2013-09-18T00:00:00"
+    },
+    {
+      "column": "production.productreview.reviewdate",
+      "value": "2013-11-13T00:00:00"
+    },
+    {
+      "column": "production.productreview.reviewdate",
+      "value": "2013-11-15T00:00:00"
+    },
+    {
+      "column": "production.productreview.emailaddress",
+      "value": "david@graphicdesigninstitute.com"
+    },
+    {
+      "column": "production.productreview.emailaddress",
+      "value": "jill@margiestravel.com"
+    },
+    {
+      "column": "production.productreview.emailaddress",
+      "value": "john@fourthcoffee.com"
+    },
+    {
+      "column": "production.productreview.modifieddate",
+      "value": "2013-09-18T00:00:00"
+    },
+    {
+      "column": "production.productreview.modifieddate",
+      "value": "2013-11-13T00:00:00"
+    },
+    {
+      "column": "production.productreview.modifieddate",
+      "value": "2013-11-15T00:00:00"
+    },
+    {
+      "column": "production.productsubcategory.name",
+      "value": "Bib-Shorts"
+    },
+    {
+      "column": "production.productsubcategory.name",
+      "value": "Bike Racks"
+    },
+    {
+      "column": "production.productsubcategory.name",
+      "value": "Bike Stands"
+    },
+    {
+      "column": "production.productsubcategory.rowguid",
+      "value": "000310c0-bcc8-42c4-b0c3-45ae611af06b"
+    },
+    {
+      "column": "production.productsubcategory.rowguid",
+      "value": "02c5061d-ecdc-4274-b5f1-e91d76bc3f37"
+    },
+    {
+      "column": "production.productsubcategory.rowguid",
+      "value": "049fffa3-9d30-46df-82f7-f20730ec02b3"
+    },
+    {
+      "column": "production.productsubcategory.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "production.scrapreason.name",
+      "value": "Brake assembly not as ordered"
+    },
+    {
+      "column": "production.scrapreason.name",
+      "value": "Color incorrect"
+    },
+    {
+      "column": "production.scrapreason.name",
+      "value": "Drill pattern incorrect"
+    },
+    {
+      "column": "production.scrapreason.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "production.transactionhistory.transactiondate",
+      "value": "2024-07-30T00:00:00"
+    },
+    {
+      "column": "production.transactionhistory.transactiondate",
+      "value": "2024-07-31T00:00:00"
+    },
+    {
+      "column": "production.transactionhistory.transactiondate",
+      "value": "2024-08-01T00:00:00"
+    },
+    {
+      "column": "production.transactionhistory.actualcost",
+      "value": "0.0000"
+    },
+    {
+      "column": "production.transactionhistory.actualcost",
+      "value": "0.2100"
+    },
+    {
+      "column": "production.transactionhistory.actualcost",
+      "value": "1.1550"
+    },
+    {
+      "column": "production.transactionhistory.modifieddate",
+      "value": "2024-07-30T00:00:00"
+    },
+    {
+      "column": "production.transactionhistory.modifieddate",
+      "value": "2024-07-31T00:00:00"
+    },
+    {
+      "column": "production.transactionhistory.modifieddate",
+      "value": "2024-08-01T00:00:00"
+    },
+    {
+      "column": "production.transactionhistoryarchive.transactiondate",
+      "value": "2022-04-15T00:00:00"
+    },
+    {
+      "column": "production.transactionhistoryarchive.transactiondate",
+      "value": "2022-04-29T00:00:00"
+    },
+    {
+      "column": "production.transactionhistoryarchive.transactiondate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "production.transactionhistoryarchive.actualcost",
+      "value": "0.0000"
+    },
+    {
+      "column": "production.transactionhistoryarchive.actualcost",
+      "value": "0.2100"
+    },
+    {
+      "column": "production.transactionhistoryarchive.actualcost",
+      "value": "1.1550"
+    },
+    {
+      "column": "production.transactionhistoryarchive.modifieddate",
+      "value": "2022-04-15T00:00:00"
+    },
+    {
+      "column": "production.transactionhistoryarchive.modifieddate",
+      "value": "2022-04-29T00:00:00"
+    },
+    {
+      "column": "production.transactionhistoryarchive.modifieddate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "production.unitmeasure.unitmeasurecode",
+      "value": "BOX"
+    },
+    {
+      "column": "production.unitmeasure.unitmeasurecode",
+      "value": "BTL"
+    },
+    {
+      "column": "production.unitmeasure.name",
+      "value": "Bottle"
+    },
+    {
+      "column": "production.unitmeasure.name",
+      "value": "Boxes"
+    },
+    {
+      "column": "production.unitmeasure.name",
+      "value": "Canister"
+    },
+    {
+      "column": "production.unitmeasure.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "production.workorder.startdate",
+      "value": "2022-06-02T00:00:00"
+    },
+    {
+      "column": "production.workorder.startdate",
+      "value": "2022-06-03T00:00:00"
+    },
+    {
+      "column": "production.workorder.startdate",
+      "value": "2022-06-04T00:00:00"
+    },
+    {
+      "column": "production.workorder.enddate",
+      "value": "2022-06-12T00:00:00"
+    },
+    {
+      "column": "production.workorder.enddate",
+      "value": "2022-06-13T00:00:00"
+    },
+    {
+      "column": "production.workorder.enddate",
+      "value": "2022-06-14T00:00:00"
+    },
+    {
+      "column": "production.workorder.duedate",
+      "value": "2022-06-13T00:00:00"
+    },
+    {
+      "column": "production.workorder.duedate",
+      "value": "2022-06-14T00:00:00"
+    },
+    {
+      "column": "production.workorder.duedate",
+      "value": "2022-06-15T00:00:00"
+    },
+    {
+      "column": "production.workorder.modifieddate",
+      "value": "2022-06-12T00:00:00"
+    },
+    {
+      "column": "production.workorder.modifieddate",
+      "value": "2022-06-13T00:00:00"
+    },
+    {
+      "column": "production.workorder.modifieddate",
+      "value": "2022-06-14T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.scheduledstartdate",
+      "value": "2022-06-02T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.scheduledstartdate",
+      "value": "2022-06-03T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.scheduledstartdate",
+      "value": "2022-06-04T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.scheduledenddate",
+      "value": "2022-06-13T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.scheduledenddate",
+      "value": "2022-06-14T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.scheduledenddate",
+      "value": "2022-06-15T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.actualstartdate",
+      "value": "2022-06-02T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.actualstartdate",
+      "value": "2022-06-04T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.actualstartdate",
+      "value": "2022-06-06T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.actualenddate",
+      "value": "2022-06-14T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.actualenddate",
+      "value": "2022-06-16T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.actualenddate",
+      "value": "2022-06-18T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.actualresourcehrs",
+      "value": "1.0000"
+    },
+    {
+      "column": "production.workorderrouting.actualresourcehrs",
+      "value": "2.0000"
+    },
+    {
+      "column": "production.workorderrouting.actualresourcehrs",
+      "value": "3.0000"
+    },
+    {
+      "column": "production.workorderrouting.plannedcost",
+      "value": "14.5000"
+    },
+    {
+      "column": "production.workorderrouting.plannedcost",
+      "value": "31.5000"
+    },
+    {
+      "column": "production.workorderrouting.plannedcost",
+      "value": "36.0000"
+    },
+    {
+      "column": "production.workorderrouting.actualcost",
+      "value": "14.5000"
+    },
+    {
+      "column": "production.workorderrouting.actualcost",
+      "value": "31.5000"
+    },
+    {
+      "column": "production.workorderrouting.actualcost",
+      "value": "36.0000"
+    },
+    {
+      "column": "production.workorderrouting.modifieddate",
+      "value": "2022-06-14T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.modifieddate",
+      "value": "2022-06-16T00:00:00"
+    },
+    {
+      "column": "production.workorderrouting.modifieddate",
+      "value": "2022-06-18T00:00:00"
+    },
+    {
+      "column": "purchasing.productvendor.standardprice",
+      "value": "0.2000"
+    },
+    {
+      "column": "purchasing.productvendor.standardprice",
+      "value": "0.8000"
+    },
+    {
+      "column": "purchasing.productvendor.standardprice",
+      "value": "1.1000"
+    },
+    {
+      "column": "purchasing.productvendor.lastreceiptcost",
+      "value": "0.2100"
+    },
+    {
+      "column": "purchasing.productvendor.lastreceiptcost",
+      "value": "0.8600"
+    },
+    {
+      "column": "purchasing.productvendor.lastreceiptcost",
+      "value": "1.1550"
+    },
+    {
+      "column": "purchasing.productvendor.lastreceiptdate",
+      "value": "2022-07-21T00:00:00"
+    },
+    {
+      "column": "purchasing.productvendor.lastreceiptdate",
+      "value": "2022-07-23T00:00:00"
+    },
+    {
+      "column": "purchasing.productvendor.lastreceiptdate",
+      "value": "2022-07-28T00:00:00"
+    },
+    {
+      "column": "purchasing.productvendor.unitmeasurecode",
+      "value": "CAN"
+    },
+    {
+      "column": "purchasing.productvendor.unitmeasurecode",
+      "value": "CTN"
+    },
+    {
+      "column": "purchasing.productvendor.modifieddate",
+      "value": "2022-07-21T00:00:00"
+    },
+    {
+      "column": "purchasing.productvendor.modifieddate",
+      "value": "2022-07-23T00:00:00"
+    },
+    {
+      "column": "purchasing.productvendor.modifieddate",
+      "value": "2022-07-28T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.duedate",
+      "value": "2022-04-29T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.duedate",
+      "value": "2022-05-13T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.duedate",
+      "value": "2022-12-27T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.unitprice",
+      "value": "0.2100"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.unitprice",
+      "value": "0.8600"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.unitprice",
+      "value": "1.1550"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.receivedqty",
+      "value": "2.00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.receivedqty",
+      "value": "3.00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.receivedqty",
+      "value": "20.00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.rejectedqty",
+      "value": "0.00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.rejectedqty",
+      "value": "1.00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.rejectedqty",
+      "value": "3.00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.modifieddate",
+      "value": "2022-04-22T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.modifieddate",
+      "value": "2022-05-06T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderdetail.modifieddate",
+      "value": "2022-12-20T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.orderdate",
+      "value": "2022-04-15T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.orderdate",
+      "value": "2022-04-29T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.orderdate",
+      "value": "2022-12-13T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.shipdate",
+      "value": "2022-04-24T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.shipdate",
+      "value": "2022-05-08T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.shipdate",
+      "value": "2022-12-22T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.subtotal",
+      "value": "37.0755"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.subtotal",
+      "value": "59.9445"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.subtotal",
+      "value": "97.9650"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.taxamt",
+      "value": "2.9660"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.taxamt",
+      "value": "4.7956"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.taxamt",
+      "value": "7.8372"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.freight",
+      "value": "0.9269"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.freight",
+      "value": "1.4986"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.freight",
+      "value": "2.4491"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.modifieddate",
+      "value": "2022-04-24T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.modifieddate",
+      "value": "2022-05-08T00:00:00"
+    },
+    {
+      "column": "purchasing.purchaseorderheader.modifieddate",
+      "value": "2022-12-22T00:00:00"
+    },
+    {
+      "column": "purchasing.shipmethod.name",
+      "value": "CARGO TRANSPORT 5"
+    },
+    {
+      "column": "purchasing.shipmethod.name",
+      "value": "OVERNIGHT J-FAST"
+    },
+    {
+      "column": "purchasing.shipmethod.name",
+      "value": "OVERSEAS - DELUXE"
+    },
+    {
+      "column": "purchasing.shipmethod.shipbase",
+      "value": "3.9500"
+    },
+    {
+      "column": "purchasing.shipmethod.shipbase",
+      "value": "8.9900"
+    },
+    {
+      "column": "purchasing.shipmethod.shipbase",
+      "value": "9.9500"
+    },
+    {
+      "column": "purchasing.shipmethod.shiprate",
+      "value": "0.9900"
+    },
+    {
+      "column": "purchasing.shipmethod.shiprate",
+      "value": "1.2900"
+    },
+    {
+      "column": "purchasing.shipmethod.shiprate",
+      "value": "1.4900"
+    },
+    {
+      "column": "purchasing.shipmethod.rowguid",
+      "value": "107e8356-e7a8-463d-b60c-079fff467f3f"
+    },
+    {
+      "column": "purchasing.shipmethod.rowguid",
+      "value": "22f4e461-28cf-4ace-a980-f686cf112ec8"
+    },
+    {
+      "column": "purchasing.shipmethod.rowguid",
+      "value": "3455079b-f773-4dc6-8f1e-2a58649c4ab8"
+    },
+    {
+      "column": "purchasing.shipmethod.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "purchasing.vendor.accountnumber",
+      "value": "ADATUM0001"
+    },
+    {
+      "column": "purchasing.vendor.accountnumber",
+      "value": "ADVANCED0001"
+    },
+    {
+      "column": "purchasing.vendor.accountnumber",
+      "value": "ALLENSON0001"
+    },
+    {
+      "column": "purchasing.vendor.name",
+      "value": "A. Datum Corporation"
+    },
+    {
+      "column": "purchasing.vendor.name",
+      "value": "Advanced Bicycles"
+    },
+    {
+      "column": "purchasing.vendor.name",
+      "value": "Allenson Cycles"
+    },
+    {
+      "column": "purchasing.vendor.purchasingwebserviceurl",
+      "value": "www.adatum.com/"
+    },
+    {
+      "column": "purchasing.vendor.purchasingwebserviceurl",
+      "value": "www.litwareinc.com/"
+    },
+    {
+      "column": "purchasing.vendor.purchasingwebserviceurl",
+      "value": "www.northwindtraders.com/"
+    },
+    {
+      "column": "purchasing.vendor.modifieddate",
+      "value": "2022-04-24T00:00:00"
+    },
+    {
+      "column": "purchasing.vendor.modifieddate",
+      "value": "2022-05-08T00:00:00"
+    },
+    {
+      "column": "purchasing.vendor.modifieddate",
+      "value": "2022-12-22T00:00:00"
+    },
+    {
+      "column": "sales.countryregioncurrency.currencycode",
+      "value": "AED"
+    },
+    {
+      "column": "sales.countryregioncurrency.currencycode",
+      "value": "ARS"
+    },
+    {
+      "column": "sales.countryregioncurrency.currencycode",
+      "value": "ATS"
+    },
+    {
+      "column": "sales.countryregioncurrency.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "sales.countryregioncurrency.modifieddate",
+      "value": "2025-02-07T10:17:21.510000"
+    },
+    {
+      "column": "sales.creditcard.cardtype",
+      "value": "ColonialVoice"
+    },
+    {
+      "column": "sales.creditcard.cardtype",
+      "value": "Distinguish"
+    },
+    {
+      "column": "sales.creditcard.cardtype",
+      "value": "SuperiorCard"
+    },
+    {
+      "column": "sales.creditcard.modifieddate",
+      "value": "2017-06-22T00:00:00"
+    },
+    {
+      "column": "sales.creditcard.modifieddate",
+      "value": "2018-01-18T00:00:00"
+    },
+    {
+      "column": "sales.creditcard.modifieddate",
+      "value": "2018-11-03T00:00:00"
+    },
+    {
+      "column": "sales.currency.currencycode",
+      "value": "AED"
+    },
+    {
+      "column": "sales.currency.currencycode",
+      "value": "AFA"
+    },
+    {
+      "column": "sales.currency.currencycode",
+      "value": "ALL"
+    },
+    {
+      "column": "sales.currency.name",
+      "value": "Afghani"
+    },
+    {
+      "column": "sales.currency.name",
+      "value": "Algerian Dinar"
+    },
+    {
+      "column": "sales.currency.name",
+      "value": "Argentine Peso"
+    },
+    {
+      "column": "sales.currency.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "sales.currencyrate.currencyratedate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "sales.currencyrate.currencyratedate",
+      "value": "2022-05-31T00:00:00"
+    },
+    {
+      "column": "sales.currencyrate.currencyratedate",
+      "value": "2022-06-01T00:00:00"
+    },
+    {
+      "column": "sales.currencyrate.fromcurrencycode",
+      "value": "USD"
+    },
+    {
+      "column": "sales.currencyrate.tocurrencycode",
+      "value": "ARS"
+    },
+    {
+      "column": "sales.currencyrate.tocurrencycode",
+      "value": "AUD"
+    },
+    {
+      "column": "sales.currencyrate.tocurrencycode",
+      "value": "BRL"
+    },
+    {
+      "column": "sales.currencyrate.averagerate",
+      "value": "0.6046"
+    },
+    {
+      "column": "sales.currencyrate.averagerate",
+      "value": "0.6057"
+    },
+    {
+      "column": "sales.currencyrate.averagerate",
+      "value": "0.6065"
+    },
+    {
+      "column": "sales.currencyrate.endofdayrate",
+      "value": "0.6041"
+    },
+    {
+      "column": "sales.currencyrate.endofdayrate",
+      "value": "0.6054"
+    },
+    {
+      "column": "sales.currencyrate.endofdayrate",
+      "value": "0.6062"
+    },
+    {
+      "column": "sales.currencyrate.modifieddate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "sales.currencyrate.modifieddate",
+      "value": "2022-05-31T00:00:00"
+    },
+    {
+      "column": "sales.currencyrate.modifieddate",
+      "value": "2022-06-01T00:00:00"
+    },
+    {
+      "column": "sales.customer.rowguid",
+      "value": "0006e071-d04e-426d-81ca-d512e229f3e2"
+    },
+    {
+      "column": "sales.customer.rowguid",
+      "value": "000dc1bd-8b01-41b8-9012-aa3b19dc65c6"
+    },
+    {
+      "column": "sales.customer.rowguid",
+      "value": "000f058f-7b32-427e-866b-a0d4d3385ac8"
+    },
+    {
+      "column": "sales.customer.modifieddate",
+      "value": "2025-09-11T11:15:07.263000"
+    },
+    {
+      "column": "sales.personcreditcard.modifieddate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "sales.personcreditcard.modifieddate",
+      "value": "2022-05-31T00:00:00"
+    },
+    {
+      "column": "sales.personcreditcard.modifieddate",
+      "value": "2022-06-01T00:00:00"
+    },
+    {
+      "column": "sales.salesorderdetail.carriertrackingnumber",
+      "value": "000A-434D-BC"
+    },
+    {
+      "column": "sales.salesorderdetail.carriertrackingnumber",
+      "value": "0031-4C10-84"
+    },
+    {
+      "column": "sales.salesorderdetail.carriertrackingnumber",
+      "value": "0083-444C-8D"
+    },
+    {
+      "column": "sales.salesorderdetail.unitprice",
+      "value": "1.3282"
+    },
+    {
+      "column": "sales.salesorderdetail.unitprice",
+      "value": "1.3740"
+    },
+    {
+      "column": "sales.salesorderdetail.unitprice",
+      "value": "2.2900"
+    },
+    {
+      "column": "sales.salesorderdetail.unitpricediscount",
+      "value": "0.0000"
+    },
+    {
+      "column": "sales.salesorderdetail.unitpricediscount",
+      "value": "0.0200"
+    },
+    {
+      "column": "sales.salesorderdetail.unitpricediscount",
+      "value": "0.0500"
+    },
+    {
+      "column": "sales.salesorderdetail.rowguid",
+      "value": "0000c99c-2b71-4885-b976-c1ccae896ef2"
+    },
+    {
+      "column": "sales.salesorderdetail.rowguid",
+      "value": "00010ea0-5d0f-4f0a-a3fb-8fe8a8210956"
+    },
+    {
+      "column": "sales.salesorderdetail.rowguid",
+      "value": "00015ba1-153f-490e-8d59-4127f02b72e8"
+    },
+    {
+      "column": "sales.salesorderdetail.modifieddate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "sales.salesorderdetail.modifieddate",
+      "value": "2022-05-31T00:00:00"
+    },
+    {
+      "column": "sales.salesorderdetail.modifieddate",
+      "value": "2022-06-01T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.orderdate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.orderdate",
+      "value": "2022-05-31T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.orderdate",
+      "value": "2022-06-01T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.duedate",
+      "value": "2022-06-11T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.duedate",
+      "value": "2022-06-12T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.duedate",
+      "value": "2022-06-13T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.shipdate",
+      "value": "2022-06-06T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.shipdate",
+      "value": "2022-06-07T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.shipdate",
+      "value": "2022-06-08T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.purchaseordernumber",
+      "value": "PO10005144378"
+    },
+    {
+      "column": "sales.salesorderheader.purchaseordernumber",
+      "value": "PO10005156366"
+    },
+    {
+      "column": "sales.salesorderheader.purchaseordernumber",
+      "value": "PO10034131333"
+    },
+    {
+      "column": "sales.salesorderheader.accountnumber",
+      "value": "10-4020-000001"
+    },
+    {
+      "column": "sales.salesorderheader.accountnumber",
+      "value": "10-4020-000002"
+    },
+    {
+      "column": "sales.salesorderheader.accountnumber",
+      "value": "10-4020-000003"
+    },
+    {
+      "column": "sales.salesorderheader.subtotal",
+      "value": "1.3740"
+    },
+    {
+      "column": "sales.salesorderheader.subtotal",
+      "value": "2.2900"
+    },
+    {
+      "column": "sales.salesorderheader.subtotal",
+      "value": "2.7480"
+    },
+    {
+      "column": "sales.salesorderheader.taxamt",
+      "value": "0.1099"
+    },
+    {
+      "column": "sales.salesorderheader.taxamt",
+      "value": "0.1832"
+    },
+    {
+      "column": "sales.salesorderheader.taxamt",
+      "value": "0.2198"
+    },
+    {
+      "column": "sales.salesorderheader.freight",
+      "value": "0.0344"
+    },
+    {
+      "column": "sales.salesorderheader.freight",
+      "value": "0.0573"
+    },
+    {
+      "column": "sales.salesorderheader.freight",
+      "value": "0.0687"
+    },
+    {
+      "column": "sales.salesorderheader.totaldue",
+      "value": "1.5183"
+    },
+    {
+      "column": "sales.salesorderheader.totaldue",
+      "value": "2.5305"
+    },
+    {
+      "column": "sales.salesorderheader.totaldue",
+      "value": "3.0365"
+    },
+    {
+      "column": "sales.salesorderheader.rowguid",
+      "value": "0000de87-ab3f-4920-ac46-c404834241a0"
+    },
+    {
+      "column": "sales.salesorderheader.rowguid",
+      "value": "00032df7-5d34-4ecc-9bc2-353d3c918e93"
+    },
+    {
+      "column": "sales.salesorderheader.rowguid",
+      "value": "0004e1d8-4756-4cbe-9f38-c1d8b3e47130"
+    },
+    {
+      "column": "sales.salesorderheader.modifieddate",
+      "value": "2022-06-06T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.modifieddate",
+      "value": "2022-06-07T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheader.modifieddate",
+      "value": "2022-06-08T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheadersalesreason.modifieddate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheadersalesreason.modifieddate",
+      "value": "2022-05-31T00:00:00"
+    },
+    {
+      "column": "sales.salesorderheadersalesreason.modifieddate",
+      "value": "2022-06-01T00:00:00"
+    },
+    {
+      "column": "sales.salesperson.salesquota",
+      "value": "250000.0000"
+    },
+    {
+      "column": "sales.salesperson.salesquota",
+      "value": "300000.0000"
+    },
+    {
+      "column": "sales.salesperson.bonus",
+      "value": "0.0000"
+    },
+    {
+      "column": "sales.salesperson.bonus",
+      "value": "75.0000"
+    },
+    {
+      "column": "sales.salesperson.bonus",
+      "value": "500.0000"
+    },
+    {
+      "column": "sales.salesperson.commissionpct",
+      "value": "0.0000"
+    },
+    {
+      "column": "sales.salesperson.commissionpct",
+      "value": "0.0100"
+    },
+    {
+      "column": "sales.salesperson.commissionpct",
+      "value": "0.0120"
+    },
+    {
+      "column": "sales.salesperson.salesytd",
+      "value": "172524.4512"
+    },
+    {
+      "column": "sales.salesperson.salesytd",
+      "value": "519905.9320"
+    },
+    {
+      "column": "sales.salesperson.salesytd",
+      "value": "559697.5639"
+    },
+    {
+      "column": "sales.salesperson.saleslastyear",
+      "value": "0.0000"
+    },
+    {
+      "column": "sales.salesperson.saleslastyear",
+      "value": "1307949.7917"
+    },
+    {
+      "column": "sales.salesperson.saleslastyear",
+      "value": "1371635.3158"
+    },
+    {
+      "column": "sales.salesperson.rowguid",
+      "value": "1dd1f689-df74-4149-8600-59555eef154b"
+    },
+    {
+      "column": "sales.salesperson.rowguid",
+      "value": "1e0a7274-3064-4f58-88ee-4c6586c87169"
+    },
+    {
+      "column": "sales.salesperson.rowguid",
+      "value": "224bb25a-62e3-493e-acaf-4f8f5c72396a"
+    },
+    {
+      "column": "sales.salesperson.modifieddate",
+      "value": "2021-12-27T00:00:00"
+    },
+    {
+      "column": "sales.salesperson.modifieddate",
+      "value": "2022-05-23T00:00:00"
+    },
+    {
+      "column": "sales.salesperson.modifieddate",
+      "value": "2023-04-09T00:00:00"
+    },
+    {
+      "column": "sales.salespersonquotahistory.quotadate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "sales.salespersonquotahistory.quotadate",
+      "value": "2022-08-30T00:00:00"
+    },
+    {
+      "column": "sales.salespersonquotahistory.quotadate",
+      "value": "2022-11-30T00:00:00"
+    },
+    {
+      "column": "sales.salespersonquotahistory.salesquota",
+      "value": "1000.0000"
+    },
+    {
+      "column": "sales.salespersonquotahistory.salesquota",
+      "value": "7000.0000"
+    },
+    {
+      "column": "sales.salespersonquotahistory.salesquota",
+      "value": "15000.0000"
+    },
+    {
+      "column": "sales.salespersonquotahistory.rowguid",
+      "value": "00f2f9f8-5158-4436-b134-7e0c462289e5"
+    },
+    {
+      "column": "sales.salespersonquotahistory.rowguid",
+      "value": "0103899f-618c-4478-90bb-815b20856f35"
+    },
+    {
+      "column": "sales.salespersonquotahistory.rowguid",
+      "value": "0323d0bc-c5cc-4d67-8935-dd05074fba43"
+    },
+    {
+      "column": "sales.salespersonquotahistory.modifieddate",
+      "value": "2022-04-15T00:00:00"
+    },
+    {
+      "column": "sales.salespersonquotahistory.modifieddate",
+      "value": "2022-07-16T00:00:00"
+    },
+    {
+      "column": "sales.salespersonquotahistory.modifieddate",
+      "value": "2022-10-16T00:00:00"
+    },
+    {
+      "column": "sales.salesreason.name",
+      "value": "Demo Event"
+    },
+    {
+      "column": "sales.salesreason.name",
+      "value": "Magazine Advertisement"
+    },
+    {
+      "column": "sales.salesreason.name",
+      "value": "Manufacturer"
+    },
+    {
+      "column": "sales.salesreason.reasontype",
+      "value": "Marketing"
+    },
+    {
+      "column": "sales.salesreason.reasontype",
+      "value": "Other"
+    },
+    {
+      "column": "sales.salesreason.reasontype",
+      "value": "Promotion"
+    },
+    {
+      "column": "sales.salesreason.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "sales.salestaxrate.taxrate",
+      "value": "5.0000"
+    },
+    {
+      "column": "sales.salestaxrate.taxrate",
+      "value": "6.7500"
+    },
+    {
+      "column": "sales.salestaxrate.taxrate",
+      "value": "7.0000"
+    },
+    {
+      "column": "sales.salestaxrate.name",
+      "value": "Arizona State Sales Tax"
+    },
+    {
+      "column": "sales.salestaxrate.name",
+      "value": "California State Sales Tax"
+    },
+    {
+      "column": "sales.salestaxrate.name",
+      "value": "Canadian GST"
+    },
+    {
+      "column": "sales.salestaxrate.rowguid",
+      "value": "05c4ffdb-4f84-4cdf-abe5-fdf3216ea74e"
+    },
+    {
+      "column": "sales.salestaxrate.rowguid",
+      "value": "06df529d-eb11-446f-9570-9ee97b8ea1bf"
+    },
+    {
+      "column": "sales.salestaxrate.rowguid",
+      "value": "1753d75f-8357-4497-bc92-543f17bbf514"
+    },
+    {
+      "column": "sales.salestaxrate.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "sales.salesterritory.name",
+      "value": "Australia"
+    },
+    {
+      "column": "sales.salesterritory.name",
+      "value": "Canada"
+    },
+    {
+      "column": "sales.salesterritory.name",
+      "value": "Central"
+    },
+    {
+      "column": "sales.salesterritory.group",
+      "value": "Europe"
+    },
+    {
+      "column": "sales.salesterritory.group",
+      "value": "North America"
+    },
+    {
+      "column": "sales.salesterritory.group",
+      "value": "Pacific"
+    },
+    {
+      "column": "sales.salesterritory.salesytd",
+      "value": "2402176.8476"
+    },
+    {
+      "column": "sales.salesterritory.salesytd",
+      "value": "2538667.2515"
+    },
+    {
+      "column": "sales.salesterritory.salesytd",
+      "value": "3072175.1180"
+    },
+    {
+      "column": "sales.salesterritory.saleslastyear",
+      "value": "1307949.7917"
+    },
+    {
+      "column": "sales.salesterritory.saleslastyear",
+      "value": "1635823.3967"
+    },
+    {
+      "column": "sales.salesterritory.saleslastyear",
+      "value": "2278548.9776"
+    },
+    {
+      "column": "sales.salesterritory.costytd",
+      "value": "0.0000"
+    },
+    {
+      "column": "sales.salesterritory.costlastyear",
+      "value": "0.0000"
+    },
+    {
+      "column": "sales.salesterritory.rowguid",
+      "value": "00fb7309-96cc-49e2-8363-0a1ba72486f2"
+    },
+    {
+      "column": "sales.salesterritory.rowguid",
+      "value": "05fc7e1f-2dea-414e-9ecd-09d150516fb5"
+    },
+    {
+      "column": "sales.salesterritory.rowguid",
+      "value": "06b4af8a-1639-476e-9266-110461d66b00"
+    },
+    {
+      "column": "sales.salesterritory.modifieddate",
+      "value": "2019-04-30T00:00:00"
+    },
+    {
+      "column": "sales.salesterritoryhistory.startdate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "sales.salesterritoryhistory.startdate",
+      "value": "2023-05-30T00:00:00"
+    },
+    {
+      "column": "sales.salesterritoryhistory.startdate",
+      "value": "2023-09-30T00:00:00"
+    },
+    {
+      "column": "sales.salesterritoryhistory.enddate",
+      "value": "2023-05-29T00:00:00"
+    },
+    {
+      "column": "sales.salesterritoryhistory.enddate",
+      "value": "2023-09-29T00:00:00"
+    },
+    {
+      "column": "sales.salesterritoryhistory.enddate",
+      "value": "2023-11-29T00:00:00"
+    },
+    {
+      "column": "sales.salesterritoryhistory.rowguid",
+      "value": "009f7660-44a6-4adf-bd4b-a5d1b79993f5"
+    },
+    {
+      "column": "sales.salesterritoryhistory.rowguid",
+      "value": "132e4721-32dd-4a73-b556-1837f3a2b9ae"
+    },
+    {
+      "column": "sales.salesterritoryhistory.rowguid",
+      "value": "2c9f5240-d8bf-4f85-897d-6083146dbc4b"
+    },
+    {
+      "column": "sales.salesterritoryhistory.modifieddate",
+      "value": "2022-05-23T00:00:00"
+    },
+    {
+      "column": "sales.salesterritoryhistory.modifieddate",
+      "value": "2023-05-22T00:00:00"
+    },
+    {
+      "column": "sales.salesterritoryhistory.modifieddate",
+      "value": "2023-05-23T00:00:00"
+    },
+    {
+      "column": "sales.shoppingcartitem.shoppingcartid",
+      "value": "14951"
+    },
+    {
+      "column": "sales.shoppingcartitem.shoppingcartid",
+      "value": "20621"
+    },
+    {
+      "column": "sales.shoppingcartitem.datecreated",
+      "value": "2024-11-08T17:54:07.603000"
+    },
+    {
+      "column": "sales.shoppingcartitem.modifieddate",
+      "value": "2024-11-08T17:54:07.603000"
+    },
+    {
+      "column": "sales.specialoffer.description",
+      "value": "Half-Price Pedal Sale"
+    },
+    {
+      "column": "sales.specialoffer.description",
+      "value": "LL Road Frame Sale"
+    },
+    {
+      "column": "sales.specialoffer.description",
+      "value": "Mountain Tire Sale"
+    },
+    {
+      "column": "sales.specialoffer.discountpct",
+      "value": "0.0000"
+    },
+    {
+      "column": "sales.specialoffer.discountpct",
+      "value": "0.0200"
+    },
+    {
+      "column": "sales.specialoffer.discountpct",
+      "value": "0.0500"
+    },
+    {
+      "column": "sales.specialoffer.type",
+      "value": "Discontinued Product"
+    },
+    {
+      "column": "sales.specialoffer.type",
+      "value": "Excess Inventory"
+    },
+    {
+      "column": "sales.specialoffer.type",
+      "value": "New Product"
+    },
+    {
+      "column": "sales.specialoffer.category",
+      "value": "Customer"
+    },
+    {
+      "column": "sales.specialoffer.category",
+      "value": "No Discount"
+    },
+    {
+      "column": "sales.specialoffer.category",
+      "value": "Reseller"
+    },
+    {
+      "column": "sales.specialoffer.startdate",
+      "value": "2022-04-30T00:00:00"
+    },
+    {
+      "column": "sales.specialoffer.startdate",
+      "value": "2022-05-30T00:00:00"
+    },
+    {
+      "column": "sales.specialoffer.startdate",
+      "value": "2023-04-13T00:00:00"
+    },
+    {
+      "column": "sales.specialoffer.enddate",
+      "value": "2023-05-29T00:00:00"
+    },
+    {
+      "column": "sales.specialoffer.enddate",
+      "value": "2023-06-29T00:00:00"
+    },
+    {
+      "column": "sales.specialoffer.enddate",
+      "value": "2023-07-30T00:00:00"
+    },
+    {
+      "column": "sales.specialoffer.rowguid",
+      "value": "0290c4f5-191f-4337-ab6b-0a2dde03cbf9"
+    },
+    {
+      "column": "sales.specialoffer.rowguid",
+      "value": "03e3594d-6ebb-46a6-b8ee-a9289c0c2e47"
+    },
+    {
+      "column": "sales.specialoffer.rowguid",
+      "value": "0cf8472b-f9e6-4945-9e09-549d7dde2198"
+    },
+    {
+      "column": "sales.specialoffer.modifieddate",
+      "value": "2022-03-31T00:00:00"
+    },
+    {
+      "column": "sales.specialoffer.modifieddate",
+      "value": "2022-04-30T00:00:00"
+    },
+    {
+      "column": "sales.specialoffer.modifieddate",
+      "value": "2023-03-14T00:00:00"
+    },
+    {
+      "column": "sales.specialofferproduct.rowguid",
+      "value": "0020931c-087c-42f8-b441-ebe3d3b5f51e"
+    },
+    {
+      "column": "sales.specialofferproduct.rowguid",
+      "value": "00365938-3422-494e-b92e-c00afd691469"
+    },
+    {
+      "column": "sales.specialofferproduct.rowguid",
+      "value": "005d8818-0e25-4770-9a86-2b05371a5a1b"
+    },
+    {
+      "column": "sales.specialofferproduct.modifieddate",
+      "value": "2022-03-31T00:00:00"
+    },
+    {
+      "column": "sales.specialofferproduct.modifieddate",
+      "value": "2022-04-30T00:00:00"
+    },
+    {
+      "column": "sales.specialofferproduct.modifieddate",
+      "value": "2023-03-14T00:00:00"
+    },
+    {
+      "column": "sales.store.name",
+      "value": "A Bicycle Association"
+    },
+    {
+      "column": "sales.store.name",
+      "value": "A Bike Store"
+    },
+    {
+      "column": "sales.store.name",
+      "value": "A Cycle Shop"
+    },
+    {
+      "column": "sales.store.rowguid",
+      "value": "004ea91c-fcd4-4973-87ef-9059c6e20bb5"
+    },
+    {
+      "column": "sales.store.rowguid",
+      "value": "00a7e190-d705-4791-aab5-ad218497dd06"
+    },
+    {
+      "column": "sales.store.rowguid",
+      "value": "00e69db8-5933-4f61-a963-7808c4baf0c5"
+    },
+    {
+      "column": "sales.store.modifieddate",
+      "value": "2025-09-11T11:15:07.497000"
+    }
+  ],
+  "tables.npy_sha256": "85c7582183707ef62fe0c47ec1dbeb7d0f03195e028ccc3f404f33b64805a10b",
+  "columns.npy_sha256": "fed0e839552d08de58e4655a89ee6afdddcd1158b1814c2e6c0e7501142ae156"
+}

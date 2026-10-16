@@ -1,0 +1,114 @@
+{
+  "id": "aw-20",
+  "suite": "aw",
+  "db_id": "adventureworks",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT t.name AS territory_name, SUM(h.subtotal) AS subtotal_sum FROM sales.salesorderheader AS h JOIN sales.salesterritory AS t ON h.territoryid = t.territoryid WHERE h.orderdate >= CAST('2024-01-01' AS DATE) AND h.orderdate < CAST('2025-01-01' AS DATE) GROUP BY t.territoryid, t.name ORDER BY subtotal_sum DESC NULLS LAST, t.name ASC LIMIT 200",
+  "validated_sql": "SELECT t.name AS territory_name, SUM(h.subtotal) AS subtotal_sum FROM sales.salesorderheader AS h JOIN sales.salesterritory AS t ON h.territoryid = t.territoryid WHERE h.orderdate >= CAST('2024-01-01' AS DATE) AND h.orderdate < CAST('2025-01-01' AS DATE) GROUP BY t.territoryid, t.name ORDER BY subtotal_sum DESC NULLS LAST, t.name ASC LIMIT 200",
+  "columns": [
+    "territory_name",
+    "subtotal_sum"
+  ],
+  "column_type_oids": [
+    1043,
+    1700
+  ],
+  "postgres_column_types": [
+    "varchar",
+    "numeric"
+  ],
+  "rows": [
+    [
+      "Southwest",
+      "9121931.6549"
+    ],
+    [
+      "Canada",
+      "6231209.9635"
+    ],
+    [
+      "Northwest",
+      "6018432.5760"
+    ],
+    [
+      "Australia",
+      "4246450.5549"
+    ],
+    [
+      "France",
+      "3816543.3278"
+    ],
+    [
+      "United Kingdom",
+      "3641619.7164"
+    ],
+    [
+      "Central",
+      "2994225.3834"
+    ],
+    [
+      "Northeast",
+      "2631259.5991"
+    ],
+    [
+      "Germany",
+      "2570269.3486"
+    ],
+    [
+      "Southeast",
+      "2399947.3791"
+    ]
+  ],
+  "table": [
+    {
+      "territory_name": "Southwest",
+      "subtotal_sum": "9121931.6549"
+    },
+    {
+      "territory_name": "Canada",
+      "subtotal_sum": "6231209.9635"
+    },
+    {
+      "territory_name": "Northwest",
+      "subtotal_sum": "6018432.5760"
+    },
+    {
+      "territory_name": "Australia",
+      "subtotal_sum": "4246450.5549"
+    },
+    {
+      "territory_name": "France",
+      "subtotal_sum": "3816543.3278"
+    },
+    {
+      "territory_name": "United Kingdom",
+      "subtotal_sum": "3641619.7164"
+    },
+    {
+      "territory_name": "Central",
+      "subtotal_sum": "2994225.3834"
+    },
+    {
+      "territory_name": "Northeast",
+      "subtotal_sum": "2631259.5991"
+    },
+    {
+      "territory_name": "Germany",
+      "subtotal_sum": "2570269.3486"
+    },
+    {
+      "territory_name": "Southeast",
+      "subtotal_sum": "2399947.3791"
+    }
+  ],
+  "row_count": 10,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 45.201
+}

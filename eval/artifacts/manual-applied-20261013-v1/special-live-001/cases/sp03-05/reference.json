@@ -1,0 +1,390 @@
+{
+  "id": "sp03-05",
+  "family_id": "special-fam-07-popular-2007-jazz-tracks-purchased-quantity",
+  "task": "03",
+  "category": "L1",
+  "input": "2007年最受欢迎的10首爵士曲目是哪些？",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "execute_with_declared_defaults",
+  "allowed_interpretations": [
+    {
+      "stage": "initial_request",
+      "intent": {
+        "metric": "purchased_quantity",
+        "rank_object": "track",
+        "time_scope": {
+          "year": 2007,
+          "range": "[2007-01-01, 2008-01-01)"
+        },
+        "genre": "Jazz",
+        "top_n": 10
+      },
+      "default_declaration_required": true
+    },
+    {
+      "stage": "later_user_request",
+      "policy": "Apply only explicitly supplied later changes; do not use old hidden target as initial facts"
+    }
+  ],
+  "expected_bindings": [
+    {
+      "column": "genre.name",
+      "operator": "=",
+      "value": "Jazz"
+    }
+  ],
+  "missing_conditions": [],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n空结果也是合法结果，不能只因选定年度无销售记录就排除测试。数量已为10；须声明热门按数量。旧scorable=false的纳入规则待确认，勿静默改分母。\n原记录scorable=false保持原样；是否新纳入计分须完成参考/控制器核对，不能按本轮建议自动改历史分母。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n"
+  ],
+  "reference_intent": {
+    "metric": "purchased_quantity",
+    "rank_object": "track",
+    "time_scope": {
+      "year": 2007,
+      "range": "[2007-01-01, 2008-01-01)"
+    },
+    "genre": "Jazz",
+    "top_n": 10
+  },
+  "gold_sql": "SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id JOIN public.genre g ON g.genre_id = t.genre_id WHERE i.invoice_date >= DATE '2007-01-01' AND i.invoice_date < DATE '2008-01-01' AND g.name = 'Jazz' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+  "case_style": "default_switchable",
+  "secondary_tags": [
+    "popularity_default",
+    "purchased_quantity",
+    "genre_scope",
+    "year_scope"
+  ],
+  "controller": null,
+  "generation_call_id": "generate-03-pilot-01",
+  "generation_stage": "pilot",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "disputed_or_evidence_insufficient",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "gold_result": {
+    "columns": [
+      "track_id",
+      "purchased_quantity"
+    ],
+    "rows": [],
+    "table": [],
+    "row_count": 0,
+    "truncated": false
+  },
+  "auto_status": "passed",
+  "auto_issues": [],
+  "dataset_version": "manual-applied-20261013-v3",
+  "raw_expected_bindings": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": ">=",
+      "value": "2007-01-01"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": "<",
+      "value": "2008-01-01"
+    },
+    {
+      "column": "genre.name",
+      "operator": "=",
+      "value": "Jazz"
+    }
+  ],
+  "expected_predicates": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": ">=",
+      "value": "2007-01-01"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": "<",
+      "value": "2008-01-01"
+    }
+  ],
+  "expected_aggregations": [],
+  "expected_unresolved_constraints": [],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "metric": "purchased_quantity",
+    "rank_object": "track",
+    "time_scope": {
+      "year": 2007,
+      "range": "[2007-01-01, 2008-01-01)"
+    },
+    "genre": "Jazz",
+    "top_n": 10
+  },
+  "scorable": true,
+  "final_source_guard_issues": [],
+  "review_label": "L1／购买数量／明确2007年／无匹配边界",
+  "review_label_tags": [
+    "L1",
+    "购买数量",
+    "明确2007年",
+    "无匹配边界"
+  ],
+  "canonical_input": "2007年最受欢迎的10首爵士曲目是哪些？",
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      "最受欢迎按登记默认口径购买数量 SUM(invoice_line.quantity)，期间明确为2007年，对象曲目，数量明确10",
+      "可切换为按销售额 SUM(unit_price * quantity) 或按被收录歌单数 COUNT(playlist_track.playlist_id)，切换需声明假设",
+      "爵士 -> genre.name = 'Jazz'（approved 别名）"
+    ],
+    "business_basis": [
+      {
+        "source": "total_plan_semantic_gate §3.6.4 ambiguities.popularity.default",
+        "rule": "热门曲目有登记默认 by_quantity，对应 SUM(invoice_line.quantity)；属于L1默认口径"
+      },
+      {
+        "source": "confirmed_business_rules.metrics[popular_tracks]",
+        "rule": "曲目对象最受欢迎默认购买数量；并列按 track_id 升序"
+      },
+      {
+        "source": "approved_aliases a-ae481372f2653475 / a-f3ab57aac4760fac",
+        "rule": "爵士/爵士乐 -> Jazz；approved 别名唯一绑定"
+      }
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp03-05",
+        "verdict": "disputed",
+        "semantic_sql_check": "pass",
+        "classification_check": "disputed",
+        "binding_check": "pass",
+        "controller_check": "not_applicable",
+        "reason": "SQL本身按登记默认购买数量、Jazz、2007左闭右开、track_id并列升序、LIMIT 10，语义无误，执行的0行也是精确无匹配边界。但“最受欢迎的10首”已明确top_n=10，而输入年份2007早于数据最小发票日期2021，属无数据期间。虽然业务规则不允许静默补期间，本任务关键是默认口径是否应直接执行；在可判定2007完全无发票的情况下，直接以L1“默认购买数量”作答会把不可用数据包装成“最受欢迎”的结论。即使不强制L2，至少应在此边界声明该期间无可用发票记录、不能给出排名，而非自动套用默认口径执行。classification应为disputed，其余检查通过。",
+        "evidence": [
+          "live_database_facts.date_evidence: first_date 2021-01-01, last_date 2025-12-22",
+          "actual_program_checks sp03-05: 2007 Jazz查询返回row_count 0",
+          "confirmed_business_rules.general.period: no missing period silently filled",
+          "total_plan_semantic_gate ambiguities.popularity: 最受欢迎默认by_quantity"
+        ],
+        "issues": [
+          "2007年完全早于实际发票数据范围，直接L1默认执行会产出无意义排名；应至少在答案中明确无可用发票记录，不能默认给出“最受欢迎”排名。",
+          "若把无数据期间视为需要暂停/说明的数据可用性问题，则分类不应是普通L1 execute_with_assumption。"
+        ],
+        "suggested_corrections": {
+          "classification": "在可判定该期间无发票数据时，不应仅按L1默认执行；需声明2007年无可用销售记录，无法给出该年最受欢迎曲目，或作为需要澄清数据不可用的场景处理。",
+          "expected_behavior": "changed from execute_with_assumption to clarify/declare no available data for 2007"
+        }
+      },
+      {
+        "id": "sp03-05",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "not_applicable",
+        "reason": "问题为2007年最受欢迎的10首爵士曲目，期间与数量均明确，对象为曲目。热门曲目有登记默认按购买数量SUM(invoice_line.quantity)，且用户明确给了期间，可以采用该默认作为L1执行并声明可切换口径。爵士有approved别名Jazz，唯一绑定合理。SQL按genre.name='Jazz'、2007半开区间过滤，JOIN link正确，按SUM(quantity)降序并以track_id升序并列，LIMIT 10，符合默认口径。2007年无匹配行返回空表，是对该明确期间的精确结果，不应替换或误澄清。",
+        "evidence": [
+          "input: '2007年最受欢迎的10首爵士曲目是哪些？'",
+          "reference_intent: metric=purchased_quantity, rank_object=track, time_scope 2007, genre=Jazz, top_n=10",
+          "gold_sql: SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id JOIN public.genre g ON g.genre_id = t.genre_id WHERE i.invoice_date >= DATE '2007-01-01' AND i.invoice_date < DATE '2008-01-01' AND g.name = 'Jazz' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+          "total_plan_semantic_gate §3.6.4 ambiguities.popularity.default: by_quantity -> SUM(invoice_line.quantity)",
+          "confirmed_business_rules.metrics[popular_tracks]: expression SUM(invoice_line.quantity), tie_breaker track_id ascending",
+          "approved_aliases: a-ae481372f2653475 (爵士->Jazz, approved), a-f3ab57aac4760fac (爵士乐->Jazz, approved)",
+          "actual_program_checks.sp03-05 result: row_count 0"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      }
+    ],
+    "original_operational_reference": {
+      "reference_intent": {
+        "metric": "purchased_quantity",
+        "rank_object": "track",
+        "time_scope": {
+          "year": 2007,
+          "range": "[2007-01-01, 2008-01-01)"
+        },
+        "genre": "Jazz",
+        "top_n": 10
+      },
+      "expected_final_intent": {
+        "metric": "purchased_quantity",
+        "rank_object": "track",
+        "time_scope": {
+          "year": 2007,
+          "range": "[2007-01-01, 2008-01-01)"
+        },
+        "genre": "Jazz",
+        "top_n": 10
+      },
+      "expected_bindings": [
+        {
+          "column": "genre.name",
+          "operator": "=",
+          "value": "Jazz"
+        }
+      ],
+      "raw_expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "2007-01-01"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "2008-01-01"
+        },
+        {
+          "column": "genre.name",
+          "operator": "=",
+          "value": "Jazz"
+        }
+      ],
+      "expected_predicates": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "2007-01-01"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "2008-01-01"
+        }
+      ],
+      "expected_unresolved_constraints": [],
+      "controller": null,
+      "gold_sql": "SELECT t.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON i.invoice_id = il.invoice_id JOIN public.track t ON t.track_id = il.track_id JOIN public.genre g ON g.genre_id = t.genre_id WHERE i.invoice_date >= DATE '2007-01-01' AND i.invoice_date < DATE '2008-01-01' AND g.name = 'Jazz' GROUP BY t.track_id ORDER BY purchased_quantity DESC, t.track_id ASC LIMIT 10;",
+      "gold_result": {
+        "columns": [
+          "track_id",
+          "purchased_quantity"
+        ],
+        "rows": [],
+        "table": [],
+        "row_count": 0,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        "最受欢迎按登记默认口径购买数量 SUM(invoice_line.quantity)，期间明确为2007年，对象曲目，数量明确10",
+        "可切换为按销售额 SUM(unit_price * quantity) 或按被收录歌单数 COUNT(playlist_track.playlist_id)，切换需声明假设",
+        "爵士 -> genre.name = 'Jazz'（approved 别名）"
+      ],
+      "canonical_input": null
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp03-05",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "8145620eda59214e9ab0373a6b88b1d51c6600cb53be397f1528f078e7a8e451"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "10cc629cf41c09f48658c16a0fb325f149a36de623a50057f525656e5914239d"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "affdd2ba5ab52414828f852f5305a7622ab596846f2ca6fde17072fa4cbffbeb"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n空结果也是合法结果，不能只因选定年度无销售记录就排除测试。数量已为10；须声明热门按数量。旧scorable=false的纳入规则待确认，勿静默改分母。\n原记录scorable=false保持原样；是否新纳入计分须完成参考/控制器核对，不能按本轮建议自动改历史分母。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n8145620eda｜专项历史 V0 / turn0：同为无匹配结果；仍需检查SQL条件。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\n10cc629cf4｜专项历史 V1 / turn0：同为无匹配结果；仍需检查SQL条件。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\naffdd2ba5a｜专项历史 V2 / turn0：同为无匹配结果；仍需检查SQL条件。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "有条件通过",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Operational category, missing_conditions and required clarification slots synchronized with submitted level",
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "track_id",
+    "purchased_quantity"
+  ],
+  "column_types": [
+    "number",
+    "number"
+  ],
+  "integer_columns": [
+    0,
+    1
+  ],
+  "ordered": true,
+  "monetary_columns": [],
+  "expected_status": "EMPTY_RESULT",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-05.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "c14f8c8f23f7e567c3a9b57aa112314611d5af16c731a45579d9629736cf048f",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n空结果也是合法结果，不能只因选定年度无销售记录就排除测试。数量已为10；须声明热门按数量。旧scorable=false的纳入规则待确认，勿静默改分母。\n原记录scorable=false保持原样；是否新纳入计分须完成参考/控制器核对，不能按本轮建议自动改历史分母。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n8145620eda｜专项历史 V0 / turn0：同为无匹配结果；仍需检查SQL条件。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\n10cc629cf4｜专项历史 V1 / turn0：同为无匹配结果；仍需检查SQL条件。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\naffdd2ba5a｜专项历史 V2 / turn0：同为无匹配结果；仍需检查SQL条件。此题原标不可评分，需先确认题面/协议及计分状态；不擅自纳入正式分母。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "L1",
+        "购买数量",
+        "明确2007年",
+        "无匹配边界"
+      ],
+      "initial_level": "L1",
+      "missing_conditions": [],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

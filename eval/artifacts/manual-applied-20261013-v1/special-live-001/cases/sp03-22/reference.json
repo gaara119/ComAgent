@@ -1,0 +1,606 @@
+{
+  "id": "sp03-22",
+  "family_id": "special-fam-24-l2-share-missing-denominator-france",
+  "task": "03",
+  "category": "L1",
+  "input": "2024年法国居住客户的销售额占比是多少？",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "execute_with_declared_defaults",
+  "allowed_interpretations": [
+    {
+      "stage": "initial_request",
+      "intent": {
+        "task_type": "ratio",
+        "metric": "sales_revenue",
+        "numerator": {
+          "region": {
+            "column": "customer.country",
+            "value": "France"
+          },
+          "period": {
+            "start": "2024-01-01",
+            "end": "2025-01-01"
+          }
+        },
+        "denominator": {
+          "type": "all_invoices_same_period",
+          "period": {
+            "start": "2024-01-01",
+            "end": "2025-01-01"
+          }
+        },
+        "region_scope": {
+          "column": "customer.country",
+          "value": "France"
+        }
+      },
+      "default_declaration_required": true
+    },
+    {
+      "stage": "later_user_request",
+      "policy": "Apply only explicitly supplied later changes; do not use old hidden target as initial facts"
+    }
+  ],
+  "expected_bindings": [
+    {
+      "column": "customer.country",
+      "operator": "=",
+      "value": "France"
+    }
+  ],
+  "missing_conditions": [],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n分子是2024年法国居住客户，不能漏抽或替换成账单国；同期全票金额分母已授权，可L1声明后执行。建议不是L0，因为分母未由用户显式提供。全局WHERE不得筛France而使占比恒100%。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n"
+  ],
+  "reference_intent": {
+    "task_type": "ratio",
+    "metric": "sales_revenue",
+    "numerator": {
+      "region": {
+        "column": "customer.country",
+        "value": "France"
+      },
+      "period": {
+        "start": "2024-01-01",
+        "end": "2025-01-01"
+      }
+    },
+    "denominator": {
+      "type": "all_invoices_same_period",
+      "period": {
+        "start": "2024-01-01",
+        "end": "2025-01-01"
+      }
+    },
+    "region_scope": {
+      "column": "customer.country",
+      "value": "France"
+    }
+  },
+  "gold_sql": "SELECT CASE WHEN SUM(total) IS NULL OR SUM(total) = 0 THEN NULL ELSE SUM(total) FILTER (WHERE customer_id IN (SELECT c.customer_id FROM public.customer c WHERE c.country = 'France')) / SUM(total) END AS france_resident_share FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+  "controller": {
+    "hidden_goal": "首轮依据本条新版 reference_intent 与 gold_sql执行；只有post_completion_turns中明确提供的新条件改变目标。",
+    "allowed_user_supplements": {},
+    "final_intent": {
+      "task_type": "ratio",
+      "metric": "sales_revenue",
+      "numerator": {
+        "region": {
+          "column": "customer.country",
+          "value": "France"
+        },
+        "period": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        }
+      },
+      "denominator": {
+        "type": "all_invoices_same_period",
+        "period": {
+          "start": "2024-01-01",
+          "end": "2025-01-01"
+        }
+      },
+      "region_scope": {
+        "column": "customer.country",
+        "value": "France"
+      }
+    },
+    "expected_state_changes": [
+      "Execute initial request without mandatory clarification; preserve explicit subsequent changes"
+    ],
+    "max_clarification_followups": 0
+  },
+  "case_style": "ratio_missing_denominator",
+  "secondary_tags": [
+    "占比",
+    "缺分母",
+    "法国",
+    "2024"
+  ],
+  "generation_protocol_recovery": "Earliest syntactically valid provider JSON with the fixed 5 IDs/categories, after failed protocol attempts; original failure preserved; no claim of valid labels",
+  "generation_call_id": "generate-03-expansion-03",
+  "generation_stage": "expansion",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "ai_suggested_pass_two_contexts",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "auto_status": "passed",
+  "auto_issues": [],
+  "original_missing_gold_sql": null,
+  "dataset_version": "manual-applied-20261013-v3",
+  "gold_result": {
+    "columns": [
+      "france_resident_share"
+    ],
+    "rows": [
+      [
+        "0.07677004586099302662"
+      ]
+    ],
+    "table": [
+      {
+        "france_resident_share": "0.07677004586099302662"
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "raw_expected_bindings": [
+    {
+      "column": "customer.country",
+      "operator": "=",
+      "value": "France"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": ">=",
+      "value": "DATE '2024-01-01'"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": "<",
+      "value": "DATE '2025-01-01'"
+    },
+    {
+      "column": "invoice.total",
+      "operator": "SUM",
+      "value": "numerator"
+    }
+  ],
+  "expected_predicates": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": ">=",
+      "value": "DATE '2024-01-01'"
+    },
+    {
+      "column": "invoice.invoice_date",
+      "operator": "<",
+      "value": "DATE '2025-01-01'"
+    }
+  ],
+  "expected_aggregations": [
+    {
+      "column": "invoice.total",
+      "operator": "SUM",
+      "value": "numerator"
+    }
+  ],
+  "expected_unresolved_constraints": [],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "task_type": "ratio",
+    "metric": "sales_revenue",
+    "numerator": {
+      "region": {
+        "column": "customer.country",
+        "value": "France"
+      },
+      "period": {
+        "start": "2024-01-01",
+        "end": "2025-01-01"
+      }
+    },
+    "denominator": {
+      "type": "all_invoices_same_period",
+      "period": {
+        "start": "2024-01-01",
+        "end": "2025-01-01"
+      }
+    },
+    "region_scope": {
+      "column": "customer.country",
+      "value": "France"
+    }
+  },
+  "scorable": true,
+  "final_source_guard_issues": [],
+  "review_label": "L1／显式客户所在地分子／默认同期分母",
+  "review_label_tags": [
+    "L1",
+    "显式客户所在地分子",
+    "默认同期分母"
+  ],
+  "canonical_input": "2024年法国居住客户的销售额占比是多少？",
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      {
+        "type": "ratio",
+        "note": "分母可能是全库销售额、2024全库销售额或非法国客户销售额。"
+      },
+      {
+        "type": "region_scope",
+        "note": "法国指 customer.country='France'。"
+      }
+    ],
+    "business_basis": [
+      "总计划3.6.4 clarify_rules: ratio required=[numerator, denominator], level_if_missing=L2",
+      "已确认口径: 销售额SUM(invoice.total)、期间左闭右开invoice_date"
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp03-22",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "占比任务缺分母，ratio required=[numerator,denominator]，无默认分母，L2正确。澄清后分母=2024全部发票销售额；SQL用SUM(total) FILTER France / SUM(total)，期间左闭右开，customer.country='France'居住地口径，零分母NULL，分子分母无误。",
+        "evidence": [
+          "total_plan_semantic_gate ratio L2",
+          "confirmed_business_rules zero_denominator",
+          "actual_program_checks sp03-22 final"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      },
+      {
+        "id": "sp03-22",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "占比任务缺分母定义，ratio 的 required=[numerator,denominator] 中 denominator 缺失，无登记默认，L2 澄清成立；补充为同期全部发票销售额后分母唯一。gold SQL 分子用 customer_id 关联 customer.country='France'（居住地口径非 billing_country），分子分母同为 invoice 粒度 SUM(invoice.total)，外层 WHERE 限定同期，CASE 处理零/空分母为 NULL；FILTER 子查询按 customer_id 集合筛选，不会因 JOIN 重复累加总额。程序实跑与 gold 一致。",
+        "evidence": [
+          "input: 2024年法国居住客户的销售额占比是多少？",
+          "reference_intent.denominator=null, missing=[denominator]",
+          "总计划 clarify_rules ratio: required=[numerator, denominator], level_if_missing=L2",
+          "gold_sql: SUM(total) FILTER (WHERE customer_id IN France) / SUM(total)，期间 2024 半开区间",
+          "actual_program_checks.sp03-22: 0.07677004586099302662"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      }
+    ],
+    "gold_completion_business_basis": [
+      "controller.final_intent.numerator.region = {column: customer.country, value: France}，即法国居住客户口径",
+      "controller.final_intent.denominator = {type: all_invoices_same_period, period: [2024-01-01, 2025-01-01)}",
+      "confirmed_business_rules.metrics[sales_revenue]: 发票粒度 SUM(invoice.total)；日期字段 invoice.invoice_date；期间左闭右开；零分母返回 NULL"
+    ],
+    "gold_completion_issues": [
+      "初始缺分母属 ratio 类 L2，已按允许补充取 2024 年所有发票销售额。",
+      "分子通过 customer_id 关联 customer.country='France'，未使用 invoice.billing_country。"
+    ],
+    "gold_revision_reason": "Generation returned empty/null L2 gold; separate context supplied SQL for unchanged already explicit offline final intent before any tested-system run. Original preserved. Both AI passes must still independently verify semantics.",
+    "original_operational_reference": {
+      "reference_intent": {
+        "task_type": "ratio",
+        "metric": "sales_revenue",
+        "numerator": {
+          "region": {
+            "column": "customer.country",
+            "value": "France"
+          },
+          "period": {
+            "start": "2024-01-01",
+            "end": "2025-01-01"
+          }
+        },
+        "denominator": null,
+        "missing": [
+          "denominator"
+        ]
+      },
+      "expected_final_intent": {
+        "task_type": "ratio",
+        "metric": "sales_revenue",
+        "numerator": {
+          "region": {
+            "column": "customer.country",
+            "value": "France"
+          },
+          "period": {
+            "start": "2024-01-01",
+            "end": "2025-01-01"
+          }
+        },
+        "denominator": {
+          "type": "all_invoices_same_period",
+          "period": {
+            "start": "2024-01-01",
+            "end": "2025-01-01"
+          }
+        },
+        "region_scope": {
+          "column": "customer.country",
+          "value": "France"
+        }
+      },
+      "expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "France"
+        }
+      ],
+      "raw_expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "France"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "DATE '2024-01-01'"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "DATE '2025-01-01'"
+        },
+        {
+          "column": "invoice.total",
+          "operator": "SUM",
+          "value": "numerator"
+        }
+      ],
+      "expected_predicates": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": ">=",
+          "value": "DATE '2024-01-01'"
+        },
+        {
+          "column": "invoice.invoice_date",
+          "operator": "<",
+          "value": "DATE '2025-01-01'"
+        }
+      ],
+      "expected_unresolved_constraints": [],
+      "controller": {
+        "hidden_goal": "计算2024年法国居住客户发票销售额占分母口径销售额的比例，需先澄清分母范围。",
+        "allowed_user_supplements": {
+          "denominator": {
+            "answer": "分母就用2024年所有发票销售额。",
+            "value": {
+              "type": "all_invoices_same_period",
+              "period": {
+                "start": "2024-01-01",
+                "end": "2025-01-01"
+              }
+            }
+          },
+          "ratio_base": {
+            "answer": "跟2024全部销售额比。",
+            "value": "all_invoices_same_period"
+          }
+        },
+        "final_intent": {
+          "task_type": "ratio",
+          "metric": "sales_revenue",
+          "numerator": {
+            "region": {
+              "column": "customer.country",
+              "value": "France"
+            },
+            "period": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            }
+          },
+          "denominator": {
+            "type": "all_invoices_same_period",
+            "period": {
+              "start": "2024-01-01",
+              "end": "2025-01-01"
+            }
+          },
+          "region_scope": {
+            "column": "customer.country",
+            "value": "France"
+          }
+        },
+        "expected_state_changes": [
+          "set denominator",
+          "check_constraints_ready → EXECUTING"
+        ],
+        "max_clarification_followups": 3
+      },
+      "gold_sql": "SELECT CASE WHEN SUM(total) IS NULL OR SUM(total) = 0 THEN NULL ELSE SUM(total) FILTER (WHERE customer_id IN (SELECT c.customer_id FROM public.customer c WHERE c.country = 'France')) / SUM(total) END AS france_resident_share FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+      "gold_result": {
+        "columns": [
+          "france_resident_share"
+        ],
+        "rows": [
+          [
+            "0.07677004586099302662"
+          ]
+        ],
+        "table": [
+          {
+            "france_resident_share": "0.07677004586099302662"
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        {
+          "type": "ratio",
+          "note": "分母可能是全库销售额、2024全库销售额或非法国客户销售额。"
+        },
+        {
+          "type": "region_scope",
+          "note": "法国指 customer.country='France'。"
+        }
+      ],
+      "canonical_input": null
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp03-22",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "标签修订提案"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "76017e90df45ba2196739e2b0ec69135974ed8a2a046144da10713e822ad693d"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "34032b3ec9950bc9e761634461a13039f277467b8067d34274b8f4d38a6d807d"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "3313c7ab771717a80ce40bc0b62054bc084b0d9753518fe43ecfe65645f364c4"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "a4b913a426a624704be2de9cd8d3c2335f4f13fb78f9d84ea38177e9f241263d"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "b8e21363c89c3012adf11caba9287bf14cfb88af0e8e0dd5223523be874ff8cd"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "c32ad638d02cf15fd3b95fc7f7e0b42f58fefd047561c1f8d32edb8b3bd7b6e6"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "092e4f24af25e24a3dc9e1bb8fd85161b1f1c1f6d520d76a0864aa7de897f63d"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "df2f652012b3a17e76b15962ca0eca9d52a7c3ac2ef991b82d148e4053353f93"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n分子是2024年法国居住客户，不能漏抽或替换成账单国；同期全票金额分母已授权，可L1声明后执行。建议不是L0，因为分母未由用户显式提供。全局WHERE不得筛France而使占比恒100%。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n76017e90df｜专项历史 V0 / turn0：该历史版询问分母；新授权已可默认同期全部发票金额，需以新规则重测，不自动把旧输出改成通过。\n34032b3ec9｜专项历史 V0 / turn1：France筛选放入全局WHERE，分母也被限制成法国，错误输出100%。\n3313c7ab77｜专项历史 V1 / turn0：题面已明确账单/居住地或分子，仍重复问已给信息；不是有效补缺。\na4b913a426｜专项历史 V1 / turn1：题面已明确账单/居住地或分子，仍重复问已给信息；不是有效补缺。\nb8e21363c8｜专项历史 V2 / turn0：该历史版询问分母；新授权已可默认同期全部发票金额，需以新规则重测，不自动把旧输出改成通过。\nc32ad638d0｜专项历史 V2 / turn1：实际响应失败：SQL 未通过校验：客户国家比例作用域未获证明：必须为条件SUM与SUM(total)的比例；修复仅可调整技术等价SQL，不能把分子国家加到全局WHERE或改变分母范围。；记录保留，不因后续版本成功抹去。\n092e4f24af｜targets-live-001 / turn1：France仅作用于分子，期间/客户口径正确；原始输出是×100百分数、gold为比例，单位核对后可判断核心正确。未展示默认分母说明需补。\ndf2f652012｜targets-live-002 / turn1：显式客户所在地分子、同期全票分母、比例原值及7.68%展示一致，并声明默认分母。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；eval/artifacts/oct12/targets-live-001/sp03-22.json；eval/artifacts/oct12/targets-live-002/sp03-22.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "有条件通过",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Operational category, missing_conditions and required clarification slots synchronized with submitted level",
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "france_resident_share"
+  ],
+  "column_types": [
+    "number"
+  ],
+  "integer_columns": [],
+  "ordered": false,
+  "monetary_columns": [],
+  "expected_status": "SUCCEEDED",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-22.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "35968096b55674699018b629812e8fc829ec23c436d0e9edf49c789e35d870f4",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n分子是2024年法国居住客户，不能漏抽或替换成账单国；同期全票金额分母已授权，可L1声明后执行。建议不是L0，因为分母未由用户显式提供。全局WHERE不得筛France而使占比恒100%。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n76017e90df｜专项历史 V0 / turn0：该历史版询问分母；新授权已可默认同期全部发票金额，需以新规则重测，不自动把旧输出改成通过。\n34032b3ec9｜专项历史 V0 / turn1：France筛选放入全局WHERE，分母也被限制成法国，错误输出100%。\n3313c7ab77｜专项历史 V1 / turn0：题面已明确账单/居住地或分子，仍重复问已给信息；不是有效补缺。\na4b913a426｜专项历史 V1 / turn1：题面已明确账单/居住地或分子，仍重复问已给信息；不是有效补缺。\nb8e21363c8｜专项历史 V2 / turn0：该历史版询问分母；新授权已可默认同期全部发票金额，需以新规则重测，不自动把旧输出改成通过。\nc32ad638d0｜专项历史 V2 / turn1：实际响应失败：SQL 未通过校验：客户国家比例作用域未获证明：必须为条件SUM与SUM(total)的比例；修复仅可调整技术等价SQL，不能把分子国家加到全局WHERE或改变分母范围。；记录保留，不因后续版本成功抹去。\n092e4f24af｜targets-live-001 / turn1：France仅作用于分子，期间/客户口径正确；原始输出是×100百分数、gold为比例，单位核对后可判断核心正确。未展示默认分母说明需补。\ndf2f652012｜targets-live-002 / turn1：显式客户所在地分子、同期全票分母、比例原值及7.68%展示一致，并声明默认分母。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；eval/artifacts/oct12/targets-live-001/sp03-22.json；eval/artifacts/oct12/targets-live-002/sp03-22.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "L1",
+        "显式客户所在地分子",
+        "默认同期分母"
+      ],
+      "initial_level": "L1",
+      "missing_conditions": [],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

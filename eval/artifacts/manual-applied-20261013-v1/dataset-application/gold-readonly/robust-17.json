@@ -1,0 +1,167 @@
+{
+  "id": "robust-17",
+  "suite": "robust",
+  "db_id": "chinook",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT customer_id, city, state FROM customer WHERE country = 'USA' ORDER BY customer_id;",
+  "validated_sql": "SELECT customer_id, city, state FROM customer WHERE country = 'USA' ORDER BY customer_id LIMIT 200",
+  "columns": [
+    "customer_id",
+    "city",
+    "state"
+  ],
+  "column_type_oids": [
+    23,
+    1043,
+    1043
+  ],
+  "postgres_column_types": [
+    "int4",
+    "varchar",
+    "varchar"
+  ],
+  "rows": [
+    [
+      16,
+      "Mountain View",
+      "CA"
+    ],
+    [
+      17,
+      "Redmond",
+      "WA"
+    ],
+    [
+      18,
+      "New York",
+      "NY"
+    ],
+    [
+      19,
+      "Cupertino",
+      "CA"
+    ],
+    [
+      20,
+      "Mountain View",
+      "CA"
+    ],
+    [
+      21,
+      "Reno",
+      "NV"
+    ],
+    [
+      22,
+      "Orlando",
+      "FL"
+    ],
+    [
+      23,
+      "Boston",
+      "MA"
+    ],
+    [
+      24,
+      "Chicago",
+      "IL"
+    ],
+    [
+      25,
+      "Madison",
+      "WI"
+    ],
+    [
+      26,
+      "Fort Worth",
+      "TX"
+    ],
+    [
+      27,
+      "Tucson",
+      "AZ"
+    ],
+    [
+      28,
+      "Salt Lake City",
+      "UT"
+    ]
+  ],
+  "table": [
+    {
+      "customer_id": 16,
+      "city": "Mountain View",
+      "state": "CA"
+    },
+    {
+      "customer_id": 17,
+      "city": "Redmond",
+      "state": "WA"
+    },
+    {
+      "customer_id": 18,
+      "city": "New York",
+      "state": "NY"
+    },
+    {
+      "customer_id": 19,
+      "city": "Cupertino",
+      "state": "CA"
+    },
+    {
+      "customer_id": 20,
+      "city": "Mountain View",
+      "state": "CA"
+    },
+    {
+      "customer_id": 21,
+      "city": "Reno",
+      "state": "NV"
+    },
+    {
+      "customer_id": 22,
+      "city": "Orlando",
+      "state": "FL"
+    },
+    {
+      "customer_id": 23,
+      "city": "Boston",
+      "state": "MA"
+    },
+    {
+      "customer_id": 24,
+      "city": "Chicago",
+      "state": "IL"
+    },
+    {
+      "customer_id": 25,
+      "city": "Madison",
+      "state": "WI"
+    },
+    {
+      "customer_id": 26,
+      "city": "Fort Worth",
+      "state": "TX"
+    },
+    {
+      "customer_id": 27,
+      "city": "Tucson",
+      "state": "AZ"
+    },
+    {
+      "customer_id": 28,
+      "city": "Salt Lake City",
+      "state": "UT"
+    }
+  ],
+  "row_count": 13,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 22.743
+}

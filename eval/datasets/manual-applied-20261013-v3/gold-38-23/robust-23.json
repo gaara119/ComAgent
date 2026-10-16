@@ -1,0 +1,147 @@
+{
+  "id": "robust-23",
+  "version": "manual-applied-20261013-v3",
+  "split": "dev",
+  "purpose": "Standalone formal gold materials; duplicates existing v3 only, no new dataset version or prediction",
+  "old_source": {
+    "path": "eval/artifacts/d2-final/review/robust-dev-v1.jsonl",
+    "line": 16,
+    "sha256": "1d6c7732b5196e7146e3b3f01fe4f9ccb24ad354c6b20776631192c605d213f7",
+    "question": "全部曲目的平均长度是几毫秒？",
+    "gold_sql": "SELECT AVG(milliseconds) AS average_milliseconds FROM track;",
+    "gold_result": [
+      {
+        "average_milliseconds": "393599.212103910933"
+      }
+    ],
+    "review_status": "needs_human_review"
+  },
+  "formal_source": {
+    "path": "eval/datasets/manual-applied-20261013-v3/robust-dev.jsonl",
+    "line": 16,
+    "sha256": "0ca7ee1f07a7e18fc5541792408cddad35526c65cccad17a60831cc54bcd575a",
+    "content_sha256": "9ddb9e59dc3fbff54704f5ab6774e327cc6f20ec68412a6f6c712aa3ebdd1c7a"
+  },
+  "question": "库里所有曲目的平均长度是多少毫秒？",
+  "gold_sql": "SELECT AVG(milliseconds) AS average_milliseconds FROM public.track;",
+  "gold_result": [
+    {
+      "average_milliseconds": "393599.212103910933"
+    }
+  ],
+  "gold_columns": [
+    "average_milliseconds"
+  ],
+  "column_types": [
+    "number"
+  ],
+  "integer_columns": [],
+  "monetary_columns": [],
+  "ordered": false,
+  "conditions": {
+    "enabled": true,
+    "review_label_tags": [
+      "口语改写",
+      "全库曲目",
+      "毫秒",
+      "等权AVG"
+    ],
+    "initial_level": "aggregate",
+    "missing_conditions": [],
+    "explicit_user_conditions_take_priority": true,
+    "historical_outputs_not_new_version_predictions": true,
+    "population": "all existing track rows",
+    "aggregation": "AVG(milliseconds)",
+    "weighting": "one equal weight per non-NULL milliseconds row",
+    "unit": "milliseconds",
+    "exclude_media_type": false,
+    "purchase_quantity_weighting": false,
+    "null_policy": "PostgreSQL AVG ignores NULL; empty non-NULL population returns NULL"
+  },
+  "gold_review": {
+    "status": "accepted",
+    "conditional": true,
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature": null,
+    "human_confirmation_date": null
+  },
+  "human_review_source": {
+    "path": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "sha256": "d6879872cc9f92dc67ed035440789b110a8276d0897315366a2227d6e489f70e",
+    "original_uploaded_html_sha256": "6806ea40ccfc02f9e008780afb882efdf58e6ba20e218a5dbddada06a723d08c",
+    "review_key": "robust:robust-23",
+    "submitted_object_decisions": [
+      {
+        "attrs": {
+          "data-object": "新参考答案"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      }
+    ],
+    "authorization": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "no_signature_or_date_invented": true
+  },
+  "readonly_gold_verification": {
+    "path": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/robust-23.json",
+    "sha256": "5286522ad7389e34d95cfc2fbe96f1da3a22f2376cafb958a2ce3bd2da97d549",
+    "role": "qa_reader",
+    "transaction_read_only": "on",
+    "statement_timeout_ms": 5000,
+    "new_execution_performed_by_this_export": false
+  },
+  "actual_model_regression": {
+    "report": "eval/artifacts/manual-applied-20261013-v1/gold-two-live-002/report.json",
+    "report_sha256": "58ff71ac5c21053b8b070d552dcc01b5edb56c56a06bbfd70121e37296f73b48",
+    "responses": "eval/artifacts/manual-applied-20261013-v1/gold-two-live-002/responses.jsonl",
+    "responses_sha256": "5c2d357cf86987911036b526fb4b857225cc00b5107792ae4678b5e6257f4895",
+    "response_line": 2,
+    "run_id": "gold-two-v3-live-002",
+    "test_input": "eval/artifacts/manual-applied-20261013-v1/test-inputs/gold-two-v3.jsonl",
+    "test_input_sha256": "ff36e202374f73971ce4327a50d0bf95c1c6978ea88d42f97edb147be8edfeae",
+    "request_message": "库里所有曲目的平均长度是多少毫秒？",
+    "status": "SUCCEEDED",
+    "trace_id": "334652d5-29ac-4be8-a4a9-e27864398780",
+    "actual_sql": "SELECT AVG(\"milliseconds\") AS avg_milliseconds FROM \"public\".\"track\"",
+    "actual_table": [
+      {
+        "avg_milliseconds": "393599.212103910933"
+      }
+    ],
+    "plan_ex_matched": true,
+    "comparison": {
+      "matched": true,
+      "reason": "equal",
+      "column_mapping": [
+        0
+      ]
+    },
+    "legacy_comparison": {
+      "matched": true,
+      "reason": "equal",
+      "column_mapping": [
+        0
+      ]
+    },
+    "actual_models": [
+      "deepseek-flash"
+    ],
+    "provider_captures": [
+      "eval/artifacts/manual-applied-20261013-v1/provider-live-002/24d39c4d2ded401280c6a22ad1d2ef15.json"
+    ],
+    "holdout_predictions": 0
+  },
+  "postgres_column_types": [
+    "numeric"
+  ],
+  "column_type_oids": [
+    1700
+  ]
+}

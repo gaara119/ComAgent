@@ -1,0 +1,42 @@
+{
+  "id": "sp03-08",
+  "suite": "special",
+  "db_id": "chinook",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "WITH customer_purchase AS (SELECT c.customer_id, SUM(i.total) AS purchase_amount FROM public.invoice i JOIN public.customer c ON c.customer_id = i.customer_id WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY c.customer_id) SELECT cp.customer_id, cp.purchase_amount FROM customer_purchase cp ORDER BY cp.purchase_amount DESC, cp.customer_id ASC LIMIT 1;",
+  "validated_sql": "WITH customer_purchase AS (SELECT c.customer_id, SUM(i.total) AS purchase_amount FROM public.invoice AS i JOIN public.customer AS c ON c.customer_id = i.customer_id WHERE i.invoice_date >= CAST('2023-01-01' AS DATE) AND i.invoice_date < CAST('2024-01-01' AS DATE) GROUP BY c.customer_id) SELECT cp.customer_id, cp.purchase_amount FROM customer_purchase AS cp ORDER BY cp.purchase_amount DESC, cp.customer_id ASC LIMIT 1",
+  "columns": [
+    "customer_id",
+    "purchase_amount"
+  ],
+  "column_type_oids": [
+    23,
+    1700
+  ],
+  "postgres_column_types": [
+    "int4",
+    "numeric"
+  ],
+  "rows": [
+    [
+      46,
+      "32.75"
+    ]
+  ],
+  "table": [
+    {
+      "customer_id": 46,
+      "purchase_amount": "32.75"
+    }
+  ],
+  "row_count": 1,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 39.79
+}

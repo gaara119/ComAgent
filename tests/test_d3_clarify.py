@@ -291,7 +291,8 @@ def test_oct12_invoice_country_uses_authorized_billing_default_without_model(tmp
     linked=no_link();linked.bindings=[binding]
     model=Model()
     gate=run_gate(request('2024年美国发票金额'),load_catalog(ROOT/'data/catalog/chinook.yaml'),model,linked,store=SessionStore(tmp_path))
-    assert model.calls==0 and gate.decision.level=='L0'
+    assert model.calls==0 and gate.decision.level=='L1'
+    assert gate.decision.analysis.default_assumptions
     assert gate.state.analysis.region_scope=='invoice.billing_country'
     assert gate.state.bindings[0]['scope_evidence']=='oct12_approved_default'
 

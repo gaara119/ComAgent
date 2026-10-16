@@ -1,0 +1,362 @@
+{
+  "id": "sp01-14",
+  "family_id": "special-fam-14-alias-approved-country-france",
+  "task": "01",
+  "category": "alias",
+  "input": "法兰西共和国的发票一共开了多少张？",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "仅改写：approved 别名“法兰西共和国”唯一绑定 customer.country = 'France' 或 invoice.billing_country = 'France'；按客户所在地口径统计 France 客户的发票张数。",
+  "allowed_interpretations": [
+    {
+      "object": "invoice",
+      "metric": "COUNT(*)",
+      "filter": "customer.country = 'France'"
+    },
+    {
+      "object": "invoice",
+      "metric": "COUNT(*)",
+      "filter": "invoice.billing_country = 'France'"
+    }
+  ],
+  "expected_bindings": [
+    {
+      "column": "invoice.billing_country",
+      "operator": "=",
+      "value": "France",
+      "surface": "法兰西共和国"
+    }
+  ],
+  "missing_conditions": [],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n原参考叙述同时允许客户国和账单国，gold实际只按客户所在地。按已批准新规则，未显式客户口径的发票问题默认账单国家；需新版本统一标签与gold。当前两字段结果相同不证明口径等价。\n原记录scorable=false保持原样；是否新纳入计分须完成参考/控制器核对，不能按本轮建议自动改历史分母。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n"
+  ],
+  "reference_intent": {
+    "task_type": "count",
+    "metric": "invoice_count",
+    "filters": [
+      "invoice.billing_country = 'France'"
+    ],
+    "time_scope": null,
+    "grouping": null,
+    "top_n": null
+  },
+  "gold_sql": "SELECT COUNT(*) AS invoice_count FROM public.invoice WHERE billing_country = 'France';",
+  "controller": null,
+  "canonical_input": "法兰西共和国的发票一共开了多少张？",
+  "secondary_tags": [
+    "France"
+  ],
+  "case_style": "natural",
+  "generation_call_id": "generate-01-expansion-01",
+  "generation_stage": "expansion",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "disputed_or_evidence_insufficient",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "gold_result": {
+    "columns": [
+      "invoice_count"
+    ],
+    "rows": [
+      [
+        35
+      ]
+    ],
+    "table": [
+      {
+        "invoice_count": 35
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "auto_status": "passed",
+  "auto_issues": [],
+  "dataset_version": "manual-applied-20261013-v3",
+  "raw_expected_bindings": [
+    {
+      "column": "invoice.billing_country",
+      "operator": "=",
+      "value": "France",
+      "surface": "法兰西共和国"
+    }
+  ],
+  "expected_predicates": [],
+  "expected_aggregations": [],
+  "expected_unresolved_constraints": [],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "task_type": "count",
+    "metric": "invoice_count",
+    "filters": [
+      "invoice.billing_country = 'France'"
+    ],
+    "time_scope": null,
+    "grouping": null,
+    "top_n": null
+  },
+  "scorable": true,
+  "final_source_guard_issues": [],
+  "review_label": "别名／发票张数／默认账单国家",
+  "review_label_tags": [
+    "别名",
+    "发票张数",
+    "默认账单国家"
+  ],
+  "effective_region_default": {
+    "column": "invoice.billing_country",
+    "source": "submitted notes + Oct12 joint defaults",
+    "explicit_user_scope_takes_priority": true
+  },
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      {
+        "object": "invoice",
+        "metric": "COUNT(*)",
+        "filter": "customer.country = 'France'"
+      },
+      {
+        "object": "invoice",
+        "metric": "COUNT(*)",
+        "filter": "invoice.billing_country = 'France'"
+      }
+    ],
+    "business_basis": [
+      "approved_aliases_and_candidate_relations: alias_id a-ca229f69098da675, standard_value 'France', column customer.country, review_status approved",
+      "approved_aliases_and_candidate_relations: alias_id a-99f7789e108299a0, standard_value 'France', column invoice.billing_country, review_status approved",
+      "confirmed_business_rules.general.region: 两个国家字段保留各自含义"
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp01-14",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "not_applicable",
+        "reason": "输入“法兰西共和国的发票一共开了多少张？”统计法国客户发票数。alias a-ca229f69098da675 approved，绑定customer.country='France'；同时billing_country也有approved同值别名，但业务规则保留两字段不同含义，reference_intent选择客户所在地口径，且gold_sql通过invoice.customer_id关联customer并按c.country过滤，FK正确、COUNT(*)发票粒度正确，跑得35。虽然两个字段当前快照无差异，但绑定与reference_intent一致且已在绑定中明确为customer.country，非歧义不唯一。",
+        "evidence": [
+          "cases[3].input: 法兰西共和国的发票一共开了多少张？",
+          "approved_aliases... customer.country alias a-ca229f69098da675 status approved; invoice.billing_country alias a-99f7789e108299a0 status approved",
+          "cases[3].reference_intent.filters: customer.country = 'France'",
+          "confirmed_business_rules.general.region: customer.country is residence; billing_country is billing address; meanings retained",
+          "actual_program_checks.sp01-14: invoice_count=35"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      },
+      {
+        "id": "sp01-14",
+        "verdict": "disputed",
+        "semantic_sql_check": "disputed",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "not_applicable",
+        "reason": "别名‘法兰西共和国’在 customer.country 和 invoice.billing_country 都有 approved 条目，输入‘发票开了多少张’未明确按客户所在地还是账单国；本快照两字段无差异，但共同口径明确保留各自含义。reference 直接唯一绑定 customer.country，属于把当前快照无差异当成字段等价，存在合理歧义被强行唯一化。SQL 结果虽与 billing_country 路径相同（0 differences），但语义上应至少声明所选口径或按 L2 澄清。",
+        "evidence": [
+          "cases.sp01-14.input",
+          "cases.sp01-14.allowed_interpretations",
+          "cases.sp01-14.expected_bindings",
+          "cases.sp01-14.business_basis",
+          "approved_aliases_and_candidate_relations a-ca229f69098da675",
+          "approved_aliases_and_candidate_relations a-99f7789e108299a0",
+          "confirmed_business_rules.general.region",
+          "live_database_facts.billing_customer_difference"
+        ],
+        "issues": [
+          "France 别名同时绑 customer.country 与 invoice.billing_country，reference 未澄清即唯一选 customer.country",
+          "当前快照无差异不能合并两字段含义"
+        ],
+        "suggested_corrections": {
+          "action": "clarify_or_explicit_assumption",
+          "reason": "发票张数按客户所在地还是账单国；缺省时应按 L2 澄清，或至少在答案顶部声明所选口径并给切换按钮"
+        }
+      }
+    ],
+    "original_operational_reference": {
+      "reference_intent": {
+        "task_type": "count",
+        "metric": "invoice_count",
+        "filters": [
+          "customer.country = 'France'"
+        ],
+        "time_scope": null,
+        "grouping": null,
+        "top_n": null
+      },
+      "expected_final_intent": {
+        "task_type": "count",
+        "metric": "invoice_count",
+        "filters": [
+          "customer.country = 'France'"
+        ],
+        "time_scope": null,
+        "grouping": null,
+        "top_n": null
+      },
+      "expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "France",
+          "surface": "法兰西共和国"
+        }
+      ],
+      "raw_expected_bindings": [
+        {
+          "column": "customer.country",
+          "operator": "=",
+          "value": "France",
+          "surface": "法兰西共和国"
+        }
+      ],
+      "expected_predicates": [],
+      "expected_unresolved_constraints": [],
+      "controller": null,
+      "gold_sql": "SELECT COUNT(*) AS invoice_count FROM public.invoice WHERE billing_country = 'France';",
+      "gold_result": {
+        "columns": [
+          "invoice_count"
+        ],
+        "rows": [
+          [
+            35
+          ]
+        ],
+        "table": [
+          {
+            "invoice_count": 35
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        {
+          "object": "invoice",
+          "metric": "COUNT(*)",
+          "filter": "customer.country = 'France'"
+        },
+        {
+          "object": "invoice",
+          "metric": "COUNT(*)",
+          "filter": "invoice.billing_country = 'France'"
+        }
+      ],
+      "canonical_input": "法兰西共和国的发票一共开了多少张？"
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp01-14",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "675c9bc5f8b77661f78f1f2b608f59a61f77a65a75186022d6a8e86b1923e331"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "4c2d829617e993d99693b678e7dde7c73de2b2f20f97ccc88a5733ed9a14ed90"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "a4b7f9a1e43cac1e967dc4e6f5f87562a8d45886aa19b34a87e3f2be6c40c958"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n原参考叙述同时允许客户国和账单国，gold实际只按客户所在地。按已批准新规则，未显式客户口径的发票问题默认账单国家；需新版本统一标签与gold。当前两字段结果相同不证明口径等价。\n原记录scorable=false保持原样；是否新纳入计分须完成参考/控制器核对，不能按本轮建议自动改历史分母。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n675c9bc5f8｜专项历史 V0 / turn0：实际按账单国家查，与已批准新默认一致；原gold按客户所在地且标签冲突，当前同值不能证明原标准正确。先修参考版本再重评，不按旧EX直接批准。\n4c2d829617｜专项历史 V1 / turn0：实际按账单国家查，与已批准新默认一致；原gold按客户所在地且标签冲突，当前同值不能证明原标准正确。先修参考版本再重评，不按旧EX直接批准。\na4b7f9a1e4｜专项历史 V2 / turn0：实际按账单国家查，与已批准新默认一致；原gold按客户所在地且标签冲突，当前同值不能证明原标准正确。先修参考版本再重评，不按旧EX直接批准。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "拒绝/发现错误",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Default invoice revenue/count region uses billing_country; explicitly scoped later user turns stay independent",
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "invoice_count"
+  ],
+  "column_types": [
+    "number"
+  ],
+  "integer_columns": [
+    0
+  ],
+  "ordered": false,
+  "monetary_columns": [],
+  "expected_status": "SUCCEEDED",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp01-14.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "844ecb1ffce66b0f782e98564ecc3c6c65ca752ac6683f5bddf118384db943ae",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n原参考叙述同时允许客户国和账单国，gold实际只按客户所在地。按已批准新规则，未显式客户口径的发票问题默认账单国家；需新版本统一标签与gold。当前两字段结果相同不证明口径等价。\n原记录scorable=false保持原样；是否新纳入计分须完成参考/控制器核对，不能按本轮建议自动改历史分母。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n675c9bc5f8｜专项历史 V0 / turn0：实际按账单国家查，与已批准新默认一致；原gold按客户所在地且标签冲突，当前同值不能证明原标准正确。先修参考版本再重评，不按旧EX直接批准。\n4c2d829617｜专项历史 V1 / turn0：实际按账单国家查，与已批准新默认一致；原gold按客户所在地且标签冲突，当前同值不能证明原标准正确。先修参考版本再重评，不按旧EX直接批准。\na4b7f9a1e4｜专项历史 V2 / turn0：实际按账单国家查，与已批准新默认一致；原gold按客户所在地且标签冲突，当前同值不能证明原标准正确。先修参考版本再重评，不按旧EX直接批准。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "别名",
+        "发票张数",
+        "默认账单国家"
+      ],
+      "initial_level": "alias",
+      "missing_conditions": [],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

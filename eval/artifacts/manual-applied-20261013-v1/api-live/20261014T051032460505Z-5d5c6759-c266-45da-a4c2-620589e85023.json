@@ -1,0 +1,1276 @@
+{
+  "started_at_utc": "2026-10-14T05:10:22.623450+00:00",
+  "finished_at_utc": "2026-10-14T05:10:32.460505+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "reviewed-aw-c3cc0a6148b744c3a52cd8932f417415",
+    "message": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。",
+    "scope": {
+      "route": "sql",
+      "db_id": "adventureworks",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "fd75dca9-7f8e-449d-87dc-2d0765415bd7",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 10 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT t.\"name\" AS \"territory_name\", SUM(h.\"subtotal\") AS \"subtotal_sum\" FROM \"sales\".\"salesorderheader\" AS h JOIN \"sales\".\"salesterritory\" AS t ON h.\"territoryid\" = t.\"territoryid\" WHERE h.\"orderdate\" >= '2024-01-01' AND h.\"orderdate\" < '2025-01-01' GROUP BY t.\"name\" ORDER BY \"subtotal_sum\" DESC, \"territory_name\" ASC LIMIT 200",
+    "table": [
+      {
+        "territory_name": "Southwest",
+        "subtotal_sum": "9121931.6549"
+      },
+      {
+        "territory_name": "Canada",
+        "subtotal_sum": "6231209.9635"
+      },
+      {
+        "territory_name": "Northwest",
+        "subtotal_sum": "6018432.5760"
+      },
+      {
+        "territory_name": "Australia",
+        "subtotal_sum": "4246450.5549"
+      },
+      {
+        "territory_name": "France",
+        "subtotal_sum": "3816543.3278"
+      },
+      {
+        "territory_name": "United Kingdom",
+        "subtotal_sum": "3641619.7164"
+      },
+      {
+        "territory_name": "Central",
+        "subtotal_sum": "2994225.3834"
+      },
+      {
+        "territory_name": "Northeast",
+        "subtotal_sum": "2631259.5991"
+      },
+      {
+        "territory_name": "Germany",
+        "subtotal_sum": "2570269.3486"
+      },
+      {
+        "territory_name": "Southeast",
+        "subtotal_sum": "2399947.3791"
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": {
+        "current": {
+          "start": "2024-01-01",
+          "end": "2025-01-01",
+          "label": "2024年",
+          "grain": "year"
+        }
+      },
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "adventureworks"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "table_count": 68,
+          "db_id": "adventureworks"
+        },
+        "latency_ms": 429
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "reason": "not_registered_for_db",
+          "bindings": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。"
+        },
+        "output_summary": {
+          "rewritten_question": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 8
+      },
+      {
+        "name": "schema_link",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks",
+          "question": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": null, \"filters\": [], \"assumptions\": []}"
+        },
+        "output_summary": {
+          "selected_tables": [
+            "person.person",
+            "person.stateprovince",
+            "production.product",
+            "production.transactionhistory",
+            "production.transactionhistoryarchive",
+            "sales.customer",
+            "sales.salesorderdetail",
+            "sales.salesorderheader",
+            "sales.salesterritory",
+            "sales.salesterritoryhistory",
+            "sales.specialofferproduct"
+          ],
+          "columns": {
+            "person.person": [
+              "businessentityid",
+              "persontype",
+              "namestyle",
+              "title",
+              "firstname",
+              "middlename",
+              "lastname",
+              "suffix",
+              "emailpromotion",
+              "additionalcontactinfo",
+              "demographics",
+              "rowguid",
+              "modifieddate"
+            ],
+            "person.stateprovince": [
+              "stateprovinceid",
+              "stateprovincecode",
+              "countryregioncode",
+              "isonlystateprovinceflag",
+              "name",
+              "territoryid",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.product": [
+              "productid",
+              "name",
+              "productnumber",
+              "makeflag",
+              "finishedgoodsflag",
+              "color",
+              "safetystocklevel",
+              "reorderpoint",
+              "standardcost",
+              "listprice",
+              "size",
+              "sizeunitmeasurecode",
+              "weightunitmeasurecode",
+              "weight",
+              "daystomanufacture",
+              "productline",
+              "class",
+              "style",
+              "productsubcategoryid",
+              "productmodelid",
+              "sellstartdate",
+              "sellenddate",
+              "discontinueddate",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.transactionhistory": [
+              "transactionid",
+              "productid",
+              "referenceorderid",
+              "referenceorderlineid",
+              "transactiondate",
+              "transactiontype",
+              "quantity",
+              "actualcost",
+              "modifieddate"
+            ],
+            "production.transactionhistoryarchive": [
+              "transactionid",
+              "productid",
+              "referenceorderid",
+              "referenceorderlineid",
+              "transactiondate",
+              "transactiontype",
+              "quantity",
+              "actualcost",
+              "modifieddate"
+            ],
+            "sales.customer": [
+              "customerid",
+              "personid",
+              "storeid",
+              "territoryid",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesorderdetail": [
+              "salesorderid",
+              "salesorderdetailid",
+              "carriertrackingnumber",
+              "orderqty",
+              "productid",
+              "specialofferid",
+              "unitprice",
+              "unitpricediscount",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesorderheader": [
+              "salesorderid",
+              "revisionnumber",
+              "orderdate",
+              "duedate",
+              "shipdate",
+              "status",
+              "onlineorderflag",
+              "purchaseordernumber",
+              "accountnumber",
+              "customerid",
+              "salespersonid",
+              "territoryid",
+              "billtoaddressid",
+              "shiptoaddressid",
+              "shipmethodid",
+              "creditcardid",
+              "creditcardapprovalcode",
+              "currencyrateid",
+              "subtotal",
+              "taxamt",
+              "freight",
+              "totaldue",
+              "comment",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesterritory": [
+              "territoryid",
+              "name",
+              "countryregioncode",
+              "group",
+              "salesytd",
+              "saleslastyear",
+              "costytd",
+              "costlastyear",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesterritoryhistory": [
+              "businessentityid",
+              "territoryid",
+              "startdate",
+              "enddate",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.specialofferproduct": [
+              "specialofferid",
+              "productid",
+              "rowguid",
+              "modifieddate"
+            ]
+          },
+          "join_paths": [
+            {
+              "source_table": "person.stateprovince",
+              "source_columns": [
+                "territoryid"
+              ],
+              "target_table": "sales.salesterritory",
+              "target_columns": [
+                "territoryid"
+              ]
+            },
+            {
+              "source_table": "production.transactionhistory",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "sales.customer",
+              "source_columns": [
+                "personid"
+              ],
+              "target_table": "person.person",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "customerid"
+              ],
+              "target_table": "sales.customer",
+              "target_columns": [
+                "customerid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderdetail",
+              "source_columns": [
+                "salesorderid"
+              ],
+              "target_table": "sales.salesorderheader",
+              "target_columns": [
+                "salesorderid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "territoryid"
+              ],
+              "target_table": "sales.salesterritory",
+              "target_columns": [
+                "territoryid"
+              ]
+            },
+            {
+              "source_table": "sales.salesterritoryhistory",
+              "source_columns": [
+                "territoryid"
+              ],
+              "target_table": "sales.salesterritory",
+              "target_columns": [
+                "territoryid"
+              ]
+            },
+            {
+              "source_table": "sales.specialofferproduct",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderdetail",
+              "source_columns": [
+                "specialofferid",
+                "productid"
+              ],
+              "target_table": "sales.specialofferproduct",
+              "target_columns": [
+                "specialofferid",
+                "productid"
+              ]
+            }
+          ],
+          "reasons": {
+            "person.person": [
+              "真实目录示例值或已核验值命中对应列；仅提供定位候选"
+            ],
+            "person.stateprovince": [
+              "真实目录示例值或已核验值命中对应列；仅提供定位候选"
+            ],
+            "production.product": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "production.transactionhistory": [
+              "表描述向量召回第 7 位",
+              "列描述 Top-20 投票：1 列"
+            ],
+            "production.transactionhistoryarchive": [
+              "表描述向量召回第 4 位",
+              "列描述 Top-20 投票：1 列"
+            ],
+            "sales.customer": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "sales.salesorderdetail": [
+              "表描述向量召回第 3 位",
+              "列描述 Top-20 投票：1 列"
+            ],
+            "sales.salesorderheader": [
+              "表描述向量召回第 5 位",
+              "列描述 Top-20 投票：1 列"
+            ],
+            "sales.salesterritory": [
+              "表描述向量召回第 1 位",
+              "列描述 Top-20 投票：9 列",
+              "用户原文要素‘销售区域’的独立向量召回最高候选；仅提供定位"
+            ],
+            "sales.salesterritoryhistory": [
+              "表描述向量召回第 2 位",
+              "列描述 Top-20 投票：6 列"
+            ],
+            "sales.specialofferproduct": [
+              "真实外键图 Steiner 补全的桥接表"
+            ]
+          },
+          "table_recall": [
+            "sales.salesterritory",
+            "sales.salesterritoryhistory",
+            "sales.salesorderdetail",
+            "production.transactionhistoryarchive",
+            "sales.salesorderheader",
+            "sales.salespersonquotahistory",
+            "production.transactionhistory",
+            "sales.salesperson"
+          ],
+          "column_recall": [
+            "sales.salesterritoryhistory.enddate",
+            "sales.salesterritory.group",
+            "sales.salesterritory.name",
+            "sales.salesterritoryhistory.modifieddate",
+            "sales.salesterritory.territoryid",
+            "sales.salesterritory.countryregioncode",
+            "sales.salesterritoryhistory.rowguid",
+            "sales.salesterritoryhistory.startdate",
+            "purchasing.purchaseorderheader.subtotal",
+            "sales.salesterritory.salesytd",
+            "sales.salesterritoryhistory.territoryid",
+            "sales.salesterritory.saleslastyear",
+            "sales.salesterritory.costytd",
+            "sales.salesterritory.costlastyear",
+            "sales.salesorderdetail.unitprice",
+            "sales.salesterritory.modifieddate",
+            "sales.salesorderheader.subtotal",
+            "production.transactionhistory.actualcost",
+            "production.transactionhistoryarchive.referenceorderid",
+            "sales.salesterritoryhistory.businessentityid"
+          ],
+          "value_recall": [
+            "person.person.lastname",
+            "person.stateprovince.name"
+          ],
+          "terminal_tables": [
+            "sales.salesterritory",
+            "sales.salesterritoryhistory",
+            "sales.salesorderdetail",
+            "sales.salesorderheader",
+            "production.transactionhistoryarchive",
+            "production.transactionhistory",
+            "person.person",
+            "person.stateprovince"
+          ],
+          "bridge_tables": [
+            "production.product",
+            "sales.customer",
+            "sales.specialofferproduct"
+          ],
+          "disconnected_components": [
+            [
+              "person.person",
+              "person.stateprovince",
+              "production.transactionhistory",
+              "sales.salesorderdetail",
+              "sales.salesorderheader",
+              "sales.salesterritory",
+              "sales.salesterritoryhistory"
+            ],
+            [
+              "production.transactionhistoryarchive"
+            ]
+          ],
+          "scores": {
+            "sales.salesterritory": 0.03278688524590164,
+            "sales.salesterritoryhistory": 0.03225806451612903,
+            "sales.salesorderdetail": 0.03149801587301587,
+            "sales.salesorderheader": 0.03076923076923077,
+            "production.transactionhistoryarchive": 0.03055037313432836,
+            "production.transactionhistory": 0.03007688828584351,
+            "person.person": 0.01639344262295082,
+            "person.stateprovince": 0.016129032258064516,
+            "purchasing.purchaseorderheader": 0.015873015873015872,
+            "sales.salespersonquotahistory": 0.015151515151515152,
+            "sales.salesperson": 0.014705882352941176
+          },
+          "query_facets": [
+            "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": null, \"filters\": [], \"assumptions\": []}",
+            "销售区域"
+          ],
+          "per_query_recall": [
+            {
+              "query": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": null, \"filters\": [], \"assumptions\": []}",
+              "table_top": [
+                "sales.salesterritory",
+                "sales.salesterritoryhistory",
+                "sales.salesorderdetail",
+                "production.transactionhistoryarchive",
+                "sales.salesorderheader",
+                "sales.salespersonquotahistory",
+                "production.transactionhistory",
+                "sales.salesperson"
+              ],
+              "column_top": [
+                "sales.salesterritoryhistory.enddate",
+                "sales.salesterritoryhistory.rowguid",
+                "sales.salesterritoryhistory.modifieddate",
+                "sales.salesterritoryhistory.startdate",
+                "purchasing.purchaseorderheader.subtotal",
+                "sales.salesterritoryhistory.territoryid",
+                "sales.salesorderdetail.unitprice",
+                "sales.salesorderheader.subtotal",
+                "production.transactionhistory.actualcost",
+                "production.transactionhistoryarchive.referenceorderid",
+                "sales.salesterritoryhistory.businessentityid",
+                "sales.salesorderheader.territoryid",
+                "sales.salesterritory.territoryid",
+                "sales.salesterritory.modifieddate",
+                "sales.salesterritory.costytd",
+                "sales.customer.territoryid",
+                "sales.salespersonquotahistory.businessentityid",
+                "sales.salesorderheadersalesreason.modifieddate",
+                "sales.salesterritory.costlastyear",
+                "sales.salesterritory.salesytd"
+              ]
+            },
+            {
+              "query": "销售区域",
+              "table_top": [
+                "sales.salesterritory",
+                "sales.salesterritoryhistory",
+                "sales.salesperson",
+                "sales.customer",
+                "sales.salesorderheader",
+                "sales.countryregioncurrency",
+                "sales.salespersonquotahistory",
+                "sales.salestaxrate"
+              ],
+              "column_top": [
+                "sales.salesterritory.group",
+                "sales.salesterritory.name",
+                "sales.salesterritoryhistory.modifieddate",
+                "sales.salesterritoryhistory.enddate",
+                "sales.salesterritory.territoryid",
+                "sales.salesterritory.countryregioncode",
+                "sales.salesterritoryhistory.startdate",
+                "sales.salesterritory.salesytd",
+                "sales.salesterritory.saleslastyear",
+                "sales.salesterritory.costytd",
+                "sales.salesterritory.costlastyear",
+                "sales.salesterritory.modifieddate",
+                "sales.salesterritoryhistory.rowguid",
+                "sales.salesterritoryhistory.territoryid",
+                "sales.salesterritoryhistory.businessentityid",
+                "sales.salesperson.territoryid",
+                "sales.salesterritory.rowguid",
+                "sales.customer.territoryid",
+                "person.stateprovince.territoryid",
+                "sales.salesperson.bonus"
+              ]
+            }
+          ],
+          "excluded_tables": {},
+          "pruning": {}
+        },
+        "latency_ms": 307
+      },
+      {
+        "name": "schema_prune",
+        "status": "ok",
+        "input_summary": {
+          "candidate_count": 11
+        },
+        "output_summary": {
+          "selected_tables": [
+            "sales.salesorderheader",
+            "sales.salesterritory"
+          ],
+          "columns": {
+            "sales.salesorderheader": [
+              "salesorderid",
+              "orderdate",
+              "territoryid",
+              "subtotal"
+            ],
+            "sales.salesterritory": [
+              "territoryid",
+              "name"
+            ]
+          },
+          "join_paths": [
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "territoryid"
+              ],
+              "target_table": "sales.salesterritory",
+              "target_columns": [
+                "territoryid"
+              ]
+            }
+          ],
+          "reasons": {
+            "sales.salesorderheader": [
+              "销售订单表头，提供订单小计、下单日期和销售区域外键，用于按区域汇总2024年订单金额并过滤空区域。"
+            ],
+            "sales.salesterritory": [
+              "销售区域维度表，提供区域名称用于分组输出与按名称升序排序。"
+            ]
+          },
+          "table_recall": [
+            "sales.salesterritory",
+            "sales.salesterritoryhistory",
+            "sales.salesorderdetail",
+            "production.transactionhistoryarchive",
+            "sales.salesorderheader",
+            "sales.salespersonquotahistory",
+            "production.transactionhistory",
+            "sales.salesperson"
+          ],
+          "column_recall": [
+            "sales.salesterritoryhistory.enddate",
+            "sales.salesterritory.group",
+            "sales.salesterritory.name",
+            "sales.salesterritoryhistory.modifieddate",
+            "sales.salesterritory.territoryid",
+            "sales.salesterritory.countryregioncode",
+            "sales.salesterritoryhistory.rowguid",
+            "sales.salesterritoryhistory.startdate",
+            "purchasing.purchaseorderheader.subtotal",
+            "sales.salesterritory.salesytd",
+            "sales.salesterritoryhistory.territoryid",
+            "sales.salesterritory.saleslastyear",
+            "sales.salesterritory.costytd",
+            "sales.salesterritory.costlastyear",
+            "sales.salesorderdetail.unitprice",
+            "sales.salesterritory.modifieddate",
+            "sales.salesorderheader.subtotal",
+            "production.transactionhistory.actualcost",
+            "production.transactionhistoryarchive.referenceorderid",
+            "sales.salesterritoryhistory.businessentityid"
+          ],
+          "value_recall": [
+            "person.person.lastname",
+            "person.stateprovince.name"
+          ],
+          "terminal_tables": [
+            "sales.salesorderheader",
+            "sales.salesterritory"
+          ],
+          "bridge_tables": [],
+          "disconnected_components": [
+            [
+              "sales.salesorderheader",
+              "sales.salesterritory"
+            ]
+          ],
+          "scores": {
+            "sales.salesterritory": 0.03278688524590164,
+            "sales.salesterritoryhistory": 0.03225806451612903,
+            "sales.salesorderdetail": 0.03149801587301587,
+            "sales.salesorderheader": 0.03076923076923077,
+            "production.transactionhistoryarchive": 0.03055037313432836,
+            "production.transactionhistory": 0.03007688828584351,
+            "person.person": 0.01639344262295082,
+            "person.stateprovince": 0.016129032258064516,
+            "purchasing.purchaseorderheader": 0.015873015873015872,
+            "sales.salespersonquotahistory": 0.015151515151515152,
+            "sales.salesperson": 0.014705882352941176
+          },
+          "query_facets": [
+            "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": null, \"filters\": [], \"assumptions\": []}",
+            "销售区域"
+          ],
+          "per_query_recall": [
+            {
+              "query": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": null, \"filters\": [], \"assumptions\": []}",
+              "table_top": [
+                "sales.salesterritory",
+                "sales.salesterritoryhistory",
+                "sales.salesorderdetail",
+                "production.transactionhistoryarchive",
+                "sales.salesorderheader",
+                "sales.salespersonquotahistory",
+                "production.transactionhistory",
+                "sales.salesperson"
+              ],
+              "column_top": [
+                "sales.salesterritoryhistory.enddate",
+                "sales.salesterritoryhistory.rowguid",
+                "sales.salesterritoryhistory.modifieddate",
+                "sales.salesterritoryhistory.startdate",
+                "purchasing.purchaseorderheader.subtotal",
+                "sales.salesterritoryhistory.territoryid",
+                "sales.salesorderdetail.unitprice",
+                "sales.salesorderheader.subtotal",
+                "production.transactionhistory.actualcost",
+                "production.transactionhistoryarchive.referenceorderid",
+                "sales.salesterritoryhistory.businessentityid",
+                "sales.salesorderheader.territoryid",
+                "sales.salesterritory.territoryid",
+                "sales.salesterritory.modifieddate",
+                "sales.salesterritory.costytd",
+                "sales.customer.territoryid",
+                "sales.salespersonquotahistory.businessentityid",
+                "sales.salesorderheadersalesreason.modifieddate",
+                "sales.salesterritory.costlastyear",
+                "sales.salesterritory.salesytd"
+              ]
+            },
+            {
+              "query": "销售区域",
+              "table_top": [
+                "sales.salesterritory",
+                "sales.salesterritoryhistory",
+                "sales.salesperson",
+                "sales.customer",
+                "sales.salesorderheader",
+                "sales.countryregioncurrency",
+                "sales.salespersonquotahistory",
+                "sales.salestaxrate"
+              ],
+              "column_top": [
+                "sales.salesterritory.group",
+                "sales.salesterritory.name",
+                "sales.salesterritoryhistory.modifieddate",
+                "sales.salesterritoryhistory.enddate",
+                "sales.salesterritory.territoryid",
+                "sales.salesterritory.countryregioncode",
+                "sales.salesterritoryhistory.startdate",
+                "sales.salesterritory.salesytd",
+                "sales.salesterritory.saleslastyear",
+                "sales.salesterritory.costytd",
+                "sales.salesterritory.costlastyear",
+                "sales.salesterritory.modifieddate",
+                "sales.salesterritoryhistory.rowguid",
+                "sales.salesterritoryhistory.territoryid",
+                "sales.salesterritoryhistory.businessentityid",
+                "sales.salesperson.territoryid",
+                "sales.salesterritory.rowguid",
+                "sales.customer.territoryid",
+                "person.stateprovince.territoryid",
+                "sales.salesperson.bonus"
+              ]
+            }
+          ],
+          "excluded_tables": {
+            "person.person": "与销售区域汇总无关。",
+            "person.stateprovince": "与销售区域汇总无关。",
+            "production.product": "与销售区域汇总无关。",
+            "production.transactionhistory": "库存事务历史，不提供销售订单小计。",
+            "production.transactionhistoryarchive": "库存事务归档，与销售订单小计无关。",
+            "sales.customer": "订单表已直接包含 territoryid，且业务口径为订单所属区域而非客户区域，无需客户表。",
+            "sales.salesorderdetail": "问题汇总的是订单级 subtotal，明细行不提供该度量。",
+            "sales.salesterritoryhistory": "记录销售人员区域分配历史，非订单区域归属，与问题无关。",
+            "sales.specialofferproduct": "促销与产品映射，与订单小计汇总无关。"
+          },
+          "pruning": {
+            "status": "completed",
+            "candidate_tables": [
+              "person.person",
+              "person.stateprovince",
+              "production.product",
+              "production.transactionhistory",
+              "production.transactionhistoryarchive",
+              "sales.customer",
+              "sales.salesorderdetail",
+              "sales.salesorderheader",
+              "sales.salesterritory",
+              "sales.salesterritoryhistory",
+              "sales.specialofferproduct"
+            ],
+            "candidate_count": 11,
+            "llm_selected_tables": [
+              "sales.salesorderheader",
+              "sales.salesterritory"
+            ],
+            "restored_bridge_tables": [],
+            "connected": true,
+            "disconnected_components": [
+              [
+                "sales.salesorderheader",
+                "sales.salesterritory"
+              ]
+            ],
+            "connectivity_note": "真实外键组件分别补全；不为互不关联的组件制造连接",
+            "column_count": 6,
+            "selector_gold_input": false
+          }
+        },
+        "latency_ms": 5336
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/30daaf7a29d54499a6966bf5c9b2c9eb.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 272,
+            "prompt_tokens": 10648,
+            "total_tokens": 10920,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 512
+            },
+            "prompt_cache_hit_tokens": 512,
+            "prompt_cache_miss_tokens": 10136
+          },
+          "json_valid": true
+        },
+        "latency_ms": 4107
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": null, \"filters\": [], \"assumptions\": []}",
+          "repair_attempt": 0,
+          "db_id": "adventureworks",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT t.\"name\" AS \"territory_name\", SUM(h.\"subtotal\") AS \"subtotal_sum\" FROM \"sales\".\"salesorderheader\" h JOIN \"sales\".\"salesterritory\" t ON h.\"territoryid\" = t.\"territoryid\" WHERE h.\"orderdate\" >= '2024-01-01' AND h.\"orderdate\" < '2025-01-01' GROUP BY t.\"name\" ORDER BY \"subtotal_sum\" DESC, \"territory_name\" ASC",
+          "explanation": "按 2024 年下单日期筛选销售订单，内连接销售区域表排除 territoryid 为空的订单，按区域名称分组汇总订单小计 subtotal，并按合计金额降序、区域名称升序排列。"
+        },
+        "latency_ms": 3706
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/9e0d0eb57caf421a87ee0a895f0d7a8e.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 203,
+            "prompt_tokens": 2712,
+            "total_tokens": 2915,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1792
+            },
+            "prompt_cache_hit_tokens": 1792,
+            "prompt_cache_miss_tokens": 920
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2704
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT t.\"name\" AS \"territory_name\", SUM(h.\"subtotal\") AS \"subtotal_sum\" FROM \"sales\".\"salesorderheader\" h JOIN \"sales\".\"salesterritory\" t ON h.\"territoryid\" = t.\"territoryid\" WHERE h.\"orderdate\" >= '2024-01-01' AND h.\"orderdate\" < '2025-01-01' GROUP BY t.\"name\" ORDER BY \"subtotal_sum\" DESC, \"territory_name\" ASC"
+        },
+        "output_summary": {
+          "tables": [
+            "sales.salesorderheader",
+            "sales.salesterritory"
+          ],
+          "default_limit_added": true,
+          "sql": "SELECT t.\"name\" AS \"territory_name\", SUM(h.\"subtotal\") AS \"subtotal_sum\" FROM \"sales\".\"salesorderheader\" AS h JOIN \"sales\".\"salesterritory\" AS t ON h.\"territoryid\" = t.\"territoryid\" WHERE h.\"orderdate\" >= '2024-01-01' AND h.\"orderdate\" < '2025-01-01' GROUP BY t.\"name\" ORDER BY \"subtotal_sum\" DESC, \"territory_name\" ASC LIMIT 200"
+        },
+        "latency_ms": 3
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT t.\"name\" AS \"territory_name\", SUM(h.\"subtotal\") AS \"subtotal_sum\" FROM \"sales\".\"salesorderheader\" AS h JOIN \"sales\".\"salesterritory\" AS t ON h.\"territoryid\" = t.\"territoryid\" WHERE h.\"orderdate\" >= '2024-01-01' AND h.\"orderdate\" < '2025-01-01' GROUP BY t.\"name\" ORDER BY \"subtotal_sum\" DESC, \"territory_name\" ASC LIMIT 200",
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "row_count": 10,
+          "columns": [
+            "territory_name",
+            "subtotal_sum"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 32
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "adventureworks",
+      "latency_ms": 9834,
+      "nlu": {
+        "original_question": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。",
+        "rewritten_question": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "not_registered_for_db"
+      },
+      "aw_schema_mode": "subgraph",
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "semantic_contract": {
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01",
+              "label": "2024年",
+              "grain": "year"
+            }
+          },
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {}
+        },
+        "patch_history": [],
+        "invalidated_execution": [],
+        "switch": null
+      },
+      "schema_linker": {
+        "selected_tables": [
+          "sales.salesorderheader",
+          "sales.salesterritory"
+        ],
+        "columns": {
+          "sales.salesorderheader": [
+            "salesorderid",
+            "orderdate",
+            "territoryid",
+            "subtotal"
+          ],
+          "sales.salesterritory": [
+            "territoryid",
+            "name"
+          ]
+        },
+        "join_paths": [
+          {
+            "source_table": "sales.salesorderheader",
+            "source_columns": [
+              "territoryid"
+            ],
+            "target_table": "sales.salesterritory",
+            "target_columns": [
+              "territoryid"
+            ]
+          }
+        ],
+        "reasons": {
+          "sales.salesorderheader": [
+            "销售订单表头，提供订单小计、下单日期和销售区域外键，用于按区域汇总2024年订单金额并过滤空区域。"
+          ],
+          "sales.salesterritory": [
+            "销售区域维度表，提供区域名称用于分组输出与按名称升序排序。"
+          ]
+        },
+        "table_recall": [
+          "sales.salesterritory",
+          "sales.salesterritoryhistory",
+          "sales.salesorderdetail",
+          "production.transactionhistoryarchive",
+          "sales.salesorderheader",
+          "sales.salespersonquotahistory",
+          "production.transactionhistory",
+          "sales.salesperson"
+        ],
+        "column_recall": [
+          "sales.salesterritoryhistory.enddate",
+          "sales.salesterritory.group",
+          "sales.salesterritory.name",
+          "sales.salesterritoryhistory.modifieddate",
+          "sales.salesterritory.territoryid",
+          "sales.salesterritory.countryregioncode",
+          "sales.salesterritoryhistory.rowguid",
+          "sales.salesterritoryhistory.startdate",
+          "purchasing.purchaseorderheader.subtotal",
+          "sales.salesterritory.salesytd",
+          "sales.salesterritoryhistory.territoryid",
+          "sales.salesterritory.saleslastyear",
+          "sales.salesterritory.costytd",
+          "sales.salesterritory.costlastyear",
+          "sales.salesorderdetail.unitprice",
+          "sales.salesterritory.modifieddate",
+          "sales.salesorderheader.subtotal",
+          "production.transactionhistory.actualcost",
+          "production.transactionhistoryarchive.referenceorderid",
+          "sales.salesterritoryhistory.businessentityid"
+        ],
+        "value_recall": [
+          "person.person.lastname",
+          "person.stateprovince.name"
+        ],
+        "terminal_tables": [
+          "sales.salesorderheader",
+          "sales.salesterritory"
+        ],
+        "bridge_tables": [],
+        "disconnected_components": [
+          [
+            "sales.salesorderheader",
+            "sales.salesterritory"
+          ]
+        ],
+        "scores": {
+          "sales.salesterritory": 0.03278688524590164,
+          "sales.salesterritoryhistory": 0.03225806451612903,
+          "sales.salesorderdetail": 0.03149801587301587,
+          "sales.salesorderheader": 0.03076923076923077,
+          "production.transactionhistoryarchive": 0.03055037313432836,
+          "production.transactionhistory": 0.03007688828584351,
+          "person.person": 0.01639344262295082,
+          "person.stateprovince": 0.016129032258064516,
+          "purchasing.purchaseorderheader": 0.015873015873015872,
+          "sales.salespersonquotahistory": 0.015151515151515152,
+          "sales.salesperson": 0.014705882352941176
+        },
+        "query_facets": [
+          "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": null, \"filters\": [], \"assumptions\": []}",
+          "销售区域"
+        ],
+        "per_query_recall": [
+          {
+            "query": "2024 年每个销售区域的销售订单 subtotal 合计是多少？不计 territoryid 为空的订单，输出区域名和合计，按金额降序、名称升序。\n当前执行条件（用户显式条件优先；已批准默认只补缺项）：{\"task_type\": \"lookup\", \"metric\": null, \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}}, \"comparison\": null, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": null, \"filters\": [], \"assumptions\": []}",
+            "table_top": [
+              "sales.salesterritory",
+              "sales.salesterritoryhistory",
+              "sales.salesorderdetail",
+              "production.transactionhistoryarchive",
+              "sales.salesorderheader",
+              "sales.salespersonquotahistory",
+              "production.transactionhistory",
+              "sales.salesperson"
+            ],
+            "column_top": [
+              "sales.salesterritoryhistory.enddate",
+              "sales.salesterritoryhistory.rowguid",
+              "sales.salesterritoryhistory.modifieddate",
+              "sales.salesterritoryhistory.startdate",
+              "purchasing.purchaseorderheader.subtotal",
+              "sales.salesterritoryhistory.territoryid",
+              "sales.salesorderdetail.unitprice",
+              "sales.salesorderheader.subtotal",
+              "production.transactionhistory.actualcost",
+              "production.transactionhistoryarchive.referenceorderid",
+              "sales.salesterritoryhistory.businessentityid",
+              "sales.salesorderheader.territoryid",
+              "sales.salesterritory.territoryid",
+              "sales.salesterritory.modifieddate",
+              "sales.salesterritory.costytd",
+              "sales.customer.territoryid",
+              "sales.salespersonquotahistory.businessentityid",
+              "sales.salesorderheadersalesreason.modifieddate",
+              "sales.salesterritory.costlastyear",
+              "sales.salesterritory.salesytd"
+            ]
+          },
+          {
+            "query": "销售区域",
+            "table_top": [
+              "sales.salesterritory",
+              "sales.salesterritoryhistory",
+              "sales.salesperson",
+              "sales.customer",
+              "sales.salesorderheader",
+              "sales.countryregioncurrency",
+              "sales.salespersonquotahistory",
+              "sales.salestaxrate"
+            ],
+            "column_top": [
+              "sales.salesterritory.group",
+              "sales.salesterritory.name",
+              "sales.salesterritoryhistory.modifieddate",
+              "sales.salesterritoryhistory.enddate",
+              "sales.salesterritory.territoryid",
+              "sales.salesterritory.countryregioncode",
+              "sales.salesterritoryhistory.startdate",
+              "sales.salesterritory.salesytd",
+              "sales.salesterritory.saleslastyear",
+              "sales.salesterritory.costytd",
+              "sales.salesterritory.costlastyear",
+              "sales.salesterritory.modifieddate",
+              "sales.salesterritoryhistory.rowguid",
+              "sales.salesterritoryhistory.territoryid",
+              "sales.salesterritoryhistory.businessentityid",
+              "sales.salesperson.territoryid",
+              "sales.salesterritory.rowguid",
+              "sales.customer.territoryid",
+              "person.stateprovince.territoryid",
+              "sales.salesperson.bonus"
+            ]
+          }
+        ],
+        "excluded_tables": {
+          "person.person": "与销售区域汇总无关。",
+          "person.stateprovince": "与销售区域汇总无关。",
+          "production.product": "与销售区域汇总无关。",
+          "production.transactionhistory": "库存事务历史，不提供销售订单小计。",
+          "production.transactionhistoryarchive": "库存事务归档，与销售订单小计无关。",
+          "sales.customer": "订单表已直接包含 territoryid，且业务口径为订单所属区域而非客户区域，无需客户表。",
+          "sales.salesorderdetail": "问题汇总的是订单级 subtotal，明细行不提供该度量。",
+          "sales.salesterritoryhistory": "记录销售人员区域分配历史，非订单区域归属，与问题无关。",
+          "sales.specialofferproduct": "促销与产品映射，与订单小计汇总无关。"
+        },
+        "pruning": {
+          "status": "completed",
+          "candidate_tables": [
+            "person.person",
+            "person.stateprovince",
+            "production.product",
+            "production.transactionhistory",
+            "production.transactionhistoryarchive",
+            "sales.customer",
+            "sales.salesorderdetail",
+            "sales.salesorderheader",
+            "sales.salesterritory",
+            "sales.salesterritoryhistory",
+            "sales.specialofferproduct"
+          ],
+          "candidate_count": 11,
+          "llm_selected_tables": [
+            "sales.salesorderheader",
+            "sales.salesterritory"
+          ],
+          "restored_bridge_tables": [],
+          "connected": true,
+          "disconnected_components": [
+            [
+              "sales.salesorderheader",
+              "sales.salesterritory"
+            ]
+          ],
+          "connectivity_note": "真实外键组件分别补全；不为互不关联的组件制造连接",
+          "column_count": 6,
+          "selector_gold_input": false
+        }
+      },
+      "result_columns": [
+        "territory_name",
+        "subtotal_sum"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

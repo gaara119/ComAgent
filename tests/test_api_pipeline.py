@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from api.main import app
 from qa_agent.config import get_settings
 from qa_agent.pipeline import chat
-from qa_agent.schemas import ChatRequest
+from qa_agent.schemas import AnswerEnvelope, ChatRequest
 
 
 class ScriptedSQL:
@@ -34,11 +34,41 @@ def test_api_rejects_empty_message():
     assert response.status_code == 422
 
 
-def test_unimplemented_routes_do_not_claim_success():
-    for route in ("auto", "hybrid"):
-        response = chat(ChatRequest(message="问题", scope={"route": route}))
-        assert response.status == "UNSUPPORTED"
-        assert response.sql is None
+def test_unsupported_cross_source_request_does_not_claim_success(monkeypatch):
+    def unexpected_execution(*args, **kwargs):
+        pytest.fail("不支持的跨源请求不得进入SQL执行链路")
+    monkeypatch.setattr("qa_agent.pipeline._sql", unexpected_execution)
+    response = chat(ChatRequest(message="问题", scope={"route": "hybrid"}))
+    assert response.status == "UNSUPPORTED"
+    assert response.sql is None
+
+
+def test_auto_single_database_scope_dispatches_without_live_model(monkeypatch):
+    received = []
+    def scripted_channel(request, trace, settings, llm):
+        received.append(request.scope)
+        return AnswerEnvelope(trace_id=trace.trace_id, status="SUCCEEDED", answer="受控SQL通道")
+    monkeypatch.setattr("qa_agent.pipeline._sql", scripted_channel)
+    response = chat(ChatRequest(message="客户有多少位？", scope={"route": "auto", "db_id": "chinook"}))
+    assert response.answer == "受控SQL通道"
+    assert len(received) == 1
+    assert received[0].route == "sql"
+    assert received[0].db_id == "chinook"
+    assert received[0].doc_ids == []
+
+
+def test_auto_single_document_scope_dispatches_without_live_model(monkeypatch):
+    received = []
+    def scripted_channel(request, trace, settings):
+        received.append(request.scope)
+        return AnswerEnvelope(trace_id=trace.trace_id, status="SUCCEEDED", answer="受控文档通道")
+    monkeypatch.setattr("qa_agent.pipeline._doc", scripted_channel)
+    response = chat(ChatRequest(message="文档怎么说？", scope={"route": "auto", "db_id": "chinook", "doc_ids": ["manual-test"]}))
+    assert response.answer == "受控文档通道"
+    assert len(received) == 1
+    assert received[0].route == "doc"
+    assert received[0].db_id is None
+    assert received[0].doc_ids == ["manual-test"]
 
 
 def test_rag_hook_not_ready_is_explicit():

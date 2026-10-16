@@ -1,0 +1,37 @@
+{
+  "id": "oct12-join-11",
+  "suite": "join",
+  "db_id": "chinook",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT SUM(l.quantity) AS purchased_quantity FROM invoice AS i JOIN invoice_line AS l ON l.invoice_id = i.invoice_id JOIN track AS t ON l.track_id = t.track_id JOIN genre AS g ON t.genre_id = g.genre_id WHERE i.billing_country = 'France' AND g.name = 'Rock'",
+  "validated_sql": "SELECT SUM(l.quantity) AS purchased_quantity FROM invoice AS i JOIN invoice_line AS l ON l.invoice_id = i.invoice_id JOIN track AS t ON l.track_id = t.track_id JOIN genre AS g ON t.genre_id = g.genre_id WHERE i.billing_country = 'France' AND g.name = 'Rock'",
+  "columns": [
+    "purchased_quantity"
+  ],
+  "column_type_oids": [
+    20
+  ],
+  "postgres_column_types": [
+    "int8"
+  ],
+  "rows": [
+    [
+      65
+    ]
+  ],
+  "table": [
+    {
+      "purchased_quantity": 65
+    }
+  ],
+  "row_count": 1,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 15.251
+}

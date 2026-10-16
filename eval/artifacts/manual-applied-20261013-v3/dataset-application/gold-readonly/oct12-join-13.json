@@ -1,0 +1,37 @@
+{
+  "id": "oct12-join-13",
+  "suite": "join",
+  "db_id": "chinook",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT COUNT(*) AS customer_count FROM customer AS c JOIN employee AS e ON c.support_rep_id = e.employee_id WHERE e.first_name = 'Jane' AND e.last_name = 'Peacock'",
+  "validated_sql": "SELECT COUNT(*) AS customer_count FROM customer AS c JOIN employee AS e ON c.support_rep_id = e.employee_id WHERE e.first_name = 'Jane' AND e.last_name = 'Peacock'",
+  "columns": [
+    "customer_count"
+  ],
+  "column_type_oids": [
+    20
+  ],
+  "postgres_column_types": [
+    "int8"
+  ],
+  "rows": [
+    [
+      21
+    ]
+  ],
+  "table": [
+    {
+      "customer_count": 21
+    }
+  ],
+  "row_count": 1,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 13.047
+}

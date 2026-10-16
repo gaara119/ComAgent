@@ -1,0 +1,38 @@
+{
+  "unexpected_excluded_tables": [
+    "humanresources.employee"
+  ],
+  "candidate_tables": [
+    "production.product",
+    "production.transactionhistory",
+    "production.transactionhistoryarchive",
+    "production.workorder",
+    "production.workorderrouting",
+    "purchasing.productvendor",
+    "purchasing.purchaseorderdetail",
+    "purchasing.purchaseorderheader",
+    "purchasing.shipmethod",
+    "purchasing.vendor"
+  ],
+  "error": {
+    "code": "pipeline_error",
+    "message": "Excluded tables must be distinct authentic unselected candidates",
+    "retryable": false
+  },
+  "selected_tables_are_authentic_candidates": true,
+  "gold_or_review_was_sent_to_system": false,
+  "gold_changed": false,
+  "actual_status": "FAILED",
+  "selected_tables": [
+    "purchasing.purchaseorderheader",
+    "purchasing.shipmethod"
+  ],
+  "scope": "Read-only diagnosis of already captured actual response, not a new prediction",
+  "recommended_treatment": "Keep strict candidate domain safety; place domain validation inside existing bounded JSON retry so an invalid exclusion cannot silently enter the plan.",
+  "provider_source": "eval/artifacts/manual-applied-20261013-v1/provider-live/668bbcf401704227b73cac13625312d7.json",
+  "id": "aw-19",
+  "failure_stage": "schema_prune domain validation before SQL generation",
+  "prompt_changed": false,
+  "provider_response_id": "c265dcd4-bf99-451c-a9c3-1e3c18adef49",
+  "code_location": "qa_agent/sql/pruner.py:114"
+}

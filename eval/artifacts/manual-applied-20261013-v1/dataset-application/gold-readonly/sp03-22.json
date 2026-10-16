@@ -1,0 +1,37 @@
+{
+  "id": "sp03-22",
+  "suite": "special",
+  "db_id": "chinook",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT CASE WHEN SUM(total) IS NULL OR SUM(total) = 0 THEN NULL ELSE SUM(total) FILTER (WHERE customer_id IN (SELECT c.customer_id FROM public.customer c WHERE c.country = 'France')) / SUM(total) END AS france_resident_share FROM public.invoice WHERE invoice_date >= DATE '2024-01-01' AND invoice_date < DATE '2025-01-01';",
+  "validated_sql": "SELECT CASE WHEN SUM(total) IS NULL OR SUM(total) = 0 THEN NULL ELSE SUM(total) FILTER(WHERE customer_id IN (SELECT c.customer_id FROM public.customer AS c WHERE c.country = 'France')) / SUM(total) END AS france_resident_share FROM public.invoice WHERE invoice_date >= CAST('2024-01-01' AS DATE) AND invoice_date < CAST('2025-01-01' AS DATE)",
+  "columns": [
+    "france_resident_share"
+  ],
+  "column_type_oids": [
+    1700
+  ],
+  "postgres_column_types": [
+    "numeric"
+  ],
+  "rows": [
+    [
+      "0.07677004586099302662"
+    ]
+  ],
+  "table": [
+    {
+      "france_resident_share": "0.07677004586099302662"
+    }
+  ],
+  "row_count": 1,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 21.97
+}

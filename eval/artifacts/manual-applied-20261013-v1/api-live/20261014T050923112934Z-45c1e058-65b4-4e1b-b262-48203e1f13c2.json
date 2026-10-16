@@ -1,0 +1,1241 @@
+{
+  "started_at_utc": "2026-10-14T05:09:14.027352+00:00",
+  "finished_at_utc": "2026-10-14T05:09:23.112934+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "reviewed-aw-2d48b28767ec4f35a20da2d2bb9069b7",
+    "message": "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。",
+    "scope": {
+      "route": "sql",
+      "db_id": "adventureworks",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "effeeb6a-07fa-44d9-96c6-f3ffbe3f4190",
+    "status": "SUCCEEDED",
+    "answer": "查询返回 5 行，详细数据见结果表。",
+    "rewritten_question": null,
+    "sql": "SELECT a.\"city\", COUNT(*) AS record_count FROM \"person\".\"address\" AS a GROUP BY a.\"city\" ORDER BY COUNT(*) DESC, a.\"city\" ASC LIMIT 5",
+    "table": [
+      {
+        "city": "London",
+        "record_count": 434
+      },
+      {
+        "city": "Paris",
+        "record_count": 398
+      },
+      {
+        "city": "Burien",
+        "record_count": 215
+      },
+      {
+        "city": "Concord",
+        "record_count": 214
+      },
+      {
+        "city": "Beaverton",
+        "record_count": 213
+      }
+    ],
+    "evidences": [],
+    "clarification": null,
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": []
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "adventureworks"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "table_count": 68,
+          "db_id": "adventureworks"
+        },
+        "latency_ms": 329
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "skipped",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "reason": "not_registered_for_db",
+          "bindings": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。"
+        },
+        "output_summary": {
+          "rewritten_question": "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L0",
+          "intent_version": 1,
+          "issues": [],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 5
+      },
+      {
+        "name": "schema_link",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "adventureworks",
+          "question": "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。"
+        },
+        "output_summary": {
+          "selected_tables": [
+            "humanresources.employee",
+            "humanresources.employeedepartmenthistory",
+            "humanresources.shift",
+            "person.address",
+            "person.addresstype",
+            "person.businessentity",
+            "person.businessentityaddress",
+            "person.emailaddress",
+            "person.person",
+            "person.personphone",
+            "person.phonenumbertype",
+            "production.location",
+            "production.product",
+            "production.productinventory",
+            "production.transactionhistoryarchive",
+            "sales.salesorderdetail",
+            "sales.salesorderheader",
+            "sales.specialofferproduct"
+          ],
+          "columns": {
+            "humanresources.employee": [
+              "businessentityid",
+              "nationalidnumber",
+              "loginid",
+              "jobtitle",
+              "birthdate",
+              "maritalstatus",
+              "gender",
+              "hiredate",
+              "salariedflag",
+              "vacationhours",
+              "sickleavehours",
+              "currentflag",
+              "rowguid",
+              "modifieddate",
+              "organizationnode"
+            ],
+            "humanresources.employeedepartmenthistory": [
+              "businessentityid",
+              "departmentid",
+              "shiftid",
+              "startdate",
+              "enddate",
+              "modifieddate"
+            ],
+            "humanresources.shift": [
+              "shiftid",
+              "name",
+              "starttime",
+              "endtime",
+              "modifieddate"
+            ],
+            "person.address": [
+              "addressid",
+              "addressline1",
+              "addressline2",
+              "city",
+              "stateprovinceid",
+              "postalcode",
+              "spatiallocation",
+              "rowguid",
+              "modifieddate"
+            ],
+            "person.addresstype": [
+              "addresstypeid",
+              "name",
+              "rowguid",
+              "modifieddate"
+            ],
+            "person.businessentity": [
+              "businessentityid",
+              "rowguid",
+              "modifieddate"
+            ],
+            "person.businessentityaddress": [
+              "businessentityid",
+              "addressid",
+              "addresstypeid",
+              "rowguid",
+              "modifieddate"
+            ],
+            "person.emailaddress": [
+              "businessentityid",
+              "emailaddressid",
+              "emailaddress",
+              "rowguid",
+              "modifieddate"
+            ],
+            "person.person": [
+              "businessentityid",
+              "persontype",
+              "namestyle",
+              "title",
+              "firstname",
+              "middlename",
+              "lastname",
+              "suffix",
+              "emailpromotion",
+              "additionalcontactinfo",
+              "demographics",
+              "rowguid",
+              "modifieddate"
+            ],
+            "person.personphone": [
+              "businessentityid",
+              "phonenumber",
+              "phonenumbertypeid",
+              "modifieddate"
+            ],
+            "person.phonenumbertype": [
+              "phonenumbertypeid",
+              "name",
+              "modifieddate"
+            ],
+            "production.location": [
+              "locationid",
+              "name",
+              "costrate",
+              "availability",
+              "modifieddate"
+            ],
+            "production.product": [
+              "productid",
+              "name",
+              "productnumber",
+              "makeflag",
+              "finishedgoodsflag",
+              "color",
+              "safetystocklevel",
+              "reorderpoint",
+              "standardcost",
+              "listprice",
+              "size",
+              "sizeunitmeasurecode",
+              "weightunitmeasurecode",
+              "weight",
+              "daystomanufacture",
+              "productline",
+              "class",
+              "style",
+              "productsubcategoryid",
+              "productmodelid",
+              "sellstartdate",
+              "sellenddate",
+              "discontinueddate",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.productinventory": [
+              "productid",
+              "locationid",
+              "shelf",
+              "bin",
+              "quantity",
+              "rowguid",
+              "modifieddate"
+            ],
+            "production.transactionhistoryarchive": [
+              "transactionid",
+              "productid",
+              "referenceorderid",
+              "referenceorderlineid",
+              "transactiondate",
+              "transactiontype",
+              "quantity",
+              "actualcost",
+              "modifieddate"
+            ],
+            "sales.salesorderdetail": [
+              "salesorderid",
+              "salesorderdetailid",
+              "carriertrackingnumber",
+              "orderqty",
+              "productid",
+              "specialofferid",
+              "unitprice",
+              "unitpricediscount",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.salesorderheader": [
+              "salesorderid",
+              "revisionnumber",
+              "orderdate",
+              "duedate",
+              "shipdate",
+              "status",
+              "onlineorderflag",
+              "purchaseordernumber",
+              "accountnumber",
+              "customerid",
+              "salespersonid",
+              "territoryid",
+              "billtoaddressid",
+              "shiptoaddressid",
+              "shipmethodid",
+              "creditcardid",
+              "creditcardapprovalcode",
+              "currencyrateid",
+              "subtotal",
+              "taxamt",
+              "freight",
+              "totaldue",
+              "comment",
+              "rowguid",
+              "modifieddate"
+            ],
+            "sales.specialofferproduct": [
+              "specialofferid",
+              "productid",
+              "rowguid",
+              "modifieddate"
+            ]
+          },
+          "join_paths": [
+            {
+              "source_table": "humanresources.employeedepartmenthistory",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "humanresources.employee",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "humanresources.employee",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "person.person",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "humanresources.employeedepartmenthistory",
+              "source_columns": [
+                "shiftid"
+              ],
+              "target_table": "humanresources.shift",
+              "target_columns": [
+                "shiftid"
+              ]
+            },
+            {
+              "source_table": "person.businessentityaddress",
+              "source_columns": [
+                "addressid"
+              ],
+              "target_table": "person.address",
+              "target_columns": [
+                "addressid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "billtoaddressid"
+              ],
+              "target_table": "person.address",
+              "target_columns": [
+                "addressid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderheader",
+              "source_columns": [
+                "shiptoaddressid"
+              ],
+              "target_table": "person.address",
+              "target_columns": [
+                "addressid"
+              ]
+            },
+            {
+              "source_table": "person.businessentityaddress",
+              "source_columns": [
+                "addresstypeid"
+              ],
+              "target_table": "person.addresstype",
+              "target_columns": [
+                "addresstypeid"
+              ]
+            },
+            {
+              "source_table": "person.businessentityaddress",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "person.businessentity",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "person.person",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "person.businessentity",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "person.emailaddress",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "person.person",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "person.personphone",
+              "source_columns": [
+                "businessentityid"
+              ],
+              "target_table": "person.person",
+              "target_columns": [
+                "businessentityid"
+              ]
+            },
+            {
+              "source_table": "person.personphone",
+              "source_columns": [
+                "phonenumbertypeid"
+              ],
+              "target_table": "person.phonenumbertype",
+              "target_columns": [
+                "phonenumbertypeid"
+              ]
+            },
+            {
+              "source_table": "production.productinventory",
+              "source_columns": [
+                "locationid"
+              ],
+              "target_table": "production.location",
+              "target_columns": [
+                "locationid"
+              ]
+            },
+            {
+              "source_table": "production.productinventory",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderdetail",
+              "source_columns": [
+                "salesorderid"
+              ],
+              "target_table": "sales.salesorderheader",
+              "target_columns": [
+                "salesorderid"
+              ]
+            },
+            {
+              "source_table": "sales.specialofferproduct",
+              "source_columns": [
+                "productid"
+              ],
+              "target_table": "production.product",
+              "target_columns": [
+                "productid"
+              ]
+            },
+            {
+              "source_table": "sales.salesorderdetail",
+              "source_columns": [
+                "specialofferid",
+                "productid"
+              ],
+              "target_table": "sales.specialofferproduct",
+              "target_columns": [
+                "specialofferid",
+                "productid"
+              ]
+            }
+          ],
+          "reasons": {
+            "humanresources.employee": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "humanresources.employeedepartmenthistory": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "humanresources.shift": [
+              "表描述向量召回第 8 位"
+            ],
+            "person.address": [
+              "表描述向量召回第 1 位",
+              "列描述 Top-20 投票：9 列"
+            ],
+            "person.addresstype": [
+              "表描述向量召回第 2 位",
+              "列描述 Top-20 投票：4 列"
+            ],
+            "person.businessentity": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "person.businessentityaddress": [
+              "表描述向量召回第 3 位",
+              "列描述 Top-20 投票：5 列"
+            ],
+            "person.emailaddress": [
+              "表描述向量召回第 5 位"
+            ],
+            "person.person": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "person.personphone": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "person.phonenumbertype": [
+              "表描述向量召回第 7 位"
+            ],
+            "production.location": [
+              "表描述向量召回第 6 位"
+            ],
+            "production.product": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "production.productinventory": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "production.transactionhistoryarchive": [
+              "表描述向量召回第 4 位",
+              "列描述 Top-20 投票：2 列"
+            ],
+            "sales.salesorderdetail": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "sales.salesorderheader": [
+              "真实外键图 Steiner 补全的桥接表"
+            ],
+            "sales.specialofferproduct": [
+              "真实外键图 Steiner 补全的桥接表"
+            ]
+          },
+          "table_recall": [
+            "person.address",
+            "person.addresstype",
+            "person.businessentityaddress",
+            "production.transactionhistoryarchive",
+            "person.emailaddress",
+            "production.location",
+            "person.phonenumbertype",
+            "humanresources.shift"
+          ],
+          "column_recall": [
+            "person.address.city",
+            "person.address.addressline1",
+            "person.address.modifieddate",
+            "person.address.addressline2",
+            "person.address.stateprovinceid",
+            "person.address.spatiallocation",
+            "person.address.addressid",
+            "person.addresstype.name",
+            "person.address.postalcode",
+            "person.businessentityaddress.modifieddate",
+            "person.addresstype.addresstypeid",
+            "person.address.rowguid",
+            "person.businessentityaddress.addressid",
+            "person.businessentityaddress.addresstypeid",
+            "production.transactionhistoryarchive.referenceorderlineid",
+            "person.addresstype.modifieddate",
+            "production.transactionhistoryarchive.referenceorderid",
+            "person.businessentityaddress.businessentityid",
+            "person.businessentityaddress.rowguid",
+            "person.addresstype.rowguid"
+          ],
+          "value_recall": [],
+          "terminal_tables": [
+            "person.address",
+            "person.addresstype",
+            "person.businessentityaddress",
+            "production.transactionhistoryarchive",
+            "person.emailaddress",
+            "production.location",
+            "person.phonenumbertype",
+            "humanresources.shift"
+          ],
+          "bridge_tables": [
+            "humanresources.employee",
+            "humanresources.employeedepartmenthistory",
+            "person.businessentity",
+            "person.person",
+            "person.personphone",
+            "production.product",
+            "production.productinventory",
+            "sales.salesorderdetail",
+            "sales.salesorderheader",
+            "sales.specialofferproduct"
+          ],
+          "disconnected_components": [
+            [
+              "humanresources.shift",
+              "person.address",
+              "person.addresstype",
+              "person.businessentityaddress",
+              "person.emailaddress",
+              "person.phonenumbertype",
+              "production.location"
+            ],
+            [
+              "production.transactionhistoryarchive"
+            ]
+          ],
+          "scores": {
+            "person.address": 0.03278688524590164,
+            "person.addresstype": 0.03200204813108039,
+            "person.businessentityaddress": 0.03200204813108039,
+            "production.transactionhistoryarchive": 0.03125,
+            "person.emailaddress": 0.015384615384615385,
+            "production.location": 0.015151515151515152,
+            "person.phonenumbertype": 0.014925373134328358,
+            "humanresources.shift": 0.014705882352941176
+          },
+          "query_facets": [
+            "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。"
+          ],
+          "per_query_recall": [
+            {
+              "query": "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。",
+              "table_top": [
+                "person.address",
+                "person.addresstype",
+                "person.businessentityaddress",
+                "production.transactionhistoryarchive",
+                "person.emailaddress",
+                "production.location",
+                "person.phonenumbertype",
+                "humanresources.shift"
+              ],
+              "column_top": [
+                "person.address.city",
+                "person.address.addressline1",
+                "person.address.modifieddate",
+                "person.address.addressline2",
+                "person.address.stateprovinceid",
+                "person.address.spatiallocation",
+                "person.address.addressid",
+                "person.addresstype.name",
+                "person.address.postalcode",
+                "person.businessentityaddress.modifieddate",
+                "person.addresstype.addresstypeid",
+                "person.address.rowguid",
+                "person.businessentityaddress.addressid",
+                "person.businessentityaddress.addresstypeid",
+                "production.transactionhistoryarchive.referenceorderlineid",
+                "person.addresstype.modifieddate",
+                "production.transactionhistoryarchive.referenceorderid",
+                "person.businessentityaddress.businessentityid",
+                "person.businessentityaddress.rowguid",
+                "person.addresstype.rowguid"
+              ]
+            }
+          ],
+          "excluded_tables": {},
+          "pruning": {}
+        },
+        "latency_ms": 33
+      },
+      {
+        "name": "schema_prune",
+        "status": "ok",
+        "input_summary": {
+          "candidate_count": 12
+        },
+        "output_summary": {
+          "selected_tables": [
+            "person.address"
+          ],
+          "columns": {
+            "person.address": [
+              "addressid",
+              "city"
+            ]
+          },
+          "join_paths": [],
+          "reasons": {
+            "person.address": [
+              "地址档案所在表，按城市分组统计地址记录数并返回城市名。"
+            ]
+          },
+          "table_recall": [
+            "person.address",
+            "person.addresstype",
+            "person.businessentityaddress",
+            "production.transactionhistoryarchive",
+            "person.emailaddress",
+            "production.location",
+            "person.phonenumbertype",
+            "humanresources.shift"
+          ],
+          "column_recall": [
+            "person.address.city",
+            "person.address.addressline1",
+            "person.address.modifieddate",
+            "person.address.addressline2",
+            "person.address.stateprovinceid",
+            "person.address.spatiallocation",
+            "person.address.addressid",
+            "person.addresstype.name",
+            "person.address.postalcode",
+            "person.businessentityaddress.modifieddate",
+            "person.addresstype.addresstypeid",
+            "person.address.rowguid",
+            "person.businessentityaddress.addressid",
+            "person.businessentityaddress.addresstypeid",
+            "production.transactionhistoryarchive.referenceorderlineid",
+            "person.addresstype.modifieddate",
+            "production.transactionhistoryarchive.referenceorderid",
+            "person.businessentityaddress.businessentityid",
+            "person.businessentityaddress.rowguid",
+            "person.addresstype.rowguid"
+          ],
+          "value_recall": [],
+          "terminal_tables": [
+            "person.address"
+          ],
+          "bridge_tables": [],
+          "disconnected_components": [
+            [
+              "person.address"
+            ]
+          ],
+          "scores": {
+            "person.address": 0.03278688524590164,
+            "person.addresstype": 0.03200204813108039,
+            "person.businessentityaddress": 0.03200204813108039,
+            "production.transactionhistoryarchive": 0.03125,
+            "person.emailaddress": 0.015384615384615385,
+            "production.location": 0.015151515151515152,
+            "person.phonenumbertype": 0.014925373134328358,
+            "humanresources.shift": 0.014705882352941176
+          },
+          "query_facets": [
+            "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。"
+          ],
+          "per_query_recall": [
+            {
+              "query": "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。",
+              "table_top": [
+                "person.address",
+                "person.addresstype",
+                "person.businessentityaddress",
+                "production.transactionhistoryarchive",
+                "person.emailaddress",
+                "production.location",
+                "person.phonenumbertype",
+                "humanresources.shift"
+              ],
+              "column_top": [
+                "person.address.city",
+                "person.address.addressline1",
+                "person.address.modifieddate",
+                "person.address.addressline2",
+                "person.address.stateprovinceid",
+                "person.address.spatiallocation",
+                "person.address.addressid",
+                "person.addresstype.name",
+                "person.address.postalcode",
+                "person.businessentityaddress.modifieddate",
+                "person.addresstype.addresstypeid",
+                "person.address.rowguid",
+                "person.businessentityaddress.addressid",
+                "person.businessentityaddress.addresstypeid",
+                "production.transactionhistoryarchive.referenceorderlineid",
+                "person.addresstype.modifieddate",
+                "production.transactionhistoryarchive.referenceorderid",
+                "person.businessentityaddress.businessentityid",
+                "person.businessentityaddress.rowguid",
+                "person.addresstype.rowguid"
+              ]
+            }
+          ],
+          "excluded_tables": {
+            "humanresources.employee": "员工人事档案表，与地址档案城市统计无关。",
+            "humanresources.employeedepartmenthistory": "员工部门任职历史表，与地址统计无关。",
+            "humanresources.shift": "班次字典表，与地址统计无关。",
+            "person.addresstype": "地址类型字典表，不承载城市与地址记录计数。",
+            "person.businessentity": "业务实体基础表，与按城市统计地址无关。",
+            "person.businessentityaddress": "地址分配关联表，问题要求地址档案本身的城市记录数，无需按业务实体展开。",
+            "person.emailaddress": "电子邮件记录表，与地址城市统计无关。",
+            "person.person": "人员姓名与人口统计表，与地址城市统计无关。",
+            "person.personphone": "人员电话表，与地址城市统计无关。",
+            "person.phonenumbertype": "电话号码类型字典表，与地址统计无关。",
+            "production.location": "候选超过12表预算，未进入模型剪枝输入",
+            "production.product": "候选超过12表预算，未进入模型剪枝输入",
+            "production.productinventory": "候选超过12表预算，未进入模型剪枝输入",
+            "production.transactionhistoryarchive": "交易历史归档表，与地址城市统计无关。",
+            "sales.salesorderdetail": "候选超过12表预算，未进入模型剪枝输入",
+            "sales.salesorderheader": "候选超过12表预算，未进入模型剪枝输入",
+            "sales.specialofferproduct": "候选超过12表预算，未进入模型剪枝输入"
+          },
+          "pruning": {
+            "status": "completed",
+            "candidate_tables": [
+              "humanresources.employee",
+              "humanresources.employeedepartmenthistory",
+              "humanresources.shift",
+              "person.address",
+              "person.addresstype",
+              "person.businessentity",
+              "person.businessentityaddress",
+              "person.emailaddress",
+              "person.person",
+              "person.personphone",
+              "person.phonenumbertype",
+              "production.transactionhistoryarchive"
+            ],
+            "candidate_count": 12,
+            "llm_selected_tables": [
+              "person.address"
+            ],
+            "restored_bridge_tables": [],
+            "connected": true,
+            "disconnected_components": [
+              [
+                "person.address"
+              ]
+            ],
+            "connectivity_note": "真实外键组件分别补全；不为互不关联的组件制造连接",
+            "column_count": 2,
+            "selector_gold_input": false
+          }
+        },
+        "latency_ms": 5025
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/24dc82a354c847d7b5b73b744b37f2d2.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 245,
+            "prompt_tokens": 7630,
+            "total_tokens": 7875,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 256
+            },
+            "prompt_cache_hit_tokens": 256,
+            "prompt_cache_miss_tokens": 7374
+          },
+          "json_valid": true
+        },
+        "latency_ms": 4075
+      },
+      {
+        "name": "sql_gen",
+        "status": "ok",
+        "input_summary": {
+          "question": "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。",
+          "repair_attempt": 0,
+          "db_id": "adventureworks",
+          "allow_joins": true
+        },
+        "output_summary": {
+          "sql": "SELECT a.\"city\", COUNT(*) AS record_count FROM \"person\".\"address\" AS a GROUP BY a.\"city\" ORDER BY COUNT(*) DESC, a.\"city\" ASC LIMIT 5",
+          "explanation": "统计地址档案中每个城市的地址记录数，按记录数降序、城市名升序排序，取前五名。"
+        },
+        "latency_ms": 3638
+      },
+      {
+        "name": "llm",
+        "status": "ok",
+        "input_summary": {
+          "attempt": 1,
+          "model": "deepseek-flash"
+        },
+        "output_summary": {
+          "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/69acb2ca39234f98a627c8e5733e2736.json",
+          "model": "deepseek-flash",
+          "usage": {
+            "completion_tokens": 92,
+            "prompt_tokens": 2112,
+            "total_tokens": 2204,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": null,
+              "cached_tokens": 1536
+            },
+            "prompt_cache_hit_tokens": 1536,
+            "prompt_cache_miss_tokens": 576
+          },
+          "json_valid": true
+        },
+        "latency_ms": 2688
+      },
+      {
+        "name": "sql_validate",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT a.\"city\", COUNT(*) AS record_count FROM \"person\".\"address\" AS a GROUP BY a.\"city\" ORDER BY COUNT(*) DESC, a.\"city\" ASC LIMIT 5"
+        },
+        "output_summary": {
+          "tables": [
+            "person.address"
+          ],
+          "default_limit_added": false,
+          "sql": "SELECT a.\"city\", COUNT(*) AS record_count FROM \"person\".\"address\" AS a GROUP BY a.\"city\" ORDER BY COUNT(*) DESC, a.\"city\" ASC LIMIT 5"
+        },
+        "latency_ms": 1
+      },
+      {
+        "name": "sql_binding_validate",
+        "status": "ok",
+        "input_summary": {
+          "binding_count": 0
+        },
+        "output_summary": {
+          "verified": true,
+          "bindings": [],
+          "mode": "qualified_ast_mandatory_filters"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "sql_exec",
+        "status": "ok",
+        "input_summary": {
+          "sql": "SELECT a.\"city\", COUNT(*) AS record_count FROM \"person\".\"address\" AS a GROUP BY a.\"city\" ORDER BY COUNT(*) DESC, a.\"city\" ASC LIMIT 5",
+          "db_id": "adventureworks"
+        },
+        "output_summary": {
+          "row_count": 5,
+          "columns": [
+            "city",
+            "record_count"
+          ],
+          "truncated": false
+        },
+        "latency_ms": 41
+      },
+      {
+        "name": "answer",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "status": "SUCCEEDED",
+          "summary_source": "database_result_template"
+        },
+        "latency_ms": 0
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "adventureworks",
+      "latency_ms": 9083,
+      "nlu": {
+        "original_question": "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。",
+        "rewritten_question": "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。",
+        "mentions": [],
+        "bindings": [],
+        "patches": [],
+        "index_status": "not_registered_for_db"
+      },
+      "aw_schema_mode": "subgraph",
+      "clarify": {
+        "level": "L0",
+        "intent_version": 1,
+        "state": "ANSWERED",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "semantic_contract": {
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": null,
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {}
+        },
+        "patch_history": [],
+        "invalidated_execution": [],
+        "switch": null
+      },
+      "schema_linker": {
+        "selected_tables": [
+          "person.address"
+        ],
+        "columns": {
+          "person.address": [
+            "addressid",
+            "city"
+          ]
+        },
+        "join_paths": [],
+        "reasons": {
+          "person.address": [
+            "地址档案所在表，按城市分组统计地址记录数并返回城市名。"
+          ]
+        },
+        "table_recall": [
+          "person.address",
+          "person.addresstype",
+          "person.businessentityaddress",
+          "production.transactionhistoryarchive",
+          "person.emailaddress",
+          "production.location",
+          "person.phonenumbertype",
+          "humanresources.shift"
+        ],
+        "column_recall": [
+          "person.address.city",
+          "person.address.addressline1",
+          "person.address.modifieddate",
+          "person.address.addressline2",
+          "person.address.stateprovinceid",
+          "person.address.spatiallocation",
+          "person.address.addressid",
+          "person.addresstype.name",
+          "person.address.postalcode",
+          "person.businessentityaddress.modifieddate",
+          "person.addresstype.addresstypeid",
+          "person.address.rowguid",
+          "person.businessentityaddress.addressid",
+          "person.businessentityaddress.addresstypeid",
+          "production.transactionhistoryarchive.referenceorderlineid",
+          "person.addresstype.modifieddate",
+          "production.transactionhistoryarchive.referenceorderid",
+          "person.businessentityaddress.businessentityid",
+          "person.businessentityaddress.rowguid",
+          "person.addresstype.rowguid"
+        ],
+        "value_recall": [],
+        "terminal_tables": [
+          "person.address"
+        ],
+        "bridge_tables": [],
+        "disconnected_components": [
+          [
+            "person.address"
+          ]
+        ],
+        "scores": {
+          "person.address": 0.03278688524590164,
+          "person.addresstype": 0.03200204813108039,
+          "person.businessentityaddress": 0.03200204813108039,
+          "production.transactionhistoryarchive": 0.03125,
+          "person.emailaddress": 0.015384615384615385,
+          "production.location": 0.015151515151515152,
+          "person.phonenumbertype": 0.014925373134328358,
+          "humanresources.shift": 0.014705882352941176
+        },
+        "query_facets": [
+          "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。"
+        ],
+        "per_query_recall": [
+          {
+            "query": "地址档案中，地址记录最多的前五个城市分别是哪几个？返回城市和记录数，按记录数降序、城市名升序。",
+            "table_top": [
+              "person.address",
+              "person.addresstype",
+              "person.businessentityaddress",
+              "production.transactionhistoryarchive",
+              "person.emailaddress",
+              "production.location",
+              "person.phonenumbertype",
+              "humanresources.shift"
+            ],
+            "column_top": [
+              "person.address.city",
+              "person.address.addressline1",
+              "person.address.modifieddate",
+              "person.address.addressline2",
+              "person.address.stateprovinceid",
+              "person.address.spatiallocation",
+              "person.address.addressid",
+              "person.addresstype.name",
+              "person.address.postalcode",
+              "person.businessentityaddress.modifieddate",
+              "person.addresstype.addresstypeid",
+              "person.address.rowguid",
+              "person.businessentityaddress.addressid",
+              "person.businessentityaddress.addresstypeid",
+              "production.transactionhistoryarchive.referenceorderlineid",
+              "person.addresstype.modifieddate",
+              "production.transactionhistoryarchive.referenceorderid",
+              "person.businessentityaddress.businessentityid",
+              "person.businessentityaddress.rowguid",
+              "person.addresstype.rowguid"
+            ]
+          }
+        ],
+        "excluded_tables": {
+          "humanresources.employee": "员工人事档案表，与地址档案城市统计无关。",
+          "humanresources.employeedepartmenthistory": "员工部门任职历史表，与地址统计无关。",
+          "humanresources.shift": "班次字典表，与地址统计无关。",
+          "person.addresstype": "地址类型字典表，不承载城市与地址记录计数。",
+          "person.businessentity": "业务实体基础表，与按城市统计地址无关。",
+          "person.businessentityaddress": "地址分配关联表，问题要求地址档案本身的城市记录数，无需按业务实体展开。",
+          "person.emailaddress": "电子邮件记录表，与地址城市统计无关。",
+          "person.person": "人员姓名与人口统计表，与地址城市统计无关。",
+          "person.personphone": "人员电话表，与地址城市统计无关。",
+          "person.phonenumbertype": "电话号码类型字典表，与地址统计无关。",
+          "production.location": "候选超过12表预算，未进入模型剪枝输入",
+          "production.product": "候选超过12表预算，未进入模型剪枝输入",
+          "production.productinventory": "候选超过12表预算，未进入模型剪枝输入",
+          "production.transactionhistoryarchive": "交易历史归档表，与地址城市统计无关。",
+          "sales.salesorderdetail": "候选超过12表预算，未进入模型剪枝输入",
+          "sales.salesorderheader": "候选超过12表预算，未进入模型剪枝输入",
+          "sales.specialofferproduct": "候选超过12表预算，未进入模型剪枝输入"
+        },
+        "pruning": {
+          "status": "completed",
+          "candidate_tables": [
+            "humanresources.employee",
+            "humanresources.employeedepartmenthistory",
+            "humanresources.shift",
+            "person.address",
+            "person.addresstype",
+            "person.businessentity",
+            "person.businessentityaddress",
+            "person.emailaddress",
+            "person.person",
+            "person.personphone",
+            "person.phonenumbertype",
+            "production.transactionhistoryarchive"
+          ],
+          "candidate_count": 12,
+          "llm_selected_tables": [
+            "person.address"
+          ],
+          "restored_bridge_tables": [],
+          "connected": true,
+          "disconnected_components": [
+            [
+              "person.address"
+            ]
+          ],
+          "connectivity_note": "真实外键组件分别补全；不为互不关联的组件制造连接",
+          "column_count": 2,
+          "selector_gold_input": false
+        }
+      },
+      "result_columns": [
+        "city",
+        "record_count"
+      ],
+      "truncated": false,
+      "result_format": {}
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

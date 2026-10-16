@@ -1,0 +1,87 @@
+{
+  "id": "oct12-join-14",
+  "suite": "join",
+  "db_id": "chinook",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT m.media_type_id, m.name, COUNT(t.track_id) AS track_count FROM media_type AS m LEFT JOIN track AS t ON t.media_type_id = m.media_type_id GROUP BY m.media_type_id, m.name ORDER BY m.media_type_id ASC LIMIT 200",
+  "validated_sql": "SELECT m.media_type_id, m.name, COUNT(t.track_id) AS track_count FROM media_type AS m LEFT JOIN track AS t ON t.media_type_id = m.media_type_id GROUP BY m.media_type_id, m.name ORDER BY m.media_type_id ASC LIMIT 200",
+  "columns": [
+    "media_type_id",
+    "name",
+    "track_count"
+  ],
+  "column_type_oids": [
+    23,
+    1043,
+    20
+  ],
+  "postgres_column_types": [
+    "int4",
+    "varchar",
+    "int8"
+  ],
+  "rows": [
+    [
+      1,
+      "MPEG audio file",
+      3034
+    ],
+    [
+      2,
+      "Protected AAC audio file",
+      237
+    ],
+    [
+      3,
+      "Protected MPEG-4 video file",
+      214
+    ],
+    [
+      4,
+      "Purchased AAC audio file",
+      7
+    ],
+    [
+      5,
+      "AAC audio file",
+      11
+    ]
+  ],
+  "table": [
+    {
+      "media_type_id": 1,
+      "name": "MPEG audio file",
+      "track_count": 3034
+    },
+    {
+      "media_type_id": 2,
+      "name": "Protected AAC audio file",
+      "track_count": 237
+    },
+    {
+      "media_type_id": 3,
+      "name": "Protected MPEG-4 video file",
+      "track_count": 214
+    },
+    {
+      "media_type_id": 4,
+      "name": "Purchased AAC audio file",
+      "track_count": 7
+    },
+    {
+      "media_type_id": 5,
+      "name": "AAC audio file",
+      "track_count": 11
+    }
+  ],
+  "row_count": 5,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 27.098
+}

@@ -1,0 +1,632 @@
+{
+  "id": "sp03-28",
+  "family_id": "special-fam-30-l2-region-semantics-and-multi-candidate-artist",
+  "task": "03",
+  "category": "L2",
+  "input": "2022年金属乐队的销售额是多少？",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "clarify_artist_name_only; no automatic alias binding and no invented country question",
+  "allowed_interpretations": [
+    {
+      "stage": "initial_request",
+      "missing_conditions": [
+        "object"
+      ],
+      "no_initial_sql_execution": true
+    },
+    {
+      "stage": "after_explicit_supplement",
+      "intent": {
+        "task_type": "aggregate",
+        "metric": "detail_revenue",
+        "object": {
+          "object_type": "artist",
+          "name": "Metallica"
+        },
+        "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+        "time_scope": {
+          "start": "2022-01-01",
+          "end_exclusive": "2023-01-01"
+        },
+        "region_scope": "none"
+      }
+    }
+  ],
+  "expected_bindings": [],
+  "missing_conditions": [
+    "object"
+  ],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n完整“金属乐队”与裸词“金属”不可混审。本题没有国家条件，旧标签要求再确认客户国/账单国无依据；乐队明确后按明细收入统计。完整中文名的条件直接绑定需按授权落实，不能把现candidate状态当成已启用。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n"
+  ],
+  "reference_intent": {
+    "task_type": "aggregate",
+    "metric": "detail_revenue",
+    "object": null,
+    "time_scope": {
+      "start": "2022-01-01",
+      "end_exclusive": "2023-01-01"
+    },
+    "region_scope": null
+  },
+  "gold_sql": "SELECT SUM(il.unit_price * il.quantity) AS artist_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.album al ON t.album_id = al.album_id JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE ar.name = 'Metallica' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+  "controller": {
+    "hidden_goal": "计算2022年艺术家 Metallica 的曲目明细销售额，口径为 SUM(invoice_line.unit_price*quantity)，按 invoice_date 左闭右开过滤；不因 JOIN 重复累加发票总额。",
+    "allowed_user_supplements": {
+      "object": {
+        "answer": "是艺术家 Metallica。",
+        "value": {
+          "column": "artist.name",
+          "value": "Metallica"
+        }
+      },
+      "artist_or_genre": {
+        "answer": "Metallica 这个乐队。",
+        "value": {
+          "column": "artist.name",
+          "value": "Metallica"
+        }
+      }
+    },
+    "final_intent": {
+      "task_type": "aggregate",
+      "metric": "detail_revenue",
+      "object": {
+        "object_type": "artist",
+        "name": "Metallica"
+      },
+      "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+      "time_scope": {
+        "start": "2022-01-01",
+        "end_exclusive": "2023-01-01"
+      },
+      "region_scope": "none"
+    },
+    "expected_state_changes": [
+      "User explicitly selects artist.name=Metallica",
+      "keep 2022 and no country filter",
+      "reuse detail revenue grain"
+    ],
+    "max_clarification_followups": 3,
+    "post_completion_turns": [
+      {
+        "message": "改成流派 Metal。",
+        "expected_intent": {
+          "task_type": "aggregate",
+          "metric": "detail_revenue",
+          "object": {
+            "object_type": "genre",
+            "name": "Metal"
+          },
+          "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+          "time_scope": {
+            "start": "2022-01-01",
+            "end_exclusive": "2023-01-01"
+          },
+          "region_scope": "none"
+        },
+        "gold_sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+        "gold_result": {
+          "columns": [
+            "genre_revenue"
+          ],
+          "rows": [
+            [
+              "53.46"
+            ]
+          ],
+          "table": [
+            {
+              "genre_revenue": "53.46"
+            }
+          ],
+          "row_count": 1,
+          "truncated": false
+        },
+        "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-28-post-01.json"
+      },
+      {
+        "message": "期间改成2023年，限定账单国为德国。",
+        "expected_intent": {
+          "task_type": "aggregate",
+          "metric": "detail_revenue",
+          "object": {
+            "object_type": "genre",
+            "name": "Metal"
+          },
+          "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+          "time_scope": {
+            "start": "2023-01-01",
+            "end_exclusive": "2024-01-01"
+          },
+          "region_scope": {
+            "column": "invoice.billing_country",
+            "value": "Germany"
+          }
+        },
+        "gold_sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' AND i.billing_country = 'Germany';",
+        "gold_result": {
+          "columns": [
+            "genre_revenue"
+          ],
+          "rows": [
+            [
+              "5.94"
+            ]
+          ],
+          "table": [
+            {
+              "genre_revenue": "5.94"
+            }
+          ],
+          "row_count": 1,
+          "truncated": false
+        },
+        "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-28-post-02.json"
+      }
+    ]
+  },
+  "case_style": "澄清后多轮修改",
+  "secondary_tags": [
+    "multi_candidate",
+    "alias_candidate",
+    "residence_vs_billing",
+    "detail_revenue",
+    "multi_turn_change"
+  ],
+  "generation_call_id": "generate-03-expansion-04",
+  "generation_stage": "expansion",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "ai_suggested_pass_two_contexts",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "gold_result": {
+    "columns": [
+      "artist_revenue"
+    ],
+    "rows": [
+      [
+        "22.77"
+      ]
+    ],
+    "table": [
+      {
+        "artist_revenue": "22.77"
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "auto_status": "passed",
+  "auto_issues": [],
+  "dataset_version": "manual-applied-20261013-v3",
+  "raw_expected_bindings": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": "half-open-range",
+      "value": [
+        "2022-01-01",
+        "2023-01-01"
+      ]
+    },
+    {
+      "column": "invoice_line.unit_price * invoice_line.quantity",
+      "operator": "SUM",
+      "value": "object_from_clarification"
+    }
+  ],
+  "expected_predicates": [],
+  "expected_aggregations": [
+    {
+      "column": "invoice_line.unit_price * invoice_line.quantity",
+      "operator": "SUM",
+      "value": "object_from_clarification"
+    }
+  ],
+  "expected_unresolved_constraints": [
+    {
+      "column": "invoice.invoice_date",
+      "operator": "half-open-range",
+      "value": [
+        "2022-01-01",
+        "2023-01-01"
+      ]
+    }
+  ],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "task_type": "aggregate",
+    "metric": "detail_revenue",
+    "object": {
+      "object_type": "artist",
+      "name": "Metallica"
+    },
+    "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+    "time_scope": {
+      "start": "2022-01-01",
+      "end_exclusive": "2023-01-01"
+    },
+    "region_scope": "none"
+  },
+  "scorable": true,
+  "final_source_guard_issues": [],
+  "review_label": "具体乐队名／有条件别名策略待接入",
+  "review_label_tags": [
+    "具体乐队名",
+    "有条件别名策略待接入"
+  ],
+  "canonical_input": "2022年金属乐队的销售额是多少？",
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      "object=artist:Metallica，金额=明细 SUM(unit_price*quantity)",
+      "object=artist:Metallica，地区限定=客户居住国还是账单国未定",
+      "object=genre:Metal，金额=明细 SUM(unit_price*quantity)"
+    ],
+    "business_basis": [
+      "aliases: Iron Maiden/Led Zeppelin/Metallica/U2 均为 approved_candidate，不可自动唯一绑定；Metal 与 Metallic 在 artist.name 与 genre.name 上均有候选",
+      "approved_proposal: 曲目或艺术家粒度用明细 SUM(unit_price*quantity)，JOIN 后不可重复发票总额",
+      "general.region: customer.country 为客户居住地，invoice.billing_country 为账单国，语义不可合并"
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp03-28",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "输入“2022年金属乐队的销售额是多少？”存在对象多候选：artist.name 的 Metallica 与 genre.name 的 Metal 在别名/候选关系中均有 approved_candidate 或候选，且“金属乐队”不能自动唯一绑定；同时若按艺术家还需区分客户居住国还是账单国，地区语义未定。属于 multi_candidate_value 和对象歧义，L2 暂停澄清正确。gold_sql 针对 artist Metallica 使用明细 SUM(unit_price*quantity)，join invoice 过滤 invoice_date 左闭右开，不重复发票总额，符合“曲目/艺术家粒度用明细”口径。controller 的补充确认对象为 artist Metallica、地区 none，post_completion_turns 分别切换 genre Metal 与 2023 年账单国德国，均保留并按新对象更新 SQL。",
+        "evidence": [
+          "input: 2022年金属乐队的销售额是多少？",
+          "approved_aliases_and_candidate_relations: Metallica 与 Metal 均有 candidate 记录；approved_candidate 不能自动唯一绑定",
+          "approved_proposal: 曲目或艺术家粒度用明细 SUM(unit_price*quantity)，JOIN 后不可重复发票总额",
+          "general.region: customer.country 与 invoice.billing_country 语义不合并",
+          "gold_sql: SELECT SUM(il.unit_price * il.quantity) ... WHERE ar.name = 'Metallica' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+          "actual_program_checks.sp03-28: final/post_completion SQL 均 executed_readonly"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      },
+      {
+        "id": "sp03-28",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "“金属乐队”同时存在 artist.name 的 Metallica 候选与 genre.name 的 Metal 候选（Metal 亦为 approved_candidate，Rock And Roll 另有同词），multi_candidate 不确定，不能自动绑定；对象缺失判 L2 正确。期间 2022 已给，只追问对象语义与可选地区列。final_intent 取 artist:Metallica 是澄清后答案，控制器也可接受 genre/region_column，未把候选当唯一规则。gold_sql 用明细 SUM(unit_price*quantity)，按要求未在 JOIN 后累加 invoice.total；invoice_date 半开区间过滤正确；artist/genre 多轮 SQL 语义分别对。",
+        "evidence": [
+          "cases[sp03-28].expected_behavior 多候选未定",
+          "approved_aliases_and_candidate_relations 中 Metal/Metallica approved_candidate",
+          "approved_proposal 明细口径与不可重复发票总额",
+          "sp03-28.gold_sql JOIN artist 明细 SUM"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      }
+    ],
+    "original_operational_reference": {
+      "reference_intent": {
+        "task_type": "aggregate",
+        "metric": "detail_revenue",
+        "object": null,
+        "time_scope": {
+          "start": "2022-01-01",
+          "end_exclusive": "2023-01-01"
+        },
+        "region_scope": null
+      },
+      "expected_final_intent": {
+        "task_type": "aggregate",
+        "metric": "detail_revenue",
+        "object": {
+          "object_type": "artist",
+          "name": "Metallica"
+        },
+        "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+        "time_scope": {
+          "start": "2022-01-01",
+          "end_exclusive": "2023-01-01"
+        },
+        "region_scope": "none"
+      },
+      "expected_bindings": [],
+      "raw_expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": "half-open-range",
+          "value": [
+            "2022-01-01",
+            "2023-01-01"
+          ]
+        },
+        {
+          "column": "invoice_line.unit_price * invoice_line.quantity",
+          "operator": "SUM",
+          "value": "object_from_clarification"
+        }
+      ],
+      "expected_predicates": [],
+      "expected_unresolved_constraints": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": "half-open-range",
+          "value": [
+            "2022-01-01",
+            "2023-01-01"
+          ]
+        }
+      ],
+      "controller": {
+        "hidden_goal": "计算2022年艺术家 Metallica 的曲目明细销售额，口径为 SUM(invoice_line.unit_price*quantity)，按 invoice_date 左闭右开过滤；不因 JOIN 重复累加发票总额。",
+        "allowed_user_supplements": {
+          "object": {
+            "answer": "是艺术家 Metallica。",
+            "value": {
+              "object_type": "artist",
+              "name": "Metallica"
+            }
+          },
+          "artist_or_genre": {
+            "answer": "Metallica 这个乐队。",
+            "value": {
+              "object_type": "artist",
+              "name": "Metallica"
+            }
+          },
+          "region_scope": {
+            "answer": "不限定地区，全库即可。",
+            "value": {
+              "region_scope": "none"
+            }
+          },
+          "region_column": {
+            "answer": "按账单国来算。",
+            "value": {
+              "region_column": "invoice.billing_country"
+            }
+          }
+        },
+        "final_intent": {
+          "task_type": "aggregate",
+          "metric": "detail_revenue",
+          "object": {
+            "object_type": "artist",
+            "name": "Metallica"
+          },
+          "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+          "time_scope": {
+            "start": "2022-01-01",
+            "end_exclusive": "2023-01-01"
+          },
+          "region_scope": "none"
+        },
+        "expected_state_changes": [
+          "bind object=artist Metallica",
+          "set region_scope=none",
+          "check granularity=invoice_line detail"
+        ],
+        "max_clarification_followups": 3,
+        "post_completion_turns": [
+          {
+            "message": "改成流派 Metal。",
+            "expected_intent": {
+              "task_type": "aggregate",
+              "metric": "detail_revenue",
+              "object": {
+                "object_type": "genre",
+                "name": "Metal"
+              },
+              "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+              "time_scope": {
+                "start": "2022-01-01",
+                "end_exclusive": "2023-01-01"
+              },
+              "region_scope": "none"
+            },
+            "gold_sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';"
+          },
+          {
+            "message": "期间改成2023年，限定账单国为德国。",
+            "expected_intent": {
+              "task_type": "aggregate",
+              "metric": "detail_revenue",
+              "object": {
+                "object_type": "genre",
+                "name": "Metal"
+              },
+              "expression": "SUM(invoice_line.unit_price*invoice_line.quantity)",
+              "time_scope": {
+                "start": "2023-01-01",
+                "end_exclusive": "2024-01-01"
+              },
+              "region_scope": {
+                "column": "invoice.billing_country",
+                "value": "Germany"
+              }
+            },
+            "gold_sql": "SELECT SUM(il.unit_price * il.quantity) AS genre_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.genre g ON t.genre_id = g.genre_id WHERE g.name = 'Metal' AND i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' AND i.billing_country = 'Germany';"
+          }
+        ]
+      },
+      "gold_sql": "SELECT SUM(il.unit_price * il.quantity) AS artist_revenue FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id JOIN public.track t ON il.track_id = t.track_id JOIN public.album al ON t.album_id = al.album_id JOIN public.artist ar ON al.artist_id = ar.artist_id WHERE ar.name = 'Metallica' AND i.invoice_date >= DATE '2022-01-01' AND i.invoice_date < DATE '2023-01-01';",
+      "gold_result": {
+        "columns": [
+          "artist_revenue"
+        ],
+        "rows": [
+          [
+            "22.77"
+          ]
+        ],
+        "table": [
+          {
+            "artist_revenue": "22.77"
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        "object=artist:Metallica，金额=明细 SUM(unit_price*quantity)",
+        "object=artist:Metallica，地区限定=客户居住国还是账单国未定",
+        "object=genre:Metal，金额=明细 SUM(unit_price*quantity)"
+      ],
+      "canonical_input": null
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp03-28",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "2cecc8bd3f3e3c3e91025836da08617f6d9ed5ddae81bf8586e0fbb0ddfb46ab"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "2a315bf0b91f11c41134172fc4d927b42078c967c200d09780963d1270a7c4a3"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "2cc22b342c4b59e88d4298f9935b550952870cf0a0fb8854139a5a1094c4b392"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "faea1617c3705ca321638d3617d95f35b635d738682f4d2e3514cb4724e6fc7e"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "289a3be5f4b93822b2c148b3524c6b762f13840e0d8e3679ce2ce0d6c4be95ba"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "d05de9117e89bf8c89686e539df084f7b577d2323e910efec71bdf0a2bd7ea88"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "935a53d49fe0efb818e70c43b74020b4bb04249aca506279fc3ccbfd4027419d"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "3aa516f06cb300c14661878c7894693d6d91b5fe88ad39d337f8792c064ab21b"
+        },
+        "choice": "通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "22941d4fb5e0a0fce65b75d2c90f66360f1b6921b13afdf636bf61f68c9983d4"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n完整“金属乐队”与裸词“金属”不可混审。本题没有国家条件，旧标签要求再确认客户国/账单国无依据；乐队明确后按明细收入统计。完整中文名的条件直接绑定需按授权落实，不能把现candidate状态当成已启用。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n2cecc8bd3f｜专项历史 V0 / turn0：完整乐队名已有候选关系，但条件直接绑定尚需落实；可以减少该名称确认，不能错误追加题面不存在的国家问题。\n2a315bf0b9｜专项历史 V0 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n2cc22b342c｜专项历史 V0 / turn2：实际响应失败：本次输入没有明确取消该筛选条件，不能删除此前已确认的条件。；记录保留，不因后续版本成功抹去。\nfaea1617c3｜专项历史 V1 / turn0：完整乐队名已有候选关系，但条件直接绑定尚需落实；可以减少该名称确认，不能错误追加题面不存在的国家问题。\n289a3be5f4｜专项历史 V1 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\nd05de9117e｜专项历史 V1 / turn2：实际响应失败：替换筛选时丢失了未被用户修改的其它条件；删除条件需要明确 remove 补丁。；记录保留，不因后续版本成功抹去。\n935a53d49f｜专项历史 V2 / turn0：完整乐队名已有候选关系，但条件直接绑定尚需落实；可以减少该名称确认，不能错误追加题面不存在的国家问题。\n3aa516f06c｜专项历史 V2 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n22941d4fb5｜专项历史 V2 / turn2：实际响应失败：替换筛选时丢失了未被用户修改的其它条件；删除条件需要明确 remove 补丁。；记录保留，不因后续版本成功抹去。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "拒绝/发现错误",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Only explicit user Metallica selection unlocks branch SQL; unnecessary region supplements removed, later explicit region switch preserved",
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "artist_revenue"
+  ],
+  "column_types": [
+    "number"
+  ],
+  "integer_columns": [],
+  "ordered": false,
+  "monetary_columns": [],
+  "expected_status": "SUCCEEDED",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-28.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "42a8043dc2932fc12f99642cf4d9a9145716b04affc8a62b01a4375a9a1b3193",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n完整“金属乐队”与裸词“金属”不可混审。本题没有国家条件，旧标签要求再确认客户国/账单国无依据；乐队明确后按明细收入统计。完整中文名的条件直接绑定需按授权落实，不能把现candidate状态当成已启用。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\n2cecc8bd3f｜专项历史 V0 / turn0：完整乐队名已有候选关系，但条件直接绑定尚需落实；可以减少该名称确认，不能错误追加题面不存在的国家问题。\n2a315bf0b9｜专项历史 V0 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n2cc22b342c｜专项历史 V0 / turn2：实际响应失败：本次输入没有明确取消该筛选条件，不能删除此前已确认的条件。；记录保留，不因后续版本成功抹去。\nfaea1617c3｜专项历史 V1 / turn0：完整乐队名已有候选关系，但条件直接绑定尚需落实；可以减少该名称确认，不能错误追加题面不存在的国家问题。\n289a3be5f4｜专项历史 V1 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\nd05de9117e｜专项历史 V1 / turn2：实际响应失败：替换筛选时丢失了未被用户修改的其它条件；删除条件需要明确 remove 补丁。；记录保留，不因后续版本成功抹去。\n935a53d49f｜专项历史 V2 / turn0：完整乐队名已有候选关系，但条件直接绑定尚需落实；可以减少该名称确认，不能错误追加题面不存在的国家问题。\n3aa516f06c｜专项历史 V2 / turn1：附件内参考结果与实际表格一致（按列对应）；查询对象、主要筛选、聚合与排序已对照题意。此“通过”限附件记录首轮核对，不代表本次现场复算。\n22941d4fb5｜专项历史 V2 / turn2：实际响应失败：替换筛选时丢失了未被用户修改的其它条件；删除条件需要明确 remove 补丁。；记录保留，不因后续版本成功抹去。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "具体乐队名",
+        "有条件别名策略待接入"
+      ],
+      "initial_level": "L2",
+      "missing_conditions": [
+        "object"
+      ],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

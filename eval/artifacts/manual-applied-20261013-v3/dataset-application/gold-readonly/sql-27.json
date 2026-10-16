@@ -1,0 +1,114 @@
+{
+  "id": "sql-27",
+  "suite": "nl2sql",
+  "db_id": "chinook",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT track_id, name FROM track WHERE composer IS NULL ORDER BY track_id LIMIT 10;",
+  "validated_sql": "SELECT track_id, name FROM track WHERE composer IS NULL ORDER BY track_id LIMIT 10",
+  "columns": [
+    "track_id",
+    "name"
+  ],
+  "column_type_oids": [
+    23,
+    1043
+  ],
+  "postgres_column_types": [
+    "int4",
+    "varchar"
+  ],
+  "rows": [
+    [
+      63,
+      "Desafinado"
+    ],
+    [
+      64,
+      "Garota De Ipanema"
+    ],
+    [
+      65,
+      "Samba De Uma Nota Só (One Note Samba)"
+    ],
+    [
+      66,
+      "Por Causa De Você"
+    ],
+    [
+      67,
+      "Ligia"
+    ],
+    [
+      68,
+      "Fotografia"
+    ],
+    [
+      69,
+      "Dindi (Dindi)"
+    ],
+    [
+      70,
+      "Se Todos Fossem Iguais A Você (Instrumental)"
+    ],
+    [
+      71,
+      "Falando De Amor"
+    ],
+    [
+      72,
+      "Angela"
+    ]
+  ],
+  "table": [
+    {
+      "track_id": 63,
+      "name": "Desafinado"
+    },
+    {
+      "track_id": 64,
+      "name": "Garota De Ipanema"
+    },
+    {
+      "track_id": 65,
+      "name": "Samba De Uma Nota Só (One Note Samba)"
+    },
+    {
+      "track_id": 66,
+      "name": "Por Causa De Você"
+    },
+    {
+      "track_id": 67,
+      "name": "Ligia"
+    },
+    {
+      "track_id": 68,
+      "name": "Fotografia"
+    },
+    {
+      "track_id": 69,
+      "name": "Dindi (Dindi)"
+    },
+    {
+      "track_id": 70,
+      "name": "Se Todos Fossem Iguais A Você (Instrumental)"
+    },
+    {
+      "track_id": 71,
+      "name": "Falando De Amor"
+    },
+    {
+      "track_id": 72,
+      "name": "Angela"
+    }
+  ],
+  "row_count": 10,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 15.843
+}

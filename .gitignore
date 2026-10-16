@@ -19,3 +19,7 @@ data/indexes/
 # in the new runtime snapshots; the original source history remains in Git.
 eval/artifacts/oct12/runtime-snapshot-*/source/eval/
 tmp/
+
+# Frontend build dependencies are local; the prebuilt dist/ is delivered.
+frontend-workbench/node_modules/
+frontend-workbench/.pnpm-store/

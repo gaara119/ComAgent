@@ -1,0 +1,668 @@
+{
+  "id": "sp03-30",
+  "family_id": "special-fam-32-l2-customer-buy-most-missing-period",
+  "task": "03",
+  "category": "L1",
+  "input": "谁买得最多？只取第一名，金额并列时按客户编号升序。",
+  "scope": {
+    "route": "sql",
+    "db_id": "chinook",
+    "doc_ids": []
+  },
+  "history": [],
+  "expected_behavior": "execute_with_declared_defaults",
+  "allowed_interpretations": [
+    {
+      "stage": "initial_request",
+      "intent": {
+        "task_type": "ranking",
+        "metric": "amount",
+        "expression": "SUM(invoice.total)",
+        "object": "customer",
+        "time_scope": {
+          "kind": "all_existing_data",
+          "explicit_period": false
+        },
+        "top_n": 1,
+        "output": [
+          "customer_id",
+          "amount"
+        ],
+        "tie_breaker": "customer_id asc"
+      },
+      "default_declaration_required": true
+    },
+    {
+      "stage": "later_user_request",
+      "policy": "Apply only explicitly supplied later changes; do not use old hidden target as initial facts"
+    }
+  ],
+  "expected_bindings": [],
+  "missing_conditions": [],
+  "business_basis": [
+    "用户已提交双方审核及本次明确正式应用授权；原始题库和原测评结果保留，不追改历史分母。",
+    "10月12日已授权默认规则仅应用到对应业务范围；显式用户地区、期间、对象、指标和排序优先。",
+    "【AI首轮意见，待你第二轮确认】\n新规则允许对象、金额和期间默认；建议明确最高1名后使用对应全库gold。旧控制器隐藏2023年不能约束尚未告知的首轮；各后续变更按实际已提供条件判定，额外9行不能当描述列。\n以上为明确Top1后全期首轮SQL提案，本次没有生成新gold结果。\n题面草案变化是新版本提案；保留原题与原预测，不能把旧输出冒充对清洗后问题的实测。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n"
+  ],
+  "reference_intent": {
+    "task_type": "ranking",
+    "metric": "amount",
+    "expression": "SUM(invoice.total)",
+    "object": "customer",
+    "time_scope": {
+      "kind": "all_existing_data",
+      "explicit_period": false
+    },
+    "top_n": 1,
+    "output": [
+      "customer_id",
+      "amount"
+    ],
+    "tie_breaker": "customer_id asc"
+  },
+  "gold_sql": "SELECT customer_id, SUM(total) AS amount FROM public.invoice GROUP BY customer_id ORDER BY amount DESC, customer_id ASC LIMIT 1;",
+  "controller": {
+    "hidden_goal": "首轮依据本条新版 reference_intent 与 gold_sql执行；只有post_completion_turns中明确提供的新条件改变目标。",
+    "allowed_user_supplements": {},
+    "final_intent": {
+      "task_type": "ranking",
+      "metric": "amount",
+      "expression": "SUM(invoice.total)",
+      "object": "customer",
+      "time_scope": {
+        "kind": "all_existing_data",
+        "explicit_period": false
+      },
+      "top_n": 1,
+      "output": [
+        "customer_id",
+        "amount"
+      ],
+      "tie_breaker": "customer_id asc"
+    },
+    "expected_state_changes": [
+      "Execute initial request without mandatory clarification; preserve explicit subsequent changes"
+    ],
+    "max_clarification_followups": 0,
+    "post_completion_turns": [
+      {
+        "message": "改成2024年。",
+        "expected_intent": {
+          "task_type": "ranking",
+          "metric": "amount",
+          "expression": "SUM(invoice.total)",
+          "object": "customer",
+          "time_scope": {
+            "start": "2024-01-01",
+            "end_exclusive": "2025-01-01"
+          },
+          "top_n": 1,
+          "output": [
+            "customer_id",
+            "amount"
+          ],
+          "tie_breaker": "customer_id asc"
+        },
+        "gold_sql": "SELECT c.customer_id, SUM(i.total) AS amount FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY c.customer_id ORDER BY amount DESC, c.customer_id ASC LIMIT 1;",
+        "gold_result": {
+          "columns": [
+            "customer_id",
+            "amount"
+          ],
+          "rows": [
+            [
+              26,
+              "25.84"
+            ]
+          ],
+          "table": [
+            {
+              "customer_id": 26,
+              "amount": "25.84"
+            }
+          ],
+          "row_count": 1,
+          "truncated": false
+        },
+        "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-30-post-01.json"
+      },
+      {
+        "message": "改成曲目，按购买数量。",
+        "expected_intent": {
+          "task_type": "ranking",
+          "metric": "by_quantity",
+          "expression": "SUM(invoice_line.quantity)",
+          "object": "track",
+          "time_scope": {
+            "start": "2024-01-01",
+            "end_exclusive": "2025-01-01"
+          },
+          "top_n": 1,
+          "tie_breaker": "track_id asc"
+        },
+        "gold_sql": "SELECT il.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY il.track_id ORDER BY purchased_quantity DESC, il.track_id ASC LIMIT 1;",
+        "gold_result": {
+          "columns": [
+            "track_id",
+            "purchased_quantity"
+          ],
+          "rows": [
+            [
+              3,
+              1
+            ]
+          ],
+          "table": [
+            {
+              "track_id": 3,
+              "purchased_quantity": 1
+            }
+          ],
+          "row_count": 1,
+          "truncated": false
+        },
+        "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-30-post-02.json"
+      }
+    ]
+  },
+  "case_style": "澄清后多轮修改",
+  "secondary_tags": [
+    "ranking",
+    "missing_object",
+    "missing_period",
+    "multi_turn_year_change",
+    "multi_turn_object_change"
+  ],
+  "generation_call_id": "generate-03-expansion-04",
+  "generation_stage": "expansion",
+  "data_version": "99fb17e9af36e6a3d308fa26c2e26ba145a486095dbb20654cda0456260516d8",
+  "dataset_label": "本轮合成开发数据",
+  "split": "dev",
+  "reference_version": "manual-applied-20261013-v3",
+  "ai_status": "ai_suggested_pass_two_contexts",
+  "human_review_status": "accepted_by_submitted_joint_review",
+  "gold_result": {
+    "columns": [
+      "customer_id",
+      "amount"
+    ],
+    "rows": [
+      [
+        6,
+        "49.62"
+      ]
+    ],
+    "table": [
+      {
+        "customer_id": 6,
+        "amount": "49.62"
+      }
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "auto_status": "passed",
+  "auto_issues": [],
+  "dataset_version": "manual-applied-20261013-v3",
+  "raw_expected_bindings": [],
+  "expected_predicates": [],
+  "expected_aggregations": [
+    {
+      "column": "invoice.total",
+      "operator": "SUM",
+      "value": "object_from_clarification"
+    }
+  ],
+  "expected_unresolved_constraints": [],
+  "binding_annotation_basis": "Deterministic format normalization only: value predicates, date predicates, aggregation/grouping and unresolved placeholders separately preserved. No condition/value inferred, no input/category/SQL/target changed.",
+  "expected_final_intent": {
+    "task_type": "ranking",
+    "metric": "amount",
+    "expression": "SUM(invoice.total)",
+    "object": "customer",
+    "time_scope": {
+      "kind": "all_existing_data",
+      "explicit_period": false
+    },
+    "top_n": 1,
+    "output": [
+      "customer_id",
+      "amount"
+    ],
+    "tie_breaker": "customer_id asc"
+  },
+  "scorable": true,
+  "final_source_guard_issues": [],
+  "review_label": "L1／客户金额／全部数据；Top1边界待明确",
+  "review_label_tags": [
+    "L1",
+    "客户金额",
+    "全部数据；Top1边界待明确"
+  ],
+  "canonical_input": "谁买得最多？只取第一名，金额并列时按客户编号升序。",
+  "historical_reference_metadata": {
+    "allowed_interpretations": [
+      "对象=客户，金额=SUM(invoice.total) by customer",
+      "对象=曲目，口径=SUM(invoice_line.quantity)",
+      "对象=艺术家，口径=SUM(invoice_line.unit_price*quantity)",
+      "时间范围为2023年或2024年"
+    ],
+    "business_basis": [
+      "clarify_rules.yaml ranking.required=[metric,rank_object]",
+      "approved_proposal 附录：客户谁买得最多 follows amount definition; 缺查询对象的谁买得最多不自动套同一个全局默认",
+      "customer ranking uses customer_id; no customer names needed"
+    ],
+    "ai_reviews": [
+      {
+        "id": "sp03-30",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "输入“谁买得最多？”缺时间范围且缺查询对象；虽然有附录“客户谁买得最多”采用金额定义的记录，但对象未明确时不能自动套用，通用“谁买得最多”无全局默认，L2 暂停澄清正确。gold_sql 在澄清为客户、2023 后按 customer_id 汇总 SUM(invoice.total)，ORDER BY amount DESC, customer_id ASC LIMIT 1，期间左闭右开，符合 ranking 与 tie_breaker 要求。controller 的 allowed_user_supplements 覆盖 rank_object/time_scope/metric，post_completion_turns 改 2024 年及改为曲目按购买数量，均保留客户/曲目对象切换且 SQL 表达更新。",
+        "evidence": [
+          "input: 谁买得最多？",
+          "clarify_rules.yaml ranking.required=[metric,rank_object]",
+          "approved_proposal 附录：客户谁买得最多 follows amount definition; 缺查询对象的“谁买得最多”不自动套同一个全局默认",
+          "gold_sql: SELECT c.customer_id, SUM(i.total) AS amount ... WHERE i.invoice_date >= DATE '2023-01-01' AND i.invoice_date < DATE '2024-01-01' GROUP BY c.customer_id ORDER BY amount DESC, c.customer_id ASC LIMIT 1;",
+          "actual_program_checks.sp03-30: final 与 post_completion_1/2 均 executed_readonly"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      },
+      {
+        "id": "sp03-30",
+        "verdict": "pass",
+        "semantic_sql_check": "pass",
+        "classification_check": "pass",
+        "binding_check": "pass",
+        "controller_check": "pass",
+        "reason": "“谁买得最多？”既缺 rank_object 也缺 time_scope；附录“客户谁买得最多”金额定义只在对象已明确为客户时可用，缺对象时不安装全局默认，故不能直接套 amount/customer。L2 追问对象与期间正确。controller 可接受 customer/2023/amount，final_intent 为澄清后答案，未把当前行为当全局规则。gold_sql 按 customer_id 汇总 SUM(invoice.total)，invoice_date 半开区间，金额降序、customer_id 升序、LIMIT 1；无 invoice_line JOIN 导致重复。",
+        "evidence": [
+          "cases[sp03-30].input “谁买得最多？”",
+          "confirmed_business_rules distinct_object_rule_proposal 客户/对象未定不全局默认",
+          "clarify_rules.yaml ranking.required=[metric,rank_object]",
+          "sp03-30.gold_sql SUM(invoice.total) GROUP BY customer_id"
+        ],
+        "issues": [],
+        "suggested_corrections": null
+      }
+    ],
+    "original_operational_reference": {
+      "reference_intent": {
+        "task_type": "ranking",
+        "metric": "amount",
+        "object": null,
+        "time_scope": null,
+        "top_n": 1,
+        "tie_breaker": "customer_id asc"
+      },
+      "expected_final_intent": {
+        "task_type": "ranking",
+        "metric": "amount",
+        "expression": "SUM(invoice.total)",
+        "object": "customer",
+        "time_scope": {
+          "start": "2023-01-01",
+          "end_exclusive": "2024-01-01"
+        },
+        "top_n": 1,
+        "output": [
+          "customer_id",
+          "amount"
+        ],
+        "tie_breaker": "customer_id asc"
+      },
+      "expected_bindings": [],
+      "raw_expected_bindings": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": "half-open-range",
+          "value": "period_from_clarification"
+        },
+        {
+          "column": "invoice.total",
+          "operator": "SUM",
+          "value": "object_from_clarification"
+        }
+      ],
+      "expected_predicates": [],
+      "expected_unresolved_constraints": [
+        {
+          "column": "invoice.invoice_date",
+          "operator": "half-open-range",
+          "value": "period_from_clarification"
+        }
+      ],
+      "controller": {
+        "hidden_goal": "找2023年购买金额最高的客户，金额口径 SUM(invoice.total) 按 customer 汇总；输出 customer_id 与金额，按金额降序、customer_id 升序取第一名。",
+        "allowed_user_supplements": {
+          "rank_object": {
+            "answer": "客户。",
+            "value": {
+              "object": "customer"
+            }
+          },
+          "time_scope": {
+            "answer": "2023年全年。",
+            "value": {
+              "start": "2023-01-01",
+              "end_exclusive": "2024-01-01"
+            }
+          },
+          "year": {
+            "answer": "2023年。",
+            "value": {
+              "year": 2023
+            }
+          },
+          "metric": {
+            "answer": "按发票金额。",
+            "value": {
+              "metric": "amount",
+              "expression": "SUM(invoice.total)"
+            }
+          }
+        },
+        "final_intent": {
+          "task_type": "ranking",
+          "metric": "amount",
+          "expression": "SUM(invoice.total)",
+          "object": "customer",
+          "time_scope": {
+            "start": "2023-01-01",
+            "end_exclusive": "2024-01-01"
+          },
+          "top_n": 1,
+          "output": [
+            "customer_id",
+            "amount"
+          ],
+          "tie_breaker": "customer_id asc"
+        },
+        "expected_state_changes": [
+          "set rank_object=customer",
+          "set time_scope=2023",
+          "bind metric=amount SUM(invoice.total)"
+        ],
+        "max_clarification_followups": 3,
+        "post_completion_turns": [
+          {
+            "message": "改成2024年。",
+            "expected_intent": {
+              "task_type": "ranking",
+              "metric": "amount",
+              "expression": "SUM(invoice.total)",
+              "object": "customer",
+              "time_scope": {
+                "start": "2024-01-01",
+                "end_exclusive": "2025-01-01"
+              },
+              "top_n": 1,
+              "output": [
+                "customer_id",
+                "amount"
+              ],
+              "tie_breaker": "customer_id asc"
+            },
+            "gold_sql": "SELECT c.customer_id, SUM(i.total) AS amount FROM public.invoice i JOIN public.customer c ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY c.customer_id ORDER BY amount DESC, c.customer_id ASC LIMIT 1;"
+          },
+          {
+            "message": "改成曲目，按购买数量。",
+            "expected_intent": {
+              "task_type": "ranking",
+              "metric": "by_quantity",
+              "expression": "SUM(invoice_line.quantity)",
+              "object": "track",
+              "time_scope": {
+                "start": "2024-01-01",
+                "end_exclusive": "2025-01-01"
+              },
+              "top_n": 1,
+              "tie_breaker": "track_id asc"
+            },
+            "gold_sql": "SELECT il.track_id, SUM(il.quantity) AS purchased_quantity FROM public.invoice_line il JOIN public.invoice i ON il.invoice_id = i.invoice_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' GROUP BY il.track_id ORDER BY purchased_quantity DESC, il.track_id ASC LIMIT 1;"
+          }
+        ]
+      },
+      "gold_sql": "SELECT customer_id, SUM(total) AS amount FROM public.invoice GROUP BY customer_id ORDER BY amount DESC, customer_id ASC LIMIT 1;",
+      "gold_result": {
+        "columns": [
+          "customer_id",
+          "amount"
+        ],
+        "rows": [
+          [
+            46,
+            "32.75"
+          ]
+        ],
+        "table": [
+          {
+            "customer_id": 46,
+            "amount": "32.75"
+          }
+        ],
+        "row_count": 1,
+        "truncated": false
+      },
+      "allowed_interpretations": [
+        "对象=客户，金额=SUM(invoice.total) by customer",
+        "对象=曲目，口径=SUM(invoice_line.quantity)",
+        "对象=艺术家，口径=SUM(invoice_line.unit_price*quantity)",
+        "时间范围为2023年或2024年"
+      ],
+      "canonical_input": null
+    }
+  },
+  "enabled": true,
+  "disposition": "active_reviewed_revision",
+  "revision": "manual-applied-20261013-v3",
+  "original_dataset": "eval/experiments/after_d2_01_03/data/cases-v6-reviewed.jsonl",
+  "original_dataset_sha256": "42327cb68a65f84b736007da40e2551fd4ffd35f0651d99c41ec28b43b9bd0f1",
+  "manual_application": {
+    "type": "user_submitted_joint_review_and_explicit_application_request",
+    "joint_review_statement": "这是我们两个人审核后的结果，没有问题了，你只用检查有没有地方没有填写",
+    "application_statement": "将上述两项正式完成，然后发我验收报告和项目ZIP",
+    "review_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "human_signature_added": false,
+    "human_confirmation_date_invented": false,
+    "review_key": "special:sp03-30",
+    "decisions": [
+      {
+        "attrs": {
+          "data-object": "参考答案与标签"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答与控制器"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "系统实际回答（各版本分别确认或归档）"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-object": "标签修订提案"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "f6ff4e46c6afdce07f2a182aead28f25f7106b296b0fdfbd25490c3b8b726891"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "9ff6d9006dfe2ba4a0caebc79e680ea31da626d10143d09d02a8967162c0253e"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "1a2d219e0c74452e31998e211797181a095891e9128a8069d1bc9caf97e67401"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "251ace2c1e3b3ebc5e91e9ae27b4999d7aafbcabec3b8918ac1a33a82251cf47"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "126e448e4584c9f33262a026bbec44b9779937f6912196f696d19ad57a630813"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "1bbb83c04bbe2f6ca7330ac53d102ff152f5fe29d3f0578f0d6a44224494e6b0"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "205bd062c520005973be5ba42f5e90674529829da084bf4e818ec45dd64cf476"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "022e2c2b0fe45c66442cf5c4c5700d052e5f13151c3e2627530871cd38d63de8"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "bbd44a9e6c99e8780c9022e77562821af2dbf29b26517acfe0ab83a85d7d39fa"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "f0cb03bb2226cf4c453c50146164e545acd335746eb5d804c92302bae4b267f0"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "044c5556b292d7ce602bfdee9c901daedcf70d1909f05b4495fb030aedfcc1b9"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "d3f912cae1b1544741154eaeb87b9a79eea093d337dc3551adec3792e2e12a2b"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "2c1240d46c340c7ae3a91c5dc7f925aa1a368eba00e7e2a236fce7e7ff694c34"
+        },
+        "choice": "有条件通过",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "ee0c95da82fcdc45dc3a63f826d74a686d04e8aa5f1b6c04395bf8587f996571"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "e25d75c95a4cb6e716fab3357abfbacbc9ba3403c0b8ab9e6f06c3acfd2fdc34"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      },
+      {
+        "attrs": {
+          "data-version": "cdf2d23aaff3cee36adb10395a434c66dad94ffd5f14e5ae3c86c95c3e069760"
+        },
+        "choice": "拒绝/发现错误",
+        "explicit_selected": true
+      }
+    ],
+    "submitted_conditions_text": "【AI首轮意见，待你第二轮确认】\n新规则允许对象、金额和期间默认；建议明确最高1名后使用对应全库gold。旧控制器隐藏2023年不能约束尚未告知的首轮；各后续变更按实际已提供条件判定，额外9行不能当描述列。\n以上为明确Top1后全期首轮SQL提案，本次没有生成新gold结果。\n题面草案变化是新版本提案；保留原题与原预测，不能把旧输出冒充对清洗后问题的实测。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\nf6ff4e46c6｜专项历史 V0 / turn0：历史版仍按旧缺口策略追问：请明确要计算的指标。 请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n9ff6d9006d｜专项历史 V0 / turn1：历史版仍按旧缺口策略追问：请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n1a2d219e0c｜专项历史 V0 / turn2：历史版仍按旧缺口策略追问：请明确统计期间。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n251ace2c1e｜专项历史 V0 / turn3：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\n126e448e45｜专项历史 V0 / turn4：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\n1bbb83c04b｜专项历史 V0 / turn5：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\n205bd062c5｜专项历史 V1 / turn0：历史版仍按旧缺口策略追问：请明确要计算的指标。 请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n022e2c2b0f｜专项历史 V1 / turn1：历史版仍按旧缺口策略追问：请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\nbbd44a9e6c｜专项历史 V1 / turn2：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\nf0cb03bb22｜专项历史 V1 / turn3：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\n044c5556b2｜专项历史 V1 / turn4：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\nd3f912cae1｜专项历史 V2 / turn0：历史版仍按旧缺口策略追问：请明确要计算的指标。 请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n2c1240d46c｜专项历史 V2 / turn1：历史版仍按旧缺口策略追问：请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\nee0c95da82｜专项历史 V2 / turn2：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\ne25d75c95a｜专项历史 V2 / turn3：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\ncdf2d23aaf｜专项历史 V2 / turn4：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "conditional": true,
+    "old_reference_decision": "有条件通过",
+    "new_corrected_reference": true,
+    "operational_changes": [
+      "Operational category, missing_conditions and required clarification slots synchronized with submitted level",
+      "Initial all-data gold and intent replace unspoken hidden 2023 goal; original later messages and SQL remain",
+      "Submitted explicit Top1 applies to initial ranking; duplicate sp03-08/sp03-23 retained as different continuation scenarios",
+      "Historical interpretations/AI remarks retained as history; active criteria exclude stale defaults and hidden targets"
+    ],
+    "historical_actual_outputs_not_rescored": true
+  },
+  "gold_columns": [
+    "customer_id",
+    "amount"
+  ],
+  "column_types": [
+    "number",
+    "number"
+  ],
+  "integer_columns": [
+    0
+  ],
+  "ordered": true,
+  "monetary_columns": [],
+  "expected_status": "SUCCEEDED",
+  "gold_verification_evidence": "eval/artifacts/manual-applied-20261013-v3/dataset-application/gold-readonly/sp03-30.json",
+  "gold_review": {
+    "status": "accepted",
+    "reviewer": "user-submitted-A-and-B-review; explicit-application-request",
+    "content_sha256": "125877d0a1b7dea73a50549decea28e936530941531476ad585b778f994ac1d2",
+    "conditional": true,
+    "conditions": "【AI首轮意见，待你第二轮确认】\n新规则允许对象、金额和期间默认；建议明确最高1名后使用对应全库gold。旧控制器隐藏2023年不能约束尚未告知的首轮；各后续变更按实际已提供条件判定，额外9行不能当描述列。\n以上为明确Top1后全期首轮SQL提案，本次没有生成新gold结果。\n题面草案变化是新版本提案；保留原题与原预测，不能把旧输出冒充对清洗后问题的实测。\n控制器与每轮实际输出分别评价；旧隐藏目标/后续问题需与新口径对齐。单轮通过不等于整段交互通过。\n逐版本（同题不同输出分别保留）：\nf6ff4e46c6｜专项历史 V0 / turn0：历史版仍按旧缺口策略追问：请明确要计算的指标。 请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n9ff6d9006d｜专项历史 V0 / turn1：历史版仍按旧缺口策略追问：请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n1a2d219e0c｜专项历史 V0 / turn2：历史版仍按旧缺口策略追问：请明确统计期间。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n251ace2c1e｜专项历史 V0 / turn3：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\n126e448e45｜专项历史 V0 / turn4：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\n1bbb83c04b｜专项历史 V0 / turn5：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\n205bd062c5｜专项历史 V1 / turn0：历史版仍按旧缺口策略追问：请明确要计算的指标。 请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n022e2c2b0f｜专项历史 V1 / turn1：历史版仍按旧缺口策略追问：请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\nbbd44a9e6c｜专项历史 V1 / turn2：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\nf0cb03bb22｜专项历史 V1 / turn3：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\n044c5556b2｜专项历史 V1 / turn4：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\nd3f912cae1｜专项历史 V2 / turn0：历史版仍按旧缺口策略追问：请明确要计算的指标。 请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\n2c1240d46c｜专项历史 V2 / turn1：历史版仍按旧缺口策略追问：请明确排名对象。；新授权可减少这次打断，待新版本回归。历史记录不作追溯性洗分。\nee0c95da82｜专项历史 V2 / turn2：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\ne25d75c95a｜专项历史 V2 / turn3：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\ncdf2d23aaf｜专项历史 V2 / turn4：返回10行；原参考要求最高一名，额外行不是描述列。Top1/Top10规则须另定，不能以第一行相同判通过。\n依据：eval/experiments/after_d2_01_03/reports/manual-review/①③专项统一待人工审核表.json；逐版本出处见本页相同内容哈希下的evidence。\n依据本页嵌入的DEV材料与已有原始响应核对；未连接本地数据库、未重跑模型，未读取保留题。",
+    "acceptance_conditions": {
+      "enabled": true,
+      "review_label_tags": [
+        "L1",
+        "客户金额",
+        "全部数据；Top1边界待明确"
+      ],
+      "initial_level": "L1",
+      "missing_conditions": [],
+      "explicit_user_conditions_take_priority": true,
+      "historical_outputs_not_new_version_predictions": true,
+      "limit": 1,
+      "extra_result_rows_allowed": false,
+      "tie_breaker": "customer_id ASC"
+    },
+    "conditions_text_is_submitted_historical_comment_not_current_run_status": true,
+    "authorization_source": "eval/artifacts/d4/review-input/submitted-review-extracted.json",
+    "human_signature": null,
+    "human_confirmation_date": null
+  }
+}

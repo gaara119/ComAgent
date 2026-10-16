@@ -1,0 +1,137 @@
+{
+  "id": "sql-06",
+  "suite": "nl2sql",
+  "db_id": "chinook",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT track_id, name, unit_price FROM track WHERE unit_price > 0.99 ORDER BY track_id LIMIT 10;",
+  "validated_sql": "SELECT track_id, name, unit_price FROM track WHERE unit_price > 0.99 ORDER BY track_id LIMIT 10",
+  "columns": [
+    "track_id",
+    "name",
+    "unit_price"
+  ],
+  "column_type_oids": [
+    23,
+    1043,
+    1700
+  ],
+  "postgres_column_types": [
+    "int4",
+    "varchar",
+    "numeric"
+  ],
+  "rows": [
+    [
+      2819,
+      "Battlestar Galactica: The Story So Far",
+      "1.99"
+    ],
+    [
+      2820,
+      "Occupation / Precipice",
+      "1.99"
+    ],
+    [
+      2821,
+      "Exodus, Pt. 1",
+      "1.99"
+    ],
+    [
+      2822,
+      "Exodus, Pt. 2",
+      "1.99"
+    ],
+    [
+      2823,
+      "Collaborators",
+      "1.99"
+    ],
+    [
+      2824,
+      "Torn",
+      "1.99"
+    ],
+    [
+      2825,
+      "A Measure of Salvation",
+      "1.99"
+    ],
+    [
+      2826,
+      "Hero",
+      "1.99"
+    ],
+    [
+      2827,
+      "Unfinished Business",
+      "1.99"
+    ],
+    [
+      2828,
+      "The Passage",
+      "1.99"
+    ]
+  ],
+  "table": [
+    {
+      "track_id": 2819,
+      "name": "Battlestar Galactica: The Story So Far",
+      "unit_price": "1.99"
+    },
+    {
+      "track_id": 2820,
+      "name": "Occupation / Precipice",
+      "unit_price": "1.99"
+    },
+    {
+      "track_id": 2821,
+      "name": "Exodus, Pt. 1",
+      "unit_price": "1.99"
+    },
+    {
+      "track_id": 2822,
+      "name": "Exodus, Pt. 2",
+      "unit_price": "1.99"
+    },
+    {
+      "track_id": 2823,
+      "name": "Collaborators",
+      "unit_price": "1.99"
+    },
+    {
+      "track_id": 2824,
+      "name": "Torn",
+      "unit_price": "1.99"
+    },
+    {
+      "track_id": 2825,
+      "name": "A Measure of Salvation",
+      "unit_price": "1.99"
+    },
+    {
+      "track_id": 2826,
+      "name": "Hero",
+      "unit_price": "1.99"
+    },
+    {
+      "track_id": 2827,
+      "name": "Unfinished Business",
+      "unit_price": "1.99"
+    },
+    {
+      "track_id": 2828,
+      "name": "The Passage",
+      "unit_price": "1.99"
+    }
+  ],
+  "row_count": 10,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 15.091
+}

@@ -1,0 +1,35 @@
+{
+  "id": "sp03-10",
+  "branch": 1,
+  "condition": "User explicitly confirms customers with purchases in 2024, residence country Brazil",
+  "initial_question_not_directly_scorable": true,
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT COUNT(DISTINCT c.customer_id) AS customer_count FROM public.customer c JOIN public.invoice i ON i.customer_id = c.customer_id WHERE i.invoice_date >= DATE '2024-01-01' AND i.invoice_date < DATE '2025-01-01' AND c.country = 'Brazil';",
+  "validated_sql": "SELECT COUNT(DISTINCT c.customer_id) AS customer_count FROM public.customer AS c JOIN public.invoice AS i ON i.customer_id = c.customer_id WHERE i.invoice_date >= CAST('2024-01-01' AS DATE) AND i.invoice_date < CAST('2025-01-01' AS DATE) AND c.country = 'Brazil'",
+  "columns": [
+    "customer_count"
+  ],
+  "column_type_oids": [
+    20
+  ],
+  "postgres_column_types": [
+    "int8"
+  ],
+  "rows": [
+    [
+      4
+    ]
+  ],
+  "table": [
+    {
+      "customer_count": 4
+    }
+  ],
+  "row_count": 1,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 24.16
+}

@@ -377,7 +377,12 @@ def chat(request: ChatRequest, llm: JsonLLM | None = None,
         if route in {"sql_to_doc", "doc_to_sql"}:
             with DEFAULT_STORE.locked(request.session_id):
                 return run_hybrid(request, trace, settings, llm or JsonLLM(settings), _sql)
-        return _unsupported(trace, "请选择已支持的跨源流程：艺术家销售排名与介绍，或手册客单价定义与计算。")
+        if request.scope.route == "auto" and route == "doc":
+            return _doc(request.model_copy(update={"scope": request.scope.model_copy(update={"route": "doc", "db_id": None})}), trace, settings)
+        if request.scope.route == "auto" and route == "sql":
+            request = request.model_copy(update={"scope": request.scope.model_copy(update={"route": "sql"})})
+        else:
+            return _unsupported(trace, "请选择已支持的跨源流程：艺术家销售排名与介绍，或手册客单价定义与计算。")
     if request.scope.route != "sql":
         return _unsupported(trace, "D1 先使用显式来源范围，请选择 sql 或指定单文档 doc。")
     if request.scope.db_id not in {"chinook", "adventureworks"}:

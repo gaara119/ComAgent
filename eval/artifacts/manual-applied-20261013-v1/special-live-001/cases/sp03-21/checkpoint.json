@@ -1,0 +1,955 @@
+{
+  "id": "sp03-21",
+  "session_id": "special-reviewed-dev-v3-e624b0ba-3e66-45ad-ac9d-c501b9445969",
+  "started_at": "2026-10-14T05:10:56.920204+00:00",
+  "turns": [
+    {
+      "index": 0,
+      "phase": "initial",
+      "prepared_at": "2026-10-14T05:10:56.920204+00:00",
+      "request": {
+        "session_id": "special-reviewed-dev-v3-e624b0ba-3e66-45ad-ac9d-c501b9445969",
+        "message": "德国的销售额同比增长多少？",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        }
+      },
+      "asked_key": null,
+      "supplement_key": null,
+      "response": {
+        "trace_id": "3320a8f7-bf76-467b-99c7-66c1f5d2e7ec",
+        "status": "NEEDS_CLARIFICATION",
+        "answer": "请明确当前比较期间。",
+        "rewritten_question": "Germany的销售额同比增长多少？",
+        "sql": null,
+        "table": null,
+        "evidences": [],
+        "clarification": {
+          "clarification_id": "a8e89d12-6652-4966-9aa7-a3603149147f",
+          "intent_version": 1,
+          "level": "L2",
+          "question": "请明确当前比较期间。",
+          "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+          "issues": [
+            {
+              "id": "missing:time_scope.current",
+              "question": "请明确当前比较期间。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "time_scope.current",
+              "options": [
+                {
+                  "id": "year:2021",
+                  "label": "2021年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2022",
+                  "label": "2022年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2023",
+                  "label": "2023年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2024",
+                  "label": "2024年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2025",
+                  "label": "2025年（该年有数据，不代表完整年度）"
+                }
+              ]
+            }
+          ],
+          "options": [
+            {
+              "id": "year:2021",
+              "label": "2021年（该年有数据，不代表完整年度）"
+            },
+            {
+              "id": "year:2022",
+              "label": "2022年（该年有数据，不代表完整年度）"
+            },
+            {
+              "id": "year:2023",
+              "label": "2023年（该年有数据，不代表完整年度）"
+            },
+            {
+              "id": "year:2024",
+              "label": "2024年（该年有数据，不代表完整年度）"
+            },
+            {
+              "id": "year:2025",
+              "label": "2025年（该年有数据，不代表完整年度）"
+            }
+          ],
+          "resume_supported": true
+        },
+        "intent": {
+          "intent_version": 1,
+          "route": "sql",
+          "task_type": "growth",
+          "metric": "invoice_revenue",
+          "time_scope": null,
+          "filters": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "Germany",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-3414db81951a6279",
+              "source": "verified_value_index",
+              "scope_evidence": "oct12_approved_default"
+            }
+          ],
+          "grouping": [],
+          "order": null,
+          "assumptions": [
+            "销售额的地区按发票账单国家统计（10月12日已确认默认口径）。"
+          ],
+          "unresolved": [
+            {
+              "id": "missing:time_scope.current",
+              "question": "请明确当前比较期间。",
+              "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+              "field": "time_scope.current",
+              "options": [
+                {
+                  "id": "year:2021",
+                  "label": "2021年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2022",
+                  "label": "2022年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2023",
+                  "label": "2023年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2024",
+                  "label": "2024年（该年有数据，不代表完整年度）"
+                },
+                {
+                  "id": "year:2025",
+                  "label": "2025年（该年有数据，不代表完整年度）"
+                }
+              ]
+            }
+          ]
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "aw_schema_mode": "subgraph",
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 19
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "ok",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "mention_count": 1,
+              "bindings": [
+                {
+                  "column": "invoice.billing_country",
+                  "operator": "=",
+                  "value": "Germany",
+                  "mention_id": "mention-1",
+                  "method": "exact",
+                  "evidence_ref": "a-3414db81951a6279",
+                  "source": "verified_value_index"
+                }
+              ],
+              "ambiguous_count": 0,
+              "index_status": "ready"
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "value_link_exact",
+            "status": "ok",
+            "input_summary": {
+              "mention_id": "mention-1",
+              "original_text": "德国"
+            },
+            "output_summary": {
+              "candidate_count": 1,
+              "candidate_ids": [
+                "v-475210ef4e08328852ec"
+              ],
+              "scores": [
+                1.0
+              ]
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "rewrite",
+            "status": "ok",
+            "input_summary": {
+              "original_question": "德国的销售额同比增长多少？"
+            },
+            "output_summary": {
+              "rewritten_question": "Germany的销售额同比增长多少？",
+              "patches": [
+                {
+                  "start": 0,
+                  "end": 2,
+                  "original": "德国",
+                  "replacement": "Germany",
+                  "method": "exact",
+                  "evidence_ref": "a-3414db81951a6279"
+                }
+              ]
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "warn",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L2",
+              "intent_version": 1,
+              "issues": [
+                {
+                  "id": "missing:time_scope.current",
+                  "question": "请明确当前比较期间。",
+                  "reason": "该任务缺少必需条件，未登记可直接代填的默认值。",
+                  "field": "time_scope.current",
+                  "options": [
+                    {
+                      "id": "year:2021",
+                      "label": "2021年（该年有数据，不代表完整年度）"
+                    },
+                    {
+                      "id": "year:2022",
+                      "label": "2022年（该年有数据，不代表完整年度）"
+                    },
+                    {
+                      "id": "year:2023",
+                      "label": "2023年（该年有数据，不代表完整年度）"
+                    },
+                    {
+                      "id": "year:2024",
+                      "label": "2024年（该年有数据，不代表完整年度）"
+                    },
+                    {
+                      "id": "year:2025",
+                      "label": "2025年（该年有数据，不代表完整年度）"
+                    }
+                  ]
+                }
+              ],
+              "assumptions": [
+                "销售额的地区按发票账单国家统计（10月12日已确认默认口径）。"
+              ],
+              "derived": {},
+              "invalidated": [],
+              "resume_supported": true
+            },
+            "latency_ms": 4022
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/4a5e5be0b9754590b717065f2853b67c.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 166,
+                "prompt_tokens": 5406,
+                "total_tokens": 5572,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 1536
+                },
+                "prompt_cache_hit_tokens": 1536,
+                "prompt_cache_miss_tokens": 3870
+              },
+              "json_valid": true
+            },
+            "latency_ms": 3097
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 4042,
+          "nlu": {
+            "original_question": "德国的销售额同比增长多少？",
+            "rewritten_question": "Germany的销售额同比增长多少？",
+            "mentions": [
+              {
+                "mention_id": "mention-1",
+                "original_text": "德国",
+                "span": [
+                  0,
+                  2
+                ],
+                "status": "resolved",
+                "field_candidates": [
+                  "invoice.billing_country"
+                ],
+                "candidates": [
+                  {
+                    "candidate_id": "v-475210ef4e08328852ec",
+                    "column": "invoice.billing_country",
+                    "standard_value": "Germany",
+                    "surface": "德国",
+                    "score": 1.0,
+                    "source": "llm_draft:deepseek-flash",
+                    "evidence_ref": "a-3414db81951a6279",
+                    "binding_policy": "direct"
+                  }
+                ],
+                "selected_candidate_id": "v-475210ef4e08328852ec",
+                "match_method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "canonical_value": "Germany",
+                "column": "invoice.billing_country",
+                "stages": [
+                  {
+                    "method": "exact",
+                    "minimum_score": 0.0,
+                    "candidates": [
+                      {
+                        "candidate_id": "v-475210ef4e08328852ec",
+                        "column": "invoice.billing_country",
+                        "standard_value": "Germany",
+                        "surface": "德国",
+                        "score": 1.0,
+                        "source": "llm_draft:deepseek-flash",
+                        "evidence_ref": "a-3414db81951a6279",
+                        "binding_policy": "direct"
+                      }
+                    ]
+                  }
+                ],
+                "guard_source": null
+              }
+            ],
+            "bindings": [
+              {
+                "column": "invoice.billing_country",
+                "operator": "=",
+                "value": "Germany",
+                "mention_id": "mention-1",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279",
+                "source": "verified_value_index"
+              }
+            ],
+            "patches": [
+              {
+                "start": 0,
+                "end": 2,
+                "original": "德国",
+                "replacement": "Germany",
+                "method": "exact",
+                "evidence_ref": "a-3414db81951a6279"
+              }
+            ],
+            "index_status": "ready"
+          },
+          "clarify": {
+            "level": "L2",
+            "intent_version": 1,
+            "state": "WAITING_CLARIFICATION",
+            "assumptions": [
+              "销售额的地区按发票账单国家统计（10月12日已确认默认口径）。"
+            ],
+            "region_scope": "invoice.billing_country",
+            "derived": {},
+            "invalidated": [],
+            "semantic_contract": {
+              "task_type": "growth",
+              "metric": "invoice_revenue",
+              "time_scope": null,
+              "comparison": {
+                "type": "yoy"
+              },
+              "numerator": null,
+              "denominator": null,
+              "rank_object": null,
+              "top_n": null,
+              "order": null,
+              "region_scope": "invoice.billing_country",
+              "region_ambiguous": false,
+              "scope_missing": false,
+              "time_ambiguous": false,
+              "conflicts": [],
+              "grouping": [],
+              "filters": [
+                {
+                  "column": "invoice.billing_country",
+                  "operator": "=",
+                  "value": "Germany",
+                  "mention_id": "mention-1",
+                  "method": "exact",
+                  "evidence_ref": "a-3414db81951a6279",
+                  "source": "verified_value_index",
+                  "scope_evidence": "oct12_approved_default"
+                }
+              ],
+              "assumptions": [
+                "销售额的地区按发票账单国家统计（10月12日已确认默认口径）。"
+              ],
+              "default_assumptions": [],
+              "evidence_spans": {
+                "metric": "销售额",
+                "comparison": "同比",
+                "filters": "德国"
+              }
+            },
+            "patch_history": [],
+            "invalidated_execution": [],
+            "switch": null
+          }
+        }
+      },
+      "latency_ms": 4048,
+      "http_status": 200,
+      "response_raw_file": "turns\\000\\response.raw.json",
+      "provider_attempts": 1,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    },
+    {
+      "index": 1,
+      "phase": "clarification",
+      "prepared_at": "2026-10-14T05:11:00.974708+00:00",
+      "request": {
+        "session_id": "special-reviewed-dev-v3-e624b0ba-3e66-45ad-ac9d-c501b9445969",
+        "message": "2024年（该年有数据，不代表完整年度）",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "a8e89d12-6652-4966-9aa7-a3603149147f",
+        "intent_version": 1,
+        "choice_id": "year:2024"
+      },
+      "asked_key": "time_scope.current",
+      "supplement_key": "time_scope",
+      "response": {
+        "trace_id": "32585363-ced1-4b2a-9b7c-9010715e7c75",
+        "status": "SUCCEEDED",
+        "answer": "查询结果：-61.27%。\n口径说明：销售额的地区按发票账单国家统计（10月12日已确认默认口径）。",
+        "rewritten_question": null,
+        "sql": "SELECT (SUM(CASE WHEN \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' THEN \"total\" ELSE 0 END) - SUM(CASE WHEN \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' THEN \"total\" ELSE 0 END)) / NULLIF(SUM(CASE WHEN \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' THEN \"total\" ELSE 0 END), 0) AS yoy_growth_rate FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'Germany'",
+        "table": [
+          {
+            "yoy_growth_rate": "-0.61272390364422483014"
+          }
+        ],
+        "evidences": [],
+        "clarification": null,
+        "intent": {
+          "intent_version": 2,
+          "route": "sql",
+          "task_type": "growth",
+          "metric": "invoice_revenue",
+          "time_scope": {
+            "current": {
+              "start": "2024-01-01",
+              "end": "2025-01-01",
+              "label": "2024年",
+              "grain": "year"
+            },
+            "base": {
+              "start": "2023-01-01",
+              "end": "2024-01-01",
+              "derived_from": "explicit current period and yoy"
+            }
+          },
+          "filters": [
+            {
+              "column": "invoice.billing_country",
+              "operator": "=",
+              "value": "Germany",
+              "mention_id": "mention-1",
+              "method": "exact",
+              "evidence_ref": "a-3414db81951a6279",
+              "source": "verified_value_index",
+              "scope_evidence": "oct12_approved_default"
+            }
+          ],
+          "grouping": [],
+          "order": null,
+          "assumptions": [
+            "销售额的地区按发票账单国家统计（10月12日已确认默认口径）。"
+          ],
+          "unresolved": []
+        },
+        "steps": [
+          {
+            "name": "route",
+            "status": "ok",
+            "input_summary": {
+              "selected": "sql"
+            },
+            "output_summary": {
+              "route": "sql",
+              "mode": "explicit_source_scope"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "config_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "llm_configured": true,
+              "model": "deepseek-flash",
+              "catalog_exists": true,
+              "statement_timeout_ms": 5000,
+              "max_rows": 200,
+              "llm_call_max_attempts": 3,
+              "llm_request_max_attempts": 12,
+              "aw_configured": true,
+              "aw_catalog_exists": true,
+              "aw_schema_index_exists": true,
+              "aw_schema_mode": "subgraph",
+              "selected_db_id": "chinook"
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_version_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "verified": true,
+              "intent_version": 1
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "catalog",
+            "status": "ok",
+            "input_summary": {
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "table_count": 11,
+              "db_id": "chinook"
+            },
+            "latency_ms": 20
+          },
+          {
+            "name": "requested_source_check",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "explicit_tables": [],
+              "unknown_sources": false
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "value_link",
+            "status": "skipped",
+            "input_summary": {
+              "enabled": true,
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "reason": "explicit_card_choice",
+              "bindings": []
+            },
+            "latency_ms": 1
+          },
+          {
+            "name": "rewrite",
+            "status": "skipped",
+            "input_summary": {
+              "original_question": "2024年（该年有数据，不代表完整年度）"
+            },
+            "output_summary": {
+              "rewritten_question": "2024年（该年有数据，不代表完整年度）",
+              "patches": []
+            },
+            "latency_ms": 0
+          },
+          {
+            "name": "clarification_gate",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "level": "L0",
+              "intent_version": 2,
+              "issues": [],
+              "assumptions": [
+                "销售额的地区按发票账单国家统计（10月12日已确认默认口径）。"
+              ],
+              "derived": {
+                "time_scope.base": {
+                  "start": "2023-01-01",
+                  "end": "2024-01-01",
+                  "derived_from": "explicit current period and yoy"
+                }
+              },
+              "invalidated": [
+                "derived_period",
+                "result"
+              ],
+              "resume_supported": true
+            },
+            "latency_ms": 5
+          },
+          {
+            "name": "sql_gen",
+            "status": "ok",
+            "input_summary": {
+              "question": "根据以下当前已合并的执行合同生成查询；合同已包含保留条件和本轮修改，不能恢复历史条件：{\"task_type\": \"growth\", \"metric\": \"invoice_revenue\", \"time_scope\": {\"current\": {\"start\": \"2024-01-01\", \"end\": \"2025-01-01\", \"label\": \"2024年\", \"grain\": \"year\"}, \"base\": {\"start\": \"2023-01-01\", \"end\": \"2024-01-01\", \"derived_from\": \"explicit current period and yoy\"}}, \"comparison\": {\"type\": \"yoy\"}, \"numerator\": null, \"denominator\": null, \"rank_object\": null, \"top_n\": null, \"order\": null, \"region_scope\": \"invoice.billing_country\", \"filters\": [{\"column\": \"invoice.billing_country\", \"operator\": \"=\", \"value\": \"Germany\", \"mention_id\": \"mention-1\", \"method\": \"exact\", \"evidence_ref\": \"a-3414db81951a6279\", \"source\": \"verified_value_index\", \"scope_evidence\": \"oct12_approved_default\"}], \"assumptions\": [\"销售额的地区按发票账单国家统计（10月12日已确认默认口径）。\"]}\n历史首轮原文（仅供保留未修改的返回字段和输出形式，不作为筛选、指标、期间、对象或TopN依据）：德国的销售额同比增长多少？",
+              "repair_attempt": 0,
+              "db_id": "chinook",
+              "allow_joins": true
+            },
+            "output_summary": {
+              "sql": "SELECT (SUM(CASE WHEN \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' THEN \"total\" ELSE 0 END) - SUM(CASE WHEN \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' THEN \"total\" ELSE 0 END)) / NULLIF(SUM(CASE WHEN \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' THEN \"total\" ELSE 0 END), 0) AS yoy_growth_rate FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'Germany'",
+              "explanation": "按发票账单国家 Germany 统计发票销售额（invoice.total），分别汇总 2024 年当期与 2023 年基期，计算同比原始增长率分数（未乘100），基期为零时返回 NULL。"
+            },
+            "latency_ms": 4330
+          },
+          {
+            "name": "llm",
+            "status": "ok",
+            "input_summary": {
+              "attempt": 1,
+              "model": "deepseek-flash"
+            },
+            "output_summary": {
+              "provider_capture": "eval/artifacts/manual-applied-20261013-v1/provider-live/f848528b2f6c4dea83fddab20e4673a9.json",
+              "model": "deepseek-flash",
+              "usage": {
+                "completion_tokens": 224,
+                "prompt_tokens": 5996,
+                "total_tokens": 6220,
+                "completion_tokens_details": null,
+                "prompt_tokens_details": {
+                  "audio_tokens": null,
+                  "cache_write_tokens": null,
+                  "cached_tokens": 1792
+                },
+                "prompt_cache_hit_tokens": 1792,
+                "prompt_cache_miss_tokens": 4204
+              },
+              "json_valid": true
+            },
+            "latency_ms": 3413
+          },
+          {
+            "name": "sql_current_contract_validate",
+            "status": "ok",
+            "input_summary": {
+              "intent_version": 2
+            },
+            "output_summary": {
+              "verified": true,
+              "before_repair_filter_capture": true
+            },
+            "latency_ms": 2
+          },
+          {
+            "name": "sql_validate",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT (SUM(CASE WHEN \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' THEN \"total\" ELSE 0 END) - SUM(CASE WHEN \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' THEN \"total\" ELSE 0 END)) / NULLIF(SUM(CASE WHEN \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' THEN \"total\" ELSE 0 END), 0) AS yoy_growth_rate FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'Germany'"
+            },
+            "output_summary": {
+              "tables": [
+                "invoice"
+              ],
+              "default_limit_added": false,
+              "sql": "SELECT (SUM(CASE WHEN \"invoice_date\" >= '2024-01-01' AND \"invoice_date\" < '2025-01-01' THEN \"total\" ELSE 0 END) - SUM(CASE WHEN \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' THEN \"total\" ELSE 0 END)) / NULLIF(SUM(CASE WHEN \"invoice_date\" >= '2023-01-01' AND \"invoice_date\" < '2024-01-01' THEN \"total\" ELSE 0 END), 0) AS yoy_growth_rate FROM \"public\".\"invoice\" WHERE \"billing_country\" = 'Germany'"
+            },
+            "latency_ms": 5
+          },
+          {
+            "name": "sql_binding_validate",
+            "status": "ok",
+            "input_summary": {
+              "binding_count": 1
+            },
+            "output_summary": {
+              "verified": true,
+              "bindings": [
+                {
+                  "column": "invoice.billing_country",
+                  "operator": "=",
+                  "value": "Germany",
+                  "mention_id": "mention-1",
+                  "method": "exact",
+                  "evidence_ref": "a-3414db81951a6279",
+                  "source": "verified_value_index",
+                  "scope_evidence": "oct12_approved_default"
+                }
+              ],
+              "mode": "qualified_ast_mandatory_filters"
+            },
+            "latency_ms": 1
+          },
+          {
+            "name": "sql_exec",
+            "status": "ok",
+            "input_summary": {
+              "sql": "SELECT (SUM(CASE WHEN \"invoice_date\" >= %(qa_value_3)s AND \"invoice_date\" < %(qa_value_4)s THEN \"total\" ELSE 0 END) - SUM(CASE WHEN \"invoice_date\" >= %(qa_value_5)s AND \"invoice_date\" < %(qa_value_6)s THEN \"total\" ELSE 0 END)) / NULLIF(SUM(CASE WHEN \"invoice_date\" >= %(qa_value_1)s AND \"invoice_date\" < %(qa_value_2)s THEN \"total\" ELSE 0 END), 0) AS yoy_growth_rate FROM \"public\".\"invoice\" WHERE \"billing_country\" = %(qa_value_0)s",
+              "db_id": "chinook"
+            },
+            "output_summary": {
+              "row_count": 1,
+              "columns": [
+                "yoy_growth_rate"
+              ],
+              "truncated": false
+            },
+            "latency_ms": 24
+          },
+          {
+            "name": "answer",
+            "status": "ok",
+            "input_summary": {},
+            "output_summary": {
+              "status": "SUCCEEDED",
+              "summary_source": "database_result_template"
+            },
+            "latency_ms": 0
+          }
+        ],
+        "error": null,
+        "metadata": {
+          "model": "deepseek-flash",
+          "db_id": "chinook",
+          "latency_ms": 4395,
+          "nlu": {
+            "original_question": "2024年（该年有数据，不代表完整年度）",
+            "rewritten_question": "2024年（该年有数据，不代表完整年度）",
+            "mentions": [],
+            "bindings": [],
+            "patches": [],
+            "index_status": "explicit_card_choice"
+          },
+          "clarify": {
+            "level": "L0",
+            "intent_version": 2,
+            "state": "ANSWERED",
+            "assumptions": [
+              "销售额的地区按发票账单国家统计（10月12日已确认默认口径）。"
+            ],
+            "region_scope": "invoice.billing_country",
+            "derived": {
+              "time_scope.base": {
+                "start": "2023-01-01",
+                "end": "2024-01-01",
+                "derived_from": "explicit current period and yoy"
+              }
+            },
+            "invalidated": [
+              "derived_period",
+              "result"
+            ],
+            "semantic_contract": {
+              "task_type": "growth",
+              "metric": "invoice_revenue",
+              "time_scope": {
+                "current": {
+                  "start": "2024-01-01",
+                  "end": "2025-01-01",
+                  "label": "2024年",
+                  "grain": "year"
+                },
+                "base": {
+                  "start": "2023-01-01",
+                  "end": "2024-01-01",
+                  "derived_from": "explicit current period and yoy"
+                }
+              },
+              "comparison": {
+                "type": "yoy"
+              },
+              "numerator": null,
+              "denominator": null,
+              "rank_object": null,
+              "top_n": null,
+              "order": null,
+              "region_scope": "invoice.billing_country",
+              "region_ambiguous": false,
+              "scope_missing": false,
+              "time_ambiguous": false,
+              "conflicts": [],
+              "grouping": [],
+              "filters": [
+                {
+                  "column": "invoice.billing_country",
+                  "operator": "=",
+                  "value": "Germany",
+                  "mention_id": "mention-1",
+                  "method": "exact",
+                  "evidence_ref": "a-3414db81951a6279",
+                  "source": "verified_value_index",
+                  "scope_evidence": "oct12_approved_default"
+                }
+              ],
+              "assumptions": [
+                "销售额的地区按发票账单国家统计（10月12日已确认默认口径）。"
+              ],
+              "default_assumptions": [],
+              "evidence_spans": {
+                "metric": "销售额",
+                "comparison": "同比",
+                "filters": "德国"
+              }
+            },
+            "patch_history": [
+              {
+                "event": "patch",
+                "patches": [
+                  {
+                    "op": "set",
+                    "path": "time_scope",
+                    "value": {
+                      "current": {
+                        "start": "2024-01-01",
+                        "end": "2025-01-01",
+                        "label": "2024年",
+                        "grain": "year"
+                      }
+                    },
+                    "evidence": ""
+                  },
+                  {
+                    "op": "set",
+                    "path": "time_ambiguous",
+                    "value": false,
+                    "evidence": ""
+                  }
+                ],
+                "intent_version": 2,
+                "invalidated": [
+                  "derived_period",
+                  "result"
+                ]
+              }
+            ],
+            "invalidated_execution": [
+              "sql_plan",
+              "sql",
+              "result"
+            ],
+            "switch": null
+          },
+          "result_columns": [
+            "yoy_growth_rate"
+          ],
+          "truncated": false,
+          "result_format": {
+            "yoy_growth_rate": {
+              "kind": "percentage",
+              "scale": 100,
+              "raw_values_preserved": true,
+              "source": "sql_projection"
+            }
+          }
+        }
+      },
+      "latency_ms": 4401,
+      "http_status": 200,
+      "response_raw_file": "turns\\001\\response.raw.json",
+      "provider_attempts": 1,
+      "provider_captures_archived": 0,
+      "provider_evidence_file": "provider-evidence.json"
+    }
+  ],
+  "used_keys": [
+    "time_scope.current"
+  ],
+  "clarification_count": 1,
+  "controller_events": [
+    {
+      "after_turn": 0,
+      "outcome": "answer",
+      "request": {
+        "session_id": "special-reviewed-dev-v3-e624b0ba-3e66-45ad-ac9d-c501b9445969",
+        "message": "2024年（该年有数据，不代表完整年度）",
+        "scope": {
+          "route": "sql",
+          "db_id": "chinook",
+          "doc_ids": []
+        },
+        "clarification_id": "a8e89d12-6652-4966-9aa7-a3603149147f",
+        "intent_version": 1,
+        "choice_id": "year:2024"
+      },
+      "asked_key": "time_scope.current",
+      "supplement_key": "time_scope",
+      "reason": ""
+    }
+  ],
+  "outcome": "finished",
+  "finished_at": "2026-10-14T05:11:05.382345+00:00"
+}

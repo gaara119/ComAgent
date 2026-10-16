@@ -1,0 +1,139 @@
+{
+  "scope": "Independent read-only audit of two actual v3 gold DEV predictions and current protected-history hashes; no additional model/database execution",
+  "run": "gold-two-v3-live-002",
+  "dataset_version": "manual-applied-20261013-v3",
+  "responses_sha256": "5c2d357cf86987911036b526fb4b857225cc00b5107792ae4678b5e6257f4895",
+  "rows": [
+    {
+      "id": "sql-38",
+      "judgment": "AI建议通过",
+      "checks": {
+        "request_matches_v3": true,
+        "v3_gold_hash_valid": true,
+        "response_succeeded": true,
+        "single_public_track_source": true,
+        "no_join_group_having_distinct_cte": true,
+        "actual_main_ex": true,
+        "exact_projection_fields": true,
+        "actual_non_null_bytes_predicate": true,
+        "ordered_bytes_desc_track_id_asc": true,
+        "limit_three": true,
+        "ordered_result_equal_v3": true,
+        "returned_integer_ids_and_bytes": true,
+        "lookup_has_no_missing_metric": true
+      },
+      "actual_sql": "SELECT \"track_id\", \"name\", \"bytes\" FROM \"public\".\"track\" WHERE \"bytes\" IS NOT NULL ORDER BY \"bytes\" DESC, \"track_id\" ASC LIMIT 3",
+      "actual_result": [
+        {
+          "track_id": 3224,
+          "name": "Through a Looking Glass",
+          "bytes": 1059546140
+        },
+        {
+          "track_id": 2820,
+          "name": "Occupation / Precipice",
+          "bytes": 1054423946
+        },
+        {
+          "track_id": 3236,
+          "name": "The Young Lords",
+          "bytes": 587051735
+        }
+      ],
+      "actual_answer": "查询返回 3 行，详细数据见结果表。",
+      "source": {
+        "path": "eval/artifacts/manual-applied-20261013-v1/gold-two-live-002/responses.jsonl",
+        "id": "sql-38"
+      },
+      "raw_record_sha256": "ef37bcc8d985869be8672ea5f1fcfd5b66c10b679b9f446cd1aeadaa13e4812f",
+      "provider_paths": [
+        "eval/artifacts/manual-applied-20261013-v1/provider-live-002/a2aef81ab90842ad82a9ede42d760275.json",
+        "eval/artifacts/manual-applied-20261013-v1/provider-live-002/62d42b61345e4c17ac65b84ddf64f6cf.json"
+      ],
+      "limitations": [],
+      "ast_null_predicate": {
+        "node_type": "Is",
+        "column": "bytes",
+        "negate": true,
+        "literal_type": "Null",
+        "normalized_sql": "\"bytes\" IS NOT NULL"
+      }
+    },
+    {
+      "id": "robust-23",
+      "judgment": "AI建议通过",
+      "checks": {
+        "request_matches_v3": true,
+        "v3_gold_hash_valid": true,
+        "response_succeeded": true,
+        "single_public_track_source": true,
+        "no_join_group_having_distinct_cte": true,
+        "actual_main_ex": true,
+        "single_avg_milliseconds": true,
+        "whole_library_no_filter_or_limit": true,
+        "no_unit_conversion_rounding_or_media_purchase_weight": true,
+        "one_scalar_result": true,
+        "full_decimal_equal": true,
+        "full_precision_string_preserved": true,
+        "alias_difference_permitted": true
+      },
+      "actual_sql": "SELECT AVG(\"milliseconds\") AS avg_milliseconds FROM \"public\".\"track\"",
+      "actual_result": [
+        {
+          "avg_milliseconds": "393599.212103910933"
+        }
+      ],
+      "actual_answer": "查询结果：393599.212103910933。",
+      "source": {
+        "path": "eval/artifacts/manual-applied-20261013-v1/gold-two-live-002/responses.jsonl",
+        "id": "robust-23"
+      },
+      "raw_record_sha256": "a34a140fe95eca2959e8b40e09c8b14b972f371de9321925c01864776fc1b0e5",
+      "provider_paths": [
+        "eval/artifacts/manual-applied-20261013-v1/provider-live-002/24d39c4d2ded401280c6a22ad1d2ef15.json"
+      ],
+      "limitations": [
+        "Natural answer prints exact value without restating milliseconds; request, actual AVG(milliseconds) and avg_milliseconds column retain the unit."
+      ]
+    }
+  ],
+  "summary": {
+    "predictions_read": 2,
+    "passes": 2,
+    "original_source_count": 384,
+    "original_source_changes": 0,
+    "protected_count": 132,
+    "authorized_changed_protected_files": 3,
+    "unexpected_changed_protected_files": 0,
+    "new_model_requests": 0,
+    "new_database_queries": 0,
+    "held_predictions": 0
+  },
+  "original_source_changes": [],
+  "protected_changes": [
+    {
+      "path": "qa_agent/clarify/extractor.py",
+      "before_sha256": "6732e65c7e7a36e49ee2f52d2ad7d20a8b2623f12b9c52a1e3c2b54102a7405c",
+      "after_sha256": "ac4dea60741c55d431dc64302b13f102863ab98660dfdc039087f4203d4729fe",
+      "allowed": true,
+      "authorization_scope": "Approved minimal byte-attribute/default-provenance repair after actual DEV regression"
+    },
+    {
+      "path": "qa_agent/sql/pruner.py",
+      "before_sha256": "8009b79862428c1adddf2752a1d7ecd9aa627941cdca061481e759546b9be7af",
+      "after_sha256": "0cb384f879eb90be5bd8a016f5eca677524a739a4a36d8a0ed4416ba34367b0e",
+      "allowed": true,
+      "authorization_scope": "Parent-authorized pruner return-shape validation repair after actual AW regression"
+    },
+    {
+      "path": "tests/test_d3_clarify.py",
+      "before_sha256": "7dee2db64b46b5479fb77704dd821e5cba98cb28d17ce1fb88117813fea79a44",
+      "after_sha256": "e1c34a6317d4a33b6258d9acbd118da3be3d9bf712d59cf93b35fe734f16f0c3",
+      "allowed": true,
+      "authorization_scope": "Approved fast-path default-label assertion synchronization"
+    }
+  ],
+  "human_signature": null,
+  "human_confirmation_date": null,
+  "checker_note": "The installed SQLGlot represents IS NOT NULL as Is(negate=True); the audit recognizes both this shape and Not(Is(...)). Initial overly narrow audit predicate detection was corrected without changing any SQL or prediction."
+}

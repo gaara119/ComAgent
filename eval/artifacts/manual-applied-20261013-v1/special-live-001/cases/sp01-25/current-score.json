@@ -1,0 +1,65 @@
+{
+  "id": "sp01-25",
+  "task": "01",
+  "category": "colloquial",
+  "turn_count": 1,
+  "initial_status": "SUCCEEDED",
+  "observed_initial_level": "L0",
+  "initial_level_correct": null,
+  "initial_status_correct": null,
+  "declared_default_observed": null,
+  "outcome": "finished",
+  "candidate_contract": null,
+  "query": {
+    "executed": true,
+    "matched": true,
+    "comparison": {
+      "matched": true,
+      "reason": "equal",
+      "column_mapping": [
+        0
+      ]
+    },
+    "legacy_comparison": {
+      "matched": true,
+      "reason": "equal",
+      "column_mapping": [
+        0
+      ]
+    },
+    "semantic_check": {
+      "correct": true,
+      "status": "confirmed",
+      "reason": "Qualified SQL AST matches frozen semantic contract",
+      "gold": {
+        "ast": "SELECT SUM(invoice.total) FROM invoice WHERE invoice.billing_country = 'Italy'",
+        "predicates": {
+          "invoice.billing_country = 'Italy'": 1
+        },
+        "aggregates": [
+          "SUM(invoice.total)"
+        ],
+        "tables": [
+          "invoice"
+        ],
+        "limit": null
+      },
+      "actual": {
+        "ast": "SELECT SUM(invoice.total) FROM invoice WHERE invoice.billing_country = 'Italy'",
+        "predicates": {
+          "invoice.billing_country = 'Italy'": 1
+        },
+        "aggregates": [
+          "SUM(invoice.total)"
+        ],
+        "tables": [
+          "invoice"
+        ],
+        "limit": null
+      }
+    }
+  },
+  "post_completion": [],
+  "whole_dialogue_success": true,
+  "controller_events": []
+}

@@ -1,4 +1,0 @@
-版本special-reference-completion-v1。你在独立上下文补齐已有合成dev的离线参考SQL。题目、主类别、已明确的补充答案与controller.final_intent均已固定；不重新造题、不改变任何已有条件，不以运行时代码行为或被测回答确定gold。你将重新读真实schema、已共同确认业务口径和每条最终意图，只对当前给出的id返回SQL。
-每个gold_sql必须非空PostgreSQL只读SELECT，明确表示该案例在允许用户补充后controller.final_intent的完整目标。初次L2需要追问不表示补充后没有SQL；本字段绝不是初次缺条件查询的占位，因此禁止null/空字符串。年份/地区/指标/对象只能依照已给的final_intent与allowed_user_supplements，不能自由选择。若已有目标本身冲突，仍写出能忠实表达其中显式条件的SQL并在issues写具体冲突，不声称确定可评分。
-用户查询国家未明确住址/账单造成的原始标注问题，不可悄悄修题；SQL仅表达已有离线最终明确选择，并在issues指出初始分类或模拟用户规则不足。曲目金额用明细价×量、发票金额SUM(total)、客单价AVG每发票、复购在时期内>=2、期间左闭右开、同比类型和当前时期可推基期、零分母NULL、SUM/AVG空保持NULL、top稳定ID。客户买最多用金额且仅匿名customer_id；热门曲目购买数量默认有明确时期。不得输出客户/员工联系人字段或值。真实结果由程序本机只读执行，不能造数。
-返回annotations数组，每项{"id":原编号,"gold_sql":"完整SQL","business_basis":[具体来源/规则/最终用户条件],"issues":[证据不足问题或空数组]}。不改其他字段，不声称人工批准。所有SQL之后还需两遍独立AI语义复核，不能只说可执行。

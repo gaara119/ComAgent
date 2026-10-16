@@ -1,0 +1,342 @@
+{
+  "started_at_utc": "2026-10-14T05:08:28.726566+00:00",
+  "finished_at_utc": "2026-10-14T05:08:28.757837+00:00",
+  "method": "POST",
+  "path": "/api/chat",
+  "http_status": 200,
+  "request": {
+    "session_id": "special-reviewed-dev-v3-ba2b2f1b-e70c-4834-874d-fccc444c910c",
+    "message": "Chinook 里摇滚曲目有多少首？",
+    "scope": {
+      "route": "sql",
+      "db_id": "chinook",
+      "doc_ids": []
+    }
+  },
+  "response": {
+    "trace_id": "6ff75d0d-a485-449b-8ff9-6a602e4a9fb2",
+    "status": "NEEDS_CLARIFICATION",
+    "answer": "“摇滚”具体指哪个对象？",
+    "rewritten_question": null,
+    "sql": null,
+    "table": null,
+    "evidences": [],
+    "clarification": {
+      "clarification_id": "9326bd1f-13c2-4092-82bb-6c7080797b76",
+      "intent_version": 1,
+      "level": "L2",
+      "question": "“摇滚”具体指哪个对象？",
+      "reason": "这个说法可能对应不同对象，请选择本次要查询的对象。",
+      "issues": [
+        {
+          "id": "value:issue-fbaa1127c30ea0e7",
+          "question": "“摇滚”具体指哪个对象？",
+          "reason": "这个说法可能对应不同对象，请选择本次要查询的对象。",
+          "field": "filters",
+          "options": [
+            {
+              "id": "value:issue-fbaa1127c30ea0e7:v-5abaeb142337ce5b27ed",
+              "label": "Rock（genre.name）"
+            },
+            {
+              "id": "value:issue-fbaa1127c30ea0e7:v-10facd793602b59518e7",
+              "label": "Rock And Roll（genre.name）"
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "id": "value:issue-fbaa1127c30ea0e7:v-5abaeb142337ce5b27ed",
+          "label": "Rock（genre.name）"
+        },
+        {
+          "id": "value:issue-fbaa1127c30ea0e7:v-10facd793602b59518e7",
+          "label": "Rock And Roll（genre.name）"
+        }
+      ],
+      "resume_supported": true
+    },
+    "intent": {
+      "intent_version": 1,
+      "route": "sql",
+      "task_type": "lookup",
+      "metric": null,
+      "time_scope": null,
+      "filters": [],
+      "grouping": [],
+      "order": null,
+      "assumptions": [],
+      "unresolved": [
+        {
+          "id": "value:issue-fbaa1127c30ea0e7",
+          "question": "“摇滚”具体指哪个对象？",
+          "reason": "这个说法可能对应不同对象，请选择本次要查询的对象。",
+          "field": "filters",
+          "options": [
+            {
+              "id": "value:issue-fbaa1127c30ea0e7:v-5abaeb142337ce5b27ed",
+              "label": "Rock（genre.name）"
+            },
+            {
+              "id": "value:issue-fbaa1127c30ea0e7:v-10facd793602b59518e7",
+              "label": "Rock And Roll（genre.name）"
+            }
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "name": "route",
+        "status": "ok",
+        "input_summary": {
+          "selected": "sql"
+        },
+        "output_summary": {
+          "route": "sql",
+          "mode": "explicit_source_scope"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "config_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "llm_configured": true,
+          "model": "deepseek-flash",
+          "catalog_exists": true,
+          "statement_timeout_ms": 5000,
+          "max_rows": 200,
+          "llm_call_max_attempts": 3,
+          "llm_request_max_attempts": 12,
+          "aw_configured": true,
+          "aw_catalog_exists": true,
+          "aw_schema_index_exists": true,
+          "aw_schema_mode": "subgraph",
+          "selected_db_id": "chinook"
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "catalog",
+        "status": "ok",
+        "input_summary": {
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "table_count": 11,
+          "db_id": "chinook"
+        },
+        "latency_ms": 22
+      },
+      {
+        "name": "requested_source_check",
+        "status": "ok",
+        "input_summary": {},
+        "output_summary": {
+          "explicit_tables": [],
+          "unknown_sources": false
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "value_link",
+        "status": "ok",
+        "input_summary": {
+          "enabled": true,
+          "db_id": "chinook"
+        },
+        "output_summary": {
+          "mention_count": 1,
+          "bindings": [],
+          "ambiguous_count": 1,
+          "index_status": "ready"
+        },
+        "latency_ms": 2
+      },
+      {
+        "name": "value_link_ambiguity_guard",
+        "status": "ok",
+        "input_summary": {
+          "mention_id": "mention-1",
+          "original_text": "摇滚"
+        },
+        "output_summary": {
+          "candidate_count": 2,
+          "candidate_ids": [
+            "v-5abaeb142337ce5b27ed",
+            "v-10facd793602b59518e7"
+          ],
+          "scores": [
+            1.0,
+            1.0
+          ]
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "rewrite",
+        "status": "skipped",
+        "input_summary": {
+          "original_question": "Chinook 里摇滚曲目有多少首？"
+        },
+        "output_summary": {
+          "rewritten_question": "Chinook 里摇滚曲目有多少首？",
+          "patches": []
+        },
+        "latency_ms": 0
+      },
+      {
+        "name": "clarification_gate",
+        "status": "warn",
+        "input_summary": {},
+        "output_summary": {
+          "level": "L2",
+          "intent_version": 1,
+          "issues": [
+            {
+              "id": "value:issue-fbaa1127c30ea0e7",
+              "question": "“摇滚”具体指哪个对象？",
+              "reason": "这个说法可能对应不同对象，请选择本次要查询的对象。",
+              "field": "filters",
+              "options": [
+                {
+                  "id": "value:issue-fbaa1127c30ea0e7:v-5abaeb142337ce5b27ed",
+                  "label": "Rock（genre.name）"
+                },
+                {
+                  "id": "value:issue-fbaa1127c30ea0e7:v-10facd793602b59518e7",
+                  "label": "Rock And Roll（genre.name）"
+                }
+              ]
+            }
+          ],
+          "assumptions": [],
+          "derived": {},
+          "invalidated": [],
+          "resume_supported": true
+        },
+        "latency_ms": 5
+      }
+    ],
+    "error": null,
+    "metadata": {
+      "model": "deepseek-flash",
+      "db_id": "chinook",
+      "latency_ms": 30,
+      "nlu": {
+        "original_question": "Chinook 里摇滚曲目有多少首？",
+        "rewritten_question": "Chinook 里摇滚曲目有多少首？",
+        "mentions": [
+          {
+            "mention_id": "mention-1",
+            "original_text": "摇滚",
+            "span": [
+              9,
+              11
+            ],
+            "status": "ambiguous",
+            "field_candidates": [
+              "genre.name"
+            ],
+            "candidates": [
+              {
+                "candidate_id": "v-5abaeb142337ce5b27ed",
+                "column": "genre.name",
+                "standard_value": "Rock",
+                "surface": "Rock",
+                "score": 1.0,
+                "source": "catalog:genre.name",
+                "evidence_ref": "v-5abaeb142337ce5b27ed",
+                "binding_policy": "direct"
+              },
+              {
+                "candidate_id": "v-10facd793602b59518e7",
+                "column": "genre.name",
+                "standard_value": "Rock And Roll",
+                "surface": "Rock And Roll",
+                "score": 1.0,
+                "source": "catalog:genre.name",
+                "evidence_ref": "v-10facd793602b59518e7",
+                "binding_policy": "direct"
+              }
+            ],
+            "selected_candidate_id": null,
+            "match_method": null,
+            "evidence_ref": null,
+            "canonical_value": null,
+            "column": null,
+            "stages": [
+              {
+                "method": "ambiguity_guard",
+                "minimum_score": 0.0,
+                "candidates": [
+                  {
+                    "candidate_id": "v-5abaeb142337ce5b27ed",
+                    "column": "genre.name",
+                    "standard_value": "Rock",
+                    "surface": "Rock",
+                    "score": 1.0,
+                    "source": "catalog:genre.name",
+                    "evidence_ref": "v-5abaeb142337ce5b27ed",
+                    "binding_policy": "direct"
+                  },
+                  {
+                    "candidate_id": "v-10facd793602b59518e7",
+                    "column": "genre.name",
+                    "standard_value": "Rock And Roll",
+                    "surface": "Rock And Roll",
+                    "score": 1.0,
+                    "source": "catalog:genre.name",
+                    "evidence_ref": "v-10facd793602b59518e7",
+                    "binding_policy": "direct"
+                  }
+                ]
+              }
+            ],
+            "guard_source": "user_total_plan:3.6.4_multi_candidate_value"
+          }
+        ],
+        "bindings": [],
+        "patches": [],
+        "index_status": "ready"
+      },
+      "clarify": {
+        "level": "L2",
+        "intent_version": 1,
+        "state": "WAITING_CLARIFICATION",
+        "assumptions": [],
+        "region_scope": null,
+        "derived": {},
+        "invalidated": [],
+        "semantic_contract": {
+          "task_type": "lookup",
+          "metric": null,
+          "time_scope": null,
+          "comparison": null,
+          "numerator": null,
+          "denominator": null,
+          "rank_object": null,
+          "top_n": null,
+          "order": null,
+          "region_scope": null,
+          "region_ambiguous": false,
+          "scope_missing": false,
+          "time_ambiguous": false,
+          "conflicts": [],
+          "grouping": [],
+          "filters": [],
+          "assumptions": [],
+          "default_assumptions": [],
+          "evidence_spans": {}
+        },
+        "patch_history": [],
+        "invalidated_execution": [],
+        "switch": null
+      }
+    }
+  },
+  "recording": "one actual existing API invocation; headers omitted; credential strings redacted"
+}

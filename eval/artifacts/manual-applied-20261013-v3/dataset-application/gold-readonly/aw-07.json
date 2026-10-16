@@ -1,0 +1,87 @@
+{
+  "id": "aw-07",
+  "suite": "aw",
+  "db_id": "adventureworks",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT productid, name, listprice FROM production.product ORDER BY listprice DESC NULLS LAST, productid ASC LIMIT 5",
+  "validated_sql": "SELECT productid, name, listprice FROM production.product ORDER BY listprice DESC NULLS LAST, productid ASC LIMIT 5",
+  "columns": [
+    "productid",
+    "name",
+    "listprice"
+  ],
+  "column_type_oids": [
+    23,
+    1043,
+    1700
+  ],
+  "postgres_column_types": [
+    "int4",
+    "varchar",
+    "numeric"
+  ],
+  "rows": [
+    [
+      749,
+      "Road-150 Red, 62",
+      "3578.2700"
+    ],
+    [
+      750,
+      "Road-150 Red, 44",
+      "3578.2700"
+    ],
+    [
+      751,
+      "Road-150 Red, 48",
+      "3578.2700"
+    ],
+    [
+      752,
+      "Road-150 Red, 52",
+      "3578.2700"
+    ],
+    [
+      753,
+      "Road-150 Red, 56",
+      "3578.2700"
+    ]
+  ],
+  "table": [
+    {
+      "productid": 749,
+      "name": "Road-150 Red, 62",
+      "listprice": "3578.2700"
+    },
+    {
+      "productid": 750,
+      "name": "Road-150 Red, 44",
+      "listprice": "3578.2700"
+    },
+    {
+      "productid": 751,
+      "name": "Road-150 Red, 48",
+      "listprice": "3578.2700"
+    },
+    {
+      "productid": 752,
+      "name": "Road-150 Red, 52",
+      "listprice": "3578.2700"
+    },
+    {
+      "productid": 753,
+      "name": "Road-150 Red, 56",
+      "listprice": "3578.2700"
+    }
+  ],
+  "row_count": 5,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 19.778
+}

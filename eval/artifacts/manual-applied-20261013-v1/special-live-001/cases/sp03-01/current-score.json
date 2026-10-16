@@ -1,0 +1,68 @@
+{
+  "id": "sp03-01",
+  "task": "03",
+  "category": "L0",
+  "turn_count": 1,
+  "initial_status": "SUCCEEDED",
+  "observed_initial_level": "L0",
+  "initial_level_correct": true,
+  "initial_status_correct": true,
+  "declared_default_observed": null,
+  "outcome": "finished",
+  "candidate_contract": null,
+  "query": {
+    "executed": true,
+    "matched": true,
+    "comparison": {
+      "matched": true,
+      "reason": "equal",
+      "column_mapping": [
+        0
+      ]
+    },
+    "legacy_comparison": {
+      "matched": true,
+      "reason": "equal",
+      "column_mapping": [
+        0
+      ]
+    },
+    "semantic_check": {
+      "correct": null,
+      "status": "AI_pending",
+      "reason": "Qualified AST differs; semantic equivalence needs independent review",
+      "predicate_match": false,
+      "gold": {
+        "ast": "SELECT SUM(invoice.total) FROM invoice WHERE invoice.invoice_date >= CAST('2020-01-01' AS DATE) AND invoice.invoice_date < CAST('2021-01-01' AS DATE)",
+        "predicates": {
+          "invoice.invoice_date < CAST('2021-01-01' AS DATE)": 1,
+          "invoice.invoice_date >= CAST('2020-01-01' AS DATE)": 1
+        },
+        "aggregates": [
+          "SUM(invoice.total)"
+        ],
+        "tables": [
+          "invoice"
+        ],
+        "limit": null
+      },
+      "actual": {
+        "ast": "SELECT SUM(invoice.total) FROM invoice WHERE invoice.invoice_date >= CAST('2020-01-01 00:00:00' AS TIMESTAMP) AND invoice.invoice_date < CAST('2021-01-01 00:00:00' AS TIMESTAMP)",
+        "predicates": {
+          "invoice.invoice_date < CAST('2021-01-01 00:00:00' AS TIMESTAMP)": 1,
+          "invoice.invoice_date >= CAST('2020-01-01 00:00:00' AS TIMESTAMP)": 1
+        },
+        "aggregates": [
+          "SUM(invoice.total)"
+        ],
+        "tables": [
+          "invoice"
+        ],
+        "limit": null
+      }
+    }
+  },
+  "post_completion": [],
+  "whole_dialogue_success": true,
+  "controller_events": []
+}

@@ -1,0 +1,25 @@
+{
+  "staged_pruner_sha256": "0cb384f879eb90be5bd8a016f5eca677524a739a4a36d8a0ed4416ba34367b0e",
+  "source_pruner_sha256": "8009b79862428c1adddf2752a1d7ecd9aa627941cdca061481e759546b9be7af",
+  "constraints": [
+    "selected table must be a literal member of candidate domain",
+    "excluded keys must be literal members of candidate domain",
+    "selected tables must be distinct",
+    "selected/excluded cannot overlap",
+    "all existing post-validation, real FK restoration and verified filter checks stay in place"
+  ],
+  "retry": "Existing JsonLLM.complete_json ValidationError handling only; existing max-attempt and request budgets unchanged",
+  "business_prompt_changed": false,
+  "active_source_unchanged": true,
+  "operation": "Stage only, wait for parent apply instruction",
+  "expected_bug": "aw-19 extra excluded humanresources.employee referenced in FK text but outside 10 actual candidates",
+  "test_plan": [
+    "invalid excluded followed by valid response succeeds in exactly two mocked calls",
+    "repeated invalid excluded exhausts 3 attempts, never reaches a SQL generation step",
+    "whole request model budget still bounds retries",
+    "unknown selected including authentic out-of-candidate table rejected",
+    "overlap and duplicate selected rejected",
+    "existing bridge/FK/verified binding and rejection tests retained"
+  ],
+  "sql_whitelist_relaxed": false
+}

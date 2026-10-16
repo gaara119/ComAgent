@@ -143,6 +143,98 @@ def explicit_customer_attribute_top(question: str, catalog, *, expected_n: int |
     return set(requested)<={column.name for column in table.columns}
 
 
+def explicit_track_byte_top(question: str, catalog, *, expected_n: int | None = None,
+                            expected_order: dict | None = None) -> dict | None:
+    """Prove a complete direct track-byte lookup, without a business metric.
+
+    Every clause must be a field lookup, explicit order or projection on the
+    real track table. Unrecognized business constraints keep the usual gate.
+    The proof preserves the user's NULL qualifier in the original request; it
+    does not trust or globally admit arbitrary model-produced filters.
+    """
+    if catalog.database.casefold() != 'chinook':
+        return None
+    table = next((item for item in catalog.tables if item.name == 'track' and item.schema == 'public'), None)
+    if table is None or 'bytes' not in {column.name for column in table.columns}:
+        return None
+    clauses = [part.strip() for part in re.split(r'[，,；;。？！?!]', question.strip()) if part.strip()]
+    if not clauses or not re.search(r'曲目|歌曲', question):
+        return None
+    verbs = r'(?:找出|列出|查询|展示|返回|取|给出)'
+    known = re.fullmatch(verbs + r'\s*(?:仅\s*)?(?:文件大小|文件字节数|字节数)\s*'
+                        r'(?:已记录|已知|不为空|非空)\s*的\s*(?:曲目|歌曲)(?:中)?', clauses[0])
+    if known:
+        clauses = clauses[1:]
+    if not clauses:
+        return None
+    direction_words = {'升序': 'asc', '降序': 'desc', 'asc': 'asc', 'desc': 'desc'}
+    primary = re.fullmatch(r'(?:' + verbs + r'\s*)?(?:文件)?字节数\s*'
+                           r'(?P<extreme>最大|最小)\s*的?\s*前?\s*(?P<n>\d+)\s*'
+                           r'(?:首|条)?\s*(?:曲目|歌曲)?', clauses[0])
+    ordered_primary = re.fullmatch(r'按\s*(?:文件)?字节数\s*(?P<direction>升序|降序|ASC|DESC)\s*'
+                                   r'(?:排序)?\s*(?:取|列出|返回|展示)?\s*前\s*(?P<n>\d+)\s*'
+                                   r'(?:首|条)?\s*(?:曲目|歌曲)?', clauses[0], re.I)
+    if primary:
+        n = int(primary.group('n'))
+        direction = 'desc' if primary.group('extreme') == '最大' else 'asc'
+    elif ordered_primary:
+        n = int(ordered_primary.group('n'))
+        direction = direction_words[ordered_primary.group('direction').lower()]
+    else:
+        return None
+    if not 1 <= n <= 5000 or (expected_n is not None and n != expected_n):
+        return None
+    if expected_order is not None and (
+        str(expected_order.get('field', '')).strip().casefold() not in {'bytes', 'track.bytes', 'public.track.bytes'} or
+        str(expected_order.get('direction', '')).strip().casefold() != direction
+    ):
+        return None
+    fields = {'曲目编号': 'track_id', '编号': 'track_id', '曲目名称': 'name', '名称': 'name',
+              '曲目名字': 'name', '名字': 'name', '字节数': 'bytes', '文件字节数': 'bytes',
+              '文件大小': 'bytes', 'track_id': 'track_id', 'track.track_id': 'track_id',
+              'name': 'name', 'track.name': 'name', 'bytes': 'bytes', 'track.bytes': 'bytes'}
+    attr = '(?:' + '|'.join(re.escape(name) for name in sorted(fields, key=len, reverse=True)) + ')'
+    requested = ['bytes']
+    order = {'field': 'bytes', 'direction': direction}
+    projection_seen = order_seen = tie_seen = False
+    for clause in clauses[1:]:
+        projection = re.fullmatch(r'(?:返回|输出|展示|列出|给出)\s*(?P<fields>' + attr +
+                                  r'(?:\s*(?:、|和|与|及)\s*' + attr + r')*)', clause, re.I)
+        written_order = re.fullmatch(r'按\s*(?:文件)?字节数\s*(?P<direction>升序|降序|ASC|DESC)\s*(?:排序)?', clause, re.I)
+        tie = re.fullmatch(r'并列(?:时)?\s*按\s*(?P<field>曲目编号|track_id|track\.track_id)\s*'
+                           r'(?P<direction>升序|降序|ASC|DESC)\s*(?:排序)?', clause, re.I)
+        if projection and not projection_seen:
+            requested.extend(fields[match.group().lower()] for match in re.finditer(attr, projection.group('fields'), re.I))
+            projection_seen = True
+        elif written_order and not order_seen:
+            if direction_words[written_order.group('direction').lower()] != direction:
+                return None
+            order_seen = True
+        elif tie and not tie_seen:
+            requested.append('track_id')
+            order['tie_breakers'] = [{'field': 'track.track_id', 'direction': direction_words[tie.group('direction').lower()]}]
+            tie_seen = True
+        else:
+            return None
+    if not set(requested) <= {column.name for column in table.columns}:
+        return None
+    return {'top_n': n, 'order': order, 'non_null_bytes_written': bool(known)}
+
+
+def _record_region_default(result: SemanticIntent) -> None:
+    """Label a program-selected approved scope, never a model-only assumption."""
+    notes = {
+        'invoice.billing_country': '销售额的地区按发票账单国家统计（10月12日已确认默认口径）。',
+        'customer.country': '客户地区按客户所在地统计（10月12日已确认默认口径）。',
+    }
+    note = notes.get(result.region_scope)
+    if note:
+        if note not in result.assumptions:
+            result.assumptions.append(note)
+        if note not in result.default_assumptions:
+            result.default_assumptions.append(note)
+
+
 def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[dict] | None = None) -> SemanticIntent:
     region_gate=region_needs_semantic_gate(question,bindings or [],catalog)
     explicit_scope=explicit_region_scope(question) if catalog.database.casefold()=='chinook' else None
@@ -158,7 +250,10 @@ def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[di
                 measure='detail_revenue' if detail else 'invoice_revenue'
             elif re.search(r'(?:发票|账单)(?:张数|数量|次数)',question):
                 measure='invoice_count'
-        return SemanticIntent(metric=measure,time_scope=explicit_period(question), filters=bindings or [],region_scope=explicit_scope or default_scope)
+        result = SemanticIntent(metric=measure,time_scope=explicit_period(question), filters=bindings or [],region_scope=explicit_scope or default_scope)
+        if default_scope and not explicit_scope:
+            _record_region_default(result)
+        return result
     prompt = {"question": question, "catalog": catalog.prompt_schema(),
               "verified_value_bindings": bindings or []}
     result = llm.complete_json(PROMPT_PATH.read_text(encoding="utf-8"),
@@ -191,7 +286,7 @@ def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[di
         result.region_scope=explicit_scope or default_scope
         result.region_ambiguous=False
         if not explicit_scope:
-            result.assumptions.append('销售额的地区按发票账单国家统计（10月12日已确认默认口径）。')
+            _record_region_default(result)
     if catalog.database.casefold()=="chinook":
         if explicit_scope:
             result.region_scope=explicit_scope
@@ -200,6 +295,8 @@ def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[di
             result.region_scope = ('invoice.billing_country' if any(word in question for word in ('销售额','发票','账单')) else
                                    'customer.country' if any(word in question for word in ('客户','顾客')) else None)
             result.region_ambiguous = result.region_scope is None
+            if result.region_scope:
+                _record_region_default(result)
         # Ground familiar, reviewed metric IDs from literal wording. The model
         # cannot turn explicit sales revenue into another missing condition.
         if '客单价' in question:
@@ -271,6 +368,13 @@ def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[di
         result.comparison = {"type": "mom"}
     result.filters = bindings or []
     if result.task_type=='ranking':
+        if result.metric is None and result.rank_object == 'track' and result.top_n is not None and result.order is not None:
+            attribute = explicit_track_byte_top(question, catalog, expected_n=result.top_n, expected_order=result.order)
+            if attribute is not None:
+                result.task_type = 'lookup'
+                result.top_n = attribute['top_n']
+                result.order = attribute['order']
+                result.evidence_spans['attribute_lookup'] = question
         order=explicit_ranking_order(question,result.metric,catalog)
         if order is not None:
             result.order=order

@@ -1,0 +1,70 @@
+{
+  "id": "sp03-13",
+  "task": "03",
+  "category": "L1",
+  "turn_count": 1,
+  "initial_status": "SUCCEEDED",
+  "observed_initial_level": "L0",
+  "initial_level_correct": false,
+  "initial_status_correct": true,
+  "declared_default_observed": false,
+  "outcome": "finished",
+  "candidate_contract": null,
+  "query": {
+    "executed": true,
+    "matched": true,
+    "comparison": {
+      "matched": true,
+      "reason": "equal",
+      "column_mapping": [
+        0
+      ]
+    },
+    "legacy_comparison": {
+      "matched": true,
+      "reason": "equal",
+      "column_mapping": [
+        0
+      ]
+    },
+    "semantic_check": {
+      "correct": null,
+      "status": "AI_pending",
+      "reason": "Qualified AST differs; semantic equivalence needs independent review",
+      "predicate_match": false,
+      "gold": {
+        "ast": "SELECT SUM(invoice.total) FROM invoice WHERE invoice.billing_country = 'Canada' AND invoice.invoice_date >= CAST('2024-01-01' AS DATE) AND invoice.invoice_date < CAST('2025-01-01' AS DATE)",
+        "predicates": {
+          "invoice.billing_country = 'Canada'": 1,
+          "invoice.invoice_date < CAST('2025-01-01' AS DATE)": 1,
+          "invoice.invoice_date >= CAST('2024-01-01' AS DATE)": 1
+        },
+        "aggregates": [
+          "SUM(invoice.total)"
+        ],
+        "tables": [
+          "invoice"
+        ],
+        "limit": null
+      },
+      "actual": {
+        "ast": "SELECT SUM(invoice.total) FROM invoice WHERE invoice.billing_country = 'Canada' AND invoice.invoice_date >= '2024-01-01' AND invoice.invoice_date < '2025-01-01'",
+        "predicates": {
+          "invoice.billing_country = 'Canada'": 1,
+          "invoice.invoice_date < '2025-01-01'": 1,
+          "invoice.invoice_date >= '2024-01-01'": 1
+        },
+        "aggregates": [
+          "SUM(invoice.total)"
+        ],
+        "tables": [
+          "invoice"
+        ],
+        "limit": null
+      }
+    }
+  },
+  "post_completion": [],
+  "whole_dialogue_success": false,
+  "controller_events": []
+}

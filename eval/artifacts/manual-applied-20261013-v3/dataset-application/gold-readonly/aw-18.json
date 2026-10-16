@@ -1,0 +1,66 @@
+{
+  "id": "aw-18",
+  "suite": "aw",
+  "db_id": "adventureworks",
+  "command": [
+    "scripts/apply_submitted_dev_review.py"
+  ],
+  "new_llm_requests": 0,
+  "submitted_sql": "SELECT c.name AS category_name, SUM(d.orderqty) AS order_quantity FROM sales.salesorderdetail AS d JOIN sales.salesorderheader AS h ON d.salesorderid = h.salesorderid JOIN production.product AS p ON d.productid = p.productid JOIN production.productsubcategory AS s ON p.productsubcategoryid = s.productsubcategoryid JOIN production.productcategory AS c ON s.productcategoryid = c.productcategoryid WHERE h.orderdate >= CAST('2024-01-01' AS DATE) AND h.orderdate < CAST('2025-01-01' AS DATE) GROUP BY c.productcategoryid, c.name ORDER BY order_quantity DESC, c.name ASC LIMIT 200",
+  "validated_sql": "SELECT c.name AS category_name, SUM(d.orderqty) AS order_quantity FROM sales.salesorderdetail AS d JOIN sales.salesorderheader AS h ON d.salesorderid = h.salesorderid JOIN production.product AS p ON d.productid = p.productid JOIN production.productsubcategory AS s ON p.productsubcategoryid = s.productsubcategoryid JOIN production.productcategory AS c ON s.productcategoryid = c.productcategoryid WHERE h.orderdate >= CAST('2024-01-01' AS DATE) AND h.orderdate < CAST('2025-01-01' AS DATE) GROUP BY c.productcategoryid, c.name ORDER BY order_quantity DESC, c.name ASC LIMIT 200",
+  "columns": [
+    "category_name",
+    "order_quantity"
+  ],
+  "column_type_oids": [
+    1043,
+    20
+  ],
+  "postgres_column_types": [
+    "varchar",
+    "int8"
+  ],
+  "rows": [
+    [
+      "Bikes",
+      37776
+    ],
+    [
+      "Clothing",
+      37208
+    ],
+    [
+      "Accessories",
+      32245
+    ],
+    [
+      "Components",
+      24707
+    ]
+  ],
+  "table": [
+    {
+      "category_name": "Bikes",
+      "order_quantity": 37776
+    },
+    {
+      "category_name": "Clothing",
+      "order_quantity": 37208
+    },
+    {
+      "category_name": "Accessories",
+      "order_quantity": 32245
+    },
+    {
+      "category_name": "Components",
+      "order_quantity": 24707
+    }
+  ],
+  "row_count": 4,
+  "truncated": false,
+  "current_user": "qa_reader",
+  "transaction_read_only": "on",
+  "statement_timeout": "5s",
+  "server_version": "16.15",
+  "elapsed_ms": 36.205
+}

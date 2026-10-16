@@ -1,0 +1,82 @@
+{
+  "id": "sp03-20",
+  "task": "03",
+  "category": "L0",
+  "turn_count": 1,
+  "initial_status": "SUCCEEDED",
+  "observed_initial_level": "L0",
+  "initial_level_correct": true,
+  "initial_status_correct": true,
+  "declared_default_observed": null,
+  "outcome": "finished",
+  "candidate_contract": null,
+  "query": {
+    "executed": true,
+    "matched": false,
+    "comparison": {
+      "matched": false,
+      "reason": "column_values_mismatch",
+      "column_mapping": null
+    },
+    "legacy_comparison": {
+      "matched": false,
+      "reason": "column_count_mismatch",
+      "column_mapping": null
+    },
+    "semantic_check": {
+      "correct": null,
+      "status": "AI_pending",
+      "reason": "Qualified AST differs; semantic equivalence needs independent review",
+      "predicate_match": false,
+      "gold": {
+        "ast": "SELECT artist.artist_id, SUM(invoice_line.unit_price * invoice_line.quantity) FROM invoice_line JOIN invoice ON invoice_line.invoice_id = invoice.invoice_id JOIN track ON invoice_line.track_id = track.track_id JOIN album ON track.album_id = album.album_id JOIN artist ON album.artist_id = artist.artist_id WHERE invoice.invoice_date >= CAST('2023-01-01' AS DATE) AND invoice.invoice_date < CAST('2024-01-01' AS DATE) GROUP BY artist.artist_id ORDER BY SUM(il.unit_price * il.quantity) DESC, ar.artist_id ASC LIMIT 10",
+        "predicates": {
+          "album.artist_id = artist.artist_id": 1,
+          "invoice.invoice_date < CAST('2024-01-01' AS DATE)": 1,
+          "invoice.invoice_date >= CAST('2023-01-01' AS DATE)": 1,
+          "invoice_line.invoice_id = invoice.invoice_id": 1,
+          "invoice_line.track_id = track.track_id": 1,
+          "track.album_id = album.album_id": 1
+        },
+        "aggregates": [
+          "SUM(il.unit_price * il.quantity)",
+          "SUM(invoice_line.unit_price * invoice_line.quantity)"
+        ],
+        "tables": [
+          "album",
+          "artist",
+          "invoice",
+          "invoice_line",
+          "track"
+        ],
+        "limit": "LIMIT 10"
+      },
+      "actual": {
+        "ast": "SELECT artist.artist_id, artist.name, SUM(invoice_line.unit_price * invoice_line.quantity) FROM invoice_line JOIN invoice ON invoice_line.invoice_id = invoice.invoice_id JOIN track ON invoice_line.track_id = track.track_id JOIN album ON track.album_id = album.album_id JOIN artist ON album.artist_id = artist.artist_id WHERE invoice.invoice_date >= '2023-01-01' AND invoice.invoice_date < '2024-01-01' GROUP BY artist.artist_id, artist.name ORDER BY SUM(il.unit_price * il.quantity) DESC NULLS LAST LIMIT 10",
+        "predicates": {
+          "album.artist_id = artist.artist_id": 1,
+          "invoice.invoice_date < '2024-01-01'": 1,
+          "invoice.invoice_date >= '2023-01-01'": 1,
+          "invoice_line.invoice_id = invoice.invoice_id": 1,
+          "invoice_line.track_id = track.track_id": 1,
+          "track.album_id = album.album_id": 1
+        },
+        "aggregates": [
+          "SUM(il.unit_price * il.quantity)",
+          "SUM(invoice_line.unit_price * invoice_line.quantity)"
+        ],
+        "tables": [
+          "album",
+          "artist",
+          "invoice",
+          "invoice_line",
+          "track"
+        ],
+        "limit": "LIMIT 10"
+      }
+    }
+  },
+  "post_completion": [],
+  "whole_dialogue_success": false,
+  "controller_events": []
+}
