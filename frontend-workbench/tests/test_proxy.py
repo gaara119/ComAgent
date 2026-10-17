@@ -31,6 +31,17 @@ class ProxyTests(unittest.TestCase):
         payload.update(message='法国',clarification_id=card['clarification_id'],intent_version=3,choice_id='country-france')
         code,_,body=call(self.server.server_port,'/api/chat',payload);self.assertEqual(code,200);self.assertEqual(mock.requests[-1],payload)
         payload['intent_version']=1;code,_,_=call(self.server.server_port,'/api/chat',payload);self.assertEqual(code,409)
+    def test_full_context_is_forwarded_without_chat_limit_or_session_leak(self):
+        text='完整正文\n'+ '资料'.join(str(number) for number in range(1800))
+        payload={'session_id':'full-context-session','text':text}
+        code,_,body=call(self.server.server_port,'/api/context',payload)
+        self.assertEqual(code,201);saved=json.loads(body)
+        self.assertEqual(saved['characters'],len(text));self.assertGreater(len(text),4000)
+        self.assertEqual(mock.requests[-1],payload)
+        chat={'session_id':payload['session_id'],'message':'本轮问题','scope':{'route':'auto','db_id':'chinook','doc_ids':[]},'context_id':saved['context_id']}
+        code,_,_=call(self.server.server_port,'/api/chat',chat);self.assertEqual(code,200)
+        chat['session_id']='another-session'
+        code,_,_=call(self.server.server_port,'/api/chat',chat);self.assertEqual(code,409)
     def test_local_file_boundary(self):
         for path in ['/../package.json','/%2e%2e/package.json','/%2e%2e/%2e%2e/.env']:
             code,_,_=call(self.server.server_port,path);self.assertIn(code,[403,404])

@@ -40,3 +40,5 @@ qa_agent/schemas.py -text whitespace=cr-at-eol
 api/main.py -text whitespace=cr-at-eol
 # D4 development material must retain the bytes recorded in experiment hashes.
 eval/datasets/d4/** -text whitespace=-blank-at-eol,cr-at-eol
+# Keep selected UI validation evidence identical to its recorded SHA256.
+frontend-workbench/docs/white-ui/evidence/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol

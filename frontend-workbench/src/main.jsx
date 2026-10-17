@@ -4,7 +4,9 @@ import { Alert, Button, Card, Collapse, ConfigProvider, Empty, Input, Menu, Sele
 import zhCN from 'antd/locale/zh_CN';
 import 'antd/dist/reset.css';
 import './styles.css';
-import { displayValue, makeScope, sourceReady, safeDiagnostics, safeExport, safeText } from './contract.mjs';
+import './workbench-white.css';
+import { Overview, Analysis } from './Analytics.jsx';
+import { displayValue, makeScope, sourceReady, safeDiagnostics, safeExport, safeText, makeContextRequest, bindContextResponse, attachContext, columnTitle } from './contract.mjs';
 
 const { TextArea } = Input;
 const statuses = { SUCCEEDED: ['已完成','success'], EMPTY_RESULT: ['无匹配记录','default'], NEEDS_CLARIFICATION: ['需要补充信息','warning'], UNSUPPORTED: ['当前范围不支持','warning'], FAILED: ['请求未完成','error'] };
@@ -33,7 +35,7 @@ function Results({ response, chooseEvidence }) {
     {response.metadata?.faithfulness_uncertain && <Alert type="warning" title="回答含未核实内容，请核对引用中的数字和单位。" showIcon />}
     <div className="answer-text">{parts.map((part,index)=> /^\[E\d+\]$/.test(part) ? <Button type="link" size="small" key={index} onClick={()=>chooseEvidence(part)}>{part}</Button> : <React.Fragment key={index}>{part}</React.Fragment>)}</div>
     {response.error && <Alert type="error" title={response.error.message || response.error.code} showIcon />}
-    {Array.isArray(response.table) && <div className="results"><Table size="small" pagination={response.table.length>20 ? {pageSize:20,showSizeChanger:false} : false} scroll={columns.length>4 ? {x:'max-content'} : undefined} dataSource={response.table.map((row,index)=>({record:row,rowKey:index}))} rowKey="rowKey" columns={columns.map(key=>({title:key,key,render:(_,entry)=>displayValue(entry.record[key], response.metadata?.result_format?.[key])}))} locale={{emptyText:'结果表为空；不等同于COUNT为0或SUM为NULL。'}} /></div>}
+    {Array.isArray(response.table) && <div className="results"><Table size="small" pagination={response.table.length>20 ? {pageSize:20,showSizeChanger:false} : false} scroll={columns.length>4 ? {x:'max-content'} : undefined} dataSource={response.table.map((row,index)=>({record:row,rowKey:index}))} rowKey="rowKey" columns={columns.map(key=>({title:columnTitle(key,response.metadata?.column_labels),key,render:(_,entry)=>displayValue(entry.record[key], response.metadata?.result_format?.[key])}))} locale={{emptyText:'结果表为空；不等同于COUNT为0或SUM为NULL。'}} /></div>}
     {response.metadata?.truncated && <Alert type="warning" title="结果已截断，当前显示的行并非完整结果。" showIcon />}
     {response.metadata?.nlu?.patches?.length>0 && <details className='rewrite-details'><summary>名称识别与修改依据</summary><pre>{JSON.stringify(safeDiagnostics({patches:response.metadata.nlu.patches,mentions:response.metadata.nlu.mentions}),null,2)}</pre></details>}
     {response.rewritten_question && <Collapse size="small" items={[{key:'rewrite',label:'查看问题改写',children:<div className="plain-text">{response.rewritten_question}</div>}]} />}
@@ -82,9 +84,11 @@ function DataHome({ health, documents, docsError, useDocument }){
   return <><div className="page-heading"><div><h2>数据与文档</h2><p className="subtle">查看可查询的数据库与已处理文档。</p></div></div><div className="database-list"><Card title="Chinook"><Tag color={health?.database_ready?'success':'warning'}>{health?.database_ready?'只读数据库已就绪':'尚未就绪'}</Tag></Card><Card title="AdventureWorks"><Tag color={health?.aw_database_ready?'success':'warning'}>{health?.aw_database_ready?'只读数据库已就绪':'尚未就绪'}</Tag></Card></div>{docsError && <Alert title={docsError} type="warning" showIcon style={{marginBottom:16}} />}<Card title="登记文档"><Table size="small" rowKey="doc_id" dataSource={documents} pagination={{pageSize:10,showSizeChanger:false}} scroll={{x:500}} columns={[{title:'文档',dataIndex:'title',render:(title,item)=><><div>{title||item.doc_id}</div><span className="subtle">{item.doc_id}</span></>},{title:'格式',dataIndex:'format'},{title:'页数',dataIndex:'page_count',render:v=>v??'非分页'},{title:'索引',dataIndex:'ready',render:v=><Tag color={v?'success':'warning'}>{v?'已就绪':'未就绪'}</Tag>},{title:'操作',render:(_,item)=><Button disabled={!item.ready} onClick={()=>useDocument(item)}>用此文档提问</Button>}]} /></Card></>;
 }
 function App(){
-  const [page,setPage]=useState('workspace'),[health,setHealth]=useState(null),[healthError,setHealthError]=useState(''),[documents,setDocuments]=useState([]),[docsError,setDocsError]=useState(''),[refreshing,setRefreshing]=useState(false);
+  const [page,setPage]=useState('overview'),[health,setHealth]=useState(null),[healthError,setHealthError]=useState(''),[documents,setDocuments]=useState([]),[docsError,setDocsError]=useState(''),[refreshing,setRefreshing]=useState(false);
+  const [historyRecord,setHistoryRecord]=useState(null);
   const [route,setRoute]=useState('sql'),[db,setDb]=useState('chinook'),[doc,setDoc]=useState(''),[question,setQuestion]=useState(''),[history,setHistory]=useState([]),[busy,setBusy]=useState(false),[error,setError]=useState(''),[selectedEvidence,setSelectedEvidence]=useState(0);
   const session=useRef(uuid()),requestNumber=useRef(0);
+  const [contextText,setContextText]=useState(''),[savedContextText,setSavedContextText]=useState(''),[contextBinding,setContextBinding]=useState(null),[savingContext,setSavingContext]=useState(false);
   const latest=history.at(-1),result=latest?.response;
   const scope=makeScope(route,db,doc);
   const currentDoc=documents.find(item=>item.doc_id===doc);
@@ -97,14 +101,26 @@ function App(){
     setRefreshing(false);
   }
   useEffect(()=>{refresh();},[]);
-  function reset(){requestNumber.current++;session.current=uuid();setHistory([]);setError('');setQuestion('');setSelectedEvidence(0);}
+  function reset(){requestNumber.current++;session.current=uuid();setHistory([]);setHistoryRecord(null);setError('');setQuestion('');setSelectedEvidence(0);setContextText('');setSavedContextText('');setContextBinding(null);}
   function changeSource(nextRoute,nextDb=db,nextDoc=doc){if(busy)return;if(nextRoute==='hybrid'&&route!=='hybrid')nextDoc='';if(nextRoute==='doc'&&!nextDoc)nextDoc=documents.find(item=>item.ready)?.doc_id||'';reset();setRoute(nextRoute);setDb(nextDb);setDoc(nextDoc);}
+  async function saveContext(){
+    if(busy)return;
+    let payload;try{payload=makeContextRequest(session.current,contextText);}catch(exc){setError(exc.message);return;}
+    const ticket=++requestNumber.current;setBusy(true);setSavingContext(true);setError('');
+    try{
+      const saved=await requestJSON('/api/context',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      const binding=bindContextResponse(saved,payload.session_id,scope);
+      if(ticket===requestNumber.current){setContextBinding(binding);setSavedContextText(payload.text);setHistory([]);setHistoryRecord(null);setSelectedEvidence(0);message.success('会话正文已完整保存。');}
+    }catch(exc){if(ticket===requestNumber.current)setError(exc.message);}
+    finally{if(ticket===requestNumber.current){setBusy(false);setSavingContext(false);}}
+  }
   async function submit(text,resume={}){
     if(busy||!ready||!String(text||'').trim())return;
     if(String(text).trim().length>4000){setError('问题不能超过4000个字符。');return;}
     const card=resume.card;
     if(card && (!card.clarification_id || !Number.isInteger(card.intent_version))){setError('澄清卡缺少有效ID或版本，请重新提问。');return;}
-    const payload={session_id:session.current,message:String(text).trim(),scope:card?latest.scope:scope};
+    let payload={session_id:session.current,message:String(text).trim(),scope:card?latest.scope:scope};
+    try{payload=attachContext(payload,contextBinding);}catch(exc){setError(exc.message);return;}
     if(card){payload.clarification_id=card.clarification_id;payload.intent_version=card.intent_version;if(resume.choice)payload.choice_id=resume.choice;}
     const ticket=++requestNumber.current;setBusy(true);setError('');
     const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),240000);
@@ -117,25 +133,36 @@ function App(){
   }
   function chooseEvidence(id){const index=(result?.evidences||[]).findIndex(item=>String(item.evidence_id).replace(/[\[\]]/g,'')===id.replace(/[\[\]]/g,''));if(index>=0)setSelectedEvidence(index);else message.info('该标记未对应返回的证据，请核对实际引用。');}
   const activeCard=result?.status==='NEEDS_CLARIFICATION'&&result.clarification?.resume_supported?result.clarification:null;
-  return <ConfigProvider locale={zhCN} theme={{token:{colorPrimary:'#245fd1',borderRadius:8,fontFamily:'Microsoft YaHei, system-ui, sans-serif',fontSize:14,colorBgLayout:'#f4f6fa'}}}><div className="app">
-    <header className="topbar"><div className="brand"><span className="brand-logo">C</span>ComAgent <span className="brand-subtitle">可信问数</span></div><Space><Tag color={health?.status==='ok'?'success':'warning'}>{health?.ui_test_fixture?'接口模拟验证':health?.status==='ok'?'API已连接':'API未连接'}</Tag><Button onClick={refresh} loading={refreshing} disabled={busy}>刷新状态</Button></Space></header>
-    <div className="shell"><aside className="sidebar"><Menu selectedKeys={[page]} onClick={item=>setPage(item.key)} items={[{key:'workspace',label:'问答工作台'},{key:'data',label:'数据与文档'}]} /><p className="sidebar-foot">自然语言提问<br/>结构化结果<br/>来源可核对</p></aside><main className="main">
+  return <ConfigProvider locale={zhCN} theme={{token:{colorPrimary:'#557f8b',borderRadius:14,fontFamily:'Microsoft YaHei, system-ui, sans-serif',fontSize:14,colorBgLayout:'#f4f7fa'}}}><div className={`app page-${page}`}>
+    <header className="topbar"><a className="brand" href="#overview" onClick={event=>{event.preventDefault();setPage('overview');}}>ComAgent <span className="brand-subtitle">分析中心</span></a><nav className="topnav" aria-label="主导航">{[{key:'overview',label:'数据概览'},{key:'analysis',label:'数据分析'},{key:'workspace',label:'问答工作台'},{key:'data',label:'数据与文档'},{key:'history',label:'运行记录'}].map(item=><button key={item.key} type="button" aria-current={page===item.key?'page':undefined} className={page===item.key?'selected':''} onClick={()=>setPage(item.key)}>{item.label}</button>)}</nav><Space className="header-status"><Tag color={health?.status==='ok'?'success':'warning'}>{health?.ui_test_fixture?'接口模拟验证':health?.status==='ok'?'API已连接':'API未连接'}</Tag><Button onClick={refresh} loading={refreshing} disabled={busy}>刷新状态</Button></Space></header>
+    <div className="shell"><aside className="sidebar"><div className="sidebar-label">项目工作区</div><Menu selectedKeys={[page]} onClick={item=>setPage(item.key)} items={[{key:'workspace',label:'问答工作台'},{key:'data',label:'数据与文档'},{key:'history',label:'运行记录'}]} /><div className="sidebar-label recent-label">本次会话</div><div className="sidebar-recent">{history.length?history.slice(-5).reverse().map(item=><button key={item.id} onClick={()=>{setHistoryRecord(item);setPage('history');}} title={item.question}>{item.question}</button>):<p className="subtle">运行查询后，在这里查看记录。</p>}</div><p className="sidebar-foot">自然语言提问<br/>结构化结果<br/>来源可核对</p></aside><main className="main">
+      {page==='overview' && <Overview latestResponse={result} onNavigate={setPage}/>}
+      {page==='analysis' && <Analysis latestResponse={result} onNavigate={setPage} onUseQuestion={text=>{if(busy){message.info('请等待当前请求完成后再使用分析摘要。');return;}setQuestion(text);setPage('workspace');}}/>}
       {page==='workspace' && <>
         <div className="page-heading"><div><h2>问答工作台</h2><p className="subtle">先选来源，得到结论，再核对依据。</p></div><Button disabled={busy} onClick={reset}>新会话</Button></div>
         {healthError && <Alert type="warning" title="无法连接项目API" description={`${healthError} 请先启动原项目FastAPI服务。`} showIcon style={{marginBottom:16}} />}
         {health?.llm_configured===false && <Alert type="warning" title="后端尚未配置模型，请在原项目配置后重启API。" showIcon style={{marginBottom:16}} />}
-        <div className="workspace"><Card className="conversation"><div className="source-bar"><Select aria-label="数据来源" value={route} onChange={value=>changeSource(value)} disabled={busy} options={[{value:'sql',label:'数据库问数'},{value:'doc',label:'指定文档问答'},{value:'hybrid',label:'数据库与文档'}]} />{route==='sql'?<Select aria-label="数据库" value={db} disabled={busy} onChange={value=>changeSource(route,value)} options={[{value:'chinook',label:'Chinook',disabled:health?.database_ready!==true},{value:'adventureworks',label:'AdventureWorks',disabled:health?.aw_database_ready!==true}]} />:<Select aria-label="查询文档" className="doc-select" value={route==='hybrid'?doc:doc||undefined} disabled={busy} placeholder="选择已处理文档" onChange={value=>changeSource(route,db,value)} options={[...(route==='hybrid'?[{value:'',label:'全部登记文档'}]:[]),...documents.map(item=>({value:item.doc_id,label:item.title||item.doc_id,disabled:!item.ready}))]} />}<Tag>{route==='sql'?'只读查询':route==='hybrid'?'Chinook＋文档':'限定当前文档'}</Tag></div>
+        <div className="workspace"><Card className="conversation"><div className="source-bar"><Select aria-label="数据来源" value={route} onChange={value=>changeSource(value)} disabled={busy} options={[{value:'auto',label:'自动综合问答'},{value:'sql',label:'数据库问数'},{value:'doc',label:'指定文档问答'},{value:'hybrid',label:'数据库与文档'}]} />{['sql','auto'].includes(route)&&<Select aria-label="数据库" value={db} disabled={busy} onChange={value=>changeSource(route,value)} options={[{value:'chinook',label:'Chinook',disabled:health?.database_ready!==true},{value:'adventureworks',label:'AdventureWorks',disabled:health?.aw_database_ready!==true}]} />}{route!=='sql'&&<Select aria-label="查询文档" className="doc-select" value={['hybrid','auto'].includes(route)?doc:doc||undefined} disabled={busy} placeholder="选择已处理文档" onChange={value=>changeSource(route,db,value)} options={[...(['hybrid','auto'].includes(route)?[{value:'',label:'全部登记文档'}]:[]),...documents.map(item=>({value:item.doc_id,label:item.title||item.doc_id,disabled:!item.ready}))]} />}<Tag>{route==='sql'?'只读查询':route==='auto'?'按问题选择来源':route==='hybrid'?'Chinook＋文档':'限定当前文档'}</Tag></div>
+          <Collapse size="small" style={{marginBottom:16}} items={[{key:'session-context',label:contextBinding?`本会话正文 · 已保存 v${contextBinding.version}（${contextBinding.characters}字）`:'本会话正文（可选）',children:<>
+            <p className="subtle">粘贴需要在后续提问中使用的完整背景、名单或约定。仅本会话有效，不是公司政策；切换来源或新建会话后需重新保存。保存新版本会清空当前显示的问答记录。</p>
+            <TextArea aria-label="本会话正文" value={contextText} maxLength={120000} showCount autoSize={{minRows:5,maxRows:12}} disabled={busy} onChange={event=>setContextText(event.target.value)} placeholder="粘贴你的原始正文，保存后再提问。"/>
+            <Space wrap style={{marginTop:12}}><Button onClick={saveContext} loading={savingContext} disabled={busy||!contextText.trim()}>保存会话正文</Button>{contextBinding&&<Tag color="success">完整正文已绑定当前会话</Tag>}</Space>
+            {contextBinding&&<p className="subtle break-all">版本 {contextBinding.version} · {contextBinding.characters} 字 · SHA-256：{contextBinding.content_sha256}</p>}
+            {contextBinding&&contextText!==savedContextText&&<p className="subtle">正文草稿已修改，保存后才会生效；当前提问仍使用已保存的 v{contextBinding.version}。</p>}
+            {route!=='auto'&&<p className="subtle">查询正文中的定义或同时使用多个来源时，请先选择“自动综合问答”，再保存正文。</p>}
+          </>}]} />
           {route==='hybrid' && <Alert type='info' title='支持艺术家销售排名→介绍文档，以及指标手册定义→SQL计算。跨源数据库为Chinook。' showIcon style={{marginBottom:16}}/>}
           {route!=='sql' && doc && !currentDoc?.ready && <Alert type='warning' title='当前选择的文档已移除或尚未就绪，请重新选择来源后再提问。' showIcon style={{marginBottom:16}}/>}
           {route!=='sql'&&docsError && <Alert title={docsError} type="warning" showIcon />}
           {latest && <div className="question-bubble"><span className="subtle">你的问题</span><p>{latest.question}</p></div>}
-          <Spin spinning={busy} tip="正在等待实际查询结果……"><div className="answer-region"><Results response={result} chooseEvidence={chooseEvidence} />{result?.clarification && <Clarification key={result.clarification.clarification_id||latest.id} card={result.clarification} submit={submit} busy={busy}/>} {result?.metadata?.clarify?.switch && <Clarification key={result.metadata.clarify.switch.clarification_id} card={result.metadata.clarify.switch} submit={submit} busy={busy} switchMode/>}</div></Spin>
+          <Spin spinning={busy} tip={savingContext?'正在完整保存会话正文……':'正在等待实际查询结果……'}><div className="answer-region"><Results response={result} chooseEvidence={chooseEvidence} />{result?.clarification && <Clarification key={result.clarification.clarification_id||latest.id} card={result.clarification} submit={submit} busy={busy}/>} {result?.metadata?.clarify?.switch && <Clarification key={result.metadata.clarify.switch.clarification_id} card={result.metadata.clarify.switch} submit={submit} busy={busy} switchMode/>}</div></Spin>
           {error && <Alert type="error" title={error} showIcon style={{marginTop:12}} />}
           {history.length>1 && <Collapse className="history" size="small" items={[{key:'history',label:`较早的会话记录（${history.length-1}条）`,children:history.slice(0,-1).map(item=><div className="history-entry" key={item.id}><strong>{item.question}</strong><div className="plain-text">{item.response.answer}</div><Tag>{statuses[item.response.status]?.[0]||item.response.status}</Tag></div>)}]} />}
           <div className="composer"><TextArea aria-label="你的问题" value={question} onChange={event=>setQuestion(event.target.value)} placeholder={activeCard?'输入需要补充的条件':route==='sql'?'例如：来自巴西的客户有多少位？':route==='hybrid'?'例如：销售额最高的艺术家是谁？介绍他的音乐风格。':'输入与当前文档有关的问题'} maxLength={4000} autoSize={{minRows:3,maxRows:6}} disabled={busy} /><div className="composer-actions"><span className="subtle">{ready?'续问保留当前会话；切换来源会新建会话。':'当前来源或模型尚未就绪。'}</span><Space>{latest && <Button disabled={busy} onClick={()=>downloadJSON({schema_version:'comagent-answer-export-v1',exported_at_utc:new Date().toISOString(),session_id:session.current,...latest},'ComAgent-本次问答结果.json')}>导出本次结果</Button>}<Button aria-label={activeCard?'提交补充':'发送问题'} type="primary" loading={busy} disabled={!ready||!question.trim()} onClick={()=>submit(question,activeCard?{card:activeCard}:{})}>{activeCard?'提交补充':'发送问题'}</Button></Space></div></div>
         </Card><ProofPane record={latest} selected={selectedEvidence} setSelected={setSelectedEvidence} documents={documents}/></div>
       </>}
       {page==='data' && <DataHome health={health} documents={documents} docsError={docsError} useDocument={item=>{if(busy){message.info('请等待当前请求完成后切换来源。');return;}changeSource('doc',db,item.doc_id);setPage('workspace');}}/>}
+      {page==='history' && <><div className="page-heading"><div><div className="section-eyebrow">QUERY HISTORY</div><h2>运行记录</h2><p className="subtle">本次会话的真实请求与返回结果；新会话或切换来源会清空，可在工作台导出保存。</p></div><Button onClick={()=>setPage('workspace')}>返回工作台</Button></div>{history.length?<div className="workspace"><div className="run-list">{history.slice().reverse().map(item=><Card key={item.id} className={`run-card ${historyRecord?.id===item.id?'selected':''}`}><div className="run-heading"><h3>{item.question}</h3><Tag color={statuses[item.response.status]?.[1]}>{statuses[item.response.status]?.[0]||item.response.status}</Tag></div><p className="plain-text run-answer">{item.response.answer}</p><Space wrap><Button onClick={()=>{setHistoryRecord(item);setSelectedEvidence(0);}}>查看查询依据</Button><Button onClick={()=>downloadJSON({schema_version:'comagent-answer-export-v1',session_id:session.current,...item},'ComAgent-问答记录.json')}>导出记录</Button></Space></Card>)}</div><ProofPane record={historyRecord||latest} selected={selectedEvidence} setSelected={setSelectedEvidence} documents={documents}/></div>:<Card className="empty-history"><Empty description="还没有运行记录。"/><Button type="primary" onClick={()=>setPage('workspace')}>开始查询</Button></Card>}</>}
     </main></div>
   </div></ConfigProvider>;
 }

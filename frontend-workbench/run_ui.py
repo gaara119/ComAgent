@@ -30,7 +30,7 @@ def allowed_api(path: str, method: str) -> bool:
     decoded = unquote(unquote(path)).replace('\\', '/')
     if any(part in {'.', '..'} for part in decoded.split('/')):
         return False
-    if method == 'POST': return path == '/api/chat'
+    if method == 'POST': return path in {'/api/chat','/api/context'}
     return method in {'GET','HEAD'} and (path in {'/health', '/api/documents'} or bool(re.fullmatch(r'/api/documents/[^/\\]+/(?:file|pages/[1-9][0-9]*)', decoded)))
 
 class NoRedirect(HTTPRedirectHandler):

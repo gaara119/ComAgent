@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { displayValue, makeScope, sourceReady, safeDiagnostics, safeExport, safeText } from '../src/contract.mjs';
+import { displayValue, makeScope, sourceReady, safeDiagnostics, safeExport, safeText, makeContextRequest, bindContextResponse, attachContext, columnTitle } from '../src/contract.mjs';
 
 test('diagnostic keys are hidden recursively and case-insensitively', () => {
   const input={api_key:'fixture-key',nested:{PASSWORD:'fixture-pass',authorization:'fixture-auth',dsn:'fixture-dsn',system_prompt:'fixture-system',user_prompt:'fixture-user',full_prompt:'fixture-full',catalog:{tables:['fixture-secret-table']}},llm_api_key:'fixture-llm',db_url:'fixture-db',secret:'fixture-secret',safe_count:35};
@@ -73,4 +73,42 @@ test('readiness requires actual source and model flags', () => {
   assert.equal(sourceReady('doc','chinook','removed-document',h,docs),false);
   assert.equal(sourceReady('hybrid','chinook','removed-document',h,docs),false);
   assert.equal(sourceReady('doc','chinook','doc-a',h,[{doc_id:'doc-a',ready:false}]),false);
+});
+
+test('auto scopes retain the selected real database and optional document range',()=>{
+  assert.deepEqual(makeScope('auto','adventureworks',''),{route:'auto',db_id:'adventureworks',doc_ids:[]});
+  assert.deepEqual(makeScope('auto','chinook','manual'),{route:'auto',db_id:'chinook',doc_ids:['manual']});
+  const health={status:'ok',llm_configured:true,database_ready:true,aw_database_ready:false};
+  assert.equal(sourceReady('auto','chinook','',health,[]),true);
+  assert.equal(sourceReady('auto','adventureworks','',health,[]),false);
+  assert.equal(sourceReady('auto','chinook','removed',health,[]),false);
+});
+test('full context stays separate and preserves exact source text',()=>{
+  const text='  原始会话约定\n'+ '资料'.repeat(3000)+'\n';
+  const payload=makeContextRequest('session-a',text);
+  assert.equal(payload.text,text);assert.equal(payload.session_id,'session-a');
+  assert(!Object.hasOwn(payload,'message'));assert(payload.text.length>4000);
+  assert.throws(()=>makeContextRequest('s',' '));
+  assert.throws(()=>makeContextRequest('s','a'.repeat(120001)));
+});
+test('context binding is session and source specific; ordinary payload remains compatible',()=>{
+  const scope=makeScope('auto','chinook','');
+  const response={session_id:'a',context_id:'context-a',version:1,characters:6000,content_sha256:'a'.repeat(64)};
+  const binding=bindContextResponse(response,'a',scope);
+  const payload={session_id:'a',message:'本轮问题',scope};
+  assert.equal(attachContext(payload,binding).context_id,'context-a');
+  assert(!Object.hasOwn(payload,'context_id'));
+  assert.deepEqual(attachContext(payload,null),payload);
+  assert.throws(()=>attachContext({...payload,session_id:'b'},binding));
+  assert.throws(()=>attachContext({...payload,scope:makeScope('sql','chinook','')},binding));
+  assert.throws(()=>bindContextResponse({...response,session_id:'b'},'a',scope));
+  assert.throws(()=>bindContextResponse({...response,version:null},'a',scope));
+  assert.throws(()=>bindContextResponse({...response,content_sha256:''},'a',scope));
+});
+test('Chinese labels change only visible headers, never raw row keys or values',()=>{
+  const row={customer_count:5,amount:'123.4500'},snapshot=JSON.stringify(row);
+  assert.equal(columnTitle('customer_count',{customer_count:'客户数量'}),'客户数量');
+  assert.equal(columnTitle('amount',{amount:''}),'amount');
+  assert.equal(columnTitle('amount',null),'amount');
+  assert.equal(JSON.stringify(row),snapshot);
 });

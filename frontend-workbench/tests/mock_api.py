@@ -1,8 +1,10 @@
 """Controlled API fixture for UI checks; never connects to a model/database."""
 import argparse, base64, json
+from hashlib import sha256
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 requests=[]
+contexts={}
 PNG=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aVxkAAAAASUVORK5CYII=')
 def envelope(**changes):
     result={'trace_id':'controlled-ui-fixture','status':'SUCCEEDED','answer':'测试接口返回5位客户。','sql':'SELECT COUNT(*) AS customer_count FROM customer;', 'table':[{'customer_count':5}],'evidences':[],'clarification':None,'intent':{'intent_version':1,'route':'sql','task_type':'lookup','metric':'count','time_scope':None,'filters':[],'grouping':[],'order':None,'assumptions':[],'unresolved':[]},'steps':[{'name':'受控测试步骤','status':'ok','latency_ms':1,'input_summary':{'fixture_input':'explicit-source'},'output_summary':{'fixture_count':5}}],'error':None,'metadata':{'result_columns':['customer_count'],'truncated':False}}
@@ -20,12 +22,22 @@ class MockHandler(BaseHTTPRequestHandler):
             body=b'controlled-test-file';self.send_response(200);self.send_header('Content-Type','text/plain');self.send_header('Content-Disposition','attachment; filename="fixture.txt"');self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body);return
         self.emit({'detail':'fixture path not found'},404)
     def do_POST(self):
-        if self.path!='/api/chat':return self.emit({'detail':'fixture path not found'},404)
+        if self.path not in {'/api/chat','/api/context'}:return self.emit({'detail':'fixture path not found'},404)
         try:data=json.loads(self.rfile.read(int(self.headers['Content-Length'])))
         except Exception:return self.emit({'detail':'invalid JSON'},400)
         requests.append(data)
-        allowed={'session_id','message','scope','clarification_id','intent_version','choice_id'}
+        if self.path=='/api/context':
+            if not isinstance(data.get('text'),str) or not 1<=len(data['text'])<=120000:return self.emit({'detail':'invalid context'},422)
+            previous=contexts.get(data['session_id'],{})
+            saved={'session_id':data['session_id'],'context_id':f"fixture-context-{len(contexts)+1}-{previous.get('version',0)+1}",
+                   'version':previous.get('version',0)+1,'characters':len(data['text']),
+                   'content_sha256':sha256(data['text'].encode()).hexdigest(),'text':data['text']}
+            contexts[data['session_id']]=saved
+            return self.emit({key:value for key,value in saved.items() if key!='text'},201)
+        allowed={'session_id','message','scope','clarification_id','intent_version','choice_id','context_id'}
         if set(data)-allowed or not {'session_id','message','scope'}<=set(data):return self.emit({'detail':'invalid ChatRequest fields'},422)
+        if data.get('context_id') and contexts.get(data['session_id'],{}).get('context_id')!=data['context_id']:
+            return self.emit({'detail':'wrong context binding'},409)
         if data.get('clarification_id'):
             if data['clarification_id']!='card-test-1' or data.get('intent_version')!=3:return self.emit({'detail':'stale clarification version'},409)
             return self.emit(envelope(answer='测试续问已接收法国条件。'))
@@ -43,6 +55,7 @@ class MockHandler(BaseHTTPRequestHandler):
             if data['scope'].get('doc_ids')!=['doc-test'] or data['scope'].get('db_id') is not None:return self.emit({'detail':'wrong document scope'},422)
             return self.emit(envelope(answer='受控文档结论 [E1]。',sql=None,table=None,evidences=[{'evidence_id':'E1','doc_id':'doc-test','doc_title':'受控测试文档','page':1,'section_path':['测试节'],'text':'测试原文 <script>window.UNTRUSTED_EXECUTED=true</script>','bbox':[0.1,0.1,0.9,0.9]}]))
         text=data['message']
+        if '中文表头' in text:return self.emit(envelope(answer='表头按返回标签展示，原始数据保持不变。',metadata={'result_columns':['customer_count'],'column_labels':{'customer_count':'客户数量'}}))
         if '敏感诊断' in text:
             credentials={'api_key':'fixture-hidden-key','password':'fixture-hidden-password','secret':'fixture-hidden-secret','authorization':'fixture-hidden-auth','db_url':'fixture-hidden-db','dsn':'fixture-hidden-dsn','system_prompt':'fixture-hidden-system','user_prompt':'fixture-hidden-user','full_prompt':'fixture-hidden-full','catalog':{'tables':['fixture-hidden-catalog']}}
             embedded=' '.join(['sk'+'-fixture-hidden-inline','Bearer '+'fixture-hidden-bearer','postgresql:'+ '//reader:fixture-hidden-password@localhost/db'])

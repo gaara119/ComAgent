@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "fixture_only": true,
+  "real_model_calls": 0,
+  "real_database_queries": 0,
+  "base": "http://127.0.0.1:35371",
+  "focus": "local-positive",
+  "checks": [
+    "default_overview_empty_five_text_navigation_no_legacy_brand_or_favicon",
+    "positive_local_CSV_sum_enables_finite_ring_geometry",
+    "ring_rotate_and_reset_change_only_geometry_not_source_values",
+    "ring_bars_and_ribbon_preserve_exact_local_source_without_API",
+    "overview_retains_explicit_local_positive_ring_and_original_table"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/health"
+    },
+    {
+      "method": "GET",
+      "path": "/api/documents"
+    }
+  ],
+  "responses": [],
+  "responsive_viewports": [],
+  "page_errors": [],
+  "error": null
+}

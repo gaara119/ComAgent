@@ -33,20 +33,44 @@ export const safeExport = value => redact(value, false);
 
 export function displayValue(value, rule) {
   if (value === null) return 'NULL（空值）';
-  if (rule?.kind === 'percentage' && [1, 100].includes(rule.scale) && typeof value !== 'boolean') {
+  const precision = rule && Object.hasOwn(rule, 'digits');
+  const digits = precision ? rule.digits : 2;
+  const trusted = precision ? rule.source === 'actual_sql_projection' :
+    !rule?.source || ['sql_projection', 'actual_sql_projection'].includes(rule.source);
+  const validDigits = digits === null || (Number.isInteger(digits) && digits >= 0 && digits <= 9);
+  const percent = rule?.kind === 'percentage' && [1, 100].includes(rule.scale);
+  const money = rule?.kind === 'money' && precision && (rule.scale === undefined || rule.scale === 1);
+  const validRounding = rule?.rounding === undefined || rule?.rounding === 'half_even';
+  if (rule?.kind === 'count' && rule.source === 'actual_sql_projection' && typeof value !== 'boolean' && value !== null && /^[-+]?\d+(?:\.0*)?$/.test(String(value)))
+    return BigInt(String(value).split('.')[0]).toString();
+  if (trusted && validDigits && validRounding && (percent || money) && typeof value !== 'boolean') {
     const match = String(value).match(/^([+-]?)(\d+)(?:\.(\d*))?$/);
     if (match) {
       const [, sign, whole, fraction = ''] = match;
       // Integer arithmetic avoids changing precise numeric-string evidence.
       let scaled = BigInt(whole + fraction);
-      const decimalPlaces = fraction.length - (rule.scale === 100 ? 2 : 0);
-      const shift = decimalPlaces - 2;
+      const decimalPlaces = fraction.length - (percent && rule.scale === 100 ? 2 : 0);
+      if (digits === null) {
+        // Preserve the existing Decimal multiplication quantum: multiplying
+        // 0.12345 by integer100 yields12.34500, not a new two-place rounding.
+        const target = fraction.length;
+        if (percent && rule.scale === 100) scaled *= 100n;
+        const raw = scaled.toString().padStart(target + 1, '0');
+        const rendered = target ? raw.slice(0, -target) + '.' + raw.slice(-target) : raw;
+        return `${sign === '-' ? '-' : ''}${rendered}${percent ? '%' : ''}`;
+      }
+      const shift = decimalPlaces - digits;
       if (shift > 0) {
         const divisor = 10n ** BigInt(shift);
-        scaled = (scaled + divisor / 2n) / divisor;
+        const quotient = scaled / divisor;
+        const remainder = scaled % divisor;
+        // Match Python Decimal's existing round-half-even presentation.
+        const even = precision || rule.rounding === 'half_even';
+        scaled = quotient + (remainder * 2n > divisor ||
+          (remainder * 2n === divisor && (!even || quotient % 2n === 1n)) ? 1n : 0n);
       } else scaled *= 10n ** BigInt(-shift);
-      const digits = scaled.toString().padStart(3, '0');
-      return `${sign === '-' && scaled !== 0n ? '-' : ''}${digits.slice(0, -2)}.${digits.slice(-2)}%`;
+      const rendered = scaled.toString().padStart(digits + 1, '0');
+      return `${sign === '-' && (precision || scaled !== 0n) ? '-' : ''}${digits ? rendered.slice(0, -digits) + '.' + rendered.slice(-digits) : rendered}${percent ? '%' : ''}`;
     }
   }
   return typeof value === 'object' ? JSON.stringify(value) : String(value ?? '');
@@ -54,6 +78,7 @@ export function displayValue(value, rule) {
 
 export function makeScope(route, db, doc) {
   if (route === 'sql') return { route, db_id: db, doc_ids: [] };
+  if (route === 'auto') return { route, db_id: db, doc_ids: doc ? [doc] : [] };
   if (route === 'hybrid') return { route, db_id: 'chinook', doc_ids: doc ? [doc] : [] };
   return { route: 'doc', db_id: null, doc_ids: doc ? [doc] : [] };
 }
@@ -61,6 +86,32 @@ export function makeScope(route, db, doc) {
 export function sourceReady(route, db, doc, health, documents) {
   if (health?.status !== 'ok' || health.llm_configured === false) return false;
   if (route === 'sql') return (db === 'chinook' ? health.database_ready : health.aw_database_ready) === true;
+  if (route === 'auto') return (db === 'chinook' ? health.database_ready : health.aw_database_ready) === true &&
+    (!doc || documents.some(item => item.doc_id === doc && item.ready));
   const docsReady = doc ? documents.some(item => item.doc_id === doc && item.ready) : route === 'hybrid' && documents.some(item => item.ready);
   return Boolean(docsReady && (route !== 'hybrid' || health.database_ready === true));
+}
+
+export function makeContextRequest(sessionId, text) {
+  if (typeof text !== 'string' || !text.trim()) throw new Error('请填写本会话正文。');
+  if (text.length > 120000) throw new Error('会话正文不能超过120000个字符。');
+  return {session_id:sessionId,text};
+}
+
+export function bindContextResponse(response, sessionId, scope) {
+  if (response?.session_id !== sessionId || typeof response.context_id !== 'string' || !response.context_id ||
+      !Number.isInteger(response.version) || response.version < 1 || !Number.isInteger(response.characters) || response.characters < 1 ||
+      !/^[a-f\d]{64}$/i.test(response.content_sha256 || '')) throw new Error('正文保存响应缺少有效会话、版本或完整性信息。');
+  return {...response,scope_key:JSON.stringify(scope)};
+}
+
+export function attachContext(payload, binding) {
+  if (!binding) return payload;
+  if (payload.session_id !== binding.session_id || JSON.stringify(payload.scope) !== binding.scope_key)
+    throw new Error('正文绑定的会话或来源已改变，请重新保存正文。');
+  return {...payload,context_id:binding.context_id};
+}
+
+export function columnTitle(key, labels) {
+  return typeof labels?.[key] === 'string' && labels[key].trim() ? labels[key] : key;
 }

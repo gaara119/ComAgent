@@ -1,0 +1,301 @@
+{
+  "reviewed_at_utc": "2026-10-17T20:37:59.5771389+00:00",
+  "status": "PASS_FIXTURE_INTEGRATION",
+  "scope": "Actual Chrome fixture browser QA only; no real model/backend business prediction or SQL. Original approved mock_api and run_ui proxy were used without edits by reviewer.",
+  "endpoints": {
+    "fixture_api": "http://127.0.0.1:35370",
+    "fixture_UI": "http://127.0.0.1:35371"
+  },
+  "actual_browser": {
+    "engine": "Playwright1.62.1 driving installed GoogleChrome",
+    "executable": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "file_version": "155.0.8059.84",
+    "headless": true,
+    "legacy_browser_executed": false
+  },
+  "verification": [
+    {
+      "name": "Existing fixture functional regression",
+      "status": "PASS",
+      "scenario_groups": 25,
+      "report": {
+        "path": "eval/artifacts/ui-white-integration/fixture-check-001/browser-verification.json",
+        "sha256": "88c2a48fd04649afa81ba204595123ced04344f9ad62c5177bed3d4c2c49a59a"
+      },
+      "log": {
+        "path": "eval/artifacts/ui-white-integration/fixture-check-001.stdout.txt",
+        "sha256": "78432d2604bcf3a64c744b5baa0dd42629f293d19ef0fc56e18f60938927ae3b"
+      },
+      "viewports": [
+        {
+          "viewport": 1440,
+          "width": 1440,
+          "scroll": 1440
+        },
+        {
+          "viewport": 1024,
+          "width": 1024,
+          "scroll": 1024
+        },
+        {
+          "viewport": 736,
+          "width": 736,
+          "scroll": 736
+        },
+        {
+          "viewport": 320,
+          "width": 320,
+          "scroll": 320
+        }
+      ],
+      "build_scope": "Root build before final3 localized analytics/compatibility corrections; workspace/contract assertions not rerun without cause.",
+      "expected_HTTP422": "Deliberate error recovery test; browser page_errors remains0."
+    },
+    {
+      "name": "Existing context/session regression",
+      "status": "PASS",
+      "scenario_groups": 9,
+      "report": {
+        "path": "eval/artifacts/ui-white-integration/fixture-context-001/browser-context-result.json",
+        "sha256": "597d707ebd28206a04799bd8b85aaa83aa72d59c20f254bed072d6bf5a910a6d"
+      },
+      "log": {
+        "path": "eval/artifacts/ui-white-integration/fixture-context-001.stdout.txt",
+        "sha256": "2fc831b76c73b5b6eabd9c6c44d562552d8a70c30dace7c9ab5fdd28c562fc58"
+      },
+      "build_scope": "Root build before final3 localized corrections; no new real B/Gold input loaded."
+    },
+    {
+      "name": "Final affected analytics integration",
+      "status": "PASS",
+      "scenario_groups": 7,
+      "report": {
+        "path": "eval/artifacts/ui-white-integration/fixture-analytics-final-001/browser-white-analytics.json",
+        "sha256": "808175651a6c74515e229d4acd143932197a6fedff73b5e85a8aafd8ba405539"
+      },
+      "log": {
+        "path": "eval/artifacts/ui-white-integration/fixture-analytics-final-001.stdout.txt",
+        "sha256": "bac8f3d16030ef591a420fd01302f8797fbf214514e09c341bf11f858b626fcd"
+      },
+      "fixture_chat_requests": 2,
+      "viewports": [
+        {
+          "viewport": 1440,
+          "width": 1440,
+          "scroll": 1440
+        },
+        {
+          "viewport": 1024,
+          "width": 1024,
+          "scroll": 1024
+        },
+        {
+          "viewport": 736,
+          "width": 736,
+          "scroll": 736
+        },
+        {
+          "viewport": 320,
+          "width": 320,
+          "scroll": 320
+        }
+      ],
+      "script_at_execution": {
+        "path": ".runtime/ui-white-analytics-before-positive.cjs",
+        "sha256": "41b27d34b44cdc601cda3060a0ad7ca05778be595c051331191f597e65a95af7"
+      },
+      "checks": [
+        "default_overview_empty_five_text_navigation_no_legacy_brand_or_favicon",
+        "overview_chart_uses_actual_returned_table_not_demo",
+        "local_csv_single_measure_exact_values_zero_negative_missing_no_API",
+        "quoted_CSV_file_import_remains_local_and_preserves_negative_zero",
+        "quoted_single_column_empty_record_kept_separate_from_zero",
+        "four_responsive_widths_keep_navigation_chart_table_and_controls_usable",
+        "actual_returned_NULL_remains_NULL_without_zero_chart"
+      ]
+    },
+    {
+      "name": "Focused positive local ring probe",
+      "status": "PASS",
+      "scenario_groups": 5,
+      "report": {
+        "path": "eval/artifacts/ui-white-integration/fixture-positive-ring-001/browser-white-analytics.json",
+        "sha256": "8117368086a18e2cb5c17fc9a14168170e6ce17789979e3435d3072153ffe52c"
+      },
+      "log": {
+        "path": "eval/artifacts/ui-white-integration/fixture-positive-ring-001.stdout.txt",
+        "sha256": "edaf26a997db03ac3deb228d4d678aaab40e1b8ce8bcd3ca6db9a8adc4f005ae"
+      },
+      "fixture_chat_requests": 0,
+      "local_phase_new_API_calls": 0,
+      "checks": [
+        "default_overview_empty_five_text_navigation_no_legacy_brand_or_favicon",
+        "positive_local_CSV_sum_enables_finite_ring_geometry",
+        "ring_rotate_and_reset_change_only_geometry_not_source_values",
+        "ring_bars_and_ribbon_preserve_exact_local_source_without_API",
+        "overview_retains_explicit_local_positive_ring_and_original_table"
+      ],
+      "values": {
+        "北区": "20.5",
+        "南区": "10",
+        "中区": "5.5",
+        "sum": "36.0"
+      }
+    },
+    {
+      "name": "Previously deferred DOM virtual options",
+      "status": "PASS",
+      "node_test_cases": 2,
+      "log": {
+        "path": "eval/artifacts/ui-white-integration/fixture-DOM-001.stdout.txt",
+        "sha256": "278dc250e8bac1341cab39c4968b6e92d2dd4821bcf75d4d37426e99ae45097c"
+      },
+      "browsers_are_real": true,
+      "model_or_SQL_calls": 0
+    }
+  ],
+  "final_tested_build": [
+    {
+      "path": "frontend-workbench/dist/index.html",
+      "sha256": "7c05fea0af4a60526638c85e2fa0b476e6342aa19631df83a04e3f206c2577ec",
+      "matches_before_final_analytics_and_after_positive_probe": true
+    },
+    {
+      "path": "frontend-workbench/dist/assets/app.js",
+      "sha256": "035d87955258b92228c3daf41114d45e7168fdc6a564b7d573c5bb29813088c9",
+      "matches_before_final_analytics_and_after_positive_probe": true
+    },
+    {
+      "path": "frontend-workbench/dist/assets/app.css",
+      "sha256": "015051ab9a2f6dee3bca20e3a708e87b596464dceb5c407f3da68baedcd9788c",
+      "matches_before_final_analytics_and_after_positive_probe": true
+    }
+  ],
+  "test_files_at_seal": [
+    {
+      "path": "frontend-workbench/tests/browser-check.cjs",
+      "sha256": "f835be0aad2e4b608a4cf8fa64714643a0f197f5e7db7a49d9b8752cb7470750"
+    },
+    {
+      "path": "frontend-workbench/tests/browser-context.cjs",
+      "sha256": "7f1445531bcedb02c57e6a4c35442bd04e6f0c7d9e1ab7be63afe1ad6de1cf10"
+    },
+    {
+      "path": "frontend-workbench/tests/browser-real-smoke.cjs",
+      "sha256": "21b6fa9c6ad25d7a321ebe98751a5b7677b39b76f895bbd2b5a5e79297f4ecc5"
+    },
+    {
+      "path": "frontend-workbench/tests/browser-white-analytics.cjs",
+      "sha256": "021bbe2e5c9cef13c44bb954d564e71c0cd28749f3f644566f1bb42c6e9c98d2"
+    },
+    {
+      "path": "frontend-workbench/tests/browser-white-analytics-checks.test.cjs",
+      "sha256": "837c5827f363001a9a158669aae109c2e0aed05dc49d2277ee5e92b2122e5fa0"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-check-001/frontend-desktop.png",
+      "sha256": "adfd392a8722407a6f508da8d24f1dc870512999c96e41df5ff233410378655b"
+    },
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-check-001/frontend-hybrid-doc-to-sql.png",
+      "sha256": "6c0eeab924bab1f20d661c7d487d65abdae0d8e8731fbe8cb5777929d5f8a298"
+    },
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-check-001/frontend-hybrid-sql-to-doc.png",
+      "sha256": "0a6b8423887cf45006d22b2307ab62187d77a3664618fabd1a3958996f2ab650"
+    },
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-context-001/fixture-context-workbench.png",
+      "sha256": "cfe326248755f8a339c1c595e598c91a8e90bc26ff61c80480984a1930950bdd"
+    },
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-analytics-final-001/analytics-1024px.png",
+      "sha256": "036ef55efc2e41a86d1da9c1b70f1545bfed40a7278f5fefd2fa643b38476dc3"
+    },
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-analytics-final-001/analytics-1440px.png",
+      "sha256": "e65795321ff9924cede768388b20fda1a15ac779998608d06f37f7b5fb775e88"
+    },
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-analytics-final-001/analytics-320px.png",
+      "sha256": "457c1d137f0910b422623eb46c8e4cffa94908a9ee9daccf0d6ea21372b11b8d"
+    },
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-analytics-final-001/analytics-736px.png",
+      "sha256": "084c8f40c5a740e5eb37851d107136d4544429f62dff6607579b1ae62578a4c5"
+    },
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-analytics-final-001/local-csv-negative-zero-missing.png",
+      "sha256": "4b548e28b16d1fb9c112b6fac61058d5f5e38d4551a9a1803bb1882f2572cced"
+    },
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-analytics-final-001/overview-actual-fixture-table.png",
+      "sha256": "0477c5217bb9fff85a129472bebc6987f08bcf5da555fd1cd02a87c4c72a3bee"
+    },
+    {
+      "path": "eval/artifacts/ui-white-integration/fixture-positive-ring-001/overview-local-positive-ring.png",
+      "sha256": "f8aff1b6e3d0f279d6698b18b87c5d2732288e250ca518f9629763bcd3c5d2cd"
+    }
+  ],
+  "actual_original_detail_visual_inspection": [
+    "fixture-analytics-final-001/overview-actual-fixture-table.png",
+    "fixture-analytics-final-001/analytics-320px.png",
+    "fixture-context-001/fixture-context-workbench.png",
+    "fixture-positive-ring-001/overview-local-positive-ring.png"
+  ],
+  "visual_findings": [
+    "Final chart heading visibly uses returned Chinese label 客户数量 · 求和 and actual raw5.",
+    "Local positive ring is explicitly marked LOCAL DATA and page marked 接口模拟验证; source table20.5/10/5.5 agrees, no demonstration data mistaken as database output.",
+    "320px local CSV table preserves quoted empty record,0 and−2; labels/controls/values remain within page width. Main navigation is horizontally scrollable at narrow width, not all5 entries are required to fit simultaneously.",
+    "ComAgent plain text product name remains intentionally; old graphical C brand icon and legacy C SVG favicon are absent.",
+    "No screenshot clipping or overlapping functional panels found in the inspected images."
+  ],
+  "test_setup_failures_preserved": [
+    {
+      "evidence": {
+        "path": "eval/artifacts/ui-white-integration/initial-log-parent-setup-error.json",
+        "sha256": "42132d05800c6522e2983bddf8690d19d6e914a35697c9ce9c5318cfa670b442"
+      },
+      "classification": "Command setup, not executed test",
+      "reason": "First redirection parent directory missing, scripts did not start; corrected setup."
+    },
+    {
+      "evidence": {
+        "path": "eval/artifacts/ui-white-integration/fixture-analytics-001/browser-white-analytics.json",
+        "sha256": "6cfe5b4dae9acbc0751db2614819ce27d1707567c990416a922d100f27febf84"
+      },
+      "log": {
+        "path": "eval/artifacts/ui-white-integration/fixture-analytics-001.stdout.txt",
+        "sha256": "f0587759f934cd36dee13d635154e964e854d57aa33cf4ab65c747a87250b081"
+      },
+      "classification": "Test interaction order, not product bug",
+      "reason": "After multi-measure parse, metric select intentionally disabled under count. Changed test to select sum before metric; no product edit."
+    },
+    {
+      "evidence": {
+        "path": "eval/artifacts/ui-white-integration/fixture-analytics-002/browser-white-analytics.json",
+        "sha256": "07e1fa22d472bf7bb49844159cb76eda4413d63bd925e9c4e9efb8a92066063e"
+      },
+      "classification": "Intermediate build PASS, not substituted for final affected run"
+    }
+  ],
+  "protection": {
+    "historical_docs_overwritten": false,
+    "src_run_ui_contract_API_edited_by_reviewer": false,
+    "real_model_calls": 0,
+    "real_business_SQL_queries": 0,
+    "holdout_or_Gold_used": false,
+    "fixture_HTTP_requests_performed": true,
+    "new_tests_use_no_real_backend_credentials": true
+  },
+  "limitations": [
+    "Fixture tests establish UI behavior and contract handling; they do not measure real model answer quality or DB correctness.",
+    "Only installed Chrome155 was exercised; older browser compatibility relies on separate source/unit checks, not a claimed old-browser execution.",
+    "Grouped scenario counts differ from individual assert invocation counts and are not summed into a fictitious homogeneous test total.",
+    "No actual-backend smoke was started; that remains a separate root-authorized step if requested."
+  ],
+  "blocking_product_findings": [],
+  "conclusion": "Original workspace/source/context tests, final localized analytics integration and focused positive ring interaction passed. No blocking UI defect observed in this fixture verification."
+}

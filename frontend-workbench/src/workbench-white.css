@@ -1,0 +1,75 @@
+/* The supplied white spatial theme, adapted to the existing project contract. */
+:root{color:#304653;background:#f4f7fa;color-scheme:light}
+body{background:radial-gradient(ellipse at 82% 13%,#f0f4e9 0,transparent 43%),radial-gradient(ellipse at 10% 58%,#eef5fb 0,transparent 56%),#f6f8fa}
+button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
+.app{min-height:100dvh;color:#304653;background:transparent}
+.topbar{min-height:84px;padding:17px 34px;gap:20px;border-bottom:1px solid #e7edf1;background:#ffffffc9;backdrop-filter:blur(22px);display:flex;align-items:center;flex-wrap:nowrap}
+.brand{color:#253c49;text-decoration:none;white-space:nowrap;letter-spacing:-.6px;font-family:Georgia,'Microsoft YaHei',serif;font-size:23px;font-weight:700;gap:16px}
+.brand-subtitle{border-left:1px solid #e3e8ed;padding-left:16px;color:#8a979e;letter-spacing:0;font:12px 'Microsoft YaHei',sans-serif}
+.topnav{display:flex;align-items:center;justify-content:center;gap:3px;border:1px solid #e8ecef;border-radius:30px;padding:5px;background:#eceff2c9;margin:0 auto;min-width:0;max-width:100%;overflow:auto;scrollbar-width:none}
+.topnav::-webkit-scrollbar{display:none}
+.topnav button{font:12px 'Microsoft YaHei',sans-serif;line-height:20px;white-space:nowrap;color:#7d8992;border:0;background:transparent;padding:10px 20px;border-radius:25px;cursor:pointer;transition:background .15s,color .15s,box-shadow .15s}
+.topnav button:hover{color:#355966;background:#ffffff87}
+.topnav button.selected{background:#fff;color:#304d5a;box-shadow:0 4px 12px #526d8410,inset 0 1px 1px #fff}
+.topnav button:focus-visible,.sidebar-recent button:focus-visible{outline:2px solid #557f8b;outline-offset:2px}
+.header-status{flex-shrink:0;gap:9px!important}
+.header-status .ant-tag{font-size:11px;border-radius:20px;background:#ffffffa8;border:1px solid #e3eaed;padding:3px 10px;margin:0;color:#6c858c}
+.header-status .ant-btn{border-radius:22px;font-size:11px;background:#ffffff91;border-color:#e2eaed;color:#6f858e;box-shadow:none}
+.shell{grid-template-columns:200px minmax(0,1fr);min-height:calc(100dvh - 84px)}
+.sidebar{padding:28px 12px 18px;background:#ffffff45;border-right:1px solid #e4eaee;min-width:0}
+.sidebar .ant-menu{background:transparent;color:#72848e;font-size:12px}
+.sidebar .ant-menu-item{border-radius:13px}
+.sidebar .ant-menu-item-selected{background:#ffffffdc!important;color:#3f6974!important;box-shadow:0 5px 16px #58738b09}
+.sidebar-label{padding:0 16px 12px;font-size:10px;letter-spacing:1px;color:#92a1a9}
+.recent-label{margin-top:30px}
+.sidebar-recent{display:flex;flex-direction:column;gap:6px;padding:0 6px}
+.sidebar-recent button{text-align:left;border:0;border-radius:10px;background:transparent;cursor:pointer;color:#80939c;font:11px/1.8 'Microsoft YaHei',sans-serif;padding:9px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.sidebar-recent button:hover{background:#fff;color:#44636f}
+.sidebar-recent .subtle{padding:0 10px;line-height:1.9;font-size:11px}
+.sidebar-foot{font-size:10px;color:#94a2aa;line-height:2;padding:35px 16px 10px}
+.main{padding:32px 30px 40px;max-width:1680px;min-width:0}
+.page-heading{margin-bottom:23px}
+.page-heading h2{font-size:25px;font-weight:650;color:#304856;letter-spacing:-.6px;margin-bottom:8px}
+.page-heading>.ant-btn{border-radius:22px;border-color:#dfe7ec;background:#ffffffb8;box-shadow:0 4px 10px #6f839106;font-size:12px;color:#67808b}
+.subtle{color:#8b9ca6;line-height:1.8}
+.section-eyebrow{font:9px/1.5 'Segoe UI',sans-serif;letter-spacing:2.5px;color:#8fa0aa;margin-bottom:13px}
+.conversation.ant-card,.proof-card.ant-card,.run-card.ant-card,.empty-history.ant-card,.page-data .ant-card{background:linear-gradient(130deg,#ffffffdc,#f6f9fcbb);border:1px solid #fff;border-radius:23px;box-shadow:0 14px 36px #536f8610,inset 0 0 0 1px #dce6ec77;min-width:0}
+.conversation .ant-card-body,.proof-card .ant-card-body{padding:24px}
+.proof-card .ant-card-head{border-bottom-color:#e5edf1;min-height:54px;padding:0 24px;font-size:13px;color:#4e6874}
+.source-bar{border-bottom-color:#e6edf1;gap:8px;padding-bottom:19px;margin-bottom:19px}
+.source-bar .ant-select{min-width:130px}
+.source-bar .ant-select-selector{background:#ffffffa8!important;border-color:#e0e8ed!important;box-shadow:none!important}
+.source-bar>.ant-tag{font-size:10px;color:#8a9da5;background:#f6f9fa;border-color:#e8eef1;border-radius:12px}
+.question-bubble{background:#edf3f6b0;border:1px solid #e7edf1;color:#496473;padding:14px 17px;border-radius:15px}
+.agent-name{color:#597f89;letter-spacing:.3px}
+.answer-text{font-size:14px;line-height:1.95;color:#3c5360}
+.answer-text .ant-btn-link{color:#528794}
+.answer-region{min-height:150px}
+.results .ant-table{background:#ffffff80;font-size:12px}
+.results .ant-table-thead>tr>th{background:#f0f5f8!important;color:#677f8d;font-size:11px;font-weight:500}
+.results .ant-table-tbody>tr>td{border-bottom-color:#e7eef2}
+.composer{border-top-color:#e4edf1;margin-top:24px;padding-top:22px}
+.composer textarea.ant-input{background:#ffffffa6;border:1px solid #dce6ec;border-radius:15px;padding:14px 16px;font-size:13px;line-height:1.9;box-shadow:inset 0 2px 8px #6f8b9c04}
+.composer-actions>.subtle{font-size:10px}
+.composer-actions .ant-btn{border-radius:22px;font-size:12px}
+.composer-actions .ant-btn-primary{background:#577f8b;box-shadow:0 5px 12px #456c7819}
+.proof-card pre{background:#f0f5f8b8;border-color:#e3ebf0;color:#5a7281;font-size:11px;border-radius:11px}
+.proof-card blockquote{border-left-color:#78a2ab;background:#f0f6f7;color:#556f7b;border-radius:0 10px 10px 0}
+.proof-card h3{color:#526d7a;font-size:12px}
+.clarification-box{border-color:#e7dfc9;background:#fffdf5;border-radius:16px}
+.clarification-box h3{color:#766845}
+.database-list .ant-card-head{color:#4c6573;font-size:13px;border-bottom-color:#e5edf0}
+.page-data .ant-table{background:transparent}
+.run-list{display:grid;gap:15px;min-width:0}
+.run-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.run-heading h3{font-size:14px;line-height:1.8;overflow-wrap:anywhere}
+.run-answer{font-size:12px;line-height:1.85;color:#748994;margin-bottom:16px}
+.run-card.selected{box-shadow:0 0 0 1px #9ab8c1,0 14px 36px #536f8610}
+.empty-history{min-height:300px;text-align:center;padding:30px}
+.page-overview .shell,.page-analysis .shell,.page-data .shell{display:block}
+.page-overview .sidebar,.page-analysis .sidebar,.page-data .sidebar{display:none}
+.page-overview .main,.page-analysis .main{padding:0;max-width:1800px}
+.page-data .main{max-width:1450px}
+@media(max-width:1260px){.topbar{padding:17px 24px;gap:15px}.brand-subtitle{display:none}.topnav button{padding:9px 14px}.workspace{grid-template-columns:minmax(0,1fr) 290px}.shell{grid-template-columns:170px minmax(0,1fr)}.main{padding:26px 22px}}
+@media(max-width:1000px){.topbar{flex-wrap:wrap;gap:10px;padding:15px 22px}.topnav{order:3;flex-basis:100%;justify-content:space-around;margin:0;width:100%}.header-status{margin-left:auto}.workspace{grid-template-columns:minmax(0,1fr)}.shell{grid-template-columns:160px minmax(0,1fr)}.topnav button{padding:9px 13px}}
+@media(max-width:600px){.topbar{padding:12px 14px;gap:8px;min-height:108px}.brand{font-size:20px}.header-status .ant-btn{font-size:10px;padding-inline:9px}.header-status .ant-tag{font-size:9px;padding:2px 7px}.topnav{padding:4px;justify-content:space-between;gap:0}.topnav button{font-size:10px;line-height:18px;padding:8px 10px;flex-shrink:0}.shell{display:block}.sidebar{border:0;border-bottom:1px solid #e5edf0;padding:3px 6px}.sidebar-label,.sidebar-recent,.sidebar-foot{display:none}.sidebar .ant-menu{display:flex;background:transparent}.sidebar .ant-menu-item{flex:1;padding-inline:6px!important;font-size:11px}.main{padding:22px 14px 30px}.page-heading h2{font-size:22px}.conversation .ant-card-body,.proof-card .ant-card-body{padding:17px}.conversation.ant-card,.proof-card.ant-card{border-radius:19px}.source-bar .ant-select{min-width:120px}.source-bar .doc-select{width:100%}.source-bar>.ant-tag{margin:0}.composer-actions .ant-space{gap:6px!important}.composer-actions .ant-btn{font-size:11px}.proof-card .ant-card-head{padding:0 17px}.run-heading{flex-wrap:wrap}.run-heading h3{margin-bottom:0}}
