@@ -57,6 +57,7 @@ class StoredPlan:
     sql_question: str
     context: dict
     evidences: list[Evidence]
+    context_binding: dict | None = None
 
 
 _PLANS: OrderedDict[str, StoredPlan] = OrderedDict()
@@ -65,12 +66,18 @@ _MAX_PLANS = 256
 
 
 def _cached(request: ChatRequest) -> StoredPlan | None:
+    from qa_agent.context import current_context
+    from qa_agent.fusion.resume_state import context_binding
     with _LOCK:
         plan = _PLANS.get(request.session_id)
-        return plan if plan and plan.scope == request.scope.model_dump(mode="json") else None
+        return plan if (plan and plan.scope == request.scope.model_dump(mode="json")
+                        and plan.context_binding==context_binding(current_context())) else None
 
 
 def _remember(request: ChatRequest, plan: StoredPlan) -> None:
+    from qa_agent.context import current_context
+    from qa_agent.fusion.resume_state import context_binding
+    plan.context_binding=context_binding(current_context())
     with _LOCK:
         _PLANS[request.session_id] = plan
         _PLANS.move_to_end(request.session_id)
@@ -78,22 +85,46 @@ def _remember(request: ChatRequest, plan: StoredPlan) -> None:
             _PLANS.popitem(last=False)
 
 
-def classify_route(request: ChatRequest) -> str:
-    """Only dispatch explicit, bounded templates; never infer from gold labels."""
-    question = request.message
-    cached = _cached(request)
-    from qa_agent.clarify.service import is_followup
-    if cached and (request.clarification_id or is_followup(question)):
-        return cached.kind
+def retire_plan(session_id: str) -> bool:
+    """Retire only this session's old legacy task after a new direct task."""
+    with _LOCK:
+        return _PLANS.pop(session_id, None) is not None
+
+
+def _explicit_hybrid_kind(question):
+    from qa_agent.fusion.obligations import asks_definition_only
     if (re.search(r"艺术家|乐队", question) and re.search(r"最高|第一|最多|前\s*1\s*名", question)
             and re.search(r"介绍|风格|背景|百科|简介", question)):
         return "sql_to_doc"
     if (re.search(r"手册|口径|定义", question) and re.search(r"客单价|平均每张发票金额", question)
-            and re.search(r"算|计算|求|多少", question)):
+            and re.search(r"算|计算|求|多少", question) and not asks_definition_only(question)):
         return "doc_to_sql"
+    return None
+
+
+def legacy_resume(request: ChatRequest) -> bool:
+    from qa_agent.clarify.service import is_followup
+    from qa_agent.fusion.obligations import explicit_new_task
+    return bool(_cached(request) and (request.clarification_id or
+        is_followup(request.message) and not explicit_new_task(request.message)
+        and not _explicit_hybrid_kind(request.message)))
+
+
+def classify_route(request: ChatRequest) -> str:
+    """Only dispatch explicit, bounded templates; never infer from gold labels."""
+    question = request.message
+    cached = _cached(request)
+    if legacy_resume(request):
+        return cached.kind
+    explicit=_explicit_hybrid_kind(question)
+    if explicit:
+        return explicit
     if request.scope.route == "hybrid":
         return "unsupported"
     if request.scope.doc_ids:
+        from qa_agent.fusion.obligations import clearly_database_question
+        if request.scope.route == "auto" and clearly_database_question(question):
+            return "sql"
         return "doc" if len(request.scope.doc_ids) == 1 else "unsupported"
     return "sql"
 
@@ -149,6 +180,16 @@ def validate_fusion_sql(sql: str, catalog, context: dict | None) -> None:
     """Extra business-plan proof after the common SQL guards, before execution."""
     if not context:
         return
+    if context.get("kind") == "composed":
+        # Composed plans may contain qualified subsets and GROUP BY. They still
+        # traverse every common SQL, binding, semantic and read-only guard.
+        # Evidence/definition lineage is retained in the actual step dependency.
+        from qa_agent.sql.semantic_guard import validate_document_dependencies
+        proof = validate_document_dependencies(sql, catalog, context.get("dependencies", {}),
+                                               question=context.get("original_question", ""))
+        if proof.get("not_verified"):
+            raise SQLValidationError("文档指标定义尚无可验证的执行映射，未执行该依赖计算。")
+        return proof
     tree = qualify(sqlglot.parse_one(sql, read="postgres"), dialect="postgres", db="public",
                    schema=MappingSchema(catalog.sqlglot_schema(), dialect="postgres", normalize=False),
                    allow_partial_qualification=False, validate_qualify_columns=True)
@@ -264,8 +305,7 @@ def run_hybrid(request: ChatRequest, trace: TraceRecorder, settings: Settings, l
             answer="跨源查询目前支持Chinook艺术家销售排名→介绍文档，以及口径手册客单价定义→SQL。",
             steps=trace.steps, metadata={"latency_ms": trace.latency_ms})
     plan = _cached(request)
-    from qa_agent.clarify.service import is_followup
-    resumed = bool(plan and (request.clarification_id or is_followup(request.message)))
+    resumed = legacy_resume(request)
     result = None
     try:
         documents = load_documents(settings.rag_manifest_path)

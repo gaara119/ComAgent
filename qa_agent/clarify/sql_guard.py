@@ -7,6 +7,7 @@ are not routed here. No SQL is rewritten and no database is queried here.
 from __future__ import annotations
 
 from datetime import datetime
+from decimal import Decimal,InvalidOperation
 import json
 
 import sqlglot
@@ -28,10 +29,16 @@ def validate_current_patch_contract(sql: str, catalog, analysis, resolutions: li
     retired; the dedicated ratio guard proves those independent operand scopes.
     It never rewrites SQL or substitutes an entity/date/value.
     """
+    if (getattr(analysis,'query_scope',{}) or {}).get('distinct_count'):
+        from qa_agent.sql.distinct_count_guard import validate_distinct_count
+        validate_distinct_count(sql,catalog,analysis)
     order=analysis.order or {}
+    ranked_total='ranked_subset_total' in getattr(analysis,'output_requirements',[])
+    ranked_rows_total=ranked_total and 'ranked_subset_rows' in getattr(analysis,'output_requirements',[]) and analysis.task_type=='ranking'
+    per_group=getattr(analysis,'query_scope',{}).get('ranking_scope')=='per_group'
     declared_order=(analysis.task_type=='ranking' and bool(order.get('field')) and
                     str(order.get('direction','')).lower() in {'asc','desc'})
-    if catalog.database.casefold()!='chinook' or (not resolutions and not declared_order):
+    if catalog.database.casefold()!='chinook' or (not resolutions and not declared_order and not ranked_total and not per_group):
         return
     schemas={table.schema for table in catalog.tables}
     default_schema=next(iter(schemas)) if len(schemas)==1 else 'public'
@@ -62,7 +69,7 @@ def validate_current_patch_contract(sql: str, catalog, analysis, resolutions: li
 
     checked=normalize_identifiers(sqlglot.parse_one(sql,read='postgres'),dialect='postgres')
     # TopN expresses the query size, not the response's max_rows display cap.
-    if analysis.task_type=='ranking' and analysis.top_n is not None:
+    if analysis.task_type=='ranking' and analysis.top_n is not None and not ranked_total and not per_group:
         limit=checked.args.get('limit')
         value=limit.expression if limit is not None else None
         if (not isinstance(value,exp.Literal) or value.is_string or
@@ -81,6 +88,16 @@ def validate_current_patch_contract(sql: str, catalog, analysis, resolutions: li
     except Exception as exc:
         raise SQLValidationError('当前补丁核验无法建立退役条件的真实字段作用域。') from exc
     scopes=list(traverse_scope(checked))
+    if per_group:
+        from qa_agent.sql.semantic_guard import validate_groupwise_ranking
+        validate_groupwise_ranking(sql,catalog,analysis)
+    if ranked_rows_total:
+        from qa_agent.sql.ranked_rows_total_guard import validate_ranked_rows_total
+        validate_ranked_rows_total(sql,catalog,analysis)
+        # Its scalar witness has already used this exact existing TopN proof.
+        # Continue retired-condition validation; do not misread window rows as
+        # an outer scalar SUM or require a second unrelated final TopN.
+        ranked_total=False
     # Some saved scalar-aggregation intents retain task_type=lookup. A direct
     # SELECT with aggregates is still an aggregation; do not key this guard on
     # a DEV question ID. Comparisons/ratios and multi-scope algebra remain under
@@ -124,6 +141,107 @@ def validate_current_patch_contract(sql: str, catalog, analysis, resolutions: li
                 return len(value.expressions)==1 and field(value.expressions[0],'invoice','invoice_id')
             return field(value,'invoice','invoice_id')
         return False
+
+    if (ranked_total and analysis.task_type=='ratio' and analysis.rank_object=='customer' and
+            analysis.query_scope.get('rank_metric')=='invoice_count'):
+        from qa_agent.sql.customer_winner_guard import validate_customer_winner_ratio
+        validate_customer_winner_ratio(sql,catalog,analysis)
+        ranked_total=False
+
+    if ranked_total and analysis.task_type in {'ratio','growth','yoy'}:
+        from qa_agent.sql.ranked_subset_guard import validate_ranked_ratio_contract
+        validate_ranked_ratio_contract(sql,catalog,analysis)
+        ranked_total=False
+
+    if ranked_total:
+        # A visible LIMIT elsewhere in a CTE is not enough. The sole outer
+        # scalar SUM must consume the actual revenue column of this ranked
+        # scope, with no join/WHERE that can change the selected subset.
+        outer=next((scope for scope in reversed(scopes) if scope.expression is checked),None)
+        if (outer is None or not isinstance(checked,exp.Select) or len(checked.expressions)!=1 or
+                checked.args.get('joins') or checked.args.get('where') or checked.args.get('group') or checked.args.get('having')):
+            raise SQLValidationError('排名子集合计必须由实际TopN结果直接汇总，不能混入其它来源或额外筛选。')
+        projection=unwrap(checked.expressions[0])
+        if analysis.task_type in {'ratio','growth','yoy'}:
+            # ranked_subset_total can describe an internal numerator. It does
+            # not turn a ratio/growth task into an outer standalone SUM answer.
+            if isinstance(projection,exp.Mul):
+                def percent_scale(node):
+                    try:
+                        return isinstance(node,exp.Literal) and not node.is_string and Decimal(node.this)==100
+                    except InvalidOperation:
+                        return False
+                if percent_scale(projection.right):
+                    projection=unwrap(projection.left)
+                elif percent_scale(projection.left):
+                    projection=unwrap(projection.right)
+                else:
+                    raise SQLValidationError('排名子集比例只允许明确百分数展示乘100，不能增加其它缩放。')
+            if not isinstance(projection,exp.Div):
+                raise SQLValidationError('当前任务为比例，排名子集合计只属于分子，最终必须保留比例除法。')
+            projection=unwrap(projection.left)
+            if isinstance(projection,exp.Subquery):
+                numerator_query=projection.this
+                numerator_scope=next((scope for scope in scopes if scope.expression is numerator_query),None)
+                if (numerator_scope is None or len(numerator_query.expressions)!=1 or
+                        numerator_query.args.get('joins') or numerator_query.args.get('where') or
+                        numerator_query.args.get('group') or numerator_query.args.get('having')):
+                    raise SQLValidationError('比例分子必须实际消费TopN子集合计，不能附加其它来源或筛选。')
+                outer=numerator_scope
+                projection=unwrap(numerator_query.expressions[0])
+        if not isinstance(projection,exp.Sum) or not isinstance(unwrap(projection.this),exp.Column):
+            raise SQLValidationError('排名子集合计必须实际SUM所选TopN指标列，不能只列排名或汇总常量。')
+        column=unwrap(projection.this)
+        selected=outer.selected_sources
+        source=selected.get(column.table)
+        ranked=source[1] if source else None
+        if len(selected)!=1 or not hasattr(ranked,'selected_sources'):
+            raise SQLValidationError('排名子集合计没有直接消费已选TopN子查询。')
+        ranked_query=ranked.expression
+        rank_projection=next((node for node in ranked_query.expressions if node.alias_or_name==column.name),None)
+        if rank_projection is None:
+            raise SQLValidationError('合计列无法追溯到真实排名指标。')
+        limit=ranked_query.args.get('limit')
+        value=limit.expression if limit else None
+        offset=ranked_query.args.get('offset')
+        if (not isinstance(value,exp.Literal) or value.is_string or not value.this.isdigit() or
+                int(value.this)!=analysis.top_n or offset and
+                (not isinstance(offset.expression,exp.Literal) or offset.expression.this!='0')):
+            raise SQLValidationError(f'实际被合计的排名子查询必须选择前 {analysis.top_n} 项，不能用无关LIMIT绕过。')
+        ordering=ranked_query.args.get('order')
+        if ordering is None or not ordering.expressions or not ordering.expressions[0].args.get('desc'):
+            raise SQLValidationError('实际被合计的TopN必须按当前指标降序排名。')
+        ordered=unwrap(ordering.expressions[0].this)
+        metric_expr=unwrap(rank_projection)
+        if isinstance(ordered,exp.Column) and not ordered.table and ordered.name==rank_projection.alias_or_name:
+            ordered=metric_expr
+        if isinstance(ordered,exp.Literal) and not ordered.is_string and ordered.this.isdigit():
+            pos=int(ordered.this)-1
+            ordered=unwrap(ranked_query.expressions[pos]) if 0<=pos<len(ranked_query.expressions) else ordered
+        if ordered.sql(dialect='postgres')!=metric_expr.sql(dialect='postgres'):
+            raise SQLValidationError('TopN的主排序必须是最后被合计的同一指标。')
+
+        def metric_lineage(node,scope,seen=None):
+            node=unwrap(node);seen=set() if seen is None else seen
+            if isinstance(node,exp.Column):
+                source=scope.selected_sources.get(node.table)
+                owner=source[1] if source else None
+                marker=(id(owner),node.name)
+                if owner is None or marker in seen or not hasattr(owner,'selected_sources'):
+                    return False
+                seen.add(marker)
+                child=next((item for item in owner.expression.expressions if item.alias_or_name==node.name),None)
+                return child is not None and metric_lineage(child,owner,seen)
+            nonlocal sources
+            previous_sources=sources
+            sources={alias:source for alias,(_,source) in scope.selected_sources.items()}
+            try:
+                return matches(node)
+            finally:
+                sources=previous_sources
+
+        if not metric_lineage(rank_projection,ranked):
+            raise SQLValidationError('排名合计指标没有真实字段与已确认金额/数量口径的完整来源。')
 
     if simple_measure:
         projections=[node for node in checked.expressions if any(isinstance(item,exp.AggFunc) for item in node.walk())]
@@ -266,11 +384,46 @@ def validate_confirmed_invoice_period(sql: str, catalog, current: dict) -> None:
         scopes=list(traverse_scope(checked))
     except Exception as exc:
         raise SQLValidationError('确认期间核验无法建立真实 invoice 字段作用域。') from exc
-    if len(scopes)!=1 or not isinstance(checked,exp.Select):
-        raise SQLValidationError('已确认发票期间的限定保护要求单个 SELECT 作用域；请把确认期间放入真实 invoice 的 WHERE，不能用多层来源替换或缩窄。')
+    if not isinstance(checked,exp.Select):
+        raise SQLValidationError('已确认发票期间要求可追溯的SELECT来源；不接受未证明的集合分支。')
+    root_scope=next((scope for scope in reversed(scopes) if scope.expression is checked),None)
+    consumed=[]
+    visited=set()
+
+    def consume(scope):
+        if id(scope) in visited:
+            return
+        visited.add(id(scope));consumed.append(scope)
+        for _,source in scope.selected_sources.values():
+            if hasattr(source,'selected_sources'):
+                consume(source)
+
+    if root_scope is None:
+        raise SQLValidationError('无法追溯最终查询实际消费的发票来源。')
+    consume(root_scope)
+
+    def derived_date(column,scope,seen=None):
+        seen=set() if seen is None else seen
+        source=scope.selected_sources.get(column.table)
+        source=source[1] if source else None
+        if isinstance(source,exp.Table):
+            return source.name=='invoice' and source.db in {'public',''} and column.name=='invoice_date'
+        marker=(id(source),column.name)
+        if not hasattr(source,'selected_sources') or marker in seen:
+            return False
+        seen.add(marker)
+        projected=next((item for item in source.expression.expressions if item.alias_or_name==column.name),None)
+        return projected is not None and any(derived_date(item,source,seen) for item in walk_in_scope(projected) if isinstance(item,exp.Column))
+
     seen=False
-    for scope in scopes:
+    for scope in consumed:
         sources={alias:source for alias,(_,source) in scope.selected_sources.items()}
+        predicates=[scope.expression.args.get('where'),scope.expression.args.get('having')]
+        predicates.extend(join.args.get('on') for join in scope.expression.args.get('joins') or [])
+        for predicate in predicates:
+            if predicate is not None and any(isinstance(item,exp.Column) and hasattr(sources.get(item.table),'selected_sources') and
+                                             derived_date(item,scope) for item in walk_in_scope(predicate)):
+                raise SQLValidationError('已确认期间不能在派生日期列上额外缩窄；日期边界必须作用于实际invoice扫描。')
         invoice_aliases={alias for alias,source in sources.items() if isinstance(source,exp.Table) and
                          source.name=='invoice' and source.db in {'public',''}}
         if not invoice_aliases:

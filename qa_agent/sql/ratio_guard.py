@@ -68,7 +68,9 @@ def validate_invoice_share(sql, catalog, bindings, context):
     # A customer-count share cannot inherit invoice-amount defaults.
     if any(word in metric for word in ("客户数", "customer_count")):
         return False
-    if metric in {'invoice_count','record_count','purchased_quantity','playlist_memberships','track_count','repeat_customer_count','detail_revenue','average_invoice_amount'}:
+    if metric == 'detail_revenue':
+        return False  # Physical detail-ratio proof and mandatory sets run separately.
+    if metric in {'invoice_count','record_count','purchased_quantity','playlist_memberships','track_count','repeat_customer_count','average_invoice_amount'}:
         deny('当前指标不是发票金额合计，不能以金额SQL代替已确认指标')
     denominator_bindings=[b for b in bindings if b.get('binding_scope')=='denominator']
     restricted_denominator=len(denominator_bindings)==1
@@ -78,8 +80,12 @@ def validate_invoice_share(sql, catalog, bindings, context):
         return False
     numerator_bindings=[b for b in bindings if b.get('binding_scope') in {None,'numerator'}]
     if (len(numerator_bindings)!=1 or len(bindings)!=(2 if restricted_denominator else 1) or
-            any(b.get('operator')!='=' or b.get('column') not in {'customer.country','invoice.billing_country'} for b in bindings)):
-        deny("目前只证明单国家等值分子，其它筛选不能丢失")
+            any(b.get('operator') not in {'=','IN'} or b.get('column') not in {'customer.country','invoice.billing_country'} for b in bindings)):
+        deny("只证明精确国家等值或明确IN集合，其它筛选不能丢失")
+    for item in bindings:
+        if item.get('operator')=='IN' and (not isinstance(item.get('value'),list) or not item['value'] or
+                any(not isinstance(value,str) for value in item['value']) or len(item['value'])!=len(set(item['value']))):
+            deny('国家IN集合必须是非空且互异的已确认字符串')
     bound = numerator_bindings[0]
     denominator_bound=denominator_bindings[0] if restricted_denominator else None
     if denominator_bound:
@@ -97,16 +103,44 @@ def validate_invoice_share(sql, catalog, bindings, context):
     table, column_name = bound["column"].split(".")[-2:]
     numerator_text = str(context.get("numerator") or "")
     known_surfaces = [str(bound["value"]), *(str(value) for value in context.get("verified_original_surfaces") or [])]
-    if numerator_text and not any(surface and surface.casefold() in numerator_text.casefold() for surface in known_surfaces):
-        deny("当前分子文字与实际已核验国家绑定不一致")
+    requires_named_proof = bound.get('operator') == 'IN' and bound.get('source') == 'user_session_context'
+    if requires_named_proof or (numerator_text and not any(surface and surface.casefold() in numerator_text.casefold() for surface in known_surfaces)):
+        brief=str(context.get('user_brief') or '')
+        proposals=[str(context.get('named_scope_evidence') or ''),str(bound.get('scope_evidence') or '')]
+        quote=next((item for item in proposals if item and item in brief and
+            any(label in numerator_text for label in re.findall(r'[“"「]([^”"」]+)[”"」]',item))), '')
+        labels=re.findall(r'[“"「]([^”"」]+)[”"」]',quote)
+        named=(bound.get('operator')=='IN' and quote and quote in brief and
+            all(value.casefold() in quote.casefold() for value in bound['value']) and
+            any(label in numerator_text for label in labels))
+        if named:
+            from qa_agent.clarify.grounding import contextual_filters
+            # A model can cite a true prefix that omits later set members.
+            # Re-read complete clauses with the same actual definition label.
+            complete=[]
+            for match in re.finditer(r'[“"‘]([^”"’]{2,24})[”"’]\s*[:：][^。；;\n]*',brief):
+                if match.group(1) in labels:
+                    complete.append(match.group())
+            complete=list(dict.fromkeys(complete))
+            named=len(complete)==1 and bool(contextual_filters([{**bound,'scope_evidence':complete[0]}],
+                {'user_brief':brief},catalog,question=str(context.get('question') or numerator_text)))
+        if not named:
+            deny("当前分子文字与实际已核验国家绑定不一致")
     if context.get("region_scope") not in {None, bound["column"]}:
         deny("地区归属与国家绑定冲突")
     tree = _qualified(sql, catalog)
     scopes = list(traverse_scope(tree))
+    for cast in tree.find_all(exp.Cast):
+        if cast.find(exp.Column) is not None and not (cast.args['to'].this==exp.DataType.Type.DECIMAL and not cast.args['to'].expressions):
+            deny('数值或国家字段的转换没有无损证明')
     if (len(scopes) != 1 or not isinstance(tree, exp.Select) or len(tree.selects) != 1 or
             any(tree.args.get(key) for key in ("group", "having", "distinct", "qualify", "with_", "offset")) or
             any(isinstance(node, (exp.Window, exp.Subquery)) for node in tree.walk())):
         deny("需要单个 SELECT、单比例列、无额外分组/子查询")
+    limit=tree.args.get('limit')
+    if limit is not None and (not isinstance(limit.expression,exp.Literal) or limit.expression.is_string or
+            not str(limit.expression.this).isdigit() or int(limit.expression.this)<1):
+        deny('单行比例不能被无效LIMIT或LIMIT 0删除')
     sources = {alias: source for alias, (_, source) in scopes[0].selected_sources.items()}
     needs_customer=any(b['column']=='customer.country' for b in bindings)
     expected_tables = ["customer", "invoice"] if needs_customer else ["invoice"]
@@ -132,10 +166,20 @@ def validate_invoice_share(sql, catalog, bindings, context):
         condition=_unparen(branch.this)
         owner,field=binding['column'].split('.')[-2:]
         default=_unparen(case.args.get('default'))
-        return (col(branch.args.get('true'),'invoice','total') and isinstance(condition,exp.EQ) and
-                any(col(a,owner,field) and isinstance(b,exp.Literal) and b.is_string and b.this==str(binding['value'])
-                    for a,b in ((condition.left,condition.right),(condition.right,condition.left))) and
+        return (col(branch.args.get('true'),'invoice','total') and country_condition(condition,binding) and
                 (default is None or isinstance(default,exp.Null) or _number(default,0)))
+
+    def country_condition(condition,binding):
+        owner,field=binding['column'].split('.')[-2:]
+        if any(cast.find(exp.Column) is not None for cast in condition.find_all(exp.Cast)):
+            return False
+        if binding.get('operator')=='IN':
+            return (isinstance(condition,exp.In) and col(condition.this,owner,field) and
+                condition.args.get('query') is None and len(condition.expressions)==len(binding['value']) and
+                all(isinstance(value,exp.Literal) and value.is_string for value in condition.expressions) and
+                {str(value.this) for value in condition.expressions}==set(binding['value']))
+        return isinstance(condition,exp.EQ) and any(col(a,owner,field) and isinstance(b,exp.Literal) and b.is_string and b.this==str(binding['value'])
+            for a,b in ((condition.left,condition.right),(condition.right,condition.left)))
 
     def denominator_total(node):
         return conditional_total(node,denominator_bound) if denominator_bound else total(node)
@@ -183,6 +227,61 @@ def validate_invoice_share(sql, catalog, bindings, context):
     elif where is not None:
         deny("全部数据口径不能增加国家或未确认期间")
 
+    def scale_literal(node):
+        while isinstance(node,(exp.Paren,exp.Alias,exp.Cast)):
+            if isinstance(node,exp.Cast):
+                target=node.args.get('to')
+                if target is None or target.this!=exp.DataType.Type.DECIMAL or target.expressions:return None
+            node=node.this
+        if isinstance(node,exp.Literal)and not node.is_string and Decimal(node.this)in{1,100}:
+            return int(Decimal(node.this))
+        return None
+
+    def presentation_shape(node,depth=0):
+        # CAST/ROUND are arithmetic, not transparent syntax. Keep the legacy
+        # physical single-scan proof below, but establish the consumed ratio's
+        # exact scale/authorized final rounding before its normalizer runs.
+        if depth>16:deny('比例输出包装超过有界深度')
+        while isinstance(node,(exp.Paren,exp.Alias)):node=node.this
+        if isinstance(node,exp.Cast):
+            target=node.args.get('to')
+            if target is None or target.this!=exp.DataType.Type.DECIMAL or target.expressions:
+                deny('最终比例只支持无精度收缩NUMERIC，不能将定点、整数或浮点CAST当透明')
+            return presentation_shape(node.this,depth+1)
+        if isinstance(node,exp.Round):
+            scale,rounds=presentation_shape(node.this,depth+1)
+            from qa_agent.sql.percentage_precision import requested_percent_digits
+            requested=requested_percent_digits(context,deny)
+            places=node.args.get('decimals')
+            if (requested is None or rounds or scale not in {1,100} or
+                    not isinstance(places,exp.Literal) or places.is_string or not str(places.this).isdigit() or
+                    int(places.this)!=requested+(2 if scale==1 else 0)):
+                deny('SQL舍入必须恰好一次且匹配真实授权百分比精度与当前尺度，否则交程序展示')
+            return scale,rounds+1
+        if isinstance(node,exp.Case):
+            # The existing proof separately checks every denominator guard.
+            return presentation_shape(node.args.get('default'),depth+1)
+        if isinstance(node,exp.Mul):
+            for literal,other in ((node.left,node.right),(node.right,node.left)):
+                if (factor:=scale_literal(literal))is not None:
+                    scale,rounds=presentation_shape(other,depth+1)
+                    scale*=factor
+                    if scale not in {1,100}:deny('不能重复乘100或改变真实比例尺度')
+                    return scale,rounds
+            deny('比例缩放必须是真实字面量1或100')
+        if isinstance(node,exp.Div):
+            numerator=node.left
+            while isinstance(numerator,(exp.Paren,exp.Alias)):numerator=numerator.this
+            scale=1
+            if isinstance(numerator,exp.Mul):
+                pairs=[(a,b)for a,b in ((numerator.left,numerator.right),(numerator.right,numerator.left))
+                       if scale_literal(a)is not None]
+                if len(pairs)!=1:deny('金额分子不能用变化后的常数或重复缩放')
+                scale=scale_literal(pairs[0][0])
+            return scale,0
+        deny('当前比例输出包含未证明的包装运算')
+
+    presentation_shape(tree.selects[0])
     projected = _unparen(tree.selects[0])
     if isinstance(projected, exp.Round):
         projected = _unparen(projected.this)
@@ -227,9 +326,7 @@ def validate_invoice_share(sql, catalog, bindings, context):
         deny("分子必须按国家 CASE 累计发票金额")
     branch = case.args["ifs"][0]
     condition = _unparen(branch.this)
-    if not (col(branch.args.get("true"), "invoice", "total") and isinstance(condition, exp.EQ) and
-            any(col(a, table, column_name) and isinstance(b, exp.Literal) and b.is_string and b.this == str(bound["value"])
-                for a, b in ((condition.left, condition.right), (condition.right, condition.left)))):
+    if not (col(branch.args.get("true"), "invoice", "total") and country_condition(condition,bound)):
         deny("分子字段、标准国家或累计金额与确认条件不同")
     default = _unparen(case.args.get("default"))
     if default is not None and not isinstance(default, exp.Null) and not _number(default, 0):

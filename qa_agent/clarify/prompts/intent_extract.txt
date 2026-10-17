@@ -9,9 +9,20 @@ rank_object 使用真实目录表对象的英文标识：Chinook 的曲目为 tr
 这些定义只适用于 Chinook。AdventureWorks 使用给定真实 schema 与用户明确指标，不把 invoice、customer.country 或音乐热门默认套到新数据库；不猜状态枚举、税项、币种或退款口径。
 发票账单国家 invoice.billing_country 与客户所在地 customer.country 不是一回事。10月12日已批准：发票/销售额默认账单国家，客户类默认客户所在地。用户明确“按客户所在地统计销售额”或“法国居住客户”时服从 customer.country，不重复询问；用户明确账单国家时用 invoice.billing_country。不要因当前数据一致而混同两个字段。比例的局部分子/分母地区不能同时提升为全局筛选。
 时间范围用 time_scope={"current":{"start":"YYYY-MM-DD","end":"YYYY-MM-DD","grain":"year|month|custom","label":"原文"},"base":null}，结束日期为不包含的边界。无法解析时保持 null。comparison={"type":"yoy|mom|custom"} 只从明确同比/环比或比较期间提取。
-evidence_spans 为所填关键字段对应的用户原文短片段；不填不存在的片段。filters 用真实字段和值，只来自用户文字及 verified_value_bindings。冲突条件逐项写 conflicts；未知对象不替成目录里相似值。
+evidence_spans 为所填关键字段对应的用户原文短片段；不填不存在的片段。filters 用真实字段和值，只来自用户文字及 verified_value_bindings。conflicts 保持 []，它是程序生成的安全投影，不输出自由散文冲突结论；未知对象不替成目录里相似值。
 用户使用“这批/这些”但当前输入没有定义集合范围，也没有已确认会话范围时 scope_missing=true；不要改成全部记录。明确“全部/所有”不缺范围。
 相对日期无法由用户文字及真实目录唯一确定时 time_ambiguous=true。用户提到最近完整年度而目录没有完整性证明时不得把最大年份当成完整年度。
 显式计量用 metric：购买数量 purchased_quantity；曲目金额 detail_revenue；发票金额 invoice_revenue；曲目歌单收录次数 playlist_memberships；客户数量 customer_count；曲目数量 track_count；表行计数 record_count；客单价 average_invoice_amount；期间复购 repeat_customer_count。其它指标保留明确的用户文字，不伪造标准 ID。
 用户明确排序或并列规则时保留 order（真实字段与 asc/desc）；用户明确分组时保留 grouping。不为了生成排名而删除筛选、时期或原有排序条件。
 不输出隐藏思维链；只输出字段值、可核对的短原文证据。
+
+条件冲突使用 conflict_proposals 数组，每条仅包含 id、field、alternatives。每个点只讨论一个字段；alternatives 每项只能为 {"source_ref":{"source_id":"输入 conflict_source_registry 中提供的实际 ID","quote":"该来源中的连续原文"}}。不要填写 value、日期区间或推算后的备选值，程序只从真实来源派生值；非空 value 会导致字段校验失败并重试，而不是让用户处理模型自己猜的日期。不要计算 hash 或字符位置，程序负责定位、校验和优先级裁定。当前用户或最近已确认历史的 quote 可为含唯一日期的自然短语或完整句，句末真实标点可保留，不必猜最短日期 span；正文命名定义引用完整定义句，避免引用重复日期时无法确定其语义角色。不输出 status、depends_on 或程序结论。来源 ID 必须来自本次输入 registry；不得把历史助手、生成计划或本轮模型假设当用户依据。不要在 conflicts 重复同一个点。未知缺项仍使用 clarification_requests，不虚构两侧来源。正文固定 2025 年旺季与当前明确 2024 年只表示来源优先问题，不授权把第三季度平移到另一年；具体月份未确认须保持待澄清。当前受支持的自动冲突裁定仅 time_scope.current 的真实唯一期间来源，其他字段提案可能保持未核验，不能声明已经解决。
+
+当前版本附加契约：runtime_context.user_brief是用户通过正式接口提交的完整会话正文，actual_conversation仅含真实用户与系统记录；它们不是标准答案。正文中明确的用户授权只在本会话有效，不能冒充公司政策。引用条件时在condition_sources中填字段名→{"source":"explicit_user|user_brief|confirmed_history","evidence":"实际连续原文","lifetime":"task|persistent|retired","applies_to":"global|numerator|denominator|eligibility"}。当前显式条件优先于仍有效的用户正文约定，再优先于适用的已批准默认；历史模型假设不构成用户授权。没有原文依据的来源记录会被程序丢弃。
+runtime_context.reference_datetime与timezone为唯一参考时钟；相对时间依据此时钟或用户正文对该词的明确约定，不读取你的训练日期。正文明确的主期间、对比期可引用原文；但正文明确把缺期间的客户排名/复购交给知识库默认时，独立新任务缺期间必须用该授权默认，不能把上一题年份偷带入。指代“刚才、那三个月、那前三名”才可在有实际前文记录时继承对应任务条件。显式删除/退休的条件不会自动复活；本轮条件与持久条件分清。
+输出只包括实际SemanticIntent模型字段。新增query_scope为对象，表达资格对象、qualification_filters、aggregation_scope及真正局部范围；output_requirements为字符串列表；condition_sources为上述对象；clarification_requests为对象列表，每条field、question、reason、evidence（原文）描述本次实际出现的未定事项。正文列出待确认事项但本轮没问到时，不输出该澄清。已由用户回答的事项也不重复询问。
+已由rank_object/top_n/order或ranked_subset表达的排名选择，不再写成filters中的虚拟operator；time_scope.current已有的同一期间不在分子/分母filters重复，真正独立的操作数期间和筛选必须保留。
+买过某流派的客户里谁花钱最多：流派只定义客户资格；除非用户明确只统计该流派消费，金额统计符合资格客户的全部发票，不能只累计含该流派的发票。query_scope.eligibility_object="customer"、qualification_filters保留该流派条件、aggregation_scope="all_invoices_for_qualified_customers"。
+用户要求“前N项一共多少钱”时，output_requirements包含ranked_subset_total；不能只列前N项而漏掉合计。按客户平均使用average_customer_amount，按发票平均使用average_invoice_amount；“人均消费”无定义要询问平均粒度，不能擅自改成客单价。销售支持人员“业绩”无指标定义要问客户数还是发票金额，不自行设默认。姓名与所在地是不同字段，合法但库内不存在的国家保持原文，允许返回无记录。
+filters除verified_value_bindings外，可以引用正文/真实用户补充中实际出现且字段在目录存在的条件；每条提供scope_evidence为连续原文。不要把上一题的对象、临时范围或退休条件带到本轮独立问题。当前问非重点市场时使用NOT IN而不是给六国值加等于；不扩充原文名单。
+“每个/各个国家里，消费金额最高的客户分别是谁”是分组内排名：query_scope.ranking_scope="per_group"、partition_by=["customer.country"]、per_group_limit=1；各客户负责人员工分组使用customer.support_rep_id，明确每组前N就保留N，不能变全局Top10。客户归属的国家不能因指标是消费金额就换成账单国家，明确要求账单归属时才用invoice.billing_country。平均粒度明确为客户时metric=average_customer_amount、query_scope.average_grain="customer"；平均粒度明确为发票时metric=average_invoice_amount。用户显式全部数据是明确条件，不是缺期间默认。相对的“买得最多的那位客户占全年总额”须区分分子排名指标和分母金额，分母说金额不能证明分子的未定排名指标已经明确。

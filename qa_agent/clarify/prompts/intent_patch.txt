@@ -2,7 +2,7 @@
 输入 current_intent 是此前保存的条件，current_card 是当前需要用户说明的条件。你只能解析实际用户消息中的信息。
 先核对 current_card.issues 中实际询问的 field，再判断本次用户文字回答了哪个字段。问题同时列出多个缺项，不等于用户已经回答全部缺项；只输出本次有原文依据的补丁，未回答的缺项继续保持原状态。没有当前卡片时仍只表达本次明确修改，不重新生成完整意图。
 numerator 和 denominator 是两个独立的字符串范围描述，不能用全局地区或普通筛选补丁代替。当前询问比例分子或分母，而用户答复其中一个范围时，使用 set 对应的 numerator 或 denominator，value 为保留对象、指标、范围和本次明确条件的短字符串；未说明另一个范围就不输出另一个补丁。字符串保留用户对客户所在地或账单所在地的明确区分，标准值只来自已核验绑定。分子内部的国家、对象或其他局部限制不能自动提升为全局 filters 或 region_scope，否则会同时改变用户还没有修改的分母。只有用户另行明确修改整个查询的地区归属或全局范围，才输出对应全局补丁。
-补丁 op 只能 set/add/remove；path 只允许字段：task_type、metric、time_scope、comparison、numerator、denominator、rank_object、top_n、order、region_scope、region_ambiguous、scope_missing、time_ambiguous、conflicts、grouping、filters。不能更改 assumptions/default_assumptions 或审核依据，这些由程序管理。
+补丁 op 只能 set/add/remove；path 只允许实际 PatchResponse Schema 的合法顶层字段。conflicts 和 conflict_proposals 不是可修改的 path；不能用 conflicts=[] 清除历史候选歧义，不能更改 assumptions/default_assumptions 或审核依据，这些由程序管理。
 保持用户没有修改的地区、时期、指标和对象。不能输出整个猜测的新问题，不能补最大年份、完整年度或未知对象；无真实修改则 patches=[]。
 每个补丁 evidence 是用户本次原文连续片段。set 替换字段；add/remove 只用于列表条件。filters 若修改地区，保留现有不相关过滤条件，仅替换同一国家字段的旧值。
 filters 的单项使用真实 column、operator、value 键，不能另造 field、op 等键。匹配到一个合法值只证明该值可引用，不证明它应当成为整个查询的筛选；先核对它在本次句子中是全局条件、比例分子条件还是比例分母条件。回答当前缺项不能顺带改 task_type、comparison、已确认期间或其它未被本次文字修改的字段。
@@ -12,3 +12,6 @@ filters 的单项使用真实 column、operator、value 键，不能另造 field
 “改成流派 Metal”等明确替换对象时，只替换旧对象的名称筛选，保留期间、指标和独立国家条件；不要把替换对象当作增加两个对象的交集，也不要无关地修改国家。
 国家字段 customer.country 表示客户所在地；invoice.billing_country 表示账单国家，不能自行互换。只有用户本次明确切换这两个归属时，region_scope 写实际目标字段，国家值沿用已确认值并保留其它筛选；选择一个地区归属应同时把 region_ambiguous=false。地区归属切换只需 set region_scope，不输出 remove filters；程序负责把已确认国家值迁移到目标字段，不能把切换归属理解为取消国家筛选。
 用户明确说删除筛选才删除；不能因为新国家替换而删除年份、指标、其它对象。只输出补丁及原文依据，不输出隐藏思维链。
+如果提供runtime_context，使用其完整user_brief、实际对话与统一参考时钟，不能把用户正文当公司政策。用户补充回答当前卡片时，保留当前卡片之外的条件；“是A，不是B”只有A为正向确认，不把B或句末重述泛称作为待澄清候选再次询问。对象资格筛选和统计范围分别保存在query_scope；用户要求的合计、差额、明细等保存到output_requirements。新字段的修改也必须有本次原文evidence，不在本轮添加未要求的范围或输出。
+澄清平均粒度时，“按客户算/平均每位客户”必须为average_customer_amount；“按发票算/平均每张发票”必须为average_invoice_amount，不能把两者都写成客单价。以前已确认年份下只补月日区间时保留该年份，明确“不含/之前”的尾边界；解决time_scope时清除对应time_ambiguous，保留指标、国家和其它筛选。
+若实际补充出现新的独立冲突，在 PatchResponse 顶层 conflict_proposals 数组提出，每项只含 id、field、alternatives；alternatives 每项只能是 {"source_ref":{"source_id":"本次 conflict_source_registry 的真实 ID","quote":"实际连续原文"}}。不要填写 value 或推算后的日期，所有备选值由程序依据真实来源派生；非空 value 会导致字段校验失败并有限重试。无需 hash 或字符偏移，不输出 status 或 depends_on。真实当前或最近已确认历史可引用含唯一期间的完整自然句，保留真实句末标点；不能用短年份省略原文的月份，也不能引用示例或未确认假设。只描述原文两侧依据，不把旧自由散文变成新事实。真实条件补丁提交后由程序按已核验来源及依赖重算候选状态；用户点击服务器提供的‘候选歧义不适用’选项才有逐点关闭权限。

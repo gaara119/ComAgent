@@ -22,6 +22,31 @@ class ChatRequest(ContractModel):
     message: str = Field(min_length=1, max_length=4000)
     scope: SourceScope = Field(default_factory=SourceScope)
 
+    # Optional, backward-compatible binding to complete user context and one clock.
+    context_id: str | None = Field(default=None, min_length=1, max_length=128)
+    reference_datetime: str | None = Field(default=None, max_length=80)
+    timezone: str | None = Field(default=None, max_length=80)
+
+    @field_validator("reference_datetime")
+    @classmethod
+    def valid_reference_datetime(cls, value):
+        if value is not None:
+            from datetime import datetime
+            if datetime.fromisoformat(value.replace("Z", "+00:00")).tzinfo is None:
+                raise ValueError("参考时间必须包含时区偏移")
+        return value
+
+    @field_validator("timezone")
+    @classmethod
+    def valid_timezone(cls, value):
+        if value is not None:
+            from zoneinfo import ZoneInfo
+            try:
+                ZoneInfo(value)
+            except (KeyError, ValueError) as exc:
+                raise ValueError("无效IANA时区") from exc
+        return value
+
     clarification_id: str | None = Field(default=None, min_length=1, max_length=128)
     intent_version: int | None = Field(default=None, ge=1)
     choice_id: str | None = Field(default=None, min_length=1, max_length=512)

@@ -6,7 +6,12 @@ from pathlib import Path
 import re
 from datetime import date
 
-from qa_agent.clarify.rules import SemanticIntent, explicit_period, explicit_comparison_period
+from qa_agent.clarify.rules import SemanticIntent,IntentExtractionResponse, explicit_period, explicit_comparison_period
+from qa_agent.clarify.grounding import (apply_literal_contract, contextual_filters, literal_sales_context,
+                                         runtime_payload, confirmed_history_period)
+from qa_agent.nlu.features import enabled
+from qa_agent.clarify.normalization import normalize_source_keys,normalize_scope_collections
+from qa_agent.clarify.scope_contract import recover_named_filters
 
 PROMPT_PATH = Path(__file__).with_name("prompts") / "intent_extract.txt"
 COMPLEX_WORDS = ("同比", "环比", "增长", "增幅", "占比", "比例", "最受欢迎", "最热门", "最火", "卖得最好",
@@ -72,6 +77,8 @@ def explicit_ranking_order(question: str, metric: str | None, catalog, *, curren
 
 
 def explicit_region_scope(question: str) -> str | None:
+    from qa_agent.nlu.ownership import explicit_country_dimensions
+    if len(explicit_country_dimensions(question))>1:return None
     if any(word in question for word in ('billing_country','账单国家','账单所在国','账单国')):
         return 'invoice.billing_country'
     if any(word in question for word in ('customer.country','客户所在地','客户所在国','客户居住国','居住客户','居住的客户')):
@@ -81,18 +88,24 @@ def explicit_region_scope(question: str) -> str | None:
 
 def region_needs_semantic_gate(question: str, bindings: list[dict], catalog) -> bool:
     return (catalog.database.casefold()=='chinook' and
-            any(word in question for word in ('发票','账单','invoice','销售额')) and
-            any(word in question for word in ('销售额','金额','总额','total','revenue')) and
-            any(item.get('column') in {'customer.country','invoice.billing_country'} for item in bindings))
+            (any(word in question for word in ('发票','账单','invoice','销售额')) and
+             any(word in question for word in ('销售额','金额','总额','total','revenue')) or
+             enabled('AGENT_GROUNDING_ENABLED') and literal_sales_context(question)) and
+            (any(item.get('column') in {'customer.country','invoice.billing_country'} for item in bindings) or
+             enabled('AGENT_GROUNDING_ENABLED') and literal_sales_context(question) and '那边' in question))
 
 
 def needs_semantic_model(question: str, *, is_followup: bool = False) -> bool:
-    return (is_followup or any(word in question for word in COMPLEX_WORDS) or
+    from qa_agent.clarify.invoice_ratio_source import invoice_share_candidate
+    return (is_followup or invoice_share_candidate(question) or any(word in question for word in COMPLEX_WORDS) or
+            enabled("AGENT_GROUNDING_ENABLED") and bool(re.search(r"(?:超过|不超过|大于|小于|至少|至多|不低于|不少于)\s*[\d一二两三四五六七八九十]|不同.{0,12}(?:曲目|歌曲|track)|各有多少|哪个.{0,15}(?:更多|多|少)|客户编号.{0,20}(?:负责|支持).{0,8}员工",question,re.I)) or
+            enabled('AGENT_GROUNDING_ENABLED') and bool(re.search(r'业绩|绩效|花钱最多|卖了多少钱|人均|旺季|新客户|滞销|换成另一个|长曲目', question)) or
             any(word in question for word in ("这批", "这些", "最近", "今年", "去年", "这期间", "这个期间", "这个时间段")) or
             len(set(re.findall(r"(?<!\d)(\d{4})(?:年|-)",question)))>1 or
             bool(re.search(r"\d{4}(?:年|-)\d{1,2}(?:月|-)\d{1,2}",question)) or
             bool(re.search(r"\d{4}\s*年.*?(?:月|日|季度|半年|周)",question)) or
-            bool(re.search(r"排名|前\s*\d+|top\s*\d+", question, re.I)))
+            bool(re.search(r"排名|前\s*\d+|top\s*\d+", question, re.I)) or
+            enabled("AGENT_GROUNDING_ENABLED") and bool(re.search(r"哪\s*[\d一二两三四五六七八九十]+\s*(?:张|首|位|个)?\s*(?:albums?|tracks?|customers?|专辑|曲目|歌曲|客户)|(?:份数|件数|销量).{0,8}(?:最多|最少)",question,re.I)))
 
 
 def explicit_customer_attribute_top(question: str, catalog, *, expected_n: int | None = None,
@@ -224,7 +237,7 @@ def explicit_track_byte_top(question: str, catalog, *, expected_n: int | None = 
 def _record_region_default(result: SemanticIntent) -> None:
     """Label a program-selected approved scope, never a model-only assumption."""
     notes = {
-        'invoice.billing_country': '销售额的地区按发票账单国家统计（10月12日已确认默认口径）。',
+        'invoice.billing_country': '本次销售统计的地区按发票账单国家统计（10月12日已确认默认口径）。',
         'customer.country': '客户地区按客户所在地统计（10月12日已确认默认口径）。',
     }
     note = notes.get(result.region_scope)
@@ -235,17 +248,53 @@ def _record_region_default(result: SemanticIntent) -> None:
             result.default_assumptions.append(note)
 
 
-def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[dict] | None = None) -> SemanticIntent:
+def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[dict] | None = None,
+                   allow_literal_month_ratio: bool = False) -> SemanticIntent:
+    payload = runtime_payload()
+    # Only run_gate can authorize a fresh session. Entire literal source and
+    # real catalog proof are checked before building this existing contract.
+    if allow_literal_month_ratio and enabled('AGENT_GROUNDING_ENABLED'):
+        from qa_agent.clarify.monthly_ratio_source import literal_monthly_invoice_share
+        literal = literal_monthly_invoice_share(question, catalog, payload, bindings or [])
+        if literal is not None:
+            proved = apply_literal_contract(question, literal, catalog, [], payload)
+            if not (proved.time_ambiguous or proved.conflicts or proved.clarification_requests):
+                if trace is not None:
+                    with trace.step('literal_month_ratio', {'source': 'actual_current_user_message'}) as step:
+                        step.output_summary = {'semantic_model_called': False,
+                            'year': int(proved.time_scope['current']['start'][:4]),
+                            'top_n': proved.top_n, 'metric': proved.metric,
+                            'sql_proof_verified': False}
+                return proved
+    # A closed literal invoice-set share needs no semantic-model judgement.
+    # This preflight is deliberately unavailable with a brief/history or a
+    # rewritten subquestion: those sources may contain additional obligations.
+    from qa_agent.clarify.invoice_ratio_source import invoice_share_candidate
+    if (enabled('AGENT_GROUNDING_ENABLED') and invoice_share_candidate(question)
+            and not payload.get('user_brief') and not payload.get('actual_conversation')
+            and str(payload.get('current_user_message')or question)==question):
+        actual_period=explicit_period(question)
+        if actual_period:
+            seed=SemanticIntent(time_scope=actual_period,filters=list(bindings or []))
+            proved=apply_literal_contract(question,seed,catalog,bindings or [],payload)
+            operands=proved.query_scope
+            if (proved.metric=='invoice_revenue'and proved.numerator and proved.denominator
+                    and all(isinstance(operands.get(role),dict)and operands[role].get('period')
+                            and proved.condition_sources.get(role,{}).get('verified')for role in('numerator','denominator'))
+                    and not proved.clarification_requests and not proved.time_ambiguous and not proved.conflicts):
+                return proved
     region_gate=region_needs_semantic_gate(question,bindings or [],catalog)
     explicit_scope=explicit_region_scope(question) if catalog.database.casefold()=='chinook' else None
     default_scope = ('invoice.billing_country' if region_gate else None)
-    if not needs_semantic_model(question):
+    if len({item.get('column')for item in bindings or [] if item.get('column')in {'customer.country','invoice.billing_country'}})>1:
+        region_gate=False;explicit_scope=None;default_scope=None
+    if not needs_semantic_model(question) and not payload.get('user_brief'):
         # Existing D1/D2 clear lookup questions retain their original fast path.
         measure=None
         if catalog.database.casefold()=='chinook':
             if '客单价' in question or '平均每张发票金额' in question:
                 measure='average_invoice_amount'
-            elif any(word in question for word in ('销售额','发票金额','账单金额')):
+            elif any(word in question for word in ('销售额','发票金额','发票总额','账单金额','账单总额')):
                 detail=any(word in question for word in ('曲目','歌曲','艺术家','乐队','专辑','流派','明细')) or any(item.get('column') in {'artist.name','genre.name','album.title','track.name'} for item in bindings or [])
                 measure='detail_revenue' if detail else 'invoice_revenue'
             elif re.search(r'(?:发票|账单)(?:张数|数量|次数)',question):
@@ -253,13 +302,26 @@ def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[di
         result = SemanticIntent(metric=measure,time_scope=explicit_period(question), filters=bindings or [],region_scope=explicit_scope or default_scope)
         if default_scope and not explicit_scope:
             _record_region_default(result)
-        return result
+        return apply_literal_contract(question,result,catalog,bindings or [],payload)
     prompt = {"question": question, "catalog": catalog.prompt_schema(),
               "verified_value_bindings": bindings or []}
+    from qa_agent.clarify.conflict_authority import conflict_source_catalog
+    prompt['conflict_source_registry']=conflict_source_catalog(question,payload)
+    if payload:
+        prompt['runtime_context'] = payload
     result = llm.complete_json(PROMPT_PATH.read_text(encoding="utf-8"),
-                               json.dumps(prompt, ensure_ascii=False), SemanticIntent, trace=trace)
+                               json.dumps(prompt, ensure_ascii=False), IntentExtractionResponse, trace=trace)
     result.assumptions=[]
     result.default_assumptions=[]
+    normalize_source_keys(result)
+    normalize_scope_collections(result)
+    time_source=result.condition_sources.get('time_scope') or {}
+    quote=str(time_source.get('evidence') or '')
+    history_text='\n'.join(str(turn.get('user') or '') for turn in payload.get('actual_conversation',[]) if isinstance(turn,dict))
+    if (enabled('AGENT_GROUNDING_ENABLED') and time_source.get('source')=='confirmed_history' and quote and quote in str(payload.get('user_brief') or '') and quote not in history_text):
+        parsed=explicit_period(quote)
+        if parsed and all((parsed.get('current') or {}).get(key)==((result.time_scope or {}).get('current') or {}).get(key) for key in ('start','end')):
+            result.condition_sources['time_scope']={**time_source,'source':'user_brief','source_correction':'verified_actual_corpus'}
     # A missing measure is not an undefined record-set reference. A model may
     # request a set only when the user actually used a deictic set expression.
     if not re.search(r'这批|这些|这部分|这组|该批|上述|前面(?:的)?(?:记录|曲目|客户)', question):
@@ -303,8 +365,8 @@ def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[di
             result.metric='average_invoice_amount'
         elif '复购' in question:
             result.metric='repeat_customer_count'
-        elif any(word in question for word in ('销售额','发票金额','账单金额')):
-            result.metric=('detail_revenue' if any(word in question for word in ('曲目','艺术家','歌曲','乐队','明细')) else 'invoice_revenue')
+        elif any(word in question for word in ('销售额','发票金额','发票总额','账单金额','账单总额')):
+            result.metric=('detail_revenue' if any(word in question for word in ('曲目','艺术家','歌曲','乐队','专辑','album','明细')) else 'invoice_revenue')
         elif '客户数量' in question or '客户数占比' in question:
             result.metric='customer_count'
         if any(word in question for word in ('占比','比例')):
@@ -329,7 +391,7 @@ def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[di
             result.metric=None
         if any(word in question for word in ("谁买得最多","买得最多的客户")) and not explicit_measure:
             result.metric=None
-        if (result.rank_object=="customer" and not any(word in question for word in ("客户","顾客","customer")) and
+        if (not payload.get('user_brief') and result.rank_object=="customer" and not any(word in question for word in ("客户","顾客","customer")) and
                 '谁买得最多' not in question):
             result.rank_object=None
     # The calendar conversion is programmatic whenever the user wrote one period.
@@ -338,18 +400,33 @@ def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[di
         result.time_scope = period
     else:
         # Do not let words like “期间/最近” bypass grounding of model-filled dates.
-        explicit_years = {int(value) for value in re.findall(r"(?<!\d)(\d{4})(?!\d)", question)}
+        # A source-quoted period from the full user brief is valid context;
+        # arbitrary model dates remain rejected below.
+        source = result.condition_sources.get('time_scope') or {}
+        source_text = str(source.get('evidence') or '')
+        contextual_period = (payload.get('user_brief') and source.get('source') in {'user_brief','confirmed_history'} and
+                             source_text and source_text in str(payload.get('user_brief')) + '\n' + '\n'.join(
+                                 str(turn.get('user') or '') for turn in payload.get('actual_conversation',[]) if isinstance(turn,dict)))
+        explicit_years = {int(value) for value in re.findall(r"(?<!\d)(\d{4})(?!\d)", question + ('\n'+source_text if contextual_period else ''))}
         try:
             current = (result.time_scope or {}).get("current") or {}
             start, end = date.fromisoformat(current["start"]), date.fromisoformat(current["end"])
-            valid = start < end and start.year in explicit_years and end.year in explicit_years | {year+1 for year in explicit_years}
+            valid = start < end and ((start.year in explicit_years and end.year in explicit_years | {year+1 for year in explicit_years}) or
+                    source.get('source')=='confirmed_history' and confirmed_history_period(payload,source_text,result.time_scope))
         except (KeyError, TypeError, ValueError):
             valid = False
+        if enabled('AGENT_GROUNDING_ENABLED') and source.get('source')=='confirmed_history' and contextual_period:
+            valid=confirmed_history_period(payload,source_text,result.time_scope)
+        if enabled('AGENT_GROUNDING_ENABLED') and source.get('source')=='user_brief' and contextual_period:
+            quoted_period=explicit_period(source_text)
+            valid=bool(quoted_period and all((quoted_period.get('current') or {}).get(key)==current.get(key) for key in ('start','end')))
         if not valid:
+            rejected_current=bool((result.time_scope or {}).get('current'))
             result.time_scope = None
-            if any(word in question for word in ("这期间", "这个期间", "这个时间段")):
+            independent_default=(result.task_type=='ranking' and result.rank_object=='customer' or result.metric=='repeat_customer_count') and not re.search(r'\d{4}|主期间|对比期|本期|上期|去年|今年|最近|旺季|接着|刚才|只要前|只要前|只看前|这期间|这个期间|这个时间段',question)
+            if enabled('AGENT_GROUNDING_ENABLED') and rejected_current and not independent_default or any(word in question for word in ("这期间", "这个期间", "这个时间段")):
                 result.time_ambiguous = True
-        if any(word in question for word in ("最近", "今年", "去年")):
+        if any(word in question for word in ("最近", "今年", "去年")) and not (contextual_period and valid):
             actual_range = catalog.metadata.get("invoice_date_range") or {}
             if ("数据" in question and "最近" in question and "有记录" in question and
                 "年份" in question and "完整" not in question and actual_range.get("max_date")):
@@ -366,7 +443,21 @@ def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[di
         result.comparison = {"type": "yoy"}
     elif "环比" in question:
         result.comparison = {"type": "mom"}
-    result.filters = bindings or []
+    context_bindings = contextual_filters(result.filters,payload,catalog,question=question) if payload.get('user_brief') else []
+    if enabled('AGENT_GROUNDING_ENABLED') and payload.get('user_brief'):
+        context_bindings+=recover_named_filters(result.filters,question,payload,catalog)
+    unique_context=[]
+    for item in context_bindings:
+        if not any(item.get('column')==old.get('column') and item.get('operator')==old.get('operator') and item.get('value')==old.get('value') and item.get('binding_scope')==old.get('binding_scope') for old in unique_context):
+            unique_context.append(item)
+    context_bindings=unique_context
+    from qa_agent.clarify.invoice_ratio_source import plain_invoice_share_candidate
+    unresolved_ratio_filters=([item for item in result.filters
+        if item.get('column',item.get('field'))not in {'customer.country','invoice.billing_country'}]
+        if plain_invoice_share_candidate(question) else [])
+    result.filters = list(bindings or []) + [item for item in context_bindings if not any(
+        item.get('column')==old.get('column') and item.get('binding_scope')==old.get('binding_scope') for old in bindings or [])]
+    result.filters.extend(item for item in unresolved_ratio_filters if item not in result.filters)
     if result.task_type=='ranking':
         if result.metric is None and result.rank_object == 'track' and result.top_n is not None and result.order is not None:
             attribute = explicit_track_byte_top(question, catalog, expected_n=result.top_n, expected_order=result.order)
@@ -378,4 +469,4 @@ def extract_intent(question: str, catalog, llm, trace=None, *, bindings: list[di
         order=explicit_ranking_order(question,result.metric,catalog)
         if order is not None:
             result.order=order
-    return result
+    return apply_literal_contract(question,result,catalog,result.filters,payload)

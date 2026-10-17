@@ -48,11 +48,14 @@ def validate_question_sources(question: str, catalog: Catalog) -> list[str]:
     return result
 
 
-def validate_generation_claim(question: str, sql: str, explanation: str) -> None:
+def validate_generation_claim(question: str, sql: str, explanation: str, *, generation_context: dict | None = None) -> None:
     """A model's explicit refusal or empty placeholder is not a DB answer."""
-    if re.search(r"(?:无法|不能|不支持)(?:执行|查询|生成(?:SQL|查询|针对)|访问)|目标表.*不在.*目录", explanation, re.IGNORECASE):
+    from qa_agent.sql.generation_scope import document_scope_disclaimer,reject_unrequested_null_projection
+    if (re.search(r"(?:无法|不能|不支持)(?:执行|查询|生成(?:SQL|查询|针对)|访问)|目标表.*不在.*目录", explanation, re.IGNORECASE)
+            and not document_scope_disclaimer(explanation,question,generation_context)):
         raise SQLValidationError("模型明确说明无法执行该请求，禁止把占位 SQL 当作数据库空结果。")
     expression = sqlglot.parse_one(sql, read="postgres")
+    reject_unrequested_null_projection(expression,generation_context)
     limit = expression.args.get("limit")
     zero_limit = limit and isinstance(limit.expression, exp.Literal) and str(limit.expression.this) == "0"
     constant_projection = isinstance(expression, exp.Select) and all(isinstance(item, exp.Literal) for item in expression.expressions)
@@ -82,6 +85,10 @@ ALLOWED_FUNCTIONS = frozenset({
     "CURRENT_DATE", "CURRENT_TIMESTAMP", "CURRENT_TIME", "TIME_TO_STR",
     # SQLGlot represents these boolean operators as Func subclasses.
     "AND", "OR",
+    # Genuine PostgreSQL read-only analytic functions. Keeping a finite list
+    # does not authorize arbitrary anonymous functions or table functions.
+    "LAG", "LEAD", "ROW_NUMBER", "RANK", "DENSE_RANK", "PERCENT_RANK",
+    "CUME_DIST", "NTILE", "FIRST_VALUE", "LAST_VALUE", "NTH_VALUE",
 })
 ALLOWED_CAST_TYPES = frozenset({
     "SMALLINT", "INT", "BIGINT", "DECIMAL", "FLOAT", "DOUBLE", "REAL",
@@ -305,6 +312,21 @@ def validate_value_bindings(sql: str, catalog: Catalog, bindings: list[dict], *,
             return
     if ratio_context is not None and _validate_invoice_ratio_binding(sql,catalog,bindings,ratio_context):
         return
+    # Separate entity mentions on one scalar column denote the requested set,
+    # not the impossible conjunction column=A AND column=B. Preserve the exact
+    # set: neither dropping a member nor adding a third member is authorized.
+    grouped = {}
+    other = []
+    for binding in bindings:
+        if binding.get("operator") == "=" and not isinstance(binding.get("value"), list):
+            key = (binding.get("column"), binding.get("binding_scope", "global"))
+            grouped.setdefault(key, []).append(binding)
+        else:
+            other.append(binding)
+    bindings = list(other)
+    for group in grouped.values():
+        values = list(dict.fromkeys(str(item["value"]) for item in group))
+        bindings.append({**group[0], "operator": "IN", "value": values} if len(values) > 1 else group[0])
     expression = normalize_identifiers(sqlglot.parse_one(sql, read="postgres"), dialect="postgres")
     try:
         checked = qualify(expression, dialect="postgres", db="public",
@@ -316,13 +338,14 @@ def validate_value_bindings(sql: str, catalog: Catalog, bindings: list[dict], *,
     by_table: dict[str, list[dict]] = {}
     for binding in bindings:
         parts = str(binding.get("column", "")).split(".")
-        if len(parts) not in {2, 3} or binding.get("operator") not in {"=", "!=", "IN"}:
+        if len(parts) not in {2, 3} or binding.get("operator") not in {"=", "!=", "IN", ">", ">=", "<", "<="}:
             raise SQLValidationError("值绑定包含不受支持的字段或操作符。")
         table = catalog.get_table(parts[-2], parts[-3] if len(parts) == 3 else "public")
         if parts[-1] not in table.column_names:
             raise SQLValidationError("值绑定引用了目录之外的字段。")
         by_table.setdefault(parts[-2], []).append(binding)
     seen_tables = set()
+    set_coverage: dict[tuple[str, tuple[str, ...]], set[str]] = {}
 
     def column_and_transform(node, sources):
         transform = None
@@ -348,8 +371,29 @@ def validate_value_bindings(sql: str, catalog: Catalog, bindings: list[dict], *,
             return constraints(node.left, sources) | constraints(node.right, sources)
         if isinstance(node, exp.Or):
             # A bound value must hold in every OR branch.
-            return constraints(node.left, sources) & constraints(node.right, sources)
+            left, right = constraints(node.left, sources), constraints(node.right, sources)
+            # (same_column=A OR same_column=B) is an exact set restriction.
+            # Any other atom/boolean escape keeps the intersection proof.
+            if len(left) == len(right) == 1:
+                a, b = next(iter(left)), next(iter(right))
+                if a[0] == b[0] and a[3] == b[3] and a[1] in {"=", "IN"} and b[1] in {"=", "IN"}:
+                    return {(a[0], "IN", a[2] | b[2], a[3])}
+            return left & right
         operator = "=" if isinstance(node, exp.EQ) else "!=" if isinstance(node, exp.NEQ) else None
+        numeric_operator = {exp.EQ:'=',exp.NEQ:'!=',exp.GT:'>',exp.GTE:'>=',exp.LT:'<',exp.LTE:'<='}.get(type(node))
+        if numeric_operator:
+            from decimal import Decimal, InvalidOperation
+            for lhs,rhs,reverse in ((node.left,node.right,False),(node.right,node.left,True)):
+                column=column_and_transform(lhs,sources)
+                if not column or column[1] is not None or not isinstance(rhs,exp.Literal) or rhs.is_string:
+                    continue
+                try:
+                    value=Decimal(rhs.this)
+                    if not value.is_finite():continue
+                except InvalidOperation:
+                    continue
+                operation=({'<':'>','<=':'>=','>':'<','>=':'<='}.get(numeric_operator,numeric_operator) if reverse else numeric_operator)
+                return {(column[0],operation,frozenset([str(value.normalize())]),'numeric')}
         if operator:
             for lhs, rhs in ((node.left, node.right), (node.right, node.left)):
                 column = column_and_transform(lhs, sources)
@@ -380,9 +424,41 @@ def validate_value_bindings(sql: str, catalog: Catalog, bindings: list[dict], *,
             for binding in by_table[table]:
                 column = ".".join(str(binding["column"]).split(".")[-2:])
                 wanted = binding["value"] if isinstance(binding["value"], list) else [binding["value"]]
+                if binding["operator"] == "IN" and len(wanted) > 1:
+                    key = (column, tuple(sorted(str(value) for value in wanted)))
+                    coverage = set_coverage.setdefault(key, set())
+                    restrictions = []
+                    for name, op, values, transform in mandatory:
+                        if name != column or op not in {"=", "IN"}:
+                            continue
+                        convert = (str.lower if transform == "lower" else str.upper if transform == "upper" else lambda value: value)
+                        expected_map = {convert(str(value)): str(value) for value in wanted}
+                        if not values or not values <= set(expected_map):
+                            continue
+                        restrictions.append({expected_map[value] for value in values})
+                    allowed = set.intersection(*restrictions) if restrictions else set()
+                    if allowed and allowed!=set(str(value)for value in wanted)and _customer_identity_lookup_shape(scope,binding):
+                        raise SQLValidationError("主键实名回查层额外缩小了完整国家集合，不能借此前CTE的完整IN掩盖。")
+                    if not allowed:
+                        if _prove_identity_lookup_set(scope,catalog,binding):
+                            coverage.update(str(value) for value in wanted)
+                            continue
+                        raise SQLValidationError(f"SQL 未保留已核验多值集合 {column} IN；不能遗漏全部值、添加集合外值或用互斥 AND 制造空结果。")
+                    coverage.update(allowed)
+                    continue
                 accepted = False
                 for name, op, values, transform in mandatory:
-                    expected = frozenset(str(value).lower() if transform == "lower" else str(value).upper() if transform == "upper" else str(value) for value in wanted)
+                    if transform == 'numeric':
+                        from decimal import Decimal, InvalidOperation
+                        try:
+                            if any(isinstance(value,bool) for value in wanted):continue
+                            parsed=[Decimal(str(value)) for value in wanted]
+                            if any(not value.is_finite() for value in parsed):continue
+                            expected=frozenset(str(value.normalize()) for value in parsed)
+                        except InvalidOperation:
+                            continue
+                    else:
+                        expected = frozenset(str(value).lower() if transform == "lower" else str(value).upper() if transform == "upper" else str(value) for value in wanted)
                     same_op = op == binding["operator"] or (binding["operator"] == "=" and op == "IN" and len(expected) == 1)
                     if name == column and same_op and values == expected:
                         accepted = True
@@ -391,6 +467,226 @@ def validate_value_bindings(sql: str, catalog: Catalog, bindings: list[dict], *,
                     raise SQLValidationError(f"SQL 未保留已核验绑定 {column} {binding['operator']}；禁止执行或删除用户条件。")
     if set(by_table) - seen_tables:
         raise SQLValidationError("SQL 没有查询已核验绑定对应的真实业务表。")
+    for (_, wanted), found in set_coverage.items():
+        if set(wanted) != found:
+            raise SQLValidationError("SQL 未覆盖已核验多值集合的全部成员；分支或子查询可以拆分，但不能漏掉用户指定对象。")
+
+
+def _customer_identity_lookup_shape(scope,binding):
+    if binding.get("column")not in{"customer.country","public.customer.country"}:return False
+    sources={alias:source for alias,(_,source)in scope.selected_sources.items()}
+    lookups=[alias for alias,source in sources.items()if isinstance(source,exp.Table)and source.name=="customer"and(source.db or"public")=="public"]
+    derived={alias for alias,source in sources.items()if not isinstance(source,exp.Table)}
+    if len(sources)not in{2,3}or len(lookups)!=1 or len(derived)!=1:return False
+    extra=[source for alias,source in sources.items()if alias not in lookups and alias not in derived]
+    if extra and(any(not isinstance(table,exp.Table)or table.name!="invoice"or(table.db or"public")!="public"for table in extra)or not scope.expression.args.get("group")):return False
+    for join in scope.expression.args.get("joins")or[]:
+        on=join.args.get("on")
+        if isinstance(on,exp.EQ)and isinstance(on.left,exp.Column)and isinstance(on.right,exp.Column):
+            if any(left.table==lookups[0]and left.name=="customer_id"and right.table in derived for left,right in((on.left,on.right),(on.right,on.left))):return True
+    return False
+
+
+def _prove_identity_lookup_set(scope,catalog,binding):
+    """Only a consumed, unique customer-key driver licenses its PK lookup.
+
+    This exception proves identity/filter propagation, not rankings or results.
+    It never searches unrelated CTEs and never rewrites or executes SQL.
+    A grouped invoice measurement may perform the same primary-key identity
+    lookup before ranking: both joins must preserve the qualified customer key,
+    and grouping must retain that key without invoice-level fanout.
+    """
+    if _prove_grouped_invoice_key_customer_lookup(scope,catalog,binding):return True
+    if binding.get("column")not in{"customer.country","public.customer.country"}or binding.get("operator")!="IN":return False
+    wanted=binding.get("value")
+    if not isinstance(wanted,list)or len(wanted)<2 or any(not isinstance(v,str)for v in wanted):return False
+    physical={alias:source for alias,(_,source)in scope.selected_sources.items()if isinstance(source,exp.Table)}
+    derived={alias:source for alias,(_,source)in scope.selected_sources.items()if not isinstance(source,exp.Table)}
+    if len(physical)not in{1,2}or len(derived)!=1:return False
+    lookups=[(alias,table)for alias,table in physical.items()if table.name=="customer"and(table.db or"public")=="public"]
+    if len(lookups)!=1:return False
+    lookup_alias,lookup=lookups[0];driver_alias,driver=next(iter(derived.items()))
+    extras={alias:table for alias,table in physical.items()if alias!=lookup_alias}
+    if any(table.name!="invoice"or(table.db or"public")!="public"for table in extras.values()):return False
+    if lookup.name!="customer"or(lookup.db or"public")!="public":return False
+    if tuple(catalog.get_table("customer").primary_key)!=("customer_id",):return False
+    invoice=catalog.get_table("invoice")
+    if (next(c for c in invoice.columns if c.name=="customer_id").nullable or
+            not any(fk.get("columns")==["customer_id"]and(fk.get("references")or{}).get("table")=="customer"and(fk.get("references")or{}).get("columns")==["customer_id"]for fk in invoice.foreign_keys)):
+        return False
+    def bare(node):
+        while isinstance(node,(exp.Alias,exp.Paren)):node=node.this
+        return node
+    def follow(node,owner):
+        path=[];seen=set()
+        for _ in range(20):
+            node=bare(node)
+            if not isinstance(node,exp.Column):return node,owner,path
+            source=owner.sources.get(node.table)
+            if isinstance(source,exp.Table):return node,owner,path
+            marker=(id(source),node.name)
+            if source is None or marker in seen or not isinstance(source.expression,exp.Select):return None,None,[]
+            seen.add(marker);path.append(source)
+            node=next((item for item in source.expression.selects if item.alias_or_name==node.name),None)
+            if node is None:return None,None,[]
+            owner=source
+        return None,None,[]
+    def origin(node,owner):
+        node,owner,path=follow(node,owner)
+        if not isinstance(node,exp.Column):return None
+        source=owner.sources.get(node.table)
+        if not isinstance(source,exp.Table):return None
+        return(source.name,node.name,owner,node.table,path)
+    joins=scope.expression.args.get("joins")or[]
+    if len(joins)!=len(physical)or any(join.args.get("side")or join.args.get("using")for join in joins):return False
+    key=None
+    invoice_keys=[]
+    for join in joins:
+        on=bare(join.args.get("on"))
+        if not isinstance(on,exp.EQ)or not isinstance(on.left,exp.Column)or not isinstance(on.right,exp.Column):return False
+        role=None
+        for left,right in((on.left,on.right),(on.right,on.left)):
+            if left.table==lookup_alias and left.name=="customer_id"and right.table==driver_alias:
+                key=right;role="identity"
+            if left.table in extras and left.name=="customer_id"and right.table in{driver_alias,lookup_alias}and right.name=="customer_id":
+                invoice_keys.append(right);role="invoice"
+        if role is None:return False
+    if len(invoice_keys)!=len(extras):return False
+    if key is None:return False
+    actual=origin(key,scope)
+    if not actual or actual[:2]!=("customer","customer_id"):return False
+    _,_,base,base_alias,path=actual
+    if base is scope:return False
+    def same_customer_field(node,owner,field=None):
+        item=origin(node,owner)
+        return bool(item and item[0]=="customer"and((item[2]is base and item[3]==base_alias)or(item[2]is scope and item[3]==lookup_alias))and(field is None or item[1]==field))
+    if any(not same_customer_field(key,scope,"customer_id")for key in invoice_keys):return False
+    def rank_filter(owner):
+        where=owner.expression.args.get("where")
+        if where is None:return True
+        atom=bare(where.this)
+        if not isinstance(atom,exp.EQ):return False
+        column=atom.left;number=atom.right
+        if not isinstance(number,exp.Literal)or number.is_string or number.this!="1":return False
+        window,window_owner,_=follow(column,owner)
+        if not isinstance(window,exp.Window)or not isinstance(window.this,exp.RowNumber):return False
+        partition=window.args.get("partition_by")or[]
+        return len(partition)==1 and same_customer_field(partition[0],window_owner,"country")
+    for owner in [scope]+path:
+        query=owner.expression
+        if not isinstance(query,exp.Select)or any(query.args.get(k)for k in("having","qualify","distinct","offset")):return False
+        limit=query.args.get("limit")
+        if limit and(owner is not scope or not isinstance(limit.expression,exp.Literal)or limit.expression.is_string or not limit.expression.this.isdigit()or int(limit.expression.this)<1):return False
+        if owner is base:
+            if len(owner.selected_sources)!=1 or query.args.get("group")or query.args.get("joins"):return False
+            where=query.args.get("where");atom=bare(where.this)if where is not None else None
+            if (not isinstance(atom,exp.In)or atom.args.get("query")or not same_customer_field(atom.this,owner,"country")
+                    or not atom.expressions or any(not isinstance(v,exp.Literal)or not v.is_string for v in atom.expressions)
+                    or {v.this for v in atom.expressions}!=set(wanted)):return False
+            continue
+        if not rank_filter(owner):return False
+        if owner is scope:
+            group=query.args.get("group")
+            if extras:
+                if not group or not any(same_customer_field(item,owner,"customer_id")for item in group.expressions)or not all(same_customer_field(item,owner)for item in group.expressions):return False
+            elif group:return False
+            continue
+        child=[source for _,source in owner.selected_sources.values()if not isinstance(source,exp.Table)]
+        tables={alias:source for alias,(_,source)in owner.selected_sources.items()if isinstance(source,exp.Table)}
+        if len(child)!=1:return False
+        group=query.args.get("group")
+        if group:
+            if not any(same_customer_field(item,owner,"customer_id")for item in group.expressions)or not all(same_customer_field(item,owner)for item in group.expressions):return False
+        elif tables:return False  # Ungrouped invoice-to-customer joins fan out.
+        for join in query.args.get("joins")or[]:
+            atom=bare(join.args.get("on"))
+            if join.args.get("side")or join.args.get("using")or not isinstance(atom,exp.EQ):return False
+            left=origin(atom.left,owner);right=origin(atom.right,owner)
+            if not left or not right:return False
+            fields=frozenset((left[:2],right[:2]))
+            if fields!=frozenset({("invoice","customer_id"),("customer","customer_id")}):return False
+        if tables and(any(table.name!="invoice"or(table.db or"public")!="public"for table in tables.values())or len(tables)!=1 or len(query.args.get("joins")or[])!=1):return False
+    return True
+
+
+def _prove_grouped_invoice_key_customer_lookup(scope,catalog,binding):
+    """Prove customer-set propagation through a grouped invoice FK identity.
+
+    Alias names are scoped, never globally matched. A real invoice.customer_id
+    non-NULL FK and the actual INNER customer PK join establish the same key;
+    the final customer lookup cannot introduce a customer outside that set.
+    Ranking/measure/period proofs remain independent mandatory guards.
+    """
+    if binding.get('column')not in{'customer.country','public.customer.country'}or binding.get('operator')!='IN':return False
+    values=binding.get('value')
+    if not isinstance(values,list)or len(values)<2 or any(not isinstance(v,str)for v in values):return False
+    def bare(node):
+        while isinstance(node,(exp.Alias,exp.Paren)):node=node.this
+        return node
+    def sources(owner):return {a:s for a,(_,s)in owner.selected_sources.items()}
+    def is_table(value,name):return isinstance(value,exp.Table)and(value.db or'public')=='public'and value.name==name
+    outer=sources(scope);physical={a:s for a,s in outer.items()if isinstance(s,exp.Table)}
+    derived={a:s for a,s in outer.items()if not isinstance(s,exp.Table)}
+    if len(physical)!=1 or len(derived)!=1 or not all(is_table(s,'customer')for s in physical.values()):return False
+    lookup_alias=next(iter(physical));driver_alias,driver=next(iter(derived.items()))
+    query=scope.expression
+    if not isinstance(query,exp.Select)or any(query.args.get(k)for k in('group','having','qualify','distinct','offset')):return False
+    limit=query.args.get('limit')
+    if limit is not None and(not isinstance(limit.expression,exp.Literal)or limit.expression.is_string or not limit.expression.this.isdigit()or int(limit.expression.this)<1):return False
+    joins=query.args.get('joins')or[]
+    if len(joins)!=1 or joins[0].args.get('side')or joins[0].args.get('using')or str(joins[0].args.get('kind')or'').upper()not in{'','INNER'}:return False
+    on=bare(joins[0].args.get('on'))
+    if not isinstance(on,exp.EQ):return False
+    key=None
+    for left,right in((on.left,on.right),(on.right,on.left)):
+        if isinstance(left,exp.Column)and left.table==lookup_alias and left.name=='customer_id'and isinstance(right,exp.Column)and right.table==driver_alias:
+            key=right
+    if key is None:return False
+    selected=next((v for v in driver.expression.selects if v.alias_or_name==key.name),None)
+    selected=bare(selected)
+    inputs=sources(driver);invoices=[a for a,s in inputs.items()if is_table(s,'invoice')];customers=[a for a,s in inputs.items()if is_table(s,'customer')]
+    if len(inputs)!=2 or len(invoices)!=1 or len(customers)!=1:return False
+    invoice_alias,customer_alias=invoices[0],customers[0]
+    if not isinstance(selected,exp.Column)or selected.table not in{invoice_alias,customer_alias}or selected.name!='customer_id':return False
+    try:
+        inv=catalog.get_table('invoice');customer=catalog.get_table('customer')
+        if customer.primary_key!=('customer_id',)or next(c for c in inv.columns if c.name=='customer_id').nullable:return False
+        if not any(f.get('columns')==['customer_id']and(f.get('references')or{}).get('table')=='customer'and(f.get('references')or{}).get('columns')==['customer_id']for f in inv.foreign_keys):return False
+    except Exception:return False
+    inner=driver.expression
+    if not isinstance(inner,exp.Select)or any(inner.args.get(k)for k in('having','qualify','distinct','offset','limit')):return False
+    inner_joins=inner.args.get('joins')or[]
+    if len(inner_joins)!=1 or inner_joins[0].args.get('side')or inner_joins[0].args.get('using')or str(inner_joins[0].args.get('kind')or'').upper()not in{'','INNER'}:return False
+    relation=bare(inner_joins[0].args.get('on'))
+    if not isinstance(relation,exp.EQ)or any(not isinstance(x,exp.Column)for x in(relation.left,relation.right)):return False
+    if {(relation.left.table,relation.left.name),(relation.right.table,relation.right.name)}!={(invoice_alias,'customer_id'),(customer_alias,'customer_id')}:return False
+    group=inner.args.get('group')
+    if group is None or any(v not in(None,False,[])for k,v in group.args.items()if k!='expressions'):return False
+    fields=[]
+    for node in group.expressions:
+        node=bare(node)
+        if not isinstance(node,exp.Column):return False
+        fields.append((node.table,node.name))
+    if not any(v in{(invoice_alias,'customer_id'),(customer_alias,'customer_id')}for v in fields):return False
+    if any(alias!=customer_alias and(alias,name)!=(invoice_alias,'customer_id')for alias,name in fields):return False
+    where=inner.args.get('where');predicate=bare(where.this)if where is not None else None
+    if not isinstance(predicate,exp.In)or predicate.args.get('query'):return False
+    country=bare(predicate.this)
+    if not isinstance(country,exp.Column)or(country.table,country.name)!=(customer_alias,'country'):return False
+    if not predicate.expressions or any(not isinstance(v,exp.Literal)or not v.is_string for v in predicate.expressions):return False
+    if {v.this for v in predicate.expressions}!=set(values):return False
+    # This narrow arm consumes its actual one-per-country rank column at the
+    # final lookup. An unrelated ROW_NUMBER in an unused CTE is never visited.
+    final_where=query.args.get('where');rank_filter=bare(final_where.this)if final_where is not None else None
+    if not isinstance(rank_filter,(exp.EQ,exp.LTE))or not isinstance(rank_filter.right,exp.Literal)or rank_filter.right.is_string or rank_filter.right.this!='1':return False
+    rank=bare(rank_filter.left)
+    if not isinstance(rank,exp.Column)or rank.table!=driver_alias:return False
+    window=bare(next((v for v in inner.selects if v.alias_or_name==rank.name),None))
+    if not isinstance(window,exp.Window)or not isinstance(window.this,exp.RowNumber):return False
+    partition=window.args.get('partition_by')or[]
+    if len(partition)!=1:return False
+    country=bare(partition[0])
+    return isinstance(country,exp.Column)and(country.table,country.name)==(customer_alias,'country')
 
 
 def parameterize_strings(sql: str) -> tuple[str, dict[str, str]]:

@@ -52,7 +52,10 @@ def run_doc_qa(*, question: str, doc_id: str, trace_id: str, intent: IntentContr
                                               "coordinate_system": c.get("coordinate_system"),
                                               "location_status": c.get("location_status", "legacy_not_verified"),
                                               "section_location_status": c.get("section_location_status", "legacy_not_verified"),
-                                              "evidence_id": c["evidence_id"]} for c in chunks])
+                                              "evidence_id": c["evidence_id"],
+                                              "retrieval_origin": c.get("retrieval_origin", "ranked_candidate"),
+                                              "score_type": c.get("score_type", "rrf"),
+                                              "rerank": c.get("rerank")} for c in chunks])
             step.output_summary = {**retrieval_metadata, "chunks": [
                 {k: c[k] for k in ("chunk_id", "evidence_id", "doc_id", "page", "section_path", "score")} for c in chunks]}
         with trace.step("doc_answer", {"mode": settings.rag_answer_mode, "evidence_count": len(chunks)}) as step:

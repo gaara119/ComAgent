@@ -48,10 +48,12 @@ class Settings:
     llm_request_max_attempts: int | None = None
     llm_max_tokens: int = 2048
     llm_thinking: bool = False
+    llm_temperature: float = 0.0
     catalog_path: Path = PROJECT_ROOT / "data/catalog/chinook.yaml"
     statement_timeout_ms: int = 5000
     max_rows: int = 200
     sql_repair_attempts: int = 2
+    typed_sql_compiler_enabled: bool = True
     api_host: str = "127.0.0.1"
     api_port: int = 8000
     rag_handler: str = "qa_agent.rag.service:run_doc_qa"
@@ -59,12 +61,15 @@ class Settings:
     aw_catalog_path: Path = PROJECT_ROOT / "data/catalog/adventureworks.yaml"
     aw_schema_index_path: Path = PROJECT_ROOT / "data/indexes/schema-aw-d3-v2"
     aw_schema_mode: str = "subgraph"
+    aw_schema_pruning_enabled: bool = True
     rag_manifest_path: Path = PROJECT_ROOT / "data/docs/manifest.csv"
     rag_index_path: Path = PROJECT_ROOT / "data/processed/rag/ohr"
     bge_model_path: Path = PROJECT_ROOT / "data/models/bge-m3"
     rag_top_k: int = 8
     rag_candidate_k: int = 20
     rag_rrf_k: int = 60
+    rag_retrieval_strategy: str = "hybrid"
+    rag_cache_enabled: bool = True
     rag_chunk_chars: int = 500
     rag_chunk_overlap: int = 80
     rag_ocr_model_path: Path = PROJECT_ROOT / "data/models/rapidocr"
@@ -88,6 +93,11 @@ class Settings:
         return {
             "llm_configured": self.llm_configured,
             "model": self.llm_model,
+            "llm_temperature": self.llm_temperature,
+            "llm_temperature_effective": None if self.llm_thinking else self.llm_temperature,
+            "llm_thinking": self.llm_thinking,
+            "llm_max_tokens": self.llm_max_tokens,
+            "llm_timeout_seconds": self.llm_timeout_seconds,
             "catalog_exists": self.catalog_path.is_file(),
             "statement_timeout_ms": self.statement_timeout_ms,
             "max_rows": self.max_rows,
@@ -97,6 +107,10 @@ class Settings:
             "aw_catalog_exists": self.aw_catalog_path.is_file(),
             "aw_schema_index_exists": self.aw_schema_index_path.is_dir(),
             "aw_schema_mode": self.aw_schema_mode,
+            "aw_schema_pruning_enabled": self.aw_schema_pruning_enabled,
+            "typed_sql_compiler_enabled": self.typed_sql_compiler_enabled,
+            "rag_retrieval_strategy": self.rag_retrieval_strategy,
+            "rag_cache_enabled": self.rag_cache_enabled,
         }
 
 
@@ -118,12 +132,14 @@ def get_settings() -> Settings:
         ),
         llm_max_tokens=_integer("LLM_MAX_TOKENS", 2048, maximum=16384),
         llm_thinking=os.getenv("LLM_THINKING", "false").lower() in {"true", "1", "yes"},
+        llm_temperature=_decimal("LLM_TEMPERATURE", 0.0, maximum=2),
         catalog_path=catalog_path,
         statement_timeout_ms=_integer(
             "SQL_STATEMENT_TIMEOUT_MS" if os.getenv("SQL_STATEMENT_TIMEOUT_MS", "").strip()
             else "STATEMENT_TIMEOUT_MS", 5000, maximum=60000),
         max_rows=_integer("MAX_RESULT_ROWS", 200, maximum=5000),
         sql_repair_attempts=_integer("SQL_REPAIR_ATTEMPTS", 2, minimum=0, maximum=2),
+        typed_sql_compiler_enabled=os.getenv("TYPED_SQL_COMPILER_ENABLED", "true").lower() not in {"false", "0", "no"},
         api_host=os.getenv("API_HOST", "127.0.0.1"),
         api_port=_integer("API_PORT", 8000, maximum=65535),
         rag_handler=os.getenv("RAG_HANDLER", "qa_agent.rag.service:run_doc_qa"),
@@ -131,12 +147,15 @@ def get_settings() -> Settings:
         aw_catalog_path=_project_path("AW_CATALOG_PATH", "data/catalog/adventureworks.yaml"),
         aw_schema_index_path=_project_path("AW_SCHEMA_INDEX_PATH", "data/indexes/schema-aw-d3-v2"),
         aw_schema_mode=os.getenv("AW_SCHEMA_MODE", "subgraph"),
+        aw_schema_pruning_enabled=os.getenv("AW_SCHEMA_PRUNING_ENABLED", "true").lower() in {"true", "1", "yes", "on"},
         rag_manifest_path=_project_path("RAG_MANIFEST_PATH", "data/docs/manifest.csv"),
         rag_index_path=_project_path("RAG_INDEX_PATH", "data/processed/rag/ohr"),
         bge_model_path=_project_path("BGE_MODEL_PATH", "data/models/bge-m3"),
         rag_top_k=_integer("RAG_TOP_K", 8, maximum=100),
         rag_candidate_k=_integer("RAG_CANDIDATE_K", 20, maximum=200),
         rag_rrf_k=_integer("RAG_RRF_K", 60, maximum=1000),
+        rag_retrieval_strategy=os.getenv("RAG_RETRIEVAL_STRATEGY", "hybrid"),
+        rag_cache_enabled=os.getenv("RAG_CACHE_ENABLED", "true").lower() in {"true", "1", "yes"},
         rag_chunk_chars=_integer("RAG_CHUNK_CHARS", 500, minimum=100, maximum=3000),
         rag_chunk_overlap=_integer("RAG_CHUNK_OVERLAP", 80, minimum=0, maximum=1000),
         rag_ocr_model_path=_project_path("RAPIDOCR_MODEL_PATH", "data/models/rapidocr"),

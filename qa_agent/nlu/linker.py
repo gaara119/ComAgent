@@ -20,6 +20,7 @@ from qa_agent.llm import LLMError
 from qa_agent.nlu.rewrite import RewritePatch, apply_patches
 from qa_agent.nlu.value_index import ValueIndex, ValueRecord, normalize, pinyin_key
 from qa_agent.trace import TraceRecorder
+from qa_agent.nlu.features import enabled
 
 # These names are already the D1 catalog's reviewed descriptions, not new
 # metric defaults. They restrict candidates; the SQL generator remains owner
@@ -120,7 +121,53 @@ class CandidateDecisions(BaseModel):
 
 def field_scope(question: str, index: ValueIndex) -> tuple[str, ...]:
     lower = normalize(question)
+    if enabled('AGENT_LINK_GROUNDING_ENABLED'):
+        from qa_agent.nlu.ownership import explicit_country_dimensions,literal_country_owner
+        owners=explicit_country_dimensions(question)
+        for record in index.records:
+            if record.column not in {'customer.country','invoice.billing_country'} or len(record.surface)<2:continue
+            for match in re.finditer(re.escape(record.surface),question,re.I):
+                if _contains_word_boundary(question,match.start(),match.end(),record.surface)and literal_country_owner(question,match.start(),match.end(),record.column):
+                    owners.add(record.column)
+        if len(owners)>1:
+            return tuple(sorted(column for column in owners if any(record.column==column for record in index.records)))
     matched = [table for table, words in TABLE_WORDS.items() if any(word.casefold() in lower for word in words)]
+    if enabled('AGENT_LINK_GROUNDING_ENABLED'):
+        # Ownership beats the counted/projected object.
+        if (re.search(r'(?:那边|当地|所在|位于|住在|来自|国家|国籍|country)(?:(?!客户|顾客|customer)[^，,。；;？?]){0,18}(?:的)?员工|员工(?:的)?(?:所在地|国家|所在国)',question,re.I)
+                and any(record.column=='employee.country' for record in index.records)):
+            return ('employee.country',)
+        if re.search(r'(?:买过|购买过).{0,45}(?:客户|顾客)',question):
+            value_objects=[name for name in ('genre','artist','album','track','media_type') if name in matched]
+            if not value_objects:
+                value_objects=sorted({record.column.split('.')[-2] for record in index.records
+                                      if record.column.split('.')[-2] in {'genre','artist','album','track','media_type'}
+                                      and len(record.surface)>=2 and any(_contains_word_boundary(question,match.start(),match.end(),record.surface)
+                                          for match in re.finditer(re.escape(record.surface),question,re.I))})
+            if value_objects:
+                return tuple(sorted({record.column for record in index.records
+                                     if record.column.split('.')[-2] in value_objects}))
+    if enabled('AGENT_LINK_GROUNDING_ENABLED') and re.search(r'那边|当地|来自|位于|住在|所在国|国家|country',question,re.I):
+        country_records=[record for record in index.records if record.column in {'customer.country','invoice.billing_country'}]
+        literal_country=any(len(record.surface)>=2 and any(_contains_word_boundary(question,m.start(),m.end(),record.surface)
+            for m in re.finditer(re.escape(record.surface),question,re.I)) for record in country_records)
+        if literal_country:
+            customer_owner=bool(re.search(r'客户(?:所在地|所在国|居住国)|居住(?:的)?客户',question))
+            sales_owner=bool(re.search(r'销售额|发票|账单|invoice|(?:卖出|售出|销售).{0,15}(?:曲目|歌曲|首|track)',question,re.I))
+            column='customer.country' if customer_owner else 'invoice.billing_country' if sales_owner else None
+            if column and any(record.column==column for record in country_records):return (column,)
+    if enabled('AGENT_LINK_GROUNDING_ENABLED'):
+        # A projected employee surname does not own the country attached to
+        # the customer's noun. Use only real indexed country/approved surfaces.
+        for record in index.records:
+            if record.column not in {'customer.country','invoice.billing_country','employee.country'} or len(record.surface)<2:continue
+            for match in re.finditer(re.escape(record.surface),question,re.I):
+                if not _contains_word_boundary(question,match.start(),match.end(),record.surface):continue
+                owner=re.match(r'\s*(?:的\s*)?(客户|顾客|customers?\b|发票|账单|invoices?\b|员工|employees?\b)',question[match.end():],re.I)
+                if not owner:continue
+                noun=owner.group(1).casefold()
+                target='customer.country' if noun in {'客户','顾客','customer','customers'} else 'employee.country' if noun in {'员工','employee','employees'} else 'invoice.billing_country'
+                if any(item.column==target for item in index.records):return (target,)
     # Oct 12 approved: sales/invoice geography defaults to billing country;
     # a user explicitly naming customer residence still takes precedence.
     customer_residence = any(word in question for word in ("客户所在地", "客户所在国", "客户居住国", "居住客户", "居住的客户"))
@@ -135,6 +182,11 @@ def field_scope(question: str, index: ValueIndex) -> tuple[str, ...]:
     if employee_name_owner:
         matched = ['employee']
     # A customer's "所在地国家" and an invoice's "账单国家" remain different fields.
+    if enabled('AGENT_LINK_GROUNDING_ENABLED'):
+        from qa_agent.nlu.entity_source import explicit_named_fields
+        named=explicit_named_fields(question,index)
+        if named:
+            return named
     if "invoice_line" in matched:
         matched = ["invoice_line"]
     elif "invoice" in matched:
@@ -183,6 +235,10 @@ def field_scope(question: str, index: ValueIndex) -> tuple[str, ...]:
         allowed = {name for name, words in semantic_fields.items() if any(word in lower for word in words)}
         return tuple(sorted(name for name in fields if name.split(".")[-1].removeprefix("billing_") in allowed))
     if matched[0] == "track":
+        if enabled('AGENT_LINK_GROUNDING_ENABLED') and re.search(r'[A-Za-z][A-Za-z .&/\-]{1,65}\s*(?:的\s*)?(?:所有|全部)(?:的)?(?:曲目|歌曲)',question):
+            # A named owner of tracks can be an artist or album. Retrieve both
+            # real types; a spelling score must not invent an ownership type.
+            return tuple(sorted({record.column for record in index.records if record.column in {'artist.name','album.title'}}))
         if any(guard["surface"] in question for guard in PLAN_AMBIGUITY_GUARDS):
             return tuple(sorted({guard["column"] for guard in PLAN_AMBIGUITY_GUARDS
                                  if any(item.column == guard["column"] for item in index.records)}))
@@ -206,9 +262,10 @@ def _contains_word_boundary(question: str, start: int, end: int, surface: str) -
 
 def _is_value_phrase(text: str) -> bool:
     """Exclude question/projection prose without classifying every entity type."""
+    if normalize(text) in {"all","every","each","the","these","those","which","how many","customer","customers","invoice","invoices","track","tracks","list"}:return False
     return bool(len(text) >= 2 and text.strip() not in TIME_PHRASES and not re.fullmatch(r"\d{4}\s*年(?:和\d{4}\s*年)?", text.strip()) and not any(word in text for word in (
         "客户", "顾客", "发票", "账单", "共有", "多少", "什么", "哪些", "哪种", "几位", "几张", "几种",
-        "如何", "怎样", "数量", "总共", "总数", "全部", "所有", "统计", "按国家", "不同国家", "最近一年", "每年", "每月", "今年", "去年", "工程", "检查", "测试", "验证", "数据库", "如果", "不存在", "没有", "根本",
+        "如何", "怎样", "数量", "总共", "总数", "全部", "所有", "统计", "按国家", "不同国家", "最近一年", "每年", "每月", "今年", "去年", "工程", "检查", "测试", "验证", "数据库", "如果", "不存在", "没有", "根本", "咱们", "这几个", "负责人", "重点市场", "主期间", "对比期",
     )))
 
 
@@ -242,6 +299,12 @@ def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...
         # Substring predicates are generated by D1's SQL rules; binding a
         # matching full value as '=' would silently tighten their meaning.
         return []
+    if enabled('AGENT_LINK_GROUNDING_ENABLED') and len(fields)==1 and fields[0].endswith(('.country','.billing_country')):
+        for match in re.finditer(r'(?P<value>[A-Za-z][A-Za-z \-]{1,35}?)\s*(?:那边|当地|所在国家|这个国家)(?:的)?',question):
+            text=match.group('value').strip()
+            start=match.start('value')
+            if _is_value_phrase(text) and not any(start<prior.end and prior.start<start+len(text) for prior in picked):
+                picked.append(Mention(text,start,start+len(text),fields,'typed_country_literal',True))
     explicit_patterns = [
         r"(?:国家|国籍|country|billing_country|城市|city|名字|first_name|姓氏|last_name|职位|title|名称|name|流派|genre|媒体格式|media_type)\s*(?:恰好|严格)?(?:为|是|叫|等于|=|:|：)\s*[\"'“‘]?(?P<value>[A-Za-z][A-Za-z .&/\-]{1,48}|[\u4e00-\u9fff]{2,12})",
         r"[\"'“‘](?P<value>[^\"'”’]{2,60})[\"'”’]",
@@ -261,8 +324,13 @@ def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...
             start=match.start('value')+raw.find(text)
             if _is_value_phrase(text) and not any(start<prior.end and prior.start<start+len(text) for prior in picked):
                 picked.append(Mention(text,start,start+len(text),fields,'artist_album_relation'))
+    if enabled('AGENT_LINK_GROUNDING_ENABLED') and set(fields) & {'artist.name','album.title'}:
+        for match in re.finditer(r'(?P<value>[A-Za-z][A-Za-z .&/\-]{1,65}?)\s*(?:的\s*)?(?:所有|全部)(?:的)?(?:曲目|歌曲)',question):
+            raw=match.group('value');text=raw.strip();start=match.start('value')+raw.find(text)
+            if _is_value_phrase(text) and not any(start<prior.end and prior.start<start+len(text) for prior in picked):
+                picked.append(Mention(text,start,start+len(text),fields,'track_owner_relation'))
     if any(name.endswith((".country", ".billing_country")) for name in fields):
-        for match in re.finditer(r"(?P<value>[A-Za-z][A-Za-z \-]{1,24}|[\u4e00-\u9fff]{2,18})\s*(?:的)?(?:客户|顾客|发票|账单)", question):
+        for match in re.finditer(r"(?P<value>[A-Za-z][A-Za-z \-]{1,24}|[\u4e00-\u9fff]{2,18})\s*(?:的\s*)?(?:客户|顾客|发票|账单|\bcustomers?\b|\binvoices?\b)", question, re.I):
             raw = match.group("value")
             text = re.sub(r"^(?:你好[，,\s]*|请问|麻烦|请帮我|帮忙|帮我|查一下|查一查|请|查询|统计|列出|查看|看看|这个|我想知道|我想查询|来自|位于|住在|\s)+", "", raw)
             text = re.sub(r"(?:的|有多少|共有多少|有几位|多少|共有|全部|所有|有几张|有哪些|有)$", "", text).strip()
@@ -279,6 +347,21 @@ def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...
         start = match.start("value") + raw.find(text)
         if _is_value_phrase(text) and not any(start < prior.end and prior.start < start + len(text) for prior in picked):
             picked.append(Mention(text, start, start + len(text), fields))
+    if enabled('AGENT_LINK_GROUNDING_ENABLED'):
+        from qa_agent.nlu.ownership import literal_country_owner
+        scoped=[]
+        indexed={record.column for record in index.records}
+        for item in picked:
+            # Country ownership narrows a country candidate; a customer noun
+            # after a genre/artist/album qualifier does not change that value's
+            # already established physical candidate domain.
+            if not item.fields or not set(item.fields)<={'customer.country','invoice.billing_country'}:
+                scoped.append(item)
+                continue
+            owners=[column for column in ('customer.country','invoice.billing_country') if column in indexed
+                    and literal_country_owner(question,item.start,item.end,column)]
+            scoped.append(Mention(item.original_text,item.start,item.end,tuple(owners)if len(owners)==1 else item.fields,item.origin,item.preserve_absent))
+        picked=scoped
     return sorted(picked, key=lambda item: item.start)
 
 
@@ -367,6 +450,15 @@ class ValueLinker:
             return result
         if mention.preserve_absent:
             result.stages.append({"method": "absent_value_preserved", "reason": "explicit_legal_no_match_value"})
+            if enabled('AGENT_LINK_GROUNDING_ENABLED') and mention.origin=='typed_country_literal' and len(mention.fields)==1:
+                # Existence of a value is not a prerequisite for a well-typed
+                # equality query. Keep the original country, never search a
+                # name field merely to obtain a non-empty result.
+                result.status='resolved'
+                result.canonical_value=mention.original_text
+                result.column=mention.fields[0]
+                result.match_method='explicit_user_literal'
+                result.evidence_ref=f'question:{mention.start}:{mention.end}'
             return result
         if self._stage(result, "pinyin", lambda: [(i, 1.0) for i in self.index.pinyin.get(pinyin_key(mention.original_text), []) if i in scope], trace):
             if len(result.candidates) == 1:
@@ -477,10 +569,25 @@ class ValueLinker:
             binding = {"column": item.column, "operator": "!=" if excluded else "=", "value": item.canonical_value,
                        "mention_id": item.mention_id, "method": item.match_method, "evidence_ref": item.evidence_ref,
                        "source": "verified_value_index"}
+            if enabled('AGENT_LINK_GROUNDING_ENABLED')and item.column in {'customer.country','invoice.billing_country'}:
+                from qa_agent.nlu.ownership import country_value_operator
+                binding['operator']=country_value_operator(question,*item.span)
+            if enabled('AGENT_LINK_GROUNDING_ENABLED') and item.column in {'artist.name','album.title','genre.name','playlist.name'}:
+                from qa_agent.nlu.entity_source import literal_polarity
+                binding['operator']=literal_polarity(question,item.original_text,[tuple(item.span)])
+            if item.match_method=='explicit_user_literal':
+                binding['source']='explicit_user_literal'
+            if enabled('AGENT_LINK_GROUNDING_ENABLED'):
+                from qa_agent.nlu.ownership import literal_country_owner
+                owner=literal_country_owner(question,item.span[0],item.span[1],item.column)
+                if owner is not None:binding['field_owner_proof']=owner
             if not any((prior["column"], prior["operator"], prior["value"]) == (binding["column"], binding["operator"], binding["value"]) for prior in bindings):
                 bindings.append(binding)
             if item.original_text != item.canonical_value:
                 patches.append(RewritePatch(*item.span, item.original_text, item.canonical_value or "", item.match_method or "exact", item.evidence_ref or ""))
+        if enabled('AGENT_LINK_GROUNDING_ENABLED'):
+            from qa_agent.nlu.ownership import country_boolean_supported
+            country_boolean_supported(question,bindings)
         # Preserve explicit alternative values as one IN filter rather than
         # turning "Brazil 或 USA" into the impossible conjunction of '='s.
         grouped = {}
@@ -498,5 +605,15 @@ class ValueLinker:
                 combined = {**group[0], "operator": "IN", "value": [binding["value"] for binding in group],
                             "mention_ids": [binding["mention_id"] for binding in group]}
                 bindings = [binding for binding in bindings if binding not in group] + [combined]
+        if enabled('AGENT_LINK_GROUNDING_ENABLED'):
+            from qa_agent.nlu.entity_source import actual_source_bindings
+            for recovered in actual_source_bindings(question,self.index):
+                existing=[item for item in bindings if item['column']==recovered['column']]
+                if any(item['operator']!=recovered['operator'] or item['value']!=recovered['value'] for item in existing):
+                    raise ValueError('当前实体绑定与真实本轮用户唯一实体不一致，不能执行。')
+                if existing:
+                    for item in existing:
+                        item.update({key:value for key,value in recovered.items() if key not in {'source','method','evidence_ref'}})
+                else:bindings.append(recovered)
         self.last_result = LinkResult(question, apply_patches(question, patches), linked, bindings, patches)
         return self.last_result

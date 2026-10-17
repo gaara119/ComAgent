@@ -126,6 +126,11 @@ class JsonLLM:
                             "response_format": {"type": "json_object"},
                             "max_tokens": self.settings.llm_max_tokens,
                         }
+                        # Supported in the configured DeepSeek non-thinking
+                        # mode. Low temperature reduces sampling variability;
+                        # it is not a correctness or determinism guarantee.
+                        if not self.settings.llm_thinking:
+                            kwargs["temperature"] = self.settings.llm_temperature
                         if "deepseek.com" in self.settings.llm_base_url:
                             kwargs["extra_body"] = {"thinking": {"type": "enabled" if self.settings.llm_thinking else "disabled"}}
                         capture["request"] = kwargs
@@ -153,10 +158,19 @@ class JsonLLM:
                         return result
                 except (json.JSONDecodeError, ValidationError, ValueError) as exc:
                     capture["validation_error"] = type(exc).__name__
+                    if isinstance(exc, ValidationError):
+                        details = [{"field": list(item["loc"]), "type": item["type"], "message": str(item["msg"])[:600]}
+                                   for item in exc.errors(include_input=False, include_url=False)[:12]]
+                    elif isinstance(exc, json.JSONDecodeError):
+                        details = [{"type": "json_syntax", "line": exc.lineno, "column": exc.colno, "message": exc.msg}]
+                    else:
+                        details = [{"type": "invalid_response", "message": sanitize_error(exc, self.settings)[:600]}]
+                    capture["validation_details"] = details
                     self._capture(call_id, capture, step)
                     last_error = LLMError("模型返回 JSON 格式或字段不符合协议。", "llm_format")
                     messages.append({"role": "user", "content":
-                                     "上次结果未通过 JSON/字段校验。请重读原始任务，保持用户条件不变，只返回符合 Schema 的 JSON 对象。"})
+                                     "上次结果未通过 JSON/字段校验。请重读原始任务，保持用户条件不变，"
+                                     "只修复以下实际校验错误并返回完整的合规 JSON 对象：" + json.dumps(details, ensure_ascii=False)})
                 except Exception as exc:
                     capture["error"] = sanitize_error(exc, self.settings)
                     self._capture(call_id, capture, step)

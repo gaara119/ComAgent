@@ -23,6 +23,28 @@ class SchemaPruningError(ValueError):
     pass
 
 
+def apply_optional_pruning(question, bundle, catalog, llm, trace=None, *, enabled=True, required_columns=()):
+    """Experimental switch skips only the optional LLM selector, not recall.
+
+    The unpruned bundle/catalog/columns/FK paths are retained verbatim. All SQL
+    generation, binding, safety, execution and backward-recall checks remain in
+    the shared pipeline. There is no shortcut to a predicted result.
+    """
+    if enabled:
+        return SchemaPruner(catalog).prune_or_fallback(question,bundle,llm,trace,required_columns=required_columns)
+    required_map=SchemaPruner(catalog)._required(set(required_columns)|set(bundle.protected_columns))
+    required={table+'.'+column for table,columns in required_map.items()for column in columns}
+    actual={table+'.'+column for table,columns in bundle.columns.items()for column in columns}
+    if not required<=actual or not set(bundle.protected_tables)<=set(bundle.selected_tables):
+        raise SchemaPruningError('Unpruned recall cannot discard verified or explicit catalog fields/tables')
+    result=replace(bundle,pruning={'status':'skipped_by_config','enabled':False,
+        'reason':'AW_SCHEMA_PRUNING_ENABLED=false; authentic dense/RRF/FK recall retained',
+        'selector_gold_input':False,'extra_llm_calls':0,'column_count':sum(len(t.columns)for t in bundle.selected_catalog.tables)})
+    if trace:
+        with trace.step('schema_prune_skipped')as step:step.output_summary=result.as_dict()
+    return result
+
+
 class TableChoice(BaseModel):
     model_config = ConfigDict(extra="forbid")
     table: str
@@ -115,7 +137,12 @@ class SchemaPruner:
     def prune(self, question: str, bundle: SchemaBundle, llm: "JsonLLM",
               trace: "TraceRecorder | None" = None, *, required_columns=()) -> SchemaBundle:
         from contextlib import nullcontext
+        required_columns = tuple(dict.fromkeys(list(required_columns) + list(bundle.protected_columns)))
         required = self._required(required_columns)
+        for name in bundle.protected_tables:
+            if name not in self.tables:
+                raise SchemaPruningError("Explicit table lies outside the authentic catalog")
+            required.setdefault(name, set())
         candidate_names = self._bounded_candidates(bundle, required)
         candidate_catalog = replace(self.catalog, tables=tuple(self.tables[name] for name in candidate_names))
         payload = {"question": question, "candidate_catalog": candidate_catalog.prompt_schema(),
@@ -184,4 +211,37 @@ class SchemaPruner:
                 selected_catalog=selected_catalog, excluded_tables=excluded, pruning=diagnostics)
             if step is not None:
                 step.output_summary = result.as_dict()
+            return result
+
+    def prune_or_fallback(self, question: str, bundle: SchemaBundle, llm: "JsonLLM",
+                          trace: "TraceRecorder | None" = None, *, required_columns=()) -> SchemaBundle:
+        """A failed optional selector cannot erase the authentic recall bundle.
+
+        Budget/deadline failures propagate. Only selector format/domain failures
+        fall back; query safety, bindings and the SQL semantic guard still run.
+        """
+        from qa_agent.llm import LLMError
+        try:
+            return self.prune(question, bundle, llm, trace, required_columns=required_columns)
+        except (SchemaPruningError, LLMError) as exc:
+            if isinstance(exc, LLMError) and exc.code != "llm_format":
+                raise
+            restored = dict(bundle.columns)
+            selected = set(bundle.selected_tables)
+            required = self._required(tuple(required_columns) + tuple(bundle.protected_columns))
+            selected.update(required)
+            selected.update(bundle.protected_tables)
+            selected, joins, components = complete_steiner(self.graph, selected)
+            tables = tuple(self.tables[name] for name in sorted(selected))
+            restored = {name: tuple(column.name for column in self.tables[name].columns) for name in sorted(selected)}
+            result = replace(bundle, selected_tables=tuple(sorted(selected)), columns=restored,
+                join_paths=tuple(joins), disconnected_components=tuple(tuple(c) for c in components),
+                selected_catalog=replace(self.catalog, tables=tables),
+                pruning={"status": "fallback_unpruned_recall", "reason": str(exc),
+                         "selector_gold_input": False, "budget_bypass": False,
+                         "column_count": sum(len(table.columns) for table in tables)})
+            if trace:
+                with trace.step("schema_prune_fallback") as step:
+                    step.status = "warn"
+                    step.output_summary = result.as_dict()
             return result

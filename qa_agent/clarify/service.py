@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from copy import deepcopy
 import json
 from pathlib import Path
 import re
@@ -9,6 +10,11 @@ from hashlib import sha256
 from typing import Any
 
 from qa_agent.clarify.extractor import extract_intent, explicit_region_scope
+from qa_agent.clarify.grounding import literal_relative_period, partial_calendar_period, runtime_payload, explicit_average_metric
+from qa_agent.nlu.features import enabled
+from qa_agent.clarify.followup import (unfilled_country_delta,apply_unfilled_country_delta,
+                                     ranking_limit_delta,apply_ranking_limit_delta)
+from qa_agent.clarify.policy import default_policy_ids
 from qa_agent.clarify.rules import RuleDecision, RuleEngine, explicit_period, explicit_comparison_period
 from qa_agent.clarify.state import (DEFAULT_STORE, IntentPatch, PatchResponse, SessionConflict,
                                     SessionState, SessionStore, apply_choice, apply_patches,
@@ -32,8 +38,51 @@ def is_followup(question: str) -> bool:
                 re.fullmatch(r'\s*\d{4}\s*年(?:\s*\d{1,2}\s*月)?\s*呢[？?。]*\s*',question))
 
 
+def pending_text_response(state: SessionState | None, message: str) -> bool:
+    return bool(enabled('AGENT_CLARIFY_STATE_ENABLED') and state and state.pending_card and
+                len(message)<300 and re.match(r'\s*(?:是|不是|选|就|第[一二三四五六七八九十\d]|前者|后者|按|用|我指|我的意思)',message))
+
+
+def textual_candidate_choice(state: SessionState, card: dict, message: str, linked) -> str | None:
+    """Resolve only actual current-card candidates, with polarity preserved.
+
+    Saying "not B, A" confirms A rather than both A and B. Ordinals refer to
+    the displayed options in this one card, never a newly recalled ranking.
+    """
+    if not enabled('AGENT_CLARIFY_STATE_ENABLED'):
+        return None
+    options=[item for item in card.get('trusted_options',[]) if item.get('patch',{}).get('op')=='resolve_value']
+    if not options:
+        return None
+    positives=[item for item in linked.bindings if item.get('operator')=='=']
+    matches=[option for option in options if any(option['patch'].get('column')==item.get('column') and
+             option['patch'].get('value')==item.get('value') for item in positives)]
+    # A duplicated candidate may occur in two independent issues: do not
+    # collapse it without an unambiguous issue target.
+    if len(matches)==1:
+        return matches[0]['id']
+    contrasted=re.search(r'(?:不是|不选)\s*(前者|后者|第[一二三四五六七八九十\d]+(?:个|项|种)?)\s*[，,；;]?\s*(?:而是|是|选|就选)\s*(前者|后者|第[一二三四五六七八九十\d]+(?:个|项|种)?)\s*[。.!！]?\s*$',message)
+    ordinal_message=contrasted.group(2) if contrasted and contrasted.group(1)!=contrasted.group(2) else message
+    ordinal=re.fullmatch(r'\s*(?:选|就选|是|用)?\s*(?:第([一二三四五六七八九十\d]+)(?:个|项|种)?|(前者|后者))\s*[。.!！]?\s*',ordinal_message)
+    if ordinal and len({item['patch']['mention_id'] for item in options})==1:
+        word=ordinal.group(1)
+        number=(int(word) if word and word.isdigit() else {'一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10}.get(word)) if word else (1 if ordinal.group(2)=='前者' else 2)
+        if number and 1<=number<=len(options):
+            return options[number-1]['id']
+    return None
+
+
 def source_dict(request) -> dict:
-    return request.scope.model_dump(mode="json")
+    result=request.scope.model_dump(mode="json")
+    context_id=getattr(request,'context_id',None)
+    if not context_id:
+        from qa_agent.context import current_context
+        context=current_context()
+        if context is not None and context.session_id==request.session_id:
+            context_id=context.context_id
+    if context_id:
+        result['context_id']=context_id
+    return result
 
 
 def question_for_linking(request, store: SessionStore = DEFAULT_STORE) -> str:
@@ -53,14 +102,21 @@ def question_for_linking(request, store: SessionStore = DEFAULT_STORE) -> str:
 def mentions_for_linking(request, index, store: SessionStore = DEFAULT_STORE):
     from qa_agent.nlu.linker import extract_mentions, field_scope
     state=store.get(request.session_id)
-    if not state or not (getattr(request,'clarification_id',None) or is_followup(request.message)) or source_dict(request)!=state.scope:
+    if not state or not (getattr(request,'clarification_id',None) or is_followup(request.message) or pending_text_response(state,request.message)) or source_dict(request)!=state.scope:
         return None
     explicit_fields=field_scope(request.message,index)
     if explicit_fields:
         return extract_mentions(request.message,index,fields=explicit_fields)
     fields={item['column'] for item in state.bindings if item.get('column')}
+    fields.update(item['column'] for item in state.analysis.query_scope.get('pending_filters',[]) if item.get('column'))
     fields.update(candidate['column'] for issue in state.unresolved_values for candidate in issue.get('candidates',[]) if candidate.get('column'))
     if not fields:return None
+    indexed={record.column for record in index.records}
+    from qa_agent.clarify.date_roles import temporal_schema_columns
+    temporal=temporal_schema_columns(request.scope.db_id or 'chinook')
+    fields -= temporal - indexed
+    # Calendar constraints stay in semantic state, never categorical binding.
+    if not fields:return []
     return extract_mentions(request.message,index,fields=tuple(sorted(fields)))
 
 
@@ -125,24 +181,44 @@ def _persistent_ambiguities(linked, question: str) -> list[dict]:
 
 
 def extract_patches(message: str, state: SessionState, linked, llm, trace=None) -> list[IntentPatch]:
+    from qa_agent.clarify.invoice_ratio_source import explicit_invoice_operand_patch,invoice_ratio_delta
+    ordinary_invoice=(state.analysis.rank_object is None and state.analysis.metric=='invoice_revenue'
+        and all(isinstance(state.analysis.query_scope.get(role),dict)
+            and state.analysis.query_scope[role].get('metric')=='invoice_revenue'
+            and state.analysis.query_scope[role].get('source_evidence')for role in('numerator','denominator')))
+    proved_operand_edit=explicit_invoice_operand_patch(message,state.analysis,linked.bindings)if ordinary_invoice else None
+    closed_delta=(ordinary_invoice and invoice_ratio_delta(message,state.analysis)
+        and not re.match(r'\s*(?:请)?(?:分子|分母)',message))
     current_card = state.pending_card or state.switch_card or {}
-    result = llm.complete_json(
-        PATCH_PROMPT.read_text(encoding="utf-8"),
-        json.dumps({"message": message, "current_intent": state.analysis.model_dump(),
-                    "current_card": {key: value for key, value in current_card.items() if key != "trusted_options"},
-                    "verified_value_bindings": linked.bindings}, ensure_ascii=False),
-        PatchResponse, trace=trace)
+    payload={"message": message, "current_intent": state.analysis.model_dump(),
+             "current_card": {key: value for key, value in current_card.items() if key != "trusted_options"},
+             "verified_value_bindings": linked.bindings}
+    runtime=runtime_payload()
+    from qa_agent.clarify.conflict_authority import conflict_source_catalog
+    payload['conflict_source_registry']=conflict_source_catalog(message,runtime)
+    if runtime:
+        payload['runtime_context']=runtime
+    if ordinary_invoice and(proved_operand_edit or closed_delta):
+        # The whole actual source proves this finite edit. Program-generated
+        # deltas preserve the saved contract; no model scope/metric/owner reset
+        # or duplicate semantic-model judgement is needed.
+        result=PatchResponse(patches=[])
+    else:
+        result = llm.complete_json(
+            PATCH_PROMPT.read_text(encoding="utf-8"),
+            json.dumps(payload, ensure_ascii=False),
+            PatchResponse, trace=trace)
     # A metric/object change cannot silently reset a previously established
     # calendar range. Discard model-invented resets without touching any actual
     # date text or the user's explicit cancellation of the period.
-    has_calendar_text=bool(re.search(r'(?<!\d)\d{4}(?!\d)|今年|去年|最近|本月|上月|本季度|上季度',message))
+    has_calendar_text=bool(re.search(r'(?<!\d)\d{4}(?!\d)|(?<!\d)\d{1,2}\s*月|今年|去年|最近|本月|上月|本季度|上季度',message))
     cancels_period=bool(re.search(r'全部数据|所有数据|(?:取消|去掉|删除|不限|全部|所有).{0,8}(?:期间|日期|年份|时间)|(?:期间|日期|年份|时间).{0,8}(?:不限|取消|全部|所有)',message))
     result.patches=[patch for patch in result.patches
                     if patch.path!='time_scope' or has_calendar_text or cancels_period]
     # Plain country/date/top-N edits cannot authorize model-generated changes
     # to the measure, task or comparison. Literal metric edits are grounded
     # below, while unfamiliar user-written measures remain model proposals.
-    measure_text=bool(re.search(r'指标|口径|金额|销售额|客单价|平均|复购|数量|张数|次数|销量|购买量|购买数量|计数|总额',message))
+    measure_text=bool(re.search(r'指标|口径|金额|销售额|客单价|平均|复购|数量|客户数|客户个数|人数|张数|次数|销量|购买量|购买数量|计数|总额',message))
     object_text=bool(re.search(r'(?:对象|改成|换成|改为|换为|改看|改查|换看|换查).{0,4}(?:流派|艺术家|乐队|专辑|曲目|歌曲|客户|顾客|发票|账单)',message))
     result.patches=[patch for patch in result.patches if
                     (patch.path!='metric' or measure_text) and
@@ -153,7 +229,11 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
                     (patch.path!='time_ambiguous' or has_calendar_text or cancels_period) and
                     (patch.path not in {'task_type','comparison'} or
                      bool(re.search(r'同比|环比|增长|占比|比例|排名|排行|前\s*\d+|top\s*\d+|不看|不算|取消',message,re.I)))]
-    if re.search(r'平均每张发票金额|平均(?:发票|账单)金额|客单价',message):
+    average=explicit_average_metric(message)
+    if average:
+        result.patches=[patch for patch in result.patches if patch.path!='metric']
+        result.patches.append(IntentPatch(op='set',path='metric',value=average[0],evidence=average[1]))
+    elif re.search(r'平均每张发票金额|平均(?:发票|账单)金额|客单价',message):
         result.patches=[patch for patch in result.patches if patch.path!='metric']
         result.patches.append(IntentPatch(op='set',path='metric',value='average_invoice_amount',evidence=re.search(r'平均每张发票金额|平均(?:发票|账单)金额|客单价',message).group()))
     elif re.search(r'(?:发票|账单)(?:销售额|金额|总额)|销售额',message):
@@ -165,6 +245,26 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
         result.patches.append(IntentPatch(op='set',path='metric',value='invoice_count',evidence=re.search(r'(?:发票|账单)(?:张数|数量|次数)|(?:张数|计数)',message).group()))
     # Ratio operands own independent local scopes. A country mentioned while
     # changing one operand must not move or overwrite the other operand.
+    from qa_agent.clarify.invoice_ratio_source import explicit_invoice_operand_patch
+    operand_edit=proved_operand_edit if ordinary_invoice else explicit_invoice_operand_patch(message,state.analysis,linked.bindings)
+    if ordinary_invoice and not operand_edit and (any(patch.path in {'numerator','denominator'}for patch in result.patches)
+            or re.match(r'\s*(?:分子|分母)(?:的)?(?:期间|年份|日期)?(?:改为|改成|换成)',message)):
+        # Calendar-only operand edits are checked against their own saved
+        # bounds below. Other unparsed operand requests cannot borrow a model
+        # substring or its empty patch list to erase remaining source clauses.
+        if not re.fullmatch(r'\s*(?:分子|分母)(?:的)?(?:期间|年份|日期)(?:改为|改成|换成)\s*\d{4}\s*年(?:\s*\d{1,2}\s*月)?'
+                r'(?:[，,]\s*(?:分母|分子|其他条件)(?:及其他条件)?不变)?[。！!]?\s*',message):
+            raise SessionConflict('本次发票比例操作数修改尚未完整核验；请分别明确国家字段、金额范围及保留条件，未改变原合同。')
+    from qa_agent.clarify.invoice_ratio_source import invoice_ratio_delta
+    if (ordinary_invoice and not operand_edit
+            and re.match(r'\s*(?:(?:年份|期间)(?:改为|改成|换成)|(?:改为|改成)?百分比|(?:取消|删除|去掉)百分比)',message)
+            and not invoice_ratio_delta(message,state.analysis)):
+        raise SessionConflict('本次发票比例操作数修改尚未完整核验；请分别明确国家字段、金额范围及保留条件，未改变原合同。')
+    if operand_edit:
+        # The complete supported sentence explicitly preserves all other
+        # conditions. No model-proposed global country or metric reset survives.
+        role,operand_text=operand_edit
+        result.patches=[IntentPatch(op='set',path=role,value=operand_text,evidence=message)]
     local_ratio=state.analysis.task_type=='ratio' and any(patch.path in {'numerator','denominator'} for patch in result.patches)
     if local_ratio and not re.search(r'全局|整个查询|整体地区',message):
         result.patches=[patch for patch in result.patches if patch.path not in {'filters','region_scope','region_ambiguous'}]
@@ -213,6 +313,7 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
                        item.get('binding_scope') not in {'numerator','denominator'}]
             if removable:
                 result.patches.append(IntentPatch(op='remove',path='filters',value=removable,evidence=cancel_region.group()))
+    result.patches=[patch for patch in result.patches if not(patch.path=='region_scope' and patch.op=='set' and patch.value==state.analysis.region_scope)]
     scope_patches=[patch for patch in result.patches if patch.path=='region_scope' and patch.op=='set']
     derived_scope=None
     object_fields={'流派':'genre.name','艺术家':'artist.name','乐队':'artist.name','专辑':'album.title','曲目':'track.name','歌曲':'track.name'}
@@ -228,8 +329,15 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
         if written_scope is None or any(patch.value!=written_scope for patch in scope_patches):
             raise SessionConflict('地区字段修改没有本次用户明确的账单国家或客户所在地原文依据。')
         if len({item.get('column') for item in state.bindings if item.get('column') in {'invoice.billing_country','customer.country'}})>1:
-            raise SessionConflict('当前有两个独立国家筛选，请明确需要改动的具体条件，不能同时合并或迁移。')
-        derived_scope=written_scope
+            from qa_agent.nlu.ownership import country_value_delta
+            if country_value_delta(message,linked.bindings,state):
+                # Naming the edited predicate does not migrate every country
+                # condition into that owner. Its actual binding is authoritative.
+                result.patches=[patch for patch in result.patches if patch.path!='region_scope']
+            else:
+                raise SessionConflict('当前有两个独立国家筛选，请明确需要改动的具体条件，不能同时合并或迁移。')
+        else:
+            derived_scope=written_scope
     # A change of country field moves the already confirmed value; deleting the
     # obsolete field is not a request to cancel that value. Normalize only this
     # proven migration. Other removals require an explicit deletion statement.
@@ -315,20 +423,120 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
         result.patches=[item for item in result.patches if item.path!='top_n']
         result.patches.append(IntentPatch(op='set',path='top_n',value=int(top_match.group(1)),evidence=top_match.group()))
     # Explicit calendar text is converted by code and takes precedence over model dates.
-    period = explicit_period(message) or explicit_comparison_period(message,(state.analysis.comparison or {}).get('type'))
+    from qa_agent.clarify.calendar_range import parse_calendar_range
+    is_range, complete_range = parse_calendar_range(message, literal_relative_period(message,runtime) or state.analysis.time_scope)
+    if is_range and complete_range is None:
+        raise SessionConflict('日期区间端点尚不完整、存在冲突或不支持；请明确起止日期及是否包含端点，不能降成首日。')
+    period = complete_range or explicit_period(message) or explicit_comparison_period(message,(state.analysis.comparison or {}).get('type')) or literal_relative_period(message,runtime) or partial_calendar_period(message,state.analysis.time_scope)
+    local_period_same=False
+    local_period=re.search(r'(分子|分母)(?:的)?(?:期间|年份|日期)|((?:分子|分母))(?:改为|改成|换成)',message)
+    if period and state.analysis.task_type=='ratio' and local_period:
+        role='numerator'if(local_period[1]or local_period[2])=='分子'else'denominator'
+        confirmed=state.analysis.query_scope.get(role)
+        confirmed=(confirmed['period']if isinstance(confirmed,dict)and'period'in confirmed else(state.analysis.time_scope or{}).get('current'))
+        if not isinstance(confirmed,dict):confirmed={}
+        proposed=(period or{}).get('current')or{}
+        if not all(confirmed.get(key)and confirmed.get(key)==proposed.get(key)for key in('start','end')):
+            raise SessionConflict('该比例操作数的独立期间修改尚不能安全归一，请分别明确分子和分母的完整期间；未改变原条件。')
+        # This restates the already confirmed operand period. It authorizes
+        # the local country change, never a reset of the other/global period.
+        local_period_same=True
+        result.patches=[patch for patch in result.patches if patch.path not in {'time_scope','time_ambiguous'}]
+    from qa_agent.clarify.season_authority import season_calendar_edit_period
+    period,retired_season=season_calendar_edit_period(message,state,period,runtime)
+    if local_period_same:period=None
     if period:
         overridden={'time_scope','time_scope.current','time_scope.current.start','time_scope.current.end',
                     'time_scope.current.grain','time_scope.current.label'}
         result.patches = [item for item in result.patches if item.path not in overridden]
-        result.patches.append(IntentPatch(op="set", path="time_scope", value=period,
-                                          evidence=next(iter(re.findall(r"\d{4}\s*年(?:\s*\d{1,2}\s*月)?", message)), "")))
+        period_evidence=(period.get('current') or {}).get('label') if complete_range or (period.get('current') or {}).get('year_source') else next(iter(re.findall(r"\d{4}\s*年(?:\s*\d{1,2}\s*月)?|前年|去年|今年|明年", message)), "")
+        result.patches.append(IntentPatch(op="set", path="time_scope", value=period, evidence=period_evidence))
         result.patches.append(IntentPatch(op="set", path="time_ambiguous", value=False,
-                                          evidence=next(iter(re.findall(r"\d{4}\s*年(?:\s*\d{1,2}\s*月)?", message)), "")))
+                                          evidence=period_evidence))
+        if state.analysis.task_type=='ratio':
+            old=(state.analysis.time_scope or{}).get('current')or{}
+            new=(period or{}).get('current')or{}
+            old_bounds={key:old.get(key)for key in('start','end')}
+            if all(old_bounds.values())and new.get('start')and new.get('end'):
+                scope=deepcopy(next((patch.value for patch in reversed(result.patches)
+                    if patch.path=='query_scope'and patch.op=='set'and isinstance(patch.value,dict)),state.analysis.query_scope))
+                changed=False
+                for role in('numerator','denominator'):
+                    operand=scope.get(role)
+                    if isinstance(operand,dict)and operand.get('period')==old_bounds:
+                        operand['period']={key:new[key]for key in('start','end')};changed=True
+                if changed:
+                    result.patches=[patch for patch in result.patches if patch.path!='query_scope']
+                    result.patches.append(IntentPatch(op='set',path='query_scope',value=scope,evidence=period_evidence))
+        from qa_agent.clarify.normalization import canonical_slot
+        unresolved=[item for item in state.analysis.clarification_requests
+                    if canonical_slot(item.get('field','')) not in {'time_scope.current','time_scope.base'}]
+        result.patches=[patch for patch in result.patches if patch.path!='clarification_requests']
+        result.patches.append(IntentPatch(op='set',path='clarification_requests',value=unresolved,evidence=period_evidence))
+        if state.analysis.query_scope.get('season_time_authority'):
+            scope=deepcopy(state.analysis.query_scope)
+            season_completed = (period.get('current') or {}).get('grain') in {'custom','month','quarter'}
+            if retired_season:
+                scope.pop('season_time_authority',None)
+            elif season_completed:
+                scope['season_time_authority']={'status':'confirmed','source':'program:explicit_season_period',
+                    'evidence':message,'period':deepcopy(period.get('current') or {})}
+                if (period.get('current') or {}).get('year_source')=='previous_confirmed_season_calendar_edit':
+                    previous_authority=state.analysis.query_scope['season_time_authority']
+                    scope['season_time_authority']['derivation']={
+                        'source':'program:confirmed_session_calendar_patch','operation':'replace_calendar_year',
+                        'previous_intent_version':state.intent.intent_version,
+                        'previous_period':deepcopy(state.analysis.time_scope['current']),
+                        'previous_evidence':previous_authority['evidence'],'current_evidence':message}
+            else:
+                # A real year reply updates the base year, not the missing season months.
+                scope['season_time_authority']={'status':'unresolved','source':'program:season_period_not_confirmed',
+                    'evidence':message}
+                result.patches=[patch for patch in result.patches if patch.path not in {'time_ambiguous','clarification_requests'}]
+                result.patches.append(IntentPatch(op='set',path='time_ambiguous',value=True,evidence=message))
+                unresolved.append({'field':'time_scope.current','question':'请明确旺季的具体月份或起止日期。',
+                    'reason':'已确认基础年份，但尚未确认旺季月份。','evidence':message})
+                result.patches.append(IntentPatch(op='set',path='clarification_requests',value=unresolved,evidence=message))
+            result.patches=[patch for patch in result.patches if patch.path!='query_scope']
+            result.patches.append(IntentPatch(op='set',path='query_scope',value=scope,evidence=period_evidence))
+    if period and state.analysis.query_scope.get('pending_filters'):
+        from qa_agent.clarify.date_roles import temporal_schema_columns
+        temporal=temporal_schema_columns(state.scope.get('db_id') or 'chinook')
+        scope=dict(next((patch.value for patch in reversed(result.patches) if patch.path=='query_scope' and patch.op=='set'),state.analysis.query_scope))
+        scope['pending_filters']=[item for item in scope.get('pending_filters',[]) if item.get('column',item.get('field')) not in temporal]
+        result.patches=[patch for patch in result.patches if patch.path!='query_scope']
+        result.patches.append(IntentPatch(op='set',path='query_scope',value=scope,evidence=period_evidence))
+    if result.conflict_proposals:
+        result.patches.append(IntentPatch(op='add',path='conflict_proposals',
+            value=[item.model_dump(exclude_unset=True) for item in result.conflict_proposals],evidence=message))
+    # Actual format edits are program facts even when the model proposes no
+    # patch. Recover only the supported source-bound fields, retaining every
+    # operand/period/business condition; an unrelated empty reply still fails.
+    from qa_agent.clarify.definition_recovery import recover_percent_precision,recover_money_precision
+    formatting=state.analysis.model_copy(deep=True)
+    recover_percent_precision(message,formatting,{**runtime,'current_user_message':message},preserve_confirmed=True)
+    recover_money_precision(message,formatting,{**runtime,'current_user_message':message},preserve_confirmed=True)
+    format_keys=('requested_percent_decimals','percent_precision_source','money_precision_source')
+    actual_format=any(isinstance(formatting.query_scope.get(key),dict)
+        and formatting.query_scope[key].get('authority')in{'explicit_user','current_user_message'}
+        and formatting.query_scope[key].get('evidence')
+        and formatting.query_scope[key]['evidence']in message
+        and formatting.query_scope.get(key)!=state.analysis.query_scope.get(key)
+        for key in ('percent_precision_source','money_precision_source'))
+    if actual_format:
+        scope=deepcopy(state.analysis.query_scope if ordinary_invoice else next((patch.value for patch in reversed(result.patches)
+            if patch.path=='query_scope'and patch.op=='set'and isinstance(patch.value,dict)),state.analysis.query_scope))
+        for key in format_keys:
+            scope.pop(key,None)
+            if key in formatting.query_scope:scope[key]=deepcopy(formatting.query_scope[key])
+        result.patches=[] if ordinary_invoice else[patch for patch in result.patches if patch.path!='query_scope']
+        result.patches.append(IntentPatch(op='set',path='query_scope',value=scope,evidence=message))
     return result.patches
 
 
 def execution_question(state: SessionState) -> str:
-    if not (state.resolutions or state.analysis.default_assumptions or state.analysis.region_scope or state.analysis.time_scope):
+    if not (state.resolutions or state.analysis.default_assumptions or state.analysis.region_scope or state.analysis.time_scope or
+            state.analysis.query_scope or state.analysis.output_requirements):
         return state.effective_question
     # Original query is retained; the confirmed contract is explicit and inspectable.
     context = {"task_type": state.analysis.task_type, "metric": state.analysis.metric,
@@ -337,6 +545,8 @@ def execution_question(state: SessionState) -> str:
                "rank_object": state.analysis.rank_object, "top_n": state.analysis.top_n,
                "order":state.analysis.order,
                "region_scope": state.analysis.region_scope, "filters": state.bindings}
+    context.update(query_scope=state.analysis.query_scope, output_requirements=state.analysis.output_requirements,
+                   condition_sources=state.analysis.condition_sources)
     context['assumptions']=state.analysis.assumptions
     if state.resolutions:
         # Once a patch has been applied, the original prose may name retired
@@ -367,6 +577,8 @@ def _refresh_ratio_numerator_binding(state: SessionState, patches: list[IntentPa
         if not verified:
             if patch.path=='denominator' and re.search(r'全部|全库|所有|同期全部',patch.evidence):
                 state.bindings=[item for item in state.bindings if item.get('binding_scope')!='denominator']
+                operand=state.analysis.query_scope.get('denominator')
+                if isinstance(operand,dict):operand['filters']=[]
             continue
         if len(verified)!=1 or verified[0].get('operator')!='=':
             raise SessionConflict('比例操作数含多个地区候选，请先明确本次范围。')
@@ -374,6 +586,8 @@ def _refresh_ratio_numerator_binding(state: SessionState, patches: list[IntentPa
         mention=mentions[binding['mention_id']]
         explicit_scope=explicit_region_scope(patch.evidence)
         prior=[item for item in state.bindings if item.get('binding_scope')==patch.path]
+        if len(prior)>1 or any(item.get('column')not in {'customer.country','invoice.billing_country'}for item in prior):
+            raise SessionConflict('该比例操作数已有多项独立条件，不能用单一国家替换而连带删除；请分别明确保留或删除的条件。')
         retained_scope=prior[0]['column'] if len(prior)==1 else (state.analysis.region_scope if patch.path=='numerator' else None)
         scope=explicit_scope or retained_scope or binding['column']
         scope_basis=('explicit_user_scope' if explicit_scope else 'retained_operand_scope' if retained_scope else
@@ -382,12 +596,18 @@ def _refresh_ratio_numerator_binding(state: SessionState, patches: list[IntentPa
         state.bindings=[item for item in state.bindings if item.get('binding_scope')!=patch.path and
                         not (patch.path=='numerator' and item.get('column') in {'customer.country','invoice.billing_country'} and not item.get('binding_scope'))]+[updated]
         if patch.path=='numerator':
-            state.analysis.region_scope=scope
+            state.analysis.region_scope=scope if state.analysis.rank_object else None
             state.analysis.region_ambiguous=False
         setattr(state.analysis,patch.path,str(patch.value).replace(mention.original_text,str(binding['value'])))
+        operand=state.analysis.query_scope.get(patch.path)
+        if isinstance(operand,dict):
+            operand['filters']=[deepcopy(updated)]
+            operand['scope']=getattr(state.analysis,patch.path)
+            operand['source_evidence']=patch.evidence
         state.analysis.evidence_spans[patch.path]=patch.evidence
         state.invalidated=sorted(set(state.invalidated)|{'fields','schema','result'})
         state.history.append({'event':'ratio_'+patch.path+'_binding_refreshed','binding':updated,
+                              'retired_bindings':deepcopy(prior),
                               'intent_version':state.intent.intent_version})
     state.analysis.filters=state.bindings
     sync_contract(state)
@@ -399,14 +619,83 @@ def run_gate(request, catalog, llm, linked, trace=None, *, store: SessionStore =
     previous = store.get(request.session_id)
     card_id = getattr(request, "clarification_id", None)
     resume = bool(card_id)
-    followup = bool(previous and is_followup(request.message) and source_dict(request) == previous.scope)
-    if resume or followup:
+    implicit_resume=bool(pending_text_response(previous,request.message) and source_dict(request)==previous.scope)
+    context=runtime_payload()
+    # A full business turn beginning with "那" may change the task. With a
+    # versioned brief the semantic extractor sees the complete real history;
+    # do not force it through the old single-field patch heuristic.
+    context_new_turn=bool(context.get('user_brief') and not implicit_resume and not resume)
+    from qa_agent.clarify.season_authority import confirmed_season_calendar_edit
+    season_calendar_delta=bool(previous and source_dict(request)==previous.scope and
+        confirmed_season_calendar_edit(request.message,previous))
+    from qa_agent.clarify.invoice_ratio_source import invoice_ratio_delta
+    ratio_operand_delta=bool(previous and source_dict(request)==previous.scope and invoice_ratio_delta(request.message,previous.analysis))
+    from qa_agent.nlu.ownership import country_value_delta,country_predicate_edit,country_edit_has_non_global_scope
+    if previous and source_dict(request)==previous.scope and country_edit_has_non_global_scope(request.message,linked.bindings,previous):
+        raise SessionConflict('当前国家条件属于局部分子、分母或未明作用域；请明确修改哪个局部条件，不能将其自动提升为全局。')
+    owner_edit=(country_predicate_edit(request.message,linked.bindings,previous)if previous and
+        source_dict(request)==previous.scope and not resume else None)
+    owner_value_delta=bool(previous and source_dict(request)==previous.scope and
+        country_value_delta(request.message,linked.bindings,previous))
+    if season_calendar_delta or ratio_operand_delta or owner_value_delta or owner_edit is not None:
+        context_new_turn=False
+    # A pure country replacement is a delta of an already program-proved
+    # distinct-count task, including sessions with a full user brief. It must
+    # retain its confirmed count object rather than trust a new model mirror.
+    distinct=(previous.analysis.query_scope.get('distinct_count') or {}) if previous else {}
+    if (previous and distinct.get('source')=='program:explicit_distinct_tracks' and
+            distinct.get('source_evidence') and distinct['source_evidence'] in previous.original_question and
+            previous.analysis.metric=='record_count' and is_followup(request.message) and len(linked.bindings)==1 and
+            linked.bindings[0].get('column') in {'customer.country','invoice.billing_country'} and
+            linked.bindings[0].get('operator')=='=' and len(linked.mentions)==1):
+        mention=linked.mentions[0]
+        remainder=request.message[:mention.span[0]]+'<country>'+request.message[mention.span[1]:]
+        if re.fullmatch(r'\s*(?:那|请|那就)?\s*(?:换成|改成|改为|换为)\s*<country>\s*(?:吧|呢|好吗|可以吗)?\s*[。？?!！]?\s*',remainder):
+            context_new_turn=False
+    followup = bool(previous and not context_new_turn and (is_followup(request.message) or implicit_resume or season_calendar_delta or ratio_operand_delta or owner_value_delta) and source_dict(request) == previous.scope)
+    resolved_text_choice=False
+    country_delta=bool(previous and source_dict(request)==previous.scope and
+                       unfilled_country_delta(request.message,previous))
+    from qa_agent.clarify.temporal_followup import temporal_sort_delta,apply_temporal_sort_delta
+    temporal_sort=(temporal_sort_delta(request.message,previous,catalog) if previous and
+                   source_dict(request)==previous.scope and enabled('AGENT_GROUNDING_ENABLED') and not resume else None)
+    rank_limit=ranking_limit_delta(request.message,previous) if previous and source_dict(request)==previous.scope and not resume else None
+    if owner_edit is not None:
+        state=previous
+        apply_patches(state,[IntentPatch(op='set',path='filters',value=owner_edit['filters'],evidence=request.message)],
+            user_message=request.message)
+        if len({item.get('column')for item in state.bindings if item.get('column')in {'customer.country','invoice.billing_country'}})>1:
+            state.analysis.region_scope=None;state.analysis.region_ambiguous=False
+            state.analysis.condition_sources.pop('region_scope',None)
+            for record in state.constraint_ledger:
+                if record.get('field')=='region_scope'and record.get('status')=='active':record['status']='retired'
+        state.history.append({'event':'explicit_country_predicate_edit','op':owner_edit['op'],
+            'column':owner_edit['column'],'evidence':request.message,'retired_bindings':deepcopy(owner_edit['retired']),
+            'intent_version':state.intent.intent_version})
+        sync_contract(state)
+        ambiguous=state.unresolved_values
+    elif temporal_sort is not None:
+        state=previous
+        apply_temporal_sort_delta(state,request.message,temporal_sort)
+        ambiguous=state.unresolved_values
+    elif country_delta:
+        state=previous
+        apply_unfilled_country_delta(state,request.message)
+        ambiguous=state.unresolved_values
+    elif rank_limit is not None:
+        state=previous
+        apply_ranking_limit_delta(state,request.message,rank_limit)
+        ambiguous=state.unresolved_values
+    elif resume or followup:
         if previous is None:
             raise SessionConflict("会话已不存在，请重新提交完整问题。")
         state = previous
-        if resume:
-            card = verify_resume(state, card_id, getattr(request, "intent_version", None), source_dict(request))
+        if resume or implicit_resume:
+            card = (verify_resume(state, card_id, getattr(request, "intent_version", None), source_dict(request)) if resume else state.pending_card)
             choice = getattr(request, "choice_id", None)
+            if not choice:
+                choice=textual_candidate_choice(state,card,request.message,linked)
+                resolved_text_choice=choice is not None
             if choice:
                 apply_choice(state, card, choice)
             else:
@@ -424,7 +713,7 @@ def run_gate(request, catalog, llm, linked, trace=None, *, store: SessionStore =
         # Unanswered issues survive a click on another card option. Fresh messages
         # receive their own fingerprint, even when the linker reuses mention-1.
         known = {item["mention_id"] for item in state.unresolved_values}
-        if not getattr(request, "choice_id", None):
+        if not getattr(request, "choice_id", None) and not resolved_text_choice:
             for item in _persistent_ambiguities(linked, request.message):
                 if item["mention_id"] not in known:
                     state.unresolved_values.append(item)
@@ -436,26 +725,58 @@ def run_gate(request, catalog, llm, linked, trace=None, *, store: SessionStore =
                 for issue in state.unresolved_values:
                     matched = [candidate for candidate in issue.get("candidates", [])
                                if any(candidate.get("column") == item.get("column") and
-                                      candidate.get("standard_value") == item.get("value")
+                                      candidate.get("standard_value") == item.get("value") and item.get('operator')=='='
                                       for item in linked.bindings)]
                     if len(matched) != 1:
                         remaining.append(issue)
                 state.unresolved_values = remaining
         ambiguous = state.unresolved_values
     else:
-        analysis = extract_intent(request.message, catalog, llm, trace, bindings=linked.bindings)
-        bindings=linked.bindings
-        if analysis.region_scope:
+        analysis = extract_intent(request.message, catalog, llm, trace, bindings=linked.bindings,
+            allow_literal_month_ratio=previous is None and not linked.bindings and not linked.ambiguous)
+        retained_period=False
+        if (enabled('AGENT_GROUNDING_ENABLED') and previous and source_dict(request)==previous.scope):
+            from qa_agent.clarify.retention import retain_referenced_ratio_period
+            retained_period=retain_referenced_ratio_period(request.message,analysis,previous,context)
+        bindings=analysis.filters
+        country_dimensions={item.get('column')for item in bindings if item.get('column')in {'customer.country','invoice.billing_country'}}
+        if len(country_dimensions)>1:
+            from qa_agent.nlu.ownership import country_boolean_supported
+            country_boolean_supported(request.message,bindings)
+            analysis.region_scope=None;analysis.region_ambiguous=False
+            analysis.condition_sources.pop('region_scope',None)
+        initial_owner_retirements=[]
+        if analysis.region_scope and len(country_dimensions)<=1:
+            from qa_agent.nlu.ownership import verified_unique_owner
+            owner_proof=verified_unique_owner(request.message,linked.bindings)
+            from qa_agent.clarify.binding_provenance import bind_initial_region
+            owned=[]
+            for item in bindings:
+                migrated,event=bind_initial_region(item,analysis.region_scope,request.message,
+                    explicit=explicit_region_scope(request.message)==analysis.region_scope)
+                if event:initial_owner_retirements.append(event)
+                owned.append(migrated)
             bindings=[{**item,'column':analysis.region_scope,
-                       'scope_evidence':('explicit_user_country_scope' if explicit_region_scope(request.message) else 'oct12_approved_default'),
-                       **({'binding_scope':'numerator'} if analysis.task_type=='ratio' and analysis.numerator else {})}
+                       'scope_evidence':(owner_proof['evidence'] if owner_proof and owner_proof['column']==analysis.region_scope else item.get('scope_evidence') if item.get('source')=='user_session_context' and item.get('scope_evidence') else 'explicit_user_country_scope' if explicit_region_scope(request.message) else 'oct12_approved_default'),
+                       **({'binding_scope':'numerator'} if analysis.task_type=='ratio' and analysis.numerator and item.get('source')!='user_session_context' and not item.get('binding_scope') else {})}
                       if item.get('column') in {'customer.country','invoice.billing_country'} else item
-                      for item in bindings]
+                      for item in owned]
             analysis.filters=bindings
         state = store.start(request.session_id, source_dict(request), request.message, analysis, bindings)
+        if initial_owner_retirements:
+            state.history.append({'event':'initial_country_owner_bound','not_revalidated_by_value_index':True,
+                'retired_field_owner_proofs':initial_owner_retirements})
+        if retained_period:
+            state.history.append({'event':'retained_immediate_ratio_period','previous_intent_version':previous.intent.intent_version,
+                'period':analysis.time_scope,'current_user_evidence':request.message})
         state.effective_question = linked.rewritten_question
         state.unresolved_values = _persistent_ambiguities(linked, request.message)
         ambiguous = state.unresolved_values
+    if enabled('AGENT_GROUNDING_ENABLED'):
+        from qa_agent.nlu.ownership import remove_inapplicable_average_region_question
+        remove_inapplicable_average_region_question(state.original_question,state.analysis)
+        from qa_agent.clarify.assignment_scope import close_confirmed_assignment_measure
+        close_confirmed_assignment_measure(state)
     decision = engine.evaluate(state.original_question, state.analysis,
                                ambiguous=ambiguous, available_years=available_years(catalog),
                                db_id=request.scope.db_id or "chinook")
@@ -466,7 +787,7 @@ def run_gate(request, catalog, llm, linked, trace=None, *, store: SessionStore =
 
 def finish_gate(gate: GateResult, *, succeeded: bool, store: SessionStore = DEFAULT_STORE) -> None:
     if gate.state.phase == "EXECUTING":
-        transition(gate.state, "ANSWERED")
+        transition(gate.state, "ANSWERED" if succeeded else "FAILED")
         gate.state.history.append({"event": "query_finished", "succeeded": succeeded,
                                    "intent_version": gate.state.intent.intent_version})
         sync_contract(gate.state)
@@ -475,12 +796,15 @@ def finish_gate(gate: GateResult, *, succeeded: bool, store: SessionStore = DEFA
 
 def public_metadata(gate: GateResult) -> dict[str, Any]:
     switches = gate.state.switch_card
+    policy_ids=default_policy_ids(gate.state.analysis)
     return {"level": gate.decision.level, "intent_version": gate.state.intent.intent_version,
             "state": gate.state.phase, "assumptions": gate.decision.assumptions,
             "region_scope": gate.state.analysis.region_scope,
             "derived": gate.decision.derived, "invalidated": gate.state.invalidated,
+            "default_policy_ids":policy_ids,
             "semantic_contract": gate.state.analysis.model_dump(),
             "patch_history": [item for item in gate.state.history if item.get('event')=='patch'],
             "invalidated_execution": (["sql_plan","sql","result"] if gate.state.invalidated else []),
             "switch": ({key: value for key, value in switches.items() if key != "trusted_options"}
                        if switches else None)}
+

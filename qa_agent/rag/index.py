@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from collections import defaultdict
 import hashlib
 import json
 from pathlib import Path
@@ -11,6 +12,38 @@ from qa_agent.rag.chunker import chunk_pages
 from qa_agent.rag.parsers import DocumentError, load_documents, parse_pdf, parse_document
 
 INDEX_VERSION = 4
+
+
+def _fingerprint(value) -> str:
+    return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True,
+                                     separators=(",", ":"), default=str).encode("utf-8")).hexdigest()
+
+
+def _parsing_signature(settings) -> str:
+    """Invalidate cached source locations when parsing or chunking code changes."""
+    return _fingerprint({"implementation": {
+        name: hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
+        for name in ("parsers.py", "chunker.py")},
+        "max_chars": getattr(settings, "rag_chunk_chars", 500),
+        "overlap": getattr(settings, "rag_chunk_overlap", 80)})
+
+
+def _embedding_text(chunk: dict) -> str:
+    return "\n".join([chunk["doc_title"], *chunk["section_path"], chunk["text"]])
+
+
+def _previous_index(target: Path, settings) -> tuple[list[dict], dict, str]:
+    if not (target / "index_meta.json").exists():
+        return [], {}, "missing"
+    try:
+        # Old source hashes may differ during incremental ingestion. The cached
+        # artifacts themselves still need all integrity checks before any reuse.
+        chunks, metadata = load_index(target, settings=settings, verify_sources=False)
+        return chunks, metadata, "verified"
+    except DocumentError as exc:
+        # build_index repairs a corrupt cache from original sources; runtime
+        # load_index continues to reject it rather than serving bad evidence.
+        return [], {}, f"cold_rebuild:{exc.code}"
 
 
 def _write(path: Path, data: bytes) -> None:
@@ -24,6 +57,16 @@ def build_index(manifest_path=None, index_path=None, *, settings=None) -> dict:
     manifest_path = Path(manifest_path or settings.rag_manifest_path)
     target = Path(index_path or settings.rag_index_path)
     documents = load_documents(manifest_path)
+    old_chunks, old_metadata, cache_status = _previous_index(target, settings)
+    old_documents = {d["doc_id"]: d for d in old_metadata.get("documents", [])}
+    old_by_document: dict[str, list[dict]] = defaultdict(list)
+    for chunk in old_chunks:
+        old_by_document[chunk["doc_id"]].append(chunk)
+    parsing_signature = _parsing_signature(settings)
+    incremental = {"enabled": True, "cache_status": cache_status, "reused_document_count": 0,
+                   "parsed_document_count": 0, "reused_chunk_count": 0,
+                   "reused_vector_count": 0, "embedded_chunk_count": 0,
+                   "removed_document_count": len(set(old_documents) - {d["doc_id"] for d in documents})}
     chunks: list[dict] = []
     summaries, failures = [], []
     for document in documents:
@@ -33,13 +76,31 @@ def build_index(manifest_path=None, index_path=None, *, settings=None) -> dict:
         try:
             if document.get("ingestion_status", "").lower() in {"failed", "excluded"}:
                 raise DocumentError("清单标为失败或排除，不建立运行索引。", "manifest_not_ready")
+            from qa_agent.documents import verify_document_hash
+            try:
+                verify_document_hash(document)
+            except ValueError as exc:
+                raise DocumentError(str(exc), "document_hash_mismatch") from exc
+            source_fingerprint = _fingerprint({"parsing_signature": parsing_signature,
+                "document": {key: value for key, value in document.items() if key != "resolved_path"}})
+            previous = old_documents.get(document["doc_id"], {})
+            own_chunks = old_by_document.get(document["doc_id"], [])
+            if (previous.get("ingestion_fingerprint") == source_fingerprint and own_chunks
+                    and len(own_chunks) == previous.get("chunk_count")):
+                chunks.extend(own_chunks)
+                summaries.append(dict(previous))
+                incremental["reused_document_count"] += 1
+                incremental["reused_chunk_count"] += len(own_chunks)
+                continue
+            incremental["parsed_document_count"] += 1
             pages = parse_pdf(document) if document["format"] == "pdf" else parse_document(document)
             own_chunks = chunk_pages(pages, max_chars=getattr(settings, "rag_chunk_chars", 500),
                                      overlap=getattr(settings, "rag_chunk_overlap", 80))
             if not own_chunks:
                 raise DocumentError(f"文档 {document['doc_id']} 没有可用解析文本，不生成假片段。", "document_no_text")
             chunks.extend(own_chunks)
-            summary.update(ingestion_status="ingested", page_count=len(pages) if document["format"] == "pdf" else None,
+            summary.update(ingestion_status="ingested", ingestion_fingerprint=source_fingerprint,
+                           page_count=len(pages) if document["format"] == "pdf" else None,
                            parsed_record_count=len(pages), text_page_count=sum(bool(p["text"]) for p in pages),
                            chunk_count=len(own_chunks), blank_pages=[p["page"] for p in pages if not p["text"]],
                            parsers=sorted({p.get("parser", "pdfplumber+PyMuPDF") for p in pages}),
@@ -57,6 +118,7 @@ def build_index(manifest_path=None, index_path=None, *, settings=None) -> dict:
     metadata = {"index_version": INDEX_VERSION, "created_at": datetime.now(timezone.utc).isoformat(),
                 "retrieval_method": "bm25", "manifest_hash": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
                 "documents": summaries, "failed_documents": failures, "chunk_count": len(chunks),
+                "incremental": incremental,
                 "chunks_sha256": hashlib.sha256(data).hexdigest(),
                 "parsing": {"text": "pdfplumber/PyMuPDF + RapidOCR + python-docx + BeautifulSoup + Markdown",
                             "layout": "actual physical PDF/image coordinates; section paths for other formats",
@@ -78,15 +140,45 @@ def build_index(manifest_path=None, index_path=None, *, settings=None) -> dict:
         embedder = get_embedder(settings)
         if embedder is not None:
             import numpy as np
-            embedding_texts = ["\n".join([c["doc_title"], *c["section_path"], c["text"]]) for c in chunks]
-            vectors = np.asarray(embedder.encode(embedding_texts), dtype=np.float32)
+            provenance = embedder.metadata() if callable(getattr(embedder, "metadata", None)) else {}
+            # Unknown encoder identity must never permit reuse across builds.
+            signature = _fingerprint({"encoder": provenance, "text_template": "title-section-source:v1",
+                "max_length": getattr(settings, "rag_embedding_max_length", 512),
+                "device": getattr(settings, "rag_embedding_device", "cpu"),
+                "quantization": getattr(settings, "rag_embedding_quantization", "int8")}) if provenance else None
+            old_dense = old_metadata.get("dense_embedding", {})
+            old_rows = {}
+            if signature and old_dense.get("enabled") and old_dense.get("embedding_signature") == signature:
+                old_vectors = np.load(target / "embeddings.npy", allow_pickle=False)
+                old_rows = {chunk["chunk_id"]: (_embedding_text(chunk), old_vectors[i])
+                            for i, chunk in enumerate(old_chunks)}
+            embedding_texts = [_embedding_text(c) for c in chunks]
+            rows, pending = [None] * len(chunks), []
+            for i, chunk in enumerate(chunks):
+                cached = old_rows.get(chunk["chunk_id"])
+                if cached is not None and cached[0] == embedding_texts[i]:
+                    rows[i] = cached[1]
+                    incremental["reused_vector_count"] += 1
+                else:
+                    pending.append(i)
+            if pending:
+                encoded = np.asarray(embedder.encode([embedding_texts[i] for i in pending]), dtype=np.float32)
+                if encoded.ndim != 2 or len(encoded) != len(pending) or not np.isfinite(encoded).all():
+                    raise DocumentError("真实 dense 编码结果维度或数值异常。", "embedding_invalid")
+                for i, vector in zip(pending, encoded):
+                    rows[i] = vector
+            incremental["embedded_chunk_count"] = len(pending)
+            try:
+                vectors = np.asarray(rows, dtype=np.float32)
+            except ValueError as exc:
+                raise DocumentError("增量 dense 编码维度与缓存不一致。", "embedding_invalid") from exc
             if vectors.ndim != 2 or len(vectors) != len(chunks) or not np.isfinite(vectors).all():
                 raise DocumentError("真实 dense 编码结果维度或数值异常。", "embedding_invalid")
             temporary = target / "embeddings.tmp.npy"
             np.save(temporary, vectors, allow_pickle=False)
             temporary.replace(target / "embeddings.npy")
-            provenance = embedder.metadata() if callable(getattr(embedder, "metadata", None)) else {}
             metadata["dense_embedding"] = {**provenance, "enabled": True, "dimension": vectors.shape[1],
+                                           "embedding_signature": signature,
                                            "vectors_sha256": hashlib.sha256((target / "embeddings.npy").read_bytes()).hexdigest()}
             metadata["retrieval_method"] = "bm25+bge-m3_dense_rrf"
     _write(target / "chunks.jsonl", data)
@@ -107,7 +199,7 @@ def load_index(index_path=None, *, settings=None, verify_sources: bool = True) -
         raw = (target / "chunks.jsonl").read_bytes()
     except (OSError, ValueError) as exc:
         raise DocumentError("文档索引尚未建立或无法读取，请运行 scripts/ingest_docs.py。", "rag_index_missing") from exc
-    if metadata.get("index_version") not in {2, 3, INDEX_VERSION} or hashlib.sha256(raw).hexdigest() != metadata.get("chunks_sha256"):
+    if not isinstance(metadata, dict) or metadata.get("index_version") not in {2, 3, INDEX_VERSION} or hashlib.sha256(raw).hexdigest() != metadata.get("chunks_sha256"):
         raise DocumentError("文档索引内容不完整或已修改，请重新建索引。", "rag_index_corrupt")
     if verify_sources:
         docs = load_documents(settings.rag_manifest_path)
@@ -133,9 +225,13 @@ def load_index(index_path=None, *, settings=None, verify_sources: bool = True) -
         import numpy as np
         path = target / "embeddings.npy"
         try:
+            if hashlib.sha256(path.read_bytes()).hexdigest() != dense.get("vectors_sha256"):
+                raise ValueError("dense artifact hash")
             matrix = np.load(path, allow_pickle=False, mmap_mode="r")
             if matrix.ndim != 2 or matrix.shape != (len(chunks), dense.get("dimension")):
                 raise ValueError("dense row count/dimension")
+            if not np.isfinite(matrix).all():
+                raise ValueError("dense values")
         except (OSError, ValueError) as exc:
             raise DocumentError("dense 矩阵行数或维度与登记片段不一致。", "rag_index_corrupt") from exc
     return chunks, metadata

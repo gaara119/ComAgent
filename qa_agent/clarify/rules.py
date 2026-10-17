@@ -8,14 +8,21 @@ from pathlib import Path
 import re
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field,field_validator,PrivateAttr
 import yaml
+from qa_agent.clarify.normalization import normalize_internal_contract,validate_scope_structure
+from qa_agent.clarify.conflict_contract import ConflictProposal
 
 RULES_PATH = Path(__file__).with_name("clarify_rules.yaml")
 
 
 class SemanticIntent(BaseModel):
     model_config = ConfigDict(extra="forbid")
+    # Transient program audit, never model output or an execution-contract field.
+    _retired_conflict_proposals: list[dict[str, Any]] = PrivateAttr(default_factory=list)
+    _program_conflict_records: list[dict[str, Any]] = PrivateAttr(default_factory=list)
+    _conflict_input_audit: list[dict[str, Any]] = PrivateAttr(default_factory=list)
+    _conflicts_projected: bool = PrivateAttr(default=False)
     task_type: Literal["lookup", "aggregation", "growth", "ratio", "ranking"] = "lookup"
     metric: str | None = None
     time_scope: dict[str, Any] | None = None
@@ -30,11 +37,32 @@ class SemanticIntent(BaseModel):
     scope_missing: bool = False
     time_ambiguous: bool = False
     conflicts: list[str] = Field(default_factory=list)
+    conflict_proposals: list[ConflictProposal] = Field(default_factory=list,exclude=True)
     grouping: list[str] = Field(default_factory=list)
     filters: list[dict[str, Any]] = Field(default_factory=list)
     assumptions: list[str] = Field(default_factory=list)
     default_assumptions: list[str] = Field(default_factory=list)
     evidence_spans: dict[str, str] = Field(default_factory=dict)
+    # Internal semantic contract; shared request/response models stay stable.
+    query_scope: dict[str, Any] = Field(default_factory=dict,json_schema_extra={'properties':{
+        'partition_by':{'type':'array','items':{'type':'string'}},
+        'qualification_filters':{'type':'array','items':{'type':'object'}},
+        'pending_filters':{'type':'array','items':{'type':'object'}},
+        'numerator':{'anyOf':[{'type':'object','properties':{'filters':{'type':'array','items':{'type':'object'}}}},{'type':'null'}]},
+        'denominator':{'anyOf':[{'type':'object','properties':{'filters':{'type':'array','items':{'type':'object'}}}},{'type':'null'}]}}})
+    output_requirements: list[str] = Field(default_factory=list)
+    condition_sources: dict[str, dict[str, Any]] = Field(default_factory=dict)
+    clarification_requests: list[dict[str, Any]] = Field(default_factory=list)
+
+    @field_validator('query_scope',mode='before')
+    @classmethod
+    def validate_query_scope(cls,value):
+        return validate_scope_structure(value)
+
+
+class IntentExtractionResponse(SemanticIntent):
+    """Fresh model wire: free prose is not a program conflict projection."""
+    conflicts:list[str]=Field(default_factory=list,max_length=0)
 
 
 @dataclass
@@ -70,6 +98,10 @@ class RuleDecision:
 
 def explicit_period(question: str) -> dict | None:
     """Parse an explicitly written year/month, not a complete-year assumption."""
+    from qa_agent.clarify.calendar_range import parse_calendar_range
+    is_range, period = parse_calendar_range(question)
+    if is_range:
+        return period
     dates=list(re.finditer(r"(?<!\d)(\d{4})\s*(?:年|-)\s*(\d+)\s*(?:月|-)\s*(\d+)(?!\d)\s*(?:日)?",question))
     if dates:
         try:
@@ -211,6 +243,17 @@ class RuleEngine:
                  available_years: list[int] | None = None,
                  db_id: str = "chinook") -> RuleDecision:
         analysis = analysis.model_copy(deep=True)
+        from qa_agent.clarify.conflict_authority import adjudicate_conflict_proposals
+        from qa_agent.clarify.grounding import runtime_payload
+        adjudicate_conflict_proposals(question,analysis,runtime_payload())
+        from qa_agent.clarify.denominator_authority import PENDING_DENOMINATOR
+        if analysis.denominator:
+            analysis.assumptions=[text for text in analysis.assumptions if text!=PENDING_DENOMINATOR]
+        normalize_internal_contract(analysis,question)
+        from qa_agent.nlu.features import enabled
+        if enabled('AGENT_GROUNDING_ENABLED'):
+            from qa_agent.clarify.applicability import normalize_assignment_period
+            normalize_assignment_period(question,analysis)
         issues: list[ClarificationIssue] = []
         assumptions = list(analysis.assumptions)
         defaults = list(analysis.default_assumptions)
@@ -237,13 +280,18 @@ class RuleEngine:
                 if analysis.region_scope:
                     analysis.region_ambiguous=False
                     derived['region_scope']={'source':'oct12_approved_default','value':analysis.region_scope}
-            if (analysis.task_type=='ratio' and analysis.metric=='invoice_revenue' and not analysis.denominator):
+            if (analysis.task_type=='ratio' and analysis.metric=='invoice_revenue' and not analysis.denominator
+                    and PENDING_DENOMINATOR not in analysis.assumptions):
                 analysis.denominator='同期全部发票金额（SUM(invoice.total)，分母不加分子地区筛选）'
                 note='销售额占比默认以同期全部发票金额作分母（10月12日已确认）。'
                 assumptions.append(note)
                 defaults.append(note)
                 derived['denominator']={'source':'oct12_approved_default','scope':'all_invoices_same_period',
                                         'metric':'invoice_revenue'}
+                analysis.query_scope['denominator']={'metric':'invoice_revenue','scope':'all_invoices_same_period',
+                    'filters':[dict(item) for item in analysis.filters if item.get('binding_scope') in {None,'global'}]}
+                if current:
+                    analysis.query_scope['denominator']['period']={key:current[key] for key in ('start','end') if key in current}
 
         for mention in ambiguous or []:
             candidates = mention.get("candidates", [])
@@ -263,8 +311,15 @@ class RuleEngine:
                 "这个说法可能对应不同对象，请选择本次要查询的对象。", "filters", options))
 
         if analysis.conflicts:
-            issues.append(ClarificationIssue("conflicting_conditions", "请确认冲突条件，保留哪一个？",
-                                             "；".join(analysis.conflicts), "conflicts"))
+            from qa_agent.clarify.conflict_authority import conflict_review_label
+            options=[{'id':'reject_conflict:'+record['record_id'],
+                'label':conflict_review_label(record,index),
+                'review_hint':record.get('review_hint')or{'status':'not_verified'},
+                'not_authoritative':True,
+                'patch':{'op':'reject_conflict','record_id':record['record_id']}}
+                for index,record in enumerate([record for record in analysis._program_conflict_records if record['status']=='unknown'])]
+            issues.append(ClarificationIssue("conflicting_conditions", "请说明具体冲突条件，或拒绝不适用的候选歧义。",
+                                             "；".join(analysis.conflicts), "conflicts",options))
         if analysis.scope_missing:
             issues.append(ClarificationIssue("missing:reference_scope", "“这批/这些”具体指哪些记录？",
                                              "当前会话没有这批记录的范围依据，不能擅自按全库统计。", "scope_missing"))
@@ -307,7 +362,7 @@ class RuleEngine:
                           ((is_popular and analysis.metric!='playlist_memberships') or
                            analysis.metric=='repeat_customer_count' or
                            analysis.task_type=='ranking' and analysis.rank_object=='customer'))
-        if all_data_allowed and not current and not analysis.time_ambiguous:
+        if all_data_allowed and not current and not (analysis.time_scope or {}).get('all_data') and not analysis.time_ambiguous:
             # No synthetic calendar boundaries: use all rows in the existing DB.
             # An explicitly established period stays in current and is untouched.
             analysis.time_scope={'all_data':True,'label':'全部现有数据'}
@@ -316,6 +371,27 @@ class RuleEngine:
             defaults.append(note)
             derived['time_scope']={'source':'oct12_approved_default','scope':'all_existing_data',
                                    'available_years':sorted(set(available_years or []))}
+
+        # Resolve known policy defaults before deciding whether a precise
+        # backend slot still needs human input. Free model field names never
+        # become independent, permanently unfulfillable conditions.
+        from qa_agent.nlu.features import enabled
+        if enabled('AGENT_GROUNDING_ENABLED'):
+            normalize_internal_contract(analysis,question)
+            for requested in analysis.clarification_requests:
+                path=requested['field']
+                present={'metric':analysis.metric,'time_scope.current':current if not analysis.time_ambiguous else None,
+                         'average_grain':analysis.query_scope.get('average_grain'),
+                         'query_scope.rank_metric':analysis.query_scope.get('rank_metric'),
+                         'filters':bool(analysis.filters) and not analysis.query_scope.get('pending_filters'),
+                         'numerator':analysis.numerator,'denominator':analysis.denominator,
+                         'rank_object':analysis.rank_object,'region_scope':analysis.region_scope,
+                         'comparison.type':(analysis.comparison or {}).get('type')}.get(path)
+                if present:
+                    continue
+                issues=[issue for issue in issues if issue.field!=path]
+                issues.append(ClarificationIssue('grounded:'+path,str(requested.get('question') or '请明确该条件。'),
+                                                str(requested.get('reason') or '没有足够依据选择。'),path))
 
         required = self.rules["task_types"].get(analysis.task_type, {}).get("required", [])
         paths = {"metric": analysis.metric, "time_scope.current": current,
@@ -328,7 +404,7 @@ class RuleEngine:
             if not paths[path]:
                 # A relative/missing current period is one issue, not two cards
                 # asking for the same year through separate grammar rules.
-                if path=='time_scope.current' and any(item.field==path for item in issues):
+                if any(item.field==path for item in issues):
                     continue
                 options = []
                 if path == "time_scope.current":
@@ -374,5 +450,7 @@ class RuleEngine:
                                                  "当前范围无法唯一推导比较基期。", "time_scope.base"))
         analysis.assumptions = list(dict.fromkeys(assumptions))
         analysis.default_assumptions = list(dict.fromkeys(defaults))
+        from qa_agent.clarify.switches import approved_default_switches
+        switches += approved_default_switches(analysis)
         level = "L2" if issues else "L1" if defaults else "L0"
         return RuleDecision(level, analysis, issues, analysis.assumptions, switches, derived)

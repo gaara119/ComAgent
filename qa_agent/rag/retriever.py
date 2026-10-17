@@ -1,9 +1,11 @@
 """Document-isolated lexical retrieval and optional actual dense RRF fusion."""
 from __future__ import annotations
 
-import hashlib
+import json
+from copy import deepcopy
 from pathlib import Path
 import re
+from time import perf_counter
 
 from qa_agent.config import get_settings
 from qa_agent.rag.index import load_index
@@ -32,11 +34,16 @@ def tokenize(text: str) -> list[str]:
     return output
 
 
-def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: str | None = None) -> tuple[list[dict], dict]:
-    from rank_bm25 import BM25Okapi
-
+def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: str | None = None,
+             strategy: str | None = None) -> tuple[list[dict], dict]:
+    from qa_agent.rag.retrieval_cache import snapshot, scoped_corpus, query_vector
     settings = settings or get_settings()
-    chunks, metadata = load_index(settings=settings)
+    strategy = strategy or getattr(settings, "rag_retrieval_strategy", "hybrid")
+    if strategy not in {"dense", "hybrid", "hybrid_rerank"}:
+        raise DocumentError("未知的检索策略。", "rag_strategy_invalid")
+    began = perf_counter()
+    chunks, metadata, all_vectors, signature, snapshot_hit = snapshot(settings, load_index)
+    source_ms = (perf_counter() - began) * 1000
     # Candidate restriction happens before scoring for both retrieval channels.
     allowed = {doc_id} if isinstance(doc_id, str) else set(doc_id)
     if not allowed or any(not isinstance(value, str) or not value for value in allowed):
@@ -47,15 +54,21 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
     selected = [(index, chunk) for index, chunk in enumerate(chunks) if chunk["doc_id"] in allowed]
     if not selected:
         raise DocumentError("指定文档尚未建立索引。", "document_not_indexed")
-    corpus = [tokenize("\n".join([chunk["doc_title"], *chunk["section_path"], chunk["text"]])) for _, chunk in selected]
+    cache_enabled = getattr(settings, "rag_cache_enabled", True)
     query_tokens = tokenize(query or question)
-    lexical_scores = BM25Okapi(corpus, epsilon=0.25).get_scores(query_tokens)
+    if strategy == "dense":
+        import numpy as np
+        corpus, lexical_model, corpus_hit = [], None, False
+        lexical_scores = np.zeros(len(selected), dtype=np.float32)
+    else:
+        corpus, lexical_model, corpus_hit = scoped_corpus(signature, allowed, selected, tokenize, cache_enabled)
+        lexical_scores = lexical_model.get_scores(query_tokens) if lexical_model is not None else [0.] * len(selected)
     lexical_order = sorted(range(len(selected)), key=lambda i: (-float(lexical_scores[i]), selected[i][1]["chunk_id"]))
     # BM25Okapi can produce zero/negative scores for a term appearing in every
     # passage. Such a term still matches; only true token-disjoint passages
     # are excluded, rather than silently dropping the whole lexical channel.
     query_set = set(query_tokens)
-    lexical_order = [i for i in lexical_order if query_set.intersection(corpus[i])]
+    lexical_order = [i for i in lexical_order if strategy != "dense" and query_set.intersection(corpus[i])]
     candidate_k = getattr(settings, "rag_candidate_k", 20)
     rrf_k = getattr(settings, "rag_rrf_k", 60)
     lexical_order = lexical_order[:candidate_k]
@@ -64,12 +77,10 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
     dense_config = metadata.get("dense_embedding", {})
     method = "bm25"
     dense_order = []
+    query_hit = False
     if dense_config.get("enabled"):
         import numpy as np
         from qa_agent.rag.embeddings import get_embedder
-        path = Path(settings.rag_index_path) / "embeddings.npy"
-        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != dense_config.get("vectors_sha256"):
-            raise DocumentError("dense 索引文件不完整或已修改，请重新建索引。", "rag_index_corrupt")
         embedder = get_embedder(settings)
         if embedder is None:
             raise DocumentError("索引使用的真实 BGE 模型不可用，请恢复模型或重建索引。", "embedding_unavailable")
@@ -78,8 +89,9 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
                     "mode", "pooling", "normalization"):
             if key in dense_config and active_meta.get(key) != dense_config[key]:
                 raise DocumentError("当前 dense 模型与建索引时不同，请重新建索引。", "embedding_model_mismatch")
-        all_vectors = np.load(path, allow_pickle=False)
-        q = np.asarray(embedder.encode([query or question]), dtype=np.float32)
+        model_key = (str(Path(settings.bge_model_path).resolve()),
+                     json.dumps(active_meta, sort_keys=True, default=str), query or question)
+        q, query_hit = query_vector(model_key, embedder, query or question, cache_enabled)
         if all_vectors.ndim != 2 or all_vectors.shape[0] != len(chunks) or q.shape != (1, all_vectors.shape[1]):
             raise DocumentError("dense 向量维度与 chunk 不匹配。", "embedding_invalid")
         vectors = all_vectors[[i for i, _ in selected]]
@@ -91,15 +103,32 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
         for rank, i in enumerate(dense_order, 1):
             ranking[i] = ranking.get(i, 0) + 1 / (rrf_k + rank)
         method = "bm25+bge-m3_dense_rrf"
+    elif strategy == "dense":
+        raise DocumentError("纯向量对照需要真实dense索引。", "embedding_unavailable")
     fused_order = sorted(ranking, key=lambda i: (-ranking[i], selected[i][1]["chunk_id"]))
-    ordered = fused_order[:settings.rag_top_k]
+    rerank_details, expansion = {}, []
+    if strategy == "dense":
+        ordered = dense_order[:settings.rag_top_k]
+        method = "bge-m3_dense"
+    elif strategy == "hybrid_rerank":
+        from qa_agent.rag.reranker import rerank, source_neighbors
+        selected_chunks = [chunk for _, chunk in selected]
+        reordered, rerank_details = rerank(fused_order, ranking, selected_chunks, corpus, query_tokens)
+        ordered, expansion = source_neighbors(reordered, selected_chunks, settings.rag_top_k)
+        method += "+local_coverage_rerank+source_neighbors"
+    else:
+        ordered = fused_order[:settings.rag_top_k]
     results = []
     for position, i in enumerate(ordered, 1):
-        item = dict(selected[i][1])
-        item.update(evidence_id=f"E{position}", score=round(ranking[i], 8),
+        item = deepcopy(selected[i][1])
+        item.update(evidence_id=f"E{position}", score=round(float(dense_scores[i]) if strategy == "dense" else ranking.get(i, 0.), 8),
+                    score_type="cosine_similarity" if strategy == "dense" else "rrf",
+                    retrieval_origin="source_neighbor" if i not in ranking else "ranked_candidate",
                     bm25_score=round(float(lexical_scores[i]), 6))
         if dense_scores is not None:
             item["dense_score"] = round(float(dense_scores[i]), 6)
+        if i in rerank_details:
+            item["rerank"] = rerank_details[i]
         results.append(item)
     def ranking_records(order, scores):
         return [{"rank": rank, "chunk_id": selected[i][1]["chunk_id"], "doc_id": selected[i][1]["doc_id"],
@@ -111,8 +140,18 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
                      "candidate_k_per_channel": candidate_k, "rrf_k": rrf_k, "rank_starts_at": 1,
                      "rankings": {"bm25": ranking_records(lexical_order, lexical_scores),
                                   "dense": ranking_records(dense_order, dense_scores) if dense_scores is not None else [],
-                                  "rrf": ranking_records(fused_order, ranking)},
-                     "hit_at_5_scope": [selected[i][1]["chunk_id"] for i in fused_order[:5]],
+                                  "rrf": ranking_records(fused_order, ranking) if strategy != "dense" else []},
+                     "hit_at_5_scope": [selected[i][1]["chunk_id"] for i in ordered[:5]],
+                     "retrieval_strategy": strategy,
+                     "reranker": {"kind": "local_query_coverage_not_cross_encoder", "enabled": strategy == "hybrid_rerank",
+                                  "weights": {"rrf": .60, "query_coverage": .30, "phrase": .10},
+                                  "source_expansion": expansion},
+                     "final_ranking": [{"rank": pos, "chunk_id": selected[i][1]["chunk_id"]}
+                                       for pos, i in enumerate(ordered, 1)],
+                     "cache": {"enabled": cache_enabled, "snapshot_hit": snapshot_hit,
+                               "corpus_hit": corpus_hit, "query_vector_hit": query_hit},
+                     "retrieval_timing_ms": {"source_validation": round(source_ms, 3),
+                                             "total": round((perf_counter() - began) * 1000, 3)},
                      "retrieved_count": len(results), "index_created_at": metadata["created_at"],
                      "index_chunks_sha256": metadata["chunks_sha256"],
                      "query": query or question, "dense_enabled": dense_scores is not None}
