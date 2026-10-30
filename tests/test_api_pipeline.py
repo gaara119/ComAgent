@@ -137,6 +137,10 @@ def test_doc_hook_cannot_return_another_documents_evidence(monkeypatch):
     def handler(**kwargs):
         return AnswerEnvelope(trace_id=kwargs["trace_id"], status="SUCCEEDED", answer="错误来源",
                               evidences=[Evidence(evidence_id="E1", doc_id="another-doc", doc_title="另一个文档", text="片段")])
+    # This unit isolates the plugin's citation boundary. The actual registered
+    # manifest/index resolution is exercised by document_scope_intent_pipeline.
+    monkeypatch.setattr("qa_agent.rag.task.resolve_document_scope", lambda request, settings: [
+        {"doc_id": "selected-doc", "title": "selected fixture"}])
     monkeypatch.setattr("qa_agent.pipeline.importlib.import_module", lambda _: SimpleNamespace(run=handler))
     settings = replace(get_settings(), rag_handler="qa_agent.rag.test:run")
     result = chat(ChatRequest(message="问题", scope={"route": "doc", "doc_ids": ["selected-doc"], "db_id": None}), settings=settings)

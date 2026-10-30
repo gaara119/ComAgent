@@ -31,6 +31,17 @@ export const safeDiagnostics = value => redact(value, true);
 /** Export all business rows and precise numbers, while redacting credentials/prompts. */
 export const safeExport = value => redact(value, false);
 
+export function apiErrorMessage(data, status) {
+  return safeText(typeof data?.detail === 'string' ? data.detail : Array.isArray(data?.detail) ?
+    data.detail.map(item=>`${(item.loc||[]).join('.')}: ${item.msg}`).join('；') :
+    data?.detail?.message || data?.error?.message || `请求失败（HTTP ${status}）`);
+}
+
+export function databaseErrorMessage(error, password = '') {
+  const text=String(error?.message || error || '数据库操作未完成。');
+  return safeText(password ? text.split(password).join('[已隐藏密码]') : text);
+}
+
 export function displayValue(value, rule) {
   if (value === null) return 'NULL（空值）';
   const precision = rule && Object.hasOwn(rule, 'digits');
@@ -83,10 +94,26 @@ export function makeScope(route, db, doc) {
   return { route: 'doc', db_id: null, doc_ids: doc ? [doc] : [] };
 }
 
-export function sourceReady(route, db, doc, health, documents) {
+/** Keep the registry projection public: connection credentials never enter UI history or exports. */
+export function publicDatabase(item) {
+  if (!item || typeof item.db_id !== 'string' || !item.db_id.trim()) return null;
+  return {db_id:item.db_id,name:safeText(item.name || item.label || item.db_id),label:safeText(item.label || item.name || item.db_id),
+    builtin:item.builtin === true,configured:item.configured === true,catalog_exists:item.catalog_exists === true,
+    catalog_summary:safeExport(item.catalog_summary || {})};
+}
+
+export function databaseReady(db, health, databases = []) {
+  // Built-in health probes are retained for compatibility and reflect current connectivity.
+  if (db === 'chinook') return health?.database_ready === true;
+  if (db === 'adventureworks') return health?.aw_database_ready === true;
+  const item = databases.find(item => item.db_id === db);
+  return Boolean(item?.configured && item?.catalog_exists);
+}
+
+export function sourceReady(route, db, doc, health, documents, databases = []) {
   if (health?.status !== 'ok' || health.llm_configured === false) return false;
-  if (route === 'sql') return (db === 'chinook' ? health.database_ready : health.aw_database_ready) === true;
-  if (route === 'auto') return (db === 'chinook' ? health.database_ready : health.aw_database_ready) === true &&
+  if (route === 'sql') return databaseReady(db, health, databases);
+  if (route === 'auto') return databaseReady(db, health, databases) &&
     (!doc || documents.some(item => item.doc_id === doc && item.ready));
   const docsReady = doc ? documents.some(item => item.doc_id === doc && item.ready) : route === 'hybrid' && documents.some(item => item.ready);
   return Boolean(docsReady && (route !== 'hybrid' || health.database_ready === true));

@@ -1,91 +1,108 @@
-# ComAgent 可解释问数问答智能体
+# ComAgent
 
-项目通过 DeepSeek 理解问题，复用 PostgreSQL、文档检索和执行约束，返回答案、真实 SQL、查询结果、引用和处理步骤。
+**用自然语言查询数据库和文档，并给出可核查的结果与来源。**
 
-## 打开项目
-
-本机双击 **启动项目.cmd**，浏览器进入 **http://127.0.0.1:8501/**。API 文档在 **http://127.0.0.1:8000/docs**。
-
-默认界面采用本仓库 `frontend-workbench/` 的白色立体数据分析工作台，提供数据概览、数据分析、问答工作台、数据与文档、运行记录五个文字导航；已移除品牌图形与品牌 favicon。静态构建已包含在 `dist/`，日常运行无需 Node、npm 或 CDN。Python 静态服务仅代理本机 FastAPI。
-
-启动脚本复用本工作区的 API 和现有数据库容器；数据库未就绪时显示实际状态，不删除数据卷，不重新导入业务库。旧 Streamlit 仅保留兼容与历史测试，不是默认入口。
+用户可以连接 PostgreSQL、上传文档或补充文字，再用日常语言提问。系统选择 SQL 查询、文档检索或跨源处理，返回答案、查询结果、原文引用和执行记录。
 
 ## 功能
 
-- 数据库问数：Chinook、AdventureWorks，SQL 生成、校验和只读执行。
-- 指定文档问答：引用原文、物理页预览、来源下载及资料不足提示。
-- 数据库与文档：Chinook 艺术家销售排名→介绍；口径手册定义→SQL计算。
-- 多轮：保留会话和结构化条件，支持版本化澄清与授权口径切换。
-- 完整会话正文：独立 `/api/context` 接收原文，按会话与版本保存；普通问题仍限制4000字符，正文最多120000字符。支持带时区的统一参考时钟。
-- 自动综合：使用有界工具步骤组合数据库、已登记文档及会话正文；真实步骤间传值，定义不足、引用越界或条件不一致会阻断。
-- 解释面板：SQL、原始结果、要素改写、选表与剪枝理由、跨源步骤及 trace。
-- 立体数据可视化：使用真实返回表或本地 CSV／TSV／JSON，提供环形、柱状、序列三种视图，保留原始精度、NULL 与 0 的区别。默认没有虚构统计；本地分析不会自动调用模型。详见 [白色立体 UI 接入验收](frontend-workbench/docs/white-ui/接入验收.md)。
+- **数据库问数**：把问题转换为 SQL，检查表、字段和查询约束后只读执行。支持已有示例库，也可在界面登记新的 PostgreSQL 连接并读取目录。
+- **文档问答**：上传 PDF、Word、TXT、Markdown，或粘贴文字，在本地解析和建立索引，回答附带原文引用。
+- **多轮问答**：保存已确认条件，用户修改年份、对象或指标时更新相关条件；关键歧义通过澄清卡片确认。
+- **跨源查询**：用数据库结果定位文档，或先检索指标定义，再据此生成和检查 SQL。
+- **结果核查**：查看 SQL、原始结果、文档出处、采用的假设和工具执行步骤。
 
-文档检索在原 BGE-M3 + BM25 + RRF 上增加本地候选重排和同来源邻片补全；每片保留独立原文位置与引用。它是可解释的词项覆盖重排，不是额外的神经重排模型。已验证索引、范围内BM25和查询向量使用有界缓存，源文件或索引变化会失效并重新校验。
+## 设计思路
 
-本机及示例配置使用 `RAG_RETRIEVAL_STRATEGY=hybrid_rerank`、`RAG_CACHE_ENABLED=true`。需要原排序时设为 `hybrid`；只做向量对照时设为 `dense`。修改配置后重启API。保持单文档问答和现有两类跨源范围。
+模型负责理解问题和提出结构化计划，程序负责状态管理、来源约束、SQL 校验和实际执行。
 
-`scripts/ingest_docs.py`已支持增量入库：内容、解析参数与模型不变时复用片段及向量；旧索引第一次显式重建后才有新的增量指纹。正常问答不会自动重建索引。
+```text
+用户问题 + 会话条件 + 允许使用的数据源
+                    ↓
+          意图理解、要素链接、必要澄清
+                    ↓
+              选择处理路径
+          ┌─────────┼──────────┐
+       SQL 查询   文档检索    跨源处理
+          └─────────┼──────────┘
+                    ↓
+         答案 + 查询结果 + 引用 + 执行记录
+```
 
-检索对照入口为 `eval/rag_retrieval_benchmark.py`，默认只读当前已登记的开发集。结果中的页命中、参考片段覆盖和MRR是检索诊断，不能当作答案忠实度。实际改动与前后测试见 [RAG检索提升验收](eval/artifacts/rag-improvement-20261016/RAG检索提升验收.txt)。
+数据库侧使用 SQLGlot 检查 SQL，并用只读账号、只读事务、超时和行数限制约束执行。文档侧使用 BGE-M3 向量检索与 BM25 关键词检索，通过 RRF 合并候选，再做本地重排和相邻片段补全。
 
-## 首次部署
+## 技术栈
 
-### 会话正文与参考时间
+| 部分 | 技术 |
+|---|---|
+| 页面 | React、Ant Design、esbuild，随项目提供预编译页面 |
+| 接口与协议 | Python 3.12、FastAPI、Pydantic |
+| 模型调用 | OpenAI 兼容 API，当前模型字符串为 deepseek-flash |
+| 数据库 | PostgreSQL、psycopg、SQLGlot |
+| 文档处理 | PyMuPDF、pdfplumber、python-docx；扫描件可使用本地 RapidOCR |
+| 检索 | BGE-M3、ONNX Runtime INT8、BM25、RRF |
+| 表定位与实体链接 | NetworkX 外键图、Steiner 近似补全、RapidFuzz、拼音及向量候选 |
 
-在工作台选择“自动综合”，展开“本会话正文”保存完整约定，再继续提问。正文只对当前会话有效，不会自动升级为公司政策。切换来源或新建会话会清除界面绑定；服务端正文24小时后失效，可通过删除接口清除。
+## 本地启动
 
-API方式：先向 `POST /api/context` 提交 `session_id`、`text`，可选 `reference_datetime`（ISO8601且带偏移）、`timezone`（IANA时区）；响应给出 `context_id`、版本、原文SHA256和字符数。之后 `POST /api/chat` 使用同一 `session_id`，带上 `context_id`、原始问题和来源范围。无需把长正文拼进每轮 `message`，也不需要截断或摘要替代。
+需要 Python **3.12**。使用本地示例数据库时，还需启动 Docker Desktop；已有远程 PostgreSQL 也可以直接配置使用。
 
-①使用真实候选及字段角色做链接，③区分显式条件、已确认历史和授权默认，④保留真实外键关系、显式表列并在必要时从合法草稿补回遗漏字段。`SCHEMA_RECALL_ENHANCED` 的软词项通道在当前开发集上没有收益，默认关闭；这与保留显式字段保护是两件事。
-
-实验开关只用于独立对照：`NLU_ENABLED=false`关闭值链接；`AGENT_GROUNDING_ENABLED=false`关闭新增语义来源与完整性增强，但仍保留正文与时钟输入、既有澄清及SQL安全；`AW_SCHEMA_MODE=full`提供全量目录。正式默认保留增强与子图模式，不能将关闭安全保护当作消融。
-
-需要 Python **3.12** 与 Docker Desktop。首次配置必须在新机器或独立目录操作，不要在已经恢复的业务库上重复导入。
+在项目目录打开 PowerShell：
 
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-if (-not (Test-Path -LiteralPath '.env')) {
-    Copy-Item -LiteralPath '.env.example' -Destination '.env'
-}
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 ```
 
-在本机编辑 `.env`，填入自己的模型密钥及数据库只读连接。实际 model 配置使用 `deepseek-flash`。不要上传 `.env`、口令、虚拟环境或 `.runtime/`。
+编辑本地 `.env`，填入 `LLM_API_KEY` 和数据库只读连接。示例配置使用新的本地知识库路径，第一次上传会创建清单和索引；使用已有知识库时，再将 `RAG_MANIFEST_PATH`、`RAG_INDEX_PATH` 指向自己的资源。需要语义检索时，准备 `BGE_MODEL_PATH` 对应的本地模型。不要提交真实密钥和数据库口令。
 
-GitHub 保存源码、前端构建、目录与必要评测资料；本机的模型权重、向量索引、原始文档和数据库运行卷不会随 Git 自动迁移。新机器需要使用完整项目交付资源，或根据 `data/docs/manifest.csv`、模型清单与保留的构建工具准备资源。具体见 [项目入口与换电脑运行说明](项目入口与换电脑运行说明.md)。
+双击 **启动项目.cmd**。默认入口为 [问答工作台](http://127.0.0.1:8501/)，接口说明为 [API 文档](http://127.0.0.1:8000/docs)。启动器复用已有数据库，不自动重建或重新导入业务库。
 
-## 单独启动与构建
+也可分别启动：
 
 ```powershell
-# 终端一：已有业务库与本机配置就绪后启动 API
+# 终端一
 .\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
-# 终端二：启动新工作台
+# 终端二
 .\.venv\Scripts\python.exe frontend-workbench/run_ui.py --port 8501 --api-url http://127.0.0.1:8000
 ```
 
-前端源码修改后，在 `frontend-workbench` 中执行 `pnpm install --frozen-lockfile`、`pnpm run build`。安装依赖仅用于构建；`node_modules` 不提交。
+**Git 仓库不包含大型模型权重、原始文档、向量索引和数据库卷。** 使用完整资源目录，或通过 `scripts/download_embeddings.py`、`scripts/ingest_docs.py` 等工具准备资源。前端已构建，日常运行不需要 Node.js；修改前端后才需在 `frontend-workbench` 中执行 `pnpm install --frozen-lockfile` 和 `pnpm run build`。
+
+## 上传文档与文字
+
+在工作台点击“上传文档”或“添加文字”：
+
+- 文件支持 PDF、DOCX、TXT、Markdown，单个不超过 **8 MB**；新上传 PDF 不超过 **100 页**，TXT/Markdown 使用 UTF-8。
+- **知识库（长期保存）**：资料进入本地知识库，建好索引后可选择该文档提问。仅新增资料进行解析和编码，复用已验证的旧片段与向量。
+- **仅本次会话**：文字只绑定当前会话，不建立知识库索引；正文最多 **120000 字符**，服务端默认 24 小时过期。
+
+后台通过任务编号报告进度。等待成功提示后再提问；失败会保留错误记录，原知识库不被替换。
 
 ## 主要目录
 
-| 目录 | 内容 |
-|---|---|
-| `frontend-workbench/` | 默认 UI 源码、预编译资源、许可证与接口/浏览器测试 |
-| `api/`、`qa_agent/` | FastAPI、共享协议、SQL、RAG、澄清与跨源实现 |
-| `data/` | 目录、别名、业务口径和资料清单；模型、索引与原始资料按本地资源规则准备 |
-| `eval/` | 当前题库、判分、运行结果与历史证据 |
-| `tests/` | 后端与兼容 UI 回归 |
-| `scripts/` | 启动、数据库准备、索引构建与必要评测工具 |
-| `notes/submission-20261016/` | 本轮清理范围、检查与交接说明 |
+```text
+api/                   HTTP 接口
+qa_agent/
+  pipeline.py          问答调度
+  nlu/                 要素识别、候选链接与有据改写
+  clarify/             语义校验、澄清与多轮状态
+  sql/                 表定位、SQL 生成、校验与执行
+  rag/                 文档入库、检索、回答与引用检查
+  fusion/              跨源计划与结果传递
+frontend-workbench/    页面源码与预编译资源
+data/                  数据目录、业务规则和本地知识资源
+scripts/               启动、资源准备和检查工具
+tests/                 自动化测试
+```
 
-## 题库与当前状态
+上传链路检查命令如下。它复制当前知识库建立隔离测试索引，使用真实本地向量模型及 HTTP 接口，不调用收费模型 API，不修改当前正式文档清单。
 
-`eval/datasets/current.json` 指向 `manual-applied-20261013-v3` 开发题库；审核落地与两道新 gold 已保存。历史开发成绩、修复补测和后续失败分开保留，见 [按截图逐条验收报告](eval/reports/screenshot-acceptance/按截图逐条验收报告.md)。
+```powershell
+.\.venv\Scripts\python.exe scripts/check_document_uploads.py
+```
 
-本轮工作是界面整合和提交目录整理，不代表 D5 已冻结、保留集正式评测已完成，也不覆盖已有业务失败。没有用前端模拟测试替代真实模型准确率。
+## 当前边界
 
-## 清理与恢复
-
-已完成的造数器、一次性修改/审核/打包脚本及旧审核 HTML 移到仓库外的本地备份，已生成数据与运行依赖保留。具体见 [清理范围与版本说明](notes/submission-20261016/清理范围与版本说明.md) 和 [清理清单](notes/submission-20261016/cleanup-manifest.json)。
-
-不要因为文件名含 `review`、`build` 或 `experiments` 就继续批量删除：部分原始来源、测试辅助函数和专项评测器仍有真实依赖。
+当前面向本机单实例演示，上传和数据库连接管理仅允许本机访问。尚未实现面向公网的用户认证、多租户权限和分布式任务队列。新数据库可接入目录和只读查询，但业务指标、别名和歧义规则仍需结合实际数据配置。SQL 与引用检查能够降低错误风险，不能替代业务人员核对答案。

@@ -395,10 +395,218 @@ def _validate_average_customer(sql, catalog, intent=None):
     return validate_average_customer_scope(sql, catalog, intent)
 
 
+def _adjacent_resolver(scopes):
+    by_expression={id(scope.expression):scope for scope in scopes}
+    def trace(node,owner,depth=0,path=()):
+        if depth>18:raise SQLValidationError('比较操作数的实际投影谱系超过有界深度。')
+        while isinstance(node,(exp.Alias,exp.Paren)):node=node.this
+        path=path+(owner,)
+        if isinstance(node,exp.Subquery):
+            source=by_expression.get(id(node.this))
+            if source is None or len(node.this.selects)!=1:raise SQLValidationError('标量比较子查询投影不唯一。')
+            return trace(node.this.selects[0],source,depth+1,path)
+        if isinstance(node,exp.Column):
+            source=owner.sources.get(node.table)
+            if source is not None and not isinstance(source,exp.Table):
+                if not isinstance(source.expression,exp.Select):raise SQLValidationError('比较操作数不能从集合运算取值。')
+                projection=next((item for item in source.expression.selects if item.alias_or_name==node.name),None)
+                if projection is None:raise SQLValidationError('比较操作数缺少真实投影。')
+                return trace(projection,source,depth+1,path)
+        return node,owner,path
+    return trace
+
+
+def validate_customer_rank_pair_difference(sql,catalog,intent,*,question=None):
+    """Prove a consumed ROW_NUMBER amount at rank 1 minus explicit rank N."""
+    from qa_agent.clarify.denominator_authority import literal_customer_rank_pair
+    contract=(_intent_value(intent,'query_scope',{})or{}).get('rank_pair_comparison')
+    expected=literal_customer_rank_pair(question or'')
+    def fail(text):raise SQLValidationError('客户排名差额：'+text)
+    if not expected or contract!=expected:fail('缺少实际原文唯一排名差额依据，不能用模型标签跳过TopN。')
+    if _intent_value(intent,'metric')!='invoice_revenue' or _intent_value(intent,'rank_object')!='customer':fail('对象或金额度量与实际客户排名差额不一致。')
+    if _intent_value(intent,'filters',[]) or ( _intent_value(intent,'query_scope',{})or{}).get('qualification_filters'):fail('独立资格/地域筛选需额外消费证明，本有界差额尚不支持。')
+    tree=_qualified(sql,catalog);scopes=list(traverse_scope(tree));trace=_adjacent_resolver(scopes)
+    root=next(s for s in scopes if s.parent is None)
+    def un(node):
+        while isinstance(node,(exp.Alias,exp.Paren)):node=node.this
+        return node
+    def number(node):
+        node=un(node)
+        return int(node.this) if isinstance(node,exp.Literal) and not node.is_string and str(node.this).isdigit() else None
+    def physical(node,owner):
+        node,owner,_=trace(node,owner)
+        if not isinstance(node,exp.Column):return None
+        source=owner.sources.get(node.table)
+        return source.name+'.'+node.name if isinstance(source,exp.Table) and (source.db or'public')=='public' else None
+    def prove_rank(rank_column,owner):
+        window,rank_owner,_=trace(rank_column,owner)
+        if not isinstance(window,exp.Window) or not isinstance(window.this,exp.RowNumber) or window.args.get('partition_by') or window.args.get('spec'):fail('需要无分区/无frame的实际ROW_NUMBER。')
+        order=window.args.get('order')
+        if not order or not order.expressions or order.expressions[0].args.get('desc') is not True:fail('名次必须按客户实际金额降序。')
+        measure,base,_=trace(order.expressions[0].this,rank_owner)
+        if not isinstance(measure,exp.Sum) or physical(measure.this,base)!='invoice.total':fail('名次没有消费真实SUM(invoice.total)。')
+        query=base.expression;sources={a:s for a,(_,s) in base.selected_sources.items()}
+        if (not isinstance(query,exp.Select) or query.args.get('having') or query.args.get('limit') or query.args.get('offset') or query.args.get('distinct')):fail('客户金额人口被额外筛选/截断。')
+        names=[s.name for s in sources.values() if isinstance(s,exp.Table) and (s.db or'public')=='public']
+        if sorted(names) not in (['invoice'],['customer','invoice']) or len(names)!=len(sources):fail('本差额仅支持事实发票及其客户主键回查。')
+        joins=query.args.get('joins')or[]
+        if len(sources)==2:
+            invoice=next(a for a,s in sources.items() if s.name=='invoice');customer=next(a for a,s in sources.items() if s.name=='customer')
+            if len(joins)!=1 or joins[0].args.get('side') or str(joins[0].args.get('kind')or'').upper() not in {'','INNER'}:fail('客户回查不是已证明的INNER非空FK。')
+            on=un(joins[0].args.get('on'))
+            if (not isinstance(on,exp.EQ) or not all(isinstance(item,exp.Column) for item in (on.left,on.right))
+                    or {(on.left.table,on.left.name),(on.right.table,on.right.name)}!={(invoice,'customer_id'),(customer,'customer_id')}):fail('客户回查必须恰为同客户FK=PK。')
+            col=next(c for c in catalog.get_table('invoice').columns if c.name=='customer_id')
+            if col.nullable:fail('客户FK可空，INNER可能改变总体。')
+            if catalog.get_table('customer').primary_key!=('customer_id',) or not any(
+                fk.get('columns')==['customer_id'] and fk.get('references',{}).get('table')=='customer'
+                and fk['references'].get('columns')==['customer_id'] and fk['references'].get('schema','public')=='public'
+                for fk in catalog.get_table('invoice').foreign_keys):fail('未取得真实非空客户FK与唯一PK关系。')
+        group=query.args.get('group')
+        fields=[physical(item,base) for item in group.expressions] if group else []
+        if not any(f in {'invoice.customer_id','customer.customer_id'} for f in fields) or any(not f or f!='invoice.customer_id' and not f.startswith('customer.') for f in fields):fail('金额必须按客户唯一身份分组，不能按日期拆分。')
+        current=(_intent_value(intent,'time_scope',{})or{}).get('current')or{}
+        atoms=list(_mandatory_atoms(query.args.get('where')).values())
+        if current:
+            bounds={(atom.key,_midnight_date(atom.right)) for atom in atoms if isinstance(atom,(exp.GTE,exp.LT)) and physical(atom.left,base)=='invoice.invoice_date'}
+            if len(atoms)!=2 or bounds!={('gte',current.get('start')),('lt',current.get('end'))}:fail('客户排名未消费完整期间或附加未授权条件。')
+        elif atoms or (_intent_value(intent,'time_scope',{})or{}).get('all_data') is not True:fail('全部记录的实际排名范围未获授权。')
+        if any(rank_owner.expression.args.get(k) for k in ('where','group','having','limit','offset','qualify','distinct')) or rank_owner.expression.args.get('joins'):fail('窗口名次层不得额外筛选或连接。')
+        return rank_owner,base,measure
+    def selector(node,owner):
+        node=un(node)
+        if isinstance(node,exp.Subquery):
+            sub=next((s for s in scopes if s.expression is node.this),None)
+            if sub is None or len(sub.expression.selects)!=1 or sub.expression.args.get('joins') or any(sub.expression.args.get(k) for k in ('group','having','limit','offset','qualify','distinct')):fail('名次标量子查询结构尚未证明。')
+            where=un(sub.expression.args.get('where').this) if sub.expression.args.get('where') else None
+            if not isinstance(where,exp.EQ):fail('标量取名次必须是唯一等值条件。')
+            rank=number(where.right)
+            if rank is None:fail('名次不是明确整数。')
+            rank_owner,base,metric=prove_rank(where.left,sub)
+            amount,actual,path=trace(sub.expression.selects[0],sub)
+        elif isinstance(node,exp.Max) and isinstance(un(node.this),exp.Case):
+            case=un(node.this);branches=case.args.get('ifs')or[]
+            if case.this is not None or len(branches)!=1 or case.args.get('default') is not None and not isinstance(case.args['default'],exp.Null):fail('名次CASE必须单分支且空集保NULL。')
+            condition=un(branches[0].this)
+            if not isinstance(condition,exp.EQ):fail('名次CASE条件必须是单一等值。')
+            rank=number(condition.right)
+            rank_owner,base,metric=prove_rank(condition.left,owner)
+            amount,actual,path=trace(branches[0].args['true'],owner)
+            where=owner.expression.args.get('where')
+            if where:
+                predicate=un(where.this)
+                if not isinstance(predicate,exp.In) or {number(v) for v in predicate.expressions}!=set(expected['ranks']) or trace(predicate.this,owner)[0].sql()!=trace(condition.left,owner)[0].sql():fail('输出筛选未保留所需两名，或存在额外条件。')
+        else:fail('差额两侧必须实际消费单名次标量或MAX单名次CASE。')
+        if actual is not base or rank_owner not in path or amount.sql()!=metric.sql():fail('差额使用的金额与名次实际排序金额/来源不同。')
+        return rank,rank_owner
+    if len(tree.selects)!=1 or any(tree.args.get(k) for k in ('group','having','offset','qualify','distinct')) or tree.args.get('joins'):fail('最终输出必须是未被连接/重分组的单个名次差额。')
+    result=un(tree.selects[0])
+    if not isinstance(result,exp.Sub):fail('最终输出没有真实的第一名减第N名。')
+    limit=tree.args.get('limit')
+    if limit and (number(limit.expression) is None or number(limit.expression)<1):fail('最终标量被截断。')
+    if isinstance(un(result.left),exp.Subquery) or isinstance(un(result.right),exp.Subquery):
+        if root.selected_sources or tree.args.get('where'):fail('独立名次标量不能再由其它行集驱动。')
+    elif len(root.selected_sources)!=1:fail('名次CASE必须消费唯一排名行集。')
+    left=selector(result.left,root);right=selector(result.right,root)
+    if [left[0],right[0]]!=expected['ranks'] or left[1] is not right[1]:fail('差额方向/名次或两侧排名总体不同。')
+    return {'verified':True,'mode':'actual_customer_rank_pair_difference','ranks':expected['ranks'],'metric':'invoice_revenue','same_ranked_population':True}
+
+
+def validate_half_year_growth(sql,catalog,intent,*,question=None):
+    """Prove actual H2/H1 invoice sets, subtraction direction and divisor."""
+    from types import SimpleNamespace
+    from qa_agent.clarify.denominator_authority import literal_half_year_growth
+    contract=(_intent_value(intent,'query_scope',{})or{}).get('half_year_growth')
+    values=intent if isinstance(intent,dict) else intent.model_dump() if hasattr(intent,'model_dump') else vars(intent)
+    current=(_intent_value(intent,'time_scope',{})or{}).get('current')or{}
+    actual=literal_half_year_growth(question or'',SimpleNamespace(**values),
+        {'reference_datetime':current.get('reference_datetime'),'timezone':current.get('timezone')})
+    def fail(text):raise SQLValidationError('半年增长比例：'+text)
+    if not contract or actual!=contract:fail('缺少实际原文、时钟和唯一半年基期依据。')
+    query=_intent_value(intent,'query_scope',{})or{}
+    if _intent_value(intent,'filters',[]) or query.get('qualification_filters') or query.get('pending_filters') or any((query.get(role)or{}).get('filters') for role in ('numerator','denominator')):fail('独立筛选尚需额外集合证明，不能忽略。')
+    for role,period in (('numerator',contract['h2']),('denominator',contract['h1'])):
+        operand=query.get(role)or{}
+        if (set(operand)-{'metric','period','scope','filters','source_evidence'} or operand.get('metric')!='invoice_revenue'
+                or operand.get('period')!=period or operand.get('source_evidence')!=question):fail('当前操作数合同与原文已证明半年结构不一致。')
+    tree=_qualified(sql,catalog);scopes=list(traverse_scope(tree));trace=_adjacent_resolver(scopes)
+    root=next(s for s in scopes if s.parent is None)
+    def scalar(scope,seen=()):
+        if scope in seen:return False
+        query=scope.expression
+        if not isinstance(query,exp.Select) or any(query.args.get(k) for k in ('group','having','offset','distinct','qualify')):return False
+        limit=query.args.get('limit')
+        if limit and (scope is not root or not isinstance(limit.expression,exp.Literal) or limit.expression.is_string or not str(limit.expression.this).isdigit() or int(limit.expression.this)<1):return False
+        sources=[source for _,source in scope.selected_sources.values()]
+        if sources and all(isinstance(source,exp.Table) for source in sources):
+            return len(sources)==1 and sources[0].name=='invoice' and (sources[0].db or'public')=='public' and any(
+                isinstance(node,exp.AggFunc) for projection in query.selects for node in walk_in_scope(projection))
+        if query.args.get('where') or any(join.args.get('on') or join.args.get('using') or join.args.get('side') for join in query.args.get('joins')or[]):return False
+        return bool(sources or scope.subquery_scopes) and all(not isinstance(source,exp.Table) and scalar(source,seen+(scope,)) for source in sources) and all(scalar(source,seen+(scope,)) for source in scope.subquery_scopes)
+    if not scalar(root):fail('实际增长结果不是由已证明单行发票聚合驱动。')
+    def un(node):
+        while isinstance(node,(exp.Alias,exp.Paren)):node=node.this
+        return node
+    def amount(node,owner,period):
+        node,owner,_=trace(node,owner);condition=None
+        if isinstance(node,exp.Filter):
+            if not isinstance(node.expression,exp.Where):fail('FILTER缺少实际条件。')
+            condition=node.expression.this;node=un(node.this)
+        if not isinstance(node,exp.Sum):fail('半年金额操作数必须实际SUM。')
+        value=un(node.this);policy='empty_sum_null'
+        if isinstance(value,exp.Case):
+            branches=value.args.get('ifs')or[]
+            default=value.args.get('default')
+            if value.this is not None or len(branches)!=1 or default is not None and not isinstance(default,exp.Null) and not(isinstance(default,exp.Literal) and not default.is_string and default.this=='0'):fail('CASE必须单分支且仅既有NULL/0空集语义。')
+            if condition is not None:fail('不叠加尚未证明的CASE和FILTER。')
+            condition=branches[0].this;policy='case_else_zero_existing_compatibility' if isinstance(default,exp.Literal) else 'case_else_null'
+            value=un(branches[0].args['true'])
+        if not isinstance(value,exp.Column):fail('金额不允许变换或伪造。')
+        sources={a:s for a,(_,s) in owner.selected_sources.items()}
+        source=sources.get(value.table)
+        if len(sources)!=1 or not isinstance(source,exp.Table) or (source.db or'public')!='public' or source.name!='invoice' or value.name!='total':fail('半年必须是物理发票total的单事实集合。')
+        if any(owner.expression.args.get(k) for k in ('group','having','limit','offset','distinct','qualify')) or owner.expression.args.get('joins'):fail('半年金额被额外分组/截断或连接。')
+        def atoms(node):
+            node=un(node)
+            if node is None:return []
+            if isinstance(node,exp.Where):return atoms(node.this)
+            if isinstance(node,exp.And):return atoms(node.left)+atoms(node.right)
+            return [node]
+        lower=[];upper=[]
+        for atom in atoms(owner.expression.args.get('where'))+atoms(condition):
+            if not isinstance(atom,(exp.GTE,exp.LT)) or not isinstance(atom.left,exp.Column) or atom.left.table!=value.table or atom.left.name!='invoice_date':fail('存在未授权或非日期的集合条件。')
+            date=_midnight_date(atom.right)
+            if date is None:fail('日期边界不是明确午夜日期。')
+            (lower if isinstance(atom,exp.GTE) else upper).append(date)
+        if not lower or not upper or max(lower)!=period['start'] or min(upper)!=period['end']:fail('实际有效交集不是所需半年。')
+        return {'period':period,'metric':'SUM(invoice.total)','aggregate_null_policy':policy}
+    proofs=[]
+    for projection in tree.selects:
+        node,owner,_=trace(projection,root);scale=1
+        if isinstance(node,exp.Mul):
+            choices=[(literal,other) for literal,other in ((node.left,node.right),(node.right,node.left)) if isinstance(literal,exp.Literal) and not literal.is_string and literal.this=='100']
+            if len(choices)==1:scale=100;node=un(choices[0][1])
+        if not isinstance(node,exp.Div):continue
+        left,left_owner,_=trace(node.left,owner)
+        if not isinstance(left,exp.Sub):fail('分子必须是H2金额减H1金额。')
+        denominator=un(node.right)
+        if not isinstance(denominator,exp.Nullif) or not isinstance(denominator.expression,exp.Literal) or denominator.expression.is_string or denominator.expression.this!='0':fail('零分母必须保留NULLIF(...,0)，不能COALESCE成0。')
+        proofs.append({'h2':amount(left.left,left_owner,contract['h2']),
+            'h1_subtrahend':amount(left.right,left_owner,contract['h1']),
+            'denominator':amount(denominator.this,owner,contract['h1']),'output_scale':scale})
+    if len(proofs)!=1:fail('最终需要唯一实际消费的增长比例；舍入/类型转换等额外包装未证明。')
+    return {'verified':True,'mode':'actual_invoice_half_year_growth','proofs':proofs}
+
+
 def query_semantic_constraints(question: str, catalog, *, intent=None) -> dict:
     """Describe only supported semantic obligations before SQL generation."""
     result = {}
     query_scope = _intent_value(intent, "query_scope", {}) or {}
+    if query_scope.get('rank_pair_comparison'):
+        result['customer_rank_pair']={**query_scope['rank_pair_comparison'],
+            'instruction':'top_n是必须覆盖的名次范围，最终只给第一名金额减第N名金额的标量差额，不改成前N名单或Top1。'}
+    if query_scope.get('half_year_growth'):
+        result['half_year_growth']=query_scope['half_year_growth']
     eligible_customer = (
         query_scope.get("aggregation_scope") == "all_invoices_for_qualified_customers"
         or (re.search(r"(?:买过|购买过|购过).{1,60}?客户(?:里|中|之中)", question)
@@ -454,7 +662,8 @@ def query_semantic_constraints(question: str, catalog, *, intent=None) -> dict:
     return result
 
 
-def validate_question_semantics(question: str, sql: str, catalog, *, intent=None) -> dict:
+def validate_question_semantics(question: str, sql: str, catalog, *, intent=None,
+                                source_question: str | None = None) -> dict:
     """Reject proved field-role/scope errors before every read-only execution."""
     obligations = query_semantic_constraints(question, catalog, intent=intent)
     if not obligations:
@@ -462,10 +671,16 @@ def validate_question_semantics(question: str, sql: str, catalog, *, intent=None
     tree = _qualified(sql, catalog)
     scopes = list(traverse_scope(tree))
     checks = []
+    if 'customer_rank_pair' in obligations:
+        checks.append(validate_customer_rank_pair_difference(sql,catalog,intent,
+            question=source_question if source_question is not None else question))
+    if 'half_year_growth' in obligations:
+        checks.append(validate_half_year_growth(sql,catalog,intent,
+            question=source_question if source_question is not None else question))
     if 'customer_inner_winner' in obligations:
         from qa_agent.sql.customer_winner_guard import validate_customer_winner_ratio
         checks.append(validate_customer_winner_ratio(sql,catalog,intent))
-    if "ratio_denominator" in obligations:
+    if "ratio_denominator" in obligations and 'half_year_growth' not in obligations:
         checks.append(_validate_ratio_denominator(tree,catalog,intent))
     if obligations.get("customer_country_eligibility_all_invoice_amount"):
         approved_invoice_filters = [item for item in _intent_value(intent,"filters",[]) or []
@@ -579,6 +794,11 @@ def validate_document_dependencies(sql: str, catalog, dependencies: dict, *, que
     the actual dependency answer and its quoted source. Unrecognized rules are
     recorded as unverified, not silently certified as document-driven math.
     """
+    from qa_agent.sql.document_metric_lineage import document_metric_target, validate_document_metric_lineage
+    if document_metric_target(question) is not None:
+        return validate_document_metric_lineage(sql, catalog, dependencies, question=question)
+    from qa_agent.sql.document_customer_amount import (customer_amount_request,
+        resolve_customer_amount_definition, validate_customer_amount_consumption)
     tree = _qualified(sql, catalog)
     scopes = list(traverse_scope(tree))
     # Follow sources actually referenced by the root result, excluding a CTE
@@ -740,6 +960,13 @@ def validate_document_dependencies(sql: str, catalog, dependencies: dict, *, que
                        for node in tree.walk()):
                 raise SQLValidationError("文档要求平均每张发票金额 AVG(invoice.total)，SQL 未采用该定义。")
             proofs.append({"dependency": step_id, "metric": "average_invoice_amount", "proof": "retrieved AVG expression"})
+        elif customer_amount_request(question):
+            definition = resolve_customer_amount_definition({step_id: dependency}, question, catalog)
+            if definition is None:
+                unverified.append({"dependency": step_id,
+                    "reason": "客户金额缺少实际登记手册逐字证据、肯定回答或已批准发票金额定义"})
+            else:
+                proofs.append(validate_customer_amount_consumption(sql, catalog, definition))
         elif re.search(r"定义|计算口径|计算公式", answer):
             unverified.append({"dependency": step_id, "reason": "当前没有覆盖此定义的程序化语义证明"})
     return {"verified": not unverified, "proofs": proofs, "not_verified": unverified}

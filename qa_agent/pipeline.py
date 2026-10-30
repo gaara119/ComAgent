@@ -27,9 +27,25 @@ def _unsupported(trace: TraceRecorder, answer: str) -> AnswerEnvelope:
                           steps=trace.steps, metadata={"latency_ms": trace.latency_ms})
 
 
+def _catalog_only_gate(request, linked):
+    """Neutral containers for schemas without a registered semantic rule set.
+
+    They carry the actual question through the shared SQL tool; they do not
+    execute rules, confirm a metric/default, or persist a clarification state.
+    """
+    from qa_agent.ablation import BypassGate, BypassState
+    from qa_agent.clarify.rules import SemanticIntent
+    state = BypassState(original_question=request.message,
+        effective_question=request.message, analysis=SemanticIntent(task_type='lookup'),
+        intent=IntentContract(route='sql', task_type='lookup'), bindings=[],
+        scope=request.scope.model_dump(mode='json'))
+    return BypassGate(state=state, question=request.message)
+
+
 def _doc(request: ChatRequest, trace: TraceRecorder, settings: Settings) -> AnswerEnvelope:
-    if len(request.scope.doc_ids) != 1:
-        return _unsupported(trace, "D1 单文档问答需要选择且仅选择一份文档。")
+    from qa_agent.rag.task import (DEFAULT_DOCUMENT_TASK_STORE as tasks,
+                                   document_entity_candidates, resolve_document_scope)
+    intent = IntentContract(route="doc", task_type="doc_qa")
     module_name, separator, function_name = settings.rag_handler.partition(":")
     if not separator or not module_name.startswith("qa_agent.rag."):
         return _error_envelope(trace, settings, "RAG_HANDLER 配置必须指向项目的 qa_agent.rag 模块。", "rag_handler_config")
@@ -37,23 +53,64 @@ def _doc(request: ChatRequest, trace: TraceRecorder, settings: Settings) -> Answ
         module = importlib.import_module(module_name)
     except ModuleNotFoundError as exc:
         if exc.name and (module_name == exc.name or module_name.startswith(exc.name + ".")):
-            return _unsupported(trace, "B 的 RAG 入口尚未接入。请按 notes/B接口交接.md 实现并配置 RAG_HANDLER。")
-        return _error_envelope(trace, settings, "RAG 模块缺少依赖，请检查 B 的安装步骤。", "rag_dependency")
+            return _unsupported(trace, "文档问答入口未配置，请检查 RAG_HANDLER。")
+        return _error_envelope(trace, settings, "文档模块缺少依赖，请按 requirements.txt 安装。", "rag_dependency")
     except ImportError:
-        return _error_envelope(trace, settings, "RAG 模块导入失败，请检查 B 的模块及依赖。", "rag_dependency")
-    handler = getattr(module, function_name, None)
-    if not callable(handler):
-        return _unsupported(trace, "B 的 RAG 入口尚未接入。请按 notes/B接口交接.md 实现并配置 RAG_HANDLER。")
+        return _error_envelope(trace, settings, "文档模块导入失败，请检查模块及依赖。", "rag_dependency")
     try:
-        intent = IntentContract(route="doc", task_type="doc_qa")
-        with trace.step("rag_channel", {"doc_id": request.scope.doc_ids[0]}) as step:
-            result = handler(question=request.message, doc_id=request.scope.doc_ids[0],
-                             trace_id=trace.trace_id, intent=intent)
+        documents = resolve_document_scope(request, settings)
+        allowed_ids = [d['doc_id'] for d in documents]
+        question = request.message
+        task_metadata = {'original_question': question,
+            'original_scope': request.scope.model_dump(mode='json'),
+            'allowed_doc_ids': allowed_ids, 'entity_choice_changes_intent': False}
+        from qa_agent.ablation import semantic_gate_enabled
+        from qa_agent.nlu.features import enabled as feature_enabled
+        clarify_enabled = semantic_gate_enabled() and feature_enabled('AGENT_CLARIFY_STATE_ENABLED')
+        if request.clarification_id:
+            if not clarify_enabled:
+                raise ValueError('当前配置关闭澄清，不消费其它配置产生的文档澄清卡。')
+            question, selected_ids, resumed = tasks.resume(request, documents)
+            task_metadata.update(resumed)
+        else:
+            tasks.discard(request.session_id)
+            candidates = document_entity_candidates(question, documents)
+            if len(candidates) > 1:
+                if not clarify_enabled:
+                    return _unsupported(trace, '登记资料中存在不同的同名对象；当前配置关闭澄清，未自动绑定对象。')
+                card = tasks.save(request, question, candidates)
+                return AnswerEnvelope(trace_id=trace.trace_id, status='NEEDS_CLARIFICATION',
+                    answer=card['question'], intent=intent, clarification=card, steps=trace.steps,
+                    metadata={'document_task': task_metadata, 'clarify': {
+                        'level': 'L2', 'execution_allowed': False, 'query_execution_allowed': False}})
+            selected_ids = candidates[0]['doc_ids'] if len(candidates) == 1 else allowed_ids
+            if len(candidates) == 1:
+                task_metadata['document_candidate_selection'] = {
+                    'kind': 'literal_registered_document_entity',
+                    'entity_ref': candidates[0]['entity_ref'],
+                    'matched_labels': candidates[0]['matched_labels'],
+                    'allowed_source_scope_unchanged': True,
+                    'SQL_binding_created': False, 'user_intent_confirmation_asserted': False}
+        task_metadata['searched_doc_ids'] = selected_ids
+    except (ValueError, OSError, KeyError) as exc:
+        return _error_envelope(trace, settings, str(exc), 'document_task_conflict', intent=intent)
+    handler = getattr(module, function_name, None)
+    if len(selected_ids) != 1:
+        # The configured single-document entry remains backwards compatible.
+        # A module must explicitly expose this capability; never bypass scope.
+        handler = getattr(module, 'run_documents_qa', None) if function_name == 'run_doc_qa' else None
+    if not callable(handler):
+        return _unsupported(trace, "当前 RAG 入口不支持所选文档范围，请检查文档问答配置。")
+    try:
+        with trace.step("rag_channel", {"doc_ids": selected_ids, 'original_question': question}) as step:
+            scope_argument = ({'doc_id': selected_ids[0]} if len(selected_ids) == 1
+                              else {'doc_ids': selected_ids})
+            result = handler(question=question, **scope_argument, trace_id=trace.trace_id, intent=intent)
             if inspect.isawaitable(result):
                 import asyncio
                 result = asyncio.run(result)
             envelope = result if isinstance(result, AnswerEnvelope) else AnswerEnvelope.model_validate(result)
-            if any(e.doc_id != request.scope.doc_ids[0] for e in envelope.evidences):
+            if any(e.doc_id not in selected_ids for e in envelope.evidences):
                 raise ValueError("RAG 返回了指定文档之外的证据")
             ids = [e.evidence_id for e in envelope.evidences]
             if len(ids) != len(set(ids)):
@@ -62,6 +119,9 @@ def _doc(request: ChatRequest, trace: TraceRecorder, settings: Settings) -> Answ
         envelope.trace_id = trace.trace_id
         envelope.steps = trace.steps + envelope.steps
         envelope.metadata["latency_ms"] = trace.latency_ms
+        envelope.metadata['document_task'] = task_metadata
+        if envelope.status in {'SUCCEEDED', 'EMPTY_RESULT', 'UNSUPPORTED'}:
+            tasks.discard(request.session_id)
         if envelope.metadata.get('clarify') is None:
             from qa_agent.clarify.answer_metadata import completed_source_only_level
             envelope.metadata['clarify']=completed_source_only_level({'document':{
@@ -73,11 +133,13 @@ def _doc(request: ChatRequest, trace: TraceRecorder, settings: Settings) -> Answ
 
 def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
          llm: JsonLLM, *, generation_context: dict | None = None) -> AnswerEnvelope:
+    sql_trace_start = len(trace.steps)
     from qa_agent.sql.catalog import load_catalog
     from qa_agent.sql.executor import SQLExecutionError, SQLTimeoutError, execute_sql
     from qa_agent.sql.generator import generate_sql
     from qa_agent.sql.repair_guard import (string_filter_contract, validate_repair_filters,
-                                           validate_chinook_fk_joins)
+                                           validate_chinook_fk_joins, validate_catalog_fk_joins)
+    from qa_agent.database_registry import DatabaseRegistryError, get_connection
     from qa_agent.sql.validator import (SQLValidationError, validate_sql, validate_value_bindings,
                                        parameterize_strings, validate_question_sources, validate_generation_claim)
     from qa_agent.nlu.linker import LinkResult, ValueLinker
@@ -88,12 +150,16 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
     from qa_agent.ablation import semantic_gate_enabled, bypass_gate, bypass_metadata
     from qa_agent.sql.ranked_subset_guard import (preflight_ranked_ratio_contract,
                                                   RankedRatioContractUnsupported)
-
-    use_semantic_gate = semantic_gate_enabled()
+    from qa_agent.sql.source_literal_guard import (validate_source_literal_consistency,
+                                                   ExplicitSourceConflict)
+    from qa_agent.sql.aggregate_scope_guard import validate_aggregate_scope
 
     db_id = request.scope.db_id or "chinook"
-    db_url = settings.aw_db_url if db_id == "adventureworks" else settings.db_url
-    catalog_path = settings.aw_catalog_path if db_id == "adventureworks" else settings.catalog_path
+    builtin_database = db_id in {'chinook', 'adventureworks'}
+    semantic_gate_requested = semantic_gate_enabled()
+    use_semantic_gate = semantic_gate_requested and builtin_database
+    db_url = (settings.aw_db_url if db_id == "adventureworks" else settings.db_url) if builtin_database else None
+    catalog_path = (settings.aw_catalog_path if db_id == "adventureworks" else settings.catalog_path) if builtin_database else None
     intent = IntentContract(route="sql", task_type="lookup")
     last_sql = None
     linked = LinkResult(request.message, request.message, [], [], [], "not_loaded")
@@ -113,6 +179,15 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
             result["aw_schema_pruning_enabled"] = settings.aw_schema_pruning_enabled
         if gate:
             result["clarify"] = public_metadata(gate) if use_semantic_gate else bypass_metadata(gate)
+        if not builtin_database:
+            result['database_capabilities'] = {
+                'schema_grounded_sql': True, 'catalog_fk_validation': True,
+                'value_alias_index': False, 'semantic_clarification': False,
+                'semantic_gate_requested': semantic_gate_requested,
+                'semantic_gate_executed': False, 'schema_subgraph_index': False,
+                'typed_sql_compiler': False, 'cross_source_fusion': False}
+            result.setdefault('clarify', bypass_metadata())['unsupported_reason'] = (
+                '所选数据库未登记专用语义规则；按真实目录生成SQL，未确认业务口径或启用语义澄清。')
         if schema_bundle:
             result["schema_linker"] = schema_bundle.as_dict()
         return result
@@ -127,6 +202,15 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
 
     try:
         with trace.step("config_check") as step:
+            if not builtin_database:
+                from dataclasses import replace
+                connection = get_connection(db_id, settings)
+                db_url, catalog_path = connection.db_url, connection.catalog_path
+                # Dynamic credentials must be redacted by the same trace and
+                # error sanitizers as the built-in connection strings.
+                settings = replace(settings, db_url=db_url, catalog_path=catalog_path,
+                                   nlu_enabled=False, typed_sql_compiler_enabled=False)
+                trace.settings = settings
             step.output_summary = {**settings.public(), "selected_db_id": db_id}
             if not db_url:
                 raise ValueError("请先在本地 .env 配置 AW_DB_URL。" if db_id == "adventureworks"
@@ -136,15 +220,21 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
         # A stale card fails before value linking, model calls or SQL generation.
         if request.clarification_id:
             if not use_semantic_gate:
-                raise SessionConflict("当前累计消融组关闭语义澄清，不消费其它实验组的澄清卡片。")
+                raise SessionConflict("所选数据库暂不支持语义澄清卡；请提交完整问题。" if not builtin_database
+                    else "当前累计消融组关闭语义澄清，不消费其它实验组的澄清卡片。")
             with trace.step("clarification_version_check") as step:
                 previous = DEFAULT_STORE.get(request.session_id)
                 if previous is None:
                     raise SessionConflict("会话已不存在，请重新提交完整问题。")
                 verify_resume(previous, request.clarification_id, request.intent_version, source_dict(request))
                 step.output_summary = {"verified": True, "intent_version": request.intent_version}
+                from qa_agent.intent_consistency import document_information_request
+                if document_information_request(previous.original_question):
+                    raise SessionConflict('原问题要求文档介绍，旧 SQL 澄清卡不能改成数据库查询；请重新提交原问题，介绍意图未被改写。')
         with trace.step("catalog", {"db_id": db_id}) as step:
             catalog = load_catalog(catalog_path)
+            if not builtin_database and catalog.database != db_id:
+                raise ValueError('登记数据库与结构目录不匹配，请刷新该数据库连接。')
             step.output_summary = {"table_count": len(catalog.tables), "db_id": db_id}
         with trace.step("requested_source_check") as step:
             from qa_agent.sql.source_authority import requested_source_contract
@@ -157,7 +247,7 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
             index = load_value_index(settings.value_index_path) if settings.nlu_enabled and db_id == "chinook" else None
             if index is None or request.choice_id:
                 linked.index_status = ("explicit_card_choice" if request.choice_id else
-                                       "not_registered_for_db" if db_id == "adventureworks" else
+                                       "not_registered_for_db" if db_id != "chinook" else
                                        "disabled" if not settings.nlu_enabled else "missing")
                 step.status = "skipped"
                 step.output_summary = {"reason": linked.index_status, "bindings": []}
@@ -197,7 +287,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
             if not linked.patches:
                 step.status = "skipped"
         with trace.step("clarification_gate") as step:
-            gate = (run_gate(request, catalog, llm, linked, trace) if use_semantic_gate
+            gate = (_catalog_only_gate(request, linked) if not builtin_database else
+                    run_gate(request, catalog, llm, linked, trace) if use_semantic_gate
                     else bypass_gate(request, linked))
             intent = gate.state.intent
             bindings = gate.state.bindings
@@ -208,6 +299,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                                    "issues": [item.as_dict(public=True) for item in gate.decision.issues],
                                    "assumptions": gate.decision.assumptions, "derived": gate.decision.derived,
                                    "invalidated": gate.state.invalidated, "resume_supported": use_semantic_gate}
+            if not builtin_database:
+                step.output_summary['unsupported_for_selected_database'] = True
         if gate.card:
             return AnswerEnvelope(trace_id=trace.trace_id, status="NEEDS_CLARIFICATION",
                                   answer=gate.card["question"], clarification=gate.card,
@@ -219,6 +312,35 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
             # supported state as proof of the generated SQL or actual result.
             with trace.step("semantic_contract_preflight") as step:
                 step.output_summary = preflight_ranked_ratio_contract(gate.state.analysis, catalog=catalog)
+        question_elements = None
+        from qa_agent.nlu.grounded_rewrite import enabled as s1_rewrite_enabled
+        from qa_agent.nlu.features import enabled as feature_enabled
+        s1_source_mode = builtin_database and s1_rewrite_enabled(nlu_enabled=settings.nlu_enabled,
+                              semantic_gate=use_semantic_gate,
+                              link_grounding=feature_enabled('AGENT_LINK_GROUNDING_ENABLED'))
+        if s1_source_mode:
+            from qa_agent.nlu.grounded_rewrite import collect_question_elements
+            with trace.step('s1_question_elements', {'semantic_gate_executed': False}) as step:
+                try:
+                    from qa_agent.context import current_context
+                    rewrite_runtime = current_context()
+                    rewrite_original = request.message
+                    rewrite_task = None
+                    if (generation_context and generation_context.get('kind') == 'composed'
+                            and rewrite_runtime is not None):
+                        rewrite_original = rewrite_runtime.current_user_message
+                        rewrite_task = request.message
+                        from qa_agent.sql.s1_tool_context import tool_purpose
+                        rewrite_task = tool_purpose(generation_context, rewrite_task)
+                    question_elements = collect_question_elements(rewrite_original, catalog, llm, trace,
+                        source_entity_hints=source_entity_hints, linked=linked, tool_task=rewrite_task)
+                    step.output_summary = question_elements or {'status': 'no_advisory'}
+                except (LLMError, ValueError, TypeError, AttributeError) as exc:
+                    # An advisory must not block a previously valid BASE path.
+                    # Its actual attempts remain in the common trace/capture.
+                    step.status = 'warn'
+                    step.output_summary = {'status': 'fallback_original',
+                        'reason': sanitize_error(exc, settings), 'semantic_verified': False}
         if gate.state.original_question != request.message:
             restored_source = requested_source_contract(gate.state.original_question, catalog, generation_context)
             requested_tables = [] if generation_context and generation_context.get("kind") == "composed" else restored_source["explicit_tables"]
@@ -258,10 +380,11 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
             selected_catalog = schema_bundle.selected_catalog
         # Lookup names need FK joins even when no alias/candidate was bound.
         # The catalog, FK proof and mandatory-filter checks still govern access.
-        allow_joins = db_id in {"chinook", "adventureworks"}
+        allow_joins = True  # Registered schemas can require real FK lookup joins.
         repair_error = None
         repair_filters = None
-        disabled_semantics = {"verified": False, "mode": "disabled_cumulative_semantic_gate"}
+        disabled_semantics = {"verified": False, "mode": ("disabled_cumulative_semantic_gate"
+            if builtin_database else "unregistered_semantic_rules_for_database")}
         semantic_sql_proof = dict(disabled_semantics)
         partition_proof = dict(disabled_semantics)
         typed_ratio_proof = dict(disabled_semantics)
@@ -290,8 +413,11 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                                               "has_applied_patches": bool(gate.state.resolutions),
                                               "intent_version": gate.state.intent.intent_version}
                                                if use_semantic_gate else None,
-                                          **({'source_entity_hints': source_entity_hints} if source_entity_hints else {}))
+                                          **({'source_entity_hints': source_entity_hints} if source_entity_hints else {}),
+                                          **({'question_elements': question_elements} if question_elements else {}),
+                                          **({'s1_source_mode': True} if s1_source_mode else {}))
                 last_sql = generation.sql
+                ranking_display_proof = None
                 step.output_summary = {"sql": generation.sql, "explanation": generation.explanation,
                     "generation_method": compiled.method if compiled is not None else "llm",
                     "compiler_attempted": use_semantic_gate and attempt == 0 and db_id == "chinook" and settings.typed_sql_compiler_enabled}
@@ -343,7 +469,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                         from qa_agent.clarify.sql_guard import validate_current_patch_contract
                         with trace.step("sql_current_contract_validate", {"intent_version": gate.state.intent.intent_version}) as step:
                             validate_current_patch_contract(last_sql, selected_catalog,
-                                                            gate.state.analysis, gate.state.resolutions)
+                                                            gate.state.analysis, gate.state.resolutions,
+                                                            question=gate.state.original_question)
                             step.output_summary = {"verified": True, "before_repair_filter_capture": True}
                         from qa_agent.sql.temporal_field_role_guard import validate_temporal_field_role
                         with trace.step("sql_temporal_field_role_validate") as temporal_step:
@@ -353,7 +480,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                     from qa_agent.sql.semantic_guard import validate_question_semantics
                     with trace.step("sql_semantic_contract", {"intent_version": intent.intent_version}) as step:
                         semantic_sql_proof = validate_question_semantics(
-                            question, last_sql, selected_catalog, intent=gate.state.analysis)
+                            question, last_sql, selected_catalog, intent=gate.state.analysis,
+                            source_question=gate.state.original_question)
                         step.output_summary = semantic_sql_proof
                     from qa_agent.sql.scope_guard import validate_unrestricted_geography
                     with trace.step("sql_active_scope_validate") as scope_step:
@@ -364,8 +492,14 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                         partition_step.output_summary = partition_proof
                     from qa_agent.sql.ratio_scope_guard import validate_typed_ratio_scope
                     with trace.step('sql_ratio_operand_scope') as ratio_step:
-                        typed_ratio_proof = validate_typed_ratio_scope(last_sql, selected_catalog,
-                                                                      gate.state.analysis, bindings)
+                        half_growth_proof = next((proof for proof in semantic_sql_proof.get('checks', [])
+                            if isinstance(proof, dict) and proof.get('verified') is True
+                            and proof.get('mode') == 'actual_invoice_half_year_growth'), None)
+                        # The preceding narrow proof validates the actually
+                        # consumed (H2-H1)/H1 operands. The generic SUM/SUM
+                        # checker cannot express a difference numerator.
+                        typed_ratio_proof = (half_growth_proof if half_growth_proof is not None else
+                            validate_typed_ratio_scope(last_sql, selected_catalog, gate.state.analysis, bindings))
                         ratio_step.output_summary = typed_ratio_proof
                     with trace.step("sql_binding_validate", {"binding_count": len(bindings)}) as step:
                         ratio_context = ({"task_type": "ratio", "numerator": gate.state.analysis.numerator,
@@ -378,7 +512,7 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                                           "question": gate.state.original_question,
                                           "verified_original_surfaces": [item.original_text for item in linked.mentions
                                                                          if item.status == "resolved"]}
-                                         if gate.state.analysis.task_type == "ratio" else None)
+                                         if gate.state.analysis.task_type == "ratio" and half_growth_proof is None else None)
                         if ratio_context is not None:
                             from qa_agent.context import current_context
                             active_context = current_context()
@@ -397,11 +531,157 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                     with trace.step("semantic_checks_disabled") as disabled:
                         disabled.status = "skipped"
                         disabled.output_summary = dict(disabled_semantics)
+                # Shared SQL tool check: a directly contradicted literal is
+                # never a placeholder for an unknown replacement. This check
+                # does not select a value or consume component-3 state.
+                from qa_agent.context import current_context as literal_context
+                actual_context = literal_context()
+                actual_question = (actual_context.current_user_message if actual_context else
+                    str((generation_context or {}).get('original_question') or request.message))
+                with trace.step('sql_original_literal_consistency', {'shared_BASE_S1': True,
+                        'source': 'actual_current_user_message', 'state_committed': False}) as literal_step:
+                    try:
+                        if builtin_database:
+                            literal_step.output_summary = validate_source_literal_consistency(
+                                last_sql, selected_catalog, question=actual_question)
+                        else:
+                            literal_step.status = 'skipped'
+                            literal_step.output_summary = {'verified': False,
+                                'reason': 'built_in_entity_rule_not_registered_for_database'}
+                    except ExplicitSourceConflict as conflict:
+                        literal_step.output_summary = {'status':'blocked', 'fatal':True,
+                            'retryable':False, 'business_correctness_asserted':False,
+                            'conflict':conflict.details}
+                        raise
+                with trace.step('sql_aggregate_period_scope', {'shared_BASE_S1': True,
+                        'source': 'actual_current_user_message', 'state_committed': False}) as period_step:
+                    try:
+                        period_step.output_summary = validate_aggregate_scope(
+                            last_sql, selected_catalog, question=actual_question)
+                    except SQLValidationError as conflict:
+                        period_step.output_summary = {'status': 'blocked', 'retryable': True,
+                            'business_correctness_asserted': False,
+                            'conflict': getattr(conflict, 'aggregate_scope_evidence', None)}
+                        raise
+                if s1_source_mode:
+                    from qa_agent.sql.s1_cohort_sum import validate_s1_cohort_sum
+                    with trace.step('s1_SQL_collective_numerator_structure', {
+                            'semantic_gate_executed':False,
+                            'business_correctness_asserted':False}) as cohort_step:
+                        cohort_step.output_summary = validate_s1_cohort_sum(
+                            last_sql, selected_catalog, actual_question, enabled=True)
+                    from qa_agent.sql.s1_invoice_share_default import validate_s1_invoice_share_default
+                    with trace.step('s1_SQL_existing_invoice_share_default', {
+                            'semantic_gate_executed':False,
+                            'business_correctness_asserted':False}) as default_step:
+                        default_step.output_summary = validate_s1_invoice_share_default(
+                            last_sql, selected_catalog, actual_question, enabled=True,
+                            brief=actual_context.text if actual_context else '',
+                            user_history=actual_context.history if actual_context else ())
+                    from qa_agent.sql.s1_total_preview import validate_s1_total_preview
+                    from qa_agent.sql.s1_total_preview_caller import total_preview_caller_evidence
+                    with trace.step('s1_SQL_complete_total_and_preview', {
+                            'semantic_gate_executed':False,
+                            'business_correctness_asserted':False}) as total_step:
+                        total_owner = total_preview_caller_evidence(
+                            generation_context, selected_catalog, enabled=True)
+                        total_step.output_summary = {'caller': total_owner,
+                            'shape': validate_s1_total_preview(
+                                last_sql, selected_catalog, actual_question,
+                                brief=actual_context.text if actual_context else '',
+                                user_history=actual_context.history if actual_context else (),
+                                enabled=total_owner['enabled'])}
+                    from qa_agent.sql.s1_detail_revenue import validate_s1_detail_revenue
+                    with trace.step('s1_SQL_revenue_grain_source', {
+                            'semantic_gate_executed':False,
+                            'business_correctness_asserted':False}) as grain_step:
+                        grain_step.output_summary = validate_s1_detail_revenue(
+                            last_sql, selected_catalog, actual_question, enabled=True,
+                            source_text=actual_context.text if actual_context else '',
+                            generation_context=generation_context)
+                    from qa_agent.sql.s1_source_scope import validate_s1_source_scope
+                    with trace.step('s1_SQL_source_period_roles', {
+                            'semantic_gate_executed':False,
+                            'business_correctness_asserted':False}) as scope_step:
+                        scope_step.output_summary = validate_s1_source_scope(
+                            last_sql, selected_catalog, actual_question,
+                            source_text=actual_context.text if actual_context else '',
+                            user_history=actual_context.history if actual_context else (), enabled=True)
+                    from qa_agent.sql.s1_customer_identity import validate_s1_customer_identity
+                    with trace.step('s1_SQL_customer_identity_structure', {
+                            'semantic_gate_executed':False,
+                            'business_correctness_asserted':False}) as identity_step:
+                        identity_step.output_summary = validate_s1_customer_identity(
+                            last_sql, selected_catalog, actual_question, enabled=True,
+                            source_text=actual_context.text if actual_context else '',
+                            user_history=actual_context.history if actual_context else ())
+                from qa_agent.sql.s1_output_shape import requested_shape, validate_projection, validate_source_fraction
+                if s1_source_mode:
+                    with trace.step('s1_SQL_ratio_display_structure', {
+                            'business_correctness_asserted':False}) as ratio_step:
+                        ratio_step.output_summary = validate_source_fraction(
+                            last_sql,actual_question,
+                            brief=actual_context.text if actual_context else '',
+                            has_history=bool(actual_context and actual_context.history),
+                            composed=(generation_context or {}).get('kind')=='composed')
+                    from qa_agent.sql.s1_percent_display import validate_s1_percent_display
+                    evidence_text = '\n'.join(
+                        evidence['text']
+                        for dependency in ((generation_context or {}).get('dependencies') or {}).values()
+                        if isinstance(dependency, dict)
+                        for evidence in (dependency.get('evidences') or [])
+                        if isinstance(evidence, dict) and isinstance(evidence.get('text'), str))
+                    with trace.step('s1_SQL_percent_display_structure', {
+                            'business_correctness_asserted':False}) as percent_step:
+                        percent_step.output_summary = validate_s1_percent_display(
+                            last_sql, actual_question,
+                            brief=actual_context.text if actual_context else '',
+                            has_history=bool(actual_context and actual_context.history),
+                            composed=(generation_context or {}).get('kind') == 'composed',
+                            evidence_text=evidence_text)
+                s1_shape = (requested_shape(actual_question,
+                    brief=actual_context.text if actual_context else '',
+                    has_history=bool(actual_context and actual_context.history),
+                    composed=(generation_context or {}).get('kind') == 'composed')
+                    if s1_source_mode else None)
+                if s1_source_mode and s1_shape is None:
+                    from qa_agent.sql.s1_sql_clause_shape import source_sql_scalar_shape
+                    s1_shape = source_sql_scalar_shape(actual_question,
+                        context=generation_context,
+                        brief=actual_context.text if actual_context else '',
+                        has_history=bool(actual_context and actual_context.history))
+                if s1_shape is not None:
+                    with trace.step('s1_SQL_output_shape', {'semantic_gate_executed':False,
+                            'business_correctness_asserted':False}) as shape_step:
+                        shape_step.output_summary = validate_projection(last_sql, s1_shape)
+                    from qa_agent.sql.s1_ordinal_gap import validate_ordinal_gap_sql
+                    with trace.step('s1_SQL_ordinal_gap_structure', {
+                            'business_correctness_asserted':False}) as ordinal_step:
+                        ordinal_step.output_summary = validate_ordinal_gap_sql(
+                            last_sql, selected_catalog, actual_question, s1_shape)
+                with trace.step('sql_debut_album_identity') as debut_step:
+                    if builtin_database:
+                        from qa_agent.fusion.obligations import validate_debut_album_sql
+                        debut_step.output_summary = validate_debut_album_sql(
+                            last_sql, selected_catalog, generation_context)
+                    else:
+                        debut_step.status = 'skipped'
+                        debut_step.output_summary = {'reason': 'No registered music-domain contract for this database'}
                 if generation_context:
                     from qa_agent.fusion.planner import validate_fusion_sql
                     with trace.step("fusion_plan_validate", {"kind": generation_context.get("kind"),
                             "original_sql": last_sql, "before_program_row_limit": True}) as step:
-                        fusion_proof = validate_fusion_sql(last_sql, selected_catalog, generation_context)
+                        fusion_options = {}
+                        if s1_source_mode:
+                            # Backend-only display context; never promote a model
+                            # plan field into user precision or semantic authority.
+                            fusion_options['s1_percent_display_context'] = {
+                                'enabled': True,
+                                'brief': actual_context.text if actual_context else '',
+                                'has_history': bool(actual_context and actual_context.history),
+                                'composed': generation_context.get('kind') == 'composed'}
+                        fusion_proof = validate_fusion_sql(
+                            last_sql, selected_catalog, generation_context, **fusion_options)
                         step.output_summary = {"verified": True, "before_program_row_limit": True,
                             "before_readonly_execution": True, "definition_proof": fusion_proof}
                 # A rejected draft can contain retired conditions. Do not make
@@ -418,6 +698,8 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                     validate_repair_filters(repair_filters, last_sql, selected_catalog)
                     if db_id == "chinook":
                         validate_chinook_fk_joins(last_sql, selected_catalog)
+                    elif not builtin_database:
+                        validate_catalog_fk_joins(last_sql, selected_catalog)
                     if len(validated.tables_used) > 1 and not allow_joins:
                         raise SQLValidationError("该查询没有跨表业务要求，生成 SQL 不得额外引入其它来源。")
                     if requested_tables and ((not allow_joins and set(validated.tables_used) != set(requested_tables))
@@ -450,7 +732,9 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                         validate_confirmed_country_output(last_sql,selected_catalog,region)
                         step.output_summary={'verified':True,'mode':'qualified_country_result_sources','region_scope':region}
             except SQLValidationError as exc:
-                if isinstance(exc, RankedRatioContractUnsupported) or attempt >= settings.sql_repair_attempts:
+                if (isinstance(exc, (RankedRatioContractUnsupported, ExplicitSourceConflict))
+                        or getattr(exc, 'sql_repairable', True) is False
+                        or attempt >= settings.sql_repair_attempts):
                     raise
                 repair_error = sanitize_error(exc, settings)
                 with trace.step("sql_repair", {"attempt": attempt + 1}) as step:
@@ -460,6 +744,40 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                 executable_sql, parameters = parameterize_strings(last_sql) if bindings else (last_sql, {})
                 result = execute_sql(executable_sql, db_url, statement_timeout_ms=settings.statement_timeout_ms,
                                      max_rows=settings.max_rows, trace=trace, parameters=parameters, db_id=db_id)
+                if s1_source_mode:
+                    from qa_agent.sql.ranking_display import build_ranking_display, _source as visible_rank_source
+                    from qa_agent.sql.result_scope import query_output_scope
+                    rank_scope = query_output_scope(generation.sql,
+                        program_added_limit=validated.default_limit_added,row_count=result.row_count,
+                        cap=settings.max_rows,truncated=result.truncated)
+                    with trace.step('s1_SQL_ranking_display') as rank_step:
+                        ranking_display_proof = build_ranking_display(
+                            last_sql, result.table, catalog=selected_catalog,
+                            source_question=actual_question,
+                            brief=actual_context.text if actual_context else '',
+                            user_history=actual_context.history if actual_context else (),
+                            output_scope=rank_scope, original_sql=generation.sql)
+                        rank_step.output_summary = ranking_display_proof
+                        rank_step.status = ('ok' if ranking_display_proof.get('status') ==
+                            'verified_SQL_ranking_display_only' else 'skipped')
+                    if (result.table and visible_rank_source(actual_question,
+                            actual_context.text if actual_context else '',
+                            actual_context.history if actual_context else ()) is not None
+                            and ranking_display_proof.get('status') != 'verified_SQL_ranking_display_only'):
+                        from qa_agent.sql.projection_semantics import projection_semantics
+                        meanings = projection_semantics(last_sql,result.columns,catalog=selected_catalog)
+                        if not any(v.get('kind') == 'rank' for v in meanings.values()):
+                            raise SQLValidationError('原始用户来源明确要求显示名次，但当前SQL未返回真实名次，'
+                                '现有窗口、排序键或结果完整性也不足以由展示层核验名次。'
+                                '请保留原条件、分组、指标、并列与行数，在最终投影返回实际消费的真实排名窗口列；'
+                                '不能用常量或任意行序冒充名次。此处仅补交付，不能改变排名定义。')
+                if s1_shape is not None:
+                    from qa_agent.sql.s1_output_shape import validate_result
+                    with trace.step('s1_SQL_actual_output_shape', {'business_correctness_asserted':False}) as shape_step:
+                        validate_result(result.columns, result.table, s1_shape)
+                        shape_step.output_summary = {'status':'verified_output_structure_only',
+                            'actual_columns':len(result.columns),'actual_rows':len(result.table),
+                            'business_correctness_asserted':False}
                 if use_semantic_gate:
                     from qa_agent.sql.comparison_result import validate_comparison_result
                     with trace.step("sql_result_contract") as result_step:
@@ -493,23 +811,70 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                 if attempt >= settings.sql_repair_attempts or exc.sqlstate not in repairable_states:
                     raise
                 repair_error = sanitize_error(exc, settings)
+        if not builtin_database:
+            # Preserve actual output identities and values. Built-in business
+            # labels/units/defaults cannot describe an unfamiliar schema.
+            with trace.step('answer') as step:
+                status = 'SUCCEEDED' if result.rows else 'EMPTY_RESULT'
+                answer = (f'查询返回 {result.row_count} 行，结果见数据表。' if result.rows
+                          else '查询未返回符合条件的记录。')
+                if result.row_count == 1 and len(result.columns) == 1:
+                    value = result.rows[0][0]
+                    answer = f'{result.columns[0]}：{value if value is not None else "NULL（无可汇总值）"}'
+                if result.truncated:
+                    answer += f'本次最多展示 {settings.max_rows} 行。'
+                step.output_summary = {'status': status, 'summary_source': 'database_result_template',
+                                       'business_semantics_verified': False}
+            from qa_agent.sql.result_scope import query_output_scope
+            output_scope = query_output_scope(generation.sql,
+                program_added_limit=validated.default_limit_added, row_count=result.row_count,
+                cap=settings.max_rows, truncated=result.truncated)
+            return AnswerEnvelope(trace_id=trace.trace_id, status=status, answer=answer, sql=last_sql,
+                table=result.table, intent=intent, steps=trace.steps,
+                metadata={**metadata(), 'result_columns': result.columns, 'truncated': result.truncated,
+                    'query_output_scope': output_scope, 'result_format': {},
+                    'column_labels': {name: name for name in result.columns},
+                    'data_status': 'NO_DATA' if not result.table or all(
+                        value is None for row in result.table for value in row.values()) else 'AVAILABLE'})
         from qa_agent.sql.result_format import percentage_formats, display_percentage, presentation_formats
-        result_formats = percentage_formats(last_sql, result.columns, intent.task_type, catalog=selected_catalog)
+        result_formats = percentage_formats(last_sql, result.columns, intent.task_type if use_semantic_gate else None,
+            catalog=selected_catalog, question=gate.state.original_question)
         from qa_agent.sql.ratio_presentation import (describe_typed_ratio,
             describe_verified_invoice_share, describe_customer_winner_ratio)
         ratio_basis = ((describe_typed_ratio(typed_ratio_proof) or
                        describe_customer_winner_ratio(semantic_sql_proof, gate.state.analysis) or
                        describe_verified_invoice_share(last_sql, selected_catalog, bindings, ratio_context))
                        if use_semantic_gate else None)
+        query_basis = None
+        if ratio_basis is None and any(rule.get('kind') == 'percentage' for rule in result_formats.values()):
+            # Explain the SQL actually executed, independently of component 3.
+            # An optional display annotation is never an execution certificate.
+            with trace.step('sql_query_basis') as basis_step:
+                try:
+                    from qa_agent.sql.query_basis import describe_query_basis
+                    query_basis = describe_query_basis(last_sql, result.columns, catalog=selected_catalog)
+                    basis_step.status = 'ok' if query_basis else 'skipped'
+                    basis_step.output_summary = query_basis or {'status': 'unsupported_sql_shape',
+                        'business_correctness_asserted': False}
+                except Exception as exc:
+                    basis_step.status = 'warn'
+                    basis_step.output_summary = {'reason': sanitize_error(exc, settings),
+                        'business_correctness_asserted': False}
+        from qa_agent.sql.result_scope import query_output_scope
+        output_scope = query_output_scope(generation.sql,
+            program_added_limit=validated.default_limit_added, row_count=result.row_count,
+            cap=settings.max_rows, truncated=result.truncated)
         presentation_labels = {}
+        s1_execution_notes = None
         with trace.step("answer") as step:
             status = "SUCCEEDED" if result.rows else "EMPTY_RESULT"
             from qa_agent.context import current_context
-            from qa_agent.sql.presentation import present
+            from qa_agent.sql.presentation import present, data_coverage_note
             user_context = current_context()
             result_formats = presentation_formats(last_sql, result.columns, result_formats,
                 query_scope=getattr(gate.state.analysis, "query_scope", {}),
-                brief=user_context.text if user_context else "", catalog=selected_catalog)
+                brief=user_context.text if user_context else "", catalog=selected_catalog,
+                **({'question':actual_question} if s1_source_mode else {}))
             answer, presentation_labels = present(gate.state.original_question, result.table,
                 result.columns, result_formats, metric=intent.metric,
                 brief=user_context.text if user_context else "", task_type=intent.task_type,
@@ -517,7 +882,33 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
                 partition_proof=partition_proof, ratio_basis=ratio_basis,
                 groupwise_proof=groupwise_presentation_proof,
                 comparison_proof=comparison_proof, catalog=selected_catalog,
-                semantic_intent=gate.state.analysis)
+                semantic_intent=gate.state.analysis,
+                ranking_display_proof=ranking_display_proof,
+                **({'display_question':actual_question} if s1_source_mode else {}))
+            if query_basis:
+                answer += '\n' + query_basis['text']
+            if s1_source_mode:
+                with trace.step('s1_SQL_execution_notes') as notes_step:
+                    try:
+                        from qa_agent.sql.s1_execution_notes import describe_s1_execution_notes
+                        s1_execution_notes = describe_s1_execution_notes(
+                            actual_question, last_sql, result.columns, result.table,
+                            catalog=selected_catalog, enabled=True,
+                            brief=user_context.text if user_context else '',
+                            user_history=user_context.history if user_context else (),
+                            output_scope=output_scope, existing_query_basis=query_basis)
+                        notes_step.output_summary = s1_execution_notes or {
+                            'status': 'not_verified', 'display_only': True,
+                            'business_correctness_asserted': False}
+                    except Exception as exc:
+                        notes_step.status = 'warn'
+                        notes_step.output_summary = {'reason': sanitize_error(exc, settings),
+                            'display_only': True, 'business_correctness_asserted': False}
+                if s1_execution_notes:
+                    answer += '\n' + s1_execution_notes['text']
+            coverage_note=data_coverage_note(last_sql,selected_catalog,result.table)
+            if coverage_note:
+                answer += '\n'+coverage_note
             if result.truncated:
                 answer += f"本次最多展示 {settings.max_rows} 行。"
             if comparison_proof.get("requires_display") and comparison_proof.get("winner"):
@@ -532,18 +923,40 @@ def _sql(request: ChatRequest, trace: TraceRecorder, settings: Settings,
             switch_hint=default_action_hint(gate.decision.level,getattr(gate.state,'switch_card',None))
             if switch_hint:answer+='\n'+switch_hint
             step.output_summary = {"status": status, "summary_source": "database_result_template",
-                                   "ratio_business_basis": ratio_basis}
+                                   "ratio_business_basis": ratio_basis,
+                                   **({'query_basis': query_basis} if query_basis else {})}
         if use_semantic_gate:
             finish_gate(gate, succeeded=True)
+        last_rewrite = next((entry.output_summary for entry in reversed(trace.steps[sql_trace_start:])
+            if entry.name == 's1_rewrite_task_consume'), None)
+        used_rewrite = (last_rewrite if isinstance(last_rewrite,dict)
+            and last_rewrite.get('status') == 'quote_checked_advisory_task' else None)
         return AnswerEnvelope(trace_id=trace.trace_id, status=status, answer=answer, sql=last_sql,
-                              rewritten_question=linked.rewritten_question if linked.patches else None,
+                              rewritten_question=(used_rewrite['normalized_sql_question'] if used_rewrite
+                                  and used_rewrite.get('normalized_text_role')!='advisory_only'
+                                  else linked.rewritten_question if linked.patches else None),
                               table=result.table, intent=intent, steps=trace.steps,
                               metadata={**metadata(), "result_columns": result.columns, "truncated": result.truncated,
+                                        "query_output_scope":output_scope,
+                                        **({'ranking_display_proof':ranking_display_proof}
+                                            if ranking_display_proof and ranking_display_proof.get('status') ==
+                                            'verified_SQL_ranking_display_only' else {}),
+                                        **({'s1_rewrite':{'authority':'advisory_only','semantic_verified':False,
+                                            'original_question_sha256':used_rewrite['original_question_sha256'],
+                                            'task_used_for_SQL_generation':True,
+                                            'consumption_policy':used_rewrite.get('consumption_policy','legacy_primary_rewrite'),
+                                            'primary_question_source':used_rewrite.get('primary_question_source'),
+                                            'normalized_text_role':used_rewrite.get('normalized_text_role')}} if used_rewrite else {}),
                                         "result_format": result_formats, "column_labels": presentation_labels,
                                         "ratio_business_basis": ratio_basis,
+                                        **({'query_basis': query_basis} if query_basis else {}),
+                                        **({'s1_execution_notes': s1_execution_notes}
+                                            if s1_execution_notes else {}),
                                         "groupwise_order_proof": groupwise_presentation_proof,
                                         "data_status": "NO_DATA" if not result.table or all(
                                             value is None for row in result.table for value in row.values()) else "AVAILABLE"})
+    except DatabaseRegistryError as exc:
+        return failed(trace, settings, str(exc), exc.code, intent=intent)
     except SessionConflict as exc:
         return failed(trace, settings, str(exc), "clarification_conflict", intent=intent)
     except MissingCredentialError as exc:
@@ -601,9 +1014,38 @@ def _dispatch(request: ChatRequest, llm: JsonLLM | None = None,
         bool(active_context and active_context.text), request.scope.doc_ids)
     if source_error:
         return _unsupported(trace, source_error)
+    from qa_agent.rag.task import DEFAULT_DOCUMENT_TASK_STORE
+    if (request.clarification_id and (request.clarification_id.startswith('doc-')
+            or DEFAULT_DOCUMENT_TASK_STORE.pending(request))):
+        # Resume before classifying the short choice label as a fresh question.
+        if 'doc' not in restriction.allowed_tools:
+            return _unsupported(trace, '本轮来源约束禁止使用文档，未继续旧澄清或改成另一数据库任务；请重新提交完整问题。')
+        return _doc(request, trace, settings)
+    if (request.scope.db_id not in {None, 'chinook', 'adventureworks'}
+            and request.scope.route in {'auto', 'hybrid'}):
+        # Built-in planners contain registered metric and entity assumptions.
+        # A custom database may use the shared SQL or document tools directly,
+        # but cannot acquire those assumptions through an auto fallback.
+        from qa_agent.intent_consistency import document_information_request
+        from qa_agent.source_scope import has_context_reference
+        if (restriction.mode == 'documents_only' or
+                request.scope.route == 'auto' and restriction.mode == 'unrestricted'
+                and not request.clarification_id and not has_context_reference(request.message)
+                and document_information_request(request.message)):
+            _retire_direct_task_plans(request, trace)
+            return _doc(request, trace, settings)
+        if (request.scope.route == 'hybrid' or restriction.mode in {'context_only', 'local_mixed'}
+                or has_context_reference(request.message)
+                or re.search(r'文档|手册|PDF|资料|百科|介绍|简介|背景', request.message, re.I)):
+            return _unsupported(trace, '所选数据库支持按真实结构目录问数及独立文档问答，'
+                '暂不支持跨源综合、正文驱动的业务口径绑定或语义澄清；请提交完整的数据库问题，'
+                '或选择文档问答。')
+        request = request.model_copy(update={'scope': request.scope.model_copy(
+            update={'route': 'sql', 'doc_ids': []})})
     from qa_agent.fusion.obligations import explicit_new_task
     from qa_agent.fusion.planner import _explicit_hybrid_kind
-    if not request.clarification_id and (explicit_new_task(request.message) or _explicit_hybrid_kind(request.message)):
+    if (request.scope.db_id in {None, 'chinook', 'adventureworks'} and not request.clarification_id
+            and (explicit_new_task(request.message) or _explicit_hybrid_kind(request.message))):
         _retire_direct_task_plans(request, trace)
     if restriction.mode == "context_only":
         from qa_agent.fusion.composed import run_context_only
@@ -611,8 +1053,7 @@ def _dispatch(request: ChatRequest, llm: JsonLLM | None = None,
         return run_context_only(request, trace, settings, llm or JsonLLM(settings), restriction)
     if restriction.mode == "documents_only":
         _retire_direct_task_plans(request, trace)
-        return _doc(request.model_copy(update={"scope": request.scope.model_copy(
-            update={"route": "doc", "db_id": None})}), trace, settings)
+        return _doc(request, trace, settings)
     if restriction.mode == "database_only":
         request = request.model_copy(update={"scope": request.scope.model_copy(
             update={"route": "sql", "doc_ids": []})})
@@ -636,6 +1077,16 @@ def _dispatch(request: ChatRequest, llm: JsonLLM | None = None,
             from qa_agent.clarify.state import DEFAULT_STORE
             with DEFAULT_STORE.locked(request.session_id):
                 return run_composed(request, trace, settings, llm or JsonLLM(settings), _sql)
+    from qa_agent.intent_consistency import document_information_request
+    from qa_agent.source_scope import has_context_reference
+    if (request.scope.route == 'auto' and restriction.mode == 'unrestricted'
+            and not request.clarification_id and not has_context_reference(request.message)
+            and document_information_request(request.message)):
+        _retire_direct_task_plans(request, trace)
+        with trace.step('document_intent_route', {'authority': 'actual_user_request'}) as step:
+            step.output_summary = {'route': 'doc', 'scope_size_does_not_change_intent': True,
+                                   'SQL_entity_candidates_are_not_tasks': True}
+        return _doc(request, trace, settings)
     with trace.step("route", {"selected": request.scope.route}) as step:
         step.output_summary = {"route": request.scope.route, "mode": "explicit_source_scope"}
     if request.scope.route == "doc":
@@ -646,6 +1097,44 @@ def _dispatch(request: ChatRequest, llm: JsonLLM | None = None,
         from qa_agent.clarify.state import DEFAULT_STORE
         route = classify_route(request)
         from qa_agent.fusion.composed import needs_composed_plan, run_composed
+        from qa_agent.nlu.grounded_rewrite import enabled as s1_rewrite_enabled
+        from qa_agent.nlu.features import enabled as feature_enabled
+        from qa_agent.ablation import semantic_gate_enabled
+        if s1_rewrite_enabled(nlu_enabled=settings.nlu_enabled,
+                semantic_gate=semantic_gate_enabled(),
+                link_grounding=feature_enabled('AGENT_LINK_GROUNDING_ENABLED')):
+            from qa_agent.nlu.route_hints import music_fact_route_hint
+            from qa_agent.nlu.value_index import load_value_index
+            from qa_agent.sql.catalog import load_catalog
+            with trace.step('s1_source_route_hint') as hint_step:
+                try:
+                    route_hint = None
+                    if request.scope.route == 'auto' and restriction.mode == 'unrestricted':
+                        from qa_agent.nlu.session_fact_route import session_fact_route_hint
+                        route_hint = session_fact_route_hint(request.message, nlu_enabled=True,
+                            semantic_gate=False, runtime=active_context)
+                    if not route_hint:
+                        route_hint = music_fact_route_hint(request.message,
+                            index=load_value_index(settings.value_index_path),
+                            catalog=load_catalog(settings.catalog_path),
+                            nlu_enabled=True, semantic_gate_enabled=False,
+                            route=request.scope.route, restriction=restriction)
+                    hint_step.output_summary = route_hint or {'status': 'keep_existing_route'}
+                except (ValueError, OSError) as exc:
+                    route_hint = None
+                    hint_step.status = 'warn'
+                    hint_step.output_summary = {'status': 'keep_existing_route',
+                        'reason': sanitize_error(exc, settings)}
+            if route_hint:
+                if route_hint.get('kind') in {'session_definition_recall', 'session_definition_relation_recall'}:
+                    # A bounded, source-backed recall has no current database
+                    # task. Do not ask a second planner to reinterpret a stated
+                    # future list intention as a query to execute right now.
+                    from qa_agent.fusion.composed import run_context_only
+                    _retire_direct_task_plans(request, trace)
+                    return run_context_only(request, trace, settings, llm or JsonLLM(settings), restriction)
+                with DEFAULT_STORE.locked(request.session_id):
+                    return run_composed(request, trace, settings, llm or JsonLLM(settings), _sql)
         if route not in {"sql_to_doc", "doc_to_sql"} and needs_composed_plan(request):
             with DEFAULT_STORE.locked(request.session_id):
                 return run_composed(request, trace, settings, llm or JsonLLM(settings), _sql)
@@ -663,9 +1152,9 @@ def _dispatch(request: ChatRequest, llm: JsonLLM | None = None,
         else:
             return _unsupported(trace, "请选择已支持的跨源流程：艺术家销售排名与介绍，或手册客单价定义与计算。")
     if request.scope.route != "sql":
-        return _unsupported(trace, "D1 先使用显式来源范围，请选择 sql 或指定单文档 doc。")
-    if request.scope.db_id not in {"chinook", "adventureworks"}:
-        return _unsupported(trace, "SQL 来源请选择 Chinook 或 AdventureWorks 数据库。")
+        return _unsupported(trace, "请指定数据库或文档来源后重试。")
+    if request.scope.db_id is None:
+        return _unsupported(trace, "SQL 来源请选择已登记的数据库。")
     if request.scope.doc_ids:
         return _unsupported(trace, "SQL 请求请清空 doc_ids；混合来源查询按后续计划实现。")
     from qa_agent.clarify.state import DEFAULT_STORE
@@ -690,6 +1179,18 @@ def chat(request: ChatRequest, llm: JsonLLM | None = None,
                 request = request.model_copy(update={"context_id": context.context_id})
             with bind_context(context):
                 response = _dispatch(request, llm=llm, settings=settings)
+                from qa_agent.intent_consistency import check_answer_intent
+                original = response.metadata.get('document_task', {}).get('original_question', request.message)
+                consistency = check_answer_intent(original, response,
+                    expected_route='doc' if response.metadata.get('document_task') else None)
+                response.metadata['answer_intent_check'] = consistency
+                if consistency['status'] == 'mismatch':
+                    response = AnswerEnvelope(trace_id=response.trace_id, status='FAILED',
+                        answer='执行结果与原始问题的资料介绍意图不一致，已阻止将其作为答案。',
+                        intent=response.intent, steps=response.steps,
+                        metadata={**response.metadata, 'rejected_result_not_returned': True},
+                        error=ErrorDetail(code='answer_intent_mismatch',
+                            message='执行结果与原始问题不一致。', retryable=False))
                 DEFAULT_CONTEXT_STORE.record(context, request, response)
                 response.metadata["reference_clock"] = {"datetime": context.reference_datetime,
                                                           "timezone": context.timezone}

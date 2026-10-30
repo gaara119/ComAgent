@@ -139,7 +139,7 @@ def load_catalog(path: str | Path) -> Catalog:
             raise CatalogError("数据库目录没有业务表。")
         dialect = str(data.get("dialect", "postgres"))
         if dialect not in {"postgres", "postgresql"}:
-            raise CatalogError("D1 仅支持 PostgreSQL 目录。")
+            raise CatalogError("当前支持 PostgreSQL 数据目录。")
         return Catalog(
             database=str(data.get("database", data.get("db_id", "chinook"))),
             dialect="postgres", version=str(data.get("version", "")),

@@ -423,8 +423,22 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
         result.patches=[item for item in result.patches if item.path!='top_n']
         result.patches.append(IntentPatch(op='set',path='top_n',value=int(top_match.group(1)),evidence=top_match.group()))
     # Explicit calendar text is converted by code and takes precedence over model dates.
-    from qa_agent.clarify.calendar_range import parse_calendar_range
-    is_range, complete_range = parse_calendar_range(message, literal_relative_period(message,runtime) or state.analysis.time_scope)
+    from qa_agent.clarify.calendar_range import parse_calendar_range, parse_whole_month_reply, month_convention_quote
+    calendar_anchor=literal_relative_period(message,runtime) or state.analysis.time_scope
+    is_range, complete_range = parse_calendar_range(message, calendar_anchor)
+    month_convention=None
+    if is_range and complete_range is None and enabled('AGENT_GROUNDING_ENABLED'):
+        from qa_agent.context import current_context
+        actual_context=current_context()
+        # Only this exact server-bound session/message/context can provide the
+        # month convention. No model scope label or historic assistant text.
+        if (actual_context is not None and actual_context.session_id==state.session_id
+                and actual_context.current_user_message==message
+                and actual_context.context_id==state.scope.get('context_id')
+                and actual_context.content_sha256==sha256(actual_context.text.encode('utf-8')).hexdigest()):
+            month_convention=month_convention_quote(actual_context.text)
+            if month_convention:
+                complete_range=parse_whole_month_reply(message,calendar_anchor,month_convention)
     if is_range and complete_range is None:
         raise SessionConflict('日期区间端点尚不完整、存在冲突或不支持；请明确起止日期及是否包含端点，不能降成首日。')
     period = complete_range or explicit_period(message) or explicit_comparison_period(message,(state.analysis.comparison or {}).get('type')) or literal_relative_period(message,runtime) or partial_calendar_period(message,state.analysis.time_scope)
@@ -481,6 +495,11 @@ def extract_patches(message: str, state: SessionState, linked, llm, trace=None) 
             elif season_completed:
                 scope['season_time_authority']={'status':'confirmed','source':'program:explicit_season_period',
                     'evidence':message,'period':deepcopy(period.get('current') or {})}
+                if month_convention and complete_range:
+                    scope['season_time_authority']['calendar_convention']={
+                        'source':'user_brief','evidence':month_convention,
+                        'context_id':actual_context.context_id,'context_version':actual_context.version,
+                        'source_sha256':actual_context.content_sha256}
                 if (period.get('current') or {}).get('year_source')=='previous_confirmed_season_calendar_edit':
                     previous_authority=state.analysis.query_scope['season_time_authority']
                     scope['season_time_authority']['derivation']={

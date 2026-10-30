@@ -212,6 +212,33 @@ def explicit_comparison_period(question: str, comparison_type: str | None) -> di
     return None
 
 
+def _literal_quarter_comparison(question: str) -> tuple[dict, dict] | None:
+    """Two written quarters in current-then-base order, never a model alias."""
+    matches = list(re.finditer(r'(?<!\d)\d{4}\s*年\s*第?[一二三四1-4]\s*季度', question))
+    if len(matches) != 2 or not re.search(r'增长|增幅|变动|变化|百分|同比|环比', question):
+        return None
+    first, second = matches
+    between = question[first.end():second.start()]
+    if not re.search(r'(?:比|相比(?:于)?|相对(?:于)?|较)\s*$', between):
+        return None
+    remaining = question[:first.start()] + between + question[second.end():]
+    if re.search(r'\d{4}\s*年|\d{1,2}\s*月|季度|[上下]半年|前年|去年|今年|明年|或者|或是|还是', remaining):
+        return None
+    if '同比' in question and '环比' in question:
+        return None
+    for match in matches:
+        sentence_prefix = re.split(r'[。；;\n？！!?]', question[:match.start()])[-1]
+        prefix = re.split(r'[，,]', sentence_prefix)[-1]
+        if (re.search(r'例如|比如|示例|假设|不确定|可能', sentence_prefix)
+                or re.search(r'不要|不按|不是|并非', prefix)):
+            return None
+    current = explicit_period(first.group())
+    base = explicit_period(second.group())
+    if current and base:
+        return current['current'], base['current']
+    return None
+
+
 def derive_base(current: dict, comparison: str) -> dict | None:
     try:
         start, end = date.fromisoformat(current["start"]), date.fromisoformat(current["end"])
@@ -259,6 +286,22 @@ class RuleEngine:
         defaults = list(analysis.default_assumptions)
         switches: list[dict] = []
         derived: dict = {}
+        written_quarters = (_literal_quarter_comparison(question)
+            if db_id == 'chinook' and analysis.task_type == 'growth' and enabled('AGENT_GROUNDING_ENABLED') else None)
+        if written_quarters:
+            written_current, written_base = written_quarters
+            analysis.time_scope = {'current': written_current, 'base': written_base}
+            analysis.time_ambiguous = False
+            analysis.comparison = dict(analysis.comparison or {})
+            analysis.comparison.pop('base_period', None)
+            analysis.comparison['type'] = ('yoy' if '同比' in question else 'mom' if '环比' in question else 'custom')
+            for path, period in (('time_scope', written_current), ('time_scope.base', written_base)):
+                analysis.condition_sources[path] = {'source': 'explicit_user', 'evidence': period['label'],
+                    'lifetime': 'task', 'applies_to': 'global', 'verified': True}
+            analysis.evidence_spans['time_scope.current'] = written_current['label']
+            analysis.evidence_spans['time_scope.base'] = written_base['label']
+            analysis.clarification_requests = [item for item in analysis.clarification_requests
+                if item.get('field') not in {'time_scope.current', 'time_scope.base', 'comparison.type'}]
         current = (analysis.time_scope or {}).get("current")
 
         if db_id == 'chinook':

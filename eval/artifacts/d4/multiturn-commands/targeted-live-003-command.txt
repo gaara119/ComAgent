@@ -1,6 +1,0 @@
-.\.venv\Scripts\python.exe -u scripts/run_d4_multiturn.py --only sp03-27 d4-dialog-01 --output eval/artifacts/d4/multiturn-targeted-live-003
-
-Purpose: smallest fresh development-only regression for both failures observed in complete run002, before another complete run.
-API006 loaded the new business code and both DBs were actually ready before this command.
-Scoring contract v3 now explicitly checks initial NEEDS_CLARIFICATION and missing numerator=None according to original dialogue controller; no question, standard SQL, reference result or manual review changed; historical002 scores remain.
-Actual stdout/stderr: targeted-live-003-output.txt

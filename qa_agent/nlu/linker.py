@@ -9,6 +9,7 @@ from dataclasses import dataclass, field
 from contextlib import nullcontext
 import json
 import re
+import unicodedata
 from typing import Callable, Literal
 
 import numpy as np
@@ -30,9 +31,9 @@ TABLE_WORDS = {
     "invoice": ("发票", "账单", "invoice"),
     "customer": ("客户", "顾客", "customer"),
     "employee": ("员工", "employee"),
-    "genre": ("流派", "genre"),
-    "media_type": ("媒体格式", "媒体类型", "media_type", "format"),
-    "artist": ("艺术家", "乐队", "artist"),
+    "genre": ("流派", "曲风", "genre"),
+    "media_type": ("媒体格式", "媒体类型", "media_type", "format", "格式"),
+    "artist": ("艺术家", "乐队", "artist", "band"),
     "album": ("专辑", "album"),
     "playlist": ("播放列表", "歌单", "playlist"),
     "track": ("曲目", "歌曲", "track"),
@@ -124,12 +125,13 @@ def field_scope(question: str, index: ValueIndex) -> tuple[str, ...]:
     if enabled('AGENT_LINK_GROUNDING_ENABLED'):
         from qa_agent.nlu.ownership import explicit_country_dimensions,literal_country_owner
         owners=explicit_country_dimensions(question)
+        owners.update(_country_carrier_fields(question,index))
         for record in index.records:
             if record.column not in {'customer.country','invoice.billing_country'} or len(record.surface)<2:continue
             for match in re.finditer(re.escape(record.surface),question,re.I):
                 if _contains_word_boundary(question,match.start(),match.end(),record.surface)and literal_country_owner(question,match.start(),match.end(),record.column):
                     owners.add(record.column)
-        if len(owners)>1:
+        if owners:
             return tuple(sorted(column for column in owners if any(record.column==column for record in index.records)))
     matched = [table for table, words in TABLE_WORDS.items() if any(word.casefold() in lower for word in words)]
     if enabled('AGENT_LINK_GROUNDING_ENABLED'):
@@ -253,9 +255,9 @@ def field_scope(question: str, index: ValueIndex) -> tuple[str, ...]:
 def _contains_word_boundary(question: str, start: int, end: int, surface: str) -> bool:
     # English letters/numbers require boundaries, while Chinese aliases can
     # directly precede connective words such as 的/有/在.
-    if re.match(r"[A-Za-z0-9]", surface) and start and re.match(r"[A-Za-z0-9_]", question[start - 1]):
+    if re.match(r"[A-Za-z0-9]", normalize(surface)) and start and re.match(r"[A-Za-z0-9_]", normalize(question[start - 1])):
         return False
-    if re.search(r"[A-Za-z0-9]$", surface) and end < len(question) and re.match(r"[A-Za-z0-9_]", question[end]):
+    if re.search(r"[A-Za-z0-9]$", normalize(surface)) and end < len(question) and re.match(r"[A-Za-z0-9_]", normalize(question[end])):
         return False
     return True
 
@@ -263,13 +265,103 @@ def _contains_word_boundary(question: str, start: int, end: int, surface: str) -
 def _is_value_phrase(text: str) -> bool:
     """Exclude question/projection prose without classifying every entity type."""
     if normalize(text) in {"all","every","each","the","these","those","which","how many","customer","customers","invoice","invoices","track","tracks","list"}:return False
+    if re.search(r'(?:曲目|歌曲).{0,18}(?:涉及|关联|不同曲风|流派去重)', text):return False
     return bool(len(text) >= 2 and text.strip() not in TIME_PHRASES and not re.fullmatch(r"\d{4}\s*年(?:和\d{4}\s*年)?", text.strip()) and not any(word in text for word in (
         "客户", "顾客", "发票", "账单", "共有", "多少", "什么", "哪些", "哪种", "几位", "几张", "几种",
         "如何", "怎样", "数量", "总共", "总数", "全部", "所有", "统计", "按国家", "不同国家", "最近一年", "每年", "每月", "今年", "去年", "工程", "检查", "测试", "验证", "数据库", "如果", "不存在", "没有", "根本", "咱们", "这几个", "负责人", "重点市场", "主期间", "对比期",
     )))
 
 
+def _normalized_source(text):
+    """NFKC lookup view with offsets into the unchanged Unicode source."""
+    pieces=[];offsets=[]
+    for position,char in enumerate(text):
+        part=unicodedata.normalize('NFKC',char).casefold()
+        pieces.append(part);offsets.extend([position]*len(part))
+    return ''.join(pieces),offsets
+
+
+_LATIN_NAME=r'[a-z\u00c0-\u024f][a-z\u00c0-\u024f .&\'’/\-]{1,65}?'
+_COUNTRY_CARRIER=re.compile(r'(?P<value>'+_LATIN_NAME+r')\s*(?:那边|当地|所在国家|这个国家)(?:的)?\s*(?P<owner>客户|顾客|customers?\b|发票|账单|invoices?\b)',re.I)
+
+
+def _country_carrier_fields(question,index):
+    available={r.column for r in index.records}
+    return {column for m in _COUNTRY_CARRIER.finditer(question)
+        for column in ['customer.country' if re.fullmatch(r'客户|顾客|customers?',m['owner'],re.I) else 'invoice.billing_country']
+        if column in available and _is_value_phrase(m['value'].strip())}
+
+
+def _owned_name_mentions(question,index):
+    """Closed literal name/owner constructions, never an aggregate or SQL scope."""
+    view,offsets=_normalized_source(question);available={r.column for r in index.records}
+    roles={'artist.name':r'乐队|艺术家|bands?\b|artists?\b',
+           'album.title':r'专辑|albums?\b','genre.name':r'流派|曲风|genres?\b',
+           'media_type.name':r'媒体格式|格式|media\s+types?\b|formats?\b',
+           'playlist.name':r'播放列表|歌单|playlists?\b'}
+    proposals=[]
+    def add(match,fields,*,fallback=False):
+        raw=match['value'];value=raw.strip();a=match.start('value')+len(raw)-len(raw.lstrip());b=a+len(value)
+        if not value or not _is_value_phrase(value):return
+        # These are question/object words, not catalog value mentions.
+        if re.match(r'(?:which|what|how|whose|list|show|count)\b',value,re.I) or re.fullmatch(r'(?:na\s*xie\s*)?(?:yishujia|yue\s*dui)',value,re.I):return
+        start,end=offsets[a],offsets[b-1]+1
+        if not _contains_word_boundary(question,start,end,value):return
+        # An explicit carrier ("X band") is more specific than the later
+        # generic "X 的歌" pattern. Do not include the carrier word in X.
+        if fallback and any(start<item.end and item.start<end for item in proposals):return
+        strict=any(word in question for word in ('保留原值','恰好为','严格等于','不做近似','不纠错'))
+        proposals.append(Mention(question[start:end],start,end,tuple(sorted(fields)),'literal_name_owner',strict))
+    for column,role in roles.items():
+        if column not in available:continue
+        # An explicit name owner belongs to this quoted value, not a later
+        # projected genre/track field. The quote delimiters are not part of the
+        # source span; apostrophes inside double-quoted names remain literal.
+        for left,right in (('"','"'),("'","'"),('“','”'),('‘','’')):
+            pattern=(r'(?:'+role+r')\s*(?:的)?\s*(?:名称|名字|姓名|name)\s*'
+                     r'(?:为|是|叫|等于|=|:|：)?\s*'+re.escape(left)+
+                     r'(?P<value>[^'+re.escape(right)+r'\n]{2,66})'+re.escape(right))
+            for match in re.finditer(pattern,view,re.I):add(match,{column})
+        # Chinese qualifiers come from actual indexed surfaces, rather than
+        # open entity extraction. A country must not suppress a named genre.
+        surfaces={r.surface for r in index.records if r.column==column and len(r.surface)>=2}
+        for surface in sorted(surfaces,key=len,reverse=True):
+            literal=r'\s+'.join(re.escape(part) for part in normalize(surface).split())
+            if not literal:continue
+            pattern=r'(?P<value>'+literal+r')\s*(?:这(?:个|种|一种|支|张)|该)?\s*(?:'+role+r')'
+            for match in re.finditer(pattern,view,re.I):add(match,{column})
+        pattern=r'(?<![a-z0-9_])(?P<value>'+_LATIN_NAME+r')\s*(?:这(?:个|种|一种|支|张)|该)?\s*(?:'+role+r')'
+        for match in re.finditer(pattern,view,re.I):add(match,{column})
+    domains=available & {'artist.name','album.title'}
+    if domains:
+        # "X 的歌" identifies a carrier, not necessarily an artist. Both real
+        # artist/album domains compete; an equal name must remain ambiguous.
+        modifier=r'(?:(?:超过|大于|少于|不到)\s*[0-9一二三四五六七八九十]+\s*(?:分钟|毫秒|秒)\s*的?\s*)?'
+        pattern=r'(?<![a-z0-9_])(?P<value>'+_LATIN_NAME+r')\s*(?:名下(?:的)?|的)?\s*(?:所有|全部)?\s*'+modifier+r'(?:曲目|歌曲|曲子|歌(?!单)|tracks?\b|songs?\b)'
+        for match in re.finditer(pattern,view,re.I):
+            # A complete possessive name can contain an object word (e.g. a
+            # catalog name ending in Artists/Band). Prefer the whole actual
+            # span only when indexed spellings support it better than the
+            # carrier reading. "Pearl Jamm band" must keep band as its type.
+            raw=match['value'].strip()
+            a=match.start('value')+len(match['value'])-len(match['value'].lstrip())
+            b=a+len(raw)
+            overlaps=[item for item in proposals if offsets[a]<item.end and item.start<offsets[b-1]+1]
+            if overlaps:
+                whole=max((fuzz.ratio(normalize(raw),normalize(r.surface))
+                           for r in index.records if r.column in domains),default=0)
+                partial=max((fuzz.ratio(normalize(item.original_text),normalize(r.surface))
+                             for item in overlaps for r in index.records if r.column in item.fields),default=0)
+                if whole<=partial:continue
+            add(match,domains)
+    picked=[]
+    for item in sorted(proposals,key=lambda mention:(-(mention.end-mention.start),mention.start)):
+        if not any(item.start<prior.end and prior.start<item.end for prior in picked):picked.append(item)
+    return picked
+
+
 def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...] | None = None) -> list[Mention]:
+    owned=_owned_name_mentions(question,index) if fields is None and enabled('AGENT_LINK_GROUNDING_ENABLED') else []
     if fields is None:
         fields = field_scope(question, index)
     else:
@@ -279,17 +371,21 @@ def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...
         if any(column not in indexed_columns for column in fields):
             raise ValueError('会话字段范围不在真实值索引中。')
     if not fields:
-        return []
-    possible = []
+        return sorted(owned,key=lambda item:item.start)
+    possible = list(owned)
     # Exact occurrences use actual canonical values or reviewed alias surfaces.
     surfaces = {item.surface for item in index.records if item.column in fields and len(item.surface) >= 2}
     surfaces.update(guard["surface"] for guard in PLAN_AMBIGUITY_GUARDS if guard["column"] in fields)
+    view,offsets=_normalized_source(question)
     for surface in sorted(surfaces, key=len, reverse=True):
         if surface.strip() in TIME_PHRASES:
             continue
-        for match in re.finditer(re.escape(surface), question, re.IGNORECASE):
-            if _contains_word_boundary(question, match.start(), match.end(), surface):
-                possible.append(Mention(question[match.start():match.end()], match.start(), match.end(), fields, "indexed_surface"))
+        pattern=r'\s+'.join(re.escape(part) for part in normalize(surface).split())
+        if not pattern:continue
+        for match in re.finditer(pattern,view,re.I):
+            start,end=offsets[match.start()],offsets[match.end()-1]+1
+            if _contains_word_boundary(question,start,end,surface):
+                possible.append(Mention(question[start:end],start,end,fields,"indexed_surface"))
     picked = []
     for item in sorted(possible, key=lambda mention: (-(mention.end - mention.start), mention.start)):
         if not any(item.start < prior.end and prior.start < item.end for prior in picked):
@@ -299,12 +395,15 @@ def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...
         # Substring predicates are generated by D1's SQL rules; binding a
         # matching full value as '=' would silently tighten their meaning.
         return []
-    if enabled('AGENT_LINK_GROUNDING_ENABLED') and len(fields)==1 and fields[0].endswith(('.country','.billing_country')):
-        for match in re.finditer(r'(?P<value>[A-Za-z][A-Za-z \-]{1,35}?)\s*(?:那边|当地|所在国家|这个国家)(?:的)?',question):
+    if enabled('AGENT_LINK_GROUNDING_ENABLED'):
+        for match in _COUNTRY_CARRIER.finditer(question):
             text=match.group('value').strip()
             start=match.start('value')
+            column='customer.country' if re.fullmatch(r'客户|顾客|customers?',match['owner'],re.I) else 'invoice.billing_country'
+            if not any(record.column==column for record in index.records):continue
             if _is_value_phrase(text) and not any(start<prior.end and prior.start<start+len(text) for prior in picked):
-                picked.append(Mention(text,start,start+len(text),fields,'typed_country_literal',True))
+                strict=any(word in question for word in ('保留原值','恰好为','严格等于','不做近似','不纠错'))
+                picked.append(Mention(text,start,start+len(text),(column,),'explicit_literal' if strict else 'typed_country_literal',True))
     explicit_patterns = [
         r"(?:国家|国籍|country|billing_country|城市|city|名字|first_name|姓氏|last_name|职位|title|名称|name|流派|genre|媒体格式|media_type)\s*(?:恰好|严格)?(?:为|是|叫|等于|=|:|：)\s*[\"'“‘]?(?P<value>[A-Za-z][A-Za-z .&/\-]{1,48}|[\u4e00-\u9fff]{2,12})",
         r"[\"'“‘](?P<value>[^\"'”’]{2,60})[\"'”’]",
@@ -360,6 +459,11 @@ def extract_mentions(question: str, index: ValueIndex, *, fields: tuple[str, ...
                 continue
             owners=[column for column in ('customer.country','invoice.billing_country') if column in indexed
                     and literal_country_owner(question,item.start,item.end,column)]
+            for match in _COUNTRY_CARRIER.finditer(question):
+                raw=match['value'];value=raw.strip();start=match.start('value')+raw.find(value)
+                if (start,start+len(value))!=(item.start,item.end):continue
+                column='customer.country' if re.fullmatch(r'客户|顾客|customers?',match['owner'],re.I) else 'invoice.billing_country'
+                if column in indexed and column not in owners:owners.append(column)
             scoped.append(Mention(item.original_text,item.start,item.end,tuple(owners)if len(owners)==1 else item.fields,item.origin,item.preserve_absent))
         picked=scoped
     return sorted(picked, key=lambda item: item.start)
@@ -448,6 +552,14 @@ class ValueLinker:
             else:
                 result.status, result.match_method = "ambiguous", "exact"
             return result
+        if mention.origin=='typed_country_literal':
+            # A registered phonetic spelling is identity evidence. It is not
+            # a license to snap an absent country to a nearby fuzzy/vector hit.
+            key=''.join(c for c in unicodedata.normalize('NFD',pinyin_key(mention.original_text)) if not unicodedata.combining(c))
+            if self._stage(result,'pinyin',lambda:[(i,1.0) for i in self.index.pinyin.get(key,[]) if i in scope],trace):
+                if len(result.candidates)==1:self._select(result,result.candidates[0],'pinyin')
+                else:result.status,result.match_method='ambiguous','pinyin'
+                return result
         if mention.preserve_absent:
             result.stages.append({"method": "absent_value_preserved", "reason": "explicit_legal_no_match_value"})
             if enabled('AGENT_LINK_GROUNDING_ENABLED') and mention.origin=='typed_country_literal' and len(mention.fields)==1:

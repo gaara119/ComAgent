@@ -20,7 +20,7 @@ import json, os, urllib.request
 try:
     with urllib.request.urlopen(os.environ['QA_API_BASE_URL'] + '/health', timeout=3) as response:
         value = json.load(response)
-    raise SystemExit(0 if value.get('status') == 'ok' and value.get('stage') in {'D1', 'D2', 'D3', 'D4'} else 1)
+    raise SystemExit(0 if value.get('status') == 'ok' and value.get('service') == 'comagent' and value.get('capabilities', {}).get('document_upload') else 1)
 except Exception:
     raise SystemExit(1)
 PY

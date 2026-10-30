@@ -2,8 +2,48 @@
 from __future__ import annotations
 import re
 from copy import deepcopy
+from hashlib import sha256
 
 PENDING_DENOMINATOR='用户已选择自行指定本题分母，等待明确分母条件。'
+
+
+def literal_customer_rank_pair(question):
+    """An explicit first-minus-Nth customer amount question, without SQL."""
+    if not re.search(r'客户|\bcustomer\b',question,re.I) or not re.search(r'花钱|消费|发票金额',question):return None
+    if re.search(r'不要|不需要|不比较|不求|排除|除了|平均|张数|购买数量',question):return None
+    first=re.search(r'第一(?:名|位)|(?:花钱|消费)(?:金额)?最多的那(?:一)?位',question)
+    second=re.search(r'比第\s*([0-9一二三四五六七八九十]+)\s*名\s*(?:多花|多消费|多出|高出|多了|差)',question)
+    if first is None or second is None:return None
+    from qa_agent.clarify.literal_structures import number
+    n=number(second[1])
+    if not isinstance(n,int) or not 2<=n<=200:return None
+    return {'source':'program:literal_customer_rank_pair','ranks':[1,n],
+        'operation':'subtract','metric':'invoice_revenue','object':'customer',
+        'source_evidence':question,'question_sha256':sha256(question.encode()).hexdigest()}
+
+
+def literal_half_year_growth(question,analysis,payload):
+    """Prove H2-H1 divided by H1 from one real calendar year and wording."""
+    if analysis.metric!='invoice_revenue' or not re.search(r'发票(?:总额|金额)',question):return None
+    if re.search(r'不要|不计算|不求|不按|季度|\d{1,2}\s*月|\d{4}-\d{2}-\d{2}',question):return None
+    if not re.search(r'下半年比上半年(?:多(?:出)?(?:的)?(?:部分|金额)?|增长(?:的部分)?).{0,12}(?:相当于|占(?:了)?)上半年(?:发票总额|总额|金额)?(?:的)?(?:百分之几|百分比|比例)',question):return None
+    years=set(re.findall(r'(?<!\d)(\d{4})\s*年',question))
+    relatives=re.findall(r'前年|去年|今年|明年',question)
+    if len(years)==1 and not relatives:year=int(next(iter(years)))
+    elif not years and len(relatives)==1:
+        from qa_agent.clarify.grounding import literal_relative_period
+        annual=(literal_relative_period(question,payload)or{}).get('current')or{}
+        if not annual:return None
+        year=int(annual['start'][:4])
+    else:return None
+    if not 1<=year<9999:return None
+    current=(analysis.time_scope or{}).get('current')or{}
+    annual={'start':f'{year:04d}-01-01','end':f'{year+1:04d}-01-01'}
+    if any(current.get(k)!=v for k,v in annual.items()):return None
+    return {'source':'program:literal_half_year_growth','source_evidence':question,
+        'question_sha256':sha256(question.encode()).hexdigest(),
+        'h1':{'start':annual['start'],'end':f'{year:04d}-07-01'},
+        'h2':{'start':f'{year:04d}-07-01','end':annual['end']},'operation':'(h2-h1)/h1'}
 
 
 def literal_denominator(question):
@@ -22,7 +62,41 @@ def literal_denominator(question):
 
 
 def ground_denominator_authority(question,analysis,payload):
+    analysis.query_scope.pop('rank_pair_comparison',None)
+    pair=literal_customer_rank_pair(question)
+    if pair and analysis.task_type=='ranking' and analysis.rank_object=='customer' and analysis.metric=='invoice_revenue':
+        analysis.query_scope['rank_pair_comparison']=pair
+        analysis.query_scope['output_shape']='scalar_rank_difference'
+        # N is the consumed ranking coverage; output_shape remains one scalar.
+        # Leaving None would let the existing generic ranking rule install 10.
+        analysis.top_n=pair['ranks'][-1]
+        analysis.output_requirements=[x for x in analysis.output_requirements if x not in {'ranked_subset_rows','ranked_subset_total'}]
     if analysis.task_type!='ratio':return analysis
+    analysis.query_scope.pop('half_year_growth',None)
+    half=literal_half_year_growth(question,analysis,payload)
+    if half:
+        analysis.query_scope['half_year_growth']=half
+        analysis.denominator='上半年发票总额'
+        analysis.condition_sources['denominator']={'source':'explicit_user','evidence':question,
+            'lifetime':'task','applies_to':'denominator','verified':True}
+        analysis.assumptions=[text for text in analysis.assumptions if '销售额占比默认以同期全部发票金额' not in text]
+        analysis.default_assumptions=[text for text in analysis.default_assumptions if '销售额占比默认以同期全部发票金额' not in text]
+        for role,period in (('numerator',half['h2']),('denominator',half['h1'])):
+            operand=analysis.query_scope.setdefault(role,{})
+            operand['metric']='invoice_revenue';operand['period']=dict(period)
+            operand['scope']='explicit_h2_minus_h1' if role=='numerator' else 'explicit_h1_base'
+            operand['source_evidence']=question
+            # Retire only a plain exact model calendar mirror. Unknown extra
+            # keys/predicates remain and must be proved or explicitly rejected.
+            def mirror(item):
+                if not isinstance(item,dict) or not set(item)<={'field','column','operator','value','scope_evidence'}:return False
+                if item.get('field') and item.get('column') and item['field']!=item['column']:return False
+                quote=item.get('scope_evidence')
+                return ((item.get('column')or item.get('field'))=='invoice.invoice_date'
+                    and str(item.get('operator','')).lower()=='between' and item.get('value')==period
+                    and quote in ('下半年' if role=='numerator' else '上半年',question))
+            operand['filters']=[item for item in operand.get('filters',[]) if not mirror(item)]
+        return analysis
     literal=literal_denominator(question)
     if literal:
         effective=literal

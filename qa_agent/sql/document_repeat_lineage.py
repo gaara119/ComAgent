@@ -482,6 +482,32 @@ def prove_grouped_repeat_output(scopes, qualified_proofs, catalog):
         if node.table in employees and node.name in {"employee_id","first_name","last_name"}:
             return "owner" if node.name=="employee_id" else "owner_name"
         return None
+    def employee_name_label(node):
+        # A display label is not a grouping key or another metric. Only the
+        # two native name fields of one already-PK-linked employee may be
+        # joined with an actual punctuation/whitespace separator.
+        node=strip(node)
+        def parts(value):
+            value=strip(value)
+            if isinstance(value,exp.DPipe):return parts(value.left)+parts(value.right)
+            return [value]
+        values=(list(node.expressions) if isinstance(node,exp.Concat)
+                else parts(node) if isinstance(node,exp.DPipe) else [])
+        if len(values)!=3:return False
+        left,separator,right=map(strip,values)
+        if (not isinstance(left,exp.Column) or not isinstance(right,exp.Column)
+                or left.table!=right.table or left.table not in employees
+                or {left.name,right.name}!={"first_name","last_name"}
+                or not isinstance(separator,exp.Literal) or not separator.is_string
+                or re.fullmatch(r"[\s,，、·/_-]{1,8}",separator.this) is None):
+            return False
+        if isinstance(node,exp.Concat):
+            # PostgreSQL CONCAT skips NULL. Do not treat that as a native
+            # label equivalence for a catalog with nullable employee names.
+            table=catalog.get_table("employee","public")
+            if any(c.nullable for c in table.columns if c.name in {"first_name","last_name"}):
+                return False
+        return True
     where=q.args.get('where')
     if where is not None:
         def owner_nonnull(node):
@@ -510,7 +536,7 @@ def prove_grouped_repeat_output(scopes, qualified_proofs, catalog):
                 target=target.expressions[0]
             if not isinstance(target,exp.Star) and field_role(target)!="customer":deny("最终应计资格客户行/客户键，不能数员工、常量或无关字段。")
             if projection.alias_or_name in requested:counts+=1
-        elif field_role(node) not in {"owner","owner_name"}:
+        elif field_role(node) not in {"owner","owner_name"} and not employee_name_label(node):
             deny("最终交付包含未由真实资格客户人数支持的表达式。")
         elif projection.alias_or_name in requested:
             visible_owner=True

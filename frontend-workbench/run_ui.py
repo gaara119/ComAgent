@@ -13,6 +13,7 @@ from urllib.request import Request, build_opener, ProxyHandler, HTTPRedirectHand
 ROOT = Path(__file__).resolve().parent
 DIST = ROOT / 'dist'
 MAX_BODY = 1024 * 1024
+MAX_IMPORT_BODY = 12 * 1024 * 1024
 
 def api_url(value: str) -> str:
     parts = urlsplit(value)
@@ -30,8 +31,12 @@ def allowed_api(path: str, method: str) -> bool:
     decoded = unquote(unquote(path)).replace('\\', '/')
     if any(part in {'.', '..'} for part in decoded.split('/')):
         return False
-    if method == 'POST': return path in {'/api/chat','/api/context'}
-    return method in {'GET','HEAD'} and (path in {'/health', '/api/documents'} or bool(re.fullmatch(r'/api/documents/[^/\\]+/(?:file|pages/[1-9][0-9]*)', decoded)))
+    connection = r'/api/databases/pg-[0-9a-f]{32}'
+    if method == 'POST':
+        return path in {'/api/chat','/api/context','/api/databases','/api/documents/import','/api/documents/text'} or bool(re.fullmatch(connection + r'/refresh', path))
+    if method == 'DELETE':
+        return bool(re.fullmatch(connection, path))
+    return method in {'GET','HEAD'} and (path in {'/health', '/api/documents','/api/databases'} or bool(re.fullmatch(r'/api/documents/imports/[0-9a-f]{32}', path)) or bool(re.fullmatch(r'/api/documents/[^/\\]+/(?:file|pages/[1-9][0-9]*)', decoded)))
 
 class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
@@ -66,10 +71,26 @@ def make_handler(upstream_url: str):
             if self.command == 'POST':
                 try: length=int(self.headers.get('Content-Length','0'))
                 except ValueError: return self.json_error(400,'无效请求长度。')
-                if length < 1 or length > MAX_BODY: return self.json_error(413,'请求体为空或超过1MB。')
-                if self.headers.get('Content-Type','').split(';')[0].strip() != 'application/json':
+                empty_refresh = length == 0 and bool(re.fullmatch(r'/api/databases/pg-[0-9a-f]{32}/refresh', parts.path))
+                limit = MAX_IMPORT_BODY if parts.path == '/api/documents/import' else MAX_BODY
+                if length < 0 or (length == 0 and not empty_refresh) or length > limit: return self.json_error(413,'请求体为空或超过接口大小限制。')
+                if not empty_refresh and self.headers.get('Content-Type','').split(';')[0].strip() != 'application/json':
                     return self.json_error(415,'问答请求必须使用application/json。')
-                body=self.rfile.read(length)
+                body=self.rfile.read(length) if length else None
+            if parts.path.startswith('/api/databases') or parts.path in {'/api/documents/import','/api/documents/text'} or parts.path.startswith('/api/documents/imports/'):
+                # Drain a bounded POST body before refusing it, so Windows
+                # does not reset the connection before delivering the 403.
+                # No request is forwarded until both checks have passed.
+                host = self.headers.get('Host', '')
+                try:
+                    authority = urlsplit('http://' + host)
+                    if authority.hostname not in {'127.0.0.1','localhost','::1'} or authority.port != self.server.server_port:
+                        return self.json_error(403,'数据库连接管理仅允许本机工作台访问。')
+                    origin = self.headers.get('Origin')
+                    if origin and origin != 'http://' + host:
+                        return self.json_error(403,'数据库连接管理请求来源不匹配。')
+                except ValueError:
+                    return self.json_error(403,'数据库连接管理请求来源无效。')
             headers={'Accept':self.headers.get('Accept','application/json')}
             if body is not None: headers['Content-Type']='application/json'
             if self.headers.get('Range'): headers['Range']=self.headers['Range']
@@ -118,6 +139,8 @@ def make_handler(upstream_url: str):
             return super().do_HEAD()
 
         def do_POST(self): return self.proxy()
+
+        def do_DELETE(self): return self.proxy()
 
         def end_headers(self):
             self.send_header('X-Content-Type-Options','nosniff')

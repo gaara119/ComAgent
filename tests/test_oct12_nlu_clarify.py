@@ -130,7 +130,7 @@ def test_explicit_numerator_and_residence_scope_survive_model_omission(tmp_path)
 def test_numerator_followup_refreshes_provenance_without_losing_year_or_denominator(tmp_path):
     class Model:
         def complete_json(self,system_prompt,user_prompt,response_model,trace=None):
-            if response_model is SemanticIntent:
+            if issubclass(response_model, SemanticIntent):
                 return SemanticIntent(task_type='ratio',metric='invoice_revenue')
             return PatchResponse(patches=[IntentPatch(op='set',path='numerator',value='德国居住客户的销售额',evidence='德国居住客户的销售额')])
     catalog=load_catalog(ROOT/'data/catalog/chinook.yaml')
@@ -198,7 +198,7 @@ def test_complete_sp03_14_keeps_both_years_when_model_only_extracts_last_one(tmp
 def test_sp03_06_real_supplement_fills_current_once_and_derives_prior_year(tmp_path):
     class Model:
         def complete_json(self,system_prompt,user_prompt,response_model,trace=None):
-            if response_model is SemanticIntent:
+            if issubclass(response_model, SemanticIntent):
                 return SemanticIntent(task_type='growth',metric=None,comparison={'type':'yoy'},time_ambiguous=True)
             # Program must use the actual first/current year, even if the model
             # mistakenly extracts only the second year as current.
@@ -224,7 +224,7 @@ def test_sp03_06_real_supplement_fills_current_once_and_derives_prior_year(tmp_p
 def test_model_cannot_reset_confirmed_2023_period_during_customer_metric_followup(tmp_path):
     class Model:
         def complete_json(self,system_prompt,user_prompt,response_model,trace=None):
-            if response_model is SemanticIntent:
+            if issubclass(response_model, SemanticIntent):
                 return SemanticIntent(task_type='ranking',rank_object='customer',metric='invoice_revenue',top_n=3)
             return PatchResponse(patches=[IntentPatch(op='set',path='metric',value='invoice_revenue',evidence='发票金额'),
                                            IntentPatch(op='set',path='time_scope',value=None,evidence='发票金额')])
@@ -243,7 +243,7 @@ def test_model_cannot_reset_confirmed_2023_period_during_customer_metric_followu
 def test_metric_only_followup_cannot_drop_existing_yoy_task_or_year(tmp_path):
     class Model:
         def complete_json(self,system_prompt,user_prompt,response_model,trace=None):
-            if response_model is SemanticIntent:
+            if issubclass(response_model, SemanticIntent):
                 return SemanticIntent(task_type='growth',metric='invoice_revenue',comparison={'type':'yoy'})
             return PatchResponse(patches=[IntentPatch(op='set',path='metric',value='average_invoice_amount',evidence='客单价'),
                                            IntentPatch(op='set',path='task_type',value='lookup',evidence='客单价'),

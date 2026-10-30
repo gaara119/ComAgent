@@ -82,7 +82,7 @@ def validate_repair_filters(contract: Counter, sql: str, catalog) -> None:
         raise SQLValidationError("技术修复改变了原 SQL 的真实筛选字段、值、运算符或布尔范围；禁止换过滤列绕过校验。")
 
 
-def validate_chinook_fk_joins(sql: str, catalog) -> None:
+def validate_catalog_fk_joins(sql: str, catalog, *, source_label: str = '数据库') -> None:
     """Allow lookup joins independently of NLU success; prove catalog FK edges.
 
     CTE/subquery joins retain the general validator's scope checks. For direct
@@ -94,7 +94,8 @@ def validate_chinook_fk_joins(sql: str, catalog) -> None:
     for table in catalog.tables:
         for fk in table.foreign_keys:
             ref = fk["references"]
-            pairs = frozenset(frozenset(((table.name, a), (ref["table"], b)))
+            pairs = frozenset(frozenset(((table.schema, table.name, a),
+                                        (ref.get('schema', 'public'), ref["table"], b)))
                               for a, b in zip(fk["columns"], ref["columns"]))
             edges.add(pairs)
     for scope in traverse_scope(tree):
@@ -114,7 +115,8 @@ def validate_chinook_fk_joins(sql: str, catalog) -> None:
                 left, right = node.left, node.right
                 a, b = sources.get(left.table), sources.get(right.table)
                 if isinstance(a, exp.Table) and isinstance(b, exp.Table):
-                    return {(frozenset(((a.name, left.name), (b.name, right.name))),
+                    return {(frozenset(((a.db or 'public', a.name, left.name),
+                                        (b.db or 'public', b.name, right.name))),
                              frozenset((left.table, right.table)))}
             return set()
 
@@ -125,5 +127,9 @@ def validate_chinook_fk_joins(sql: str, catalog) -> None:
                 keys = {pair for pair, aliases in equalities(join.args.get("on"))
                         if alias in aliases and bool((aliases - {alias}) & selected)}
                 if not any(edge <= keys for edge in edges):
-                    raise SQLValidationError("Chinook 关联必须使用真实目录中的完整外键，禁止笛卡尔积、ON TRUE 或换连接键。")
+                    raise SQLValidationError(f"{source_label}关联必须使用真实目录中的完整外键，禁止笛卡尔积、ON TRUE 或换连接键。")
             selected.add(alias)
+
+
+def validate_chinook_fk_joins(sql: str, catalog) -> None:
+    validate_catalog_fk_joins(sql, catalog, source_label='Chinook ')

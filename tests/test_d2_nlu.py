@@ -464,7 +464,18 @@ def test_real_database_parameterized_binding_wiring(monkeypatch, index):
     class FixedSQL:
         def complete_json(self, system_prompt, user_prompt, response_model, trace=None):
             payload = json.loads(user_prompt)
-            assert payload["verified_value_bindings"][0]["value"] == "Brazil"
+            bindings = payload["verified_value_bindings"]
+            if isinstance(bindings, dict):
+                # The generator may reference its identical authoritative filter
+                # list instead of serializing the same constraint twice.
+                assert set(bindings) == {"$ref", "instruction"}
+                assert bindings["$ref"] == "#/semantic_contract/filters"
+                assert bindings.get("instruction")
+                bindings = payload["semantic_contract"]["filters"]
+            assert isinstance(bindings, list) and len(bindings) == 1
+            assert bindings[0]["column"] == "customer.country"
+            assert bindings[0]["operator"] == "="
+            assert bindings[0]["value"] == "Brazil"
             return response_model(sql="SELECT COUNT(*) AS n FROM customer WHERE country='Brazil'", explanation="simulated model, real read-only DB")
     result = chat(ChatRequest(message="巴西的客户有多少？"), llm=FixedSQL())
     assert result.status == "SUCCEEDED" and result.table == [{"n": 5}]

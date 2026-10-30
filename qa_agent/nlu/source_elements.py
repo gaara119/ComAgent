@@ -49,6 +49,39 @@ def _asserted(text, start, end):
     return True
 
 
+def _denied_label_at(text, start, end):
+    """A literal label mention can be cancelled without defining a new fact."""
+    before = text[max(0, start - 30):start]
+    after = text[end:end + 24]
+    denied = (r'(?:取消|删除|移除|去掉|排除|不看|不查|不统计|不考虑|不要|不应|不能|别)'
+              r'(?:按|查(?:询)?|看|统计|使用|采用)?\s*[“\"‘\x27]?\s*$')
+    retired = r'\s*[”\"’\x27]?\s*(?:这个称呼|的(?:限制|条件))?\s*(?:先|暂时|暂且)?\s*(?:不看|不考虑|不用|取消|删除|移除)'
+    return bool(re.search(denied, before) or re.match(retired, after))
+
+
+def _label_references(source, label):
+    """Keep actual occurrence offsets; mixed denied/positive uses stay unknown."""
+    from qa_agent.nlu.linker import _contains_word_boundary
+    text, refs = source['text'], []
+    for match in re.finditer(re.escape(label), text):
+        if not _contains_word_boundary(text, *match.span(), label):
+            continue
+        if not _asserted(text, *match.span()) or _denied_label_at(text, *match.span()):
+            return []
+        ref = _source_ref(source, label, start=match.start())
+        if ref is not None:
+            refs.append(ref)
+    return refs
+
+
+def _historical_label_denial(label, sources):
+    # This is source uncertainty, not a persistent scope or a precedence rule.
+    # A cancelled/redefined historical name needs fresh clarification elsewhere.
+    return any(_denied_label_at(source['text'], *match.span())
+        for source in sources.values() if source['kind'] == 'confirmed_history'
+        for match in re.finditer(re.escape(label), source['text']))
+
+
 def _columns(catalog):
     return {f'{table.name}.{column.name}' for table in catalog.tables
             if table.schema == 'public' for column in table.columns}
@@ -205,8 +238,8 @@ def _referenced_field_definitions(current, sources, columns):
     candidates = {}
     for source in sources.values():
         for label, clauses in complete_definitions({'user_brief': source['text']}).items():
-            mention_ref = _source_ref(actual, label)
-            if mention_ref is None:
+            mention_refs = _label_references(actual, label)
+            if not mention_refs or _historical_label_denial(label, sources):
                 continue
             for clause in clauses:
                 ref = _source_ref(source, clause)
@@ -214,15 +247,79 @@ def _referenced_field_definitions(current, sources, columns):
                 found = {column for column, pattern in COUNTRY_ROLE_PATTERNS.items()
                     if column in columns and re.fullmatch(r'(?:只指|仅指|指(?:的是)?|就是|是|对应)\s*' + pattern, body, re.I)}
                 valid = ref is not None and _asserted(source['text'], ref['char_start'], ref['char_end'])
-                candidates.setdefault(label, []).append((found if valid else set(), ref, mention_ref))
+                candidates.setdefault(label, []).append((found if valid else set(), ref, mention_refs))
     result = []
     for label, definitions in candidates.items():
         owners = definitions[0][0]
         if len(owners) != 1 or any(item[0] != owners for item in definitions):
             continue
-        for _, ref, mention_ref in definitions:
+        for _, ref, mention_refs in definitions:
             result.append({'kind': 'field_identity', 'surface': label, 'column': next(iter(owners)),
-                           'source_ref': ref, 'mention_ref': mention_ref})
+                           'source_ref': ref, 'mention_ref': mention_refs[0],
+                           'mention_refs': mention_refs})
+    return result
+
+
+def _named_entity_identities(sources, columns, index):
+    """Associate a referenced user name with one literal indexed entity.
+
+    The complete definition must identify an actual entity field, not a
+    predicate, default or a choice among list members. The resulting relation
+    remains an identity hint; it creates no binding or execution obligation.
+    """
+    from qa_agent.nlu.entity_source import OWNERS
+    actual = next(source for source in sources.values() if source['kind'] == 'current_user')
+    roles = {column: r'(?<![A-Za-z0-9_])(?:' + words + r')(?![A-Za-z0-9_])'
+             for column, words in {**OWNERS, 'track.name': r'曲目|歌曲|tracks?|songs?',
+                                  'media_type.name': r'媒体类型|media\s+type'}.items()}
+    candidates = {}
+    for source in sources.values():
+        definitions = complete_definitions({'user_brief': source['text']})
+        for label, clauses in definitions.items():
+            mentions = _label_references(actual, label)
+            if not mentions or _historical_label_denial(label, sources):
+                continue
+            for clause in clauses:
+                ref = _source_ref(source, clause)
+                found = []
+                if ref is not None and _asserted(source['text'], ref['char_start'], ref['char_end']):
+                    body = re.split(r'[:：]', clause, maxsplit=1)[-1].strip()
+                    label_roles = {column for column, words in roles.items()
+                                   if re.search(words, label, re.I)}
+                    for record in index.records:
+                        if (record.column not in columns or record.column not in roles
+                                or record.kind not in {'standard', 'alias'}
+                                or (record.kind == 'standard' and record.surface != record.standard_value)
+                                or (record.kind == 'alias' and not record.alias_id)):
+                            continue
+                        words = roles[record.column]
+                        match = re.fullmatch(r'(?:只指|仅指|指(?:的是)?|就是|是|为)\s*'
+                            r'(?P<role>(?:' + words + r'))?\s*[“\"‘\x27]?'
+                            r'(?P<value>' + re.escape(record.surface) + r')[”\"’\x27]?\s*', body, re.I)
+                        if match is None or (label_roles and label_roles != {record.column}):
+                            continue
+                        if match['role'] is None and label_roles != {record.column}:
+                            continue
+                        value_start = ref['char_start'] + clause.index(body) + match.start('value')
+                        value_ref = _source_ref(source, match['value'], start=value_start)
+                        if value_ref is not None:
+                            found.append((record, ref, value_ref, mentions))
+                # Duplicate evidence is not resolved by index order, and an
+                # invalid competing definition must not be silently skipped.
+                candidates.setdefault(label, []).append(found[0] if len(found) == 1 else None)
+    result = []
+    for label, definitions in candidates.items():
+        if any(item is None for item in definitions):
+            continue
+        identities = {(item[0].column, item[0].standard_value) for item in definitions}
+        if len(identities) != 1:
+            continue
+        for record, ref, value_ref, mentions in definitions:
+            result.append({'kind': 'named_entity_identity', 'surface': label,
+                'column': record.column, 'value': record.standard_value,
+                'candidate_id': record.candidate_id,
+                'evidence_ref': record.alias_id if record.kind == 'alias' else record.candidate_id,
+                'source_ref': ref, 'value_ref': value_ref, 'mention_refs': mentions})
     return result
 
 
@@ -315,6 +412,7 @@ def collect_source_elements(catalog, index, bindings=(), *, runtime=None, sessio
     result += _bound_noncountry_identities(bindings, mentions, linking_question, sources, columns, index)
     result += _field_identities(current, sources, columns)
     result += _named_sets(current, sources, columns, index)
+    result += _named_entity_identities(sources, columns, index)
     unique = {}
     for item in result:
         unique.setdefault(json.dumps(item, ensure_ascii=False, sort_keys=True), item)

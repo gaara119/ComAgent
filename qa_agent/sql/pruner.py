@@ -92,7 +92,7 @@ def make_pruning_decision_model(candidate_names: list[str]) -> type[PruningDecis
 class SchemaPruner:
     def __init__(self, catalog: Catalog, *, candidate_limit: int = 12):
         if not 1 <= candidate_limit <= 12:
-            raise ValueError("D4 pruning accepts at most 12 candidate tables")
+            raise ValueError("Schema pruning accepts at most 12 candidate tables")
         self.catalog = catalog
         self.limit = candidate_limit
         self.tables = {qualified(table): table for table in catalog.tables}
@@ -195,7 +195,7 @@ class SchemaPruner:
                 selected_tables.append(replace(original,
                     columns=tuple(column for column in original.columns if column.name in columns[name]), foreign_keys=fks))
             selected_catalog = replace(self.catalog, tables=tuple(selected_tables),
-                metadata={**self.catalog.metadata, "schema_linker": "D4 recall + bounded LLM prune + FK restoration"})
+                metadata={**self.catalog.metadata, "schema_linker": "recall + bounded LLM prune + FK restoration"})
             diagnostics = {"status": "completed", "candidate_tables": candidate_names,
                 "candidate_count": len(candidate_names), "llm_selected_tables": sorted(chosen),
                 "restored_bridge_tables": sorted(bridges), "connected": len(components) <= 1,

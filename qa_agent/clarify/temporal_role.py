@@ -78,7 +78,17 @@ def explicit_temporal_field_role(question,analysis,catalog):
     period=r'(?:\d{4}\s*年?|今年|去年|前年|本年|上半年|下半年)'
     evidence=(re.search(period+r'[^，,。；;？?]{0,20}?(?:入职|雇用|雇佣|hired?)',question,re.I) or
               re.search(r'(?:入职|雇用|雇佣|hire)(?:日期|时间)?\s*(?:在|为|是)?\s*'+period,question,re.I))
+    if not evidence and literal_hire_calendar_period(question):
+        # A comma after an explicit whole year does not change the named
+        # employee date role. Keep this one-subject grammar bounded; a
+        # second year or endpoint predicate is rejected by the period parser.
+        evidence=re.search(r'(?<!\d)\d{4}\s*年(?:整年|全年)?\s*[，,]\s*'
+            r'(?:(?:咱们|我们|本公司|公司)(?:的)?)?(?:员工|雇员|employees?)'
+            r'(?:里|中|当中)?[^。；;？?\n]{0,16}?(?:入职|雇用|雇佣|hired?)',question,re.I)
     if not evidence:return analysis
+    prefix=re.split(r'[。；;\n]',question[:evidence.start()])[-1]
+    if re.search(r'例如|比如|示例|假设|不确定|可能|不要|不按|不是|并非',prefix+evidence.group()):
+        return analysis
     candidates=[f'{table.name}.{column.name}' for table in catalog.tables for column in table.columns
         if table.name.casefold()=='employee' and re.search(r'date|timestamp',column.data_type,re.I) and
         (re.search(r'hire|hired',column.name,re.I) or re.search(r'入职|雇用|雇佣',column.description))]

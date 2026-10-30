@@ -363,7 +363,7 @@ class SchemaLinker:
         selected_catalog = Catalog(database=self.catalog.database,
             tables=tuple(table for table in self.catalog.tables if qualified(table) in selected),
             dialect=self.catalog.dialect, version=self.catalog.version,
-            metadata={**self.catalog.metadata, "schema_linker": "D3 RRF + Steiner; no LLM pruning"})
+            metadata={**self.catalog.metadata, "schema_linker": "RRF + Steiner; no LLM pruning"})
         return SchemaBundle(tuple(sorted(selected)),
             {qualified(table): tuple(column.name for column in table.columns) for table in selected_catalog.tables},
             tuple(joins), reasons, tuple(table_hits), tuple(column_hits), tuple(value_hits),

@@ -1,6 +1,0 @@
-.\.venv\Scripts\python.exe -m pytest tests/test_d4_multiturn.py tests/test_d3_clarify.py tests/test_oct12_nlu_clarify.py tests/test_d3_ratio_binding.py tests/test_oct12_ratio_midnight.py -q
-Actual terminal result: 157 passed in 3.13s
-Exit code: 0
-No model calls or held predictions.
-Guards verified: current bindings cannot be omitted, exact requested TopN independent of max_rows, retired WHERE/ON/HAVING string atoms, current allowed overlap not blacklisted, current physical aggregate expression.
-Growth/ratio and multi-scope metric AST checks remain explicitly conditional exits; normal SQL/catalog/FK/ratio guards still apply.

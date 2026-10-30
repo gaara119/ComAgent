@@ -12,6 +12,9 @@ data/processed/
 models/
 data/models/
 data/indexes/
+data/.upload-checks/
+# Local uploaded content may contain private material.
+data/docs/uploads/
 *.log
 .runtime/
 
@@ -23,3 +26,11 @@ tmp/
 # Frontend build dependencies are local; the prebuilt dist/ is delivered.
 frontend-workbench/node_modules/
 frontend-workbench/.pnpm-store/
+
+# Local research, generated evidence and learning material are not published.
+/eval/
+/notes/
+/output/
+/docs/
+frontend-workbench/docs/
+data/docs/local-manifest.csv

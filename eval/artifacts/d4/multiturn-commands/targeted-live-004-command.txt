@@ -1,8 +1,0 @@
-.\.venv\Scripts\python.exe -u scripts/run_d4_multiturn.py --only d4-dialog-04-v2 --output eval/artifacts/d4/multiturn-targeted-live-004
-
-API007 and both restored databases ready; source frozen after 172 offline regressions passed.
-Minimal fresh regression for explicit primary metric DESC versus independent track-ID ASC tie-breaker.
-This is a separately numbered new D4 DEV question version: only initial message explicitly adds 降序, five continuation messages and all SQL gold unchanged.
-Original d4-dialog-04 and every original001/002/003 output/score remain unchanged; legacy direction and original DESC gold require final human confirmation.
-Scoring contract v4 additionally checks structured primary order + tie_breakers. No global bare-TopN DESC default, no held prediction.
-Actual stdout/stderr: targeted-live-004-output.txt

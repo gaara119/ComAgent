@@ -82,7 +82,7 @@ function Assert-ProjectListener([int]$Port, [string[]]$Markers) {
 function Get-ProjectHealth {
     try {
         $health = Invoke-RestMethod -Uri ($projectApiUrl + '/health') -TimeoutSec 6
-        if ($health.status -eq 'ok' -and $health.stage -in @('D3','D4') -and $health.sql_prompt_sha256) { return $health }
+        if ($health.status -eq 'ok' -and $health.service -eq 'comagent' -and $health.capabilities.document_upload -and $health.sql_prompt_sha256) { return $health }
     } catch { }
     return $null
 }

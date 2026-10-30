@@ -20,7 +20,7 @@ from sqlglot.schema import MappingSchema
 from qa_agent.sql.validator import SQLValidationError
 
 
-def validate_current_patch_contract(sql: str, catalog, analysis, resolutions: list[dict]) -> None:
+def validate_current_patch_contract(sql: str, catalog, analysis, resolutions: list[dict], *, question=None) -> None:
     """Reject retired filter atoms and stale ranking sizes before repair locks.
 
     Reads only the merged contract, trusted patch history and physical catalog.
@@ -36,9 +36,10 @@ def validate_current_patch_contract(sql: str, catalog, analysis, resolutions: li
     ranked_total='ranked_subset_total' in getattr(analysis,'output_requirements',[])
     ranked_rows_total=ranked_total and 'ranked_subset_rows' in getattr(analysis,'output_requirements',[]) and analysis.task_type=='ranking'
     per_group=getattr(analysis,'query_scope',{}).get('ranking_scope')=='per_group'
+    rank_pair=(getattr(analysis,'query_scope',{})or{}).get('rank_pair_comparison')
     declared_order=(analysis.task_type=='ranking' and bool(order.get('field')) and
                     str(order.get('direction','')).lower() in {'asc','desc'})
-    if catalog.database.casefold()!='chinook' or (not resolutions and not declared_order and not ranked_total and not per_group):
+    if catalog.database.casefold()!='chinook' or (not resolutions and not declared_order and not ranked_total and not per_group and not rank_pair):
         return
     schemas={table.schema for table in catalog.tables}
     default_schema=next(iter(schemas)) if len(schemas)==1 else 'public'
@@ -68,8 +69,12 @@ def validate_current_patch_contract(sql: str, catalog, analysis, resolutions: li
     retired={key(item):item for item in historical if key(item) not in active_keys}
 
     checked=normalize_identifiers(sqlglot.parse_one(sql,read='postgres'),dialect='postgres')
+    rank_pair=analysis.query_scope.get('rank_pair_comparison')
+    if rank_pair:
+        from qa_agent.sql.semantic_guard import validate_customer_rank_pair_difference
+        validate_customer_rank_pair_difference(sql,catalog,analysis,question=question)
     # TopN expresses the query size, not the response's max_rows display cap.
-    if analysis.task_type=='ranking' and analysis.top_n is not None and not ranked_total and not per_group:
+    if analysis.task_type=='ranking' and analysis.top_n is not None and not ranked_total and not per_group and not rank_pair:
         limit=checked.args.get('limit')
         value=limit.expression if limit is not None else None
         if (not isinstance(value,exp.Literal) or value.is_string or

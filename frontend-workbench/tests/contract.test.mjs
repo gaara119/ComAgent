@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { displayValue, makeScope, sourceReady, safeDiagnostics, safeExport, safeText, makeContextRequest, bindContextResponse, attachContext, columnTitle } from '../src/contract.mjs';
+import { displayValue, makeScope, sourceReady, databaseReady, publicDatabase, apiErrorMessage, databaseErrorMessage, safeDiagnostics, safeExport, safeText, makeContextRequest, bindContextResponse, attachContext, columnTitle } from '../src/contract.mjs';
 
 test('diagnostic keys are hidden recursively and case-insensitively', () => {
   const input={api_key:'fixture-key',nested:{PASSWORD:'fixture-pass',authorization:'fixture-auth',dsn:'fixture-dsn',system_prompt:'fixture-system',user_prompt:'fixture-user',full_prompt:'fixture-full',catalog:{tables:['fixture-secret-table']}},llm_api_key:'fixture-llm',db_url:'fixture-db',secret:'fixture-secret',safe_count:35};
@@ -111,4 +111,39 @@ test('Chinese labels change only visible headers, never raw row keys or values',
   assert.equal(columnTitle('amount',{amount:''}),'amount');
   assert.equal(columnTitle('amount',null),'amount');
   assert.equal(JSON.stringify(row),snapshot);
+});
+
+test('registered SQL and auto sources require their own verified registry entry',()=>{
+  const health={status:'ok',llm_configured:true,database_ready:true,aw_database_ready:true};
+  const databases=[{db_id:'local-example',configured:true,catalog_exists:true}];
+  assert.equal(sourceReady('sql','local-example','',health,[],databases),true);
+  assert.equal(sourceReady('auto','local-example','manual',health,[{doc_id:'manual',ready:true}],databases),true);
+  assert.equal(sourceReady('auto','local-example','removed',health,[],databases),false);
+  assert.equal(sourceReady('sql','removed-connection','',health,[],databases),false);
+  assert.equal(sourceReady('sql','local-example','',health,[],[{...databases[0],configured:false}]),false);
+  assert.equal(sourceReady('sql','local-example','',health,[],[{...databases[0],catalog_exists:false}]),false);
+  assert.equal(sourceReady('sql','local-example','',{...health,llm_configured:false},[],databases),false);
+  assert.equal(databaseReady('chinook',{...health,database_ready:false},[{db_id:'chinook',configured:true,catalog_exists:true}]),false);
+  assert.deepEqual(makeScope('sql','local-example','old-doc'),{route:'sql',db_id:'local-example',doc_ids:[]});
+});
+
+test('public database projection keeps full table summaries and excludes connection credentials',()=>{
+  const tables=Array.from({length:35},(_,index)=>({schema:'public',name:`business_${index}`,column_count:6}));
+  const input={db_id:'local-example',name:'业务库',configured:true,catalog_exists:true,builtin:false,password:'fixture-password',dsn:'fixture-dsn',connection:{host:'localhost',user:'fixture-user',password:'fixture-password'},catalog_summary:{table_count:35,column_count:210,tables}};
+  const snapshot=JSON.stringify(input),result=publicDatabase(input);
+  assert.equal(result.label,'业务库');assert.equal(result.catalog_summary.tables.length,35);
+  assert.deepEqual(result.catalog_summary.tables,tables);
+  assert(!JSON.stringify(result).includes('fixture-'));
+  assert.equal(JSON.stringify(input),snapshot);
+  assert.equal(publicDatabase({id:'wrong-contract'}),null);
+});
+
+test('database API failures preserve actionable server details while hiding passwords',()=>{
+  assert.equal(apiErrorMessage({detail:{code:'CONNECTION_FAILED',message:'无法连接主机，请检查地址和端口。'}},400),'无法连接主机，请检查地址和端口。');
+  assert.equal(apiErrorMessage({detail:'连接信息格式无效。'},422),'连接信息格式无效。');
+  assert.equal(apiErrorMessage({detail:[{loc:['body','port'],msg:'端口超出范围'}]},422),'body.port: 端口超出范围');
+  assert.equal(apiErrorMessage({},503),'请求失败（HTTP 503）');
+  assert.equal(databaseErrorMessage(new Error('authentication failed: fixture-password'),'fixture-password'),'authentication failed: [已隐藏密码]');
+  const dsn='postgresql://reader:fixture-pass@localhost/db';
+  assert(!databaseErrorMessage(new Error(`failed ${dsn}`)).includes('fixture-pass'));
 });

@@ -320,7 +320,15 @@ def test_country_scope_change_preserves_unrelated_employee_country_filter(tmp_pa
     prepare_card(state,RuleEngine().evaluate(state.original_question,state.analysis));transition(state,'ANSWERED')
     apply_patches(state,[IntentPatch(op='set',path='region_scope',value='customer.country',evidence='客户所在地')],user_message='改按客户所在地')
     assert employee in state.bindings
-    assert {'column':'customer.country','operator':'=','value':'Canada'} in state.bindings
+    assert len(state.bindings)==2
+    country=next(item for item in state.bindings if item['column']=='customer.country')
+    assert {key:country[key] for key in ('column','operator','value')}=={'column':'customer.country','operator':'=','value':'Canada'}
+    assert country['field_owner_proof']['column']==country['column']
+    assert country['field_owner_proof']['evidence']=='改按客户所在地'
+    assert country['value_origin']['column']=='invoice.billing_country'
+    assert country['value_origin']['value']=='Canada'
+    assert country['value_index_revalidated'] is False
+    assert billing=={'column':'invoice.billing_country','operator':'=','value':'Canada'}
     assert not any(item.get('column')=='customer.country' and item.get('value')=='USA' for item in state.bindings)
 
 
@@ -457,7 +465,16 @@ def test_scope_migration_model_remove_old_field_does_not_delete_confirmed_value(
     patches=extract_patches('改按客户所在地统计，其他条件保持不变',state,no_link(),Model())
     assert len(patches)==1 and patches[0].path=='region_scope'
     apply_patches(state,patches,user_message='改按客户所在地统计，其他条件保持不变')
-    assert {**billing,'column':'customer.country'} in state.bindings and employee in state.bindings
+    assert len(state.bindings)==2 and employee in state.bindings
+    country=next(item for item in state.bindings if item['column']=='customer.country')
+    assert country['operator']=='=' and country['value']=='Canada'
+    assert country['field_owner_proof']['column']=='customer.country'
+    assert country['field_owner_proof']['evidence']=='改按客户所在地统计，其他条件保持不变'
+    assert country['evidence_ref']!='verified'
+    assert country['value_origin']['column']=='invoice.billing_country'
+    assert country['value_origin']['evidence_ref']=='verified'
+    assert country['value_index_revalidated'] is False
+    assert billing['column']=='invoice.billing_country' and billing['evidence_ref']=='verified'
     assert state.analysis.time_scope['current']['start']=='2024-01-01'
 
 

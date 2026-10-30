@@ -91,9 +91,42 @@ def retire_plan(session_id: str) -> bool:
         return _PLANS.pop(session_id, None) is not None
 
 
+def _artist_revenue_winner(question):
+    """Prove the bounded legacy target, not a maximum display-row limit.
+
+    This plan's SQL consumer requires one artist ranked by sales amount. Other
+    ranks, named-artist facts and unsupported wording stay with the general
+    planner; they must not acquire the legacy plan's forced top-one clause.
+    """
+    metric = r'(?:销售额|销售金额|营收|收入|sales\s*金额|\brevenue\b)'
+    rank = r'(?:最高|最多|(?:排名|排|位居|位列)?\s*(?:第\s*[1一]\s*名?|前\s*[1一]\s*名)|冠军)'
+    target = r'(?:艺术家|乐队)'
+    for clause in re.split(r'[，,。！？!?；;\n]', question):
+        for match in re.finditer(metric + r'\s*(?:合计|总计|累计)?\s*' + rank, clause, re.I):
+            # "sales amount, at most/show10 rows" is a presentation cap.
+            if re.match(r'\s*(?:给|展示|显示|返回|列出|输出|保留|[0-9一二三四五六七八九十]+\s*行)', clause[match.end():]):
+                continue
+            before, after = clause[:match.start()], clause[match.end():]
+            preceding_target = re.search(target + r'(?P<between>.{0,18})$', before)
+            following_target = re.match(r'\s*(?:的|那位|那支|那个|这位|这支)?\s*' + target, after)
+            if not following_target:
+                if re.match(r'\s*(?:的|那个|那张|那位)?\s*(?:月份|年份|月|年|客户|发票|账单|曲目|歌曲|专辑|员工|国家|地区)',after):
+                    continue
+                if preceding_target is None:
+                    continue
+                # The artist can own a monthly/invoice/track ranking without
+                # being its ranking object. Never turn that into an artist win.
+                if re.search(r'月|年份|哪年|客户|发票|曲目|歌曲|专辑|行|显示|返回', preceding_target['between']):
+                    continue
+            if re.search(r'(?:不要|不用|不必|无需|别|不是|并非|不比较|不查询|不查|不看|不问).{0,26}$', before):
+                continue
+            return True
+    return False
+
+
 def _explicit_hybrid_kind(question):
     from qa_agent.fusion.obligations import asks_definition_only
-    if (re.search(r"艺术家|乐队", question) and re.search(r"最高|第一|最多|前\s*1\s*名", question)
+    if (_artist_revenue_winner(question)
             and re.search(r"介绍|风格|背景|百科|简介", question)):
         return "sql_to_doc"
     if (re.search(r"手册|口径|定义", question) and re.search(r"客单价|平均每张发票金额", question)
@@ -119,11 +152,15 @@ def classify_route(request: ChatRequest) -> str:
     explicit=_explicit_hybrid_kind(question)
     if explicit:
         return explicit
+    if request.scope.route == 'auto':
+        from qa_agent.intent_consistency import document_information_request
+        if document_information_request(question):
+            return 'doc'
     if request.scope.route == "hybrid":
         return "unsupported"
     if request.scope.doc_ids:
-        from qa_agent.fusion.obligations import clearly_database_question
-        if request.scope.route == "auto" and clearly_database_question(question):
+        from qa_agent.intent_consistency import database_operation_request
+        if request.scope.route == "auto" and database_operation_request(question):
             return "sql"
         return "doc" if len(request.scope.doc_ids) == 1 else "unsupported"
     return "sql"
@@ -176,7 +213,8 @@ def _definition_context(definition: MetricDefinition, chunks: list[dict], catalo
     return context, [_evidence(selected)]
 
 
-def validate_fusion_sql(sql: str, catalog, context: dict | None) -> None:
+def validate_fusion_sql(sql: str, catalog, context: dict | None, *,
+                        s1_percent_display_context: dict | None = None) -> None:
     """Extra business-plan proof after the common SQL guards, before execution."""
     if not context:
         return
@@ -184,18 +222,32 @@ def validate_fusion_sql(sql: str, catalog, context: dict | None) -> None:
         # Composed plans may contain qualified subsets and GROUP BY. They still
         # traverse every common SQL, binding, semantic and read-only guard.
         # Evidence/definition lineage is retained in the actual step dependency.
+        from qa_agent.sql.helper_identity import validate_identity_lookup_sql
+        identity = validate_identity_lookup_sql(sql, catalog, context)
+        if identity is not None:
+            return identity
+        from qa_agent.sql.document_metric_lineage import (document_metric_target,
+            validate_document_metric_lineage)
         from qa_agent.sql.semantic_guard import validate_document_dependencies
-        proof = validate_document_dependencies(sql, catalog, context.get("dependencies", {}),
-                                               question=context.get("original_question", ""))
+        original = context.get("original_question", "")
+        if document_metric_target(original) is not None and catalog.database == 'chinook':
+            proof = validate_document_metric_lineage(sql, catalog, context.get('dependencies', {}),
+                question=original, identity_context=context,
+                s1_percent_display_context=s1_percent_display_context)
+        else:
+            proof = validate_document_dependencies(sql, catalog, context.get("dependencies", {}),
+                                                   question=original)
         if proof.get("not_verified"):
-            raise SQLValidationError("文档指标定义尚无可验证的执行映射，未执行该依赖计算。")
+            unsupported = SQLValidationError("文档指标定义尚无可验证的执行映射，未执行该依赖计算。")
+            unsupported.sql_repairable = False
+            raise unsupported
         return proof
     tree = qualify(sqlglot.parse_one(sql, read="postgres"), dialect="postgres", db="public",
                    schema=MappingSchema(catalog.sqlglot_schema(), dialect="postgres", normalize=False),
                    allow_partial_qualification=False, validate_qualify_columns=True)
     selects = list(tree.find_all(exp.Select))
     if not isinstance(tree, exp.Select) or len(selects) != 1 or tree.args.get("with_"):
-        raise SQLValidationError("D4跨源计划需一层SELECT，不接受改变指标粒度的子查询。")
+        raise SQLValidationError("当前跨源计划需一层SELECT，不接受改变指标粒度的子查询。")
     tables = {table.alias_or_name: table.name for table in tree.find_all(exp.Table)}
     if context["kind"] == "doc_to_sql":
         definition = context["definition"]

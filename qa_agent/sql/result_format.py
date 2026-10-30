@@ -5,9 +5,16 @@ import sqlglot
 from sqlglot import exp
 
 
-def percentage_formats(sql, columns, task_type, *, catalog=None):
+def percentage_formats(sql, columns, task_type, *, catalog=None, question=None):
     if task_type not in {"ratio", "growth", "yoy"}:
-        return {}
+        # BASE/S1 deliberately have no component-3 task state. Their external
+        # percentage display can still use the actual user's explicit request
+        # plus the same physical SQL-expression proof, without enabling a gate.
+        import re
+        if not (task_type is None and isinstance(question,str)
+                and re.search(r'占比|比例|百分|增长率|同比|环比|\bpercent(?:age)?\b',question,re.I)
+                and not re.search(r'多少倍|几倍|倍数|\btimes\b',question,re.I)):
+            return {}
     try:
         from qa_agent.sql.projection_semantics import projection_semantics
         meanings=projection_semantics(sql,columns,catalog=catalog)
@@ -33,7 +40,7 @@ def display_percentage(value, rule):
         return str(value)
 
 
-def presentation_formats(sql, columns, base_formats, *, query_scope=None, brief='', catalog=None):
+def presentation_formats(sql, columns, base_formats, *, query_scope=None, brief='', catalog=None, question=None):
     """Publish the same verified display roles/precision used by the answer.
 
     Explicit digits=None is an intentional raw display, different from a
@@ -49,6 +56,10 @@ def presentation_formats(sql, columns, base_formats, *, query_scope=None, brief=
     if source.get('source')=='program:explicit_percent_precision_pending':
         raise ValueError('百分比展示精度仍待确认。')
     raw=source.get('source')=='program:explicit_percent_precision_removed'
+    # Optional actual S1 current source; no model precision or new authority.
+    # Existing program semantic precision/removal remains higher priority.
+    if digits is None and not source and isinstance(question, str):
+        digits=requested_percent_digits({'output_requirements':[question]},error)
     if digits is None and not source:
         digits=requested_percent_digits({'output_requirements':[brief]},error)
     percent_digits=None if raw else digits if digits is not None else 2

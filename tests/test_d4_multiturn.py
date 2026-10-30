@@ -303,7 +303,13 @@ def test_scope_switch_cannot_drop_country_through_empty_whole_list(tmp_path):
         IntentPatch(op='set',path='filters',value=[],evidence='客户所在地')))
     apply_patches(state,patches,user_message=message)
     assert employee in state.bindings
-    assert {'column':'customer.country','operator':'=','value':'Canada'} in state.bindings
+    country=next(binding for binding in state.bindings if binding.get('column')=='customer.country')
+    assert {key:country[key]for key in ('column','operator','value')}=={'column':'customer.country','operator':'=','value':'Canada'}
+    assert country['field_owner_proof']['column']=='customer.country'
+    assert country['field_owner_proof']['evidence']==message
+    assert country['value_origin']['column']=='invoice.billing_country'
+    assert country['value_origin']['value']=='Canada'
+    assert country['value_index_revalidated']is False
 
 
 @pytest.mark.parametrize('model_removes_filter',[True,False])

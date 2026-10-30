@@ -1,7 +1,0 @@
-COMMAND: .\.venv\Scripts\python.exe -m pytest notes/oct12/staging/sql22/test_candidate-v2.py -q
-.............................................F.......                    [100%]
-FAILED test_independent_review_negated_inclusive_and_timestamp_probes_are_unparsed[早于2004年1月1日12:00:00入职。]
-Actual: {'current': {'end': '2004-01-01', 'grain': 'before', 'label': '早于2004年1月1'}}
-1 failed, 52 passed in 0.34s
-EXIT_CODE: 1
-Failure summary copied from actual tool output; optional 日 backtracking was fixed in separate v3.

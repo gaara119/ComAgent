@@ -3,6 +3,8 @@ from __future__ import annotations
 import re
 from copy import deepcopy
 
+_NAME_IDENTITY_FIELDS={'artist.name','album.title','genre.name','playlist.name','track.name','media_type.name'}
+
 
 def validate_scope_structure(value):
     """Validate known collection roles before any consumer sees a proposal."""
@@ -83,6 +85,49 @@ def canonical_slot(field: str, question: str='', source: str | None=None) -> str
     return 'unresolved_semantic_condition'
 
 
+def _resolved_name_identity(item, filters, question):
+    """Match an existing program-index binding, never a nonempty model guess.
+
+    This narrow retirement only concerns an unresolved single entity identity.
+    Extra predicates/local scopes remain pending; conditional aliases do not
+    become confirmed merely because their spelling resembles a known value.
+    """
+    field=item.get('column') or item.get('field')
+    if field not in _NAME_IDENTITY_FIELDS:
+        return False
+    if item.get('column') and item.get('field') and item['column']!=item['field']:
+        return False
+    if set(item)-{'column','field','reason','question','candidate_id','evidence_ref','binding_scope','applies_to'}:
+        return False
+    if any(item.get(key) not in (None,'global') for key in ('binding_scope','applies_to')):
+        return False
+    actual=[x for x in filters if x.get('column')==field]
+    if not actual:
+        return False
+    from qa_agent.nlu.value_index import record_id
+    identities=set()
+    for binding in actual:
+        value=binding.get('value')
+        if (binding.get('source')!='verified_value_index' or binding.get('operator')!='='
+                or not isinstance(value,str) or not value.strip()
+                or binding.get('method') not in {'exact','actual_user_canonical'}
+                or binding.get('binding_policy')=='candidate_only'
+                or any(binding.get(key) not in (None,'global') for key in ('binding_scope','applies_to'))):
+            return False
+        # A previously verified artist is not the answer to a new "another
+        # artist" card. Retirement needs this turn's actual canonical identity,
+        # as supplied by apply_patches(user_message), not merely old state.
+        if not re.search(r'(?<![A-Za-z0-9_])'+re.escape(value)+r'(?![A-Za-z0-9_])',question,re.I):
+            return False
+        candidate=record_id(field,value)
+        if binding.get('evidence_ref')!=candidate or binding.get('candidate_id',candidate)!=candidate:
+            return False
+        if any(item.get(key) is not None and item[key]!=candidate for key in ('candidate_id','evidence_ref')):
+            return False
+        identities.add((value,candidate))
+    return len(identities)==1
+
+
 def normalize_internal_contract(analysis, question: str=''):
     normalize_scope_collections(analysis)
     scope=dict(analysis.query_scope or {})
@@ -90,9 +135,12 @@ def normalize_internal_contract(analysis, question: str=''):
         scope['average_grain']='customer' if analysis.metric=='average_customer_amount' else 'invoice'
         scope['average_grain_missing']=False
     pending=list(scope.get('pending_filters') or [])
+    retired_identities={item.get('column') or item.get('field') for item in pending
+                        if _resolved_name_identity(item,analysis.filters,question)}
     scope['pending_filters']=[item for item in pending if not any(
-        actual.get('column')==item.get('column') and actual.get('operator') in {'=','IN'}
-        for actual in analysis.filters)]
+        item.get('column') and item.get('column') not in _NAME_IDENTITY_FIELDS
+        and actual.get('column')==item.get('column') and actual.get('operator') in {'=','IN'}
+        for actual in analysis.filters) and not _resolved_name_identity(item,analysis.filters,question)]
     if not scope['pending_filters']:
         scope.pop('pending_filters',None)
 
@@ -114,6 +162,12 @@ def normalize_internal_contract(analysis, question: str=''):
     seen=set()
     for item in analysis.clarification_requests:
         original=str(item.get('source_field') or item.get('field') or '')
+        # Only the corresponding physical-field identity question is closed.
+        # Other generic conditions/metrics/pending entities retain their cards.
+        identity={'field':original,**{key:item[key] for key in
+            ('candidate_id','evidence_ref','binding_scope','applies_to') if key in item}}
+        if original in retired_identities and _resolved_name_identity(identity,analysis.filters,question):
+            continue
         field=canonical_slot(original,str(item.get('question') or ''),item.get('source'))
         normalized={**item,'field':field}
         if original!=field:

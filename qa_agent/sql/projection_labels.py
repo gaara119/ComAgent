@@ -112,14 +112,80 @@ def projection_labels_from_sql(sql: str, columns=None, *, include_simple=False) 
                     return text
         return None
 
+    def format_average(node,scope):
+        """A singleton format label needs the real physical join, not an alias."""
+        if not include_simple or not isinstance(node,exp.Avg):
+            return None
+        body=unwrap(node.this)
+        case_predicate=None
+        if isinstance(body,exp.Case):
+            branches=body.args.get('ifs') or []
+            if (len(branches)!=1 or body.args.get('this') is not None
+                    or body.args.get('default') is not None and not isinstance(body.args['default'],exp.Null)):
+                return None
+            case_predicate=unwrap(branches[0].this)
+            body=unwrap(branches[0].args['true'])
+        column=body
+        if not isinstance(column,exp.Column) or column.name!='milliseconds':
+            return None
+        selected={alias:source for alias,(_,source) in scope.selected_sources.items()}
+        tables={alias:table for alias,table in selected.items() if isinstance(table,exp.Table)}
+        if len(tables)!=2 or len(selected)!=2 or any((t.db or 'public')!='public' for t in tables.values()):
+            return None
+        if sorted(t.name for t in tables.values())!=['media_type','track']:
+            return None
+        track=next(alias for alias,t in tables.items() if t.name=='track')
+        media=next(alias for alias,t in tables.items() if t.name=='media_type')
+        if column.table!=track:
+            return None
+        query=scope.expression
+        if not isinstance(query,exp.Select) or any(query.args.get(k) for k in ('group','having','qualify','distinct','limit','offset')):
+            return None
+        joins=query.args.get('joins') or []
+        if len(joins)!=1 or any(joins[0].args.get(k) for k in ('side','using','method')):
+            return None
+        on=unwrap(joins[0].args.get('on'))
+        if not isinstance(on,exp.EQ) or not all(isinstance(c,exp.Column) for c in (on.left,on.right)):
+            return None
+        if {(on.left.table,on.left.name),(on.right.table,on.right.name)}!={(track,'media_type_id'),(media,'media_type_id')}:
+            return None
+        where=query.args.get('where')
+        predicate=case_predicate if case_predicate is not None else unwrap(where.this) if where else None
+        if not isinstance(predicate,exp.EQ):
+            return None
+        for field,literal in ((predicate.left,predicate.right),(predicate.right,predicate.left)):
+            if (isinstance(field,exp.Column) and (field.table,field.name)==(media,'name')
+                    and isinstance(literal,exp.Literal) and literal.is_string):
+                entity=' '.join(str(literal.this).replace('|','／').split())
+                if 0<len(entity)<=100:
+                    if case_predicate is not None and where is not None:
+                        population=unwrap(where.this)
+                        # The real CASE identity must survive the enclosing
+                        # finite format filter. Extra conditions stay unknown.
+                        if not (isinstance(population,exp.In) and not population.args.get('query')
+                                and isinstance(population.this,exp.Column)
+                                and (population.this.table,population.this.name)==(media,'name')
+                                and population.expressions
+                                and all(isinstance(v,exp.Literal) and v.is_string for v in population.expressions)
+                                and literal.this in {v.this for v in population.expressions}):
+                            return None
+                    return Meaning(entity,'平均曲目时长（毫秒）')
+        return None
+
     def meaning(node,scope,depth=0):
         if depth>12:
             return None
         node,scope=resolve(node,scope)
+        average=format_average(node,scope)
+        if average:
+            return average
         if isinstance(node,exp.Subquery):
             inner=by_expr.get(id(node.this))
             if inner is None or len(node.this.selects)!=1:
                 return None
+            average=format_average(unwrap(node.this.selects[0]),inner)
+            if average:
+                return average
             unit=unit_for(node.this.selects[0],inner)
             where=node.this.args.get("where")
             # Single exact identity predicate only: no OR/scope invention.
@@ -148,6 +214,12 @@ def projection_labels_from_sql(sql: str, columns=None, *, include_simple=False) 
             left,right=meaning(node.left,root),meaning(node.right,root)
             if left and right and left.unit==right.unit and left.entity!=right.entity:
                 labels[key]=left.entity+" − "+right.entity+" · "+left.unit+"差"
+        elif include_simple and isinstance(node,exp.Abs):
+            difference=unwrap(node.this)
+            if isinstance(difference,exp.Sub):
+                left,right=meaning(difference.left,root),meaning(difference.right,root)
+                if left and right and left.unit==right.unit and left.entity!=right.entity:
+                    labels[key]=left.entity+' 与 '+right.entity+' · '+left.unit+'差的绝对值'
         if include_simple and key not in labels:
             unit=unit_for(node,root)
             if unit:

@@ -50,6 +50,27 @@ def _number(value):
         return None
 
 
+def data_coverage_note(sql, catalog, table):
+    """Describe a catalog fact for an empty invoice query; do not fill NULLs."""
+    if catalog is None or (table and any(value is not None for row in table for value in row.values())):
+        return None
+    coverage=catalog.metadata.get('invoice_date_range') or {}
+    start,end=coverage.get('min_date'),coverage.get('max_date')
+    if not isinstance(start,str) or not isinstance(end,str):return None
+    try:
+        from datetime import datetime
+        import sqlglot
+        from sqlglot import exp
+        first,last=datetime.fromisoformat(start),datetime.fromisoformat(end)
+        tree=sqlglot.parse_one(sql,read='postgres')
+        if not any(t.name=='invoice' and (t.db or 'public')=='public' for t in tree.find_all(exp.Table)):
+            return None
+    except (ValueError,TypeError):
+        return None
+    return (f'数据覆盖说明：当前目录记录的发票日期为{first.date().isoformat()}至{last.date().isoformat()}。'
+            '本次没有可汇总值；空结果或NULL不等于金额为0。')
+
+
 def _global_tie_fields(sql):
     """Trace every actual secondary key; unsupported expressions stay silent."""
     import sqlglot
@@ -82,9 +103,37 @@ def _global_tie_fields(sql):
     return result
 
 
+def _virtual_display_ranks(proof, sql, table, columns, labels, meanings):
+    """Accept only backend ranking proof bound to these exact SQL/rows.
+
+    This adds a display cell, never a raw result key or execution certificate.
+    """
+    from hashlib import sha256
+    import json
+    if (not isinstance(proof, dict) or not isinstance(sql, str)
+            or proof.get('status') != 'verified_SQL_ranking_display_only'
+            or proof.get('SQL_and_rows_mutated') is not False
+            or proof.get('actual_SQL_sha256') != sha256(sql.encode()).hexdigest()
+            or proof.get('actual_table_sha256') != sha256(json.dumps(table,
+                ensure_ascii=False, sort_keys=True, default=str,
+                separators=(',', ':')).encode()).hexdigest()
+            or any(meanings.get(column, {}).get('kind') == 'rank'
+                or labels.get(column) == '名次'
+                or re.search(r'^rank$|^rnk$|^rn$|名次', column, re.I)
+                for column in columns)):
+        return None
+    rows = proof.get('virtual_ranks')
+    if (not isinstance(rows, list) or len(rows) != len(table)
+            or any(not isinstance(row, dict) or type(row.get('row_index')) is not int
+                or row['row_index'] != i or type(row.get('rank')) is not int
+                or row['rank'] < 1 for i, row in enumerate(rows))):
+        return None
+    return [row['rank'] for row in rows]
+
+
 def present(question, table, columns, formats, *, metric=None, brief="", task_type=None, sql=None,
             query_scope=None, partition_proof=None, ratio_basis=None, groupwise_proof=None, comparison_proof=None,
-            catalog=None, semantic_intent=None):
+            catalog=None, semantic_intent=None, ranking_display_proof=None, display_question=None):
     if len(set(columns)) != len(columns):
         raise ValueError('结果包含重复列名，无法保持每个值的独立身份；请为投影提供不同列名。')
     labels = column_labels(columns)
@@ -150,6 +199,10 @@ def present(question, table, columns, formats, *, metric=None, brief="", task_ty
     if percent_source.get('source')=='program:explicit_percent_precision_pending':
         raise ValueError('百分比展示精度仍待确认，不能回退正文格式。')
     # A real task source (including removal) outranks persistent brief text.
+    # Only the opt-in actual-current display source may precede the brief.
+    # Callers that do not opt in retain the original BASE/semantic path.
+    if requested is None and not percent_source and isinstance(display_question, str):
+        requested=requested_percent_digits({'output_requirements':[display_question]},precision_error)
     if requested is None and not percent_source:
         requested=requested_percent_digits({'output_requirements':[brief]},precision_error)
     places=requested if requested is not None else 2
@@ -183,19 +236,22 @@ def present(question, table, columns, formats, *, metric=None, brief="", task_ty
             return str(int(number))
         return str(value)
 
+    virtual_ranks = _virtual_display_ranks(ranking_display_proof, sql, table,
+        columns, labels, meanings)
     if not table:
         answer = "按当前条件未查到记录；没有改动期间、地区或统计口径。"
-    elif len(table) == 1 and len(columns) == 1:
+    elif len(table) == 1 and len(columns) == 1 and virtual_ranks is None:
         answer = "查询结果：" + display(table[0].get(columns[0]), columns[0]) + "。"
         if _number(table[0].get(columns[0])) == 0 and re.search(r"count|数量|人数|首数|张数", columns[0], re.I):
             answer += "按当前条件和计数口径，计入的记录数为0。"
     else:
         per_group = (query_scope or {}).get("ranking_scope") == "per_group"
         verified_ratio_rank = bool(ratio_basis and ratio_basis.get("source") == "program:proved_ratio_operands" and ratio_basis.get("ranking"))
-        show_rank = (task_type == "ranking" or verified_ratio_rank) and (not per_group or (query_scope or {}).get("per_group_limit") == 1) and not any(labels.get(column)=='名次' or re.search(r"^rank$|^rnk$|^rn$|名次", column, re.I) for column in columns)
+        show_rank = virtual_ranks is not None or ((task_type == "ranking" or verified_ratio_rank) and (not per_group or (query_scope or {}).get("per_group_limit") == 1) and not any(labels.get(column)=='名次' or re.search(r"^rank$|^rnk$|^rn$|名次", column, re.I) for column in columns))
         lines = ["查询结果如下：", ("名次 | " if show_rank else "") + " | ".join(labels[column] for column in columns)]
         per_group = (query_scope or {}).get("ranking_scope") == "per_group"
-        lines.extend((str(1 if per_group else index + 1) + " | " if show_rank else "") +
+        lines.extend((str(virtual_ranks[index] if virtual_ranks is not None else
+                          1 if per_group else index + 1) + " | " if show_rank else "") +
                      " | ".join(display(row.get(column), column) for column in columns)
                      for index, row in enumerate(table[:20]))
         answer = "\n".join(lines)
@@ -235,6 +291,10 @@ def present(question, table, columns, formats, *, metric=None, brief="", task_ty
         elif task_type == "ranking" and sql:
             keys=_global_tie_fields(sql)
             if keys:answer+='\n并列时按'+'、'.join(keys)+'排列。'
+    if (virtual_ranks is not None and
+            ranking_display_proof.get('rank_kind') == 'SQLOrderOrdinal' and
+            isinstance(ranking_display_proof.get('tie_breaker_text'), str)):
+        answer += '\n' + ranking_display_proof['tie_breaker_text']
     if partition_columns:
         answer += "\n其余市场指重点名单以外的已知账单国家；账单国家为空的记录不归入任一组。"
     if ratio_basis and ratio_basis.get("source") in {"program:proved_ratio_operands", "program:proved_invoice_share", "program:proved_customer_winner_ratio"}:

@@ -134,14 +134,14 @@ def validate_sql(sql: str, catalog: Catalog, max_rows: int = 200) -> ValidatedSQ
         if isinstance(node, (exp.DDL, exp.DML, exp.Into, exp.Lock, exp.Command)):
             raise SQLValidationError("禁止写操作、SELECT INTO、锁定或命令，包括 CTE 内部操作。")
         if isinstance(node, exp.With) and node.args.get("recursive"):
-            raise SQLValidationError("D1 不支持递归 CTE。")
+            raise SQLValidationError("不支持递归 CTE。")
         if isinstance(node, exp.Table):
             if not isinstance(node.this, exp.Identifier) or node.args.get("catalog"):
                 raise SQLValidationError("禁止表函数和跨数据库对象。")
         if isinstance(node, exp.Dot) and isinstance(node.expression, exp.Func):
             raise SQLValidationError("禁止带命名空间的函数。")
         if isinstance(node, exp.Func) and _function_name(node) not in ALLOWED_FUNCTIONS:
-            raise SQLValidationError(f"函数 {_function_name(node)} 不在 D1 白名单中。")
+            raise SQLValidationError(f"函数 {_function_name(node)} 不在允许的查询函数列表中。")
         if isinstance(node, exp.DataType):
             data_type = node.this.value if hasattr(node.this, "value") else str(node.this)
             if data_type.upper() not in ALLOWED_CAST_TYPES:
@@ -178,7 +178,7 @@ def validate_sql(sql: str, catalog: Catalog, max_rows: int = 200) -> ValidatedSQ
     try:
         rendered = expression.sql(dialect="postgres", unsupported_level=ErrorLevel.RAISE)
     except UnsupportedError as exc:
-        raise SQLValidationError(f"D1 不支持该 PostgreSQL 语法：{exc}") from exc
+        raise SQLValidationError(f"不支持该 PostgreSQL 语法：{exc}") from exc
     return ValidatedSQL(sql=rendered, tables_used=sorted(physical_tables), default_limit_added=added)
 
 
@@ -689,6 +689,79 @@ def _prove_grouped_invoice_key_customer_lookup(scope,catalog,binding):
     return isinstance(country,exp.Column)and(country.table,country.name)==(customer_alias,'country')
 
 
+def _interval_bindings(sql: str) -> tuple[str, dict[str, str], dict[str, str]]:
+    """Preserve the typed literal before SQLGlot splits text from its unit.
+
+    PostgreSQL cannot bind a parameter *inside* an INTERVAL string. A complete
+    text value instead travels separately through CAST(parameter AS INTERVAL).
+    Source tokens distinguish an inline unit from a field qualifier; SQLGlot
+    otherwise collapses INTERVAL '1.5 YEAR' and INTERVAL '1.5' YEAR to one AST.
+    Only fixed interval fields/precision become SQL, never the literal's text.
+    This helper is not a replacement for validate_sql's read-only/type checks.
+    """
+    tokens = sqlglot.tokenize(sql, read="postgres")
+    parameters: dict[str, str] = {}
+    casts: dict[str, str] = {}
+    replacements = []
+    fields = {"YEAR", "MONTH", "DAY", "HOUR", "MINUTE", "SECOND"}
+    spans = {("YEAR", "MONTH"), ("DAY", "HOUR"), ("DAY", "MINUTE"),
+             ("DAY", "SECOND"), ("HOUR", "MINUTE"), ("HOUR", "SECOND"),
+             ("MINUTE", "SECOND")}
+
+    def precision_at(pos: int) -> tuple[str | None, int]:
+        if pos >= len(tokens) or tokens[pos].token_type.name != "L_PAREN":
+            return None, pos
+        if (pos + 2 >= len(tokens) or tokens[pos + 1].token_type.name != "NUMBER"
+                or not re.fullmatch(r"[0-6]", tokens[pos + 1].text)
+                or tokens[pos + 2].token_type.name != "R_PAREN"):
+            raise SQLValidationError("INTERVAL 精度仅支持 PostgreSQL 的整数 0..6。")
+        return tokens[pos + 1].text, pos + 3
+
+    for index, token in enumerate(tokens):
+        if token.token_type.name != "INTERVAL":
+            continue
+        pos = index + 1
+        precision, pos = precision_at(pos)
+        if pos < len(tokens) and tokens[pos].token_type.name == "BYTE_STRING":
+            raise SQLValidationError("INTERVAL 转义字符串不在参数化支持范围，请使用普通完整文本值。")
+        if pos >= len(tokens) or tokens[pos].token_type.name not in {"STRING", "RAW_STRING", "HEREDOC_STRING"}:
+            continue
+        value = tokens[pos].text
+        pos += 1
+        qualifier = []
+        if (pos < len(tokens) and tokens[pos].token_type.name == "VAR"
+                and tokens[pos].text.upper() in fields):
+            qualifier.append(tokens[pos].text.upper())
+            pos += 1
+            if pos < len(tokens) and tokens[pos].text.upper() == "TO":
+                if (pos + 1 >= len(tokens) or tokens[pos + 1].token_type.name != "VAR"
+                        or (qualifier[0], tokens[pos + 1].text.upper()) not in spans):
+                    raise SQLValidationError("不支持或无效的 INTERVAL 字段范围。")
+                qualifier += ["TO", tokens[pos + 1].text.upper()]
+                pos += 2
+            if qualifier[-1] == "SECOND":
+                suffix_precision, pos = precision_at(pos)
+                if suffix_precision is not None:
+                    if precision is not None:
+                        raise SQLValidationError("INTERVAL 不能重复声明精度。")
+                    precision = suffix_precision
+            elif precision is not None:
+                raise SQLValidationError("有精度的 INTERVAL 字段范围必须以 SECOND 结束。")
+        target = "INTERVAL" + (" " + " ".join(qualifier) if qualifier else "")
+        if precision is not None:
+            target += "(" + precision + ")"
+        name = f"qa_value_{len(parameters)}"
+        marker = f"__qa_interval_{len(parameters)}"
+        while marker in sql:
+            marker += "_"
+        parameters[name] = value
+        casts[marker] = f"CAST(%({name})s AS {target})"
+        replacements.append((token.start, tokens[pos - 1].end + 1, ":" + marker))
+    for start, end, replacement in reversed(replacements):
+        sql = sql[:start] + replacement + sql[end:]
+    return sql, parameters, casts
+
+
 def parameterize_strings(sql: str) -> tuple[str, dict[str, str]]:
     """Use AST nodes to bind text values; never substitute a canonical value.
 
@@ -696,14 +769,16 @@ def parameterize_strings(sql: str) -> tuple[str, dict[str, str]]:
     tokens here is solely the psycopg placeholder protocol, including modulo
     operators; every string literal itself travels as a separate parameter.
     """
+    sql, parameters, interval_casts = _interval_bindings(sql)
     expression = sqlglot.parse_one(sql, read="postgres")
-    parameters = {}
     for literal in list(expression.find_all(exp.Literal)):
         if literal.is_string:
             name = f"qa_value_{len(parameters)}"
             parameters[name] = literal.this
             literal.replace(exp.Placeholder(this=name))
     rendered = expression.sql(dialect="postgres")
+    for marker, cast_sql in interval_casts.items():
+        rendered = rendered.replace("%(" + marker + ")s", cast_sql)
     if parameters:
         rendered = rendered.replace("%", "%%")
         for name in parameters:

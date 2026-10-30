@@ -9,10 +9,11 @@ from streamlit.testing.v1 import AppTest
 from qa_agent.rag.answer import CitationError, DocumentAnswer, answer_from_chunks, citation_coverage_diagnostics
 from qa_agent.schemas import AnswerEnvelope, IntentContract
 from qa_agent.trace import TraceRecorder
+import ui.app as ui_app
 from ui.app import clarification_reason, result_display_table, rewrite_explanation
 
 
-APP = Path(__file__).resolve().parents[1] / "ui/app.py"
+APP = Path(ui_app.__file__)
 
 
 def chunk(text="Revenue 1234", evidence_id="E1"):
@@ -121,11 +122,24 @@ def test_legacy_percentage_inference_uses_sql_scale_and_never_guesses_missing_sq
     assert result_display_table(result(raw)) == raw
     assert result_display_table(result(raw, task="ratio")) == raw
     sql = "SELECT SUM(total) / 1000 AS ratio, SUM(total) AS sales_amount, COUNT(*) AS invoice_count FROM invoice"
-    assert result_display_table(result(raw, task="ratio", sql=sql)) == [{"ratio": "10.00%", "sales_amount": 100, "invoice_count": 2}]
+    # A model alias and task tag do not establish that literal1000 is an
+    # authorized total/budget in the same unit. Keep the original legacy SQL
+    # as a negative regression, rather than inventing percentage semantics.
+    assert result_display_table(result(raw, task="ratio", sql=sql)) == raw
     # Explicit unknown format must not be overridden by a compatibility guess.
     assert result_display_table(result(raw, task="ratio", sql=sql, formatting={"ratio": {"kind": "number"}})) == raw
     scaled = "SELECT SUM(total) * 100 / 1000 AS ratio FROM invoice"
-    assert result_display_table(result([{"ratio": 10}], task="ratio", sql=scaled)) == [{"ratio": "10.00%"}]
+    assert result_display_table(result([{"ratio": 10}], task="ratio", sql=scaled)) == [{"ratio": 10}]
+    ratio = "SUM(CASE WHEN billing_country='Brazil' THEN total END) / NULLIF(SUM(total),0)"
+    proved = f"SELECT {ratio} AS ratio, SUM(total) AS sales_amount, COUNT(*) AS invoice_count FROM invoice"
+    assert result_display_table(result(raw, task="ratio", sql=proved)) == [{"ratio": "10.00%", "sales_amount": 100, "invoice_count": 2}]
+    assert result_display_table(result(raw, task="ratio", sql=proved, formatting={"ratio": {"kind": "number"}})) == raw
+    for actual_scaled_ratio in (f"100 * ({ratio})", "SUM(CASE WHEN billing_country='Brazil' THEN total END) * 100 / NULLIF(SUM(total),0)"):
+        sql = f"SELECT {actual_scaled_ratio} AS ratio FROM invoice"
+        assert result_display_table(result([{"ratio": 10}], task="ratio", sql=sql)) == [{"ratio": "10.00%"}]
+    denominator_scaled = "SELECT SUM(CASE WHEN billing_country='Brazil' THEN total END) / NULLIF(SUM(total)*100,0) AS ratio FROM invoice"
+    assert result_display_table(result([{"ratio": .1}], task="ratio", sql=denominator_scaled)) == [{"ratio": .1}]
+    assert raw == [{"ratio": .1, "sales_amount": 100, "invoice_count": 2}]
 
 
 def test_ui_shows_unverified_warning_and_percentages_without_requery(monkeypatch):

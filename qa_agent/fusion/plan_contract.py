@@ -4,12 +4,53 @@ from __future__ import annotations
 import re
 
 
+_MATERIAL_DEFINITION_REFERENCE = re.compile(
+    r"(?:按(?:照)?|根据|依据|参照|遵循)\s*"
+    r"(?:(?:这份|本份|已登记的|登记的|已有|现有|提供的)\s*)?资料"
+    r"(?:中|里|内)?(?:的)?(?:默认(?:口径|定义|规则)?|(?:指标)?(?:定义|口径))")
+
+
+def _affirmative_material_definition_reference(question: str) -> bool:
+    """A requested source policy, rather than a bare mention of materials.
+
+    This recognizes only an affirmative reference to a definition/default in
+    supplied materials. It supplies no default, formula or time interval; the
+    registered document must still support the selected metric definition.
+    """
+    for match in _MATERIAL_DEFINITION_REFERENCE.finditer(question):
+        start = max((question.rfind(mark, 0, match.start())
+                     for mark in "，,。；;\n！？!?"), default=-1) + 1
+        prefix = question[start:match.start()]
+        # A quoted instruction is data. In particular, asking what the phrase
+        # "按资料默认" means must not create an executable definition dependency.
+        quoted = any(question[:match.start()].count(left) > question[:match.start()].count(right)
+                     for left, right in (("“", "”"), ("‘", "’"), ("「", "」"), ("『", "』")))
+        quoted = quoted or question[:match.start()].count('"') % 2 == 1
+        if quoted or re.search(r"不要|不能|不可|不应|不必|不用|无需|不需要|并非|不是|不按|不采用|别|"
+                               r"例如|比如|示例|举例|假设|假如|如果|引用|所谓", prefix):
+            continue
+        tail = re.split(r"[，,。；;\n！？!?]", question[match.end():], maxsplit=1)[0]
+        if re.search(r"未确认|待确认|尚未确认|还没确认|不适用|不采用|不生效|不能用|这句话|这个说法", tail):
+            continue
+        return True
+    return False
+
+
 def definition_target(question: str) -> str | None:
     from qa_agent.fusion.obligations import asks_definition_only
     if asks_definition_only(question):
         return None
-    if not re.search(r"手册|口径|定义", question):
+    # Remove the material-reference phrase before considering the older cue
+    # vocabulary, so a negated "按资料默认口径" cannot authorize itself merely
+    # because its rejected phrase contains the word "口径".
+    other_source_cues = _MATERIAL_DEFINITION_REFERENCE.sub("", question)
+    if not (re.search(r"手册|口径|定义", other_source_cues)
+            or _affirmative_material_definition_reference(question)):
         return None
+    from qa_agent.sql.document_metric_lineage import document_metric_target
+    manual_metric = document_metric_target(question)
+    if manual_metric:
+        return manual_metric
     if not re.search(r"计算|算|多少|数量|人数|客户数|金额", question):
         return None
     # These are existing project metrics; this function does not define their
@@ -25,6 +66,21 @@ def normalize_definition_plan(question, plan, available, *, catalog=None):
     definition it actually contains. Do not ask the document tool to supply
     physical join mappings already owned by the authenticated SQL catalog.
     """
+    from qa_agent.fusion.obligations import asks_definition_only
+    if asks_definition_only(question) and any(item.tool == 'sql' for item in plan.steps):
+        # A formula/boundary explanation does not authorize an all-history
+        # numeric computation. Keep actual source steps, without inventing a
+        # document or turning a SQL result into a definition.
+        from qa_agent.fusion.composed import ToolPlan
+        retained = [item.model_copy(deep=True) for item in plan.steps if item.tool != 'sql']
+        removed = {item.step_id for item in plan.steps if item.tool == 'sql'}
+        if not retained or any(set(item.depends_on) & removed for item in retained):
+            raise ValueError('定义解释没有独立可执行的来源步骤，不能用数据库计数代替定义。')
+        remap = {item.step_id: f's{i}' for i, item in enumerate(retained, 1)}
+        for item in retained:
+            item.depends_on = [remap[key] for key in item.depends_on]
+            item.step_id = remap[item.step_id]
+        return ToolPlan(steps=retained), ['removed_unrequested_definition_only_sql']
     target = definition_target(question)
     if not target:
         return _remove_unrequested_catalog_definition(question,plan,available,catalog=catalog)
@@ -53,7 +109,8 @@ def normalize_definition_plan(question, plan, available, *, catalog=None):
                 raise ValueError("指标定义步骤缺少唯一允许的手册来源。")
             item.doc_ids = manuals
         item.question = (f"只依据本手册提取“{target}”的计算定义、统计对象、判定条件、期间规则和单位。"
-                         "不要求手册提供员工/地区等数据库维度的关联；关联属于后续数据库目录。")
+                         "不要求手册提供员工/地区/媒体格式/歌单等数据库维度的关联或本题筛选值；"
+                         "关联和用户指定的筛选、期间属于后续数据库原问与真实目录。")
     all_sql_steps = [item for item in steps if item.tool == "sql"]
     definition_original_ids = {item.step_id for item in definition_steps}
     target_stem = target.removesuffix("数")

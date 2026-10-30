@@ -99,23 +99,19 @@ def result_display_table(result: AnswerEnvelope) -> list[dict] | None:
         inferred = {column: formatting for column, formatting in projected.items()
                     if str(column).casefold() in names and column not in formats}
     formats = {**inferred, **formats}
+    labels = result.metadata.get('column_labels')or{}
+    titles={column:labels.get(column)if isinstance(labels.get(column),str)and labels[column].strip()else column
+            for column in result.table[0]}
+    duplicates={label for label in titles.values()if list(titles.values()).count(label)>1}
+    titles={column:label+' ['+column+']'if label in duplicates else label for column,label in titles.items()}
     displayed = []
     for row in result.table:
         output = dict(row)
         for column, formatting in formats.items():
-            if (column not in output or not isinstance(formatting, dict)
-                    or formatting.get("kind") != "percentage" or formatting.get("scale") not in (1, 100)):
-                continue
-            value = output[column]
-            if value is None or isinstance(value, bool):
-                continue
-            try:
-                numeric = Decimal(str(value))
-                if numeric.is_finite():
-                    output[column] = f"{numeric * Decimal(formatting['scale']):.2f}%"
-            except (InvalidOperation, ValueError, TypeError):
-                continue
-        displayed.append(output)
+            if column in output:
+                from qa_agent.sql.result_format import display_numeric
+                output[column]=display_numeric(output[column],formatting)
+        displayed.append({titles[column]:value for column,value in output.items()})
     return displayed
 
 

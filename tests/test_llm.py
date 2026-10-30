@@ -116,3 +116,20 @@ def test_observer_failure_does_not_break_model_call(monkeypatch):
     assert llm.complete_json("prompt", "question", Probe, trace).ok
     assert trace.steps[0].output_summary["provider_capture_error"] == "local_capture_unavailable"
     assert len(calls) == 1
+
+
+def test_json_retry_reports_specific_schema_error_without_changing_user_condition(monkeypatch):
+    llm, calls = make_llm(monkeypatch, ['{"unrelated":true}', '{"ok":true}'])
+    assert llm.complete_json("只检查结构", "限定国家为实际原值", Probe, TraceRecorder()).ok
+    feedback = calls[1]["messages"][-1]["content"]
+    assert '"field": ["ok"]' in feedback and '"type": "missing"' in feedback
+    assert calls[1]["messages"][1]["content"] == "限定国家为实际原值"
+    assert "unrelated" not in feedback
+
+
+def test_json_syntax_feedback_records_actual_line_and_keeps_retry_limit(monkeypatch):
+    llm, calls = make_llm(monkeypatch, ['{"ok":}', '{"ok":true}'])
+    assert llm.complete_json("只检查结构", "不改变本次期间", Probe, TraceRecorder()).ok
+    feedback = calls[1]["messages"][-1]["content"]
+    assert '"type": "json_syntax"' in feedback and '"line": 1' in feedback
+    assert len(calls) == 2 and calls[1]["messages"][1]["content"] == "不改变本次期间"
