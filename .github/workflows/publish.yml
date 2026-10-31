@@ -57,12 +57,12 @@ jobs:
           docker run -d --name comagent-release-db --network comagent-release-check -e POSTGRES_PASSWORD=release-ci-only postgres:16-alpine
           for i in $(seq 1 40); do docker exec comagent-release-db pg_isready -U postgres && break; sleep 2; done
           docker exec comagent-release-db psql -U postgres -v ON_ERROR_STOP=1 -c "CREATE TABLE public.release_probe (id integer PRIMARY KEY); INSERT INTO public.release_probe VALUES (1); CREATE ROLE qa_reader LOGIN PASSWORD 'release-ci-only'; GRANT USAGE ON SCHEMA public TO qa_reader; GRANT SELECT ON public.release_probe TO qa_reader;"
-          docker run -d --name comagent-release-app --network comagent-release-check -p 127.0.0.1:8501:8501 -e RAG_ANSWER_MODE=extractive -e LLM_API_KEY= -e COMAGENT_SMOKE_DB_HOST=comagent-release-db -e COMAGENT_SMOKE_DB_PASSWORD=release-ci-only "$IMAGE:$VERSION"
-          for i in $(seq 1 40); do curl --fail --silent http://127.0.0.1:8501/ui-health && break; sleep 2; done
-          curl --fail --silent http://127.0.0.1:8501/ > /dev/null
+          docker run -d --name comagent-release-app --network comagent-release-check -p 127.0.0.1:18501:8501 -e COMAGENT_UI_PORT=18501 -e RAG_ANSWER_MODE=extractive -e LLM_API_KEY= -e COMAGENT_SMOKE_DB_HOST=comagent-release-db -e COMAGENT_SMOKE_DB_PASSWORD=release-ci-only "$IMAGE:$VERSION"
+          for i in $(seq 1 40); do curl --fail --silent http://127.0.0.1:18501/ui-health && break; sleep 2; done
+          curl --fail --silent http://127.0.0.1:18501/ > /dev/null
           docker exec comagent-release-app python scripts/smoke_container.py
           docker restart comagent-release-app
-          for i in $(seq 1 40); do curl --fail --silent http://127.0.0.1:8501/ui-health && break; sleep 2; done
+          for i in $(seq 1 40); do curl --fail --silent http://127.0.0.1:18501/ui-health && break; sleep 2; done
           docker exec comagent-release-app python scripts/smoke_container.py --verify-persistence
       - name: Publish image to GitHub Packages
         run: |

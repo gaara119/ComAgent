@@ -220,7 +220,14 @@ def import_document(title: str, raw: bytes, fmt: str, *, settings, root: Path = 
             writer = csv.DictWriter(stream, fieldnames=fields)
             writer.writeheader()
             writer.writerows([*rows, row])
-        candidate_index = directory / "index.candidate"
+        # Docker deployments mount data and .runtime as independent volumes.
+        # Directory rename is atomic only within one filesystem, so candidate
+        # indexes and the previous-index backup must share the live index's
+        # parent. Receipts and manifest snapshots remain in the job directory.
+        index.parent.mkdir(parents=True, exist_ok=True)
+        index_staging = index.parent / f".{index.name}.import-{job_id}"
+        index_staging.mkdir()
+        candidate_index = index_staging / "index.candidate"
         candidate_settings = replace(settings, rag_manifest_path=candidate_manifest, rag_index_path=candidate_index)
         # Append to a verified corpus without reparsing/re-embedding its original
         # pages. Shipped indexes can predate incremental fingerprints; rebuilding
@@ -280,7 +287,7 @@ def import_document(title: str, raw: bytes, fmt: str, *, settings, root: Path = 
             if old_dense.get("enabled") and (not new_dense.get("enabled") or
                     old_dense.get("model_sha256") != new_dense.get("model_sha256")):
                 raise ImportError("新增资料不能降级或切换原向量模型，已取消更新。", 409)
-        backup_index = directory / "index.before"
+        backup_index = index_staging / "index.before"
         if (manifest.read_bytes() if manifest.is_file() else None) != old_manifest:
             raise ImportError("导入期间文档清单已被其他进程修改，已取消发布，请重试。", 409)
         # Validate the combined corpus, vector shape and all source hashes

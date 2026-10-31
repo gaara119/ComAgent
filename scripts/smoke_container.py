@@ -71,7 +71,11 @@ def main():
         while job['status'] in ('queued','indexing'):
             assert time.monotonic()<deadline,job
             time.sleep(.2);_,job=call('/api/documents/imports/'+job['job_id'])
-        assert job['status']=='ready',job
+        if job['status'] != 'ready':
+            diagnostic = ROOT / '.runtime/document-imports' / job['job_id'] / 'failure.txt'
+            if diagnostic.is_file():
+                print(diagnostic.read_text('utf-8'), flush=True)
+            raise AssertionError(job)
         doc_id=job['document']['doc_id'];ids.append(doc_id)
         status,answer=call('/api/chat',{'session_id':'container-'+marker+kind,'message':'What is the Cedar budget?',
                                       'scope':{'route':'doc','doc_ids':[doc_id]}})

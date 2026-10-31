@@ -1,6 +1,7 @@
 """Real local parsing/index/retrieval in temporary corpora; no paid API."""
 import base64
 from dataclasses import replace
+import errno
 from hashlib import sha256
 import io
 import json
@@ -39,6 +40,81 @@ def add(corpus, text="The Aurora project launches in 2031. The budget is 125 dol
 def fingerprint(settings):
     return (settings.rag_manifest_path.read_bytes(),
             {p.name: p.read_bytes() for p in settings.rag_index_path.iterdir() if p.is_file()})
+
+
+@pytest.fixture
+def split_data_runtime_devices(corpus, monkeypatch):
+    """Emulate separate Docker volumes without requiring a Docker daemon."""
+    root, _ = corpus
+    renames = []
+    original_rename, original_replace = Path.rename, Path.replace
+
+    def device(path):
+        path = Path(path).resolve()
+        return "data" if path.is_relative_to(root / "data") else "runtime"
+
+    def guard(operation):
+        def checked(source, destination):
+            renames.append((source, Path(destination)))
+            if device(source) != device(destination):
+                raise OSError(errno.EXDEV, "Invalid cross-device link")
+            return operation(source, destination)
+        return checked
+
+    monkeypatch.setattr(Path, "rename", guard(original_rename))
+    monkeypatch.setattr(Path, "replace", guard(original_replace))
+    return renames
+
+
+def test_initial_and_incremental_import_across_separate_volumes(corpus, split_data_runtime_devices):
+    root, settings = corpus
+    first = add(corpus)
+    second = add(corpus, "The Borealis budget is 750 dollars.", "Borealis")
+    from qa_agent.rag.index import load_index
+    chunks, metadata = load_index(settings=settings)
+    assert {first["doc_id"], second["doc_id"]} == {d["doc_id"] for d in metadata["documents"]}
+    assert {c["doc_id"] for c in chunks} == {first["doc_id"], second["doc_id"]}
+    publications = [(source, destination) for source, destination in split_data_runtime_devices
+                    if source.name == "index.candidate" or destination.name == "index.before"]
+    assert len(publications) == 3  # First publish, old-index backup, incremental publish.
+    assert all(source.is_relative_to(settings.rag_index_path.parent)
+               and destination.is_relative_to(settings.rag_index_path.parent)
+               for source, destination in publications)
+    # Auditable receipts stay on the runtime volume; successful backups stay
+    # beside the live index so rollback/recovery does not cross a mount point.
+    assert len(list((root / ".runtime/document-imports").glob("*/manifest.candidate.csv"))) == 2
+    assert len(list(settings.rag_index_path.parent.glob(".index.import-*/index.before"))) == 1
+
+
+@pytest.mark.parametrize("failure_stage", ["candidate_publish", "manifest_publish"])
+def test_cross_volume_publication_failure_restores_live_corpus(
+        corpus, split_data_runtime_devices, monkeypatch, failure_stage):
+    first = add(corpus)
+    root, settings = corpus
+    before = fingerprint(settings)
+    original_rename, original_replace = Path.rename, Path.replace
+
+    def fail_candidate(source, destination):
+        if failure_stage == "candidate_publish" and source.name == "index.candidate":
+            raise OSError("fixture candidate publication failure")
+        return original_rename(source, destination)
+
+    def fail_manifest(source, destination):
+        if failure_stage == "manifest_publish" and source.name.endswith(".upload.tmp"):
+            raise OSError("fixture manifest publication failure")
+        return original_replace(source, destination)
+
+    with monkeypatch.context() as failure:
+        failure.setattr(Path, "rename", fail_candidate)
+        failure.setattr(Path, "replace", fail_manifest)
+        with pytest.raises(OSError, match="fixture"):
+            add(corpus, "New evidence whose publication must fail.", "Rejected")
+    assert fingerprint(settings) == before
+    assert len(list((root / "data/docs/uploads").glob("*.md"))) == 1
+    from qa_agent.rag.index import load_index
+    _, metadata = load_index(settings=settings)
+    assert [d["doc_id"] for d in metadata["documents"]] == [first["doc_id"]]
+    assert add(corpus, "Recovery evidence has a 1250 dollar budget.", "Recovered")["ready"]
 
 
 def test_add_text_then_another_source_preserves_old_sources_and_chunks(corpus):

@@ -53,7 +53,9 @@ cd ComAgent
 
 ### 第二步：确认 Docker 可用
 
-打开 Docker Desktop，等待引擎运行，再执行：
+尚未安装时，按 [Docker Desktop 官方 Windows 安装说明](https://docs.docker.com/desktop/setup/install/windows-install/)下载并安装，按安装器提示启用 WSL 2、完成必要的系统重启。项目运行的是 Linux 容器，不要切换为 Windows containers。Docker 方式不需要另装 Python、Node 或本机 PostgreSQL。
+
+打开 Docker Desktop，等待引擎运行，再在源码目录的 PowerShell 中执行：
 
 ```powershell
 docker version
@@ -119,7 +121,7 @@ GitHub Packages 的首次发布可能默认私有，是否可匿名拉取以包�
 | `app-data` | `/app/data` | 上传文件、清单、索引、模型与目录定义 |
 | `app-runtime` | `/app/.runtime` | 会话、任务、连接登记及其加密密钥 |
 
-Linux 容器中的连接信息使用认证加密，密钥保存在权限受限的 runtime 卷中。备份或迁移时需要同时保存 data 和 runtime，不能只复制密文登记文件。
+Linux 容器中的连接信息使用认证加密，自动生成的密钥保存在权限受限的 runtime 卷中。备份或迁移时需要同时保存 data 和 runtime，不能只复制密文登记文件。若自行设置了 `COMAGENT_CREDENTIAL_KEY`，恢复时还必须提供相同的外部密钥配置。
 
 常用操作：
 
