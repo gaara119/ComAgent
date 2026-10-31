@@ -39,7 +39,7 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
     from qa_agent.rag.retrieval_cache import snapshot, scoped_corpus, query_vector
     settings = settings or get_settings()
     strategy = strategy or getattr(settings, "rag_retrieval_strategy", "hybrid")
-    if strategy not in {"dense", "hybrid", "hybrid_rerank"}:
+    if strategy not in {"bm25", "dense", "hybrid", "hybrid_rerank"}:
         raise DocumentError("未知的检索策略。", "rag_strategy_invalid")
     began = perf_counter()
     chunks, metadata, all_vectors, signature, snapshot_hit = snapshot(settings, load_index)
@@ -55,6 +55,7 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
     if not selected:
         raise DocumentError("指定文档尚未建立索引。", "document_not_indexed")
     cache_enabled = getattr(settings, "rag_cache_enabled", True)
+    lexical_began = perf_counter()
     query_tokens = tokenize(query or question)
     if strategy == "dense":
         import numpy as np
@@ -73,12 +74,16 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
     rrf_k = getattr(settings, "rag_rrf_k", 60)
     lexical_order = lexical_order[:candidate_k]
     ranking = {i: 1 / (rrf_k + rank) for rank, i in enumerate(lexical_order, 1)}
+    lexical_ms = (perf_counter() - lexical_began) * 1000
     dense_scores = None
     dense_config = metadata.get("dense_embedding", {})
     method = "bm25"
     dense_order = []
     query_hit = False
-    if dense_config.get("enabled"):
+    dense_began = perf_counter()
+    # A keyword-only control uses the same frozen chunks/index, not a missing
+    # model directory. Never initialize or query the encoder in this arm.
+    if dense_config.get("enabled") and strategy != "bm25":
         import numpy as np
         from qa_agent.rag.embeddings import get_embedder
         embedder = get_embedder(settings)
@@ -105,8 +110,12 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
         method = "bm25+bge-m3_dense_rrf"
     elif strategy == "dense":
         raise DocumentError("纯向量对照需要真实dense索引。", "embedding_unavailable")
+    dense_ms = (perf_counter() - dense_began) * 1000 if dense_scores is not None else 0.
+    fusion_began = perf_counter()
     fused_order = sorted(ranking, key=lambda i: (-ranking[i], selected[i][1]["chunk_id"]))
+    fusion_ms = (perf_counter() - fusion_began) * 1000
     rerank_details, expansion = {}, []
+    rerank_began = perf_counter()
     if strategy == "dense":
         ordered = dense_order[:settings.rag_top_k]
         method = "bge-m3_dense"
@@ -118,11 +127,13 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
         method += "+local_coverage_rerank+source_neighbors"
     else:
         ordered = fused_order[:settings.rag_top_k]
+    rerank_ms = (perf_counter() - rerank_began) * 1000 if strategy == "hybrid_rerank" else 0.
     results = []
     for position, i in enumerate(ordered, 1):
         item = deepcopy(selected[i][1])
-        item.update(evidence_id=f"E{position}", score=round(float(dense_scores[i]) if strategy == "dense" else ranking.get(i, 0.), 8),
-                    score_type="cosine_similarity" if strategy == "dense" else "rrf",
+        score = float(dense_scores[i]) if strategy == "dense" else float(lexical_scores[i]) if strategy == "bm25" else ranking.get(i, 0.)
+        item.update(evidence_id=f"E{position}", score=round(score, 8),
+                    score_type="cosine_similarity" if strategy == "dense" else "bm25" if strategy == "bm25" else "rrf",
                     retrieval_origin="source_neighbor" if i not in ranking else "ranked_candidate",
                     bm25_score=round(float(lexical_scores[i]), 6))
         if dense_scores is not None:
@@ -140,7 +151,7 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
                      "candidate_k_per_channel": candidate_k, "rrf_k": rrf_k, "rank_starts_at": 1,
                      "rankings": {"bm25": ranking_records(lexical_order, lexical_scores),
                                   "dense": ranking_records(dense_order, dense_scores) if dense_scores is not None else [],
-                                  "rrf": ranking_records(fused_order, ranking) if strategy != "dense" else []},
+                                  "rrf": ranking_records(fused_order, ranking) if strategy not in {"dense", "bm25"} else []},
                      "hit_at_5_scope": [selected[i][1]["chunk_id"] for i in ordered[:5]],
                      "retrieval_strategy": strategy,
                      "reranker": {"kind": "local_query_coverage_not_cross_encoder", "enabled": strategy == "hybrid_rerank",
@@ -151,6 +162,10 @@ def retrieve(question: str, doc_id: str | list[str], *, settings=None, query: st
                      "cache": {"enabled": cache_enabled, "snapshot_hit": snapshot_hit,
                                "corpus_hit": corpus_hit, "query_vector_hit": query_hit},
                      "retrieval_timing_ms": {"source_validation": round(source_ms, 3),
+                                             "lexical_scoring": round(lexical_ms, 3),
+                                             "dense_scoring": round(dense_ms, 3),
+                                             "fusion_ordering": round(fusion_ms, 3),
+                                             "reranking_and_neighbors": round(rerank_ms, 3),
                                              "total": round((perf_counter() - began) * 1000, 3)},
                      "retrieved_count": len(results), "index_created_at": metadata["created_at"],
                      "index_chunks_sha256": metadata["chunks_sha256"],

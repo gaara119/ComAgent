@@ -1,0 +1,1370 @@
+[
+  {
+    "id": "rag-dev-006",
+    "strategy": "bm25",
+    "repeat": 1,
+    "category": "unanswerable",
+    "family_id": "family-006",
+    "answerable": false,
+    "question": "仅依据登记资料，2027年中国大陆 Cedar 可用性承诺是多少？",
+    "retrieval_question": "仅依据登记资料，2027年中国大陆 Cedar 可用性承诺是多少？",
+    "allowed_doc_ids": [
+      "cedar-sla-2026",
+      "cedar-sla-2025",
+      "cedar-price-cn",
+      "cedar-price-us",
+      "atlas-east",
+      "atlas-west",
+      "atlas-lab",
+      "harbor-migration",
+      "harbor-security",
+      "service-glossary"
+    ],
+    "reference_review_status": "pending_human_review",
+    "error": null,
+    "evidence_condition_answerable": false,
+    "input_chunks": [
+      {
+        "chunk_id": "f4112e47dafb93072551b3ea",
+        "doc_id": "cedar-sla-2026",
+        "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）"
+        ],
+        "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。",
+        "bbox": null,
+        "bbox_scope": null,
+        "source_blocks": [
+          {
+            "block_id": 0,
+            "bbox": null,
+            "char_start": 0,
+            "char_end": 25
+          },
+          {
+            "block_id": 1,
+            "bbox": null,
+            "char_start": 26,
+            "char_end": 107
+          }
+        ],
+        "ocr_confidence_min": null,
+        "page_bbox": null,
+        "char_start": 0,
+        "char_end": 107,
+        "source_record_id": "section-0",
+        "parser": "markdown-headings",
+        "coordinate_system": null,
+        "location_status": "page_or_section_only",
+        "section_location_status": "source_heading",
+        "rotation": null,
+        "cropbox": null,
+        "warnings": [],
+        "source_url": "",
+        "content_hash": "c7dafd22b385a330cc27f654155f0a585f05d73dcb512b4b5836b44051261abe",
+        "boundary_start": "page_start",
+        "boundary_end": "page_end",
+        "incomplete_sentence_start": false,
+        "incomplete_sentence_end": false,
+        "overlap_chars": 0,
+        "evidence_id": "E1"
+      },
+      {
+        "chunk_id": "5490178d5077d5644c03310e",
+        "doc_id": "cedar-sla-2026",
+        "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）",
+          "可用性目标"
+        ],
+        "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+        "bbox": null,
+        "bbox_scope": null,
+        "source_blocks": [
+          {
+            "block_id": 2,
+            "bbox": null,
+            "char_start": 0,
+            "char_end": 8
+          },
+          {
+            "block_id": 3,
+            "bbox": null,
+            "char_start": 9,
+            "char_end": 49
+          },
+          {
+            "block_id": 4,
+            "bbox": null,
+            "char_start": 50,
+            "char_end": 85
+          }
+        ],
+        "ocr_confidence_min": null,
+        "page_bbox": null,
+        "char_start": 0,
+        "char_end": 85,
+        "source_record_id": "section-1",
+        "parser": "markdown-headings",
+        "coordinate_system": null,
+        "location_status": "page_or_section_only",
+        "section_location_status": "source_heading",
+        "rotation": null,
+        "cropbox": null,
+        "warnings": [],
+        "source_url": "",
+        "content_hash": "e4f0539443f5148e3cb7e912fb489e1cd7e72cdf7b342fb4f833d313bf168d9a",
+        "boundary_start": "page_start",
+        "boundary_end": "page_end",
+        "incomplete_sentence_start": false,
+        "incomplete_sentence_end": false,
+        "overlap_chars": 0,
+        "evidence_id": "E2"
+      }
+    ],
+    "retrieval_trace": {
+      "diagnostic_fixed_evidence": true,
+      "allowed_doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ]
+    },
+    "generation": {
+      "status": "SUCCEEDED",
+      "answer": "原文摘录（extractive 模式，请据此核对问题）：\n[E1] # Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。\n\n[E2] ## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+      "citation_ids": [
+        "E1",
+        "E2"
+      ],
+      "used_evidence": [
+        {
+          "chunk_id": "f4112e47dafb93072551b3ea",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）"
+          ],
+          "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 0,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 25
+            },
+            {
+              "block_id": 1,
+              "bbox": null,
+              "char_start": 26,
+              "char_end": 107
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 107,
+          "source_record_id": "section-0",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "c7dafd22b385a330cc27f654155f0a585f05d73dcb512b4b5836b44051261abe",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E1"
+        },
+        {
+          "chunk_id": "5490178d5077d5644c03310e",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 2,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 8
+            },
+            {
+              "block_id": 3,
+              "bbox": null,
+              "char_start": 9,
+              "char_end": 49
+            },
+            {
+              "block_id": 4,
+              "bbox": null,
+              "char_start": 50,
+              "char_end": 85
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 85,
+          "source_record_id": "section-1",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "e4f0539443f5148e3cb7e912fb489e1cd7e72cdf7b342fb4f833d313bf168d9a",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E2"
+        }
+      ],
+      "input_chunks": [
+        {
+          "chunk_id": "f4112e47dafb93072551b3ea",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）"
+          ],
+          "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 0,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 25
+            },
+            {
+              "block_id": 1,
+              "bbox": null,
+              "char_start": 26,
+              "char_end": 107
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 107,
+          "source_record_id": "section-0",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "c7dafd22b385a330cc27f654155f0a585f05d73dcb512b4b5836b44051261abe",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E1"
+        },
+        {
+          "chunk_id": "5490178d5077d5644c03310e",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 2,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 8
+            },
+            {
+              "block_id": 3,
+              "bbox": null,
+              "char_start": 9,
+              "char_end": 49
+            },
+            {
+              "block_id": 4,
+              "bbox": null,
+              "char_start": 50,
+              "char_end": 85
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 85,
+          "source_record_id": "section-1",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "e4f0539443f5148e3cb7e912fb489e1cd7e72cdf7b342fb4f833d313bf168d9a",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E2"
+        }
+      ],
+      "answer_mode": "extractive",
+      "validation_warnings": [],
+      "semantic_status": "not_applicable_extractive",
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "mode": "not_applicable",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "error": null,
+      "answer_implementation_sha256": "b1bfc9dcb01accffc35c1c1d75268f251e593583501e423befb28f597f14cb0b",
+      "generation_input": {
+        "question": "仅依据登记资料，2027年中国大陆 Cedar 可用性承诺是多少？",
+        "evidence": [
+          {
+            "evidence_id": "E1",
+            "doc_id": "cedar-sla-2026",
+            "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+            "page": null,
+            "section_path": [
+              "Cedar 服务等级协议（中国大陆，2026）"
+            ],
+            "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。"
+          },
+          {
+            "evidence_id": "E2",
+            "doc_id": "cedar-sla-2026",
+            "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+            "page": null,
+            "section_path": [
+              "Cedar 服务等级协议（中国大陆，2026）",
+              "可用性目标"
+            ],
+            "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。"
+          }
+        ]
+      },
+      "trace": [
+        {
+          "name": "evaluation_evidence",
+          "status": "ok",
+          "input_summary": {
+            "evidence_count": 2
+          },
+          "output_summary": {
+            "evidence_ids": [
+              "E1",
+              "E2"
+            ]
+          },
+          "latency_ms": 0
+        },
+        {
+          "name": "doc_answer",
+          "status": "ok",
+          "input_summary": {
+            "mode": "extractive",
+            "evidence_count": 2
+          },
+          "output_summary": {
+            "status": "SUCCEEDED",
+            "citation_ids": [
+              "E1",
+              "E2"
+            ]
+          },
+          "latency_ms": 0
+        }
+      ],
+      "usage": {
+        "physical_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_hit_input_tokens": 0,
+        "cache_miss_input_tokens": 0,
+        "observed_input_tokens": 0,
+        "observed_output_tokens": 0,
+        "missing_usage_attempts": 0,
+        "usage_complete": true,
+        "cache_usage_complete": true
+      },
+      "latency_ms": 0,
+      "trace_id": "bd0a83fa-b438-438d-9b46-36e48a57ed71"
+    },
+    "latency_ms": 0.474,
+    "retrieval": {
+      "eligible": false,
+      "diagnostic_fixed_evidence": true
+    },
+    "answer_diagnostics": {
+      "lexical_fact_coverage": null,
+      "matched_fact_ids": [],
+      "citation_ids_valid": true,
+      "citation_count": 2,
+      "citation_quotes_unchanged": null,
+      "refusal_status": false,
+      "refusal_surface_heuristic": false,
+      "reference_answerable": false,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_review_status": "not_verified"
+    },
+    "error_categories": [
+      "unanswerable_not_refused"
+    ],
+    "prediction_sha256": "49ef9cdb7a79809848a29fc28a538f128015398467b6cad63e369f5c5633e07b"
+  },
+  {
+    "id": "rag-dev-025",
+    "strategy": "bm25",
+    "repeat": 1,
+    "category": "unanswerable",
+    "family_id": "family-025",
+    "answerable": false,
+    "question": "仅依据登记资料，2026年 Atlas 泵站东区负责人林澈的私人电话号码是什么？",
+    "retrieval_question": "仅依据登记资料，2026年 Atlas 泵站东区负责人林澈的私人电话号码是什么？",
+    "allowed_doc_ids": [
+      "cedar-sla-2026",
+      "cedar-sla-2025",
+      "cedar-price-cn",
+      "cedar-price-us",
+      "atlas-east",
+      "atlas-west",
+      "atlas-lab",
+      "harbor-migration",
+      "harbor-security",
+      "service-glossary"
+    ],
+    "reference_review_status": "pending_human_review",
+    "error": null,
+    "evidence_condition_answerable": false,
+    "input_chunks": [
+      {
+        "chunk_id": "f4112e47dafb93072551b3ea",
+        "doc_id": "cedar-sla-2026",
+        "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）"
+        ],
+        "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。",
+        "bbox": null,
+        "bbox_scope": null,
+        "source_blocks": [
+          {
+            "block_id": 0,
+            "bbox": null,
+            "char_start": 0,
+            "char_end": 25
+          },
+          {
+            "block_id": 1,
+            "bbox": null,
+            "char_start": 26,
+            "char_end": 107
+          }
+        ],
+        "ocr_confidence_min": null,
+        "page_bbox": null,
+        "char_start": 0,
+        "char_end": 107,
+        "source_record_id": "section-0",
+        "parser": "markdown-headings",
+        "coordinate_system": null,
+        "location_status": "page_or_section_only",
+        "section_location_status": "source_heading",
+        "rotation": null,
+        "cropbox": null,
+        "warnings": [],
+        "source_url": "",
+        "content_hash": "c7dafd22b385a330cc27f654155f0a585f05d73dcb512b4b5836b44051261abe",
+        "boundary_start": "page_start",
+        "boundary_end": "page_end",
+        "incomplete_sentence_start": false,
+        "incomplete_sentence_end": false,
+        "overlap_chars": 0,
+        "evidence_id": "E1"
+      },
+      {
+        "chunk_id": "5490178d5077d5644c03310e",
+        "doc_id": "cedar-sla-2026",
+        "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）",
+          "可用性目标"
+        ],
+        "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+        "bbox": null,
+        "bbox_scope": null,
+        "source_blocks": [
+          {
+            "block_id": 2,
+            "bbox": null,
+            "char_start": 0,
+            "char_end": 8
+          },
+          {
+            "block_id": 3,
+            "bbox": null,
+            "char_start": 9,
+            "char_end": 49
+          },
+          {
+            "block_id": 4,
+            "bbox": null,
+            "char_start": 50,
+            "char_end": 85
+          }
+        ],
+        "ocr_confidence_min": null,
+        "page_bbox": null,
+        "char_start": 0,
+        "char_end": 85,
+        "source_record_id": "section-1",
+        "parser": "markdown-headings",
+        "coordinate_system": null,
+        "location_status": "page_or_section_only",
+        "section_location_status": "source_heading",
+        "rotation": null,
+        "cropbox": null,
+        "warnings": [],
+        "source_url": "",
+        "content_hash": "e4f0539443f5148e3cb7e912fb489e1cd7e72cdf7b342fb4f833d313bf168d9a",
+        "boundary_start": "page_start",
+        "boundary_end": "page_end",
+        "incomplete_sentence_start": false,
+        "incomplete_sentence_end": false,
+        "overlap_chars": 0,
+        "evidence_id": "E2"
+      }
+    ],
+    "retrieval_trace": {
+      "diagnostic_fixed_evidence": true,
+      "allowed_doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ]
+    },
+    "generation": {
+      "status": "SUCCEEDED",
+      "answer": "原文摘录（extractive 模式，请据此核对问题）：\n[E1] # Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。\n\n[E2] ## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+      "citation_ids": [
+        "E1",
+        "E2"
+      ],
+      "used_evidence": [
+        {
+          "chunk_id": "f4112e47dafb93072551b3ea",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）"
+          ],
+          "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 0,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 25
+            },
+            {
+              "block_id": 1,
+              "bbox": null,
+              "char_start": 26,
+              "char_end": 107
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 107,
+          "source_record_id": "section-0",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "c7dafd22b385a330cc27f654155f0a585f05d73dcb512b4b5836b44051261abe",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E1"
+        },
+        {
+          "chunk_id": "5490178d5077d5644c03310e",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 2,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 8
+            },
+            {
+              "block_id": 3,
+              "bbox": null,
+              "char_start": 9,
+              "char_end": 49
+            },
+            {
+              "block_id": 4,
+              "bbox": null,
+              "char_start": 50,
+              "char_end": 85
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 85,
+          "source_record_id": "section-1",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "e4f0539443f5148e3cb7e912fb489e1cd7e72cdf7b342fb4f833d313bf168d9a",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E2"
+        }
+      ],
+      "input_chunks": [
+        {
+          "chunk_id": "f4112e47dafb93072551b3ea",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）"
+          ],
+          "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 0,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 25
+            },
+            {
+              "block_id": 1,
+              "bbox": null,
+              "char_start": 26,
+              "char_end": 107
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 107,
+          "source_record_id": "section-0",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "c7dafd22b385a330cc27f654155f0a585f05d73dcb512b4b5836b44051261abe",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E1"
+        },
+        {
+          "chunk_id": "5490178d5077d5644c03310e",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 2,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 8
+            },
+            {
+              "block_id": 3,
+              "bbox": null,
+              "char_start": 9,
+              "char_end": 49
+            },
+            {
+              "block_id": 4,
+              "bbox": null,
+              "char_start": 50,
+              "char_end": 85
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 85,
+          "source_record_id": "section-1",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "e4f0539443f5148e3cb7e912fb489e1cd7e72cdf7b342fb4f833d313bf168d9a",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E2"
+        }
+      ],
+      "answer_mode": "extractive",
+      "validation_warnings": [],
+      "semantic_status": "not_applicable_extractive",
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "mode": "not_applicable",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "error": null,
+      "answer_implementation_sha256": "b1bfc9dcb01accffc35c1c1d75268f251e593583501e423befb28f597f14cb0b",
+      "generation_input": {
+        "question": "仅依据登记资料，2026年 Atlas 泵站东区负责人林澈的私人电话号码是什么？",
+        "evidence": [
+          {
+            "evidence_id": "E1",
+            "doc_id": "cedar-sla-2026",
+            "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+            "page": null,
+            "section_path": [
+              "Cedar 服务等级协议（中国大陆，2026）"
+            ],
+            "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。"
+          },
+          {
+            "evidence_id": "E2",
+            "doc_id": "cedar-sla-2026",
+            "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+            "page": null,
+            "section_path": [
+              "Cedar 服务等级协议（中国大陆，2026）",
+              "可用性目标"
+            ],
+            "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。"
+          }
+        ]
+      },
+      "trace": [
+        {
+          "name": "evaluation_evidence",
+          "status": "ok",
+          "input_summary": {
+            "evidence_count": 2
+          },
+          "output_summary": {
+            "evidence_ids": [
+              "E1",
+              "E2"
+            ]
+          },
+          "latency_ms": 0
+        },
+        {
+          "name": "doc_answer",
+          "status": "ok",
+          "input_summary": {
+            "mode": "extractive",
+            "evidence_count": 2
+          },
+          "output_summary": {
+            "status": "SUCCEEDED",
+            "citation_ids": [
+              "E1",
+              "E2"
+            ]
+          },
+          "latency_ms": 0
+        }
+      ],
+      "usage": {
+        "physical_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_hit_input_tokens": 0,
+        "cache_miss_input_tokens": 0,
+        "observed_input_tokens": 0,
+        "observed_output_tokens": 0,
+        "missing_usage_attempts": 0,
+        "usage_complete": true,
+        "cache_usage_complete": true
+      },
+      "latency_ms": 0,
+      "trace_id": "88f74f30-70cc-4ac7-afed-a1bc36d928f7"
+    },
+    "latency_ms": 0.287,
+    "retrieval": {
+      "eligible": false,
+      "diagnostic_fixed_evidence": true
+    },
+    "answer_diagnostics": {
+      "lexical_fact_coverage": null,
+      "matched_fact_ids": [],
+      "citation_ids_valid": true,
+      "citation_count": 2,
+      "citation_quotes_unchanged": null,
+      "refusal_status": false,
+      "refusal_surface_heuristic": false,
+      "reference_answerable": false,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_review_status": "not_verified"
+    },
+    "error_categories": [
+      "unanswerable_not_refused"
+    ],
+    "prediction_sha256": "4c1208ada78b0dbf25407f8d73c7370860f1a745811c32a8f7d41983f29b99e7"
+  },
+  {
+    "id": "rag-dev-026",
+    "strategy": "bm25",
+    "repeat": 1,
+    "category": "unanswerable",
+    "family_id": "family-026",
+    "answerable": false,
+    "question": "仅依据登记资料，Harbor 下一次操作系统补丁安装日期是哪一天？",
+    "retrieval_question": "仅依据登记资料，Harbor 下一次操作系统补丁安装日期是哪一天？",
+    "allowed_doc_ids": [
+      "cedar-sla-2026",
+      "cedar-sla-2025",
+      "cedar-price-cn",
+      "cedar-price-us",
+      "atlas-east",
+      "atlas-west",
+      "atlas-lab",
+      "harbor-migration",
+      "harbor-security",
+      "service-glossary"
+    ],
+    "reference_review_status": "pending_human_review",
+    "error": null,
+    "evidence_condition_answerable": false,
+    "input_chunks": [
+      {
+        "chunk_id": "f4112e47dafb93072551b3ea",
+        "doc_id": "cedar-sla-2026",
+        "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）"
+        ],
+        "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。",
+        "bbox": null,
+        "bbox_scope": null,
+        "source_blocks": [
+          {
+            "block_id": 0,
+            "bbox": null,
+            "char_start": 0,
+            "char_end": 25
+          },
+          {
+            "block_id": 1,
+            "bbox": null,
+            "char_start": 26,
+            "char_end": 107
+          }
+        ],
+        "ocr_confidence_min": null,
+        "page_bbox": null,
+        "char_start": 0,
+        "char_end": 107,
+        "source_record_id": "section-0",
+        "parser": "markdown-headings",
+        "coordinate_system": null,
+        "location_status": "page_or_section_only",
+        "section_location_status": "source_heading",
+        "rotation": null,
+        "cropbox": null,
+        "warnings": [],
+        "source_url": "",
+        "content_hash": "c7dafd22b385a330cc27f654155f0a585f05d73dcb512b4b5836b44051261abe",
+        "boundary_start": "page_start",
+        "boundary_end": "page_end",
+        "incomplete_sentence_start": false,
+        "incomplete_sentence_end": false,
+        "overlap_chars": 0,
+        "evidence_id": "E1"
+      },
+      {
+        "chunk_id": "5490178d5077d5644c03310e",
+        "doc_id": "cedar-sla-2026",
+        "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）",
+          "可用性目标"
+        ],
+        "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+        "bbox": null,
+        "bbox_scope": null,
+        "source_blocks": [
+          {
+            "block_id": 2,
+            "bbox": null,
+            "char_start": 0,
+            "char_end": 8
+          },
+          {
+            "block_id": 3,
+            "bbox": null,
+            "char_start": 9,
+            "char_end": 49
+          },
+          {
+            "block_id": 4,
+            "bbox": null,
+            "char_start": 50,
+            "char_end": 85
+          }
+        ],
+        "ocr_confidence_min": null,
+        "page_bbox": null,
+        "char_start": 0,
+        "char_end": 85,
+        "source_record_id": "section-1",
+        "parser": "markdown-headings",
+        "coordinate_system": null,
+        "location_status": "page_or_section_only",
+        "section_location_status": "source_heading",
+        "rotation": null,
+        "cropbox": null,
+        "warnings": [],
+        "source_url": "",
+        "content_hash": "e4f0539443f5148e3cb7e912fb489e1cd7e72cdf7b342fb4f833d313bf168d9a",
+        "boundary_start": "page_start",
+        "boundary_end": "page_end",
+        "incomplete_sentence_start": false,
+        "incomplete_sentence_end": false,
+        "overlap_chars": 0,
+        "evidence_id": "E2"
+      }
+    ],
+    "retrieval_trace": {
+      "diagnostic_fixed_evidence": true,
+      "allowed_doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ]
+    },
+    "generation": {
+      "status": "SUCCEEDED",
+      "answer": "原文摘录（extractive 模式，请据此核对问题）：\n[E1] # Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。\n\n[E2] ## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+      "citation_ids": [
+        "E1",
+        "E2"
+      ],
+      "used_evidence": [
+        {
+          "chunk_id": "f4112e47dafb93072551b3ea",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）"
+          ],
+          "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 0,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 25
+            },
+            {
+              "block_id": 1,
+              "bbox": null,
+              "char_start": 26,
+              "char_end": 107
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 107,
+          "source_record_id": "section-0",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "c7dafd22b385a330cc27f654155f0a585f05d73dcb512b4b5836b44051261abe",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E1"
+        },
+        {
+          "chunk_id": "5490178d5077d5644c03310e",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 2,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 8
+            },
+            {
+              "block_id": 3,
+              "bbox": null,
+              "char_start": 9,
+              "char_end": 49
+            },
+            {
+              "block_id": 4,
+              "bbox": null,
+              "char_start": 50,
+              "char_end": 85
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 85,
+          "source_record_id": "section-1",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "e4f0539443f5148e3cb7e912fb489e1cd7e72cdf7b342fb4f833d313bf168d9a",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E2"
+        }
+      ],
+      "input_chunks": [
+        {
+          "chunk_id": "f4112e47dafb93072551b3ea",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）"
+          ],
+          "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 0,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 25
+            },
+            {
+              "block_id": 1,
+              "bbox": null,
+              "char_start": 26,
+              "char_end": 107
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 107,
+          "source_record_id": "section-0",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "c7dafd22b385a330cc27f654155f0a585f05d73dcb512b4b5836b44051261abe",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E1"
+        },
+        {
+          "chunk_id": "5490178d5077d5644c03310e",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。",
+          "bbox": null,
+          "bbox_scope": null,
+          "source_blocks": [
+            {
+              "block_id": 2,
+              "bbox": null,
+              "char_start": 0,
+              "char_end": 8
+            },
+            {
+              "block_id": 3,
+              "bbox": null,
+              "char_start": 9,
+              "char_end": 49
+            },
+            {
+              "block_id": 4,
+              "bbox": null,
+              "char_start": 50,
+              "char_end": 85
+            }
+          ],
+          "ocr_confidence_min": null,
+          "page_bbox": null,
+          "char_start": 0,
+          "char_end": 85,
+          "source_record_id": "section-1",
+          "parser": "markdown-headings",
+          "coordinate_system": null,
+          "location_status": "page_or_section_only",
+          "section_location_status": "source_heading",
+          "rotation": null,
+          "cropbox": null,
+          "warnings": [],
+          "source_url": "",
+          "content_hash": "e4f0539443f5148e3cb7e912fb489e1cd7e72cdf7b342fb4f833d313bf168d9a",
+          "boundary_start": "page_start",
+          "boundary_end": "page_end",
+          "incomplete_sentence_start": false,
+          "incomplete_sentence_end": false,
+          "overlap_chars": 0,
+          "evidence_id": "E2"
+        }
+      ],
+      "answer_mode": "extractive",
+      "validation_warnings": [],
+      "semantic_status": "not_applicable_extractive",
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "mode": "not_applicable",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "error": null,
+      "answer_implementation_sha256": "b1bfc9dcb01accffc35c1c1d75268f251e593583501e423befb28f597f14cb0b",
+      "generation_input": {
+        "question": "仅依据登记资料，Harbor 下一次操作系统补丁安装日期是哪一天？",
+        "evidence": [
+          {
+            "evidence_id": "E1",
+            "doc_id": "cedar-sla-2026",
+            "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+            "page": null,
+            "section_path": [
+              "Cedar 服务等级协议（中国大陆，2026）"
+            ],
+            "text": "# Cedar 服务等级协议（中国大陆，2026）\n本文件是用于软件回归测试的原创虚构资料，不是商业承诺。适用产品为 Cedar 云工作区，适用地区为中国大陆，生效期间为2026年1月1日至2026年12月31日。"
+          },
+          {
+            "evidence_id": "E2",
+            "doc_id": "cedar-sla-2026",
+            "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+            "page": null,
+            "section_path": [
+              "Cedar 服务等级协议（中国大陆，2026）",
+              "可用性目标"
+            ],
+            "text": "## 可用性目标\n2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。\n计划维护窗口提前72小时公告；经公告的计划维护分钟不计入约定服务分钟。"
+          }
+        ]
+      },
+      "trace": [
+        {
+          "name": "evaluation_evidence",
+          "status": "ok",
+          "input_summary": {
+            "evidence_count": 2
+          },
+          "output_summary": {
+            "evidence_ids": [
+              "E1",
+              "E2"
+            ]
+          },
+          "latency_ms": 0
+        },
+        {
+          "name": "doc_answer",
+          "status": "ok",
+          "input_summary": {
+            "mode": "extractive",
+            "evidence_count": 2
+          },
+          "output_summary": {
+            "status": "SUCCEEDED",
+            "citation_ids": [
+              "E1",
+              "E2"
+            ]
+          },
+          "latency_ms": 0
+        }
+      ],
+      "usage": {
+        "physical_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_hit_input_tokens": 0,
+        "cache_miss_input_tokens": 0,
+        "observed_input_tokens": 0,
+        "observed_output_tokens": 0,
+        "missing_usage_attempts": 0,
+        "usage_complete": true,
+        "cache_usage_complete": true
+      },
+      "latency_ms": 0,
+      "trace_id": "057e70b3-e23e-41c6-be5d-ab052a7c8dc1"
+    },
+    "latency_ms": 0.302,
+    "retrieval": {
+      "eligible": false,
+      "diagnostic_fixed_evidence": true
+    },
+    "answer_diagnostics": {
+      "lexical_fact_coverage": null,
+      "matched_fact_ids": [],
+      "citation_ids_valid": true,
+      "citation_count": 2,
+      "citation_quotes_unchanged": null,
+      "refusal_status": false,
+      "refusal_surface_heuristic": false,
+      "reference_answerable": false,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_review_status": "not_verified"
+    },
+    "error_categories": [
+      "unanswerable_not_refused"
+    ],
+    "prediction_sha256": "2265efc7f2459d69b0e057ed894484f17d26fbfc76fb9b6e8de02bad81ad6a11"
+  }
+]

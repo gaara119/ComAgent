@@ -1,0 +1,1144 @@
+[
+  {
+    "id": "rag-dev-008",
+    "strategy": "bm25",
+    "repeat": 1,
+    "category": "cross_document",
+    "family_id": "family-008",
+    "answerable": true,
+    "question": "分别说明2026年 Cedar 标准工作区在中国大陆和美国的月订阅价格及币种，不要换汇。",
+    "retrieval_question": "分别说明2026年 Cedar 标准工作区在中国大陆和美国的月订阅价格及币种，不要换汇。",
+    "allowed_doc_ids": [
+      "cedar-sla-2026",
+      "cedar-sla-2025",
+      "cedar-price-cn",
+      "cedar-price-us",
+      "atlas-east",
+      "atlas-west",
+      "atlas-lab",
+      "harbor-migration",
+      "harbor-security",
+      "service-glossary"
+    ],
+    "reference_review_status": "pending_human_review",
+    "error": null,
+    "evidence_condition_answerable": false,
+    "input_chunks": [
+      {
+        "chunk_id": "reference-e08-1",
+        "doc_id": "cedar-price-cn",
+        "doc_title": "Cedar 中国大陆价格说明（2026）",
+        "page": null,
+        "section_path": [
+          "Cedar 中国大陆价格说明（2026）",
+          "订阅价格"
+        ],
+        "text": "2026年中国大陆 Cedar 标准工作区的订阅价格为每个工作区每月199元人民币。",
+        "bbox": null,
+        "label_origin": "e08-1",
+        "evidence_id": "E1"
+      }
+    ],
+    "retrieval_trace": {
+      "diagnostic_fixed_evidence": true,
+      "allowed_doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ]
+    },
+    "generation": {
+      "status": "SUCCEEDED",
+      "answer": "原文摘录（extractive 模式，请据此核对问题）：\n[E1] 2026年中国大陆 Cedar 标准工作区的订阅价格为每个工作区每月199元人民币。",
+      "citation_ids": [
+        "E1"
+      ],
+      "used_evidence": [
+        {
+          "chunk_id": "reference-e08-1",
+          "doc_id": "cedar-price-cn",
+          "doc_title": "Cedar 中国大陆价格说明（2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 中国大陆价格说明（2026）",
+            "订阅价格"
+          ],
+          "text": "2026年中国大陆 Cedar 标准工作区的订阅价格为每个工作区每月199元人民币。",
+          "bbox": null,
+          "label_origin": "e08-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "input_chunks": [
+        {
+          "chunk_id": "reference-e08-1",
+          "doc_id": "cedar-price-cn",
+          "doc_title": "Cedar 中国大陆价格说明（2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 中国大陆价格说明（2026）",
+            "订阅价格"
+          ],
+          "text": "2026年中国大陆 Cedar 标准工作区的订阅价格为每个工作区每月199元人民币。",
+          "bbox": null,
+          "label_origin": "e08-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "answer_mode": "extractive",
+      "validation_warnings": [],
+      "semantic_status": "not_applicable_extractive",
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "mode": "not_applicable",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "error": null,
+      "answer_implementation_sha256": "b1bfc9dcb01accffc35c1c1d75268f251e593583501e423befb28f597f14cb0b",
+      "generation_input": {
+        "question": "分别说明2026年 Cedar 标准工作区在中国大陆和美国的月订阅价格及币种，不要换汇。",
+        "evidence": [
+          {
+            "evidence_id": "E1",
+            "doc_id": "cedar-price-cn",
+            "doc_title": "Cedar 中国大陆价格说明（2026）",
+            "page": null,
+            "section_path": [
+              "Cedar 中国大陆价格说明（2026）",
+              "订阅价格"
+            ],
+            "text": "2026年中国大陆 Cedar 标准工作区的订阅价格为每个工作区每月199元人民币。"
+          }
+        ]
+      },
+      "trace": [
+        {
+          "name": "evaluation_evidence",
+          "status": "ok",
+          "input_summary": {
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        },
+        {
+          "name": "doc_answer",
+          "status": "ok",
+          "input_summary": {
+            "mode": "extractive",
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "status": "SUCCEEDED",
+            "citation_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        }
+      ],
+      "usage": {
+        "physical_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_hit_input_tokens": 0,
+        "cache_miss_input_tokens": 0,
+        "observed_input_tokens": 0,
+        "observed_output_tokens": 0,
+        "missing_usage_attempts": 0,
+        "usage_complete": true,
+        "cache_usage_complete": true
+      },
+      "latency_ms": 0,
+      "trace_id": "d0cd7a25-6fae-4c7d-9a6b-e193399db2cd"
+    },
+    "latency_ms": 0.326,
+    "retrieval": {
+      "eligible": false,
+      "diagnostic_fixed_evidence": true
+    },
+    "answer_diagnostics": {
+      "lexical_fact_coverage": 0.5,
+      "matched_fact_ids": [
+        "f08-1"
+      ],
+      "citation_ids_valid": true,
+      "citation_count": 1,
+      "citation_quotes_unchanged": null,
+      "refusal_status": false,
+      "refusal_surface_heuristic": false,
+      "reference_answerable": true,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_review_status": "not_verified"
+    },
+    "error_categories": [
+      "unanswerable_not_refused"
+    ],
+    "prediction_sha256": "e947327c71b768f6a1516a6c5f5f7edc26d20cd95d88ab3c7c2a4cf960f36405"
+  },
+  {
+    "id": "rag-dev-016",
+    "strategy": "bm25",
+    "repeat": 1,
+    "category": "cross_document",
+    "family_id": "family-016",
+    "answerable": true,
+    "question": "分别列出截至2026年6月30日 Atlas 泵站东区和西区登记水泵台数。",
+    "retrieval_question": "分别列出截至2026年6月30日 Atlas 泵站东区和西区登记水泵台数。",
+    "allowed_doc_ids": [
+      "cedar-sla-2026",
+      "cedar-sla-2025",
+      "cedar-price-cn",
+      "cedar-price-us",
+      "atlas-east",
+      "atlas-west",
+      "atlas-lab",
+      "harbor-migration",
+      "harbor-security",
+      "service-glossary"
+    ],
+    "reference_review_status": "pending_human_review",
+    "error": null,
+    "evidence_condition_answerable": false,
+    "input_chunks": [
+      {
+        "chunk_id": "reference-e16-1",
+        "doc_id": "atlas-east",
+        "doc_title": "Atlas 泵站东区运行简报（2026）",
+        "page": null,
+        "section_path": [
+          "Atlas 泵站东区运行简报（2026）",
+          "设备台账"
+        ],
+        "text": "截至2026年6月30日，Atlas 泵站东区登记水泵48台。",
+        "bbox": null,
+        "label_origin": "e16-1",
+        "evidence_id": "E1"
+      }
+    ],
+    "retrieval_trace": {
+      "diagnostic_fixed_evidence": true,
+      "allowed_doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ]
+    },
+    "generation": {
+      "status": "SUCCEEDED",
+      "answer": "原文摘录（extractive 模式，请据此核对问题）：\n[E1] 截至2026年6月30日，Atlas 泵站东区登记水泵48台。",
+      "citation_ids": [
+        "E1"
+      ],
+      "used_evidence": [
+        {
+          "chunk_id": "reference-e16-1",
+          "doc_id": "atlas-east",
+          "doc_title": "Atlas 泵站东区运行简报（2026）",
+          "page": null,
+          "section_path": [
+            "Atlas 泵站东区运行简报（2026）",
+            "设备台账"
+          ],
+          "text": "截至2026年6月30日，Atlas 泵站东区登记水泵48台。",
+          "bbox": null,
+          "label_origin": "e16-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "input_chunks": [
+        {
+          "chunk_id": "reference-e16-1",
+          "doc_id": "atlas-east",
+          "doc_title": "Atlas 泵站东区运行简报（2026）",
+          "page": null,
+          "section_path": [
+            "Atlas 泵站东区运行简报（2026）",
+            "设备台账"
+          ],
+          "text": "截至2026年6月30日，Atlas 泵站东区登记水泵48台。",
+          "bbox": null,
+          "label_origin": "e16-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "answer_mode": "extractive",
+      "validation_warnings": [],
+      "semantic_status": "not_applicable_extractive",
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "mode": "not_applicable",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "error": null,
+      "answer_implementation_sha256": "b1bfc9dcb01accffc35c1c1d75268f251e593583501e423befb28f597f14cb0b",
+      "generation_input": {
+        "question": "分别列出截至2026年6月30日 Atlas 泵站东区和西区登记水泵台数。",
+        "evidence": [
+          {
+            "evidence_id": "E1",
+            "doc_id": "atlas-east",
+            "doc_title": "Atlas 泵站东区运行简报（2026）",
+            "page": null,
+            "section_path": [
+              "Atlas 泵站东区运行简报（2026）",
+              "设备台账"
+            ],
+            "text": "截至2026年6月30日，Atlas 泵站东区登记水泵48台。"
+          }
+        ]
+      },
+      "trace": [
+        {
+          "name": "evaluation_evidence",
+          "status": "ok",
+          "input_summary": {
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        },
+        {
+          "name": "doc_answer",
+          "status": "ok",
+          "input_summary": {
+            "mode": "extractive",
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "status": "SUCCEEDED",
+            "citation_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        }
+      ],
+      "usage": {
+        "physical_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_hit_input_tokens": 0,
+        "cache_miss_input_tokens": 0,
+        "observed_input_tokens": 0,
+        "observed_output_tokens": 0,
+        "missing_usage_attempts": 0,
+        "usage_complete": true,
+        "cache_usage_complete": true
+      },
+      "latency_ms": 0,
+      "trace_id": "6d5f92b1-5af5-4aea-9a2e-e0c04db1b6ed"
+    },
+    "latency_ms": 0.272,
+    "retrieval": {
+      "eligible": false,
+      "diagnostic_fixed_evidence": true
+    },
+    "answer_diagnostics": {
+      "lexical_fact_coverage": 0.5,
+      "matched_fact_ids": [
+        "f16-1"
+      ],
+      "citation_ids_valid": true,
+      "citation_count": 1,
+      "citation_quotes_unchanged": null,
+      "refusal_status": false,
+      "refusal_surface_heuristic": false,
+      "reference_answerable": true,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_review_status": "not_verified"
+    },
+    "error_categories": [
+      "unanswerable_not_refused"
+    ],
+    "prediction_sha256": "0891b1deab2223efa1f62ee4f723d8131bde963cef63ab2a66c13d5d5441f157"
+  },
+  {
+    "id": "rag-dev-019",
+    "strategy": "bm25",
+    "repeat": 1,
+    "category": "multiple_evidence",
+    "family_id": "family-019",
+    "answerable": true,
+    "question": "Harbor 2026年4月18日的迁移窗口及窗口内计划只读时长分别是什么？",
+    "retrieval_question": "Harbor 2026年4月18日的迁移窗口及窗口内计划只读时长分别是什么？",
+    "allowed_doc_ids": [
+      "cedar-sla-2026",
+      "cedar-sla-2025",
+      "cedar-price-cn",
+      "cedar-price-us",
+      "atlas-east",
+      "atlas-west",
+      "atlas-lab",
+      "harbor-migration",
+      "harbor-security",
+      "service-glossary"
+    ],
+    "reference_review_status": "pending_human_review",
+    "error": null,
+    "evidence_condition_answerable": false,
+    "input_chunks": [
+      {
+        "chunk_id": "reference-e19-1",
+        "doc_id": "harbor-migration",
+        "doc_title": "Harbor 数据迁移执行单（2026年4月）",
+        "page": null,
+        "section_path": [
+          "Harbor 数据迁移执行单（2026年4月）",
+          "迁移窗口"
+        ],
+        "text": "Harbor 数据迁移计划于2026年4月18日02:00开始、04:00结束，时间均为UTC。",
+        "bbox": null,
+        "label_origin": "e19-1",
+        "evidence_id": "E1"
+      }
+    ],
+    "retrieval_trace": {
+      "diagnostic_fixed_evidence": true,
+      "allowed_doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ]
+    },
+    "generation": {
+      "status": "SUCCEEDED",
+      "answer": "原文摘录（extractive 模式，请据此核对问题）：\n[E1] Harbor 数据迁移计划于2026年4月18日02:00开始、04:00结束，时间均为UTC。",
+      "citation_ids": [
+        "E1"
+      ],
+      "used_evidence": [
+        {
+          "chunk_id": "reference-e19-1",
+          "doc_id": "harbor-migration",
+          "doc_title": "Harbor 数据迁移执行单（2026年4月）",
+          "page": null,
+          "section_path": [
+            "Harbor 数据迁移执行单（2026年4月）",
+            "迁移窗口"
+          ],
+          "text": "Harbor 数据迁移计划于2026年4月18日02:00开始、04:00结束，时间均为UTC。",
+          "bbox": null,
+          "label_origin": "e19-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "input_chunks": [
+        {
+          "chunk_id": "reference-e19-1",
+          "doc_id": "harbor-migration",
+          "doc_title": "Harbor 数据迁移执行单（2026年4月）",
+          "page": null,
+          "section_path": [
+            "Harbor 数据迁移执行单（2026年4月）",
+            "迁移窗口"
+          ],
+          "text": "Harbor 数据迁移计划于2026年4月18日02:00开始、04:00结束，时间均为UTC。",
+          "bbox": null,
+          "label_origin": "e19-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "answer_mode": "extractive",
+      "validation_warnings": [],
+      "semantic_status": "not_applicable_extractive",
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "mode": "not_applicable",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "error": null,
+      "answer_implementation_sha256": "b1bfc9dcb01accffc35c1c1d75268f251e593583501e423befb28f597f14cb0b",
+      "generation_input": {
+        "question": "Harbor 2026年4月18日的迁移窗口及窗口内计划只读时长分别是什么？",
+        "evidence": [
+          {
+            "evidence_id": "E1",
+            "doc_id": "harbor-migration",
+            "doc_title": "Harbor 数据迁移执行单（2026年4月）",
+            "page": null,
+            "section_path": [
+              "Harbor 数据迁移执行单（2026年4月）",
+              "迁移窗口"
+            ],
+            "text": "Harbor 数据迁移计划于2026年4月18日02:00开始、04:00结束，时间均为UTC。"
+          }
+        ]
+      },
+      "trace": [
+        {
+          "name": "evaluation_evidence",
+          "status": "ok",
+          "input_summary": {
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        },
+        {
+          "name": "doc_answer",
+          "status": "ok",
+          "input_summary": {
+            "mode": "extractive",
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "status": "SUCCEEDED",
+            "citation_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        }
+      ],
+      "usage": {
+        "physical_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_hit_input_tokens": 0,
+        "cache_miss_input_tokens": 0,
+        "observed_input_tokens": 0,
+        "observed_output_tokens": 0,
+        "missing_usage_attempts": 0,
+        "usage_complete": true,
+        "cache_usage_complete": true
+      },
+      "latency_ms": 0,
+      "trace_id": "149926a1-2530-4cb4-8190-5d469fc7d697"
+    },
+    "latency_ms": 0.266,
+    "retrieval": {
+      "eligible": false,
+      "diagnostic_fixed_evidence": true
+    },
+    "answer_diagnostics": {
+      "lexical_fact_coverage": 0.75,
+      "matched_fact_ids": [
+        "f19-1",
+        "f19-2",
+        "f19-3"
+      ],
+      "citation_ids_valid": true,
+      "citation_count": 1,
+      "citation_quotes_unchanged": null,
+      "refusal_status": false,
+      "refusal_surface_heuristic": false,
+      "reference_answerable": true,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_review_status": "not_verified"
+    },
+    "error_categories": [
+      "unanswerable_not_refused"
+    ],
+    "prediction_sha256": "a19851177c11a17e6d9bde6b4b547cb26a4590f09647711cd90213101dc2162f"
+  },
+  {
+    "id": "rag-dev-021",
+    "strategy": "bm25",
+    "repeat": 1,
+    "category": "multiple_evidence",
+    "family_id": "family-021",
+    "answerable": true,
+    "question": "Harbor 迁移校验失败后的回退完成时限是多少，从何时开始计算？",
+    "retrieval_question": "Harbor 迁移校验失败后的回退完成时限是多少，从何时开始计算？",
+    "allowed_doc_ids": [
+      "cedar-sla-2026",
+      "cedar-sla-2025",
+      "cedar-price-cn",
+      "cedar-price-us",
+      "atlas-east",
+      "atlas-west",
+      "atlas-lab",
+      "harbor-migration",
+      "harbor-security",
+      "service-glossary"
+    ],
+    "reference_review_status": "pending_human_review",
+    "error": null,
+    "evidence_condition_answerable": false,
+    "input_chunks": [
+      {
+        "chunk_id": "reference-e21-1",
+        "doc_id": "harbor-migration",
+        "doc_title": "Harbor 数据迁移执行单（2026年4月）",
+        "page": null,
+        "section_path": [
+          "Harbor 数据迁移执行单（2026年4月）",
+          "回退条件"
+        ],
+        "text": "Harbor 迁移校验失败后，回退操作的完成时限为30分钟。",
+        "bbox": null,
+        "label_origin": "e21-1",
+        "evidence_id": "E1"
+      }
+    ],
+    "retrieval_trace": {
+      "diagnostic_fixed_evidence": true,
+      "allowed_doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ]
+    },
+    "generation": {
+      "status": "SUCCEEDED",
+      "answer": "原文摘录（extractive 模式，请据此核对问题）：\n[E1] Harbor 迁移校验失败后，回退操作的完成时限为30分钟。",
+      "citation_ids": [
+        "E1"
+      ],
+      "used_evidence": [
+        {
+          "chunk_id": "reference-e21-1",
+          "doc_id": "harbor-migration",
+          "doc_title": "Harbor 数据迁移执行单（2026年4月）",
+          "page": null,
+          "section_path": [
+            "Harbor 数据迁移执行单（2026年4月）",
+            "回退条件"
+          ],
+          "text": "Harbor 迁移校验失败后，回退操作的完成时限为30分钟。",
+          "bbox": null,
+          "label_origin": "e21-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "input_chunks": [
+        {
+          "chunk_id": "reference-e21-1",
+          "doc_id": "harbor-migration",
+          "doc_title": "Harbor 数据迁移执行单（2026年4月）",
+          "page": null,
+          "section_path": [
+            "Harbor 数据迁移执行单（2026年4月）",
+            "回退条件"
+          ],
+          "text": "Harbor 迁移校验失败后，回退操作的完成时限为30分钟。",
+          "bbox": null,
+          "label_origin": "e21-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "answer_mode": "extractive",
+      "validation_warnings": [],
+      "semantic_status": "not_applicable_extractive",
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "mode": "not_applicable",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "error": null,
+      "answer_implementation_sha256": "b1bfc9dcb01accffc35c1c1d75268f251e593583501e423befb28f597f14cb0b",
+      "generation_input": {
+        "question": "Harbor 迁移校验失败后的回退完成时限是多少，从何时开始计算？",
+        "evidence": [
+          {
+            "evidence_id": "E1",
+            "doc_id": "harbor-migration",
+            "doc_title": "Harbor 数据迁移执行单（2026年4月）",
+            "page": null,
+            "section_path": [
+              "Harbor 数据迁移执行单（2026年4月）",
+              "回退条件"
+            ],
+            "text": "Harbor 迁移校验失败后，回退操作的完成时限为30分钟。"
+          }
+        ]
+      },
+      "trace": [
+        {
+          "name": "evaluation_evidence",
+          "status": "ok",
+          "input_summary": {
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        },
+        {
+          "name": "doc_answer",
+          "status": "ok",
+          "input_summary": {
+            "mode": "extractive",
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "status": "SUCCEEDED",
+            "citation_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        }
+      ],
+      "usage": {
+        "physical_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_hit_input_tokens": 0,
+        "cache_miss_input_tokens": 0,
+        "observed_input_tokens": 0,
+        "observed_output_tokens": 0,
+        "missing_usage_attempts": 0,
+        "usage_complete": true,
+        "cache_usage_complete": true
+      },
+      "latency_ms": 0,
+      "trace_id": "73a047b3-73aa-4260-8a6a-18ec7fdf03f4"
+    },
+    "latency_ms": 0.302,
+    "retrieval": {
+      "eligible": false,
+      "diagnostic_fixed_evidence": true
+    },
+    "answer_diagnostics": {
+      "lexical_fact_coverage": 0.5,
+      "matched_fact_ids": [
+        "f21-1"
+      ],
+      "citation_ids_valid": true,
+      "citation_count": 1,
+      "citation_quotes_unchanged": null,
+      "refusal_status": false,
+      "refusal_surface_heuristic": false,
+      "reference_answerable": true,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_review_status": "not_verified"
+    },
+    "error_categories": [
+      "unanswerable_not_refused"
+    ],
+    "prediction_sha256": "5a70a87a6549a43728ba847e4b42484509ab999a292ad8620a12708aa12f98ad"
+  },
+  {
+    "id": "rag-dev-024",
+    "strategy": "bm25",
+    "repeat": 1,
+    "category": "multiple_evidence",
+    "family_id": "family-024",
+    "answerable": true,
+    "question": "Harbor 客户资料的静态加密与传输加密分别采用什么？",
+    "retrieval_question": "Harbor 客户资料的静态加密与传输加密分别采用什么？",
+    "allowed_doc_ids": [
+      "cedar-sla-2026",
+      "cedar-sla-2025",
+      "cedar-price-cn",
+      "cedar-price-us",
+      "atlas-east",
+      "atlas-west",
+      "atlas-lab",
+      "harbor-migration",
+      "harbor-security",
+      "service-glossary"
+    ],
+    "reference_review_status": "pending_human_review",
+    "error": null,
+    "evidence_condition_answerable": false,
+    "input_chunks": [
+      {
+        "chunk_id": "reference-e24-1",
+        "doc_id": "harbor-security",
+        "doc_title": "Harbor 安全与保留规范（2026）",
+        "page": null,
+        "section_path": [
+          "Harbor 安全与保留规范（2026）",
+          "静态加密"
+        ],
+        "text": "Harbor 客户资料在静态存储时使用AES-256加密。",
+        "bbox": null,
+        "label_origin": "e24-1",
+        "evidence_id": "E1"
+      }
+    ],
+    "retrieval_trace": {
+      "diagnostic_fixed_evidence": true,
+      "allowed_doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ]
+    },
+    "generation": {
+      "status": "SUCCEEDED",
+      "answer": "原文摘录（extractive 模式，请据此核对问题）：\n[E1] Harbor 客户资料在静态存储时使用AES-256加密。",
+      "citation_ids": [
+        "E1"
+      ],
+      "used_evidence": [
+        {
+          "chunk_id": "reference-e24-1",
+          "doc_id": "harbor-security",
+          "doc_title": "Harbor 安全与保留规范（2026）",
+          "page": null,
+          "section_path": [
+            "Harbor 安全与保留规范（2026）",
+            "静态加密"
+          ],
+          "text": "Harbor 客户资料在静态存储时使用AES-256加密。",
+          "bbox": null,
+          "label_origin": "e24-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "input_chunks": [
+        {
+          "chunk_id": "reference-e24-1",
+          "doc_id": "harbor-security",
+          "doc_title": "Harbor 安全与保留规范（2026）",
+          "page": null,
+          "section_path": [
+            "Harbor 安全与保留规范（2026）",
+            "静态加密"
+          ],
+          "text": "Harbor 客户资料在静态存储时使用AES-256加密。",
+          "bbox": null,
+          "label_origin": "e24-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "answer_mode": "extractive",
+      "validation_warnings": [],
+      "semantic_status": "not_applicable_extractive",
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "mode": "not_applicable",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "error": null,
+      "answer_implementation_sha256": "b1bfc9dcb01accffc35c1c1d75268f251e593583501e423befb28f597f14cb0b",
+      "generation_input": {
+        "question": "Harbor 客户资料的静态加密与传输加密分别采用什么？",
+        "evidence": [
+          {
+            "evidence_id": "E1",
+            "doc_id": "harbor-security",
+            "doc_title": "Harbor 安全与保留规范（2026）",
+            "page": null,
+            "section_path": [
+              "Harbor 安全与保留规范（2026）",
+              "静态加密"
+            ],
+            "text": "Harbor 客户资料在静态存储时使用AES-256加密。"
+          }
+        ]
+      },
+      "trace": [
+        {
+          "name": "evaluation_evidence",
+          "status": "ok",
+          "input_summary": {
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        },
+        {
+          "name": "doc_answer",
+          "status": "ok",
+          "input_summary": {
+            "mode": "extractive",
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "status": "SUCCEEDED",
+            "citation_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        }
+      ],
+      "usage": {
+        "physical_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_hit_input_tokens": 0,
+        "cache_miss_input_tokens": 0,
+        "observed_input_tokens": 0,
+        "observed_output_tokens": 0,
+        "missing_usage_attempts": 0,
+        "usage_complete": true,
+        "cache_usage_complete": true
+      },
+      "latency_ms": 0,
+      "trace_id": "b2f72405-cc18-4af1-b80b-c8275dad7b0d"
+    },
+    "latency_ms": 0.258,
+    "retrieval": {
+      "eligible": false,
+      "diagnostic_fixed_evidence": true
+    },
+    "answer_diagnostics": {
+      "lexical_fact_coverage": 0.5,
+      "matched_fact_ids": [
+        "f24-1"
+      ],
+      "citation_ids_valid": true,
+      "citation_count": 1,
+      "citation_quotes_unchanged": null,
+      "refusal_status": false,
+      "refusal_surface_heuristic": false,
+      "reference_answerable": true,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_review_status": "not_verified"
+    },
+    "error_categories": [
+      "unanswerable_not_refused"
+    ],
+    "prediction_sha256": "e9cae82c1365cfed3404318c3fa34b2a3706661dc34f17049a2e8dd42ec323a1"
+  },
+  {
+    "id": "rag-dev-032",
+    "strategy": "bm25",
+    "repeat": 1,
+    "category": "cross_document",
+    "family_id": "family-032",
+    "answerable": true,
+    "question": "给出2026年中国大陆 Cedar 可用性目标，并依据口径手册说明可用性百分比的分母。",
+    "retrieval_question": "给出2026年中国大陆 Cedar 可用性目标，并依据口径手册说明可用性百分比的分母。",
+    "allowed_doc_ids": [
+      "cedar-sla-2026",
+      "cedar-sla-2025",
+      "cedar-price-cn",
+      "cedar-price-us",
+      "atlas-east",
+      "atlas-west",
+      "atlas-lab",
+      "harbor-migration",
+      "harbor-security",
+      "service-glossary"
+    ],
+    "reference_review_status": "pending_human_review",
+    "error": null,
+    "evidence_condition_answerable": false,
+    "input_chunks": [
+      {
+        "chunk_id": "reference-e32-1",
+        "doc_id": "cedar-sla-2026",
+        "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）",
+          "可用性目标"
+        ],
+        "text": "2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。",
+        "bbox": null,
+        "label_origin": "e32-1",
+        "evidence_id": "E1"
+      }
+    ],
+    "retrieval_trace": {
+      "diagnostic_fixed_evidence": true,
+      "allowed_doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ]
+    },
+    "generation": {
+      "status": "SUCCEEDED",
+      "answer": "原文摘录（extractive 模式，请据此核对问题）：\n[E1] 2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。",
+      "citation_ids": [
+        "E1"
+      ],
+      "used_evidence": [
+        {
+          "chunk_id": "reference-e32-1",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "text": "2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。",
+          "bbox": null,
+          "label_origin": "e32-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "input_chunks": [
+        {
+          "chunk_id": "reference-e32-1",
+          "doc_id": "cedar-sla-2026",
+          "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "text": "2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。",
+          "bbox": null,
+          "label_origin": "e32-1",
+          "evidence_id": "E1"
+        }
+      ],
+      "answer_mode": "extractive",
+      "validation_warnings": [],
+      "semantic_status": "not_applicable_extractive",
+      "citation_coverage": {
+        "potential_uncited_statement_count": 0,
+        "mode": "not_applicable",
+        "semantic_claim_coverage": "requires_human_review"
+      },
+      "error": null,
+      "answer_implementation_sha256": "b1bfc9dcb01accffc35c1c1d75268f251e593583501e423befb28f597f14cb0b",
+      "generation_input": {
+        "question": "给出2026年中国大陆 Cedar 可用性目标，并依据口径手册说明可用性百分比的分母。",
+        "evidence": [
+          {
+            "evidence_id": "E1",
+            "doc_id": "cedar-sla-2026",
+            "doc_title": "Cedar 服务等级协议（中国大陆，2026）",
+            "page": null,
+            "section_path": [
+              "Cedar 服务等级协议（中国大陆，2026）",
+              "可用性目标"
+            ],
+            "text": "2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。"
+          }
+        ]
+      },
+      "trace": [
+        {
+          "name": "evaluation_evidence",
+          "status": "ok",
+          "input_summary": {
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        },
+        {
+          "name": "doc_answer",
+          "status": "ok",
+          "input_summary": {
+            "mode": "extractive",
+            "evidence_count": 1
+          },
+          "output_summary": {
+            "status": "SUCCEEDED",
+            "citation_ids": [
+              "E1"
+            ]
+          },
+          "latency_ms": 0
+        }
+      ],
+      "usage": {
+        "physical_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_hit_input_tokens": 0,
+        "cache_miss_input_tokens": 0,
+        "observed_input_tokens": 0,
+        "observed_output_tokens": 0,
+        "missing_usage_attempts": 0,
+        "usage_complete": true,
+        "cache_usage_complete": true
+      },
+      "latency_ms": 0,
+      "trace_id": "3cd07bc5-7e47-47b1-a28c-5037670c5e9a"
+    },
+    "latency_ms": 0.278,
+    "retrieval": {
+      "eligible": false,
+      "diagnostic_fixed_evidence": true
+    },
+    "answer_diagnostics": {
+      "lexical_fact_coverage": 0.5,
+      "matched_fact_ids": [
+        "f32-1"
+      ],
+      "citation_ids_valid": true,
+      "citation_count": 1,
+      "citation_quotes_unchanged": null,
+      "refusal_status": false,
+      "refusal_surface_heuristic": false,
+      "reference_answerable": true,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_review_status": "not_verified"
+    },
+    "error_categories": [
+      "unanswerable_not_refused"
+    ],
+    "prediction_sha256": "5857ca7bca854fe2b2c289dd5929783b147673e482ce3a352003144a23699591"
+  }
+]

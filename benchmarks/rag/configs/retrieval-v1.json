@@ -1,0 +1,15 @@
+{
+  "dataset": "benchmarks/rag/fixtures/dataset.json",
+  "strategies": ["bm25", "dense", "hybrid", "hybrid_rerank"],
+  "embedding": "bge",
+  "top_k": 5,
+  "candidate_k_per_channel": 20,
+  "chunk_chars": 500,
+  "overlap": 80,
+  "rrf_k": 60,
+  "cache": "cold",
+  "repeat": 3,
+  "answer_mode": "extractive",
+  "scope": "dev_only",
+  "semantic_review": "pending_human_review"
+}

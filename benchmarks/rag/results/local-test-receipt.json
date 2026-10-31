@@ -1,0 +1,9 @@
+{
+  "command": ".venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider tests/test_rag_benchmark_metrics.py tests/test_rag_benchmark_runtime.py tests/test_rag_benchmark_reporting.py tests/test_rag_benchmark_cli.py tests/test_document_imports.py tests/test_rag_multidocument_service.py tests/test_rag_retrieval_improvements.py --basetemp=.runtime/rag-benchmark/tests-complete --junitxml=.runtime/rag-benchmark/tests-complete.xml",
+  "tests": 123,
+  "failures": 0,
+  "errors": 0,
+  "seconds": 5.66,
+  "provider_api_calls": 0,
+  "scope": "Local unit and integration regression; no generation quality claim."
+}

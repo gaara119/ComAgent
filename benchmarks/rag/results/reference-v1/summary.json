@@ -1,0 +1,52 @@
+{
+  "groups": {
+    "bm25": {
+      "logical_questions": 32,
+      "unique_questions": 32,
+      "answerable_metric_denominator": 0,
+      "failures": 0,
+      "hit@5": null,
+      "recall@5": null,
+      "mrr@5": null,
+      "ndcg@5": null,
+      "precision@5": null,
+      "evidence_coverage@5": null,
+      "end_to_end_ms": {
+        "count": 32,
+        "p50": 0.253,
+        "p90": 0.3288,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "retrieval_ms": {
+        "count": 0,
+        "p50": null,
+        "p90": null,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "generation_ms": {
+        "count": 32,
+        "p50": 0.0,
+        "p90": 0.0,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "physical_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_hit_input_tokens": 0,
+      "cache_miss_input_tokens": 0,
+      "missing_usage_attempts": 0,
+      "usage_complete": true,
+      "money_usd": null,
+      "money_status": "not_verified; no price assumed",
+      "unanswerable_refusal_recall": 1.0,
+      "answerable_false_refusal_rate": 0.0,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_reviewed_count": 0,
+      "error_categories": {}
+    }
+  },
+  "paired": {},
+  "interpretation": "source-labelled mechanical retrieval diagnostics; semantic scores unverified"
+}

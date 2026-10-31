@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="460" viewBox="0 0 900 460">
+<rect width="900" height="460" fill="white"/>
+<text x="35" y="35" font-family="sans-serif" font-size="22" fill="#24204d">Retrieval quality / latency trade-off (synthetic DEV)</text>
+<path d="M85 75 V370 H730" stroke="#4c426a" fill="none"/>
+<text x="30" y="375.00" font-family="sans-serif" font-size="12">0.94</text><path d="M85 370.00H730" stroke="#eee"/>
+<text x="30" y="288.85" font-family="sans-serif" font-size="12">0.96</text><path d="M85 283.85H730" stroke="#eee"/>
+<text x="30" y="202.69" font-family="sans-serif" font-size="12">0.98</text><path d="M85 197.69H730" stroke="#eee"/>
+<text x="30" y="116.54" font-family="sans-serif" font-size="12">1.00</text><path d="M85 111.54H730" stroke="#eee"/>
+<text x="77.00" y="395" font-family="sans-serif" font-size="12">40</text>
+<text x="184.50" y="395" font-family="sans-serif" font-size="12">50</text>
+<text x="292.00" y="395" font-family="sans-serif" font-size="12">60</text>
+<text x="399.50" y="395" font-family="sans-serif" font-size="12">70</text>
+<text x="507.00" y="395" font-family="sans-serif" font-size="12">80</text>
+<text x="614.50" y="395" font-family="sans-serif" font-size="12">90</text>
+<circle cx="197.28" cy="334.35" r="7" fill="#8060bb"/><text x="206.28" y="339.35" font-family="sans-serif" font-size="13">bm25</text>
+<circle cx="423.03" cy="185.81" r="7" fill="#8060bb"/><text x="432.03" y="190.81" font-family="sans-serif" font-size="13">dense</text>
+<circle cx="540.16" cy="260.08" r="7" fill="#8060bb"/><text x="549.16" y="265.08" font-family="sans-serif" font-size="13">hybrid</text>
+<circle cx="549.51" cy="111.54" r="7" fill="#8060bb"/><text x="558.51" y="116.54" font-family="sans-serif" font-size="13">hybrid_rerank</text>
+<text x="325" y="428" font-family="sans-serif" font-size="14">Retrieval P50 (ms; lower is better)</text>
+<text x="100" y="65" font-family="sans-serif" font-size="13">MRR@5 (higher is better)</text>
+<text x="85" y="452" font-family="sans-serif" font-size="11">Source: summary.json; 32 DEV cases, 3 repeats; Recall@5 is 1.0 for all arms; no significance claim.</text>
+</svg>

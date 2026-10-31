@@ -1,0 +1,227 @@
+{
+  "groups": {
+    "bm25": {
+      "logical_questions": 96,
+      "unique_questions": 32,
+      "answerable_metric_denominator": 87,
+      "failures": 0,
+      "hit@5": 1,
+      "recall@5": 1.0,
+      "mrr@5": 0.9482758620689655,
+      "ndcg@5": 0.9590520706849158,
+      "precision@5": 0.22758620689655173,
+      "evidence_coverage@5": 1.0,
+      "end_to_end_ms": {
+        "count": 96,
+        "p50": 50.560500000000005,
+        "p90": 61.174499999999995,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "retrieval_ms": {
+        "count": 96,
+        "p50": 50.444500000000005,
+        "p90": 61.025999999999996,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "generation_ms": {
+        "count": 0,
+        "p50": null,
+        "p90": null,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "physical_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_hit_input_tokens": 0,
+      "cache_miss_input_tokens": 0,
+      "missing_usage_attempts": 0,
+      "usage_complete": true,
+      "money_usd": null,
+      "money_status": "not_verified; no price assumed",
+      "unanswerable_refusal_recall": null,
+      "answerable_false_refusal_rate": null,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_reviewed_count": 0,
+      "error_categories": {
+        "first_evidence_below_rank_1": 9
+      }
+    },
+    "dense": {
+      "logical_questions": 96,
+      "unique_questions": 32,
+      "answerable_metric_denominator": 87,
+      "failures": 0,
+      "hit@5": 1,
+      "recall@5": 1.0,
+      "mrr@5": 0.9827586206896551,
+      "ndcg@5": 0.9872734397783262,
+      "precision@5": 0.22758620689655173,
+      "evidence_coverage@5": 1.0,
+      "end_to_end_ms": {
+        "count": 96,
+        "p50": 71.5535,
+        "p90": 82.168,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "retrieval_ms": {
+        "count": 96,
+        "p50": 71.4445,
+        "p90": 82.0615,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "generation_ms": {
+        "count": 0,
+        "p50": null,
+        "p90": null,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "physical_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_hit_input_tokens": 0,
+      "cache_miss_input_tokens": 0,
+      "missing_usage_attempts": 0,
+      "usage_complete": true,
+      "money_usd": null,
+      "money_status": "not_verified; no price assumed",
+      "unanswerable_refusal_recall": null,
+      "answerable_false_refusal_rate": null,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_reviewed_count": 0,
+      "error_categories": {
+        "first_evidence_below_rank_1": 3
+      }
+    },
+    "hybrid": {
+      "logical_questions": 96,
+      "unique_questions": 32,
+      "answerable_metric_denominator": 87,
+      "failures": 0,
+      "hit@5": 1,
+      "recall@5": 1.0,
+      "mrr@5": 0.9655172413793104,
+      "ndcg@5": 0.9745468795566522,
+      "precision@5": 0.22758620689655173,
+      "evidence_coverage@5": 1.0,
+      "end_to_end_ms": {
+        "count": 96,
+        "p50": 82.5415,
+        "p90": 100.6985,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "retrieval_ms": {
+        "count": 96,
+        "p50": 82.34049999999999,
+        "p90": 100.471,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "generation_ms": {
+        "count": 0,
+        "p50": null,
+        "p90": null,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "physical_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_hit_input_tokens": 0,
+      "cache_miss_input_tokens": 0,
+      "missing_usage_attempts": 0,
+      "usage_complete": true,
+      "money_usd": null,
+      "money_status": "not_verified; no price assumed",
+      "unanswerable_refusal_recall": null,
+      "answerable_false_refusal_rate": null,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_reviewed_count": 0,
+      "error_categories": {
+        "first_evidence_below_rank_1": 6
+      }
+    },
+    "hybrid_rerank": {
+      "logical_questions": 96,
+      "unique_questions": 32,
+      "answerable_metric_denominator": 87,
+      "failures": 0,
+      "hit@5": 1,
+      "recall@5": 1.0,
+      "mrr@5": 1.0,
+      "ndcg@5": 1.0,
+      "precision@5": 0.22758620689655173,
+      "evidence_coverage@5": 1.0,
+      "end_to_end_ms": {
+        "count": 96,
+        "p50": 83.436,
+        "p90": 104.2975,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "retrieval_ms": {
+        "count": 96,
+        "p50": 83.21000000000001,
+        "p90": 104.1175,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "generation_ms": {
+        "count": 0,
+        "p50": null,
+        "p90": null,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "physical_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_hit_input_tokens": 0,
+      "cache_miss_input_tokens": 0,
+      "missing_usage_attempts": 0,
+      "usage_complete": true,
+      "money_usd": null,
+      "money_status": "not_verified; no price assumed",
+      "unanswerable_refusal_recall": null,
+      "answerable_false_refusal_rate": null,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_reviewed_count": 0,
+      "error_categories": {}
+    }
+  },
+  "paired": {
+    "dense": {
+      "baseline": "bm25",
+      "criterion": "all required source evidence at top5; not answer correctness",
+      "pairs": 87,
+      "recall_at_5_delta": 0.0,
+      "fail_to_pass": 0,
+      "pass_to_fail": 0,
+      "pass_to_pass": 87,
+      "fail_to_fail": 0
+    },
+    "hybrid": {
+      "baseline": "bm25",
+      "criterion": "all required source evidence at top5; not answer correctness",
+      "pairs": 87,
+      "recall_at_5_delta": 0.0,
+      "fail_to_pass": 0,
+      "pass_to_fail": 0,
+      "pass_to_pass": 87,
+      "fail_to_fail": 0
+    },
+    "hybrid_rerank": {
+      "baseline": "bm25",
+      "criterion": "all required source evidence at top5; not answer correctness",
+      "pairs": 87,
+      "recall_at_5_delta": 0.0,
+      "fail_to_pass": 0,
+      "pass_to_fail": 0,
+      "pass_to_pass": 87,
+      "fail_to_fail": 0
+    }
+  },
+  "interpretation": "source-labelled mechanical retrieval diagnostics; semantic scores unverified"
+}

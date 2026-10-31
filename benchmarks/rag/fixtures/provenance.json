@@ -1,0 +1,41 @@
+{
+  "version": "rag-fixtures-v1",
+  "source_type": "authored_synthetic_fixture",
+  "license": "CC0-1.0",
+  "created_date": "2026-10-31",
+  "scope": "Only newly authored documents and labels in this fixture. No existing user documents, OHR data, Agent 200 questions or held-out labels are included.",
+  "generation": "Authored in source code; no model API used.",
+  "review_status": "pending_human_review",
+  "validation": "Document hashes and exact quotes are checked with the production parser; this is mechanical verification, not human semantic approval.",
+  "split": "dev only; no held-out/test split is claimed.",
+  "split_isolation": "This single small fixture is for functional regression and exploratory comparison. It cannot establish unseen-document generalization or independent test accuracy.",
+  "multi_turn_policy": "history is preserved, but retrieval_question is an explicit author-provided effective query. These cases test retrieval under a frozen continuation query, not Agent condition-merging accuracy.",
+  "scope_policy": "Full-corpus cases receive all ten allowed document IDs without a gold-document hint. Two question families also have single-document controls and are not independent samples.",
+  "evidence_policy": "Labels use source SHA256 plus physical page (null for MD/HTML), actual section path and an exact original quote, never chunk IDs.",
+  "answer_policy": "Facts with accepted_answers support lexical diagnostics only; successful matching does not by itself establish semantic correctness, completeness or citation support.",
+  "unanswerable_policy": "The allowed corpus does not provide the requested answer. Related or explicitly nondisclosing passages can be retrieved; refusal must not depend on an empty result set.",
+  "document_count": 10,
+  "question_count": 32,
+  "answerable_count": 29,
+  "categories": {
+    "single_fact": 6,
+    "full_corpus": 2,
+    "numeric_period_unit": 6,
+    "unanswerable": 3,
+    "cross_document": 3,
+    "same_entity": 6,
+    "multiple_evidence": 3,
+    "multi_turn": 3
+  },
+  "paired_families": [
+    "cedar-priority-2026",
+    "cedar-cn-monthly-price"
+  ],
+  "known_limitations": [
+    "Synthetic small corpus, no claim of production representativeness.",
+    "Not an OHR or Agent 200-question benchmark.",
+    "No OCR, tables, charts or long-PDF coverage.",
+    "All semantic labels await human review.",
+    "Three follow-up cases use author-provided effective queries rather than testing automatic state merging."
+  ]
+}

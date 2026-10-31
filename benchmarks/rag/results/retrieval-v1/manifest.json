@@ -1,0 +1,610 @@
+{
+  "format_version": 1,
+  "dataset_version": "rag-fixtures-v1",
+  "dataset_sha256": "5de0ed8d81c7f5740d62b4b744bd2b6c1282832e054297217fa6f6410bff9671",
+  "sources": {
+    "manifest_path": "benchmarks\\rag\\fixtures\\manifest.csv",
+    "manifest_sha256": "0ad3c8dbd357696866ef4b8a04d577e89dfe4e33fc8f26a8641c869055ce86d8",
+    "document_sha256": {
+      "atlas-east": "5b73bf12290ce71ed4ddf57d141c6ef4e4020ef428c0268860f9969ff85cc574",
+      "atlas-lab": "ceb3c18d26b86390e85a38a2b58e8b0fdf47ecca6bf46b91d9bae66a02492c8e",
+      "atlas-west": "7fac28717dedcca52679ae16d51d864151a96a1da74d190f2defed53e3f6f10b",
+      "cedar-price-cn": "2f8c7af453f643c671e26481fc30229ce2f219bc033f2d1f2cf6e58aa9e03411",
+      "cedar-price-us": "9a8e24f363a2f41205e6d82fc79de2228ef79938c862582576996fbe00e7a51c",
+      "cedar-sla-2025": "5a3cf18a530346e5723a150ffd3f076da0283d267333edb1bc91b43c389eb5a8",
+      "cedar-sla-2026": "9831a181422ea86a57532f4cf3665a3e87b8433572e2c6790ebe2801db83be5e",
+      "harbor-migration": "6ecac161f4a6fcfca4fa5c33204ca524816b97f39bbfe5200b4143b501ad1a6c",
+      "harbor-security": "dbfe97e4f88c33beef2f107b89a35cc96b392d167fe1cf5427793ef65f9d0a95",
+      "service-glossary": "95fb88b36d61f59813f9e7782a1aa124f15da1dad9a721bef6e28531ae379810"
+    },
+    "evidence_checks": [
+      {
+        "case_id": "rag-dev-001",
+        "evidence_id": "e01-1",
+        "doc_id": "cedar-sla-2026",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）",
+          "支持响应"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-002",
+        "evidence_id": "e02-1",
+        "doc_id": "cedar-sla-2026",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）",
+          "支持响应"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-003",
+        "evidence_id": "e03-1",
+        "doc_id": "cedar-sla-2026",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）",
+          "可用性目标"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-004",
+        "evidence_id": "e04-1",
+        "doc_id": "cedar-sla-2025",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2025历史版本）",
+          "可用性目标"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-005",
+        "evidence_id": "e05-1",
+        "doc_id": "cedar-sla-2026",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）",
+          "可用性目标"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-007",
+        "evidence_id": "e07-1",
+        "doc_id": "cedar-sla-2026",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）",
+          "服务抵扣"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-008",
+        "evidence_id": "e08-1",
+        "doc_id": "cedar-price-cn",
+        "page": null,
+        "section_path": [
+          "Cedar 中国大陆价格说明（2026）",
+          "订阅价格"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-008",
+        "evidence_id": "e08-2",
+        "doc_id": "cedar-price-us",
+        "page": null,
+        "section_path": [
+          "Cedar 美国价格说明（2026）",
+          "订阅价格"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-009",
+        "evidence_id": "e09-1",
+        "doc_id": "cedar-price-cn",
+        "page": null,
+        "section_path": [
+          "Cedar 中国大陆价格说明（2026）",
+          "订阅价格"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-010",
+        "evidence_id": "e10-1",
+        "doc_id": "cedar-price-us",
+        "page": null,
+        "section_path": [
+          "Cedar 美国价格说明（2026）",
+          "订阅价格"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-011",
+        "evidence_id": "e11-1",
+        "doc_id": "cedar-price-cn",
+        "page": null,
+        "section_path": [
+          "Cedar 中国大陆价格说明（2026）",
+          "存储配额"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-012",
+        "evidence_id": "e12-1",
+        "doc_id": "cedar-price-us",
+        "page": null,
+        "section_path": [
+          "Cedar 美国价格说明（2026）",
+          "存储配额"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-013",
+        "evidence_id": "e13-1",
+        "doc_id": "atlas-east",
+        "page": null,
+        "section_path": [
+          "Atlas 泵站东区运行简报（2026）",
+          "告警处置"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-014",
+        "evidence_id": "e14-1",
+        "doc_id": "atlas-east",
+        "page": null,
+        "section_path": [
+          "Atlas 泵站东区运行简报（2026）",
+          "设备台账"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-015",
+        "evidence_id": "e15-1",
+        "doc_id": "atlas-west",
+        "page": null,
+        "section_path": [
+          "Atlas 泵站西区运行简报（2026）",
+          "设备台账"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-016",
+        "evidence_id": "e16-1",
+        "doc_id": "atlas-east",
+        "page": null,
+        "section_path": [
+          "Atlas 泵站东区运行简报（2026）",
+          "设备台账"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-016",
+        "evidence_id": "e16-2",
+        "doc_id": "atlas-west",
+        "page": null,
+        "section_path": [
+          "Atlas 泵站西区运行简报（2026）",
+          "设备台账"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-017",
+        "evidence_id": "e17-1",
+        "doc_id": "atlas-lab",
+        "page": null,
+        "section_path": [
+          "Atlas 软件实验室项目说明（2026）",
+          "数据任务"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-018",
+        "evidence_id": "e18-1",
+        "doc_id": "atlas-east",
+        "page": null,
+        "section_path": [
+          "Atlas 泵站东区运行简报（2026）",
+          "设备台账"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-019",
+        "evidence_id": "e19-1",
+        "doc_id": "harbor-migration",
+        "page": null,
+        "section_path": [
+          "Harbor 数据迁移执行单（2026年4月）",
+          "迁移窗口"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-019",
+        "evidence_id": "e19-2",
+        "doc_id": "harbor-migration",
+        "page": null,
+        "section_path": [
+          "Harbor 数据迁移执行单（2026年4月）",
+          "迁移窗口"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-020",
+        "evidence_id": "e20-1",
+        "doc_id": "harbor-migration",
+        "page": null,
+        "section_path": [
+          "Harbor 数据迁移执行单（2026年4月）",
+          "迁移窗口"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-021",
+        "evidence_id": "e21-1",
+        "doc_id": "harbor-migration",
+        "page": null,
+        "section_path": [
+          "Harbor 数据迁移执行单（2026年4月）",
+          "回退条件"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-021",
+        "evidence_id": "e21-2",
+        "doc_id": "harbor-migration",
+        "page": null,
+        "section_path": [
+          "Harbor 数据迁移执行单（2026年4月）",
+          "回退条件"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-022",
+        "evidence_id": "e22-1",
+        "doc_id": "harbor-security",
+        "page": null,
+        "section_path": [
+          "Harbor 安全与保留规范（2026）",
+          "审计日志"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-023",
+        "evidence_id": "e23-1",
+        "doc_id": "harbor-security",
+        "page": null,
+        "section_path": [
+          "Harbor 安全与保留规范（2026）",
+          "备份"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-024",
+        "evidence_id": "e24-1",
+        "doc_id": "harbor-security",
+        "page": null,
+        "section_path": [
+          "Harbor 安全与保留规范（2026）",
+          "静态加密"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-024",
+        "evidence_id": "e24-2",
+        "doc_id": "harbor-security",
+        "page": null,
+        "section_path": [
+          "Harbor 安全与保留规范（2026）",
+          "传输加密"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-027",
+        "evidence_id": "e27-1",
+        "doc_id": "harbor-migration",
+        "page": null,
+        "section_path": [
+          "Harbor 数据迁移执行单（2026年4月）",
+          "发布版本"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-028",
+        "evidence_id": "e28-1",
+        "doc_id": "cedar-price-cn",
+        "page": null,
+        "section_path": [
+          "Cedar 中国大陆价格说明（2026）",
+          "订阅价格"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-029",
+        "evidence_id": "e29-1",
+        "doc_id": "cedar-price-us",
+        "page": null,
+        "section_path": [
+          "Cedar 美国价格说明（2026）",
+          "订阅价格"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-030",
+        "evidence_id": "e30-1",
+        "doc_id": "cedar-sla-2025",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2025历史版本）",
+          "支持响应"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-031",
+        "evidence_id": "e31-1",
+        "doc_id": "atlas-west",
+        "page": null,
+        "section_path": [
+          "Atlas 泵站西区运行简报（2026）",
+          "设备台账"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-032",
+        "evidence_id": "e32-1",
+        "doc_id": "cedar-sla-2026",
+        "page": null,
+        "section_path": [
+          "Cedar 服务等级协议（中国大陆，2026）",
+          "可用性目标"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      },
+      {
+        "case_id": "rag-dev-032",
+        "evidence_id": "e32-2",
+        "doc_id": "service-glossary",
+        "page": null,
+        "section_path": [
+          "服务指标口径手册（2026演示版）",
+          "可用性"
+        ],
+        "quote_and_locator_verified": true,
+        "semantic_sufficiency": "pending_review"
+      }
+    ],
+    "review_status_changed": false
+  },
+  "code_sha256": "981f4214964bc1970be340480b03941cf8f2c2b915bdb2fb249a1d355ee255f3",
+  "source_files": {
+    "benchmarks/rag/__init__.py": "4f1e955e9829848afd9cc5a077ef6bc93c6ef38585b2066e68b7d9e80396197d",
+    "benchmarks/rag/compare.py": "a4ef2a81b59caf577f4fbbb89fc09b36091c3e8260943c7c432572e4cf3c140e",
+    "benchmarks/rag/dataset.py": "86aa4e745e27b94d2c32ece64539251a5c6487ce965d4e93a2c26a5f8ef06636",
+    "benchmarks/rag/metrics.py": "09c733ffc7458551be2d0438831780bc231dc91f59f273cf94e9decf7bde56e7",
+    "benchmarks/rag/report.py": "9a395d5b9017c3d28da499121a7cf15191da2bc7e4b48974dfa1c7392085269d",
+    "benchmarks/rag/review.py": "78468daf847628fa842375946e4cf3515ebaba4d6795c7b3a79e61b4a0b6b085",
+    "benchmarks/rag/run_end_to_end.py": "3a42e9d77318e60652a5fd2a7b3da8b3aa8413aa3420a9779c637ce2fbf6b297",
+    "benchmarks/rag/run_generation.py": "e90ed32e6eb65b999234b63fe850168802fa5d157a8250d3c2fc8669e00ea818",
+    "benchmarks/rag/run_retrieval.py": "78a3ebab3ab79385cd9801d7a2c7ecd80e3f4b1ad82e434948b732008ed9f453",
+    "benchmarks/rag/runner.py": "5d369801bcf3d9b5ba50c49640eeb118974ca75626560dd9556063984688d3ba",
+    "qa_agent/config.py": "06e4e6afd0b3fdafc4a16ccbe1e9914f811152ef5b51c71deeb70c786319255c",
+    "qa_agent/documents.py": "f4fc80ec56d9c8679fe726acf2905d4e57bd74972681c9416460792d8321d45a",
+    "qa_agent/llm.py": "f92df6cbf74d1f4b38851ea5110e2c7e8b72ae9a9564ab4f4e3dcd15f6352380",
+    "qa_agent/rag/__init__.py": "2f0739694897a87e21cda75f096aa47c4d26c14ae872e3e7cb1de3b16a7459f0",
+    "qa_agent/rag/answer.py": "b1bfc9dcb01accffc35c1c1d75268f251e593583501e423befb28f597f14cb0b",
+    "qa_agent/rag/chunker.py": "0833c0fad689c0311fd62c6ce183e3f5bc604c365baa0de6ae428ebea6b95b24",
+    "qa_agent/rag/embeddings.py": "e74367f1fa5664ad6ca5d22d5292bbb48c00332dcf45d86778b1fbf6ddbff45b",
+    "qa_agent/rag/evaluation.py": "5701c4ad205d4c45263654d4fc3c13c8f4543d06ae1f8fe85844db546afe4ca1",
+    "qa_agent/rag/index.py": "fa79c4f9c6486a5e2f2d692f94e50695182d018556e9c0e3401778a40de67c79",
+    "qa_agent/rag/parsers.py": "5f2bdbd5fe47b524000ff6bbd6d573eaa623ba27dbb14cbe04ffca5081318444",
+    "qa_agent/rag/reranker.py": "093635de5a7e7161b4f480dfcbc84da70ef56a4248d8e2ac08827793b5ae4294",
+    "qa_agent/rag/retrieval_cache.py": "4e1cd2fda2273a60bc2454802bc6f23e64927b161924840d9ac985a8ee8e3553",
+    "qa_agent/rag/retriever.py": "d03752f779e3871a6d9c3e3391db508da6db719c3c336699d5252b38876825b7",
+    "qa_agent/rag/service.py": "801be515357c5cc29f86c4e8ea725ff808e231febdaf71339b9f82cb6e32eac0",
+    "qa_agent/rag/task.py": "18a2ba4cea5137cc6ec99fa53beb3154587eef0871ba13942b02f08230a9df32",
+    "qa_agent/rag/uploads.py": "83daa3dc3d81c753c5a661ae13f8a467228987878672eecfd2a785a89d6c722f",
+    "qa_agent/schemas.py": "3782a044336c140a0e897e70dcf3737d43b01ee1a29b14d2b353707bed1ae94f",
+    "qa_agent/trace.py": "c402168763f8d07acfd369306742334e79539e064f85905cdea3a936aba9a347",
+    "requirements-runtime.txt": "662a910bf7e638eac5bb8617167ca5ce80967c6b89716d4ac7914248b38a1f80"
+  },
+  "commit": "72933fd941c499ac8ab7c51ddcd75a98d1a54a2a",
+  "tracked_changes": [
+    "qa_agent/rag/retriever.py"
+  ],
+  "source_hash_protocol": "sha256 of code text with CRLF normalized to LF; document hashes use raw bytes",
+  "command": [
+    "E:\\中国电子杯-赛题八\\system\\benchmarks\\rag\\run_retrieval.py",
+    "--config",
+    "benchmarks/rag/configs/retrieval-v1.json",
+    "--output",
+    "benchmarks/rag/results/retrieval-v1",
+    "--deadline-seconds",
+    "1200"
+  ],
+  "started_at": "2026-10-31T14:14:45.477369+00:00",
+  "mode": "retrieval",
+  "condition": "retrieved",
+  "config": {
+    "path": "benchmarks\\rag\\configs\\retrieval-v1.json",
+    "sha256": "56f856f9beb8e6fc52f310b8b474078d1af1a74e4e1506e2dd31e158241ae41d"
+  },
+  "answer_mode": "extractive",
+  "strategies": [
+    "bm25",
+    "dense",
+    "hybrid",
+    "hybrid_rerank"
+  ],
+  "split": "dev",
+  "heldout_read": false,
+  "cache_protocol": "cold",
+  "cache_scope": "retrieval caches; OS page cache and encoder session are not flushed",
+  "repeat": 3,
+  "top_k": 5,
+  "candidate_k_per_channel": 20,
+  "candidate_budget_note": "Hybrid may fuse up to 2*candidate_k distinct candidates; total candidate budgets are not equated.",
+  "index": {
+    "chunk_count": 40,
+    "chunks_sha256": "d8ad2c01116972f2a5f806bbc669d5e7746ab173aacb19162d1731c587a95833",
+    "chunking": {
+      "max_chars": 500,
+      "overlap": 80,
+      "cross_page": false,
+      "cross_section": false,
+      "boundary_policy": "complete_sentence_or_table_line",
+      "incomplete_chunk_count": 0
+    },
+    "dense_embedding": {
+      "model": "BAAI/bge-m3",
+      "conversion_repo": "Xenova/bge-m3",
+      "revision": "4de13258303883538bd53b696b452bf8099f0858",
+      "source": "https://huggingface.co/Xenova/bge-m3/tree/4de13258303883538bd53b696b452bf8099f0858",
+      "license": "MIT",
+      "runtime": "onnxruntime",
+      "device": "cpu",
+      "weight_type": "QInt8",
+      "pooling": "CLS",
+      "normalization": "L2",
+      "dimensions": 1024,
+      "downloaded_at_utc": "2026-10-10T12:06:50.568592+00:00",
+      "files": [
+        {
+          "path": "onnx/model_quantized.onnx",
+          "size": 569694530,
+          "sha256": "0826f8c1ab9edf1801db86c61919d4d108e8bfc0b809ec823ad366882ff0b77d"
+        },
+        {
+          "path": "tokenizer.json",
+          "size": 17082821,
+          "sha256": "6710678b12670bc442b99edc952c4d996ae309a7020c1fa0096dd245c2faf790"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "size": 1173,
+          "sha256": "7e4c1cc848840aeccdd763458c18dd525eb0f795c992e00ebe9c28554e7db2d4"
+        },
+        {
+          "path": "config.json",
+          "size": 770,
+          "sha256": "734a79bf12d388c1467a4e3ab625f45de7f6906cffcfb93a1eca1787504bed95"
+        },
+        {
+          "path": "quantize_config.json",
+          "size": 834,
+          "sha256": "4d98142624026cf78a40b36896ae1b1bada4faf185b77784a03b6995324aa176"
+        }
+      ],
+      "max_length": 512,
+      "batch_size": 2,
+      "providers": [
+        "CPUExecutionProvider"
+      ],
+      "mode": "bge-m3_onnx_int8",
+      "model_id": "BAAI/bge-m3",
+      "model_revision": "4de13258303883538bd53b696b452bf8099f0858",
+      "model_sha256": "0826f8c1ab9edf1801db86c61919d4d108e8bfc0b809ec823ad366882ff0b77d",
+      "enabled": true,
+      "dimension": 1024,
+      "embedding_signature": "b6ae7bf99f67c73bd4ee0d9818306b5d865a4c8d152f9c9c0ebabf0b868a76bf",
+      "vectors_sha256": "25f772a429653ab0b438f0b3de58dc9353137e6ab1e028984cee2fcdcd21a0c4"
+    },
+    "build_ms": 4437.473
+  },
+  "runtime": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "packages": {
+      "numpy": "2.5.3",
+      "rank-bm25": "0.2.2",
+      "onnxruntime": "1.31.0",
+      "pydantic": "2.14.0",
+      "openai": "2.54.0"
+    }
+  },
+  "model": {
+    "requested": null,
+    "temperature": 0.0,
+    "timeout": 60,
+    "max_attempts": 1,
+    "request_max_attempts": 2,
+    "max_tokens": 2048
+  },
+  "budget": {
+    "max_model_calls": 0,
+    "reserved_per_question": 2,
+    "deadline_seconds": 1200
+  },
+  "reference_review": "pending_human_review; authored synthetic development fixtures",
+  "semantic_metrics": "not_verified unless separately supplied, prediction-hash-bound assessments are applied",
+  "scope_note": "Multi-turn retrieval_question is supplied explicitly; this does not test conversation rewriting.",
+  "finished_at": "2026-10-31T14:15:19.547234+00:00",
+  "logical_question_count": 384,
+  "model_calls_reserved": 0
+}

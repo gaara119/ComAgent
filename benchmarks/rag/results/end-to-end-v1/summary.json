@@ -1,0 +1,232 @@
+{
+  "groups": {
+    "bm25": {
+      "logical_questions": 32,
+      "unique_questions": 32,
+      "answerable_metric_denominator": 29,
+      "failures": 0,
+      "hit@5": 1,
+      "recall@5": 1.0,
+      "mrr@5": 0.9482758620689655,
+      "ndcg@5": 0.9590520706849158,
+      "precision@5": 0.22758620689655173,
+      "evidence_coverage@5": 1.0,
+      "end_to_end_ms": {
+        "count": 32,
+        "p50": 50.3575,
+        "p90": 54.6999,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "retrieval_ms": {
+        "count": 32,
+        "p50": 49.658500000000004,
+        "p90": 54.0235,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "generation_ms": {
+        "count": 32,
+        "p50": 1.0,
+        "p90": 1.0,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "physical_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_hit_input_tokens": 0,
+      "cache_miss_input_tokens": 0,
+      "missing_usage_attempts": 0,
+      "usage_complete": true,
+      "money_usd": null,
+      "money_status": "not_verified; no price assumed",
+      "unanswerable_refusal_recall": 0.0,
+      "answerable_false_refusal_rate": 0.0,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_reviewed_count": 0,
+      "error_categories": {
+        "first_evidence_below_rank_1": 3,
+        "unanswerable_not_refused": 3
+      }
+    },
+    "dense": {
+      "logical_questions": 32,
+      "unique_questions": 32,
+      "answerable_metric_denominator": 29,
+      "failures": 0,
+      "hit@5": 1,
+      "recall@5": 1.0,
+      "mrr@5": 0.9827586206896551,
+      "ndcg@5": 0.9872734397783262,
+      "precision@5": 0.22758620689655173,
+      "evidence_coverage@5": 1.0,
+      "end_to_end_ms": {
+        "count": 32,
+        "p50": 72.483,
+        "p90": 86.92909999999999,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "retrieval_ms": {
+        "count": 32,
+        "p50": 71.2525,
+        "p90": 85.9311,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "generation_ms": {
+        "count": 32,
+        "p50": 1.0,
+        "p90": 1.0,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "physical_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_hit_input_tokens": 0,
+      "cache_miss_input_tokens": 0,
+      "missing_usage_attempts": 0,
+      "usage_complete": true,
+      "money_usd": null,
+      "money_status": "not_verified; no price assumed",
+      "unanswerable_refusal_recall": 0.0,
+      "answerable_false_refusal_rate": 0.0,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_reviewed_count": 0,
+      "error_categories": {
+        "unanswerable_not_refused": 3,
+        "first_evidence_below_rank_1": 1
+      }
+    },
+    "hybrid": {
+      "logical_questions": 32,
+      "unique_questions": 32,
+      "answerable_metric_denominator": 29,
+      "failures": 0,
+      "hit@5": 1,
+      "recall@5": 1.0,
+      "mrr@5": 0.9655172413793104,
+      "ndcg@5": 0.9745468795566522,
+      "precision@5": 0.22758620689655173,
+      "evidence_coverage@5": 1.0,
+      "end_to_end_ms": {
+        "count": 32,
+        "p50": 81.652,
+        "p90": 96.7719,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "retrieval_ms": {
+        "count": 32,
+        "p50": 80.8495,
+        "p90": 95.74719999999999,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "generation_ms": {
+        "count": 32,
+        "p50": 1.0,
+        "p90": 1.0,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "physical_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_hit_input_tokens": 0,
+      "cache_miss_input_tokens": 0,
+      "missing_usage_attempts": 0,
+      "usage_complete": true,
+      "money_usd": null,
+      "money_status": "not_verified; no price assumed",
+      "unanswerable_refusal_recall": 0.0,
+      "answerable_false_refusal_rate": 0.0,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_reviewed_count": 0,
+      "error_categories": {
+        "first_evidence_below_rank_1": 2,
+        "unanswerable_not_refused": 3
+      }
+    },
+    "hybrid_rerank": {
+      "logical_questions": 32,
+      "unique_questions": 32,
+      "answerable_metric_denominator": 29,
+      "failures": 0,
+      "hit@5": 1,
+      "recall@5": 1.0,
+      "mrr@5": 1.0,
+      "ndcg@5": 1.0,
+      "precision@5": 0.22758620689655173,
+      "evidence_coverage@5": 1.0,
+      "end_to_end_ms": {
+        "count": 32,
+        "p50": 81.3565,
+        "p90": 97.16259999999998,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "retrieval_ms": {
+        "count": 32,
+        "p50": 80.33449999999999,
+        "p90": 96.3398,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "generation_ms": {
+        "count": 32,
+        "p50": 1.0,
+        "p90": 1.0,
+        "method": "linear_interpolation_(n-1)*p"
+      },
+      "physical_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_hit_input_tokens": 0,
+      "cache_miss_input_tokens": 0,
+      "missing_usage_attempts": 0,
+      "usage_complete": true,
+      "money_usd": null,
+      "money_status": "not_verified; no price assumed",
+      "unanswerable_refusal_recall": 0.0,
+      "answerable_false_refusal_rate": 0.0,
+      "semantic_answer_correctness": null,
+      "semantic_faithfulness": null,
+      "semantic_citation_support": null,
+      "semantic_reviewed_count": 0,
+      "error_categories": {
+        "unanswerable_not_refused": 3
+      }
+    }
+  },
+  "paired": {
+    "dense": {
+      "baseline": "bm25",
+      "criterion": "all required source evidence at top5; not answer correctness",
+      "pairs": 29,
+      "recall_at_5_delta": 0.0,
+      "fail_to_pass": 0,
+      "pass_to_fail": 0,
+      "pass_to_pass": 29,
+      "fail_to_fail": 0
+    },
+    "hybrid": {
+      "baseline": "bm25",
+      "criterion": "all required source evidence at top5; not answer correctness",
+      "pairs": 29,
+      "recall_at_5_delta": 0.0,
+      "fail_to_pass": 0,
+      "pass_to_fail": 0,
+      "pass_to_pass": 29,
+      "fail_to_fail": 0
+    },
+    "hybrid_rerank": {
+      "baseline": "bm25",
+      "criterion": "all required source evidence at top5; not answer correctness",
+      "pairs": 29,
+      "recall_at_5_delta": 0.0,
+      "fail_to_pass": 0,
+      "pass_to_fail": 0,
+      "pass_to_pass": 29,
+      "fail_to_fail": 0
+    }
+  },
+  "interpretation": "source-labelled mechanical retrieval diagnostics; semantic scores unverified"
+}

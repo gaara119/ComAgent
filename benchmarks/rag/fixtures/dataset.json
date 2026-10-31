@@ -1,0 +1,1649 @@
+{
+  "version": "rag-fixtures-v1",
+  "title": "ComAgent 原创虚构文档 RAG 开发回归集（非真实业务测评）",
+  "corpus_manifest": "manifest.csv",
+  "cases": [
+    {
+      "id": "rag-dev-001",
+      "split": "dev",
+      "family_id": "cedar-priority-2026",
+      "category": "single_fact",
+      "question": "2026年中国大陆 Cedar 优先支持首次响应需要多久？",
+      "doc_ids": [
+        "cedar-sla-2026"
+      ],
+      "answerable": true,
+      "reference_answer": "15分钟，全天候计时；首次响应不等于解决问题。",
+      "required_evidence": [
+        {
+          "id": "e01-1",
+          "doc_id": "cedar-sla-2026",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "支持响应"
+          ],
+          "quote": "2026年中国大陆 Cedar 优先支持的首次响应时限是15分钟，全天候计时。",
+          "source_sha256": "9831a181422ea86a57532f4cf3665a3e87b8433572e2c6790ebe2801db83be5e"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f01-1",
+          "accepted_answers": [
+            "15分钟"
+          ],
+          "evidence_ids": [
+            "e01-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-002",
+      "split": "dev",
+      "family_id": "cedar-priority-2026",
+      "category": "full_corpus",
+      "question": "2026年中国大陆 Cedar 优先支持首次响应需要多久？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "15分钟，全天候计时；首次响应不等于解决问题。",
+      "required_evidence": [
+        {
+          "id": "e02-1",
+          "doc_id": "cedar-sla-2026",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "支持响应"
+          ],
+          "quote": "2026年中国大陆 Cedar 优先支持的首次响应时限是15分钟，全天候计时。",
+          "source_sha256": "9831a181422ea86a57532f4cf3665a3e87b8433572e2c6790ebe2801db83be5e"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f02-1",
+          "accepted_answers": [
+            "15分钟"
+          ],
+          "evidence_ids": [
+            "e02-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-003",
+      "split": "dev",
+      "family_id": "family-003",
+      "category": "numeric_period_unit",
+      "question": "2026年中国大陆 Cedar 云工作区的可用性目标是多少？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "99.9%，按自然月统计。",
+      "required_evidence": [
+        {
+          "id": "e03-1",
+          "doc_id": "cedar-sla-2026",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "quote": "2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。",
+          "source_sha256": "9831a181422ea86a57532f4cf3665a3e87b8433572e2c6790ebe2801db83be5e"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f03-1",
+          "accepted_answers": [
+            "99.9%"
+          ],
+          "evidence_ids": [
+            "e03-1"
+          ]
+        },
+        {
+          "id": "f03-2",
+          "accepted_answers": [
+            "自然月"
+          ],
+          "evidence_ids": [
+            "e03-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-004",
+      "split": "dev",
+      "family_id": "family-004",
+      "category": "numeric_period_unit",
+      "question": "2025年中国大陆 Cedar 云工作区的可用性目标是多少？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "99.5%，按自然月统计。",
+      "required_evidence": [
+        {
+          "id": "e04-1",
+          "doc_id": "cedar-sla-2025",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2025历史版本）",
+            "可用性目标"
+          ],
+          "quote": "2025年中国大陆 Cedar 云工作区的可用性目标是99.5%，按自然月统计。",
+          "source_sha256": "5a3cf18a530346e5723a150ffd3f076da0283d267333edb1bc91b43c389eb5a8"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f04-1",
+          "accepted_answers": [
+            "99.5%"
+          ],
+          "evidence_ids": [
+            "e04-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-005",
+      "split": "dev",
+      "family_id": "family-005",
+      "category": "single_fact",
+      "question": "2026年中国大陆 Cedar 可用性是按自然月还是自然年统计？",
+      "doc_ids": [
+        "cedar-sla-2026"
+      ],
+      "answerable": true,
+      "reference_answer": "按自然月统计。",
+      "required_evidence": [
+        {
+          "id": "e05-1",
+          "doc_id": "cedar-sla-2026",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "quote": "2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。",
+          "source_sha256": "9831a181422ea86a57532f4cf3665a3e87b8433572e2c6790ebe2801db83be5e"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f05-1",
+          "accepted_answers": [
+            "自然月"
+          ],
+          "evidence_ids": [
+            "e05-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-006",
+      "split": "dev",
+      "family_id": "family-006",
+      "category": "unanswerable",
+      "question": "仅依据登记资料，2027年中国大陆 Cedar 可用性承诺是多少？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": false,
+      "reference_answer": "资料未提供2027年的承诺，无法确定。",
+      "required_evidence": [],
+      "facts": [],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-007",
+      "split": "dev",
+      "family_id": "family-007",
+      "category": "numeric_period_unit",
+      "question": "2026年中国大陆 Cedar 单月服务抵扣上限是什么？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "上限为当月工作区订阅费的20%。",
+      "required_evidence": [
+        {
+          "id": "e07-1",
+          "doc_id": "cedar-sla-2026",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "服务抵扣"
+          ],
+          "quote": "2026年中国大陆 Cedar 单月服务抵扣额度的上限为当月工作区订阅费的20%。",
+          "source_sha256": "9831a181422ea86a57532f4cf3665a3e87b8433572e2c6790ebe2801db83be5e"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f07-1",
+          "accepted_answers": [
+            "20%"
+          ],
+          "evidence_ids": [
+            "e07-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-008",
+      "split": "dev",
+      "family_id": "family-008",
+      "category": "cross_document",
+      "question": "分别说明2026年 Cedar 标准工作区在中国大陆和美国的月订阅价格及币种，不要换汇。",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "中国大陆每工作区每月199元人民币；美国每工作区每月29美元，不含销售税。",
+      "required_evidence": [
+        {
+          "id": "e08-1",
+          "doc_id": "cedar-price-cn",
+          "page": null,
+          "section_path": [
+            "Cedar 中国大陆价格说明（2026）",
+            "订阅价格"
+          ],
+          "quote": "2026年中国大陆 Cedar 标准工作区的订阅价格为每个工作区每月199元人民币。",
+          "source_sha256": "2f8c7af453f643c671e26481fc30229ce2f219bc033f2d1f2cf6e58aa9e03411"
+        },
+        {
+          "id": "e08-2",
+          "doc_id": "cedar-price-us",
+          "page": null,
+          "section_path": [
+            "Cedar 美国价格说明（2026）",
+            "订阅价格"
+          ],
+          "quote": "2026年美国 Cedar 标准工作区的订阅价格为每个工作区每月29美元。",
+          "source_sha256": "9a8e24f363a2f41205e6d82fc79de2228ef79938c862582576996fbe00e7a51c"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f08-1",
+          "accepted_answers": [
+            "199元人民币"
+          ],
+          "evidence_ids": [
+            "e08-1"
+          ]
+        },
+        {
+          "id": "f08-2",
+          "accepted_answers": [
+            "29美元"
+          ],
+          "evidence_ids": [
+            "e08-2"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-009",
+      "split": "dev",
+      "family_id": "cedar-cn-monthly-price",
+      "category": "single_fact",
+      "question": "2026年中国大陆 Cedar 标准工作区每月订阅费是多少？",
+      "doc_ids": [
+        "cedar-price-cn"
+      ],
+      "answerable": true,
+      "reference_answer": "每个工作区每月199元人民币。",
+      "required_evidence": [
+        {
+          "id": "e09-1",
+          "doc_id": "cedar-price-cn",
+          "page": null,
+          "section_path": [
+            "Cedar 中国大陆价格说明（2026）",
+            "订阅价格"
+          ],
+          "quote": "2026年中国大陆 Cedar 标准工作区的订阅价格为每个工作区每月199元人民币。",
+          "source_sha256": "2f8c7af453f643c671e26481fc30229ce2f219bc033f2d1f2cf6e58aa9e03411"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f09-1",
+          "accepted_answers": [
+            "199元人民币"
+          ],
+          "evidence_ids": [
+            "e09-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-010",
+      "split": "dev",
+      "family_id": "family-010",
+      "category": "same_entity",
+      "question": "2026年美国 Cedar 标准工作区每月订阅费是多少？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "每个工作区每月29美元。",
+      "required_evidence": [
+        {
+          "id": "e10-1",
+          "doc_id": "cedar-price-us",
+          "page": null,
+          "section_path": [
+            "Cedar 美国价格说明（2026）",
+            "订阅价格"
+          ],
+          "quote": "2026年美国 Cedar 标准工作区的订阅价格为每个工作区每月29美元。",
+          "source_sha256": "9a8e24f363a2f41205e6d82fc79de2228ef79938c862582576996fbe00e7a51c"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f10-1",
+          "accepted_answers": [
+            "29美元"
+          ],
+          "evidence_ids": [
+            "e10-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-011",
+      "split": "dev",
+      "family_id": "family-011",
+      "category": "numeric_period_unit",
+      "question": "2026年中国大陆 Cedar 标准工作区包含多少存储空间？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "200GB。",
+      "required_evidence": [
+        {
+          "id": "e11-1",
+          "doc_id": "cedar-price-cn",
+          "page": null,
+          "section_path": [
+            "Cedar 中国大陆价格说明（2026）",
+            "存储配额"
+          ],
+          "quote": "2026年中国大陆 Cedar 标准工作区包含200GB存储空间。",
+          "source_sha256": "2f8c7af453f643c671e26481fc30229ce2f219bc033f2d1f2cf6e58aa9e03411"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f11-1",
+          "accepted_answers": [
+            "200GB"
+          ],
+          "evidence_ids": [
+            "e11-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-012",
+      "split": "dev",
+      "family_id": "family-012",
+      "category": "same_entity",
+      "question": "2026年美国 Cedar 标准工作区包含多少存储空间？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "100GB。",
+      "required_evidence": [
+        {
+          "id": "e12-1",
+          "doc_id": "cedar-price-us",
+          "page": null,
+          "section_path": [
+            "Cedar 美国价格说明（2026）",
+            "存储配额"
+          ],
+          "quote": "2026年美国 Cedar 标准工作区包含100GB存储空间。",
+          "source_sha256": "9a8e24f363a2f41205e6d82fc79de2228ef79938c862582576996fbe00e7a51c"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f12-1",
+          "accepted_answers": [
+            "100GB"
+          ],
+          "evidence_ids": [
+            "e12-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-013",
+      "split": "dev",
+      "family_id": "family-013",
+      "category": "numeric_period_unit",
+      "question": "2026年第二季度 Atlas 泵站东区平均告警确认时间是多少？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "算术平均为14分钟，不是中位数。",
+      "required_evidence": [
+        {
+          "id": "e13-1",
+          "doc_id": "atlas-east",
+          "page": null,
+          "section_path": [
+            "Atlas 泵站东区运行简报（2026）",
+            "告警处置"
+          ],
+          "quote": "2026年第二季度 Atlas 泵站东区的平均告警确认时间为14分钟。",
+          "source_sha256": "5b73bf12290ce71ed4ddf57d141c6ef4e4020ef428c0268860f9969ff85cc574"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f13-1",
+          "accepted_answers": [
+            "14分钟"
+          ],
+          "evidence_ids": [
+            "e13-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-014",
+      "split": "dev",
+      "family_id": "family-014",
+      "category": "same_entity",
+      "question": "截至2026年6月30日，Atlas 泵站东区登记水泵多少台？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "48台。",
+      "required_evidence": [
+        {
+          "id": "e14-1",
+          "doc_id": "atlas-east",
+          "page": null,
+          "section_path": [
+            "Atlas 泵站东区运行简报（2026）",
+            "设备台账"
+          ],
+          "quote": "截至2026年6月30日，Atlas 泵站东区登记水泵48台。",
+          "source_sha256": "5b73bf12290ce71ed4ddf57d141c6ef4e4020ef428c0268860f9969ff85cc574"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f14-1",
+          "accepted_answers": [
+            "48台"
+          ],
+          "evidence_ids": [
+            "e14-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-015",
+      "split": "dev",
+      "family_id": "family-015",
+      "category": "same_entity",
+      "question": "截至2026年6月30日，Atlas 泵站西区登记水泵多少台？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "12台。",
+      "required_evidence": [
+        {
+          "id": "e15-1",
+          "doc_id": "atlas-west",
+          "page": null,
+          "section_path": [
+            "Atlas 泵站西区运行简报（2026）",
+            "设备台账"
+          ],
+          "quote": "截至2026年6月30日，Atlas 泵站西区登记水泵12台。",
+          "source_sha256": "7fac28717dedcca52679ae16d51d864151a96a1da74d190f2defed53e3f6f10b"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f15-1",
+          "accepted_answers": [
+            "12台"
+          ],
+          "evidence_ids": [
+            "e15-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-016",
+      "split": "dev",
+      "family_id": "family-016",
+      "category": "cross_document",
+      "question": "分别列出截至2026年6月30日 Atlas 泵站东区和西区登记水泵台数。",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "东区48台，西区12台。",
+      "required_evidence": [
+        {
+          "id": "e16-1",
+          "doc_id": "atlas-east",
+          "page": null,
+          "section_path": [
+            "Atlas 泵站东区运行简报（2026）",
+            "设备台账"
+          ],
+          "quote": "截至2026年6月30日，Atlas 泵站东区登记水泵48台。",
+          "source_sha256": "5b73bf12290ce71ed4ddf57d141c6ef4e4020ef428c0268860f9969ff85cc574"
+        },
+        {
+          "id": "e16-2",
+          "doc_id": "atlas-west",
+          "page": null,
+          "section_path": [
+            "Atlas 泵站西区运行简报（2026）",
+            "设备台账"
+          ],
+          "quote": "截至2026年6月30日，Atlas 泵站西区登记水泵12台。",
+          "source_sha256": "7fac28717dedcca52679ae16d51d864151a96a1da74d190f2defed53e3f6f10b"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f16-1",
+          "accepted_answers": [
+            "48台"
+          ],
+          "evidence_ids": [
+            "e16-1"
+          ]
+        },
+        {
+          "id": "f16-2",
+          "accepted_answers": [
+            "12台"
+          ],
+          "evidence_ids": [
+            "e16-2"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-017",
+      "split": "dev",
+      "family_id": "family-017",
+      "category": "same_entity",
+      "question": "Atlas 软件实验室2026年每天计划执行多少批数据同步任务？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "每日48批数据同步任务。",
+      "required_evidence": [
+        {
+          "id": "e17-1",
+          "doc_id": "atlas-lab",
+          "page": null,
+          "section_path": [
+            "Atlas 软件实验室项目说明（2026）",
+            "数据任务"
+          ],
+          "quote": "2026年 Atlas 软件实验室的标准环境每日计划执行48批数据同步任务。",
+          "source_sha256": "ceb3c18d26b86390e85a38a2b58e8b0fdf47ecca6bf46b91d9bae66a02492c8e"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f17-1",
+          "accepted_answers": [
+            "48批"
+          ],
+          "evidence_ids": [
+            "e17-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-018",
+      "split": "dev",
+      "family_id": "family-018",
+      "category": "numeric_period_unit",
+      "question": "截至2025年6月30日，Atlas 泵站东区登记水泵多少台？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "36台。",
+      "required_evidence": [
+        {
+          "id": "e18-1",
+          "doc_id": "atlas-east",
+          "page": null,
+          "section_path": [
+            "Atlas 泵站东区运行简报（2026）",
+            "设备台账"
+          ],
+          "quote": "截至2025年6月30日，Atlas 泵站东区登记水泵36台。",
+          "source_sha256": "5b73bf12290ce71ed4ddf57d141c6ef4e4020ef428c0268860f9969ff85cc574"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f18-1",
+          "accepted_answers": [
+            "36台"
+          ],
+          "evidence_ids": [
+            "e18-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-019",
+      "split": "dev",
+      "family_id": "family-019",
+      "category": "multiple_evidence",
+      "question": "Harbor 2026年4月18日的迁移窗口及窗口内计划只读时长分别是什么？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "迁移窗口02:00至04:00（UTC），计划只读90分钟。",
+      "required_evidence": [
+        {
+          "id": "e19-1",
+          "doc_id": "harbor-migration",
+          "page": null,
+          "section_path": [
+            "Harbor 数据迁移执行单（2026年4月）",
+            "迁移窗口"
+          ],
+          "quote": "Harbor 数据迁移计划于2026年4月18日02:00开始、04:00结束，时间均为UTC。",
+          "source_sha256": "6ecac161f4a6fcfca4fa5c33204ca524816b97f39bbfe5200b4143b501ad1a6c"
+        },
+        {
+          "id": "e19-2",
+          "doc_id": "harbor-migration",
+          "page": null,
+          "section_path": [
+            "Harbor 数据迁移执行单（2026年4月）",
+            "迁移窗口"
+          ],
+          "quote": "该窗口内的计划只读时长为90分钟，窗口总时长不等于只读时长。",
+          "source_sha256": "6ecac161f4a6fcfca4fa5c33204ca524816b97f39bbfe5200b4143b501ad1a6c"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f19-1",
+          "accepted_answers": [
+            "02:00"
+          ],
+          "evidence_ids": [
+            "e19-1"
+          ]
+        },
+        {
+          "id": "f19-2",
+          "accepted_answers": [
+            "04:00"
+          ],
+          "evidence_ids": [
+            "e19-1"
+          ]
+        },
+        {
+          "id": "f19-3",
+          "accepted_answers": [
+            "UTC"
+          ],
+          "evidence_ids": [
+            "e19-1"
+          ]
+        },
+        {
+          "id": "f19-4",
+          "accepted_answers": [
+            "90分钟"
+          ],
+          "evidence_ids": [
+            "e19-2"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-020",
+      "split": "dev",
+      "family_id": "family-020",
+      "category": "single_fact",
+      "question": "Harbor 2026年4月18日迁移执行单使用哪个时区？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "UTC。",
+      "required_evidence": [
+        {
+          "id": "e20-1",
+          "doc_id": "harbor-migration",
+          "page": null,
+          "section_path": [
+            "Harbor 数据迁移执行单（2026年4月）",
+            "迁移窗口"
+          ],
+          "quote": "Harbor 数据迁移计划于2026年4月18日02:00开始、04:00结束，时间均为UTC。",
+          "source_sha256": "6ecac161f4a6fcfca4fa5c33204ca524816b97f39bbfe5200b4143b501ad1a6c"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f20-1",
+          "accepted_answers": [
+            "UTC"
+          ],
+          "evidence_ids": [
+            "e20-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-021",
+      "split": "dev",
+      "family_id": "family-021",
+      "category": "multiple_evidence",
+      "question": "Harbor 迁移校验失败后的回退完成时限是多少，从何时开始计算？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "30分钟，从确认校验失败开始计算。",
+      "required_evidence": [
+        {
+          "id": "e21-1",
+          "doc_id": "harbor-migration",
+          "page": null,
+          "section_path": [
+            "Harbor 数据迁移执行单（2026年4月）",
+            "回退条件"
+          ],
+          "quote": "Harbor 迁移校验失败后，回退操作的完成时限为30分钟。",
+          "source_sha256": "6ecac161f4a6fcfca4fa5c33204ca524816b97f39bbfe5200b4143b501ad1a6c"
+        },
+        {
+          "id": "e21-2",
+          "doc_id": "harbor-migration",
+          "page": null,
+          "section_path": [
+            "Harbor 数据迁移执行单（2026年4月）",
+            "回退条件"
+          ],
+          "quote": "30分钟从确认校验失败开始计算，不从迁移窗口开始时计算。",
+          "source_sha256": "6ecac161f4a6fcfca4fa5c33204ca524816b97f39bbfe5200b4143b501ad1a6c"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f21-1",
+          "accepted_answers": [
+            "30分钟"
+          ],
+          "evidence_ids": [
+            "e21-1"
+          ]
+        },
+        {
+          "id": "f21-2",
+          "accepted_answers": [
+            "确认校验失败"
+          ],
+          "evidence_ids": [
+            "e21-2"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-022",
+      "split": "dev",
+      "family_id": "family-022",
+      "category": "single_fact",
+      "question": "Harbor 审计日志保留多少天？",
+      "doc_ids": [
+        "harbor-security"
+      ],
+      "answerable": true,
+      "reference_answer": "90天。",
+      "required_evidence": [
+        {
+          "id": "e22-1",
+          "doc_id": "harbor-security",
+          "page": null,
+          "section_path": [
+            "Harbor 安全与保留规范（2026）",
+            "审计日志"
+          ],
+          "quote": "Harbor 资料服务的审计日志保留期为90天。",
+          "source_sha256": "dbfe97e4f88c33beef2f107b89a35cc96b392d167fe1cf5427793ef65f9d0a95"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f22-1",
+          "accepted_answers": [
+            "90天"
+          ],
+          "evidence_ids": [
+            "e22-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-023",
+      "split": "dev",
+      "family_id": "family-023",
+      "category": "same_entity",
+      "question": "Harbor 每日备份保留多少天？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "35天。",
+      "required_evidence": [
+        {
+          "id": "e23-1",
+          "doc_id": "harbor-security",
+          "page": null,
+          "section_path": [
+            "Harbor 安全与保留规范（2026）",
+            "备份"
+          ],
+          "quote": "Harbor 资料服务的每日备份保留期为35天。",
+          "source_sha256": "dbfe97e4f88c33beef2f107b89a35cc96b392d167fe1cf5427793ef65f9d0a95"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f23-1",
+          "accepted_answers": [
+            "35天"
+          ],
+          "evidence_ids": [
+            "e23-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-024",
+      "split": "dev",
+      "family_id": "family-024",
+      "category": "multiple_evidence",
+      "question": "Harbor 客户资料的静态加密与传输加密分别采用什么？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "静态存储使用AES-256，网络传输使用TLS 1.3。",
+      "required_evidence": [
+        {
+          "id": "e24-1",
+          "doc_id": "harbor-security",
+          "page": null,
+          "section_path": [
+            "Harbor 安全与保留规范（2026）",
+            "静态加密"
+          ],
+          "quote": "Harbor 客户资料在静态存储时使用AES-256加密。",
+          "source_sha256": "dbfe97e4f88c33beef2f107b89a35cc96b392d167fe1cf5427793ef65f9d0a95"
+        },
+        {
+          "id": "e24-2",
+          "doc_id": "harbor-security",
+          "page": null,
+          "section_path": [
+            "Harbor 安全与保留规范（2026）",
+            "传输加密"
+          ],
+          "quote": "Harbor 客户资料在网络传输时使用TLS 1.3。",
+          "source_sha256": "dbfe97e4f88c33beef2f107b89a35cc96b392d167fe1cf5427793ef65f9d0a95"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f24-1",
+          "accepted_answers": [
+            "AES-256"
+          ],
+          "evidence_ids": [
+            "e24-1"
+          ]
+        },
+        {
+          "id": "f24-2",
+          "accepted_answers": [
+            "TLS 1.3"
+          ],
+          "evidence_ids": [
+            "e24-2"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-025",
+      "split": "dev",
+      "family_id": "family-025",
+      "category": "unanswerable",
+      "question": "仅依据登记资料，2026年 Atlas 泵站东区负责人林澈的私人电话号码是什么？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": false,
+      "reference_answer": "资料未披露私人电话号码，无法回答。",
+      "required_evidence": [],
+      "facts": [],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-026",
+      "split": "dev",
+      "family_id": "family-026",
+      "category": "unanswerable",
+      "question": "仅依据登记资料，Harbor 下一次操作系统补丁安装日期是哪一天？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": false,
+      "reference_answer": "资料未给出该日期，无法确定。",
+      "required_evidence": [],
+      "facts": [],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-027",
+      "split": "dev",
+      "family_id": "family-027",
+      "category": "single_fact",
+      "question": "Harbor 此次2026年4月数据迁移的目标服务版本是什么？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "v2.4。",
+      "required_evidence": [
+        {
+          "id": "e27-1",
+          "doc_id": "harbor-migration",
+          "page": null,
+          "section_path": [
+            "Harbor 数据迁移执行单（2026年4月）",
+            "发布版本"
+          ],
+          "quote": "此次 Harbor 数据迁移的目标服务版本为v2.4。",
+          "source_sha256": "6ecac161f4a6fcfca4fa5c33204ca524816b97f39bbfe5200b4143b501ad1a6c"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f27-1",
+          "accepted_answers": [
+            "v2.4"
+          ],
+          "evidence_ids": [
+            "e27-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-028",
+      "split": "dev",
+      "family_id": "cedar-cn-monthly-price",
+      "category": "full_corpus",
+      "question": "2026年中国大陆 Cedar 标准工作区每月订阅费是多少？",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "每个工作区每月199元人民币。",
+      "required_evidence": [
+        {
+          "id": "e28-1",
+          "doc_id": "cedar-price-cn",
+          "page": null,
+          "section_path": [
+            "Cedar 中国大陆价格说明（2026）",
+            "订阅价格"
+          ],
+          "quote": "2026年中国大陆 Cedar 标准工作区的订阅价格为每个工作区每月199元人民币。",
+          "source_sha256": "2f8c7af453f643c671e26481fc30229ce2f219bc033f2d1f2cf6e58aa9e03411"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f28-1",
+          "accepted_answers": [
+            "199元人民币"
+          ],
+          "evidence_ids": [
+            "e28-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    },
+    {
+      "id": "rag-dev-029",
+      "split": "dev",
+      "family_id": "family-029",
+      "category": "multi_turn",
+      "question": "换成美国，年份和计费单位不变。",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "2026年美国 Cedar 标准工作区每个工作区每月29美元。",
+      "required_evidence": [
+        {
+          "id": "e29-1",
+          "doc_id": "cedar-price-us",
+          "page": null,
+          "section_path": [
+            "Cedar 美国价格说明（2026）",
+            "订阅价格"
+          ],
+          "quote": "2026年美国 Cedar 标准工作区的订阅价格为每个工作区每月29美元。",
+          "source_sha256": "9a8e24f363a2f41205e6d82fc79de2228ef79938c862582576996fbe00e7a51c"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f29-1",
+          "accepted_answers": [
+            "29美元"
+          ],
+          "evidence_ids": [
+            "e29-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": "price-region-followup",
+      "history": [
+        {
+          "role": "user",
+          "content": "2026年中国大陆 Cedar 标准工作区每个工作区每月订阅费是多少？"
+        },
+        {
+          "role": "assistant",
+          "content": "每个工作区每月199元人民币。"
+        }
+      ],
+      "retrieval_question": "2026年美国 Cedar 标准工作区每个工作区每月订阅费是多少？"
+    },
+    {
+      "id": "rag-dev-030",
+      "split": "dev",
+      "family_id": "family-030",
+      "category": "multi_turn",
+      "question": "换成2025年，其他条件不变。",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "2025年中国大陆 Cedar 优先支持首次响应时限30分钟。",
+      "required_evidence": [
+        {
+          "id": "e30-1",
+          "doc_id": "cedar-sla-2025",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2025历史版本）",
+            "支持响应"
+          ],
+          "quote": "2025年中国大陆 Cedar 优先支持的首次响应时限是30分钟，全天候计时。",
+          "source_sha256": "5a3cf18a530346e5723a150ffd3f076da0283d267333edb1bc91b43c389eb5a8"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f30-1",
+          "accepted_answers": [
+            "30分钟"
+          ],
+          "evidence_ids": [
+            "e30-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": "support-year-followup",
+      "history": [
+        {
+          "role": "user",
+          "content": "2026年中国大陆 Cedar 优先支持首次响应时限是多少？"
+        },
+        {
+          "role": "assistant",
+          "content": "15分钟，全天候计时。"
+        }
+      ],
+      "retrieval_question": "2025年中国大陆 Cedar 优先支持首次响应时限是多少？"
+    },
+    {
+      "id": "rag-dev-031",
+      "split": "dev",
+      "family_id": "family-031",
+      "category": "multi_turn",
+      "question": "改看西区，保持日期不变。",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "截至2026年6月30日，Atlas 泵站西区登记水泵12台。",
+      "required_evidence": [
+        {
+          "id": "e31-1",
+          "doc_id": "atlas-west",
+          "page": null,
+          "section_path": [
+            "Atlas 泵站西区运行简报（2026）",
+            "设备台账"
+          ],
+          "quote": "截至2026年6月30日，Atlas 泵站西区登记水泵12台。",
+          "source_sha256": "7fac28717dedcca52679ae16d51d864151a96a1da74d190f2defed53e3f6f10b"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f31-1",
+          "accepted_answers": [
+            "12台"
+          ],
+          "evidence_ids": [
+            "e31-1"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": "pump-area-followup",
+      "history": [
+        {
+          "role": "user",
+          "content": "截至2026年6月30日，Atlas 泵站东区登记水泵多少台？"
+        },
+        {
+          "role": "assistant",
+          "content": "48台。"
+        }
+      ],
+      "retrieval_question": "截至2026年6月30日，Atlas 泵站西区登记水泵多少台？"
+    },
+    {
+      "id": "rag-dev-032",
+      "split": "dev",
+      "family_id": "family-032",
+      "category": "cross_document",
+      "question": "给出2026年中国大陆 Cedar 可用性目标，并依据口径手册说明可用性百分比的分母。",
+      "doc_ids": [
+        "cedar-sla-2026",
+        "cedar-sla-2025",
+        "cedar-price-cn",
+        "cedar-price-us",
+        "atlas-east",
+        "atlas-west",
+        "atlas-lab",
+        "harbor-migration",
+        "harbor-security",
+        "service-glossary"
+      ],
+      "answerable": true,
+      "reference_answer": "可用性目标99.9%，按自然月统计；分母为约定服务分钟。",
+      "required_evidence": [
+        {
+          "id": "e32-1",
+          "doc_id": "cedar-sla-2026",
+          "page": null,
+          "section_path": [
+            "Cedar 服务等级协议（中国大陆，2026）",
+            "可用性目标"
+          ],
+          "quote": "2026年中国大陆 Cedar 云工作区的可用性目标是99.9%，按自然月统计。",
+          "source_sha256": "9831a181422ea86a57532f4cf3665a3e87b8433572e2c6790ebe2801db83be5e"
+        },
+        {
+          "id": "e32-2",
+          "doc_id": "service-glossary",
+          "page": null,
+          "section_path": [
+            "服务指标口径手册（2026演示版）",
+            "可用性"
+          ],
+          "quote": "分母为约定服务分钟，不是工单数量、用户人数或未扣维护的整月分钟。",
+          "source_sha256": "95fb88b36d61f59813f9e7782a1aa124f15da1dad9a721bef6e28531ae379810"
+        }
+      ],
+      "facts": [
+        {
+          "id": "f32-1",
+          "accepted_answers": [
+            "99.9%"
+          ],
+          "evidence_ids": [
+            "e32-1"
+          ]
+        },
+        {
+          "id": "f32-2",
+          "accepted_answers": [
+            "约定服务分钟"
+          ],
+          "evidence_ids": [
+            "e32-2"
+          ]
+        }
+      ],
+      "review_status": "pending_human_review",
+      "session_id": null,
+      "history": [],
+      "retrieval_question": null
+    }
+  ],
+  "corpus_manifest_sha256": "0ad3c8dbd357696866ef4b8a04d577e89dfe4e33fc8f26a8641c869055ce86d8",
+  "split_group_policy": "family_session"
+}
