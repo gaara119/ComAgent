@@ -47,3 +47,20 @@ def test_api_documentation_is_read_only_proxy_route():
     for path in ('/docs','/redoc','/openapi.json'):
         assert module.allowed_api(path,'GET')
         assert not module.allowed_api(path,'POST')
+
+
+def test_health_without_database_or_model(monkeypatch):
+    """Exercise lazy runtime imports which OpenAPI generation does not load."""
+    from fastapi.testclient import TestClient
+    from qa_agent.config import Settings, get_settings
+    from api.main import app
+    monkeypatch.setenv('AGENT_COMPONENT_MODE', 'none')
+    monkeypatch.setattr('api.main.get_settings', lambda: Settings(db_url=''))
+    get_settings.cache_clear()
+    with TestClient(app) as client:
+        response = client.get('/health')
+    assert response.status_code == 200, response.text
+    result = response.json()
+    assert result['service'] == 'comagent'
+    assert result['database_ready'] is False
+    assert result['llm_configured'] is False

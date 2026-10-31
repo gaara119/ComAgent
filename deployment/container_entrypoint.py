@@ -54,7 +54,7 @@ def main() -> int:
             if api.poll() is not None:
                 return api.returncode or 1
             try:
-                with opener.open("http://127.0.0.1:8000/openapi.json", timeout=2) as response:
+                with opener.open("http://127.0.0.1:8000/health", timeout=2) as response:
                     if response.status == 200:
                         break
             except OSError:
