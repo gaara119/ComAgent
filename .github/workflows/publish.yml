@@ -19,7 +19,6 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       VERSION_INPUT: ${{ inputs.version }}
-      DOCKER_CONFIG: ${{ runner.temp }}/comagent-docker-auth
     steps:
       - uses: actions/checkout@v4
       - name: Validate release identity
@@ -42,7 +41,7 @@ jobs:
                   raise SystemExit('Release/tag already exists; choose a new version before publishing images.')
           image='ghcr.io/'+os.environ['GITHUB_REPOSITORY'].lower()
           with open(os.environ['GITHUB_ENV'],'a') as f:
-              f.write('VERSION='+version+'\nIMAGE='+image+'\n')
+              f.write('VERSION='+version+'\nIMAGE='+image+'\nDOCKER_CONFIG='+os.path.join(os.environ['RUNNER_TEMP'],'comagent-docker-auth')+'\n')
           PY
       - name: Build test image and run offline regression
         run: |
