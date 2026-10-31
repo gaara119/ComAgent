@@ -36,14 +36,16 @@ def allowed_api(path: str, method: str) -> bool:
         return path in {'/api/chat','/api/context','/api/databases','/api/documents/import','/api/documents/text'} or bool(re.fullmatch(connection + r'/refresh', path))
     if method == 'DELETE':
         return bool(re.fullmatch(connection, path))
-    return method in {'GET','HEAD'} and (path in {'/health', '/api/documents','/api/databases'} or bool(re.fullmatch(r'/api/documents/imports/[0-9a-f]{32}', path)) or bool(re.fullmatch(r'/api/documents/[^/\\]+/(?:file|pages/[1-9][0-9]*)', decoded)))
+    return method in {'GET','HEAD'} and (path in {'/health', '/docs', '/redoc', '/openapi.json', '/api/documents','/api/databases'} or bool(re.fullmatch(r'/api/documents/imports/[0-9a-f]{32}', path)) or bool(re.fullmatch(r'/api/documents/[^/\\]+/(?:file|pages/[1-9][0-9]*)', decoded)))
 
 class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         raise HTTPError(req.full_url, 502, 'UI proxy does not follow redirects.', headers, fp)
 
-def make_handler(upstream_url: str):
+def make_handler(upstream_url: str, public_port: int | None = None):
     upstream_url = api_url(upstream_url)
+    if public_port is not None and not 1 <= public_port <= 65535:
+        raise ValueError('Invalid public UI port.')
     # This proxy connects only to the configured local API, ignoring OS HTTP proxy settings.
     opener = build_opener(ProxyHandler({}), NoRedirect())
     class Handler(SimpleHTTPRequestHandler):
@@ -84,7 +86,7 @@ def make_handler(upstream_url: str):
                 host = self.headers.get('Host', '')
                 try:
                     authority = urlsplit('http://' + host)
-                    if authority.hostname not in {'127.0.0.1','localhost','::1'} or authority.port != self.server.server_port:
+                    if authority.hostname not in {'127.0.0.1','localhost','::1'} or authority.port != (public_port or self.server.server_port):
                         return self.json_error(403,'数据库连接管理仅允许本机工作台访问。')
                     origin = self.headers.get('Origin')
                     if origin and origin != 'http://' + host:
@@ -126,7 +128,7 @@ def make_handler(upstream_url: str):
             path=urlsplit(self.path).path
             if path == '/ui-health':
                 return self.json_response(200, {'status':'ok','service':'comagent-workbench-ui','version':'1.1.0','api_url':upstream_url})
-            if path == '/health' or path.startswith('/api/'): return self.proxy()
+            if path in {'/health', '/docs', '/redoc', '/openapi.json'} or path.startswith('/api/'): return self.proxy()
             if not self.static_allowed(): return self.json_error(403,'文件路径不允许。')
             return super().do_GET()
 
@@ -134,7 +136,7 @@ def make_handler(upstream_url: str):
             path=urlsplit(self.path).path
             if path == '/ui-health':
                 return self.json_response(200, {'status':'ok','service':'comagent-workbench-ui','version':'1.1.0','api_url':upstream_url})
-            if path == '/health' or path.startswith('/api/'): return self.proxy()
+            if path in {'/health', '/docs', '/redoc', '/openapi.json'} or path.startswith('/api/'): return self.proxy()
             if not self.static_allowed(): return self.json_error(403,'文件路径不允许。')
             return super().do_HEAD()
 
@@ -153,10 +155,13 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--api-url',type=api_url,default='http://127.0.0.1:8000')
     parser.add_argument('--port',type=int,default=8501)
+    parser.add_argument('--host',choices=['127.0.0.1','0.0.0.0'],default='127.0.0.1',help='Use 0.0.0.0 only behind an explicitly restricted container port mapping.')
+    parser.add_argument('--public-port',type=int,default=None,help='Explicit loopback host port when Docker maps a different port.')
     args=parser.parse_args()
     if not 1 <= args.port <= 65535: parser.error('Invalid UI port.')
+    if args.public_port is not None and not 1 <= args.public_port <= 65535: parser.error('Invalid public UI port.')
     if not (DIST/'index.html').is_file(): parser.error('dist/index.html is missing; restore the package or run the frontend build.')
-    try: server=ThreadingHTTPServer(('127.0.0.1',args.port),make_handler(args.api_url))
+    try: server=ThreadingHTTPServer((args.host,args.port),make_handler(args.api_url,args.public_port))
     except OSError as exc:
         parser.exit(1,f'Cannot bind UI port {args.port}. Choose another --port.\n{exc}\n')
     server.daemon_threads=True

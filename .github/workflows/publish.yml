@@ -1,0 +1,114 @@
+name: Publish ComAgent
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'New release version, without v (for example 0.5.0)'
+        required: true
+        default: '0.5.0'
+permissions:
+  contents: write
+  packages: write
+concurrency:
+  group: comagent-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      VERSION_INPUT: ${{ inputs.version }}
+      DOCKER_CONFIG: ${{ runner.temp }}/comagent-docker-auth
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate release identity
+        id: identity
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os,re,json,urllib.request,urllib.error
+          version=os.environ['VERSION_INPUT']
+          assert re.fullmatch(r'\d+\.\d+\.\d+',version), 'Use a numeric semantic version'
+          for suffix in ['/releases/tags/v'+version, '/git/ref/tags/v'+version]:
+              request=urllib.request.Request('https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']+suffix,
+                  headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+              try:
+                  with urllib.request.urlopen(request,timeout=20) as response:
+                      existing=json.load(response)
+              except urllib.error.HTTPError as error:
+                  if error.code!=404: raise
+              else:
+                  raise SystemExit('Release/tag already exists; choose a new version before publishing images.')
+          image='ghcr.io/'+os.environ['GITHUB_REPOSITORY'].lower()
+          with open(os.environ['GITHUB_ENV'],'a') as f:
+              f.write('VERSION='+version+'\nIMAGE='+image+'\n')
+          PY
+      - name: Build test image and run offline regression
+        run: |
+          docker build --target test -t comagent-release-test --build-arg VERSION="$VERSION" --build-arg VCS_REF="$GITHUB_SHA" .
+          docker run --rm comagent-release-test
+      - name: Build runtime image
+        run: |
+          docker build --target runtime -t "$IMAGE:$VERSION" -t "$IMAGE:latest" --build-arg VERSION="$VERSION" --build-arg VCS_REF="$GITHUB_SHA" .
+      - name: Exercise real container tools and persistence
+        shell: bash
+        run: |
+          docker network create comagent-release-check
+          docker run -d --name comagent-release-db --network comagent-release-check -e POSTGRES_PASSWORD=release-ci-only postgres:16-alpine
+          for i in $(seq 1 40); do docker exec comagent-release-db pg_isready -U postgres && break; sleep 2; done
+          docker exec comagent-release-db psql -U postgres -v ON_ERROR_STOP=1 -c "CREATE TABLE public.release_probe (id integer PRIMARY KEY); INSERT INTO public.release_probe VALUES (1); CREATE ROLE qa_reader LOGIN PASSWORD 'release-ci-only'; GRANT USAGE ON SCHEMA public TO qa_reader; GRANT SELECT ON public.release_probe TO qa_reader;"
+          docker run -d --name comagent-release-app --network comagent-release-check -p 127.0.0.1:8501:8501 -e RAG_ANSWER_MODE=extractive -e LLM_API_KEY= -e COMAGENT_SMOKE_DB_HOST=comagent-release-db -e COMAGENT_SMOKE_DB_PASSWORD=release-ci-only "$IMAGE:$VERSION"
+          for i in $(seq 1 40); do curl --fail --silent http://127.0.0.1:8501/ui-health && break; sleep 2; done
+          curl --fail --silent http://127.0.0.1:8501/ > /dev/null
+          docker exec comagent-release-app python scripts/smoke_container.py
+          docker restart comagent-release-app
+          for i in $(seq 1 40); do curl --fail --silent http://127.0.0.1:8501/ui-health && break; sleep 2; done
+          docker exec comagent-release-app python scripts/smoke_container.py --verify-persistence
+      - name: Publish image to GitHub Packages
+        run: |
+          printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker push "$IMAGE:$VERSION"
+          docker push "$IMAGE:latest"
+          docker pull "$IMAGE:$VERSION"
+      - name: Publish source Release
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/comagent-release"
+          git archive --format=zip --prefix=ComAgent/ -o "$RUNNER_TEMP/comagent-release/ComAgent-$VERSION-source.zip" HEAD
+          python - <<'PY'
+          import os,zipfile
+          p=os.path.join(os.environ['RUNNER_TEMP'],'comagent-release','ComAgent-'+os.environ['VERSION']+'-source.zip')
+          with zipfile.ZipFile(p) as z:
+              assert z.testzip() is None
+              assert not any(x.startswith(('ComAgent/docs/','ComAgent/eval/','ComAgent/notes/','ComAgent/.runtime/')) or x=='ComAgent/.env' for x in z.namelist())
+          PY
+          (cd "$RUNNER_TEMP/comagent-release" && sha256sum "ComAgent-$VERSION-source.zip" > SHA256SUMS.txt)
+          cat > "$RUNNER_TEMP/comagent-release-notes.md" <<'NOTES'
+          ## ComAgent 数据库与文档问答
+
+          - 支持数据库问数、文档上传与文字入库、引用核查、多轮澄清及受约束跨源计划。
+          - 提供 Linux/amd64 容器，含预编译工作台；API 和 UI 由同一启动器管理。
+          - 新增 Linux 数据库凭据认证加密，状态和知识库通过持久卷保存。
+          - 发布前已通过容器内离线回归、真实文字/TXT/PDF/DOCX 入库检索、会话保存、真实 PostgreSQL 只读登记与重启持久化检查；未调用收费模型 API。
+
+          使用方式、API 密钥、Docker、数据库连接、可选向量模型和常见问题均见仓库 README。
+
+          源码包不包含真实密钥、模型权重、原始知识库或学习指南。默认未提供本地 BGE 权重时使用关键词检索；生成式问答需自行配置模型密钥。
+
+          GitHub Packages 首次发布可能默认私有；镜像是否允许匿名下载以包页面实际可见性为准。可始终使用本 Release 源码按 README 本地构建。
+          NOTES
+          if gh release view "v$VERSION" --json isDraft --jq .isDraft > "$RUNNER_TEMP/comagent-draft-state" 2>/dev/null; then
+            test "$(cat "$RUNNER_TEMP/comagent-draft-state")" = true || { echo 'Version already published; choose a new version.'; exit 1; }
+          else
+            gh release create "v$VERSION" --target "$GITHUB_SHA" --title "ComAgent v$VERSION" --notes-file "$RUNNER_TEMP/comagent-release-notes.md" --draft
+          fi
+          gh release upload "v$VERSION" "$RUNNER_TEMP/comagent-release/ComAgent-$VERSION-source.zip" "$RUNNER_TEMP/comagent-release/SHA256SUMS.txt" --clobber
+          gh release edit "v$VERSION" --draft=false --latest
+      - name: Cleanup temporary containers
+        if: always()
+        run: |
+          docker logs comagent-release-app 2>/dev/null || true
+          docker rm -fv comagent-release-app comagent-release-db 2>/dev/null || true
+          docker network rm comagent-release-check 2>/dev/null || true
+          docker logout ghcr.io || true

@@ -42,7 +42,7 @@ for attempt in range(20):
     try:
         with urllib.request.urlopen(os.environ['QA_API_BASE_URL'] + '/health', timeout=3) as response:
             value = json.load(response)
-        if value.get('status') == 'ok' and value.get('stage') == 'D1':
+        if value.get('status') == 'ok' and value.get('service') == 'comagent' and value.get('capabilities', {}).get('document_upload'):
             break
     except Exception:
         pass

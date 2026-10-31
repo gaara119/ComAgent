@@ -1,9 +1,9 @@
 """Local PostgreSQL registrations and bounded, read-only schema discovery.
 
 Only connection settings are encrypted; public summaries never contain a DSN,
-password, local path, or example business rows. Windows DPAPI binds credentials
-to the current Windows account. Other platforms must supply a secure codec;
-there is deliberately no plaintext fallback.
+password, local path, or example business rows. Windows defaults to current-user
+DPAPI. A configured COMAGENT_CREDENTIAL_KEY enables authenticated encryption on
+other platforms as well; there is deliberately no plaintext fallback.
 """
 from __future__ import annotations
 
@@ -168,6 +168,68 @@ class WindowsDPAPICodec:
 
     def decrypt(self, ciphertext: bytes) -> bytes:
         return self._transform(ciphertext, decrypt=True)
+
+
+class FernetCredentialCodec:
+    """Authenticated encryption with an externally managed, stable Fernet key.
+
+    Key creation, persistence and permissions belong to the deployment layer.
+    Never derive a key from a password or generate one silently on every start.
+    """
+
+    def __init__(self, key: str | bytes):
+        try:
+            encoded = key.encode("ascii") if isinstance(key, str) else key
+            if not isinstance(encoded, bytes) or not re.fullmatch(rb"[A-Za-z0-9_-]{43}=", encoded):
+                raise ValueError()
+            decoded = base64.b64decode(encoded, altchars=b"-_", validate=True)
+            if len(decoded) != 32 or base64.urlsafe_b64encode(decoded) != encoded:
+                raise ValueError()
+        except (UnicodeError, ValueError, TypeError):
+            raise DatabaseRegistryError("CREDENTIAL_KEY_INVALID",
+                "安全凭据密钥格式无效，请配置有效的 Fernet 密钥。", 503) from None
+        try:
+            from cryptography.fernet import Fernet
+        except ImportError:
+            raise DatabaseRegistryError("CREDENTIAL_PROTECTION_UNAVAILABLE",
+                "认证加密依赖不可用，未保存连接。", 503) from None
+        self._fernet = Fernet(encoded)
+
+    def encrypt(self, plaintext: bytes) -> bytes:
+        try:
+            return self._fernet.encrypt(plaintext)
+        except (ValueError, TypeError):
+            raise DatabaseRegistryError("CREDENTIAL_PROTECTION_FAILED",
+                "无法安全保存连接凭据，未保存连接。", 503) from None
+
+    def decrypt(self, ciphertext: bytes) -> bytes:
+        from cryptography.fernet import InvalidToken
+        try:
+            return self._fernet.decrypt(ciphertext)
+        except (InvalidToken, ValueError, TypeError):
+            raise DatabaseRegistryError("CREDENTIAL_PROTECTION_FAILED",
+                "无法解密连接凭据，密钥不匹配或记录已损坏。", 503) from None
+
+
+class UnavailableCredentialCodec:
+    """Permit public catalog reads without accepting unprotected connections."""
+
+    def encrypt(self, plaintext: bytes) -> bytes:
+        raise DatabaseRegistryError("CREDENTIAL_PROTECTION_UNAVAILABLE",
+            "此平台尚未配置安全凭据密钥，未保存连接。", 503)
+
+    def decrypt(self, ciphertext: bytes) -> bytes:
+        raise DatabaseRegistryError("CREDENTIAL_PROTECTION_UNAVAILABLE",
+            "此平台尚未配置安全凭据密钥，无法解密连接。", 503)
+
+
+def _default_credential_codec(platform: str | None = None) -> CredentialCodec:
+    key = os.getenv("COMAGENT_CREDENTIAL_KEY")
+    # An optional empty variable means unconfigured; any nonempty invalid key
+    # is rejected explicitly rather than falling back to another codec.
+    if key not in (None, ""):
+        return FernetCredentialCodec(key)
+    return WindowsDPAPICodec() if (platform or os.name) == "nt" else UnavailableCredentialCodec()
 
 
 @dataclass(frozen=True)
@@ -364,7 +426,7 @@ class DatabaseRegistry:
     def __init__(self, root: Path | None = None, *, codec: CredentialCodec | None = None,
                  connector: Callable[..., Any] | None = None):
         self.root = root if root is not None else PROJECT_ROOT / ".runtime" / "registered_databases"
-        self.codec = codec if codec is not None else WindowsDPAPICodec()
+        self.codec = codec if codec is not None else _default_credential_codec()
         self.connector = connector if connector is not None else psycopg.connect
 
     def _record_path(self, db_id: str) -> Path:

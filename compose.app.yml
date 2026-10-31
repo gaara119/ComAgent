@@ -1,0 +1,23 @@
+name: comagent-app
+services:
+  app:
+    image: ghcr.io/gaara119/comagent:0.5.0
+    build:
+      context: .
+      target: runtime
+      args:
+        VERSION: 0.5.0
+    env_file:
+      - .env.docker
+    environment:
+      COMAGENT_UI_PORT: ${COMAGENT_UI_PORT:-18501}
+    ports:
+      - "127.0.0.1:${COMAGENT_UI_PORT:-18501}:8501"
+    volumes:
+      - app-data:/app/data
+      - app-runtime:/app/.runtime
+    restart: unless-stopped
+    stop_grace_period: 25s
+volumes:
+  app-data:
+  app-runtime:

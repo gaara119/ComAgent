@@ -30,7 +30,7 @@ def test_database_proxy_allowlist(method, path, allowed):
 
 
 @pytest.fixture
-def proxy():
+def proxy(request):
     requests = []
     class Backend(BaseHTTPRequestHandler):
         def handle_request(self):
@@ -48,7 +48,7 @@ def proxy():
         def log_message(self, *args):
             pass
     backend = ThreadingHTTPServer(('127.0.0.1', 0), Backend)
-    server = ThreadingHTTPServer(('127.0.0.1', 0), ui.make_handler(f'http://127.0.0.1:{backend.server_port}'))
+    server = ThreadingHTTPServer(('127.0.0.1', 0), ui.make_handler(f'http://127.0.0.1:{backend.server_port}',getattr(request,'param',None)))
     for instance in (backend, server):
         threading.Thread(target=instance.serve_forever, daemon=True).start()
     opener = build_opener(ProxyHandler({}))
@@ -88,6 +88,17 @@ def test_document_and_text_uploads_and_job_polling_reach_allowed_backend(proxy):
     count = len(requests)
     assert call('POST', '/api/documents/text', {'title':'Blocked','text':'Source'}, {'Origin':'https://foreign.example'})[0] == 403
     assert len(requests) == count
+
+
+@pytest.mark.parametrize('proxy',[18501],indirect=True)
+def test_explicit_docker_public_port_preserves_same_origin_boundary(proxy):
+    call,requests,_=proxy
+    headers={'Host':'127.0.0.1:18501','Origin':'http://127.0.0.1:18501'}
+    assert call('POST','/api/documents/text',{'title':'Mapped','text':'Source'},headers)[0]==200
+    before=len(requests)
+    assert call('POST','/api/documents/text',{'title':'Wrong','text':'Source'},
+                {'Host':'127.0.0.1:18502','Origin':'http://127.0.0.1:18502'})[0]==403
+    assert len(requests)==before
 
 
 @pytest.mark.parametrize('headers', [{'Origin': 'https://foreign.example'}, {'Host': 'foreign.example'}, {'Origin': 'http://127.0.0.1:1'}])
