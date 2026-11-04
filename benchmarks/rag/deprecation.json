@@ -1,0 +1,20 @@
+{
+  "schema": "benchmark-deprecation-v1",
+  "status": "retired",
+  "reason": "The project owner retired the supplementary 32-question synthetic RAG set. It is not current project evaluation evidence.",
+  "retired_datasets": [
+    {
+      "version": "rag-fixtures-v1",
+      "path": "benchmarks/rag/fixtures/dataset.json",
+      "sha256": "5de0ed8d81c7f5740d62b4b744bd2b6c1282832e054297217fa6f6410bff9671",
+      "logical_questions": 32,
+      "preservation": "Retired questions, Gold, corpus and old result bundles are removed from the active tree. Git history is not rewritten."
+    }
+  ],
+  "replacement": {
+    "kind": "Agent comprehensive evaluation",
+    "logical_questions": 240,
+    "entrypoint": "python -m benchmarks.agent240.evaluate --bundle benchmarks/agent240/data --output NEW_OUTPUT_DIRECTORY",
+    "boundary": "SQL, RAG and dialogue tasks require separate eligible denominators. The 240 tasks are not 240 independent RAG retrieval questions."
+  }
+}

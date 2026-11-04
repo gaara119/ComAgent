@@ -1,0 +1,13 @@
+{
+  "recorded_utc": "2026-11-04T00:50:52.387489+00:00",
+  "tests_passed": 203,
+  "failures": 0,
+  "command": "python -B -m pytest -q -p no:cacheprovider tests/test_agent240_metrics.py tests/test_rag_benchmark_metrics.py tests/test_rag_benchmark_runtime.py tests/test_rag_benchmark_reporting.py tests/test_rag_benchmark_cli.py tests/test_sql_validator.py tests/test_source_scope_and_tool_permissions.py tests/test_document_imports.py tests/test_rag_multidocument_service.py --basetemp=.runtime/agent240-final-checks-unsandboxed --junitxml=.runtime/agent240-final-checks-unsandboxed.xml",
+  "result": "203 passed in 4.66s",
+  "security_permission_subset": 66,
+  "paid_API_calls": 0,
+  "database_queries": 0,
+  "earlier_sandbox_attempt": "interrupted; not counted as a passing run",
+  "junit_sha256": "e2bcee3527a08d2f2c7c0cbafded2c68f1156826a2da412874dc96acfafe346f",
+  "limitations": "Offline fixtures and replay metrics, not 240 current predictions or a penetration test."
+}

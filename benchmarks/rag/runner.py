@@ -26,6 +26,22 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def reject_retired_dataset(dataset_path, parser):
+    """Do not silently reuse retired development fixtures as current evidence."""
+    registry_path = Path(__file__).with_name('deprecation.json')
+    registry = json.loads(registry_path.read_text(encoding='utf-8'))
+    resolved = Path(dataset_path).resolve()
+    for retired in registry['retired_datasets']:
+        if resolved == (PROJECT_ROOT / retired['path']).resolve():
+            parser.error('Dataset retired: '+retired['version']+'; use the approved Agent240 evaluation bundle.')
+    if resolved.is_file():
+        payload = json.loads(resolved.read_text(encoding='utf-8-sig'))
+        file_hash = digest(resolved)
+        for retired in registry['retired_datasets']:
+            if payload.get('version') == retired['version'] or file_hash == retired['sha256']:
+                parser.error('Dataset retired: '+retired['version']+'; copied fixtures are not an active benchmark.')
+
+
 def source_fingerprint():
     paths = [*PROJECT_ROOT.glob('qa_agent/rag/*.py'), *Path(__file__).parent.glob('*.py'),
              *[PROJECT_ROOT/'qa_agent'/name for name in ('llm.py','config.py','documents.py','trace.py','schemas.py')],
@@ -86,7 +102,8 @@ def error_categories(row):
 def main(mode=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path)
-    parser.add_argument('--dataset', type=Path, default=Path('benchmarks/rag/fixtures/dataset.json'))
+    parser.add_argument('--dataset', type=Path,
+                        help='Explicit source-anchored dataset; retired rag-fixtures-v1 is rejected')
     parser.add_argument('--output', type=Path, required=True, help='New directory; existing evidence is never overwritten')
     parser.add_argument('--work-dir', type=Path, default=Path('.runtime/rag-benchmark'))
     parser.add_argument('--mode', choices=['retrieval','generation','end_to_end'], default=mode or 'retrieval')
@@ -113,6 +130,8 @@ def main(mode=None):
         config={('candidate_k' if k=='candidate_k_per_channel' else k):v for k,v in config.items() if k not in {'rrf_k','scope','semantic_review'}}
         parser.set_defaults(**config)
     args = parser.parse_args()
+    if args.dataset is None:
+        parser.error('An explicit --dataset is required. Current project evaluation uses python -m benchmarks.agent240.evaluate.')
     if args.repeat not in range(1,11) or args.top_k not in range(5,21) or any(s not in {'bm25','dense','hybrid','hybrid_rerank'} for s in args.strategies):
         parser.error('Invalid config repeat/top_k/strategies')
     if args.output.exists():
@@ -128,6 +147,7 @@ def main(mode=None):
     if args.answer_mode == 'llm' and args.mode != 'retrieval' and args.max_model_calls < 2:
         parser.error('Paid generation requires explicit --max-model-calls >=2; default makes zero API calls')
     dataset_path = args.dataset.resolve()
+    reject_retired_dataset(dataset_path, parser)
     dataset = load_dataset(dataset_path, split='dev')
     sources = verify_sources(dataset, dataset_path)
     manifest = (dataset_path.parent / dataset.corpus_manifest).resolve()
@@ -174,7 +194,7 @@ def main(mode=None):
                  'temperature':settings.llm_temperature,'timeout':settings.llm_timeout_seconds,
                  'max_attempts':1,'request_max_attempts':2,'max_tokens':settings.llm_max_tokens},
         'budget':{'max_model_calls':args.max_model_calls,'reserved_per_question':2,'deadline_seconds':args.deadline_seconds},
-        'reference_review':'pending_human_review; authored synthetic development fixtures',
+        'reference_review':'Per-case review_status is authoritative; provenance validation does not approve labels',
         'semantic_metrics':'not_verified unless separately supplied, prediction-hash-bound assessments are applied',
         'scope_note':'Multi-turn retrieval_question is supplied explicitly; this does not test conversation rewriting.'}
     write_json(args.output/'manifest.json', manifest_record)

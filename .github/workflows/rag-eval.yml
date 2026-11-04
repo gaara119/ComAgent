@@ -2,9 +2,9 @@ name: RAG evaluation regression
 on:
   workflow_dispatch:
   push:
-    paths: ['qa_agent/rag/**', 'benchmarks/**', 'data/benchmark_fixtures/**', 'tests/test_rag_benchmark*', '.github/workflows/rag-eval.yml', 'requirements-runtime.txt']
+    paths: ['qa_agent/rag/**', 'benchmarks/**', 'tests/test_agent240*', 'tests/test_rag_benchmark*', '.github/workflows/rag-eval.yml', 'requirements-runtime.txt']
   pull_request:
-    paths: ['qa_agent/rag/**', 'benchmarks/**', 'data/benchmark_fixtures/**', 'tests/test_rag_benchmark*', '.github/workflows/rag-eval.yml', 'requirements-runtime.txt']
+    paths: ['qa_agent/rag/**', 'benchmarks/**', 'tests/test_agent240*', 'tests/test_rag_benchmark*', '.github/workflows/rag-eval.yml', 'requirements-runtime.txt']
 permissions:
   contents: read
 jobs:
@@ -25,12 +25,14 @@ jobs:
       - name: Install runtime and test dependencies
         run: python -m pip install -r requirements-runtime.txt pytest==9.1.1
       - name: Verify metrics, source labels, adapters and paired review boundaries
-        run: python -m pytest -q -p no:cacheprovider tests/test_rag_benchmark_metrics.py tests/test_rag_benchmark_runtime.py tests/test_rag_benchmark_reporting.py tests/test_rag_benchmark_cli.py tests/test_document_imports.py tests/test_rag_multidocument_service.py --junitxml=.runtime/rag-ci-tests.xml
-      - name: Exercise real retrieval and extractive citation chain (no model API)
-        run: python -m benchmarks.rag.run_end_to_end --output .runtime/rag-ci --embedding none --strategies bm25 --answer-mode extractive --deadline-seconds 120
+        run: python -m pytest -q -p no:cacheprovider tests/test_rag_benchmark_metrics.py tests/test_rag_benchmark_runtime.py tests/test_rag_benchmark_reporting.py tests/test_rag_benchmark_cli.py tests/test_agent240_metrics.py tests/test_document_imports.py tests/test_rag_multidocument_service.py --junitxml=.runtime/rag-ci-tests.xml
+      - name: Recompute original 240-question metrics from saved actual evidence (no model API)
+        run: python -m benchmarks.agent240.evaluate --bundle benchmarks/agent240/data --output .runtime/agent240-ci
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: offline-rag-evaluation
-          path: .runtime/rag-ci*
+          path: |
+            .runtime/rag-ci*
+            .runtime/agent240-ci
           retention-days: 14
