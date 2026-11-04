@@ -1,0 +1,274 @@
+{
+  "audit_kind": "bounded_AI_consistency_screen_not_regrade",
+  "created_utc": "2026-11-04T01:16:11.825301+00:00",
+  "scope": {
+    "record_reasons_scanned": 480,
+    "detailed_review_subset": 33,
+    "method": "Program-selected existing review reasons plus paired visible answers/Gold delivery clauses; no complete re-review of 480 long outputs."
+  },
+  "source_hashes": {
+    "dataset.json": "7af0f08de7baf2fed7796cc148a67f8307e16f22f83087d027a3bfedc2296fb6",
+    "records.jsonl": "c37a8342b0ac5375b4f53a01a60b43e7b4cc583d34465571b480a7f0eddb2d8e"
+  },
+  "findings_summary": {
+    "pending_rationale_consistency_items": 8,
+    "confirmed_only_BASE_internal_state_penalty": 0,
+    "BASE_internal_only_candidates": [],
+    "confirmed_fixed_path_or_step_penalty": 0,
+    "labels_changed": 0,
+    "gold_changed": 0,
+    "new_model_API_calls": 0
+  },
+  "candidates": [
+    {
+      "id": "final200:A-q02",
+      "configuration": "FULL",
+      "status": "pending_consistency_review",
+      "issue": "External failure rationale mixes internal-state sufficiency with external delivery; same-left reference must be made explicit.",
+      "original_labels_unchanged": {
+        "business_correct": true,
+        "external_task_success": false
+      },
+      "question": "Protected AAC audio file 这种格式的曲目平均多少秒一首？",
+      "historical_full_reason": "同左；公开状态仅lookup，无法证明平均时长与单位合同，内部证据不足。",
+      "same_question_BASE_reason": "AVG(track毫秒/1000)与指定媒体格式正确，281.723873秒；但无题目评分要求的中文数据字典换算引用。",
+      "visible_full_answer": "查询结果：281.7238734177215190。\n数据来源：数据库。",
+      "visible_BASE_answer_identical": true,
+      "both_external_labels_false": true,
+      "gold_delivery_criteria": [
+        "数据库结果与 gold SQL 在同一只读快照的执行结果一致（接受未指定时的四舍五入展示差异与等价 SQL）；依据需体现先按媒体类型名称筛选曲目、对时长求平均、除以 1000 换算为秒，并引用中文数据字典 track 小节的换算说明。"
+      ],
+      "interpretation": "Candidate explanation ambiguity, not a confirmed label error: paired BASE reason names an observable delivery omission. Do not change the external label solely from this screen.",
+      "required_followup": "Review visible answer against business delivery requirements; separate internal-state diagnosis into process axis; verify whether inherited Gold asks for extra disclosure/citation beyond the stated business task.",
+      "evidence": {
+        "response_sha256": "441aea21f836a66bba56ebe3ed62eda79517a6d5d63a4651f757f3c75b86dd0c",
+        "historical_review_source": {
+          "path": "eval/artifacts/final200-20261017/measurement-001/reviews/FULL-A.json",
+          "sha256": "ecd11a86b214f5a196c7599d5673f0bf3f54d834b9090a0505e16b6422d72958"
+        },
+        "BASE_response_sha256": "3c99f49e8811a1269d42ce6b793fa82152e67186f66af5aa8d27719dcf71f8a7"
+      }
+    },
+    {
+      "id": "final200:A-q04",
+      "configuration": "FULL",
+      "status": "pending_consistency_review",
+      "issue": "External failure rationale mixes internal-state sufficiency with external delivery; same-left reference must be made explicit.",
+      "original_labels_unchanged": {
+        "business_correct": true,
+        "external_task_success": false
+      },
+      "question": "英国客户里谁花钱多？把他们各自消费的金额从高到低列出来。",
+      "historical_full_reason": "计算同左；公开lookup只保国家，无期间默认披露或完整排名合同。",
+      "same_question_BASE_reason": "UK客户逐人SUM发票37.62、降序正确；未披露全部期间默认及可切换。",
+      "visible_full_answer": "查询结果如下：\n客户编号 | 名字 | 姓氏 | 发票销售额\n52 | Emma | Jones | 37.62\n53 | Phil | Hughes | 37.62\n54 | Steve | Murray | 37.62\n数据来源：数据库。",
+      "visible_BASE_answer_identical": true,
+      "both_external_labels_false": true,
+      "gold_delivery_criteria": [
+        "用户未给期间时采用 oct12.period.all_data 的客户花钱排名口径，取全部发票记录、不额外加期间过滤，并说明该期间口径可切换为具体期间（如2024年）；不因缺期间而反问、不擅自换成某一年。",
+        "按客户逐行给出英国客户的消费金额，数值等于 gold_sql 结果；用户要求的从高到低排列可用降序结果体现（允许列别名、并列次序与展示格式差异，未指定的列不扣分）。"
+      ],
+      "interpretation": "Candidate explanation ambiguity, not a confirmed label error: paired BASE reason names an observable delivery omission. Do not change the external label solely from this screen.",
+      "required_followup": "Review visible answer against business delivery requirements; separate internal-state diagnosis into process axis; verify whether inherited Gold asks for extra disclosure/citation beyond the stated business task.",
+      "evidence": {
+        "response_sha256": "22ba70b795429863c6afa37b7ca13b938b5c245eb75e23eccbbde39918fdc924",
+        "historical_review_source": {
+          "path": "eval/artifacts/final200-20261017/measurement-001/reviews/FULL-A.json",
+          "sha256": "ecd11a86b214f5a196c7599d5673f0bf3f54d834b9090a0505e16b6422d72958"
+        },
+        "BASE_response_sha256": "73c24f1487035c84647171f953d3fe09252878ee959e3b6e86ed554565074322"
+      }
+    },
+    {
+      "id": "final200:A2-q19",
+      "configuration": "FULL",
+      "status": "pending_consistency_review",
+      "issue": "External failure rationale mixes internal-state sufficiency with external delivery; same-left reference must be made explicit.",
+      "original_labels_unchanged": {
+        "business_correct": true,
+        "external_task_success": false
+      },
+      "question": "咱们的客户里，谁的平均每张发票金额醉高？",
+      "historical_full_reason": "同左；state有invoice均值粒度但无客户Top1/全部期间合同。",
+      "same_question_BASE_reason": "按客户AVG发票Top1客户6 Helena Holý/7.08857正确，但无全期间默认/切换披露。",
+      "visible_full_answer": "查询结果如下：\n客户编号 | 名字 | 姓氏 | 平均发票销售额\n6 | Helena | Holý | 7.09\n数据来源：数据库。",
+      "visible_BASE_answer_identical": true,
+      "both_external_labels_false": true,
+      "gold_delivery_criteria": [
+        "未就期间反问用户，按已批准默认 oct12.period.all_data 以全部发票记录计算客户排名；回答中说明该期间默认（未指定期间时用全部记录），并说明若用户给出明确期间则按该期间重算",
+        "沿真实关联连接 customer 与 invoice，按客户分组求 AVG(invoice.total)，取平均值最高的一位客户，给出客户标识与姓名（名字与姓氏），并说明数字来自数据库查询；未指定并列规则时接受并列边界上的任一结果；使用合法等价 SQL 不扣分"
+      ],
+      "interpretation": "Candidate explanation ambiguity, not a confirmed label error: paired BASE reason names an observable delivery omission. Do not change the external label solely from this screen.",
+      "required_followup": "Review visible answer against business delivery requirements; separate internal-state diagnosis into process axis; verify whether inherited Gold asks for extra disclosure/citation beyond the stated business task.",
+      "evidence": {
+        "response_sha256": "04653eb5147de66f052f98b67f0c82c875d8d96790d27347ee9e87efee5b3b3c",
+        "historical_review_source": {
+          "path": "eval/artifacts/final200-20261017/measurement-001/reviews/FULL-A.json",
+          "sha256": "ecd11a86b214f5a196c7599d5673f0bf3f54d834b9090a0505e16b6422d72958"
+        },
+        "BASE_response_sha256": "88e8dee165543aa0e0c807c5e605a2621102fb3942abdd677ede10aa658f39ff"
+      }
+    },
+    {
+      "id": "final200:A3-q13",
+      "configuration": "FULL",
+      "status": "pending_consistency_review",
+      "issue": "External failure rationale mixes internal-state sufficiency with external delivery; same-left reference must be made explicit.",
+      "original_labels_unchanged": {
+        "business_correct": true,
+        "external_task_success": false
+      },
+      "question": "咱们曲库里，流行音乐这类曲目占了全部曲目的百分之几？",
+      "historical_full_reason": "同左；空lookup未携带分数/百分比及对象状态。",
+      "same_question_BASE_reason": "Pop曲目数量/全track计数正确0.01370254，但最终裸小数未给题目明确的百分比1.37%。",
+      "visible_full_answer": "查询结果：0.01370254067941764202。\n数据来源：数据库。",
+      "visible_BASE_answer_identical": true,
+      "both_external_labels_false": true,
+      "gold_delivery_criteria": [
+        "以 gold_sql 的执行结果为基准核对：分子只计 genre.name = 'Pop' 的曲目数，分母为全库曲目总数，结果形如百分比；允许等价的只读 SQL 写法、合理的小数位与展示形式，未指定的排序、列别名和小数位不扣分。"
+      ],
+      "interpretation": "Candidate explanation ambiguity, not a confirmed label error: paired BASE reason names an observable delivery omission. Do not change the external label solely from this screen.",
+      "required_followup": "Review visible answer against business delivery requirements; separate internal-state diagnosis into process axis; verify whether inherited Gold asks for extra disclosure/citation beyond the stated business task.",
+      "evidence": {
+        "response_sha256": "454d90e91802278d92bfff0089bb0f4964aaf4a784a803f4635404f77e8637cb",
+        "historical_review_source": {
+          "path": "eval/artifacts/final200-20261017/measurement-001/reviews/FULL-A.json",
+          "sha256": "ecd11a86b214f5a196c7599d5673f0bf3f54d834b9090a0505e16b6422d72958"
+        },
+        "BASE_response_sha256": "489fc144b04271abe077ae0fd07555a3e72175144b2f0fb76e09ce4cfa3043c4"
+      }
+    },
+    {
+      "id": "final200:A4-q19",
+      "configuration": "FULL",
+      "status": "pending_consistency_review",
+      "issue": "External failure rationale mixes internal-state sufficiency with external delivery; same-left reference must be made explicit.",
+      "original_labels_unchanged": {
+        "business_correct": true,
+        "external_task_success": false
+      },
+      "question": "法兰西共和国的客户里，谁在我们这儿花的钱最多？他一共花了多少？",
+      "historical_full_reason": "同左；公开state只国家，排名/金额/默认状态不足。",
+      "same_question_BASE_reason": "France客户SUM发票Top1 Isabelle Mercier40.62正确，未说明全部期间默认/可切换。",
+      "visible_full_answer": "查询结果如下：\n客户编号 | 名字 | 姓氏 | 发票销售额\n43 | Isabelle | Mercier | 40.62\n数据来源：数据库。",
+      "visible_BASE_answer_identical": true,
+      "both_external_labels_false": true,
+      "gold_delivery_criteria": [
+        "直接按已批准默认口径作答：客户排名可以省略期间并使用全部记录，不反问期间、不擅自替换成某一年；同时说明该口径可切换（例如用户补充期间则改用该期间）。",
+        "给出法国客户中发票总额最高的那一位的姓名与合计金额，金额等于该客户全部发票 total 之和；并列边界上任一结果均可接受；结果可由只读 SQL 复现并说明来自数据库查询。"
+      ],
+      "interpretation": "Candidate explanation ambiguity, not a confirmed label error: paired BASE reason names an observable delivery omission. Do not change the external label solely from this screen.",
+      "required_followup": "Review visible answer against business delivery requirements; separate internal-state diagnosis into process axis; verify whether inherited Gold asks for extra disclosure/citation beyond the stated business task.",
+      "evidence": {
+        "response_sha256": "83121d8ab1f2f32e19fce8324f1e4290ad522adcf9f31466cd641577b7526793",
+        "historical_review_source": {
+          "path": "eval/artifacts/final200-20261017/measurement-001/reviews/FULL-A.json",
+          "sha256": "ecd11a86b214f5a196c7599d5673f0bf3f54d834b9090a0505e16b6422d72958"
+        },
+        "BASE_response_sha256": "024b0ae225c02c663da6e0d117eaeb5e3f45ad44567e683d0dbb207ad5cef2ab"
+      }
+    },
+    {
+      "id": "final200:A5-q12",
+      "configuration": "FULL",
+      "status": "pending_consistency_review",
+      "issue": "External failure rationale mixes internal-state sufficiency with external delivery; same-left reference must be made explicit.",
+      "original_labels_unchanged": {
+        "business_correct": true,
+        "external_task_success": false
+      },
+      "question": "受保护AAC音频文件和受保护MPEG-4视频文件这两种格式，哪边的曲目平均时长更长？长多少毫秒？",
+      "historical_full_reason": "同左；lookup无双格式比较/差额合同，外部不因SQL成功忽略漏差额。",
+      "same_question_BASE_reason": "两媒体类型各AVG毫秒2342940.425与281723.873正确，排序表明视频更长；缺明确差额2061216.552ms。",
+      "visible_full_answer": "查询结果如下：\npublic.media_type.name | 平均曲目时长（毫秒）\nProtected MPEG-4 video file | 2342940.425233644860\nProtected AAC audio file | 281723.873417721519\n数据来源：数据库。",
+      "visible_BASE_answer_identical": true,
+      "both_external_labels_false": true,
+      "gold_delivery_criteria": [
+        "给出两种格式各自的曲目平均时长（毫秒）与两者差值，并明确指出哪种格式的平均时长更长；数值与方向和 gold_sql 执行结果一致，且不是对单表 track 计数或凭空估计。"
+      ],
+      "interpretation": "Candidate explanation ambiguity, not a confirmed label error: paired BASE reason names an observable delivery omission. Do not change the external label solely from this screen.",
+      "required_followup": "Review visible answer against business delivery requirements; separate internal-state diagnosis into process axis; verify whether inherited Gold asks for extra disclosure/citation beyond the stated business task.",
+      "evidence": {
+        "response_sha256": "8a24082e4afc93df9a494ce208f530e747a5c01ba79df700c26b3bf668e0cef8",
+        "historical_review_source": {
+          "path": "eval/artifacts/final200-20261017/measurement-001/reviews/FULL-A.json",
+          "sha256": "ecd11a86b214f5a196c7599d5673f0bf3f54d834b9090a0505e16b6422d72958"
+        },
+        "BASE_response_sha256": "d84e25f10aa92b1c1a172bd79d841207f205c1e381aee13bd2dfe615b1239eaf"
+      }
+    },
+    {
+      "id": "final200:A5-q18",
+      "configuration": "FULL",
+      "status": "pending_consistency_review",
+      "issue": "External failure rationale mixes internal-state sufficiency with external delivery; same-left reference must be made explicit.",
+      "original_labels_unchanged": {
+        "business_correct": true,
+        "external_task_success": false
+      },
+      "question": "2024 年咱们库里 Classical 和 Jazz 这两类曲目的销售额，哪一类更高？高多少？",
+      "historical_full_reason": "同左；未用结果倒填两个genre比较及差额状态。",
+      "same_question_BASE_reason": "2024 Classical/Jazz明细金额16.83/5.94正确，排序可知高低，但未交付明确差额10.89。",
+      "visible_full_answer": "查询结果如下：\n流派名称 | 销售明细金额\nClassical | 16.83\nJazz | 5.94\n数据来源：数据库。",
+      "visible_BASE_answer_identical": true,
+      "both_external_labels_false": true,
+      "gold_delivery_criteria": [
+        "以程序执行 gold_sql 的结果为准，给出 Classical 与 Jazz 两类曲目 2024 年的销售额，并指出更高的一类及两者差额（接受等价 SQL、等价展示形式与四舍五入误差；未指定的列别名、排序与小数位不扣分）。"
+      ],
+      "interpretation": "Candidate explanation ambiguity, not a confirmed label error: paired BASE reason names an observable delivery omission. Do not change the external label solely from this screen.",
+      "required_followup": "Review visible answer against business delivery requirements; separate internal-state diagnosis into process axis; verify whether inherited Gold asks for extra disclosure/citation beyond the stated business task.",
+      "evidence": {
+        "response_sha256": "a5314c1cb72cef7776d727e85a1d4f9255f186943ee6756001ae53d0934fefa4",
+        "historical_review_source": {
+          "path": "eval/artifacts/final200-20261017/measurement-001/reviews/FULL-A.json",
+          "sha256": "ecd11a86b214f5a196c7599d5673f0bf3f54d834b9090a0505e16b6422d72958"
+        },
+        "BASE_response_sha256": "1c026524c5af0f20588ea2010d4c9520d9f320efd8d81046ea1271f7d51376c5"
+      }
+    },
+    {
+      "id": "final200:A5-q19",
+      "configuration": "FULL",
+      "status": "pending_consistency_review",
+      "issue": "External failure rationale mixes internal-state sufficiency with external delivery; same-left reference must be made explicit.",
+      "original_labels_unchanged": {
+        "business_correct": true,
+        "external_task_success": false
+      },
+      "question": "巴西的客户里，谁最早在咱们这儿开票？最早的那张票是哪天？",
+      "historical_full_reason": "同左；仅客户国家绑定，最早时间/默认合同证据不足。",
+      "same_question_BASE_reason": "Brazil客户经FK最早invoice2021-04-09 Eduardo Martins正确，缺全部期间默认及给期间可重算说明。",
+      "visible_full_answer": "查询结果如下：\n客户编号 | 名字 | 姓氏 | invoice.invoice_date\n10 | Eduardo | Martins | 2021-04-09T00:00:00\n数据来源：数据库。",
+      "visible_BASE_answer_identical": false,
+      "both_external_labels_false": true,
+      "gold_delivery_criteria": [
+        "回答未追问“要看哪一年/哪个期间”，直接给出结果，且明确说明这里用的是全部记录这一默认口径、若用户指定期间则需重算；不得把期间默认换成某个具体年份后再算。",
+        "返回的客户与其最早开票日期与 gold_sql 执行结果一致；接受等价 SQL、列别名与是否附带客户编号等展示差异；最早开票日期在边界上并列时接受任一取舍，不因并列规则扣分。"
+      ],
+      "interpretation": "Candidate explanation ambiguity, not a confirmed label error: paired BASE reason names an observable delivery omission. Do not change the external label solely from this screen.",
+      "required_followup": "Review visible answer against business delivery requirements; separate internal-state diagnosis into process axis; verify whether inherited Gold asks for extra disclosure/citation beyond the stated business task.",
+      "evidence": {
+        "response_sha256": "967e056344e8481104f6943808679bfc32c7088a42cdd2004e648285762a3e04",
+        "historical_review_source": {
+          "path": "eval/artifacts/final200-20261017/measurement-001/reviews/FULL-A.json",
+          "sha256": "ecd11a86b214f5a196c7599d5673f0bf3f54d834b9090a0505e16b6422d72958"
+        },
+        "BASE_response_sha256": "af67e118341abfc76e9c32e61d2eeccdb4b66a0241168e19064649c2737329f1"
+      }
+    }
+  ],
+  "alternative_path_counterexample": {
+    "id": "final200:B2-q16",
+    "configuration": "FULL",
+    "reason": "SQL2024账单六国N=289.38、补集188.15、同年全部477.53作D，60.60%及差101.23均正确。合同N.scope逐字列六国、region_scope为账单国家，N来源引用正文、D及期间来源可核，足以表达本次两个集合；不能因采用CASE单行而要求SQL GROUP BY。仍缺S3明定的表下期间/地区口径两行，外部交付不全。",
+    "finding": "The stored review explicitly accepts a single-row CASE alternative and says GROUP BY must not be required. Its external failure is attributed to an explicit delivery-format omission, not the SQL path.",
+    "response_sha256": "618d5759bed8b9f7543c37c697cb3895758285ca2fc3e0642e8e26830c1cc72b"
+  },
+  "conclusion": "No confirmed instance was found of penalizing BASE solely because design-disabled internal state was absent. Eight FULL reasons mix axes and need consistency review, but paired answers/labels retain independently named external delivery gaps; no automatic regrade is justified.",
+  "recommended_score_boundary_zh": "当前业务正确性与完整任务成功率沿用与实际响应哈希绑定的历史AI审核，未在本轮调用新的模型裁判。程序重新核对结果、执行记录及结构约束；历史语义审核不等于当前版本新评审，也不代替人工确认。审核理由混用内部状态与外部交付时列为待复核，原标签与成绩保持不变。",
+  "limitations": [
+    "Pending Gold may impose extra disclosure/citation requirements; this screen does not approve them.",
+    "A lack of candidate evidence is not proof that every historical semantic judgment is fair.",
+    "The same-left short reasons inherit paired BASE omissions; they must not be quoted as internal-state-only proof."
+  ]
+}

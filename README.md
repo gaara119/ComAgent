@@ -4,7 +4,7 @@
 
 项目将数据库问数、文档检索和多轮交互接到同一工作台，并提供可复现的评测入口，按结果、检索、证据、Agent过程、稳定性、成本效率及安全七个维度记录表现。
 
-[下载版本](https://github.com/gaara119/ComAgent/releases) · [容器包](https://github.com/gaara119/ComAgent/pkgs/container/comagent) · [构建与发布状态](https://github.com/gaara119/ComAgent/actions) · [原240题评测报告](benchmarks/agent240/results/240-seven-dimensions-v1/report.md)
+[下载版本](https://github.com/gaara119/ComAgent/releases) · [容器包](https://github.com/gaara119/ComAgent/pkgs/container/comagent) · [构建与发布状态](https://github.com/gaara119/ComAgent/actions) · [原240题评测报告](benchmarks/agent240/results/agent-e2e-final-v1/report.md)
 
 ## 目录
 
@@ -47,7 +47,7 @@
 
 OHR的Hugging Face卡片标注CC-BY-4.0，官方仓库对收集的PDF另有研究用途、非商业使用声明；本项目保留来源记录，未把第三方原文重新授权。用户上传资料不自动发布为公开评测语料。
 
-240是协议条目数，两批有35道相同题面，并含连续对话，不能视为240道相互独立的未见题或240道RAG题。参考标签的人工审核状态保持原样。当前报告重新计算历史记录，不代表当前版本新跑一轮240题。首次克隆可从空知识库上传自己的文档；登记路径不代表原文、模型或数据库已经就绪。
+240是协议条目数，两批有35道相同题面，并含连续对话，不能视为240道相互独立的未见题或240道RAG题。**这240道题的Gold均已完成人工审核**，当前状态见[版本绑定的审核记录](benchmarks/agent240/data/gold-review-status.json)；原始导出中的旧`pending`字段仅保留历史，不代表当前审核状态。当前报告重新计算历史记录，不代表当前版本新跑一轮240题。首次克隆可从空知识库上传自己的文档；登记路径不代表原文、模型或数据库已经就绪。
 
 ### 1.2 环境与安装方式
 
@@ -363,6 +363,8 @@ data/                  必需定义和本地资源位置
 
 ### 3.1 评测范围与数据隔离
 
+**Agent端到端评测与RAG专项评测分开执行，复用同一批实际运行记录。** Agent沿用项目已有的Gold、结果比较、工具调用和trace；RAG专项使用独立环境中的EvalScope 1.14.1及其MTEB/RAGAS后端。只有题号、运行版本、预测和实际输入证据哈希一致时才联接结果；自定义EM、F1或返回覆盖不改名为EvalScope指标。
+
 评测使用原有两批综合开发题：原200题按历史`BASE/FULL`比较，原40题按历史`BASE/C1`比较，共保留480条真实预测。`FULL`与`C1`的功能配置不同，各自的源码、开关、模型与证据来源记录在[manifest](benchmarks/agent240/data/manifest.json)，不合并成一个当前版本准确率，也不当作仅改变一个开关的同源消融。
 
 | 批次 | SQL | 跨源 | RAG | 会话正文 | 题数 | 历史预测 |
@@ -371,7 +373,7 @@ data/                  必需定义和本地资源位置
 | 原40题 | 34 | 4 | 1 | 1 | 40 | 80 |
 | 合计 | 204 | 24 | 6 | 6 | 240 | 480 |
 
-原题、Gold与人工审核记录不随重计分改动。预测中的SQL结果按原参考比较；答案业务含义使用与实际响应哈希绑定的已有AI审核。程序通过、AI建议通过和人工批准分别记录。保留集不载入，不生成新题。
+**Gold人工审核已完成240/240**；[当前状态覆盖层](benchmarks/agent240/data/gold-review-status.json)绑定题库文件及逐题内容哈希，保留原始Gold与历史审核字段。预测中的SQL结果按原参考比较；答案业务含义使用与实际响应哈希绑定的已有AI审核。当前480份系统回答中，业务判分有8项未决、外部任务交付判分有1项未决；这是系统回答的判断状态，不能写成Gold尚未审核。保留集不载入，不生成新题。
 
 ### 3.2 七个维度分别检查
 
@@ -385,7 +387,7 @@ data/                  必需定义和本地资源位置
 | 成本效率 | HTTP响应P50/P90、755次历史物理调用、token及缓存用量 | 包括失败/重试和正文登记；本轮离线计算新增调用0次，不宣称当前并发或吞吐 |
 | 安全 | 415次执行记录中413条SQL可进行只读AST检查，413/413满足；413/413存在执行前校验 | 静态检查不证明实际数据库权限或抗攻击能力；另有66项本地安全与工具权限回归，分母独立 |
 
-原240记录的来源范围均为`unrestricted`，不能据此计算受限来源越权防御率。参考文档清单也不一定完备，例如一条多乐队题的参考来源未覆盖题面所有对象；它只用于诊断，不充当完整相关性Gold。
+原240记录的来源范围均为`unrestricted`，不能据此计算受限来源越权防御率。业务Gold已审完成，但原题并未提供覆盖完整语料的逐片段相关性标签（qrels）；最终引用列表也不是检索排名。MTEB检索指标仍需对应语料、qrels和一致检索协议，不能仅凭Gold已审或引用覆盖推算Recall@K。
 
 ### 3.3 指标定义与分母
 
@@ -404,7 +406,7 @@ SQL适用题共228道，即204道纯SQL和24道跨源题；按批次分别使用
 
 ### 3.4 真实历史结果
 
-以下来自[逐题重计分报告](benchmarks/agent240/results/240-seven-dimensions-v1/report.md)和[summary.json](benchmarks/agent240/results/240-seven-dimensions-v1/summary.json)。这是历史开发记录的重新核验，未重新调用API或数据库。
+以下来自[逐题重计分报告](benchmarks/agent240/results/agent-e2e-final-v1/report.md)和[summary.json](benchmarks/agent240/results/agent-e2e-final-v1/summary.json)。这是历史Agent开发记录的重新核验，未重新发送Agent问答请求或执行SQL；独立RAGAS裁判调用另行记录，不计入下表历史755次调用。
 
 | 批次/实际配置 | 业务审核：正确 / 错误 / 未核验 | SQL结果EM | SQL行集合F1 | 外部任务：成功 / 失败 / 未核验 |
 |---|---|---:|---:|---|
@@ -437,9 +439,33 @@ $py = ".\.venv\Scripts\python.exe"
 
 这条命令读取已保存的240题与480条历史预测，校验题库、记录和审核绑定后重新计算七维指标。**无需Docker、数据库或模型密钥，不发送收费API请求，也不会重放问答。** 输出目录必须不存在；再次执行换新目录，防止覆盖旧证据。
 
-若要评估当前源码的新预测，需要数据库、文档和模型就绪后另建在线回放，固定模型、正文、时钟、允许来源、评分规则与功能开关，并为A题独立会话、B题保留顺序和完整正文。当前Docker未就绪，当前版本在线240题未完成，不能将上述离线命令写成新一轮真实模型实跑。
+若要评估当前源码的新预测，需要数据库、文档和模型就绪后另建在线回放，固定模型、正文、时钟、允许来源、评分规则与功能开关，并为A题独立会话、B题保留顺序和完整正文。本次没有重新运行在线问答，当前版本在线240题未完成，不能将上述离线命令写成新一轮真实模型实跑。
 
 通用RAG模块仍保留检索、固定证据与端到端工具接口；只有明确提供另一个已核验的来源型数据集时，才能显式传入`--dataset`。已删除的32题及其复制版本会被拒绝，见[入口说明](benchmarks/rag/README.md)。
+
+EvalScope使用独立虚拟环境，避免更改生产依赖：
+
+```powershell
+py -3.12 -m venv .venv-evalscope
+.\.venv-evalscope\Scripts\python.exe -m pip install -r requirements-evalscope.txt
+.\.venv-evalscope\Scripts\python.exe -m benchmarks.rag_evalscope.validate --output .runtime/evalscope/config-validation.json
+```
+
+该命令只验证官方`MTEBToolConfig`与`RAGASToolConfig`配置，不调用模型、不产生检索成绩。现有适配可以从原始provider记录恢复真实问题、完整输入片段和实际RAG子任务回答；导出依赖本地原始记录，不以最终引用倒推模型看过的上下文。
+
+RAGAS运行需显式启用`--run-judge`、使用本地模型配置，并通过来源白名单与哈希检查；发送前由共享预算guard控制物理调用、并发与截止时间。没有完整数据或未取得有效官方分数时保持`not_verified`，不把“配置验证成功”写成“专项评测完成”。MTEB目前缺完整语料/qrels和配套检索协议，尚无正式检索成绩。RAGAS Faithfulness衡量回答是否得到实际输入上下文支持，不等同于业务准确率。
+
+本次RAGAS已对原240题记录中实际交付的30个文档子任务执行一次评测：17个有效分数、13个未评分，有效子集Faithfulness均值为0.8873。它衡量上下文忠实度，不是240题正确率，也不能代表全部RAG任务。实际调用52次，输入56,963、输出33,815 token，缓存命中35,968、未命中20,995；与历史755次Agent调用分开结算。官方适配实际发送1024输出上限，出现13次截断；空分数未补为通过，未追加模型重跑。具体配置、异常、原始响应和台账见[EvalScope专项报告](benchmarks/rag_evalscope/results/actual-ragas-v2/report.md)。
+
+真实输入与生成请求已按原始字节保存在[专项数据目录](benchmarks/rag_evalscope/data/actual-rag-v1/manifest.json)，新克隆仓库可以直接复核，不必依赖旧本地评测目录。MTEB仅通过官方配置检查，当前没有检索成绩；Gold仍为240/240已审核。
+
+复核已保存的EvalScope结果，并联接同运行Agent记录：
+
+```powershell
+& $py -m benchmarks.agent240.evaluate --bundle benchmarks/agent240/data --output .runtime/agent240/my-linked-run --rag-evalscope-results benchmarks/rag_evalscope/results/actual-ragas-v2/agent-binding.json
+```
+
+上例使用随仓库保存的实际`agent-binding.json`；缺失、版本不符或哈希不一致会拒绝联接。该命令只重评分，不再次调用Agent或裁判。若确需重新执行收费裁判，独立环境、显式开关和共享预算见[专项使用说明](benchmarks/rag_evalscope/README.md)。
 
 ### 3.6 产物与持续回归
 
@@ -448,9 +474,13 @@ $py = ".\.venv\Scripts\python.exe"
 | [data/dataset.json](benchmarks/agent240/data/dataset.json) | 原240条目、批次命名空间、来源类型、原Gold与参考结果，不覆盖原题 |
 | [data/records.jsonl](benchmarks/agent240/data/records.jsonl) | 480条历史预测、实际请求/响应、SQL与引用、trace、物理调用和审核绑定 |
 | [data/manifest.json](benchmarks/agent240/data/manifest.json) | 原文件与导出文件哈希、历史源码/配置、上下文登记用量及重复题面信息 |
-| [report.md](benchmarks/agent240/results/240-seven-dimensions-v1/report.md) | 分批成绩、七维检查、指标定义与未核验事项 |
-| [summary.json](benchmarks/agent240/results/240-seven-dimensions-v1/summary.json) | 机器可读汇总、各任务类型分项、状态分布及完整成本记录 |
-| [scored.jsonl](benchmarks/agent240/results/240-seven-dimensions-v1/scored.jsonl) | 逐题结果、F1/EM、证据与过程结构诊断及未知原因 |
+| [data/gold-review-status.json](benchmarks/agent240/data/gold-review-status.json) | Gold已人工审核240/240的当前状态及内容哈希；不改写原始Gold或虚构签名日期 |
+| [data/phase-traces.jsonl](benchmarks/agent240/data/phase-traces.jsonl) | 与实际预测绑定的阶段耗时、工具参数、状态及补充请求记录 |
+| [report.md](benchmarks/agent240/results/agent-e2e-final-v1/report.md) | 分批成绩、七维检查、指标定义与未核验事项 |
+| [summary.json](benchmarks/agent240/results/agent-e2e-final-v1/summary.json) | 机器可读汇总、各任务类型分项、状态分布及完整成本记录 |
+| [scored.jsonl](benchmarks/agent240/results/agent-e2e-final-v1/scored.jsonl) | 逐题结果、F1/EM、证据与过程结构诊断及未知原因 |
+| [failure-attribution.json](benchmarks/agent240/results/agent-e2e-final-v1/failure-attribution.json) | 逐题失败归因；多个维度的问题不会计为多道独立题 |
+| [EvalScope适配](benchmarks/rag_evalscope/README.md) / [独立依赖](requirements-evalscope.txt) | 官方框架配置、真实输入恢复、预算守卫及同运行结果联接；与Agent历史指标分别记录 |
 
 [RAG与评测CI](.github/workflows/rag-eval.yml)执行指标、来源、引用、权限边界等无API回归，并用同一240题证据包重算结果。它不调用模型、不制造新预测，也不是开放答案语义质量门禁；云端是否通过以Actions实际状态为准。[评测使用说明](benchmarks/agent240/README.md)给出命令、文件结构及指标边界。
 
@@ -458,7 +488,7 @@ $py = ".\.venv\Scripts\python.exe"
 
 1. **先完成当前版本在线回放。** 恢复数据库与文档环境，冻结来源与模型参数，保留真实失败、重试和费用，再与历史结果分别报告。
 2. **补RAG排名与相关性证据。** 在现有RAG/跨源题上保存实际Top-K列表，人工补全必要证据及相关片段标签；完成前不报告Recall@K、MRR或nDCG。
-3. **分开审核答案与引用。** 核对对象、期间、单位、结论及引句语义支持；ID合法、原句出现与正确引用分开计分，不自动批准Gold。
+3. **分开复核系统答案与引用。** 在已审Gold基础上，核对系统回答的对象、期间、单位、结论及引句支持，闭合8项业务和1项交付判分未决；不将这些未决项误记为Gold待审。
 4. **按错误家族回归。** 先复现条件丢失、错误路由、引用缺漏等真实失败，验证受影响题及多轮前缀，再决定是否扩大运行；不为更好看分数修改题意或Gold。
 5. **补鲁棒性与安全专项。** 另设可核验的超时、断连、空证据及越权对抗，记录降级和恢复。现有静态安全回归不等于攻击测试完成。
 

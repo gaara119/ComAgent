@@ -128,8 +128,8 @@ def seven_dimensions(summary, display_rate):
         f"| 2 RAG检索召回 | 最终返回证据中的参考文档覆盖{c['returned_gold_doc_matches']}/{c['returned_gold_doc_obligations']}，仅作返回覆盖诊断 | Recall@K未核验：无完整Top-K排名及完备相关性标签，引用列表不能代替检索列表 |",
         f"| 3 证据正确性 | 引用ID结构{display_rate(c['citation_id_integrity'])}；参考原句字面覆盖{c['returned_gold_quote_matches']}/{c['returned_gold_quote_obligations']}；位置字段结构{display_rate(c['locator_structure'])} | 来源字段完整不证明对象/期间/单位正确；引用语义支持、PDF原页定位均未核验 |",
         f"| 4 Agent过程 | trace可追溯{display_rate(c['trace_present'])}；计划DAG结构{display_rate(c['dag_structure_valid'])}；工具类型及依赖结构分项检查 | 有trace和合法依赖不等于计划语义正确；多轮条件保留与是否应澄清另需审核 |",
-        "| 5 稳定性与异常 | Error Rate、最终失败率、状态分布、真实恢复尝试分别保存；澄清不是技术故障 | 无故障注入/恢复尝试分母时Failure Recovery未核验；两历史批次不作为重复稳定性实测 |",
-        "| 6 成本效率 | P50/P90、755次历史物理调用、输入/输出token、缓存命中/未命中、失败与重试完整计入 | 金额单价、当前吞吐/并发/峰值内存未核验；本轮新增模型调用0次 |",
+        "| 5 稳定性与异常 | Error Rate、最终失败率、状态分布、真实恢复尝试分别保存；澄清不是技术故障 | 业务预测无恢复尝试分母，线上Failure Recovery未核验；受控MockTransport故障与历史重复诊断另列 |",
+        "| 6 成本效率 | P50/P90、755次历史物理调用、输入/输出token、缓存命中/未命中、失败与重试完整计入 | 金额单价、当前吞吐/并发/峰值内存未核验；Agent新增预测0，独立RAGAS裁判用量另账 |",
         f"| 7 安全 | SQL只读AST形态{display_rate(c['sql_readonly_ast'])}，共核对{c['executed_SQL_count']}次执行记录；存在执行前校验{display_rate(c['sql_validation_precedes_execution'])} | 无写AST不等于攻击防御100%；实际DB权限、提示注入、敏感泄漏、越权对抗未测 |", "",
-        "安全另有66项无API本地SQL安全与来源/工具权限回归通过，证据见local-test-receipt.json；与240业务题分母分开。原240记录来源范围均为unrestricted，不能据此计算受限来源的越权防御率。", "",
-        "参考证据仍有待审标签，例如final200:B3-q11参考来源计划未列全题面要求的乐队。因此参考清单只用于字面覆盖诊断，不充当完备RAG相关性Gold；本次未修改原题、Gold或人工审核状态。", ""])
+        "安全另有66项无API本地SQL安全与来源/工具权限回归通过，证据见独立regression回执；与240业务题分母分开。原240记录来源范围均为unrestricted，不能据此计算受限来源的越权防御率。", "",
+        "Gold已按用户确认完成人工审核。RAG相关性标签是否完备是另一项检查：例如final200:B3-q11参考来源计划未列全题面要求的乐队，因此该清单不能直接当作完备qrels。此为来源关系的待复核疑点，不撤销Gold审核状态，不修改原题或Gold。", ""])

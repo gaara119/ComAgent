@@ -16,6 +16,7 @@ import sys
 
 from benchmarks.agent240.metrics import percentile, provider_totals, rate, table_scores, text_scores
 from benchmarks.agent240.checks import inspect_record, summarize_checks, seven_dimensions
+from benchmarks.agent240.traces import load as load_traces, stage_timing, summarize_timings, scope_inventory
 
 
 def sha(path):
@@ -45,6 +46,10 @@ def load_bundle(directory):
         if row["id"] not in cases or pair in seen:
             raise ValueError("Unknown/duplicate prediction ID")
         seen.add(pair)
+    overlay = directory / 'gold-review-status.json'
+    if overlay.exists():
+        from benchmarks.agent240.review_status import apply_status
+        manifest = {**manifest, 'current_gold_review': apply_status(cases, directory / 'dataset.json', overlay)}
     return manifest, cases, rows
 
 
@@ -82,6 +87,10 @@ def score(case, record):
                "final_failed": status == "FAILED",
                "elapsed_ms": elapsed, "attempts": attempts, "source": record.get("source"),
                "reviewer_kind": review.get("reviewer_kind") if verified else None}
+    outcome['review_reason'] = review.get('reason') if verified else None
+    from benchmarks.agent240.review_status import current_status
+    outcome['gold_human_review_status'] = current_status(case)
+    outcome['business_review_status'] = 'evidence_bound_AI_review' if verified and review.get('reviewer_kind') == 'ai' else ('evidence_bound_human_review' if verified else 'not_verified')
     outcome["checks"] = inspect_record(case, record)
     # Only actual failed public attempts followed by success count here.
     # A clarification turn is not a transport/tool failure.
@@ -100,6 +109,14 @@ def summarize(rows):
     f1 = [r["row_f1"] for r in sql if r["row_f1"] is not None]
     lexical = [r["text_f1"] for r in rows if r["text_f1"] is not None]
     recovery = [r["recovered"] for r in rows if r.get("failure_recovery_eligible")]
+    external_samples = [s for r in rows for s in r.get('rag_evalscope', {}).get('samples', [])]
+    metric_names = sorted({name for sample in external_samples for name in sample.get('metrics', {})})
+    rag_metrics = {}
+    for name in metric_names:
+        scores = [s.get('metrics', {}).get(name) for s in external_samples]
+        known = [v for v in scores if type(v) in (float, int) and math.isfinite(v)]
+        rag_metrics[name] = {'known_subtasks': len(known), 'imported_subtasks': len(scores),
+                             'mean': sum(known) / len(known) if known else None}
     return {"logical_tasks": len(rows), "observed": sum(r["observed"] for r in rows),
             "accuracy": rate(r["accuracy"] for r in rows),
             "external_task_success": rate(r["external_success"] for r in rows),
@@ -114,6 +131,14 @@ def summarize(rows):
             "usage": provider_totals(a for r in rows for a in r.get("attempts", [])),
             "statuses": dict(Counter(r.get("status", "not_observed") for r in rows)),
             "reviewer_kinds": dict(Counter(r.get("reviewer_kind", "unknown") for r in rows)),
+            "business_review_coverage": {"assessed": sum(type(r.get('accuracy')) is bool for r in rows),
+                "total": len(rows), "coverage": sum(type(r.get('accuracy')) is bool for r in rows) / len(rows) if rows else None},
+            "gold_human_review_statuses": dict(Counter(r.get('gold_human_review_status', 'not_recorded') for r in rows)),
+            "phase_timing": summarize_timings(rows),
+            "rag_evalscope": {'source': 'EvalScope', 'scope': 'delivered_RAG_subtask',
+                'matched_predictions': sum(bool(r.get('rag_evalscope', {}).get('samples')) for r in rows),
+                'metrics': rag_metrics, 'retrieval_recall_at_k': None,
+                'boundary': 'subtask metrics conditional on actual observed RAG execution; not full Agent task accuracy'},
             "seven_dimension_checks": summarize_checks(rows)}
 
 
@@ -130,7 +155,7 @@ def _rate(value):
 
 def markdown(summary):
     lines = ["# 原240道综合开发题评测", "",
-             "本次重新核验历史真实回答并计算指标，未重新调用问答系统、模型API或数据库。32道后补合成RAG题已退役，不参与本报告。", "",
+             "Agent评测器重新核验历史真实回答，不重发问答请求或执行SQL。RAG专项由独立EvalScope步骤评测，再按同运行哈希联接；新裁判调用用量单列，不能与历史755次调用混淆。32道后补合成RAG题已删除，不参与本报告。", "",
              "240是原40题与原200题的协议条目数。两批有内容重合、多轮依赖及不同源码快照，分批报告；不把它们称为240个独立RAG问题，也不宣称当前同一版本在240题上实跑。增强配置按各批实际配置保留，不以组名代替功能开关。", "",
              "## 1 原题范围与证据", "",
              "| 原始批次 | 题数 | 预测记录 | 配置 |", "|---|---:|---:|---|"]
@@ -173,11 +198,26 @@ def markdown(summary):
     return "\n".join(lines)
 
 
-def evaluate(bundle, output):
+def evaluate(bundle, output, *, traces_path=None, rag_evalscope_results=None):
     output = Path(output)
     if output.exists():
         raise ValueError("Output exists; choose a new directory")
     manifest, cases, records = load_bundle(bundle)
+    default_trace_path = Path(bundle) / 'phase-traces.jsonl'
+    chosen_trace_path = Path(traces_path) if traces_path else (default_trace_path if default_trace_path.exists() else None)
+    traces = load_traces(chosen_trace_path, records, Path(bundle) / 'records.jsonl') if chosen_trace_path else {}
+    rag_imported = {}
+    rag_execution = None
+    if rag_evalscope_results:
+        from benchmarks.rag_evalscope.bridge import load_results, bounded_path
+        rag_imported = load_results(rag_evalscope_results, cases, records)
+        binding = json.loads(Path(rag_evalscope_results).read_text('utf-8'))
+        execution_spec = binding.get('judge_evidence', {}).get('execution')
+        if execution_spec:
+            execution_path = bounded_path(Path(rag_evalscope_results).parent, execution_spec['path'])
+            # load_results already verified this file against the binding SHA.
+            rag_execution = {'file': str(execution_path), 'sha256': sha(execution_path),
+                             'data': json.loads(execution_path.read_text('utf-8'))}
     by_key = {(r["id"], r["arm"]): r for r in records}
     arms = sorted({r["arm"] for r in records})
     scored = []
@@ -186,8 +226,13 @@ def evaluate(bundle, output):
         selected = [c for c in cases.values() if c["suite"] == suite]
         for arm in arms:
             rows = [score(case, by_key.get((case["id"], arm))) for case in selected]
-            for row in rows:
+            for case, row in zip(selected, rows):
                 row["arm"] = arm
+                record = by_key.get((case['id'], arm))
+                row['stage_timing'] = stage_timing(traces.get((case['id'], arm)), record) if record else {'status': 'not_verified'}
+                row['rag_evalscope'] = rag_imported.get((case['id'], arm), {'status': 'not_verified', 'reason': 'no same-run EvalScope result supplied'})
+                from benchmarks.agent240.attribution import analyze
+                row['attribution'] = analyze(case, record, row, trace=traces.get((case['id'], arm)))
             value = summarize(rows)
             value["configurations"] = sorted({r.get("configuration") for r in rows if r.get("configuration")})
             value["by_task_type"] = {route: summarize([r for r in rows if r.get("expected_route") == route])
@@ -196,18 +241,39 @@ def evaluate(bundle, output):
             scored += rows
     summary = {"created_utc": datetime.now(timezone.utc).isoformat(),
                "mode": "offline_rescoring_of_historical_predictions", "new_model_calls": 0,
+               "new_model_calls_scope": "this Agent scorer process only; independently run RAGAS judge usage is separate",
+               "new_Agent_predictions": 0,
+               "output_directory": str(output), "bundle_directory": str(Path(bundle)),
                "original_logical_cases": len(cases), "saved_predictions": len(records),
                "deprecated_synthetic_cases_included": 0, "groups": dict(grouped),
                "seven_dimension_checks": summarize_checks(scored),
+               "scope_inventory": scope_inventory(cases),
+               "trace_sidecar": {"path": str(chosen_trace_path), "sha256": sha(chosen_trace_path), "predictions": len(traces)} if chosen_trace_path else None,
+               "rag_specialist": {"framework": "EvalScope", "backends": ["MTEB", "RAGAS"],
+                   "imported_predictions": len(rag_imported), "result_source": str(rag_evalscope_results) if rag_evalscope_results else None,
+                   "status": "same_run_import" if rag_imported else "not_verified", "custom_metrics_are_not_evalscope": True,
+                   "judge_execution": rag_execution},
                "all_saved_provider_usage": provider_totals([*[a for r in records for a in r.get("attempts", [])],
                      *manifest.get("context_ack_usage", {}).get("records", [])]),
                "bundle_manifest_sha256": sha(Path(bundle) / "manifest.json"),
-               "evaluator_source_files": {p.name: sha(p) for p in sorted(Path(__file__).parent.glob("*.py"))},
+               "evaluator_source_files": {p.name: hashlib.sha256(p.read_bytes().replace(b'\r\n', b'\n')).hexdigest() for p in sorted(Path(__file__).parent.glob("*.py"))},
+               "evaluator_hash_normalization": "CRLF to LF for Python source; original evidence uses raw-file SHA256",
                "command": sys.argv, "source_manifest": manifest}
+    from benchmarks.agent240.attribution import summarize as summarize_attribution
+    from benchmarks.agent240.regression_report import paired, artifacts, markdown as regression_markdown
+    summary['paired_comparison'] = paired(scored)
+    summary['attribution_summary'] = summarize_attribution(scored)
+    config_evidence = Path(bundle) / 'run-configurations.json'
+    if config_evidence.exists():
+        original_configs = json.loads(config_evidence.read_text('utf-8'))
+        if original_configs.get('records_sha256') != sha(Path(bundle) / 'records.jsonl'):
+            raise ValueError('Run configurations belong to different predictions')
+        summary['run_configurations'] = {'sha256': sha(config_evidence), 'data': original_configs}
     output.mkdir(parents=True)
     (output / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", "utf-8")
     (output / "scored.jsonl").write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in scored), "utf-8")
-    (output / "report.md").write_text(markdown(summary), "utf-8")
+    failures = artifacts(output, scored, cases)
+    (output / "report.md").write_text(markdown(summary) + '\n' + regression_markdown(summary, failures), "utf-8")
     return summary
 
 
@@ -215,8 +281,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--bundle", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument('--traces', type=Path, help='Optional same-prediction actual attempt trace sidecar')
+    parser.add_argument('--rag-evalscope-results', type=Path, help='Validated same-run EvalScope import; never remap custom scores')
     args = parser.parse_args()
-    summary = evaluate(args.bundle, args.output)
+    summary = evaluate(args.bundle, args.output, traces_path=args.traces, rag_evalscope_results=args.rag_evalscope_results)
     print(json.dumps({k: summary[k] for k in ("mode", "original_logical_cases", "saved_predictions", "new_model_calls")}, ensure_ascii=False))
 
 

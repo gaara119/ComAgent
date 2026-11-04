@@ -1,0 +1,61 @@
+{
+  "schema": "public-evaluation-evidence-scope-v1",
+  "destination": "https://github.com/gaara119/ComAgent",
+  "scope": "Project implementation,Gold-reviewed status,Agent regression reports and publicly sourced RAGAS task evidence",
+  "omitted_local_only": [
+    {
+      "path": "actual-ragas-v1/framework.stderr.log",
+      "sha256": "92f7bfba3120db638adda08dc7da60f795a4c7c666c38cbfcfb15f4313415a21",
+      "reason": "Raw framework stderr contains unnecessary Windows user-home paths; retained locally unchanged and excluded from public commit"
+    },
+    {
+      "path": "actual-ragas-v2/framework.stderr.log",
+      "sha256": "263b6591b5a32c22c9d742e98f5cb5e0252d36242176892adc7f789581cf5131",
+      "reason": "Raw framework stderr contains unnecessary Windows user-home paths; retained locally unchanged and excluded from public commit"
+    }
+  ],
+  "published_RAGAS_contexts": {
+    "samples": 30,
+    "documents": [
+      {
+        "doc_id": "artist-iron-maiden",
+        "source_url": "https://en.wikipedia.org/wiki/Iron_Maiden",
+        "license": "CC BY-SA 4.0 attributed Chinese adaptation; Wikipedia contributors; no external images"
+      },
+      {
+        "doc_id": "artist-u2",
+        "source_url": "https://zh.wikipedia.org/wiki/U2%E6%A8%82%E5%9C%98",
+        "license": "CC BY-SA 4.0 attributed Chinese adaptation; Wikipedia contributors; no external images"
+      },
+      {
+        "doc_id": "artist-metallica",
+        "source_url": "https://en.wikipedia.org/wiki/Metallica",
+        "license": "CC BY-SA 4.0 attributed Chinese adaptation; Wikipedia contributors; no external images"
+      },
+      {
+        "doc_id": "artist-led-zeppelin",
+        "source_url": "https://zh.wikipedia.org/wiki/%E9%BD%90%E6%9F%8F%E6%9E%97%E9%A3%9E%E8%88%B9%E4%B9%90%E9%98%9F",
+        "license": "CC BY-SA 4.0 actual Edge screenshot of attributed project summary HTML, not original Wikipedia page"
+      },
+      {
+        "doc_id": "project-metric-manual",
+        "source_url": "project-authored; notes/d2/业务指标口径提案.md",
+        "license": "Project-authored team research document; business definitions approved by A+B user attestation"
+      }
+    ],
+    "input_hashes_checked": true,
+    "private_full_session_bodies_in_RAG_inputs": false,
+    "API_Authorization_headers_in_ledger": false
+  },
+  "security_checks": {
+    "candidate_files_checked": 177,
+    "credential_patterns_found": [],
+    "nonplaceholder_JSON_credentials": [],
+    "prior_public_dataset_unchanged": {
+      "dataset.json": true,
+      "records.jsonl": true
+    }
+  },
+  "original_data_policy": "No originalGold,prediction,capture,officialscore or budgetledger modified. Removingstderrfrompublicindex does not delete localrawrecords.",
+  "scope_limit": "Source checks and bounded credential scans; not a universal security certification. MTEB still not run. Gold review complete240/240."
+}

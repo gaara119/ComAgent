@@ -1,0 +1,24 @@
+{
+  "schema": "evalscope-agent-binding-v1",
+  "framework": "EvalScope",
+  "evalscope_version": "1.14.1",
+  "tool": "RAGAS",
+  "scope": "delivered_RAG_subtask",
+  "judge_model": "deepseek-flash",
+  "judge_calibration": "not_human_calibrated",
+  "coverage_boundary": "Conditional on 30 actually delivered document subtasks out of 60 document-target configuration predictions; not whole-Agent accuracy.",
+  "official_result": {
+    "path": "official-ragas-scores.json",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  },
+  "official_fragments": [],
+  "score_storage": "Official per-batch rows concatenated without changing metric names or values; original fragments preserved.",
+  "samples": [],
+  "planned_samples": 30,
+  "observed_samples": 0,
+  "MTEB": {
+    "status": "not_verified",
+    "reason": "Missing complete reviewed corpus/qrels; no synthetic labels created"
+  },
+  "embedding_note": "Faithfulness does not use embeddings; configured client is unused and guard rejects embedding requests."
+}

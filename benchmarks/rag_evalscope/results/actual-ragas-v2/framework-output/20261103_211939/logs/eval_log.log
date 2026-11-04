@@ -1,0 +1,95 @@
+2026-11-03 21:19:39 - evalscope - INFO: Using RAGEvalBackendManager
+2026-11-03 21:19:39 - evalscope - INFO: Dump task config to E:\中国电子杯-赛题八\system\benchmarks\rag_evalscope\results\actual-ragas-v2\framework-output\20261103_211939\configs\task_config.yaml
+2026-11-03 21:19:39 - evalscope - INFO: {
+    "model_id": "text_generation",
+    "model_args": {},
+    "model_task": "text_generation",
+    "chat_template": null,
+    "datasets": [],
+    "dataset_args": {},
+    "dataset_dir": "E:\\中国电子杯-赛题八\\system\\benchmarks\\rag_evalscope\\results\\actual-ragas-v2\\framework-cache\\modelscope\\datasets",
+    "dataset_hub": "modelscope",
+    "repeats": 1,
+    "eval_type": "mock_llm",
+    "eval_backend": "RAGEval",
+    "eval_config": {
+        "tool": "ragas",
+        "testset_generation": null,
+        "eval": {
+            "testset_file": "E:\\中国电子杯-赛题八\\system\\benchmarks\\rag_evalscope\\results\\actual-ragas-v2\\batch-008.json",
+            "critic_llm": {
+                "model_name": "deepseek-flash",
+                "provider": "openai",
+                "api_base": "http://127.0.0.1:54609/v1",
+                "api_key": "LOCAL_BUDGET_GUARD",
+                "temperature": 0.0,
+                "max_tokens": 4096
+            },
+            "embeddings": {
+                "model_name_or_path": "text-embedding-3-small",
+                "provider": "openai",
+                "api_base": "http://127.0.0.1:54609/v1",
+                "api_key": "LOCAL_BUDGET_GUARD"
+            },
+            "metrics": [
+                "faithfulness"
+            ],
+            "language": "english",
+            "batch_size": 4,
+            "raise_exceptions": false
+        }
+    },
+    "limit": null,
+    "eval_batch_size": 1,
+    "use_cache": null,
+    "rerun_review": false,
+    "work_dir": "E:\\中国电子杯-赛题八\\system\\benchmarks\\rag_evalscope\\results\\actual-ragas-v2\\framework-output\\20261103_211939",
+    "no_timestamp": false,
+    "enable_progress_tracker": false,
+    "ignore_errors": false,
+    "debug": false,
+    "dry_run": false,
+    "seed": 42,
+    "api_url": null,
+    "api_key": "**********",
+    "timeout": null,
+    "stream": null,
+    "judge": {
+        "strategy": "auto",
+        "models": [],
+        "contract": {
+            "system_prompt": null,
+            "prompt_template": null,
+            "score_mapping": null,
+            "score_type": "pattern"
+        },
+        "repeats": 1,
+        "position_swap": "auto",
+        "aggregation": "mean",
+        "min_valid_judges": 1
+    },
+    "analysis_report": false,
+    "collect_perf": true,
+    "use_sandbox": false,
+    "sandbox_type": "docker",
+    "sandbox_manager_config": {},
+    "evalscope_version": "1.14.1",
+    "model": "text_generation",
+    "generation_config": {
+        "batch_size": 1
+    },
+    "sandbox": {
+        "enabled": false,
+        "engine": "docker",
+        "default_config": {},
+        "manager_config": {},
+        "pool_size": null
+    },
+    "agent_config": null
+}
+2026-11-03 21:19:39 - evalscope - INFO: Check `ragas` Installed
+2026-11-03 21:19:39 - evalscope.backend.rag_eval.ragas.task_template - INFO: Starting RAGAS evaluation with metrics: ['faithfulness']
+2026-11-03 21:20:04 - evalscope.backend.rag_eval.ragas.task_template - INFO: RAGAS evaluation complete. Results saved to E:\中国电子杯-赛题八\system\benchmarks\rag_evalscope\results\actual-ragas-v2\batch-008_score.json
+2026-11-03 21:20:04 - evalscope.backend.rag_eval.ragas.task_template - INFO: Scores: {'faithfulness': 0.8333}
+2026-11-03 21:20:04 - evalscope - INFO: Args: Task config is provided with dictionary type.
+2026-11-03 21:20:04 - evalscope - INFO: No model is provided, using DummyCustomModel for testing.

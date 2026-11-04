@@ -1,0 +1,89 @@
+{
+  "schema": "agent-offline-regression-evidence-v1",
+  "panel_files": {
+    "dataset.json": "7af0f08de7baf2fed7796cc148a67f8307e16f22f83087d027a3bfedc2296fb6",
+    "records.jsonl": "c37a8342b0ac5375b4f53a01a60b43e7b4cc583d34465571b480a7f0eddb2d8e"
+  },
+  "artifacts": [
+    {
+      "file": "controlled-faults.json",
+      "sha256": "06b2d40cec020ecfda7815eaec574909cd41740dcc2f2aecee4adad07a04b0db",
+      "original_path": ".runtime/agent-e2e-v2/receipts/controlled-faults.json",
+      "storage": "original bytes preserved"
+    },
+    {
+      "file": "regression-summary.json",
+      "sha256": "f98abc212ab6a52ba439ad1e4fbad0fc032373453a0ace0aedb30f3534780ebd",
+      "original_path": ".runtime/agent-e2e-v2/receipts/regression-summary.json",
+      "storage": "original bytes preserved"
+    },
+    {
+      "file": "historical-repeat-audit.json",
+      "sha256": "2992ecb658270a02dfabd56ee8b6ebd7116a6363f5dc8f7654818b16bf38556b",
+      "original_path": ".runtime/agent-e2e-v2/receipts/historical-repeat-audit.json",
+      "storage": "original bytes preserved"
+    },
+    {
+      "file": "review-consistency-audit.json",
+      "sha256": "54e5be3ce4c3e6a3844fd34537d84559ff8abc7929a2772aeed63b4b1f9f468d",
+      "original_path": ".runtime/agent-e2e-v2/receipts/review-consistency-audit.json",
+      "storage": "original bytes preserved"
+    },
+    {
+      "file": "all-agent-regressions.junit.xml",
+      "sha256": "d967c2e898092dc6053a3a0a4cb591926b2b71dafdd5c32af0a5cc56718c3e70",
+      "original_path": ".runtime/agent-e2e-v2/receipts/all-agent-regressions.junit.xml",
+      "storage": "original bytes preserved"
+    },
+    {
+      "file": "gold-status-correction.json",
+      "sha256": "2ad2971a5f76c1fe15f9f87911e3b3b879b4aff1843944bec8cd4103a14d3aff",
+      "original_path": ".runtime/agent-e2e-v2/receipts/gold-status-correction.json",
+      "storage": "original bytes preserved"
+    },
+    {
+      "file": "gold-correction-regression.xml",
+      "sha256": "4b616559265471b1c084889f45c29cb30b301b2db81577688a2c5eb9c74e6940",
+      "original_path": ".runtime/agent-e2e-v2/receipts/gold-correction-regression.xml",
+      "storage": "original bytes preserved"
+    },
+    {
+      "file": "final-offline-regression.junit.xml",
+      "sha256": "51f15277053aa0325a361fdf5108c965bdf94d681aafadb81a8177246f7fbeb2",
+      "original_path": ".runtime/agent-e2e-v2/receipts/final-offline-regression.junit.xml",
+      "storage": "original bytes preserved"
+    },
+    {
+      "file": "final-offline-regression.json",
+      "sha256": "ab72eaa8d264558eb6c450e660b4b37d75f37ea6c25104e91b85977c8fdacfe4",
+      "original_path": "inline final execution receipt",
+      "storage": "execution metadata"
+    },
+    {
+      "file": "final-offline-regression-r2.junit.xml",
+      "sha256": "1900d223cb074b76a788349bb585afdf9d079cfb89d75fb78ac07f6c972a7616",
+      "original_path": ".runtime/agent-e2e-v2/receipts/final-offline-regression-r2.junit.xml",
+      "storage": "original bytes preserved"
+    },
+    {
+      "file": "final-offline-regression-r2.json",
+      "sha256": "840b61b82bf938182cddba50d5bbe09e1ec1479cd66ffa83926bd0c5da8ac6c9",
+      "original_path": "inline final-r2 execution receipt",
+      "storage": "execution metadata"
+    }
+  ],
+  "current_gold_review": {
+    "status": "human_reviewed",
+    "questions": 240,
+    "source": "../gold-review-status.json",
+    "note": "Current owner-confirmed status supersedes original historical pending fields, including a limitation in review-consistency-audit.json. No Gold content or past output labels were changed."
+  },
+  "boundaries": [
+    "All tests and audits reuse existing records or controlled local fixtures; no new Agent predictions, model API calls or database executions.",
+    "92-test suite,244-test suite,and29-test Gold correction overlap; never sum as unique tests.",
+    "Historical repeat audit is not current release240 stability or a controlled causal experiment.",
+    "Eight pending rationale consistency items and eight unknown business judgments are distinct sets.",
+    "Final264 checks supersede earlier totals as the latest combined local run; do not add overlapping test suite counts.",
+    "Final270 checks after reader-only handling supersede prior264 latest count; each executed record is preserved, counts overlap."
+  ]
+}

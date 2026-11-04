@@ -1,0 +1,207 @@
+{
+  "schema": "actual-run-settings-v1",
+  "configurations": {
+    "final200/BASE": {
+      "status": "recorded_historical_health",
+      "actual_settings": {
+        "aw_schema_mode": "full",
+        "aw_schema_pruning_enabled": false,
+        "clarify_grounding_enabled": false,
+        "clarify_state_enabled": false,
+        "component_mode": "cumulative_S0",
+        "cumulative_stage": "S0",
+        "link_grounding_enabled": false,
+        "llm_call_max_attempts": 3,
+        "llm_max_tokens": 2048,
+        "llm_request_max_attempts": 12,
+        "llm_temperature": 0.0,
+        "llm_temperature_effective": 0.0,
+        "llm_thinking": false,
+        "llm_timeout_seconds": 60,
+        "max_rows": 200,
+        "model": "deepseek-flash",
+        "nlu_enabled": false,
+        "rag_cache_enabled": true,
+        "rag_retrieval_strategy": "hybrid_rerank",
+        "schema_recall_enhanced": false,
+        "semantic_gate_enabled": false,
+        "sql_prompt_sha256": {
+          "single_table_loaded": "e654d113a970693751744c295310c2edfb99b12898ad4368a02e25743956fe4a",
+          "multi_table_file": "e2dda12e498d4c8b0557752473284afb1b6a4625814d2a280eecd24e6a6705e5"
+        },
+        "statement_timeout_ms": 5000,
+        "typed_sql_compiler_enabled": true
+      },
+      "source_path": "eval/artifacts/final200-20261017/measurement-001/runs/BASE/health-before.json",
+      "source_sha256": "ca34ea03854ee1cb614d507d7cbe26ddd5afc4a31417a556afc0988a3c32ccca",
+      "source_snapshot": {
+        "path": "eval/artifacts/final200-20261017/measurement-001/runs/BASE",
+        "code_hash": "4818321f5c3634f1decf2f45d54468cf5f759515c46e978d35612f139019e434",
+        "commit": "41cee8bfd554cc181b4a83aaa0138c5c5dc80ba2",
+        "code_hash_method": "sha256 of json.dumps(original manifest source map, sort_keys=True) UTF8",
+        "code_hash_reason": null,
+        "manifest_path": "eval/artifacts/final200-20261017/measurement-001/runs/BASE/manifest.json",
+        "manifest_sha256": "03b6827e760c1356ff50aa002f13040adab91d725e9aabb682aaeb8d98cb77d4",
+        "configuration_mode": "cumulative_S0",
+        "response_paths": [
+          {
+            "path": "eval/artifacts/final200-20261017/measurement-001/runs/BASE/cases/A-q01/responses/A-q01-initial.json",
+            "sha256": "f1d322b6274c258b862778902cddf2e8f1f20e13f2be3c4e819bdfae83db8345"
+          }
+        ]
+      }
+    },
+    "final200/FULL": {
+      "status": "recorded_historical_health",
+      "actual_settings": {
+        "aw_schema_mode": "subgraph",
+        "aw_schema_pruning_enabled": true,
+        "clarify_grounding_enabled": true,
+        "clarify_state_enabled": true,
+        "component_mode": "cumulative_S3",
+        "cumulative_stage": "S3",
+        "link_grounding_enabled": true,
+        "llm_call_max_attempts": 3,
+        "llm_max_tokens": 2048,
+        "llm_request_max_attempts": 12,
+        "llm_temperature": 0.0,
+        "llm_temperature_effective": 0.0,
+        "llm_thinking": false,
+        "llm_timeout_seconds": 60,
+        "max_rows": 200,
+        "model": "deepseek-flash",
+        "nlu_enabled": true,
+        "rag_cache_enabled": true,
+        "rag_retrieval_strategy": "hybrid_rerank",
+        "schema_recall_enhanced": false,
+        "semantic_gate_enabled": true,
+        "sql_prompt_sha256": {
+          "single_table_loaded": "e654d113a970693751744c295310c2edfb99b12898ad4368a02e25743956fe4a",
+          "multi_table_file": "e2dda12e498d4c8b0557752473284afb1b6a4625814d2a280eecd24e6a6705e5"
+        },
+        "statement_timeout_ms": 5000,
+        "typed_sql_compiler_enabled": true
+      },
+      "source_path": "eval/artifacts/final200-20261017/measurement-001/runs/FULL/health-before.json",
+      "source_sha256": "747b6bd6c10ecad616b984385c0ea7d84b6b57067059757c711d3ad5819f9b4b",
+      "source_snapshot": {
+        "path": "eval/artifacts/final200-20261017/measurement-001/runs/FULL",
+        "code_hash": "4818321f5c3634f1decf2f45d54468cf5f759515c46e978d35612f139019e434",
+        "commit": "41cee8bfd554cc181b4a83aaa0138c5c5dc80ba2",
+        "code_hash_method": "sha256 of json.dumps(original manifest source map, sort_keys=True) UTF8",
+        "code_hash_reason": null,
+        "manifest_path": "eval/artifacts/final200-20261017/measurement-001/runs/FULL/manifest.json",
+        "manifest_sha256": "35996a09090a1595a312bd79ab0dca439535e578bbdeb6b013ff32503fe3698f",
+        "configuration_mode": "cumulative_S3",
+        "response_paths": [
+          {
+            "path": "eval/artifacts/final200-20261017/measurement-001/runs/FULL/cases/A-q01/responses/A-q01-initial.json",
+            "sha256": "2137c00d00831cfd797411225d78957f21b500fde70c86bd4ad4537e5084deb4"
+          }
+        ]
+      }
+    },
+    "legacy40/BASE": {
+      "status": "recorded_historical_health",
+      "actual_settings": {
+        "aw_schema_mode": "full",
+        "aw_schema_pruning_enabled": false,
+        "clarify_grounding_enabled": false,
+        "clarify_state_enabled": false,
+        "component_mode": "independent_BASE",
+        "cumulative_stage": null,
+        "link_grounding_enabled": false,
+        "llm_call_max_attempts": 3,
+        "llm_max_tokens": 2048,
+        "llm_request_max_attempts": 12,
+        "llm_temperature": 0.0,
+        "llm_temperature_effective": 0.0,
+        "llm_thinking": false,
+        "llm_timeout_seconds": 60,
+        "max_rows": 200,
+        "model": "deepseek-flash",
+        "nlu_enabled": false,
+        "rag_cache_enabled": true,
+        "rag_retrieval_strategy": "hybrid_rerank",
+        "schema_recall_enhanced": false,
+        "semantic_gate_enabled": false,
+        "sql_prompt_sha256": {
+          "single_table_loaded": "e654d113a970693751744c295310c2edfb99b12898ad4368a02e25743956fe4a",
+          "multi_table_file": "e2dda12e498d4c8b0557752473284afb1b6a4625814d2a280eecd24e6a6705e5"
+        },
+        "statement_timeout_ms": 5000,
+        "typed_sql_compiler_enabled": true
+      },
+      "source_path": "eval/artifacts/agent-improvement-20261017-independent-controls/AB-BASE-r1/run-001/health-before.json",
+      "source_sha256": "d553e74ecd3834bf9a86a9f8e2e8a19f1d1e5c200aa0f1839a422f4bf444aa17",
+      "source_snapshot": {
+        "path": "eval/artifacts/agent-improvement-20261017-independent-controls/AB-BASE-r1/run-001",
+        "code_hash": "a43093efb6e93ab792debc29f203665737c62ed808ff761cad31cfdca28fbb8f",
+        "commit": "c968e6218899f3766d9a50ab9b6c413f3c28eb9b",
+        "code_hash_method": "sha256 of json.dumps(original manifest source map, sort_keys=True) UTF8",
+        "code_hash_reason": null,
+        "manifest_path": "eval/artifacts/agent-improvement-20261017-independent-controls/AB-BASE-r1/run-001/manifest.json",
+        "manifest_sha256": "0e8a07ce91c5b6d871fd638959044a1f57ff797a47e43e5846f6b7db7b11e672",
+        "configuration_mode": "independent_BASE",
+        "response_paths": [
+          {
+            "path": "eval/artifacts/agent-improvement-20261017-independent-controls/AB-BASE-r1/run-001/responses/A-q01-initial.json",
+            "sha256": "8d16ca70b81a4b0df886793810ea1b8583f0db623cd244168ea30e77d7f28496"
+          }
+        ]
+      }
+    },
+    "legacy40/C1": {
+      "status": "recorded_historical_health",
+      "actual_settings": {
+        "aw_schema_mode": "full",
+        "aw_schema_pruning_enabled": false,
+        "clarify_grounding_enabled": false,
+        "clarify_state_enabled": false,
+        "component_mode": "independent_C1",
+        "cumulative_stage": null,
+        "link_grounding_enabled": true,
+        "llm_call_max_attempts": 3,
+        "llm_max_tokens": 2048,
+        "llm_request_max_attempts": 12,
+        "llm_temperature": 0.0,
+        "llm_temperature_effective": 0.0,
+        "llm_thinking": false,
+        "llm_timeout_seconds": 60,
+        "max_rows": 200,
+        "model": "deepseek-flash",
+        "nlu_enabled": true,
+        "rag_cache_enabled": true,
+        "rag_retrieval_strategy": "hybrid_rerank",
+        "schema_recall_enhanced": false,
+        "semantic_gate_enabled": false,
+        "sql_prompt_sha256": {
+          "single_table_loaded": "e654d113a970693751744c295310c2edfb99b12898ad4368a02e25743956fe4a",
+          "multi_table_file": "e2dda12e498d4c8b0557752473284afb1b6a4625814d2a280eecd24e6a6705e5"
+        },
+        "statement_timeout_ms": 5000,
+        "typed_sql_compiler_enabled": true
+      },
+      "source_path": "eval/artifacts/agent-improvement-20261017-independent-controls/AB-C1-r1/run-001/health-before.json",
+      "source_sha256": "16610576bbc4c93f41c7320ce74b4a6c7ffc8568795c5902e5413a67e66451cd",
+      "source_snapshot": {
+        "path": "eval/artifacts/agent-improvement-20261017-independent-controls/AB-C1-r1/run-001",
+        "code_hash": "4818321f5c3634f1decf2f45d54468cf5f759515c46e978d35612f139019e434",
+        "commit": "c968e6218899f3766d9a50ab9b6c413f3c28eb9b",
+        "code_hash_method": "sha256 of json.dumps(original manifest source map, sort_keys=True) UTF8",
+        "code_hash_reason": null,
+        "manifest_path": "eval/artifacts/agent-improvement-20261017-independent-controls/AB-C1-r1/run-001/manifest.json",
+        "manifest_sha256": "b502de7708aecdb05e86c31e907ac94e84e2c4e1ca4a2fa1394de0bd4396c2ed",
+        "configuration_mode": "independent_C1",
+        "response_paths": [
+          {
+            "path": "eval/artifacts/agent-improvement-20261017-independent-controls/AB-C1-r1/run-001/responses/A-q01-initial.json",
+            "sha256": "3946d05481346483e86d516b5b2cf84a7e06c3b03af52701684624fac40c492e"
+          }
+        ]
+      }
+    }
+  },
+  "records_sha256": "c37a8342b0ac5375b4f53a01a60b43e7b4cc583d34465571b480a7f0eddb2d8e",
+  "boundary": "Historical recorded configuration, not a current service readiness check; original source snapshots remain archived."
+}

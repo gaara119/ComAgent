@@ -1,0 +1,28 @@
+{
+  "kind": "offline_controlled_fault_and_security_regression",
+  "recorded_utc": "2026-11-04T01:06:43.894281+00:00",
+  "command": "AGENT_CONTROLLED_FAULT_RECEIPT=.runtime/agent-e2e-v2/receipts/controlled-faults.json python -B -m pytest -q -p no:cacheprovider tests/test_agent_controlled_faults.py tests/test_llm.py tests/test_sql_validator.py tests/test_source_scope_and_tool_permissions.py --basetemp=.runtime/agent-e2e-v2/fault-test-tmp-r2 --junitxml=.runtime/agent-e2e-v2/receipts/stability-security-r2.junit.xml",
+  "result": "92 passed in 7.77s",
+  "counts": {
+    "tests.test_agent_controlled_faults": 16,
+    "tests.test_llm": 10,
+    "tests.test_sql_validator": 37,
+    "tests.test_source_scope_and_tool_permissions": 29
+  },
+  "total_passed": 92,
+  "API_calls": 0,
+  "database_queries": 0,
+  "physical_mock_attempts": 31,
+  "transient_recovery": {
+    "recovered": 6,
+    "eligible_scenarios": 6
+  },
+  "expected_fail_closed": {
+    "passed_policy": 10,
+    "eligible_scenarios": 10
+  },
+  "earlier_attempt": "89 passed / 3 setup errors due to absent pytest basetemp parent; final rerun after creating parent passed all92; earlier junit retained",
+  "source_sha256": "afbaf1ec5f7113c9bed7915fbfceb03d350e796e8d619f2b555ae4e686b59b3d",
+  "current_version_live_recovery": "not_verified",
+  "safety_boundary": "66 SQL/source/tool checks are isolated unit fixtures, not attacks against an actual database/server."
+}

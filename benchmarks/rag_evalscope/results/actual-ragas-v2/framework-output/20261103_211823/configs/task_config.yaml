@@ -1,0 +1,76 @@
+agent_config: null
+analysis_report: false
+api_key: '**********'
+api_url: null
+chat_template: null
+collect_perf: true
+dataset_args: {}
+dataset_dir: E:\中国电子杯-赛题八\system\benchmarks\rag_evalscope\results\actual-ragas-v2\framework-cache\modelscope\datasets
+dataset_hub: modelscope
+datasets: []
+debug: false
+dry_run: false
+enable_progress_tracker: false
+eval_backend: RAGEval
+eval_batch_size: 1
+eval_config:
+  eval:
+    batch_size: 4
+    critic_llm:
+      api_base: http://127.0.0.1:54609/v1
+      api_key: LOCAL_BUDGET_GUARD
+      max_tokens: 4096
+      model_name: deepseek-flash
+      provider: openai
+      temperature: 0.0
+    embeddings:
+      api_base: http://127.0.0.1:54609/v1
+      api_key: LOCAL_BUDGET_GUARD
+      model_name_or_path: text-embedding-3-small
+      provider: openai
+    language: english
+    metrics:
+    - faithfulness
+    raise_exceptions: false
+    testset_file: E:\中国电子杯-赛题八\system\benchmarks\rag_evalscope\results\actual-ragas-v2\batch-000.json
+  testset_generation: null
+  tool: ragas
+eval_type: mock_llm
+evalscope_version: 1.14.1
+generation_config:
+  batch_size: 1
+ignore_errors: false
+judge:
+  aggregation: mean
+  contract:
+    prompt_template: null
+    score_mapping: null
+    score_type: pattern
+    system_prompt: null
+  min_valid_judges: 1
+  models: []
+  position_swap: auto
+  repeats: 1
+  strategy: auto
+limit: null
+model: text_generation
+model_args: {}
+model_id: text_generation
+model_task: text_generation
+no_timestamp: false
+repeats: 1
+rerun_review: false
+sandbox:
+  default_config: {}
+  enabled: false
+  engine: docker
+  manager_config: {}
+  pool_size: null
+sandbox_manager_config: {}
+sandbox_type: docker
+seed: 42
+stream: null
+timeout: null
+use_cache: null
+use_sandbox: false
+work_dir: E:\中国电子杯-赛题八\system\benchmarks\rag_evalscope\results\actual-ragas-v2\framework-output\20261103_211823

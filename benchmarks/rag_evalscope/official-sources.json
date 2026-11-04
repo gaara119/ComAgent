@@ -1,0 +1,50 @@
+{
+  "repository": "https://github.com/modelscope/evalscope",
+  "version": "v1.14.1",
+  "revision": "9d298b839375e735fbbef992b4042e0852d0b8aa",
+  "verified_sources": [
+    {
+      "url": "https://github.com/modelscope/evalscope/blob/v1.14.1/requirements/framework.txt",
+      "sha256": "a07efbf8d97fb210bde766bd1ada089c3453f6a8b1e084e1c51cc72f2b5a164c"
+    },
+    {
+      "url": "https://github.com/modelscope/evalscope/blob/v1.14.1/requirements/rag.txt",
+      "sha256": "421e2afab549f74b8a0b060cb7dbd4ee374b5d321032a07b9a4cf56d207d749e"
+    },
+    {
+      "url": "https://github.com/modelscope/evalscope/blob/v1.14.1/docs/en/user_guides/backend/rageval_backend/mteb.md",
+      "sha256": "f3992f4cb9b2d5e947a2c8db7f0f6db86ae843e6dc1d8150de4cbb6a78fc57bc"
+    },
+    {
+      "url": "https://github.com/modelscope/evalscope/blob/v1.14.1/docs/en/user_guides/backend/rageval_backend/ragas.md",
+      "sha256": "ca6de6b78cda4de175096ae900e2035d8bc353afafcaac64666d896e44d808ed"
+    },
+    {
+      "url": "https://github.com/modelscope/evalscope/blob/v1.14.1/evalscope/backend/rag_eval/__init__.py",
+      "sha256": "3c6c4a43aafb2f6b75f8788c66538f11949690d60f2594d76f83341f316c6fd9"
+    },
+    {
+      "url": "https://github.com/modelscope/evalscope/blob/v1.14.1/evalscope/backend/rag_eval/mteb/arguments.py",
+      "sha256": "dfbe42c30936617193ecd7937c73215793644152c6d3802a38b31b2a60eab0f3"
+    },
+    {
+      "url": "https://github.com/modelscope/evalscope/blob/v1.14.1/evalscope/backend/rag_eval/mteb/custom_task.py",
+      "sha256": "181daefbccd94dd0b8940583999ee40434b7911516e1e822973a8bde685667b1"
+    },
+    {
+      "url": "https://github.com/modelscope/evalscope/blob/v1.14.1/evalscope/backend/rag_eval/ragas/arguments.py",
+      "sha256": "3406b4640b65810e1fd153720764132a10c067c8adffd8ddcfa916a98320c2f7"
+    },
+    {
+      "url": "https://github.com/modelscope/evalscope/blob/v1.14.1/evalscope/backend/rag_eval/ragas/task_template.py",
+      "sha256": "5b8dc99649b186ed0d12bf6a5171af19905dc598e2895fec5318ec01236c7d9a"
+    }
+  ],
+  "notes": [
+    "MTEB config uses models and eval.task_names/custom_tasks, not old model/tasks keys.",
+    "RAGAS uses real SingleTurnSample with user_input,response,retrieved_contexts and optional reference.",
+    "Official RAGAS worker hard-codes timeout600/max_retries3; the local HTTP guard supplies the actual stricter 60-second physical timeout/shared120-call/20-minute deadline.",
+    "EvalScope tool runner builds an embeddings client, but Faithfulness has no embedding requests; guard rejects all embedding requests.",
+    "No official or synthetic testset generation is used."
+  ]
+}

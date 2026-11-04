@@ -1,0 +1,123 @@
+{
+  "schema": "actual-ragas-runtime-diagnostics-v1",
+  "status": "partially_verified",
+  "date_local": "2026-11-03",
+  "framework": "EvalScope",
+  "evalscope_version": "1.14.1",
+  "ragas_version": "0.4.3",
+  "langchain_community_version": "0.4.1",
+  "metric": "faithfulness",
+  "planned_samples": 30,
+  "official_rows": 30,
+  "valid_scores": 17,
+  "unscored": 13,
+  "valid_subset_mean": 0.8872549019647059,
+  "scoring_coverage": 0.5666666666666667,
+  "not_whole_agent_accuracy": true,
+  "unscored_values_not_imputed": true,
+  "not_a_causal_comparison": true,
+  "physical_model_calls": 52,
+  "historical_Agent_model_calls_separate": 755,
+  "new_Agent_predictions": 0,
+  "transport_status_counts": {
+    "completed": 52
+  },
+  "finish_reason_counts": {
+    "stop": 39,
+    "length": 13
+  },
+  "observed_metric_stages": {
+    "statement_extraction": 30,
+    "evidence_entailment": 22
+  },
+  "truncated_outputs_by_stage": {
+    "evidence_entailment": 5,
+    "statement_extraction": 8
+  },
+  "retry_count": null,
+  "retry_note": "No separate SDK attempt-ID is exported; all52 actual physical requests are counted. Do not infer retries from52 minus30.",
+  "actual_request_model_counts": {
+    "deepseek-flash": 52
+  },
+  "actual_request_max_tokens_counts": {
+    "1024": 52
+  },
+  "actual_request_temperature_counts": {
+    "0.01": 52
+  },
+  "actual_request_top_p_counts": {
+    "0.1": 52
+  },
+  "declared_config": {
+    "max_tokens": 4096,
+    "temperature": 0.0
+  },
+  "observed_config_mismatch": "OfficialEvalScope _build_llm calls llm_factory without forwarding max_tokens or temperature; actualfactorydefaults1024/0.01 used. Guardcap4096 notequalactualrequest1024.",
+  "usage": {
+    "input_tokens": 56963,
+    "output_tokens": 33815,
+    "cache_hit_tokens": 35968,
+    "cache_miss_tokens": 20995,
+    "observed_input_tokens": 56963,
+    "observed_output_tokens": 33815,
+    "missing_usage_calls": 0,
+    "input_tokens_conservative_reserve": 0,
+    "output_tokens_conservative_reserve": 0
+  },
+  "physical_call_latency_seconds": {
+    "n": 52,
+    "p50": 3.723758700012695,
+    "p90": 5.671140909969108,
+    "method": "linear interpolation at (n-1)*p/100"
+  },
+  "api_window_utc": {
+    "first_send": "2026-11-04T03:18:32.503669+00:00",
+    "last_settlement": "2026-11-04T03:21:56.971686+00:00",
+    "span_seconds": 204.468017
+  },
+  "not_agent_end_to_end_latency": true,
+  "money": {
+    "status": "not_verified",
+    "reason": "Noverifiedapplicablebillingunitprice; do notturntokendifferenceintocost."
+  },
+  "per_configuration": [
+    {
+      "suite": "final200",
+      "configuration": "BASE",
+      "rows": 10,
+      "valid": 5,
+      "unknown": 5,
+      "valid_subset_mean": 0.78333333334
+    },
+    {
+      "suite": "final200",
+      "configuration": "FULL",
+      "rows": 11,
+      "valid": 5,
+      "unknown": 6,
+      "valid_subset_mean": 1.0
+    },
+    {
+      "suite": "legacy40",
+      "configuration": "BASE",
+      "rows": 5,
+      "valid": 4,
+      "unknown": 1,
+      "valid_subset_mean": 0.791666666675
+    },
+    {
+      "suite": "legacy40",
+      "configuration": "C1",
+      "rows": 4,
+      "valid": 3,
+      "unknown": 1,
+      "valid_subset_mean": 1.0
+    }
+  ],
+  "gold_review": {
+    "human_reviewed": 240,
+    "total": 240,
+    "not_related_to_missing_retrieval_qrels": true
+  },
+  "postrun_reader_change": "NaN reader handling and local tests added after this only model run; no predictions rerun or raw official score mutation."
+}

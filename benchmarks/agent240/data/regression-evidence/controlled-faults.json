@@ -1,0 +1,181 @@
+{
+  "kind": "controlled_httpx_MockTransport_fault_injection",
+  "production_target": "qa_agent.llm.JsonLLM.complete_json",
+  "new_model_API_calls": 0,
+  "database_queries": 0,
+  "physical_fixture_attempts": 31,
+  "scenarios": [
+    {
+      "id": "transient-429",
+      "category": "transient_recovery",
+      "injected_fault": 429,
+      "attempts": 2,
+      "recovered": true,
+      "passed": true,
+      "trace_statuses": [
+        "error",
+        "ok"
+      ],
+      "usage_kind": "fixture_usage_only"
+    },
+    {
+      "id": "transient-503",
+      "category": "transient_recovery",
+      "injected_fault": 503,
+      "attempts": 2,
+      "recovered": true,
+      "passed": true,
+      "trace_statuses": [
+        "error",
+        "ok"
+      ],
+      "usage_kind": "fixture_usage_only"
+    },
+    {
+      "id": "transient-timeout",
+      "category": "transient_recovery",
+      "injected_fault": "timeout",
+      "attempts": 2,
+      "recovered": true,
+      "passed": true,
+      "trace_statuses": [
+        "error",
+        "ok"
+      ],
+      "usage_kind": "fixture_usage_only"
+    },
+    {
+      "id": "transient-bad_json",
+      "category": "transient_recovery",
+      "injected_fault": "bad_json",
+      "attempts": 2,
+      "recovered": true,
+      "passed": true,
+      "trace_statuses": [
+        "error",
+        "ok"
+      ],
+      "usage_kind": "fixture_usage_only"
+    },
+    {
+      "id": "transient-bad_schema",
+      "category": "transient_recovery",
+      "injected_fault": "bad_schema",
+      "attempts": 2,
+      "recovered": true,
+      "passed": true,
+      "trace_statuses": [
+        "error",
+        "ok"
+      ],
+      "usage_kind": "fixture_usage_only"
+    },
+    {
+      "id": "transient-truncated",
+      "category": "transient_recovery",
+      "injected_fault": "truncated",
+      "attempts": 2,
+      "recovered": true,
+      "passed": true,
+      "trace_statuses": [
+        "error",
+        "ok"
+      ],
+      "usage_kind": "fixture_usage_only"
+    },
+    {
+      "id": "persistent-429",
+      "category": "persistent_failure",
+      "attempts": 3,
+      "recovered": false,
+      "passed": true,
+      "terminal_code": "llm_rate_limit"
+    },
+    {
+      "id": "persistent-503",
+      "category": "persistent_failure",
+      "attempts": 3,
+      "recovered": false,
+      "passed": true,
+      "terminal_code": "llm_provider"
+    },
+    {
+      "id": "persistent-timeout",
+      "category": "persistent_failure",
+      "attempts": 3,
+      "recovered": false,
+      "passed": true,
+      "terminal_code": "llm_connection"
+    },
+    {
+      "id": "persistent-bad_json",
+      "category": "persistent_failure",
+      "attempts": 3,
+      "recovered": false,
+      "passed": true,
+      "terminal_code": "llm_format"
+    },
+    {
+      "id": "nonretryable-401",
+      "category": "nonretryable_failure",
+      "attempts": 1,
+      "recovered": false,
+      "passed": true,
+      "terminal_code": "llm_auth"
+    },
+    {
+      "id": "nonretryable-403",
+      "category": "nonretryable_failure",
+      "attempts": 1,
+      "recovered": false,
+      "passed": true,
+      "terminal_code": "llm_auth"
+    },
+    {
+      "id": "nonretryable-402",
+      "category": "nonretryable_failure",
+      "attempts": 1,
+      "recovered": false,
+      "passed": true,
+      "terminal_code": "llm_balance"
+    },
+    {
+      "id": "format-retry-budget-stop",
+      "category": "budget_stop",
+      "attempts": 1,
+      "recovered": false,
+      "passed": true,
+      "terminal_code": "llm_attempt_budget"
+    },
+    {
+      "id": "cross-stage-shared-budget",
+      "category": "budget_stop",
+      "attempts": 3,
+      "recovered": false,
+      "passed": true,
+      "terminal_code": "llm_attempt_budget",
+      "first_stage_recovery": true
+    },
+    {
+      "id": "missing-credential",
+      "category": "missing_credential",
+      "attempts": 0,
+      "recovered": false,
+      "passed": true
+    }
+  ],
+  "transient_recovery": {
+    "recovered": 6,
+    "eligible_scenarios": 6
+  },
+  "expected_fail_closed": {
+    "passed_policy": 10,
+    "eligible_scenarios": 10
+  },
+  "limitations": [
+    "All provider messages, statuses, usage and faults are fixtures.",
+    "No real provider reliability, current 240-task recovery rate or concurrent throughput is measured.",
+    "Sleep is stubbed; fixture elapsed time is not product latency.",
+    "Per-request total deadline is not implemented by JsonLLM alone and is not claimed here."
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "kind": "final_offline_Agent_RAG_evaluation_regression",
+  "python": "3.12",
+  "command": ".venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider tests/test_agent_trace_reuse.py tests/test_agent240_attribution.py tests/test_agent240_metrics.py tests/test_agent240_report_evidence.py tests/test_gold_review_status.py tests/test_evalscope_bridge.py tests/test_agent_controlled_faults.py tests/test_rag_benchmark_metrics.py tests/test_rag_benchmark_runtime.py tests/test_rag_benchmark_reporting.py tests/test_rag_benchmark_cli.py tests/test_sql_validator.py tests/test_source_scope_and_tool_permissions.py tests/test_document_imports.py tests/test_rag_multidocument_service.py --basetemp=.runtime/agent-e2e-v2/final-offline-tests-r2 --junitxml=.runtime/agent-e2e-v2/receipts/final-offline-regression-r2.junit.xml",
+  "passed": 270,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "elapsed_seconds": 6.19,
+  "model_API_calls": 0,
+  "database_queries": 0,
+  "Gold_human_reviewed": 240,
+  "JUnit": "final-offline-regression-r2.junit.xml",
+  "JUnit_sha256": "1900d223cb074b76a788349bb585afdf9d079cfb89d75fb78ac07f6c972a7616",
+  "scope": "Final270 offline checks after official RAGAS unscored-value reader handling; overlaps earlier264,244,92,29. Separate52 actual RAGAS judge calls are not part of these offline tests."
+}

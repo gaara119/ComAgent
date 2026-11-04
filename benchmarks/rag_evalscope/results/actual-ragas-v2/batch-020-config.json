@@ -1,0 +1,28 @@
+{
+  "eval_backend": "RAGEval",
+  "work_dir": "E:\\中国电子杯-赛题八\\system\\benchmarks\\rag_evalscope\\results\\actual-ragas-v2\\framework-output",
+  "eval_config": {
+    "tool": "RAGAS",
+    "eval": {
+      "testset_file": "E:\\中国电子杯-赛题八\\system\\benchmarks\\rag_evalscope\\results\\actual-ragas-v2\\batch-020.json",
+      "critic_llm": {
+        "model_name": "deepseek-flash",
+        "api_base": "http://127.0.0.1:54609/v1",
+        "api_key": "LOCAL_BUDGET_GUARD",
+        "temperature": 0.0,
+        "max_tokens": 4096
+      },
+      "embeddings": {
+        "model_name_or_path": "text-embedding-3-small",
+        "provider": "openai",
+        "api_base": "http://127.0.0.1:54609/v1",
+        "api_key": "LOCAL_BUDGET_GUARD"
+      },
+      "metrics": [
+        "faithfulness"
+      ],
+      "batch_size": 4,
+      "raise_exceptions": false
+    }
+  }
+}

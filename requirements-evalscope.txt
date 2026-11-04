@@ -1,0 +1,10 @@
+# Independent optional evaluation environment; not production requirements.
+evalscope[rag]==1.14.1
+# Versions resolved in the isolated evaluation environment.
+ragas==0.4.3
+mteb==2.26.33
+openai==2.54.0
+instructor==1.17.0
+# RAGAS 0.4.3 imports the legacy VertexAI class at import time.
+# langchain-community 0.4.2 removes that module, even for non-Google judges.
+langchain-community==0.4.1

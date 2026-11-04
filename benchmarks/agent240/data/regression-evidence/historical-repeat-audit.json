@@ -1,0 +1,727 @@
+{
+  "created_utc": "2026-11-04T01:06:16.618426+00:00",
+  "kind": "read_only_historical_repeat_audit",
+  "new_model_calls": 0,
+  "new_SQL_executions": 0,
+  "legacy40_latest_versions": [
+    {
+      "run": "legacy40-S1-r1",
+      "source_file_count": 126,
+      "code_sha256": "9f2019483e68c70bfe6e9ea45e8d78b42d0064245de7e0c0b2d18dd1b696db31",
+      "source_stable_within_run": true,
+      "source_evidence": {
+        "path": "eval/artifacts/s1-upgrade-20261017/legacy40-S1-r1/source-sha256-before.json",
+        "sha256": "e691de55aae0c3aa10e8143862ca74d4b4d6b16e53e917abf3e719615b8c5a76"
+      }
+    },
+    {
+      "run": "legacy40-S1-r2",
+      "source_file_count": 130,
+      "code_sha256": "6cb728c29dcd87b3be49b3f09d3642a233a2b8f335a678fc47fb1ee0ebf0fe95",
+      "source_stable_within_run": true,
+      "source_evidence": {
+        "path": "eval/artifacts/s1-upgrade-20261017/legacy40-S1-r2/source-sha256-before.json",
+        "sha256": "d45e1d599bf9d746f01921375742a0a8503b0193bf30dfb73568763d675602e3"
+      }
+    },
+    {
+      "run": "legacy40-S1-r3",
+      "source_file_count": 135,
+      "code_sha256": "ccbd366bf14e74943b957e83c99db3d48fcfec7b8cb565808f53a06aa604695b",
+      "source_stable_within_run": true,
+      "source_evidence": {
+        "path": "eval/artifacts/s1-upgrade-20261017/legacy40-S1-r3/source-sha256-before.json",
+        "sha256": "79deb510a816c75f67fde96faaabefb5e1343cee78337cb0cdb8347af1eb665f"
+      }
+    }
+  ],
+  "legacy_latest_three_are_same_version": false,
+  "older_candidate029_pairs": [
+    {
+      "stage": "S0",
+      "same_source": true,
+      "same_health_config": true,
+      "same_input_hashes": true,
+      "logical_pairs": 40,
+      "status_agreement": 38,
+      "exact_answer_surface_agreement": 30,
+      "ordered_table_agreement": {
+        "matched": 29,
+        "eligible_successful_SQL_pairs": 33,
+        "pairs": [
+          {
+            "id": "A-q01",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q03",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q04",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q05",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q06",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q08",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q09",
+            "ordered_table_equal": false
+          },
+          {
+            "id": "A-q10",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q11",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q12",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q13",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q14",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q15",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q16",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q18",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q19",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q20",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q01",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q02",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q03",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q04",
+            "ordered_table_equal": false
+          },
+          {
+            "id": "B-q05",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q07",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q08",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q09",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q10",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q12",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q14",
+            "ordered_table_equal": false
+          },
+          {
+            "id": "B-q15",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q16",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q17",
+            "ordered_table_equal": false
+          },
+          {
+            "id": "B-q18",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q19",
+            "ordered_table_equal": true
+          }
+        ]
+      },
+      "resource_snapshot_pair_equality": "not_verified; run manifests do not pin DB rows and all document/index bytes per repeat",
+      "source_evidence": [
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S0-r1-candidate029-001/run-001/source-sha256-before.json",
+          "sha256": "7a64ebf4d0e88327ff7a4b31c05601e3de29864bf1db00038fa8e98a7250c20f"
+        },
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S0-r2-candidate029-001/run-001/source-sha256-before.json",
+          "sha256": "7a64ebf4d0e88327ff7a4b31c05601e3de29864bf1db00038fa8e98a7250c20f"
+        }
+      ],
+      "response_evidence": [
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S0-r1-candidate029-001/run-001/responses.jsonl",
+          "sha256": "2999dbcb1ed6f14d63f20ebcb4fc3c3f19b1367c4fc7f5f1c1900c399eddcfb9"
+        },
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S0-r2-candidate029-001/run-001/responses.jsonl",
+          "sha256": "1d7e14d00bd1f7ed5744e3dd8485b0d120fe3747a8e044dbfd351963c3bcc85a"
+        }
+      ]
+    },
+    {
+      "stage": "S1",
+      "same_source": true,
+      "same_health_config": true,
+      "same_input_hashes": true,
+      "logical_pairs": 40,
+      "status_agreement": 40,
+      "exact_answer_surface_agreement": 34,
+      "ordered_table_agreement": {
+        "matched": 32,
+        "eligible_successful_SQL_pairs": 34,
+        "pairs": [
+          {
+            "id": "A-q01",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q03",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q04",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q05",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q06",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q08",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q09",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q10",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q11",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q12",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q13",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q14",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q15",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q16",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q18",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q19",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q20",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q01",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q02",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q03",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q04",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q05",
+            "ordered_table_equal": false
+          },
+          {
+            "id": "B-q07",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q08",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q09",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q10",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q12",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q13",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q14",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q15",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q16",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q17",
+            "ordered_table_equal": false
+          },
+          {
+            "id": "B-q18",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q19",
+            "ordered_table_equal": true
+          }
+        ]
+      },
+      "resource_snapshot_pair_equality": "not_verified; run manifests do not pin DB rows and all document/index bytes per repeat",
+      "source_evidence": [
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S1-r1-candidate029-001/run-001/source-sha256-before.json",
+          "sha256": "7a64ebf4d0e88327ff7a4b31c05601e3de29864bf1db00038fa8e98a7250c20f"
+        },
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S1-r2-candidate029-001/run-001/source-sha256-before.json",
+          "sha256": "7a64ebf4d0e88327ff7a4b31c05601e3de29864bf1db00038fa8e98a7250c20f"
+        }
+      ],
+      "response_evidence": [
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S1-r1-candidate029-001/run-001/responses.jsonl",
+          "sha256": "c98606275739f3e127d87af54c05b46f50aca391bb1b5823c58240092edb0b30"
+        },
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S1-r2-candidate029-001/run-001/responses.jsonl",
+          "sha256": "233b7001f285883ffe2db365adbfc4d602edb160612b552aa7146f71161e8397"
+        }
+      ]
+    },
+    {
+      "stage": "S2",
+      "same_source": true,
+      "same_health_config": true,
+      "same_input_hashes": true,
+      "logical_pairs": 40,
+      "status_agreement": 39,
+      "exact_answer_surface_agreement": 35,
+      "ordered_table_agreement": {
+        "matched": 34,
+        "eligible_successful_SQL_pairs": 34,
+        "pairs": [
+          {
+            "id": "A-q01",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q03",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q04",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q05",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q06",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q08",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q09",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q10",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q11",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q12",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q13",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q14",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q15",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q16",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q18",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q19",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q20",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q01",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q02",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q03",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q04",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q05",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q07",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q08",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q09",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q10",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q12",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q13",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q14",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q15",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q16",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q17",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q18",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q19",
+            "ordered_table_equal": true
+          }
+        ]
+      },
+      "resource_snapshot_pair_equality": "not_verified; run manifests do not pin DB rows and all document/index bytes per repeat",
+      "source_evidence": [
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S2-r1-candidate029-001/run-001/source-sha256-before.json",
+          "sha256": "7a64ebf4d0e88327ff7a4b31c05601e3de29864bf1db00038fa8e98a7250c20f"
+        },
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S2-r2-candidate029-001/run-001/source-sha256-before.json",
+          "sha256": "7a64ebf4d0e88327ff7a4b31c05601e3de29864bf1db00038fa8e98a7250c20f"
+        }
+      ],
+      "response_evidence": [
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S2-r1-candidate029-001/run-001/responses.jsonl",
+          "sha256": "89211d6a66075c6c6613e22bfaf24c8a9a7581a52f937910bbd47ef5791c58e0"
+        },
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S2-r2-candidate029-001/run-001/responses.jsonl",
+          "sha256": "6d9ad11aac761d282cd4733c0cbd9a3bedb95d4c1862654acb310531519da7f4"
+        }
+      ]
+    },
+    {
+      "stage": "S3",
+      "same_source": true,
+      "same_health_config": true,
+      "same_input_hashes": true,
+      "logical_pairs": 40,
+      "status_agreement": 40,
+      "exact_answer_surface_agreement": 36,
+      "ordered_table_agreement": {
+        "matched": 33,
+        "eligible_successful_SQL_pairs": 34,
+        "pairs": [
+          {
+            "id": "A-q01",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q03",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q04",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q05",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q06",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q08",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q09",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q10",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q11",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q12",
+            "ordered_table_equal": false
+          },
+          {
+            "id": "A-q13",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q14",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q15",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q16",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q18",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q19",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "A-q20",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q01",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q02",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q03",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q04",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q05",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q07",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q08",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q09",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q10",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q12",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q13",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q14",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q15",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q16",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q17",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q18",
+            "ordered_table_equal": true
+          },
+          {
+            "id": "B-q19",
+            "ordered_table_equal": true
+          }
+        ]
+      },
+      "resource_snapshot_pair_equality": "not_verified; run manifests do not pin DB rows and all document/index bytes per repeat",
+      "source_evidence": [
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S3-r1-candidate029-001/run-001/source-sha256-before.json",
+          "sha256": "7a64ebf4d0e88327ff7a4b31c05601e3de29864bf1db00038fa8e98a7250c20f"
+        },
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S3-r2-candidate029-001/run-001/source-sha256-before.json",
+          "sha256": "7a64ebf4d0e88327ff7a4b31c05601e3de29864bf1db00038fa8e98a7250c20f"
+        }
+      ],
+      "response_evidence": [
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S3-r1-candidate029-001/run-001/responses.jsonl",
+          "sha256": "25a4fd488bfa97701f95e4aa770d179472e33c4ac058928c5c2e0d00ff48c1de"
+        },
+        {
+          "path": "eval/artifacts/agent-improvement-20261016/evaluation/cumulative-S3-r2-candidate029-001/run-001/responses.jsonl",
+          "sha256": "f9a300d6c167016c1f5596481b7d73f38dc27cfdf68ff0dffa075103751d3b7a"
+        }
+      ]
+    }
+  ],
+  "qualification": "Historical recorded-code/config/input consistency only; not current release 240-run stability, not new predictions, not an accuracy score. Resource snapshot identity across repeats is not fully proven.",
+  "current_selected_240_same_version_repeats": "not_verified"
+}

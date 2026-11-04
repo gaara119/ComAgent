@@ -1,8 +1,8 @@
 # 原240题七维评测使用说明
 
-这套工具对原40题和原200题的历史真实预测重新计分，保留题目、Gold、实际配置、审核与成本证据。它不发送问答请求，不访问数据库，不调用模型裁判，也不生成新测试数据。
+这套工具对原40题和原200题的历史真实预测重新计分，保留题目、Gold、实际配置、审核与成本证据。Agent评测器不发送问答请求，不访问数据库，不调用模型裁判，也不生成新测试数据。RAG专项由独立EvalScope的MTEB/RAGAS适配负责，再按同运行证据联接；专项裁判调用另设预算和台账。
 
-[项目运行说明](../../README.md) · [七维结果报告](results/240-seven-dimensions-v1/report.md) · [机器可读汇总](results/240-seven-dimensions-v1/summary.json)
+[项目运行说明](../../README.md) · [七维结果报告](results/agent-e2e-final-v1/report.md) · [机器可读汇总](results/agent-e2e-final-v1/summary.json)
 
 ## 1 数据与版本
 
@@ -14,6 +14,8 @@
 合计240个协议条目、480条历史预测：204道SQL、24道跨源、6道RAG、6道会话正文。两批有35道相同题面，连续对话中的后续问题也相互依赖；这不是240个独立样本或240道RAG检索题。批次命名空间防止同名题号混淆。
 
 `FULL`与`C1`采用各批实际功能开关，不能统称为同一个增强版本。历史源码与协议差异在[manifest](data/manifest.json)中保留，不能将重计分结果当作当前同一源码的因果消融。后补32道合成题及专属资源已经删除，不参与该入口。
+
+**当前Gold人工审核已完成240/240。** [gold-review-status.json](data/gold-review-status.json)按题库文件与逐题内容哈希记录当前状态，原始导出的旧`pending`字段只是历史信息。当前系统回答判分仍有8项业务判断、1项外部交付判断未决；两者与Gold人工审核不是同一对象，不据此把Gold重新标为待审。
 
 ## 2 环境与执行
 
@@ -30,7 +32,9 @@
 3. 用原参考比较SQL结果，用真实响应哈希绑定已有AI业务审核；未核验项不转成通过。
 4. 汇总准确性、效率、异常、引用与过程结构等七维检查，保存新报告。
 
-输出目录已存在会拒绝执行；再次运行换用例如`.runtime/agent240/my-run-2`，不要删除旧结果来覆盖。当前命令只重算已保存预测，新增模型调用与SQL执行均为0。当前Docker未就绪，尚未完成当前源码的新一轮在线240题回放。
+如已取得同题、同运行的官方EvalScope结果，可追加`--rag-evalscope-results PATH_TO_AGENT_BINDING_JSON`；缺少文件、版本或预测/证据哈希不一致时拒绝联接。输出中的自定义SQL/文本指标保留原名称，不冒充MTEB/RAGAS结果。独立环境安装与配置验证见[根README §3.5](../../README.md#35-运行评测)；配置通过本身不代表专项有实测成绩。
+
+输出目录已存在会拒绝执行；再次运行换用例如`.runtime/agent240/my-run-2`，不要删除旧结果来覆盖。当前命令只重算已保存预测，新增模型调用与SQL执行均为0。本次只复核已有预测，尚未完成当前源码的新一轮在线240题回放。
 
 ## 3 文件与证据
 
@@ -39,13 +43,17 @@
 | [data/dataset.json](data/dataset.json) | 原题面、批次、原Gold、参考SQL/结果、文本答案的适用范围 |
 | [data/records.jsonl](data/records.jsonl) | 480条历史预测、请求/响应、SQL、证据、trace、provider记录及已有审核 |
 | [data/manifest.json](data/manifest.json) | 原文件及导出文件SHA256、各批源码与配置、相同题面统计、上下文登记成本 |
-| [结果report.md](results/240-seven-dimensions-v1/report.md) | 易读报告及指标边界 |
-| [结果summary.json](results/240-seven-dimensions-v1/summary.json) | 按批次、配置和任务类型的汇总及成本 |
-| [结果scored.jsonl](results/240-seven-dimensions-v1/scored.jsonl) | 逐题计分、未知原因和七维结构诊断 |
+| [data/gold-review-status.json](data/gold-review-status.json) | Gold已人工审核240/240的当前状态；保留原Gold与历史字段 |
+| [data/phase-traces.jsonl](data/phase-traces.jsonl) / [清单](data/phase-traces.manifest.json) | 同预测的阶段、工具参数、状态和实际补充请求记录及哈希 |
+| [data/run-configurations.json](data/run-configurations.json) | 历史运行的模型与配置白名单，不含密钥 |
+| [结果report.md](results/agent-e2e-final-v1/report.md) | 易读报告及指标边界 |
+| [结果summary.json](results/agent-e2e-final-v1/summary.json) | 按批次、配置和任务类型的汇总及成本 |
+| [结果scored.jsonl](results/agent-e2e-final-v1/scored.jsonl) | 逐题计分、未知原因和七维结构诊断 |
+| [失败归因](results/agent-e2e-final-v1/failure-attribution.json) / [逐题CSV](results/agent-e2e-final-v1/per-question.csv) | 一个题目/配置一行，保留首要归因和重叠维度，避免重复计数 |
 | `evaluate.py` / `metrics.py` | 证据校验、分项汇总、结果/文本比较和用量结算 |
 | `checks.py` | 对历史SQL、引用、trace与计划依赖进行结构检查，结果不冒充语义审核 |
 
-每次新运行生成`report.md`、`summary.json`、`scored.jsonl`。旧原题、Gold与人工审核状态保持不变；业务Accuracy来自已有、绑定实际预测的AI审核，不自动升级为人工批准。
+每次新运行生成`report.md`、`summary.json`、`scored.jsonl`、`failure-attribution.json`和`per-question.csv`。原题、Gold及历史审核记录保持不变，当前Gold状态由哈希绑定覆盖层读取；业务Accuracy来自已有、绑定实际预测的AI审核，不因Gold已审而把系统回答自动判为正确。
 
 ## 4 七维指标与边界
 
@@ -87,7 +95,7 @@ SQL结果EM使用完整列数、全表一致列映射和重复行；按参考要
 - 当前源码在线完整240题及相同环境下的性能对照。
 - RAG完整排名、完备相关性标签和正式Recall@K/MRR/nDCG。
 - 引用语义支持、原PDF页定位、人工答案质量确认。
-- 故障注入、真实恢复效果、提示注入与敏感信息泄漏对抗。
+- 真实在线故障恢复、提示注入与敏感信息泄漏对抗；离线MockTransport故障注入与线上效果分开记录。
 - 当前吞吐、峰值资源、计费单价与真实费用。
 
-参考清单存在待审或不完备项，因此现有文档/引句覆盖只用于定位问题，不伪装成完整相关性标注。后续先补证据，再冻结指标与新一轮预测；不修改Gold来迎合系统结果。
+Gold已全部完成人工审核；当前尚缺的是MTEB所需的完整语料与逐片段相关性标签（qrels）及一致检索协议，另有系统输出语义判分未决。这些缺口分别记录，不能合称Gold未审。现有文档/引句覆盖只用于定位问题，不冒充Recall@K，也不修改Gold来迎合系统结果。

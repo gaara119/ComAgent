@@ -1,0 +1,77 @@
+{
+  "status": "official_config_validation_passed",
+  "versions": {
+    "evalscope": "1.14.1",
+    "ragas": "0.4.3",
+    "mteb": "2.26.33",
+    "openai": "2.54.0",
+    "instructor": "1.17.0",
+    "langchain-community": "0.4.1"
+  },
+  "checks": [
+    "RAGASToolConfig",
+    "MTEBToolConfig",
+    "ragas_runtime_import",
+    "official_backend_task_import",
+    "official_llm_and_embedding_client_constructors",
+    "official_faithfulness_metric_init"
+  ],
+  "new_model_calls": 0,
+  "MTEB_execution": "not_run_missing_reviewed_qrels_and_matching_frozen_retrieval_protocol",
+  "RAGAS_config": {
+    "eval_backend": "RAGEval",
+    "work_dir": "framework-output",
+    "eval_config": {
+      "tool": "RAGAS",
+      "eval": {
+        "testset_file": "actual-rag-input.json",
+        "critic_llm": {
+          "model_name": "deepseek-flash",
+          "api_base": "http://127.0.0.1:1/v1",
+          "api_key": "LOCAL_BUDGET_GUARD",
+          "temperature": 0.0,
+          "max_tokens": 4096
+        },
+        "embeddings": {
+          "model_name_or_path": "text-embedding-3-small",
+          "provider": "openai",
+          "api_base": "http://127.0.0.1:1/v1",
+          "api_key": "LOCAL_BUDGET_GUARD"
+        },
+        "metrics": [
+          "faithfulness"
+        ],
+        "batch_size": 4,
+        "raise_exceptions": false
+      }
+    }
+  },
+  "MTEB_config_template_not_results": {
+    "eval_backend": "RAGEval",
+    "eval_config": {
+      "tool": "MTEB",
+      "models": [
+        {
+          "model_name_or_path": "REQUIRES_FULL_SENTENCE_TRANSFORMER_MODEL",
+          "max_seq_length": 512,
+          "encode_kwargs": {
+            "batch_size": 2
+          }
+        }
+      ],
+      "eval": {
+        "custom_tasks": [
+          {
+            "name": "ComAgentReviewedDevRetrieval",
+            "data_path": "REQUIRES_REVIEWED_QRELS",
+            "eval_splits": [
+              "dev"
+            ]
+          }
+        ],
+        "output_folder": "outputs/mteb",
+        "top_k": 5
+      }
+    }
+  }
+}
